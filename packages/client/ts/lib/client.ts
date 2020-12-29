@@ -128,7 +128,7 @@ export class SkeldjsClient extends Hostable {
 
         setInterval(async () => {
             if (this.room) {
-                for (const [ , component ] of this.room.components) {
+                for (const component of this.room.components) {
                     component.FixedUpdate();
                 }
 
