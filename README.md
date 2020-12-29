@@ -12,9 +12,6 @@ This repository also hosts utility packages for the projects.
 * **Protocol** - Protocol interfaces with full parsing and composing.
 * **Constant** - Enums & data in Among Us that never change.
 
- such as a `common` package which holds
-utility functions  and a `protocol` package which holds protocol functions and data.
-
 ## Installation
 ### Prerequisites
 * [Node.js >=15](https://nodejs.org)
