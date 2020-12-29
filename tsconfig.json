@@ -1,0 +1,21 @@
+{
+    "version": "4.0.5",
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "CommonJS",
+        "noImplicitAny": false,
+        "removeComments": false,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "baseUrl": ".",
+        "outDir": "./dist",
+        "esModuleInterop": true,
+        "moduleResolution": "Node",
+        "declaration": true
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "!./**/node_modules"
+    ]
+}

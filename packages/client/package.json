@@ -1,0 +1,16 @@
+{
+  "name": "@skeldjs/client",
+  "version": "2.1.0",
+  "main": "js/index.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "prepublishOnly": "npm run build"
+  },
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@skeldjs/common": "^2.1.0",
+    "@skeldjs/protocol": "^2.1.0",
+    "@skeldjs/util": "^2.1.0"
+  },
+  "gitHead": "1ed5397abe43a1e8dec6051d2c9046499bc04256"
+}

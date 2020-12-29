@@ -1,0 +1,15 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p ./"
+  },
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@skeldjs/client": "^2.0.2",
+    "@skeldjs/common": "^2.0.6",
+    "@skeldjs/protocol": "^2.0.2",
+    "@skeldjs/util": "^2.0.6"
+  }
+}
