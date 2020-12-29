@@ -59,11 +59,11 @@ export class PlayerControl extends Networkable<PlayerData> {
         switch (message.rpcid) {
             case RpcID.CheckName:
                 if (this.room.amhost) {
-                    if (!this.room.global.gamedata) {
+                    if (!this.room.gamedata) {
                         return;
                     }
             
-                    const players = [...this.room.global.gamedata.players.values()];
+                    const players = [...this.room.gamedata.players.values()];
                     if (players.some(player => player.playerId !== this.playerId && player.name.toLowerCase() === message.name.toLowerCase())) {
                         for (let i = 1; i < 100; i++) {
                             const new_name = message.name + " " + i;
@@ -80,11 +80,11 @@ export class PlayerControl extends Networkable<PlayerData> {
                 break;
             case RpcID.CheckColor:
                 if (this.room.amhost) {
-                    if (!this.room.global.gamedata) {
+                    if (!this.room.gamedata) {
                         return;
                     }
             
-                    const players = [...this.room.global.gamedata.players.values()];
+                    const players = [...this.room.gamedata.players.values()];
                     while (players.some(player => player.playerId !== this.playerId && player.color === message.color) && message.color < 13) {
                         message.color++;
                     }
@@ -157,23 +157,23 @@ export class PlayerControl extends Networkable<PlayerData> {
     }
 
     private _setName(name: string) {
-        if (this.room.global.gamedata) this.room.global.gamedata.setName(this.playerId, name);
+        if (this.room.gamedata) this.room.gamedata.setName(this.playerId, name);
     }
 
     private _setColor(color: ColorID) {
-        if (this.room.global.gamedata) this.room.global.gamedata.setColor(this.playerId, color);
+        if (this.room.gamedata) this.room.gamedata.setColor(this.playerId, color);
     }
 
     private _setHat(hat: HatID) {
-        if (this.room.global.gamedata) this.room.global.gamedata.setHat(this.playerId, hat);
+        if (this.room.gamedata) this.room.gamedata.setHat(this.playerId, hat);
     }
 
     private _setSkin(skin: SkinID) {
-        if (this.room.global.gamedata) this.room.global.gamedata.setSkin(this.playerId, skin);
+        if (this.room.gamedata) this.room.gamedata.setSkin(this.playerId, skin);
     }
 
     private _setPet(pet: PetID) {
-        if (this.room.global.gamedata) this.room.global.gamedata.setPet(this.playerId, pet);
+        if (this.room.gamedata) this.room.gamedata.setPet(this.playerId, pet);
     }
 
     setName(name: string) {

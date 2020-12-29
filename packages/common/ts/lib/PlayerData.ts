@@ -38,7 +38,7 @@ export class PlayerData extends Heritable {
     }
 
     get data() {
-        return this.room.global.gamedata?.players?.get(this.playerId);
+        return this.room.gamedata?.players?.get(this.playerId);
     }
 
     get playerId() {
