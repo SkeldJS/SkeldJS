@@ -42,7 +42,6 @@ To connect, you can use `npm run set-server localhost 127.0.0.1`
 Or alternatively, you can use any of the following programs developed by others.
 * https://github.com/Koupah/Among-Us-Editor/releases
 * https://github.com/andruzzzhka/CustomServersClient/releases
-* https://impostor.github.io/Impostor/
 
 # Notes
 > The most comprehensive set of JavaScript protocol implementations for Among Us.

@@ -73,12 +73,12 @@ export interface Room {
     on(event: "move", listener: (transform: CustomNetworkTransform, position: Vector2, velocity: Vector2) => void);
     on(event: "snapTo", listener: (transform: CustomNetworkTransform, position: Vector2) => void);
     
-    on(event: "removePlayerData", listener: (global: Global, gamedata: GameData, playerData: PlayerGameData) => void);
+    on(event: "removePlayerData", listener: (gamedata: GameData, playerData: PlayerGameData) => void);
 }
 
-export class Room extends EventEmitter {
+export class Room extends Global {
     objects: Map<number, Heritable>;
-    components: Map<number, Networkable>;
+    netobjects: Map<number, Networkable>;
 
     code: number;
 
@@ -92,12 +92,12 @@ export class Room extends EventEmitter {
     private _started: boolean;
 
     constructor(public readonly client: Hostable, code: string|number) {
-        super();
+        super(null);
 
         this.objects = new Map;
-        this.components = new Map;
+        this.netobjects = new Map;
 
-        this.objects.set(-2, new Global(this));
+        this.objects.set(-2, this);
 
         if (typeof code === "string") {
             this.code = Code2Int(code);
@@ -134,10 +134,6 @@ export class Room extends EventEmitter {
 
     get players() {
         return new Map([...this.objects].filter(([ id ]) => id !== -2)) as Map<number, PlayerData>;
-    }
-
-    get global() {
-        return this.objects.get(-2) as Global;
     }
 
     get amhost() {
@@ -200,11 +196,11 @@ export class Room extends EventEmitter {
         this.hostid = resolved_id;
 
         if (this.amhost) {
-            if (!this.global.lobbybehaviour) {
+            if (!this.lobbybehaviour) {
                 this.spawnPrefab(SpawnID.LobbyBehaviour, -2);
             }
             
-            if (!this.global.gamedata) {
+            if (!this.gamedata) {
                 this.spawnPrefab(SpawnID.GameData, -2);
             }
         }
@@ -228,12 +224,12 @@ export class Room extends EventEmitter {
         if (!player)
             return;
 
-        if (this.global.gamedata && this.global.gamedata.players.get(player.playerId)) {
-            this.global.gamedata.remove(player.playerId);
+        if (this.gamedata && this.gamedata.players.get(player.playerId)) {
+            this.gamedata.remove(player.playerId);
         }
         
-        if (this.global.votebansystem && this.global.votebansystem.clients.get(resolved)) {
-            this.global.votebansystem.clients.delete(resolved);
+        if (this.votebansystem && this.votebansystem.clients.get(resolved)) {
+            this.votebansystem.clients.delete(resolved);
         }
 
         for (let i = 0; i < player.components.length; i++) {
@@ -312,8 +308,8 @@ export class Room extends EventEmitter {
         } else {
             if (this.me) await this.me.ready();
 
-            if (this.global.lobbybehaviour)
-                this.despawnComponent(this.global.lobbybehaviour);
+            if (this.lobbybehaviour)
+                this.despawnComponent(this.lobbybehaviour);
 
             const ship_prefabs = [SpawnID.ShipStatus, SpawnID.Headquarters, SpawnID.PlanetMap, SpawnID.AprilShipStatus, SpawnID.Airship];
             this.spawnPrefab(ship_prefabs[this.settings?.map], -2);
@@ -329,18 +325,18 @@ export class Room extends EventEmitter {
     }
 
     spawnComponent(component: Networkable) {
-        if (this.components.get(component.netid)) {
+        if (this.netobjects.get(component.netid)) {
             return;
         }
 
-        this.components.set(component.netid, component);
+        this.netobjects.set(component.netid, component);
         component.owner.components.push(component);
 
         this.emit("spawn", component);
     }
 
     private _despawnComponent(component: Networkable) {
-        this.components.delete(component.netid);
+        this.netobjects.delete(component.netid);
         component.owner.components.splice(component.owner.components.indexOf(component), 1, null);
     }
 
@@ -460,7 +456,7 @@ export class Room extends EventEmitter {
             case SpawnID.Player:
                 const playerId = this.getAvailablePlayerID();
 
-                this.global.gamedata.add(playerId);
+                this.gamedata.add(playerId);
 
                 const control = new PlayerControl(this, this.incr_netid, ownerid, {
                     isNew: true,
@@ -541,7 +537,7 @@ export class Room extends EventEmitter {
     async handleGameData(message: GameDataMessage) {
         switch (message.tag) {
         case MessageID.Data: {
-            const component = this.components.get(message.netid);
+            const component = this.netobjects.get(message.netid);
 
             if (component) {
                 component.Deserialize(message.data);
@@ -549,7 +545,7 @@ export class Room extends EventEmitter {
             break;
         }
         case MessageID.RPC: {
-            const component = this.components.get(message.netid);
+            const component = this.netobjects.get(message.netid);
 
             if (component) {
                 component.HandleRPC(message);
@@ -564,7 +560,7 @@ export class Room extends EventEmitter {
                 if (owner) {
                     const component = new SpawnPrefabs[message.type][i](this, spawn_component.netid, message.ownerid, spawn_component.data);
 
-                    if (this.components.get(component.netid))
+                    if (this.netobjects.get(component.netid))
                         continue;
                     
                     this.spawnComponent(component);
@@ -573,7 +569,7 @@ export class Room extends EventEmitter {
             break;
         }
         case MessageID.Despawn: {
-            const component = this.components.get(message.netid);
+            const component = this.netobjects.get(message.netid);
             
             if (component) {
                 this._despawnComponent(component);
@@ -595,7 +591,7 @@ export class Room extends EventEmitter {
                                     tag: PayloadTag.GameDataTo,
                                     code: this.code,
                                     recipientid: player.id,
-                                    messages: [...this.components.values()].reduce<SpawnMessage[]>((acc, component) => {
+                                    messages: [...this.netobjects.values()].reduce<SpawnMessage[]>((acc, component) => {
                                         let col = acc.find(msg => msg.type === component.type && msg.ownerid === component.ownerid);
 
                                         if (!col) {
