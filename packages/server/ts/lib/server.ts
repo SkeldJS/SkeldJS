@@ -34,9 +34,7 @@ type PacketFilter = (packet: ServerboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageServerbound) => boolean;
 
 export interface SkeldjsServer {
-    on(event: "packet", listener: (client: RemoteClient, packet: ServerboundPacket) => void);
-    on(event: "disconnect", listener: (client: RemoteClient, reason: DisconnectReason, message: string) => void);
-}
+        }
 
 const default_config = (): ServerConfig => ({
     versions: ["2020.11.17"],
