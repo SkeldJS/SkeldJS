@@ -25,9 +25,7 @@ export interface GameDataData {
     players: Map<number, PlayerGameData>;
 }
 
-export interface GameData {
-    on(event: "removePlayerData", listener: (playerData: PlayerGameData) => void);
-}
+export interface GameData {}
 
 export class GameData extends Networkable<Global> {
     static type = SpawnID.GameData;

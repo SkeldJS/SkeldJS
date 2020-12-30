@@ -9,11 +9,7 @@ import {
 import { Heritable } from "./Heritable";
 import { Room } from "./Room"
 
-export interface PlayerData {
-    on(event: "join", listener: (client: this) => void);
-    on(event: "leave", listener: (reason: DisconnectReason, message: string) => void);
-    on(event: "ready", listener: () => void);
-}
+export interface PlayerData {}
 
 export class PlayerData extends Heritable {
     isReady: boolean;

@@ -65,16 +65,7 @@ export interface SpawnObject {
     components: Networkable[];
 }
 
-export interface Room {
-    on(event: "join", listener: (player: PlayerData) => void);
-    on(event: "spawn", listener: (component: Networkable) => void);
-    on(event: "ready", listener: (player: PlayerData) => void);
-
-    on(event: "move", listener: (transform: CustomNetworkTransform, position: Vector2, velocity: Vector2) => void);
-    on(event: "snapTo", listener: (transform: CustomNetworkTransform, position: Vector2) => void);
-    
-    on(event: "removePlayerData", listener: (gamedata: GameData, playerData: PlayerGameData) => void);
-}
+export interface Room {}
 
 export class Room extends Global {
     objects: Map<number, Heritable>;
@@ -111,8 +102,6 @@ export class Room extends Global {
     }
 
     emit(event: string, ...args: any[]): boolean {
-        this.client.emit(event, this, ...args);
-
         return EventEmitter.prototype.emit.call(this, event, ...args);
     }
     

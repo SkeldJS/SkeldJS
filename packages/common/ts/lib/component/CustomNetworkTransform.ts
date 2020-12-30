@@ -25,10 +25,7 @@ export interface CustomNetworkTransformData {
     velocity: Vector2;
 }
 
-export interface CustomNetworkTransform {
-    on(event: "move", listener: (position: Vector2, velocity: Vector2) => void);
-    on(event: "snapTo", listener: (position: Vector2) => void);
-}
+export interface CustomNetworkTransform {}
 
 export class CustomNetworkTransform extends Networkable<PlayerData> {
     static type = SpawnID.Player;

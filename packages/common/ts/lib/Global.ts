@@ -10,9 +10,7 @@ import { VoteBanSystem } from "./component/VoteBanSystem";
 
 import { Room } from "./Room";
 
-export interface Global {
-    on(event: "removePlayerData", listener: (gamedata: GameData, playerData: PlayerGameData) => void);
-}
+export interface Global {}
 
 export class Global extends Heritable {
     constructor(room: Room) {
