@@ -102,8 +102,8 @@ export class Room extends Global {
     }
 
     emit(event: string, ...args: any[]): boolean {
-        this.client.emit(event, ...args);
-        
+        this.client.emit(event, this, ...args);
+
         return EventEmitter.prototype.emit.call(this, event, ...args);
     }
     
