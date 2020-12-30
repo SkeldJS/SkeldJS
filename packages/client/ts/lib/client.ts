@@ -34,20 +34,11 @@ import {
 
     DisconnectReason,
     DisconnectMessages,
-    
-    GameData,
 
-    CustomNetworkTransform,
-    PlayerData,
-
-    Global,
-    Networkable,
     Room,
     Hostable,
     MapID
 } from "@skeldjs/common";
-
-import {PlayerGameData } from "@skeldjs/types"
 
 import {
     Code2Int,
@@ -55,7 +46,6 @@ import {
     HazelBuffer,
     sleep,
     unary,
-    Vector2,
     EncodeVersion,
     createMissingBitfield,
     getMissing,
@@ -65,19 +55,7 @@ import {
 type PacketFilter = (packet: ClientboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageClientbound) => boolean;
 
-export interface SkeldjsClient extends Hostable {
-    on(event: "packet", listener: (packet: ClientboundPacket) => void);
-    on(event: "disconnect", listener: (reason: DisconnectReason, message: string) => void);
-
-    on(event: "join", listener: (room: Room, player: PlayerData) => void);
-    on(event: "spawn", listener: (room: Room, component: Networkable) => void);
-    on(event: "ready", listener: (room: Room, player: PlayerData) => void);
-
-    on(event: "move", listener: (room: Room, player: PlayerData, transform: CustomNetworkTransform, position: Vector2, velocity: Vector2) => void);
-    on(event: "snapTo", listener: (room: Room, player: PlayerData, transform: CustomNetworkTransform, position: Vector2) => void);
-    
-    on(event: "removePlayerData", listener: (room: Room, global: Global, gamedata: GameData, playerData: PlayerGameData) => void);
-}
+export interface SkeldjsClient extends Hostable {}
 
 const update_interval = 1000 / 50; // How often fixed update should get called.
 
