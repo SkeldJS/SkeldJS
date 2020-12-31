@@ -1,13 +1,19 @@
 # Skeld JS
 
-![Alt text](asset/SkeldJSMain.png "Skeld JS")
+![Alt text](https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSMain.png "Skeld JS")
+
+Documentation for the packages 
 
 SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.
-* **Region Server** - Host your own Among Us server, complete with plugins and a Server-as-a-Host solution.
+
+The repository holds several key programs for automating development with Among Us.
+* **Server** - Host your own Among Us server, complete with plugins and a Server-as-a-Host solution.
 * **Client** - An Among Us client that allows you to host games, join games and act as a player programmatically.
 * **Proxy** - A proxy with both a programmable client and an electron client, to inspect and modify packets in detail.
 
-This repository also hosts utility packages for the projects.
+as well as a central `@skeldjs/skeldjs` package that contains a simple client API, and a server plugin API with support for Redis and multiple server nodes.
+
+The repository also hosts utility packages for the projects listed above, that you can use individually.
 * **Common** - Common Among Us structures and game objects that are shared across all main projects.
 * **Protocol** - Protocol interfaces with full parsing and composing.
 * **Constant** - Enums & data in Among Us that never change.
