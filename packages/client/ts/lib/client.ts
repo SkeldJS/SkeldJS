@@ -6,6 +6,9 @@ import {
 } from "./interface/ClientConfig"
 
 import {
+    DisconnectReason,
+    DisconnectMessages,
+    
     DistanceID,
     LanguageID,
     MessageID,
@@ -36,9 +39,6 @@ import {
 } from "@skeldjs/protocol";
 
 import {
-    DisconnectReason,
-    DisconnectMessages,
-
     Room,
     Hostable
 } from "@skeldjs/common";
