@@ -1,5 +1,3 @@
-import { EventEmitter } from "events"
-
 import {
     GameDataMessage,
     SpawnMessage,
@@ -28,23 +26,11 @@ import {
 } from "./component"
 
 import {
-    ReactorSystem,
-    SwitchSystem,
-    LifeSuppSystem,
-    MedScanSystem,
-    SecurityCameraSystem,
-    HudOverrideSystem,
-    AutoDoorsSystem,
-    SabotageSystem
-} from "./system"
-
-import {
     Opcode,
     MessageID,
     SpawnID,
     DisconnectReason,
-    PayloadTag,
-    SystemType
+    PayloadTag
 } from "@skeldjs/constant"
 
 import { Global } from "./Global"
