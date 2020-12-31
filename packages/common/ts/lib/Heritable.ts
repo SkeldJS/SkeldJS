@@ -19,7 +19,7 @@ export class Heritable extends EventEmitter {
     }
 
     emit(event: string, ...args: any[]): boolean {
-        this.room.emit(event, this, ...args);
+        this.room.emit(event, ...args);
         
         return super.emit(event, ...args);
     }
