@@ -2,17 +2,21 @@ import { EventEmitter } from "events"
 import dgram from "dgram"
 
 import { SkeldjsServer } from "./server";
-import { createMissingBitfield, SentPacket } from "@skeldjs/util";
 
 import {
     EncodeVersion,
-    unary
+    unary,
+    createMissingBitfield,
+    SentPacket
 } from "@skeldjs/util";
 
 import {
-    Room,
     DisconnectReason,
     Opcode
+} from "@skeldjs/constant"
+
+import {
+    Room,
 } from "@skeldjs/common"
 
 import {
