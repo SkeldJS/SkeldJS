@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "GPL-3.0-only",
+  "private": true,
   "scripts": {
     "lint": "eslint packages/**/*.ts",
-    "publish-all": "lerna publish"
+    "test": "echo 'no tests specified'",
+    "publish-all": "lerna publish",
+    "postinstall": "husky install"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.16.0",
+    "husky": "^5.0.6",
     "lerna": "^3.22.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
