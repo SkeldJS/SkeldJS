@@ -25,6 +25,7 @@ jobs:
 
     - run: npm install -g yarn
     - run: yarn install
+    - run: lerna run build
     - run: yarn docs
 
     - name: GH Pages deploy
