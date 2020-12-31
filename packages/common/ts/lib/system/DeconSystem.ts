@@ -12,7 +12,7 @@ export enum DeconState {
     HeadingUp = 0x8
 }
 
-export interface DeconSystemData extends SystemStatus {
+export interface DeconSystemData {
     timer: number;
     state: number;
 }

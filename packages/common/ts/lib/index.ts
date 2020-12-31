@@ -1,8 +1,6 @@
 export * from "./component"
 export * from "./system"
 
-export * from "@skeldjs/constant"
-
 export * from "./Global"
 export * from "./Heritable"
 export * from "./Hostable"

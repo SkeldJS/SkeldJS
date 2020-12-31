@@ -13,10 +13,14 @@ import {
 } from "@skeldjs/util"
 
 import {
+    Airship,
+    AprilShipStatus,
     CustomNetworkTransform,
     GameData,
+    Headquarters,
     LobbyBehaviour,
     MeetingHud,
+    PlanetMap,
     PlayerControl,
     PlayerPhysics,
     ShipStatus,
@@ -357,42 +361,6 @@ export class Room extends Global {
             switch (type) {
             case SpawnID.ShipStatus: {
                 const shipstatus = new ShipStatus(this, this.incr_netid, ownerid);
-    
-                shipstatus.systems = {
-                    [SystemType.Reactor]: new ReactorSystem(shipstatus, {
-                        timer: 10000,
-                        completed: []
-                    }),
-                    [SystemType.Electrical]: new SwitchSystem(shipstatus, {
-                        expected: [false, false, false, false, false],
-                        actual: [false, false, false, false, false],
-                        brightness: 100
-                    }),
-                    [SystemType.O2]: new LifeSuppSystem(shipstatus, {
-                        timer: 10000,
-                        completed: []
-                    }),
-                    [SystemType.MedBay]: new MedScanSystem(shipstatus, {
-                        queue: []
-                    }),
-                    [SystemType.Security]: new SecurityCameraSystem(shipstatus, {
-                        players: []
-                    }),
-                    [SystemType.Communications]: new HudOverrideSystem(shipstatus, {
-                        sabotaged: false
-                    }),
-                    [SystemType.Doors]: new AutoDoorsSystem(shipstatus, {
-                        dirtyBit: 0,
-                        doors: [ 
-                            true, true, true, true, 
-                            true, true, true, true, 
-                            true, true, true, true,
-                            true ]
-                    }),
-                    [SystemType.Sabotage]: new SabotageSystem(shipstatus, {
-                        cooldown: 0
-                    })
-                };
                 
                 this.spawnComponent(shipstatus);
     
@@ -472,10 +440,32 @@ export class Room extends Global {
                 object.components.push(transform);
                 break;
             case SpawnID.Headquarters:
+                const headquarters = new Headquarters(this, this.incr_netid, ownerid);
+                
+                this.spawnComponent(headquarters);
+    
+                object.components.push(headquarters);
                 break;
             case SpawnID.PlanetMap:
+                const planetmap = new PlanetMap(this, this.incr_netid, ownerid);
+                
+                this.spawnComponent(planetmap);
+    
+                object.components.push(planetmap);
                 break;
             case SpawnID.AprilShipStatus:
+                const aprilshipstatus = new AprilShipStatus(this, this.incr_netid, ownerid);
+                
+                this.spawnComponent(aprilshipstatus);
+    
+                object.components.push(aprilshipstatus);
+                break;
+            case SpawnID.Airship:
+                const airship = new Airship(this, this.incr_netid, ownerid);
+                
+                this.spawnComponent(airship);
+    
+                object.components.push(airship);
                 break;
             }
     
@@ -499,13 +489,6 @@ export class Room extends Global {
         }
 
         return null;
-    }
-
-    spawnPlayer(player: PlayerDataResolvable) {
-        const resolved = this.resolvePlayer(player);
-        const object = this.spawnPrefab(SpawnID.Player, resolved.id);
-
-        return object;
     }
 
     getPlayerByPlayerId(playerId: number) {
@@ -602,7 +585,7 @@ export class Room extends Global {
                             ]
                         });
 
-                        this.spawnPlayer(player.id);
+                        this.spawnPrefab(SpawnID.Player, player);
 
                         if (this.amhost) {
                             if (this.me) {

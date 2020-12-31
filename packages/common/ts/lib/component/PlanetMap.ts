@@ -17,26 +17,51 @@ import { Room } from "../Room";
 export class PlanetMap extends BaseShipStatus {
     static type = SpawnID.PlanetMap as const;
     type = SpawnID.PlanetMap as const;
-    
+
+    static classname = "PlanetMap" as const;
+    classname = "PlanetMap" as const;
+
+    systems = {
+        [SystemType.Electrical]: new SwitchSystem(this, {
+            expected: [false, false, false, false, false],
+            actual: [false, false, false, false, false],
+            brightness: 100
+        }),
+        [SystemType.MedBay]: new MedScanSystem(this, {
+            queue: []
+        }),
+        [SystemType.Security]: new SecurityCameraSystem(this, {
+            players: []
+        }),
+        [SystemType.Communications]: new HudOverrideSystem(this, {
+            sabotaged: false
+        }),
+        [SystemType.Doors]: new DoorsSystem(this, {
+            doors: [
+                true, true, true, true,
+                true, true, true, true,
+                true, true, true, true
+            ],
+            cooldowns: new Map
+        }),
+        [SystemType.Sabotage]: new SabotageSystem(this, {
+            cooldown: 0
+        }),
+        [SystemType.Decontamination]: new DeconSystem(this, {
+            timer: 10000,
+            state: 0
+        }),
+        [SystemType.Decontamination2]: new DeconSystem(this, {
+            timer: 10000,
+            state: 0
+        }),
+        [SystemType.Laboratory]: new ReactorSystem(this, {
+            timer: 10000,
+            completed: []
+        })
+    } as const;
+
     constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
-    }
-
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        if (!this.systems) {
-            this.systems = {
-                [SystemType.Electrical]: new SwitchSystem(this),
-                [SystemType.MedBay]: new MedScanSystem(this),
-                [SystemType.Security]: new SecurityCameraSystem(this),
-                [SystemType.Communications]: new HudOverrideSystem(this),
-                [SystemType.Doors]: new DoorsSystem(this),
-                [SystemType.Sabotage]: new SabotageSystem(this),
-                [SystemType.Decontamination]: new DeconSystem(this),
-                [SystemType.Decontamination2]: new DeconSystem(this),
-                [SystemType.Laboratory]: new ReactorSystem(this)
-            }
-        }
-
-        super.Deserialize(reader, spawn);
     }
 }

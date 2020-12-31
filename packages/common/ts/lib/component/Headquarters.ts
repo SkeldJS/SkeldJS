@@ -13,28 +13,46 @@ import { SabotageSystem } from "../system/SabotageSystem";
 import { SwitchSystem } from "../system/SwitchSystem";
 
 import { Room } from "../Room";
+import { HqHudSystem } from "../system";
 
 export class Headquarters extends BaseShipStatus {
     static type = SpawnID.Headquarters as const;
     type = SpawnID.Headquarters as const;
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
-        super(room, netid, ownerid, data);
+    static classname = "Headquarters" as const;
+    classname = "Headquarters" as const;
+
+    systems = {
+        [SystemType.Reactor]: new ReactorSystem(this, {
+            timer: 10000,
+            completed: []
+        }),
+        [SystemType.Electrical]: new SwitchSystem(this, {
+            expected: [false, false, false, false, false],
+            actual: [false, false, false, false, false],
+            brightness: 100
+        }),
+        [SystemType.O2]: new LifeSuppSystem(this, {
+            timer: 10000,
+            completed: []
+        }),
+        [SystemType.MedBay]: new MedScanSystem(this, {
+            queue: []
+        }),
+        [SystemType.Communications]: new HqHudSystem(this, {
+            active: [],
+            completed: []
+        }),
+        [SystemType.Sabotage]: new SabotageSystem(this, {
+            cooldown: 0
+        }),
+        [SystemType.Decontamination]: new DeconSystem(this, {
+            timer: 10000,
+            state: 0
+        })
     }
 
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        if (!this.systems) {
-            this.systems = {
-                [SystemType.Reactor]: new ReactorSystem(this),
-                [SystemType.Electrical]: new SwitchSystem(this),
-                [SystemType.O2]: new LifeSuppSystem(this),
-                [SystemType.MedBay]: new MedScanSystem(this),
-                [SystemType.Communications]: new HudOverrideSystem(this),
-                [SystemType.Sabotage]: new SabotageSystem(this),
-                [SystemType.Decontamination]: new DeconSystem(this)
-            }
-        }
-
-        super.Deserialize(reader, spawn);
+    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
+        super(room, netid, ownerid, data);
     }
 }

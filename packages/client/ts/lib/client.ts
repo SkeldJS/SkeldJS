@@ -6,6 +6,17 @@ import {
 } from "./interface/ClientConfig"
 
 import {
+    DistanceID,
+    LanguageID,
+    MessageID,
+    Opcode,
+    PayloadTag,
+    TaskBarUpdate,
+    MapID,
+    SpawnID
+} from "@skeldjs/constant"
+
+import {
     ClientboundPacket,
     ServerboundPacket,
 
@@ -25,19 +36,11 @@ import {
 } from "@skeldjs/protocol";
 
 import {
-    DistanceID,
-    LanguageID,
-    MessageID,
-    Opcode,
-    PayloadTag,
-    TaskBarUpdate,
-
     DisconnectReason,
     DisconnectMessages,
 
     Room,
-    Hostable,
-    MapID
+    Hostable
 } from "@skeldjs/common";
 
 import {
@@ -433,7 +436,7 @@ export class SkeldjsClient extends Hostable {
         }
 
         if (this.room.amhost) {
-            this.room.spawnPlayer(this.room.me);
+            this.room.spawnPrefab(SpawnID.Player, this.room.me);
             this.room.setSettings(this.settings_cache);
         } else {
             await this.send({
