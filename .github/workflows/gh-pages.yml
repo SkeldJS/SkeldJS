@@ -8,15 +8,28 @@ on:
 
 jobs:
   build:
+    
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [14.x]
+        
     steps:
-      - uses: actions/checkout@v2
-      - run: npm install -g yarn
-      - run: yarn install
-      - run: yarn docs
-      - name: GH Pages deploy
-        uses: Cecilapp/GitHub-Pages-deploy@3.1.0
-        with:
-          email: essmale2005@gmail.com
-          build_dir: docs
-          branch: gh-pages
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - run: npm install -g yarn
+    - run: yarn install
+    - run: yarn docs
+
+    - name: GH Pages deploy
+      uses: Cecilapp/GitHub-Pages-deploy@3.1.0
+      with:
+        email: essmale2005@gmail.com
+        build_dir: docs
+        branch: gh-pages
