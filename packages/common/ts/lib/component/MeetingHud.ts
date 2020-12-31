@@ -16,11 +16,11 @@ export interface MeetingHudData {
 }
 
 export class MeetingHud extends Networkable<Global> {
-    static type = SpawnID.MeetingHud;
-    type = SpawnID.MeetingHud;
+    static type = SpawnID.MeetingHud as const;
+    type = SpawnID.MeetingHud as const;
 
-    static classname = "MeetingHud";
-    classname = "MeetingHud";
+    static classname = "MeetingHud" as const;
+    classname = "MeetingHud" as const;
     
     dirtyBit: number;
     players: Map<number, PlayerVoteState>;

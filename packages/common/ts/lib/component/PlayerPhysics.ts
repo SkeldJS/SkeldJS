@@ -12,11 +12,11 @@ export interface PlayerPhysicsData {
 }
 
 export class PlayerPhysics extends Networkable<PlayerData> {
-    static type = SpawnID.Player;
-    type = SpawnID.Player;
+    static type = SpawnID.Player as const;
+    type = SpawnID.Player as const;
     
-    static classname = "PlayerPhysics";
-    classname = "PlayerPhysics";
+    static classname = "PlayerPhysics" as const;
+    classname = "PlayerPhysics" as const;
 
     constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|PlayerPhysicsData) {
         super(room, netid, ownerid, data);

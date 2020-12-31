@@ -2,17 +2,13 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 
 export class SystemStatus {
     static systemType: SystemType;
     systemType: SystemType;
 
-    ship: ShipStatus;
-
-    constructor(ship: ShipStatus, data?: HazelBuffer|any) {
-        this.ship = ship;
-
+    constructor(private ship: BaseShipStatus, data?: HazelBuffer|any) {
         if (data) {
             if ((data as HazelBuffer).buffer) {
                 this.Deserialize(data, true);

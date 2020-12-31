@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 export enum DeconState {
@@ -24,7 +24,7 @@ export class DeconSystem extends SystemStatus {
     timer: number;
     state: number;
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|DeconSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|DeconSystemData) {
         super(ship, data);
     }
 

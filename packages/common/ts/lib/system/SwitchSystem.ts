@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 type SwitchSetup = [ boolean, boolean, boolean, boolean, boolean ];
@@ -21,7 +21,7 @@ export class SwitchSystem extends SystemStatus {
     actual: SwitchSetup;
     brightness: number;
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|SwitchSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|SwitchSystemData) {
         super(ship, data);
     }
 

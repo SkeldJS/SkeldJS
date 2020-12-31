@@ -1,8 +1,8 @@
 import { HazelBuffer } from "@skeldjs/util";
 
-import { SystemType } from "@skeldjs/constant";
+import { SpawnID, SystemType } from "@skeldjs/constant";
 
-import { ShipStatus, ShipStatusData } from "./ShipStatus"
+import { BaseShipStatus, ShipStatusData } from "./BaseShipStatus"
 
 import { DeconSystem } from "../system/DeconSystem";
 import { HudOverrideSystem } from "../system/HudOverrideSystem";
@@ -14,7 +14,10 @@ import { SwitchSystem } from "../system/SwitchSystem";
 
 import { Room } from "../Room";
 
-export class Headquarters extends ShipStatus {
+export class Headquarters extends BaseShipStatus {
+    static type = SpawnID.Headquarters as const;
+    type = SpawnID.Headquarters as const;
+
     constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
     }
@@ -32,6 +35,6 @@ export class Headquarters extends ShipStatus {
             }
         }
 
-        this.DeserializeStep2(reader, spawn);
+        super.Deserialize(reader, spawn);
     }
 }

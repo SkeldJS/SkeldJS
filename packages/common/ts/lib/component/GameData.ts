@@ -28,11 +28,11 @@ export interface GameDataData {
 export interface GameData {}
 
 export class GameData extends Networkable<Global> {
-    static type = SpawnID.GameData;
-    type = SpawnID.GameData;
+    static type = SpawnID.GameData as const;
+    type = SpawnID.GameData as const;
 
-    static classname = "GameData";
-    classname = "GameData";
+    static classname = "GameData" as const;
+    classname = "GameData" as const;
     
     players: Map<number, PlayerGameData>;
 

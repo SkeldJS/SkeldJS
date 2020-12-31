@@ -7,13 +7,8 @@ import {
 } from "@skeldjs/protocol"
 
 import {
-    PlayerGameData
-} from "@skeldjs/types"
-
-import {
     Code2Int,
     HazelBuffer,
-    Vector2,
     sleep
 } from "@skeldjs/util"
 
@@ -99,12 +94,6 @@ export class Room extends Global {
         this.room = this;
 
         this._incr_netid = 0;
-    }
-
-    emit(event: string, ...args: any[]): boolean {
-        this.client.emit(event, this, ...args);
-
-        return EventEmitter.prototype.emit.call(this, event, ...args);
     }
     
     private get incr_netid() {

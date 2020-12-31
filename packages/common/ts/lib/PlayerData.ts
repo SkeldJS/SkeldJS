@@ -1,4 +1,4 @@
-import { DisconnectReason, MessageID, Opcode, PayloadTag } from "@skeldjs/constant";
+import { MessageID, Opcode, PayloadTag } from "@skeldjs/constant";
 
 import {
     CustomNetworkTransform,

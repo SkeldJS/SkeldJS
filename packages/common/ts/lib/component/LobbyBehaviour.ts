@@ -12,11 +12,11 @@ export interface LobbyBehaviourData {
 }
 
 export class LobbyBehaviour extends Networkable<Global> {
-    static type = SpawnID.LobbyBehaviour;
-    type = SpawnID.LobbyBehaviour;
+    static type = SpawnID.LobbyBehaviour as const;
+    type = SpawnID.LobbyBehaviour as const;
 
-    static classname = "LobbyBehaviour";
-    classname = "LobbyBehaviour";
+    static classname = "LobbyBehaviour" as const;
+    classname = "LobbyBehaviour" as const;
 
     constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|LobbyBehaviourData) {
         super(room, netid, ownerid, data);

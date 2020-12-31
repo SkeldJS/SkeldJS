@@ -28,11 +28,11 @@ export interface CustomNetworkTransformData {
 export interface CustomNetworkTransform {}
 
 export class CustomNetworkTransform extends Networkable<PlayerData> {
-    static type = SpawnID.Player;
-    type = SpawnID.Player;
+    static type = SpawnID.Player as const;
+    type = SpawnID.Player as const;
 
-    static classname = "CustomNetworkTransform";
-    classname = "CustomNetworkTransform";
+    static classname = "CustomNetworkTransform" as const;
+    classname = "CustomNetworkTransform" as const;
 
     oldSeqId: number;
     seqId: number;

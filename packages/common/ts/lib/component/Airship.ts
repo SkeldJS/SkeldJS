@@ -1,6 +1,6 @@
 import { HazelBuffer } from "@skeldjs/util";
 
-import { ShipStatusData,ShipStatus } from "./ShipStatus"
+import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus"
 
 import { DeconSystem } from "../system/DeconSystem";
 import { HudOverrideSystem } from "../system/HudOverrideSystem";
@@ -13,9 +13,9 @@ import { SwitchSystem } from "../system/SwitchSystem";
 import { Room } from "../Room";
 import { SpawnID, SystemType } from "@skeldjs/constant";
 
-export class Airship extends ShipStatus {
-    static type = SpawnID.Airship;
-    type = SpawnID.Airship;
+export class Airship extends BaseShipStatus {
+    static type = SpawnID.Airship as const;
+    type = SpawnID.Airship as const;
 
     constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
@@ -34,6 +34,6 @@ export class Airship extends ShipStatus {
             }
         }
 
-        this.DeserializeStep2(reader, spawn);
+        super.Deserialize(reader, spawn);
     }
 }

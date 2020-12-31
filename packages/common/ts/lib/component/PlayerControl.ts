@@ -23,11 +23,11 @@ export interface PlayerControlData {
 }
 
 export class PlayerControl extends Networkable<PlayerData> {
-    static type = SpawnID.Player;
-    type = SpawnID.Player;
+    static type = SpawnID.Player as const;
+    type = SpawnID.Player as const;
 
-    static classname = "PlayerControl";
-    classname = "PlayerControl";
+    static classname = "PlayerControl" as const;
+    classname = "PlayerControl" as const;
 
     private lastStartCounter = 0;
     
@@ -244,6 +244,15 @@ export class PlayerControl extends Networkable<PlayerData> {
             });
         }
     }
+
+    chat(message: string) {
+        this.room.client.stream.push({
+            tag: MessageID.RPC,
+            rpcid: RpcID.SendChat,
+            netid: this.netid,
+            message
+        });
+    }
     
     syncSettings(update_settings: Partial<GameOptions> = this.room.settings) {
         const settings = {
@@ -253,14 +262,12 @@ export class PlayerControl extends Networkable<PlayerData> {
 
         this.room.settings = settings;
 
-        if (this.owner.ishost) {
-            this.room.client.stream.push({
-                tag: MessageID.RPC,
-                netid: this.netid,
-                rpcid: RpcID.SyncSettings,
-                settings: settings
-            });
-        }
+        this.room.client.stream.push({
+            tag: MessageID.RPC,
+            netid: this.netid,
+            rpcid: RpcID.SyncSettings,
+            settings: settings
+        });
     }
 
     setStartCounter(counter: number) {

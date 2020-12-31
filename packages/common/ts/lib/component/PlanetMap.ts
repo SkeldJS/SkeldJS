@@ -1,7 +1,7 @@
-import { SystemType } from "@skeldjs/constant";
+import { SpawnID, SystemType } from "@skeldjs/constant";
 import { HazelBuffer } from "@skeldjs/util";
 
-import { ShipStatusData, ShipStatus } from "./ShipStatus"
+import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus"
 
 import { DeconSystem } from "../system/DeconSystem";
 import { HudOverrideSystem } from "../system/HudOverrideSystem";
@@ -14,7 +14,10 @@ import { SecurityCameraSystem } from "../system/SecurityCameraSystem";
 
 import { Room } from "../Room";
 
-export class PlanetMap extends ShipStatus {
+export class PlanetMap extends BaseShipStatus {
+    static type = SpawnID.PlanetMap as const;
+    type = SpawnID.PlanetMap as const;
+    
     constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
     }
@@ -34,6 +37,6 @@ export class PlanetMap extends ShipStatus {
             }
         }
 
-        this.DeserializeStep2(reader, spawn);
+        super.Deserialize(reader, spawn);
     }
 }

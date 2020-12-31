@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 export interface SecurityCameraSystemData {
@@ -15,7 +15,7 @@ export class SecurityCameraSystem extends SystemStatus {
     
     players: number[];
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|SecurityCameraSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|SecurityCameraSystemData) {
         super(ship, data);
     }
 

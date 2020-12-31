@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 export interface LifeSuppSystemData {
@@ -17,7 +17,7 @@ export class LifeSuppSystem extends SystemStatus {
     timer: number;
     completed: number[];
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|LifeSuppSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|LifeSuppSystemData) {
         super(ship, data);
     }
 

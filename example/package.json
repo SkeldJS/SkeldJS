@@ -7,9 +7,9 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/client": "^2.0.2",
-    "@skeldjs/common": "^2.0.6",
-    "@skeldjs/protocol": "^2.0.2",
-    "@skeldjs/util": "^2.0.6"
+    "@skeldjs/client": "^2.1.7",
+    "@skeldjs/common": "^2.1.7",
+    "@skeldjs/protocol": "^2.1.3",
+    "@skeldjs/util": "^2.1.2"
   }
 }

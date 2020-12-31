@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 export interface HudOverrideSystemData {
@@ -15,7 +15,7 @@ export class HudOverrideSystem extends SystemStatus {
     
     sabotaged: boolean;
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|HudOverrideSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|HudOverrideSystemData) {
         super(ship, data);
     }
 

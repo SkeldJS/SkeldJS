@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 export interface MedScanSystemData {
@@ -15,7 +15,7 @@ export class MedScanSystem extends SystemStatus {
 
     queue: number[];
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|MedScanSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|MedScanSystemData) {
         super(ship, data);
     }
 

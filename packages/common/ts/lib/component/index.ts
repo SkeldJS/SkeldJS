@@ -1,5 +1,6 @@
 export * from "./Airship"
 export * from "./AprilShipStatus"
+export * from "./BaseShipStatus"
 export * from "./CustomNetworkTransform"
 export * from "./GameData"
 export * from "./Headquarters"

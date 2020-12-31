@@ -9,5 +9,5 @@ export abstract class Hostable extends EventEmitter {
     clientid: number;
     stream: GameDataMessage[];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async send(packet: Packet, waitAck: boolean = true): Promise<number> { return 0; };
+    async send(packet: Packet, waitAck: boolean = true): Promise<number> { return 0; }
 }

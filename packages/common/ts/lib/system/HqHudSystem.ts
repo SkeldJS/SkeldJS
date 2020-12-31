@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 export interface UserConsolePair {
@@ -22,7 +22,7 @@ export class HqHudSystem extends SystemStatus {
     active: UserConsolePair[];
     completed: number[];
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|HqHudSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|HqHudSystemData) {
         super(ship, data);
     }
 

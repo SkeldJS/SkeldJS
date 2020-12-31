@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 export interface SabotageSystemData {
@@ -15,7 +15,7 @@ export class SabotageSystem extends SystemStatus {
     
     cooldown: number;
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|SabotageSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|SabotageSystemData) {
         super(ship, data);
     }
 

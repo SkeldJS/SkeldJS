@@ -14,7 +14,6 @@ import {
 } from "@skeldjs/protocol"
 
 import {
-    DisconnectReason,
     Opcode,
     PayloadTag
 } from "@skeldjs/constant"
@@ -33,8 +32,7 @@ import { RemoteClient } from "./RemoteClient";
 type PacketFilter = (packet: ServerboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageServerbound) => boolean;
 
-export interface SkeldjsServer {
-        }
+export interface SkeldjsServer {}
 
 const default_config = (): ServerConfig => ({
     versions: ["2020.11.17"],

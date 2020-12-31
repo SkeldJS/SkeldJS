@@ -1,5 +1,3 @@
-import { PlayerGameData } from "@skeldjs/types"
-
 import { Heritable } from "./Heritable";
 
 import { GameData } from "./component/GameData";

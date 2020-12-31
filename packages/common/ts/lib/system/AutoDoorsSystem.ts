@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import { SystemType, MapDoors } from "@skeldjs/constant";
 
-import { ShipStatus } from "../component/ShipStatus";
+import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 
 export interface AutoDoorsSystemData {
@@ -17,7 +17,7 @@ export class AutoDoorsSystem extends SystemStatus {
     dirtyBit: number;
     doors: boolean[];
 
-    constructor(ship: ShipStatus, data?: HazelBuffer|AutoDoorsSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer|AutoDoorsSystemData) {
         super(ship, data);
     }
 
