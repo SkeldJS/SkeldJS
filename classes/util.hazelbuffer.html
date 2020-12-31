@@ -103,8 +103,8 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="util.hazelbuffer.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="util.hazelbuffer.html#_symbol_tostringtag_" class="tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="util.hazelbuffer.html#_util_inspect_custom_" class="tsd-kind-icon">[util.inspect.custom]</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="util.hazelbuffer.html#at" class="tsd-kind-icon">at</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="util.hazelbuffer.html#bool" class="tsd-kind-icon">bool</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="util.hazelbuffer.html#buf" class="tsd-kind-icon">buf</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="util.hazelbuffer.html#byte" class="tsd-kind-icon">byte</a></li>
@@ -157,7 +157,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L16">packages/util/ts/lib/HazelBuffer.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L16">packages/util/ts/lib/HazelBuffer.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -179,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">buffer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L18">packages/util/ts/lib/HazelBuffer.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L18">packages/util/ts/lib/HazelBuffer.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,7 +189,7 @@
 					<div class="tsd-signature tsd-kind-icon">cursor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L16">packages/util/ts/lib/HazelBuffer.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L16">packages/util/ts/lib/HazelBuffer.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +206,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L44">packages/util/ts/lib/HazelBuffer.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L44">packages/util/ts/lib/HazelBuffer.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -223,7 +223,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L40">packages/util/ts/lib/HazelBuffer.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L40">packages/util/ts/lib/HazelBuffer.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -237,33 +237,42 @@
 					<a name="_symbol_iterator_" class="tsd-anchor"></a>
 					<h3>[<wbr>Symbol.iterator]</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">[<wbr>Symbol.iterator]<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Generator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">[<wbr>Symbol.iterator]<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L31">packages/util/ts/lib/HazelBuffer.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L27">packages/util/ts/lib/HazelBuffer.ts:27</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Generator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="_symbol_tostringtag_" class="tsd-anchor"></a>
-					<h3>[<wbr>Symbol.to<wbr>String<wbr>Tag]</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L23">packages/util/ts/lib/HazelBuffer.ts:23</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>next<span class="tsd-signature-symbol">: </span>function</h5>
+									<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon">next<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>done<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<aside class="tsd-sources">
+												<ul>
+													<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L31">packages/util/ts/lib/HazelBuffer.ts:31</a></li>
+												</ul>
+											</aside>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>done<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
+											<ul class="tsd-parameters">
+												<li class="tsd-parameter">
+													<h5>done<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+												</li>
+												<li class="tsd-parameter">
+													<h5>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -277,10 +286,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L27">packages/util/ts/lib/HazelBuffer.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L23">packages/util/ts/lib/HazelBuffer.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="at" class="tsd-anchor"></a>
+					<h3>at</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">at<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L87">packages/util/ts/lib/HazelBuffer.ts:87</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>position: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -295,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L137">packages/util/ts/lib/HazelBuffer.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L141">packages/util/ts/lib/HazelBuffer.ts:141</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -303,7 +335,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L138">packages/util/ts/lib/HazelBuffer.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L142">packages/util/ts/lib/HazelBuffer.ts:142</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -327,7 +359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L369">packages/util/ts/lib/HazelBuffer.ts:369</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L373">packages/util/ts/lib/HazelBuffer.ts:373</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -341,7 +373,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L370">packages/util/ts/lib/HazelBuffer.ts:370</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L374">packages/util/ts/lib/HazelBuffer.ts:374</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -365,7 +397,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L121">packages/util/ts/lib/HazelBuffer.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L125">packages/util/ts/lib/HazelBuffer.ts:125</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -373,7 +405,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L122">packages/util/ts/lib/HazelBuffer.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L126">packages/util/ts/lib/HazelBuffer.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -397,7 +429,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L347">packages/util/ts/lib/HazelBuffer.ts:347</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L351">packages/util/ts/lib/HazelBuffer.ts:351</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -411,7 +443,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L348">packages/util/ts/lib/HazelBuffer.ts:348</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L352">packages/util/ts/lib/HazelBuffer.ts:352</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -435,7 +467,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L127">packages/util/ts/lib/HazelBuffer.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L131">packages/util/ts/lib/HazelBuffer.ts:131</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -443,7 +475,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L128">packages/util/ts/lib/HazelBuffer.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L132">packages/util/ts/lib/HazelBuffer.ts:132</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -466,7 +498,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L524">packages/util/ts/lib/HazelBuffer.ts:524</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L528">packages/util/ts/lib/HazelBuffer.ts:528</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
@@ -483,7 +515,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L79">packages/util/ts/lib/HazelBuffer.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L79">packages/util/ts/lib/HazelBuffer.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -507,7 +539,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L341">packages/util/ts/lib/HazelBuffer.ts:341</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L345">packages/util/ts/lib/HazelBuffer.ts:345</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -521,7 +553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L342">packages/util/ts/lib/HazelBuffer.ts:342</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L346">packages/util/ts/lib/HazelBuffer.ts:346</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -548,7 +580,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L324">packages/util/ts/lib/HazelBuffer.ts:324</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L328">packages/util/ts/lib/HazelBuffer.ts:328</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -556,7 +588,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L325">packages/util/ts/lib/HazelBuffer.ts:325</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L329">packages/util/ts/lib/HazelBuffer.ts:329</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -580,7 +612,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L307">packages/util/ts/lib/HazelBuffer.ts:307</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L311">packages/util/ts/lib/HazelBuffer.ts:311</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -588,7 +620,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L308">packages/util/ts/lib/HazelBuffer.ts:308</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L312">packages/util/ts/lib/HazelBuffer.ts:312</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -611,7 +643,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L52">packages/util/ts/lib/HazelBuffer.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L52">packages/util/ts/lib/HazelBuffer.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -635,7 +667,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L221">packages/util/ts/lib/HazelBuffer.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L225">packages/util/ts/lib/HazelBuffer.ts:225</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -649,7 +681,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L222">packages/util/ts/lib/HazelBuffer.ts:222</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L226">packages/util/ts/lib/HazelBuffer.ts:226</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -676,7 +708,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L204">packages/util/ts/lib/HazelBuffer.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L208">packages/util/ts/lib/HazelBuffer.ts:208</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -684,7 +716,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L205">packages/util/ts/lib/HazelBuffer.ts:205</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L209">packages/util/ts/lib/HazelBuffer.ts:209</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -708,7 +740,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L187">packages/util/ts/lib/HazelBuffer.ts:187</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L191">packages/util/ts/lib/HazelBuffer.ts:191</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -716,7 +748,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L188">packages/util/ts/lib/HazelBuffer.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L192">packages/util/ts/lib/HazelBuffer.ts:192</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -740,7 +772,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L301">packages/util/ts/lib/HazelBuffer.ts:301</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L305">packages/util/ts/lib/HazelBuffer.ts:305</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -754,7 +786,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L302">packages/util/ts/lib/HazelBuffer.ts:302</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L306">packages/util/ts/lib/HazelBuffer.ts:306</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -781,7 +813,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L284">packages/util/ts/lib/HazelBuffer.ts:284</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L288">packages/util/ts/lib/HazelBuffer.ts:288</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -789,7 +821,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L285">packages/util/ts/lib/HazelBuffer.ts:285</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L289">packages/util/ts/lib/HazelBuffer.ts:289</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -813,7 +845,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L267">packages/util/ts/lib/HazelBuffer.ts:267</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L271">packages/util/ts/lib/HazelBuffer.ts:271</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -821,7 +853,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L268">packages/util/ts/lib/HazelBuffer.ts:268</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L272">packages/util/ts/lib/HazelBuffer.ts:272</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -845,7 +877,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L104">packages/util/ts/lib/HazelBuffer.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L108">packages/util/ts/lib/HazelBuffer.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -853,7 +885,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L105">packages/util/ts/lib/HazelBuffer.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L109">packages/util/ts/lib/HazelBuffer.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -877,7 +909,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L496">packages/util/ts/lib/HazelBuffer.ts:496</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L500">packages/util/ts/lib/HazelBuffer.ts:500</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -885,7 +917,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L497">packages/util/ts/lib/HazelBuffer.ts:497</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L501">packages/util/ts/lib/HazelBuffer.ts:501</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -908,7 +940,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L58">packages/util/ts/lib/HazelBuffer.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L58">packages/util/ts/lib/HazelBuffer.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -932,7 +964,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L506">packages/util/ts/lib/HazelBuffer.ts:506</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L510">packages/util/ts/lib/HazelBuffer.ts:510</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="util.hazelbuffer.html" class="tsd-signature-type">HazelBuffer</a><span class="tsd-signature-symbol">]</span></h4>
@@ -940,7 +972,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L507">packages/util/ts/lib/HazelBuffer.ts:507</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L511">packages/util/ts/lib/HazelBuffer.ts:511</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -964,7 +996,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L408">packages/util/ts/lib/HazelBuffer.ts:408</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L412">packages/util/ts/lib/HazelBuffer.ts:412</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -972,7 +1004,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L409">packages/util/ts/lib/HazelBuffer.ts:409</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L413">packages/util/ts/lib/HazelBuffer.ts:413</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -995,7 +1027,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L64">packages/util/ts/lib/HazelBuffer.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L64">packages/util/ts/lib/HazelBuffer.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1019,7 +1051,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L385">packages/util/ts/lib/HazelBuffer.ts:385</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L389">packages/util/ts/lib/HazelBuffer.ts:389</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -1027,7 +1059,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L386">packages/util/ts/lib/HazelBuffer.ts:386</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L390">packages/util/ts/lib/HazelBuffer.ts:390</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1053,7 +1085,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L48">packages/util/ts/lib/HazelBuffer.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L48">packages/util/ts/lib/HazelBuffer.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1077,7 +1109,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L181">packages/util/ts/lib/HazelBuffer.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L185">packages/util/ts/lib/HazelBuffer.ts:185</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1091,7 +1123,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L182">packages/util/ts/lib/HazelBuffer.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L186">packages/util/ts/lib/HazelBuffer.ts:186</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1118,7 +1150,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L164">packages/util/ts/lib/HazelBuffer.ts:164</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L168">packages/util/ts/lib/HazelBuffer.ts:168</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1126,7 +1158,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L165">packages/util/ts/lib/HazelBuffer.ts:165</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L169">packages/util/ts/lib/HazelBuffer.ts:169</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1150,7 +1182,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L147">packages/util/ts/lib/HazelBuffer.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L151">packages/util/ts/lib/HazelBuffer.ts:151</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1158,7 +1190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L148">packages/util/ts/lib/HazelBuffer.ts:148</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L152">packages/util/ts/lib/HazelBuffer.ts:152</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1182,7 +1214,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L261">packages/util/ts/lib/HazelBuffer.ts:261</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L265">packages/util/ts/lib/HazelBuffer.ts:265</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1196,7 +1228,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L262">packages/util/ts/lib/HazelBuffer.ts:262</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L266">packages/util/ts/lib/HazelBuffer.ts:266</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1223,7 +1255,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L244">packages/util/ts/lib/HazelBuffer.ts:244</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L248">packages/util/ts/lib/HazelBuffer.ts:248</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1231,7 +1263,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L245">packages/util/ts/lib/HazelBuffer.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L249">packages/util/ts/lib/HazelBuffer.ts:249</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1255,7 +1287,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L227">packages/util/ts/lib/HazelBuffer.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L231">packages/util/ts/lib/HazelBuffer.ts:231</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1263,7 +1295,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L228">packages/util/ts/lib/HazelBuffer.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L232">packages/util/ts/lib/HazelBuffer.ts:232</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1287,7 +1319,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L87">packages/util/ts/lib/HazelBuffer.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L91">packages/util/ts/lib/HazelBuffer.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1295,7 +1327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L88">packages/util/ts/lib/HazelBuffer.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L92">packages/util/ts/lib/HazelBuffer.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1319,7 +1351,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L451">packages/util/ts/lib/HazelBuffer.ts:451</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L455">packages/util/ts/lib/HazelBuffer.ts:455</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -1327,7 +1359,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L452">packages/util/ts/lib/HazelBuffer.ts:452</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L456">packages/util/ts/lib/HazelBuffer.ts:456</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1350,7 +1382,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L6">packages/util/ts/lib/HazelBuffer.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L6">packages/util/ts/lib/HazelBuffer.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1376,7 +1408,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/HazelBuffer.ts#L10">packages/util/ts/lib/HazelBuffer.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/709c668/packages/util/ts/lib/HazelBuffer.ts#L10">packages/util/ts/lib/HazelBuffer.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1476,10 +1508,10 @@
 										<a href="util.hazelbuffer.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="util.hazelbuffer.html#_symbol_tostringtag_" class="tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]</a>
+										<a href="util.hazelbuffer.html#_util_inspect_custom_" class="tsd-kind-icon">[util.inspect.custom]</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="util.hazelbuffer.html#_util_inspect_custom_" class="tsd-kind-icon">[util.inspect.custom]</a>
+										<a href="util.hazelbuffer.html#at" class="tsd-kind-icon">at</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="util.hazelbuffer.html#bool" class="tsd-kind-icon">bool</a>
