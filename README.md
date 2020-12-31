@@ -11,6 +11,7 @@ This repository also hosts utility packages for the projects.
 * **Common** - Common Among Us structures and game objects that are shared across all main projects.
 * **Protocol** - Protocol interfaces with full parsing and composing.
 * **Constant** - Enums & data in Among Us that never change.
+* **Types** - Useful Among Us types, enums and interfaces.
 
 ## Installation
 ### Prerequisites
