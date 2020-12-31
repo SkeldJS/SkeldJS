@@ -1,6 +1,5 @@
 import { SkeldjsClient } from "@skeldjs/client"
 import * as skeldjs from "@skeldjs/common"
-import { CustomNetworkTransform, PlayerControl, PlayerPhysics } from "@skeldjs/common";
 
 const regcode = process.argv[2];
 
@@ -29,12 +28,6 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
 
         client.room.on("join", client => {
             console.log("Client joined: " + client.id);
-        });
-
-        client.room.me.on("spawn", (component: PlayerControl|PlayerPhysics|CustomNetworkTransform)=> {
-            if (component.classname === "PlayerControl") {
-                
-            }
         });
     })();
 }
