@@ -5,7 +5,6 @@ import { SpawnID, SystemType } from "@skeldjs/constant";
 import { BaseShipStatus, ShipStatusData } from "./BaseShipStatus"
 
 import { DeconSystem } from "../system/DeconSystem";
-import { HudOverrideSystem } from "../system/HudOverrideSystem";
 import { LifeSuppSystem } from "../system/LifeSuppSystem";
 import { MedScanSystem } from "../system/MedScanSystem";
 import { ReactorSystem } from "../system/ReactorSystem";

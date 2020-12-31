@@ -3,7 +3,7 @@ import { HazelBuffer } from "@skeldjs/util";
 import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus"
 
 import { Room } from "../Room";
-import { SpawnID, SystemType } from "@skeldjs/constant";
+import { SpawnID } from "@skeldjs/constant";
 
 export class Airship extends BaseShipStatus {
     static type = SpawnID.Airship as const;
