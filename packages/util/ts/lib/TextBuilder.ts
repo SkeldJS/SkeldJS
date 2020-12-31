@@ -7,7 +7,7 @@ export class TextBuilder {
         this._str = "";
     }
 
-    get str() {
+    toString() {
         return this._str;
     }
 
@@ -40,7 +40,7 @@ export class TextBuilder {
                 return this.color(r.replace(/[^a-fA-F0-9]/g, "0"));
             }
 
-            const hexclr = r.padStart(2, "0");
+            const hexclr = r.padStart(8, "0");
 
             this.tag(hexclr);
         } else if (typeof r === "number") {
@@ -48,6 +48,15 @@ export class TextBuilder {
             
             this.tag(hexclr);
         }
+
+        return this;
+    }
+
+    /**
+     * Reset the builder to a blank string.
+     */
+    reset() {
+        this._str = "";
 
         return this;
     }
@@ -73,5 +82,13 @@ export class TextBuilder {
         }
 
         return this;
+    }
+
+    /**
+     * Write a clickable link.
+     * @param url A URL to link to, must begin with http.
+     */
+    url(url: string) {
+        return this.link(url);
     }
 }

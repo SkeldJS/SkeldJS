@@ -6,7 +6,7 @@ export interface SentPacket {
 export function createMissingBitfield(sent: SentPacket[]) {
     let val = 0xFF;
 
-    for (let i = 0; i < sent.length; i++) {
+    for (let i = 0; i < Math.min(8, sent.length); i++) {
         const packet = sent[i];
 
         if (!packet.ackd) {
@@ -18,5 +18,5 @@ export function createMissingBitfield(sent: SentPacket[]) {
 }
 
 export function getMissing(recv: number[], bits: number) {
-    return recv.filter((_, i) => (bits & (1 << i)) > 0);
+    return recv.reverse().filter((_, i) => (bits & (1 << i)) > 0);
 }

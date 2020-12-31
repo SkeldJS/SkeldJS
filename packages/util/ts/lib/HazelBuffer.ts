@@ -20,20 +20,20 @@ export class HazelBuffer {
         this.cursor = 0;
     }
 
-    [Symbol.toStringTag]() {
-        return "<DynamicBuffer " + this.buffer.toString("hex") + ">";
-    }
-
     [util.inspect.custom]() {
-        return this.buffer.toString("hex");
+        return "<HazelBuffer " + this.buffer.toString("hex") + ">";
     }
 
-    *[Symbol.iterator]() {
+    [Symbol.iterator]() {
         let cursor = 0;
 
-        while (cursor < this.buffer.byteLength) {
-            yield this.buffer.readUInt8(cursor);
-            cursor++;
+        return {
+            next: () => {
+                return {
+                    value: this.buffer[cursor],
+                    done: cursor++ >= this.size - 1
+                }
+            }
         }
     }
 
@@ -82,6 +82,10 @@ export class HazelBuffer {
         }
 
         return this;
+    }
+
+    at(position: number) {
+        return this.buffer[position];
     }
     
     uint8(): number;

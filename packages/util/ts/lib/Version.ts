@@ -34,7 +34,7 @@ export function FormatVersionInfo(version: VersionInfo|number) {
         return FormatVersionInfo(DecodeVersion(version));
     }
 
-    return version.year + "." + version.month + "." + version.day;
+    return version.year + "." + version.month + "." + version.day + "." + version.revision;
 }
 
 export function FormatVersion(year: number, month: number, day: number, revision: number) {

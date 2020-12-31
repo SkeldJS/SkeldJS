@@ -18,6 +18,9 @@ export function clampValue(val: number, min: number, max: number) {
 }
 
 export function lerpValue(val: number, min: number = -40, max: number = 40) {
+    if (!isFinite(min)) return max;
+    if (!isFinite(max)) return min;
+
     const clamped = clampValue(val, 0, 1);
 
     return min + (max - min) * clamped;
