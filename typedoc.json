@@ -1,12 +1,10 @@
-{
-    "name": "My Library",
-    "mode": "modules",
+  {
+    "name": "SkeldJS",
+    "inputFiles": [],
+    "readme": "./README.md",
     "out": "docs",
-    "theme": "default",
-    "ignoreCompilerErrors": "false",
-    "preserveConstEnums": "true",
-    "exclude": ["*.spec.ts", "*.d.ts", "./example"],
-    "excludeExternals": true,
-    "external-modulemap": ".*packages\/(\/[^\/]+)\/.*",
-    "stripInternal": "false"
-}
+    "mode": "modules",
+    "external-modulemap": ".*packages\/([^\/]+)",
+    "excludePrivate": true,
+    "excludeNotExported": true
+  }
