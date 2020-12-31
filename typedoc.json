@@ -1,0 +1,11 @@
+{
+    "name": "My Library",
+    "mode": "modules",
+    "out": "docs",
+    "theme": "default",
+    "ignoreCompilerErrors": "false",
+    "preserveConstEnums": "true",
+    "exclude": ["*.spec.ts", "*.d.ts", "./example"],
+    "external-modulemap": ".*packages\/(\/[^\/]+)\/.*",
+    "stripInternal": "false"
+}

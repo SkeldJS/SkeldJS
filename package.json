@@ -9,9 +9,11 @@
     "lint-staged": "lint-staged",
     "test": "ts-mocha packages/*/ts/lib/**/*.spec.ts --exclude node_modules",
     "publish-all": "lerna publish",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "docs": "typedoc"
   },
   "devDependencies": {
+    "@strictsoftware/typedoc-plugin-monorepo": "^0.3.1",
     "@types/expect": "^24.3.0",
     "@types/mocha": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
@@ -24,6 +26,8 @@
     "mocha": "^8.2.1",
     "ts-mocha": "^8.0.0",
     "ts-node": "^9.1.1",
+    "typedoc": "~0.16",
+    "typedoc-plugin-remove-references": "^0.0.5",
     "typescript": "^4.1.3"
   },
   "husky": {
