@@ -21,7 +21,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: action-yarn
+      uses: comchangs/action-yarn@v0.1-beta
 
-    - run: npm ci
-    - run: npm run lint
-    - run: npm test
+    - run: yarn install
+    - run: yarn lint
+    - run: yarn test
