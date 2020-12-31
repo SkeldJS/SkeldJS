@@ -1,0 +1,914 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>util | SkeldJS</title>
+	<meta name="description" content="Documentation for SkeldJS">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">SkeldJS</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="util.html">util</a>
+				</li>
+			</ul>
+			<h1>Package util</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/util.hazelbuffer.html" class="tsd-kind-icon">Hazel<wbr>Buffer</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/util.textbuilder.html" class="tsd-kind-icon">Text<wbr>Builder</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/util.sentpacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/util.vector2.html" class="tsd-kind-icon">Vector2</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/util.versioninfo.html" class="tsd-kind-icon">Version<wbr>Info</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#code2int" class="tsd-kind-icon">Code2<wbr>Int</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#decodeversion" class="tsd-kind-icon">Decode<wbr>Version</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#encodeversion" class="tsd-kind-icon">Encode<wbr>Version</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#encodeversioninfo" class="tsd-kind-icon">Encode<wbr>Version<wbr>Info</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#formatversion" class="tsd-kind-icon">Format<wbr>Version</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#formatversioninfo" class="tsd-kind-icon">Format<wbr>Version<wbr>Info</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#int2code" class="tsd-kind-icon">Int2<wbr>Code</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#v1code2int" class="tsd-kind-icon">V1<wbr>Code2<wbr>Int</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#v1gen" class="tsd-kind-icon">V1<wbr>Gen</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#v1int2code" class="tsd-kind-icon">V1<wbr>Int2<wbr>Code</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#v2code2int" class="tsd-kind-icon">V2<wbr>Code2<wbr>Int</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#v2gen" class="tsd-kind-icon">V2<wbr>Gen</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#v2int2code" class="tsd-kind-icon">V2<wbr>Int2<wbr>Code</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#clampvalue" class="tsd-kind-icon">clamp<wbr>Value</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#createmissingbitfield" class="tsd-kind-icon">create<wbr>Missing<wbr>Bitfield</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#getmissing" class="tsd-kind-icon">get<wbr>Missing</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#isempty" class="tsd-kind-icon">is<wbr>Empty</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#lerpvalue" class="tsd-kind-icon">lerp<wbr>Value</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#readvector2" class="tsd-kind-icon">read<wbr>Vector2</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="util.html#ritoa" class="tsd-kind-icon">ritoa</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#sleep" class="tsd-kind-icon">sleep</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#unary" class="tsd-kind-icon">unary</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#unlerpvalue" class="tsd-kind-icon">unlerp<wbr>Value</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util.html#writevector2" class="tsd-kind-icon">write<wbr>Vector2</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="code2int" class="tsd-anchor"></a>
+					<h3>Code2<wbr>Int</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">Code2<wbr>Int<span class="tsd-signature-symbol">(</span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Codes.ts#L72">packages/util/ts/lib/Codes.ts:72</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>code: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="decodeversion" class="tsd-anchor"></a>
+					<h3>Decode<wbr>Version</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">Decode<wbr>Version<span class="tsd-signature-symbol">(</span>version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/util.versioninfo.html" class="tsd-signature-type">VersionInfo</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Version.ts#L19">packages/util/ts/lib/Version.ts:19</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>version: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/util.versioninfo.html" class="tsd-signature-type">VersionInfo</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="encodeversion" class="tsd-anchor"></a>
+					<h3>Encode<wbr>Version</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">Encode<wbr>Version<span class="tsd-signature-symbol">(</span>year<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, month<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, day<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, revision<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Version.ts#L15">packages/util/ts/lib/Version.ts:15</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>year: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>month: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>day: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>revision: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="encodeversioninfo" class="tsd-anchor"></a>
+					<h3>Encode<wbr>Version<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">Encode<wbr>Version<wbr>Info<span class="tsd-signature-symbol">(</span>info<span class="tsd-signature-symbol">: </span><a href="../interfaces/util.versioninfo.html" class="tsd-signature-type">VersionInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Version.ts#L8">packages/util/ts/lib/Version.ts:8</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>info: <a href="../interfaces/util.versioninfo.html" class="tsd-signature-type">VersionInfo</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="formatversion" class="tsd-anchor"></a>
+					<h3>Format<wbr>Version</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">Format<wbr>Version<span class="tsd-signature-symbol">(</span>year<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, month<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, day<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, revision<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Version.ts#L40">packages/util/ts/lib/Version.ts:40</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>year: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>month: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>day: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>revision: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="formatversioninfo" class="tsd-anchor"></a>
+					<h3>Format<wbr>Version<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">Format<wbr>Version<wbr>Info<span class="tsd-signature-symbol">(</span>version<span class="tsd-signature-symbol">: </span><a href="../interfaces/util.versioninfo.html" class="tsd-signature-type">VersionInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Version.ts#L32">packages/util/ts/lib/Version.ts:32</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>version: <a href="../interfaces/util.versioninfo.html" class="tsd-signature-type">VersionInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="int2code" class="tsd-anchor"></a>
+					<h3>Int2<wbr>Code</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">Int2<wbr>Code<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Codes.ts#L82">packages/util/ts/lib/Codes.ts:82</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bytes: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="v1code2int" class="tsd-anchor"></a>
+					<h3>V1<wbr>Code2<wbr>Int</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">V1<wbr>Code2<wbr>Int<span class="tsd-signature-symbol">(</span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Codes.ts#L1">packages/util/ts/lib/Codes.ts:1</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>code: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="v1gen" class="tsd-anchor"></a>
+					<h3>V1<wbr>Gen</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">V1<wbr>Gen<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Codes.ts#L10">packages/util/ts/lib/Codes.ts:10</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="v1int2code" class="tsd-anchor"></a>
+					<h3>V1<wbr>Int2<wbr>Code</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">V1<wbr>Int2<wbr>Code<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Codes.ts#L19">packages/util/ts/lib/Codes.ts:19</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bytes: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="v2code2int" class="tsd-anchor"></a>
+					<h3>V2<wbr>Code2<wbr>Int</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">V2<wbr>Code2<wbr>Int<span class="tsd-signature-symbol">(</span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Codes.ts#L38">packages/util/ts/lib/Codes.ts:38</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>code: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="v2gen" class="tsd-anchor"></a>
+					<h3>V2<wbr>Gen</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">V2<wbr>Gen<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Codes.ts#L49">packages/util/ts/lib/Codes.ts:49</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="v2int2code" class="tsd-anchor"></a>
+					<h3>V2<wbr>Int2<wbr>Code</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">V2<wbr>Int2<wbr>Code<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Codes.ts#L60">packages/util/ts/lib/Codes.ts:60</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>bytes: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="clampvalue" class="tsd-anchor"></a>
+					<h3>clamp<wbr>Value</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">clamp<wbr>Value<span class="tsd-signature-symbol">(</span>val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, min<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Vector.ts#L8">packages/util/ts/lib/Vector.ts:8</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>val: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>min: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>max: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="createmissingbitfield" class="tsd-anchor"></a>
+					<h3>create<wbr>Missing<wbr>Bitfield</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Missing<wbr>Bitfield<span class="tsd-signature-symbol">(</span>sent<span class="tsd-signature-symbol">: </span><a href="../interfaces/util.sentpacket.html" class="tsd-signature-type">SentPacket</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/SentPacket.ts#L6">packages/util/ts/lib/SentPacket.ts:6</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sent: <a href="../interfaces/util.sentpacket.html" class="tsd-signature-type">SentPacket</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getmissing" class="tsd-anchor"></a>
+					<h3>get<wbr>Missing</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Missing<span class="tsd-signature-symbol">(</span>recv<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, bits<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/SentPacket.ts#L20">packages/util/ts/lib/SentPacket.ts:20</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>recv: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>bits: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="isempty" class="tsd-anchor"></a>
+					<h3>is<wbr>Empty</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Empty<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/isEmpty.ts#L1">packages/util/ts/lib/isEmpty.ts:1</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>obj: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="lerpvalue" class="tsd-anchor"></a>
+					<h3>lerp<wbr>Value</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">lerp<wbr>Value<span class="tsd-signature-symbol">(</span>val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, min<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Vector.ts#L20">packages/util/ts/lib/Vector.ts:20</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>val: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> min: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -40</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> max: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 40</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="readvector2" class="tsd-anchor"></a>
+					<h3>read<wbr>Vector2</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">read<wbr>Vector2<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><a href="../classes/util.hazelbuffer.html" class="tsd-signature-type">HazelBuffer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/util.vector2.html" class="tsd-signature-type">Vector2</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Vector.ts#L38">packages/util/ts/lib/Vector.ts:38</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>reader: <a href="../classes/util.hazelbuffer.html" class="tsd-signature-type">HazelBuffer</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/util.vector2.html" class="tsd-signature-type">Vector2</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="ritoa" class="tsd-anchor"></a>
+					<h3>ritoa</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">ritoa&lt;T&gt;<span class="tsd-signature-symbol">(</span>remote<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RemoteInfo</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/ritoa.ts#L3">packages/util/ts/lib/ritoa.ts:3</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>remote<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RemoteInfo</span><span class="tsd-signature-symbol"> }</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>remote: <span class="tsd-signature-type">RemoteInfo</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">T</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="sleep" class="tsd-anchor"></a>
+					<h3>sleep</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">sleep<span class="tsd-signature-symbol">(</span>ms<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/sleep.ts#L1">packages/util/ts/lib/sleep.ts:1</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ms: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="unary" class="tsd-anchor"></a>
+					<h3>unary</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">unary<span class="tsd-signature-symbol">(</span>func<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">(Anonymous function)</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/unary.ts#L1">packages/util/ts/lib/unary.ts:1</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>func: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">(Anonymous function)</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="unlerpvalue" class="tsd-anchor"></a>
+					<h3>unlerp<wbr>Value</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">unlerp<wbr>Value<span class="tsd-signature-symbol">(</span>val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, min<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Vector.ts#L26">packages/util/ts/lib/Vector.ts:26</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>val: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> min: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = -40</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> max: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 40</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="writevector2" class="tsd-anchor"></a>
+					<h3>write<wbr>Vector2</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">write<wbr>Vector2<span class="tsd-signature-symbol">(</span>writer<span class="tsd-signature-symbol">: </span><a href="../classes/util.hazelbuffer.html" class="tsd-signature-type">HazelBuffer</a>, vector<span class="tsd-signature-symbol">: </span><a href="../interfaces/util.vector2.html" class="tsd-signature-type">Vector2</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a94c2b/packages/util/ts/lib/Vector.ts#L30">packages/util/ts/lib/Vector.ts:30</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>writer: <a href="../classes/util.hazelbuffer.html" class="tsd-signature-type">HazelBuffer</a></h5>
+								</li>
+								<li>
+									<h5>vector: <a href="../interfaces/util.vector2.html" class="tsd-signature-type">Vector2</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="client.html">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="common.html">common</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="constant.html">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="protocol.html">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="server.html">server</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="skeldjs.html">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="types.html">types</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="util.html">util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="client.html" class="tsd-kind-icon">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="common.html" class="tsd-kind-icon">common</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="constant.html" class="tsd-kind-icon">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="protocol.html" class="tsd-kind-icon">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="server.html" class="tsd-kind-icon">server</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="skeldjs.html" class="tsd-kind-icon">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="types.html" class="tsd-kind-icon">types</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="util.html" class="tsd-kind-icon">util</a>
+						<ul>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/util.hazelbuffer.html" class="tsd-kind-icon">Hazel<wbr>Buffer</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/util.textbuilder.html" class="tsd-kind-icon">Text<wbr>Builder</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/util.sentpacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/util.vector2.html" class="tsd-kind-icon">Vector2</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/util.versioninfo.html" class="tsd-kind-icon">Version<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#code2int" class="tsd-kind-icon">Code2<wbr>Int</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#decodeversion" class="tsd-kind-icon">Decode<wbr>Version</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#encodeversion" class="tsd-kind-icon">Encode<wbr>Version</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#encodeversioninfo" class="tsd-kind-icon">Encode<wbr>Version<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#formatversion" class="tsd-kind-icon">Format<wbr>Version</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#formatversioninfo" class="tsd-kind-icon">Format<wbr>Version<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#int2code" class="tsd-kind-icon">Int2<wbr>Code</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#v1code2int" class="tsd-kind-icon">V1<wbr>Code2<wbr>Int</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#v1gen" class="tsd-kind-icon">V1<wbr>Gen</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#v1int2code" class="tsd-kind-icon">V1<wbr>Int2<wbr>Code</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#v2code2int" class="tsd-kind-icon">V2<wbr>Code2<wbr>Int</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#v2gen" class="tsd-kind-icon">V2<wbr>Gen</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#v2int2code" class="tsd-kind-icon">V2<wbr>Int2<wbr>Code</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#clampvalue" class="tsd-kind-icon">clamp<wbr>Value</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#createmissingbitfield" class="tsd-kind-icon">create<wbr>Missing<wbr>Bitfield</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#getmissing" class="tsd-kind-icon">get<wbr>Missing</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#isempty" class="tsd-kind-icon">is<wbr>Empty</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#lerpvalue" class="tsd-kind-icon">lerp<wbr>Value</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#readvector2" class="tsd-kind-icon">read<wbr>Vector2</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="util.html#ritoa" class="tsd-kind-icon">ritoa</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#sleep" class="tsd-kind-icon">sleep</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#unary" class="tsd-kind-icon">unary</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#unlerpvalue" class="tsd-kind-icon">unlerp<wbr>Value</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="util.html#writevector2" class="tsd-kind-icon">write<wbr>Vector2</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
