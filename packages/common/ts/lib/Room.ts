@@ -349,8 +349,6 @@ export class Room extends Global {
                 flags: type === SpawnID.Player ? 1 : 0,
                 components: []
             };
-
-            console.log("Spawning " + SpawnID[type] + "..");
     
             switch (type) {
             case SpawnID.ShipStatus: {

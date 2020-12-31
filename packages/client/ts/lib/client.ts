@@ -181,8 +181,6 @@ export class SkeldjsClient extends Hostable {
                 case PayloadTag.JoinGame:
                     if (payload.error === false) { // For typings
                         if (this.room && this.room.code === payload.code) {
-                            console.log("Client ID " + payload.clientid + " joined. (Host " + payload.hostid + ")");
-
                             await this.room.handleJoin(payload.clientid);
                             await this.room.setHost(payload.hostid);
                         }
@@ -195,8 +193,6 @@ export class SkeldjsClient extends Hostable {
                     break;
                 case PayloadTag.RemovePlayer:
                     if (this.room && this.room.code === payload.code) {
-                        console.log("Client ID " + payload.clientid + " left. (Host " + payload.hostid + ")");
-
                         await this.room.handleLeave(payload.clientid);
                         await this.room.setHost(payload.hostid);
                     }

@@ -7,11 +7,13 @@
   "scripts": {
     "lint": "eslint packages/**/*.ts",
     "lint-staged": "lint-staged",
-    "test": "echo 'no tests specified'",
+    "test": "ts-mocha packages/*/ts/lib/**/*.spec.ts --exclude node_modules",
     "publish-all": "lerna publish",
     "postinstall": "husky install"
   },
   "devDependencies": {
+    "@types/expect": "^24.3.0",
+    "@types/mocha": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
     "cross-env": "^7.0.2",
@@ -19,6 +21,8 @@
     "husky": "^5.0.6",
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.3",
+    "mocha": "^8.2.1",
+    "ts-mocha": "^8.0.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
   },
