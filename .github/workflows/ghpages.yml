@@ -1,0 +1,19 @@
+name: Deploy to GH Pages
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: GH Pages deploy
+        uses: Cecilapp/GitHub-Pages-deploy@3.1.0
+        with:
+          email: essmale2005@gmail.com
+          build_dir: docs
+          branch: gh-pages
