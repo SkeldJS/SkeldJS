@@ -6,6 +6,7 @@
     "ignoreCompilerErrors": "false",
     "preserveConstEnums": "true",
     "exclude": ["*.spec.ts", "*.d.ts", "./example"],
+    "excludeExternals": true,
     "external-modulemap": ".*packages\/(\/[^\/]+)\/.*",
     "stripInternal": "false"
 }
