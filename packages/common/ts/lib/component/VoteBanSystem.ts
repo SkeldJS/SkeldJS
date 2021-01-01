@@ -1,10 +1,11 @@
 import { HazelBuffer } from "@skeldjs/util";
 
-import { SpawnID } from "@skeldjs/constant";
+import { MessageID, Opcode, PayloadTag, RpcID, SpawnID } from "@skeldjs/constant";
 
 import { Networkable } from "../Networkable";
 import { Global } from "../Global";
-import { Room } from "../Room";
+import { PlayerDataResolvable, Room } from "../Room";
+import { RpcMessage } from "packages/protocol/js";
 
 export interface VoteBanSystemData {
     clients: Map<number, [number, number, number]>;
@@ -17,12 +18,12 @@ export class VoteBanSystem extends Networkable<Global> {
     static classname = "VoteBanSystem";
     classname = "VoteBanSystem";
     
-    clients: Map<number, [number, number, number]>;
+    voted: Map<number, [number, number, number]>;
 
     constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|VoteBanSystemData) {
         super(room, netid, ownerid, data);
 
-        this.clients = new Map;
+        this.voted = new Map;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -32,11 +33,11 @@ export class VoteBanSystem extends Networkable<Global> {
         for (let i = 0; i < num_players; i++) {
             const clientid = reader.uint32();
 
-            if (this.clients.get(clientid)) {
-                this.clients.set(clientid, [null, null, null]);
+            if (this.voted.get(clientid)) {
+                this.voted.set(clientid, [null, null, null]);
             }
             
-            this.clients.set(clientid, [null, null, null]);
+            this.voted.set(clientid, [null, null, null]);
             for (let i = 0; i < 3; i++) {
                 reader.upacked();
             }
@@ -45,14 +46,64 @@ export class VoteBanSystem extends Networkable<Global> {
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
-        writer.upacked(this.clients.size);
+        writer.upacked(this.voted.size);
 
-        for (const [ clientid, voters ] of this.clients) {
+        for (const [ clientid, voters ] of this.voted) {
             writer.uint32(clientid);
 
             for (let i = 0; i < 3; i++) {
                 writer.upacked(voters[i]);
             }
         }
+    }
+
+    HandleRPC(message: RpcMessage) {
+        switch (message.rpcid) {
+            case RpcID.AddVote:
+                this._addVote(message.votingid, message.targetid);
+                break;
+        }
+    }
+
+    private _addVote(voterid: number, targetid: number) {
+        const voted = this.voted.get(targetid);
+        if (voted) {
+            const next = voted.indexOf(null);
+
+            if (~next)
+                voted[next] = voterid;
+
+            if (this.room.amhost && voted.every(v => typeof v === "number")) {
+                this.room.client.send({
+                    op: Opcode.Reliable,
+                    payloads: [
+                        {
+                            tag: PayloadTag.KickPlayer,
+                            code: this.room.code,
+                            clientid: targetid,
+                            banned: false,
+                            reason: 0
+                        }
+                    ]
+                })
+            }
+        } else {
+            this.voted.set(targetid, [voterid, null, null]);
+        }
+    }
+
+    addVote(voter: PlayerDataResolvable, target: PlayerDataResolvable) {
+        const voterid = this.room.resolvePlayerClientID(voter);
+        const targetid = this.room.resolvePlayerClientID(target);
+
+        this._addVote(voterid, targetid);
+
+        this.room.client.stream.push({
+            tag: MessageID.RPC,
+            rpcid: RpcID.AddVote,
+            netid: this.netid,
+            votingid: voterid,
+            targetid: targetid
+        });
     }
 }

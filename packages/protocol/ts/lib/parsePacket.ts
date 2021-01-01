@@ -258,7 +258,7 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                             break;
                         case RpcID.AddVote:
                             message.votingid = mreader.uint32();
-                            message.suspectid = mreader.uint32();
+                            message.targetid = mreader.uint32();
                             break;
                         case RpcID.CloseDoorsOfType:
                             message.systemid = mreader.uint8();

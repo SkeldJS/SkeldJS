@@ -233,7 +233,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                             break;
                         case RpcID.AddVote:
                             writer.uint32(message.votingid);
-                            writer.uint32(message.suspectid);
+                            writer.uint32(message.targetid);
                             break;
                         case RpcID.CloseDoorsOfType:
                             writer.uint8(message.systemid);

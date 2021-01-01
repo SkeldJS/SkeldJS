@@ -208,8 +208,8 @@ export class Room extends Global {
             this.gamedata.remove(player.playerId);
         }
         
-        if (this.votebansystem && this.votebansystem.clients.get(resolved)) {
-            this.votebansystem.clients.delete(resolved);
+        if (this.votebansystem && this.votebansystem.voted.get(resolved)) {
+            this.votebansystem.voted.delete(resolved);
         }
 
         for (let i = 0; i < player.components.length; i++) {

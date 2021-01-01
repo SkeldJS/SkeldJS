@@ -1,5 +1,5 @@
 import { HazelBuffer } from "@skeldjs/util"
-import { SpawnID } from "@skeldjs/constant";
+import { MessageID, Opcode, PayloadTag, RpcID, SpawnID } from "@skeldjs/constant";
 
 import {
     VoteState,
@@ -8,7 +8,9 @@ import {
 
 import { Networkable } from "../Networkable";
 import { Global } from "../Global";
-import { Room } from "../Room";
+import { PlayerDataResolvable, Room } from "../Room";
+import { PlayerData } from "../PlayerData";
+import { RpcMessage } from "packages/protocol/js";
 
 export interface MeetingHudData {
     dirtyBit: number;
@@ -64,6 +66,72 @@ export class MeetingHud extends Networkable<Global> {
         }
     }
 
+    HandleRPC(message: RpcMessage) {
+        switch (message.rpcid) {
+            case RpcID.CastVote:
+                this._castVote(message.votingid, message.suspectid);
+                break;
+            case RpcID.ClearVote:
+                this._clearVote(this.room.me.playerId);
+                break;
+        }
+    }
+
+    private _castVote(votingid: number, suspectid: number) {
+        const voting = this.players.get(votingid);
+
+        if (voting) {
+            voting.state |= suspectid & VoteState.VotedFor;
+            voting.state |= VoteState.VotedFor;
+        }
+    }
+
+    private _clearVote(votingid: number) {
+        const voting = this.players.get(votingid);
+
+        if (voting) {
+            voting.state ^= 0xF;
+            voting.state ^= VoteState.VotedFor;
+        }
+    }
+
+    async clearVote(voter: PlayerDataResolvable) {
+        const voterid = this.room.resolvePlayerClientID(voter);
+
+        await this.room.client.send({
+            op: Opcode.Reliable,
+            payloads: [
+                {
+                    tag: PayloadTag.GameDataTo,
+                    code: this.room.code,
+                    recipientid: voterid,
+                    messages: [
+                        {
+                            tag: MessageID.RPC,
+                            rpcid: RpcID.ClearVote,
+                            netid: this.netid
+                        }
+                    ]
+                }
+            ]
+        })
+    }
+
+    castVote(voting: PlayerDataResolvable, suspect: PlayerDataResolvable) {
+        const res_voting = this.room.resolvePlayer(voting);
+        const res_suspect = this.room.resolvePlayer(suspect);
+
+        this._castVote(res_voting.playerId, res_suspect.playerId);
+
+        this.room.client.stream.push({
+            tag: MessageID.RPC,
+            rpcid: RpcID.CastVote,
+            netid: this.netid,
+            votingid: res_voting.playerId,
+            suspectid: res_suspect.playerId
+        });
+    }
+
     static readPlayerState(reader: HazelBuffer): PlayerVoteState {
         const voteState = {
             state: reader.byte(),
@@ -74,4 +142,5 @@ export class MeetingHud extends Networkable<Global> {
 
         return voteState;
     }
+
 }
