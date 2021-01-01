@@ -47,14 +47,14 @@ const server = skeldjs.MasterServers.EU[1];
 	
 	client.room.on("meeting", (client: SkeldjsClient, room: skeldjs.Room, control: skeldjs.PlayerControl, player: skeldjs.PlayerData) => {
 		setTimeout(() => {
-			client.room.meetinghud.castVote(client.room.me, player);
-		}, client.room.settings.discussionTime + 3000);
+			client.room.meetinghud.castVote(client.room.me, control);
+		}, (client.room.settings.discussionTime * 1000) + 3000);
 	});
 
 	client.room.me.once("spawn", () => {
-		console.log(client.room.me);
-		
-		client.room.me.control.setName("human man");
-		client.room.me.control.setColor(skeldjs.ColorID.Cyan);
+		setTimeout(() => {
+			client.room.me.control.checkName("human man");
+			client.room.me.control.checkColor(skeldjs.ColorID.Cyan);
+		}, 500);
 	});
 })();
