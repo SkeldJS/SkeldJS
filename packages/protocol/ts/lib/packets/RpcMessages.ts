@@ -162,7 +162,7 @@ export interface ClearVoteRpc extends BaseRpcMessage {
 export interface AddVoteRpc extends BaseRpcMessage {
     rpcid: RpcID.AddVote;
     votingid: number;
-    suspectid: number;
+    targetid: number;
 }
 
 export interface CloseDoorsOfTypeRpc extends BaseRpcMessage {

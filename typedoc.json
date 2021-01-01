@@ -1,4 +1,4 @@
-  {
+{
     "name": "SkeldJS",
     "inputFiles": [],
     "readme": "./README.md",
@@ -8,4 +8,4 @@
     "external-modulemap": ".*packages\/([^\/]+)",
     "excludePrivate": true,
     "excludeNotExported": true
-  }
+}
