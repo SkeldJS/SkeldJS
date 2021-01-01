@@ -4,6 +4,7 @@ import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 export interface ReactorSystemData {
     timer: number;
@@ -39,5 +40,9 @@ export class ReactorSystem extends SystemStatus {
         for (let i = 0; i < this.completed.length; i++) {
             writer.upacked(this.completed[i]);
         }
+    }
+    
+    HandleRepair(control: PlayerData, amount: number) {
+        // todo: https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/28_repairsystem.md#reactor-and-laboratory
     }
 }

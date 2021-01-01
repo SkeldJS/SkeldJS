@@ -4,6 +4,7 @@ import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 export interface HudOverrideSystemData {
     sabotaged: boolean;
@@ -27,5 +28,11 @@ export class HudOverrideSystem extends SystemStatus {
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean) {
         writer.bool(this.sabotaged);
+    }
+
+    HandleRepair(control: PlayerData, amount: number) {
+        if (amount === 0) {
+            this.sabotaged = false;
+        }
     }
 }

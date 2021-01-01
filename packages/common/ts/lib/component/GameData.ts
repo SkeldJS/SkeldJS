@@ -161,6 +161,15 @@ export class GameData extends Networkable<Global> {
         }
     }
 
+    completeTask(playerId: number, taskIdx: number) {
+        const player = this.players.get(playerId);
+        const task = player.tasks[taskIdx];
+
+        if (task) {
+            task.completed = true;
+        }
+    }
+
     add(playerId: number) {
         this.players.set(playerId, {
             playerId,

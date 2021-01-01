@@ -1,9 +1,9 @@
 import { HazelBuffer } from "@skeldjs/util"
-
 import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 type SwitchSetup = [ boolean, boolean, boolean, boolean, boolean ];
 
@@ -37,6 +37,11 @@ export class SwitchSystem extends SystemStatus {
         writer.byte(SwitchSystem.writeSwitches(this.expected));
         writer.byte(SwitchSystem.writeSwitches(this.actual));
         writer.uint8(this.brightness * 100);
+    }
+
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+    HandleRepair(control: PlayerData, amount: number) {
+        this.actual[amount] = !this.actual[amount];
     }
 
     static readSwitches(byte: number) {

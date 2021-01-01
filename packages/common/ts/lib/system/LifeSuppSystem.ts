@@ -4,6 +4,7 @@ import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 export interface LifeSuppSystemData {
     timer: number;
@@ -38,6 +39,17 @@ export class LifeSuppSystem extends SystemStatus {
 
         for (let i = 0; i < this.completed.length; i++) {
             writer.upacked(this.completed[i]);
+        }
+    }
+
+    HandleRepair(control: PlayerData, amount: number) {
+        const consoleId = amount & 0x3;
+
+        if (amount & 0x40) {
+            this.completed.push(consoleId);
+        } else if (amount & 0x10) {
+            this.timer = 10000;
+            this.completed.splice(0);
         }
     }
 }

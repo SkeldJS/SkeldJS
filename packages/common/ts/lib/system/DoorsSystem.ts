@@ -4,6 +4,7 @@ import { SystemType, MapDoors } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 export interface DoorsSystemData {
     cooldowns: Map<number, number>;
@@ -49,5 +50,9 @@ export class DoorsSystem extends SystemStatus {
         for (let i = 0; i < MapDoors.Polus; i++) {
             writer.bool(this.doors[i]);
         }
+    }
+
+    HandleRepair(control: PlayerData, amount: number) {
+        this.doors[amount & 0x1F] = true;
     }
 }

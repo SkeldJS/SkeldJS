@@ -2,3 +2,7 @@
 # yarn lockfile v1
 
 
+"@skeldjs/util@^2.1.14":
+  version "2.1.14"
+  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.1.14.tgz#d936078a589a1b6aa677a5bb9e86092d43270e66"
+  integrity sha512-Ddh1Lgn6pmGJAzO/GKORDxPwTcz4Wq85eiRDZqIJz8vK2M/TnQExJWKH4G4jOKh7uRYUG4/8GhjEuCyeXn/SUA==
