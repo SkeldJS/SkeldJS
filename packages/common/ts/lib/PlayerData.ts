@@ -1,4 +1,4 @@
-import { MessageID, Opcode, PayloadTag } from "@skeldjs/constant";
+import { MessageTag, Opcode, PayloadTag } from "@skeldjs/constant";
 
 import {
     CustomNetworkTransform,
@@ -67,7 +67,7 @@ export class PlayerData extends Heritable {
                         code: this.room.code,
                         messages: [
                             {
-                                tag: MessageID.Ready,
+                                tag: MessageTag.Ready,
                                 clientid: this.id
                             }
                         ]

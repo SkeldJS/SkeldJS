@@ -1,6 +1,6 @@
 import { HazelBuffer } from "@skeldjs/util";
 
-import { MessageID, Opcode, PayloadTag, RpcID, SpawnID } from "@skeldjs/constant";
+import { MessageTag, Opcode, PayloadTag, RpcTag, SpawnID } from "@skeldjs/constant";
 
 import { Networkable } from "../Networkable";
 import { Global } from "../Global";
@@ -59,7 +59,7 @@ export class VoteBanSystem extends Networkable<Global> {
 
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
-            case RpcID.AddVote:
+            case RpcTag.AddVote:
                 this._addVote(message.votingid, message.targetid);
                 break;
         }
@@ -99,8 +99,8 @@ export class VoteBanSystem extends Networkable<Global> {
         this._addVote(voterid, targetid);
 
         this.room.client.stream.push({
-            tag: MessageID.RPC,
-            rpcid: RpcID.AddVote,
+            tag: MessageTag.RPC,
+            rpcid: RpcTag.AddVote,
             netid: this.netid,
             votingid: voterid,
             targetid: targetid

@@ -1,5 +1,5 @@
 import { HazelBuffer } from "@skeldjs/util"
-import { MessageID, Opcode, PayloadTag, RpcID, SpawnID } from "@skeldjs/constant";
+import { MessageTag, Opcode, PayloadTag, RpcTag, SpawnID } from "@skeldjs/constant";
 
 import {
     VoteState,
@@ -67,10 +67,10 @@ export class MeetingHud extends Networkable<Global> {
 
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
-            case RpcID.CastVote:
+            case RpcTag.CastVote:
                 this._castVote(message.votingid, message.suspectid);
                 break;
-            case RpcID.ClearVote:
+            case RpcTag.ClearVote:
                 this._clearVote(this.room.me.playerId);
                 break;
         }
@@ -108,8 +108,8 @@ export class MeetingHud extends Networkable<Global> {
                     recipientid: voterid,
                     messages: [
                         {
-                            tag: MessageID.RPC,
-                            rpcid: RpcID.ClearVote,
+                            tag: MessageTag.RPC,
+                            rpcid: RpcTag.ClearVote,
                             netid: this.netid
                         }
                     ]
@@ -125,8 +125,8 @@ export class MeetingHud extends Networkable<Global> {
         this._castVote(votingid, suspectid);
 
         this.room.client.stream.push({
-            tag: MessageID.RPC,
-            rpcid: RpcID.CastVote,
+            tag: MessageTag.RPC,
+            rpcid: RpcTag.CastVote,
             netid: this.netid,
             votingid: votingid,
             suspectid: suspectid

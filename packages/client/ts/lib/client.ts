@@ -11,7 +11,7 @@ import {
     
     DistanceID,
     LanguageID,
-    MessageID,
+    MessageTag,
     Opcode,
     PayloadTag,
     TaskBarUpdate,
@@ -443,7 +443,7 @@ export class SkeldjsClient extends Hostable {
                         code: this.room.code,
                         messages: [
                             {
-                                tag: MessageID.SceneChange,
+                                tag: MessageTag.SceneChange,
                                 clientid: this.clientid,
                                 scene: "OnlineGame"
                             }

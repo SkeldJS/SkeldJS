@@ -1,8 +1,8 @@
 import {
     ColorID,
     HatID,
-    MessageID,
-    RpcID,
+    MessageTag,
+    RpcTag,
     SkinID
 } from "@skeldjs/constant";
 
@@ -20,171 +20,171 @@ import { BaseGameDataMessage } from "./GameData";
 import { GameOptions } from "../misc/GameOptions";
 
 export interface BaseRpcMessage extends BaseGameDataMessage {
-    tag: MessageID.RPC;
-    rpcid: RpcID;
+    tag: MessageTag.RPC;
+    rpcid: RpcTag;
     netid: number;
 }
 
 export interface PlayAnimationRpc extends BaseRpcMessage {
-    rpcid: RpcID.PlayAnimation;
+    rpcid: RpcTag.PlayAnimation;
     task: number;
 }
 
 export interface CompleteTaskRpc extends BaseRpcMessage {
-    rpcid: RpcID.CompleteTask;
+    rpcid: RpcTag.CompleteTask;
     taskIdx: number;
 }
 
 export interface SyncSettingsRpc extends BaseRpcMessage {
-    rpcid: RpcID.SyncSettings;
+    rpcid: RpcTag.SyncSettings;
     settings: GameOptions;
 }
 
 export interface SetInfectedRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetInfected;
+    rpcid: RpcTag.SetInfected;
     impostors: number[];
 }
 
 export interface ExiledRpc extends BaseRpcMessage {
-    rpcid: RpcID.Exiled;
+    rpcid: RpcTag.Exiled;
 }
 
 export interface CheckNameRpc extends BaseRpcMessage {
-    rpcid: RpcID.CheckName;
+    rpcid: RpcTag.CheckName;
     name: string;
 }
 
 export interface SetNameRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetName;
+    rpcid: RpcTag.SetName;
     name: string;
 }
 
 export interface CheckColorRpc extends BaseRpcMessage {
-    rpcid: RpcID.CheckColor;
+    rpcid: RpcTag.CheckColor;
     color: ColorID;
 }
 
 export interface SetColorRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetColor;
+    rpcid: RpcTag.SetColor;
     color: ColorID;
 }
 
 export interface SetHatRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetHat;
+    rpcid: RpcTag.SetHat;
     hat: HatID;
 }
 
 export interface SetSkinRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetSkin;
+    rpcid: RpcTag.SetSkin;
     skin: SkinID;
 }
 
 export interface ReportDeadBodyRpc extends BaseRpcMessage {
-    rpcid: RpcID.ReportDeadBody;
+    rpcid: RpcTag.ReportDeadBody;
     bodyid: number;
 }
 
 export interface MurderPlayerRpc extends BaseRpcMessage {
-    rpcid: RpcID.MurderPlayer;
+    rpcid: RpcTag.MurderPlayer;
     victimid: number;
 }
 
 export interface SendChatRpc extends BaseRpcMessage {
-    rpcid: RpcID.SendChat;
+    rpcid: RpcTag.SendChat;
     message: string;
 }
 
 export interface StartMeetingRpc extends BaseRpcMessage {
-    rpcid: RpcID.StartMeeting;
+    rpcid: RpcTag.StartMeeting;
     bodyid: number;
 }
 
 export interface SetScannerRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetScanner;
+    rpcid: RpcTag.SetScanner;
     scanning: boolean;
     count: number;
 }
 
 export interface SendChatNoteRpc extends BaseRpcMessage {
-    rpcid: RpcID.SendChatNote;
+    rpcid: RpcTag.SendChatNote;
     playerid: number;
     type: number;
 }
 
 export interface SetPetRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetPet;
+    rpcid: RpcTag.SetPet;
     pet: number;
 }
 
 export interface SetStartCounterRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetStartCounter;
+    rpcid: RpcTag.SetStartCounter;
     seqId: number;
     time: number;
 }
 
 export interface EnterVentRpc extends BaseRpcMessage {
-    rpcid: RpcID.EnterVent;
+    rpcid: RpcTag.EnterVent;
     ventid: number;
 }
 
 export interface ExitVentRpc extends BaseRpcMessage {
-    rpcid: RpcID.ExitVent;
+    rpcid: RpcTag.ExitVent;
     ventid: number;
 }
 
 export interface SnapToRpc extends BaseRpcMessage {
-    rpcid: RpcID.SnapTo;
+    rpcid: RpcTag.SnapTo;
     position: Vector2;
     seqId: number;
 }
 
 export interface CloseRpc extends BaseRpcMessage {
-    rpcid: RpcID.Close;
+    rpcid: RpcTag.Close;
 }   
 
 export interface VotingCompleteRpc extends BaseRpcMessage {
-    rpcid: RpcID.VotingComplete;
+    rpcid: RpcTag.VotingComplete;
     states: PlayerVoteState[];
     exiled: number;
     tie: boolean;
 }
 
 export interface CastVoteRpc extends BaseRpcMessage {
-    rpcid: RpcID.CastVote;
+    rpcid: RpcTag.CastVote;
     votingid: number;
     suspectid: number;
 }
 
 export interface ClearVoteRpc extends BaseRpcMessage {
-    rpcid: RpcID.ClearVote;
+    rpcid: RpcTag.ClearVote;
 }
 
 export interface AddVoteRpc extends BaseRpcMessage {
-    rpcid: RpcID.AddVote;
+    rpcid: RpcTag.AddVote;
     votingid: number;
     targetid: number;
 }
 
 export interface CloseDoorsOfTypeRpc extends BaseRpcMessage {
-    rpcid: RpcID.CloseDoorsOfType;
+    rpcid: RpcTag.CloseDoorsOfType;
     systemid: number;
 }
 
 export interface RepairSystemRpc extends BaseRpcMessage {
-    rpcid: RpcID.RepairSystem;
+    rpcid: RpcTag.RepairSystem;
     systemid: number;
     repairerid: number;
     value: number;
 }
 
 export interface SetTasksRpc extends BaseRpcMessage {
-    rpcid: RpcID.SetTasks;
+    rpcid: RpcTag.SetTasks;
     playerid: number;
     taskids: number[];
 }
 
 export interface UpdateGameDataRpc extends BaseRpcMessage {
-    rpcid: RpcID.UpdateGameData;
+    rpcid: RpcTag.UpdateGameData;
     players: PlayerGameData[];
 }
 

@@ -8,9 +8,9 @@ import {
 import {
     ColorID,
     HatID,
-    MessageID,
+    MessageTag,
     PetID,
-    RpcID,
+    RpcTag,
     SkinID,
     SpawnID
 } from "@skeldjs/constant";
@@ -88,7 +88,7 @@ export class GameData extends Networkable<Global> {
 
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
-            case RpcID.UpdateGameData:
+            case RpcTag.UpdateGameData:
                 for (let i = 0; i < message.players.length; i++) {
                     const data = message.players[i];
 
@@ -106,9 +106,9 @@ export class GameData extends Networkable<Global> {
 
             if (players.length) {
                 this.room.client.stream.push({
-                    tag: MessageID.RPC,
+                    tag: MessageTag.RPC,
                     netid: this.netid,
-                    rpcid: RpcID.UpdateGameData,
+                    rpcid: RpcTag.UpdateGameData,
                     players: players
                 });
             }

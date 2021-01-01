@@ -1,6 +1,10 @@
 import { HazelBuffer } from "@skeldjs/util"
 
-import { SystemType, MapDoors } from "@skeldjs/constant";
+import {
+    SystemType,
+    MapDoors,
+    MapID
+} from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
@@ -33,7 +37,7 @@ export class DoorsSystem extends SystemStatus {
             this.cooldowns.set(doorId, cooldown);
         }
 
-        for (let i = 0; i < MapDoors.Polus; i++) {
+        for (let i = 0; i < MapDoors[MapID.Polus]; i++) {
             this.doors[i] = reader.bool();
         }
     }
@@ -47,7 +51,7 @@ export class DoorsSystem extends SystemStatus {
             writer.float(cooldown);
         }
 
-        for (let i = 0; i < MapDoors.Polus; i++) {
+        for (let i = 0; i < MapDoors[MapID.Polus]; i++) {
             writer.bool(this.doors[i]);
         }
     }
