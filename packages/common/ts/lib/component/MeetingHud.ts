@@ -9,7 +9,6 @@ import {
 import { Networkable } from "../Networkable";
 import { Global } from "../Global";
 import { PlayerDataResolvable, Room } from "../Room";
-import { PlayerData } from "../PlayerData";
 import { RpcMessage } from "packages/protocol/js";
 
 export interface MeetingHudData {

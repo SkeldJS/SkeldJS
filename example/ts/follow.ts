@@ -46,6 +46,7 @@ const server = skeldjs.MasterServers.EU[1];
 	});*/
 	
 	client.room.on("meeting", (client: SkeldjsClient, room: skeldjs.Room, control: skeldjs.PlayerControl, player: skeldjs.PlayerData) => {
+		console.log("meeting started.");
 		setTimeout(() => {
 			client.room.meetinghud.castVote(client.room.me, control);
 		}, (client.room.settings.discussionTime * 1000) + 3000);

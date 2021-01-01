@@ -21,37 +21,51 @@ export class Headquarters extends BaseShipStatus {
     static classname = "Headquarters" as const;
     classname = "Headquarters" as const;
 
-    systems = {
-        [SystemType.Reactor]: new ReactorSystem(this, {
-            timer: 10000,
-            completed: []
-        }),
-        [SystemType.Electrical]: new SwitchSystem(this, {
-            expected: [false, false, false, false, false],
-            actual: [false, false, false, false, false],
-            brightness: 100
-        }),
-        [SystemType.O2]: new LifeSuppSystem(this, {
-            timer: 10000,
-            completed: []
-        }),
-        [SystemType.MedBay]: new MedScanSystem(this, {
-            queue: []
-        }),
-        [SystemType.Communications]: new HqHudSystem(this, {
-            active: [],
-            completed: []
-        }),
-        [SystemType.Sabotage]: new SabotageSystem(this, {
-            cooldown: 0
-        }),
-        [SystemType.Decontamination]: new DeconSystem(this, {
-            timer: 10000,
-            state: 0
-        })
-    }
+    systems: {
+        [SystemType.Reactor]: ReactorSystem;
+        [SystemType.Electrical]: SwitchSystem;
+        [SystemType.O2]: LifeSuppSystem;
+        [SystemType.MedBay]: MedScanSystem;
+        [SystemType.Communications]: HqHudSystem;
+        [SystemType.Sabotage]: SabotageSystem;
+        [SystemType.Decontamination]: DeconSystem;
+    };
 
     constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
+    }
+
+    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
+        this.systems ||= {
+            [SystemType.Reactor]: new ReactorSystem(this, {
+                timer: 10000,
+                completed: []
+            }),
+            [SystemType.Electrical]: new SwitchSystem(this, {
+                expected: [false, false, false, false, false],
+                actual: [false, false, false, false, false],
+                brightness: 100
+            }),
+            [SystemType.O2]: new LifeSuppSystem(this, {
+                timer: 10000,
+                completed: []
+            }),
+            [SystemType.MedBay]: new MedScanSystem(this, {
+                queue: []
+            }),
+            [SystemType.Communications]: new HqHudSystem(this, {
+                active: [],
+                completed: []
+            }),
+            [SystemType.Sabotage]: new SabotageSystem(this, {
+                cooldown: 0
+            }),
+            [SystemType.Decontamination]: new DeconSystem(this, {
+                timer: 10000,
+                state: 0
+            })
+        }
+
+        super.Deserialize(reader, spawn);
     }
 }
