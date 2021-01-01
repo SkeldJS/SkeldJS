@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/util",
-  "version": "2.1.14",
+  "version": "2.2.0",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -8,6 +8,5 @@
     "prepublishOnly": "npm run build"
   },
   "license": "GPL-3.0-only",
-  "gitHead": "54a32eaa51acdd1b6fabe13873787420ccdfa444",
-  "dependencies": {}
+  "gitHead": "54a32eaa51acdd1b6fabe13873787420ccdfa444"
 }
