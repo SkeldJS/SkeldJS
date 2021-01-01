@@ -4,7 +4,7 @@ import { Networkable } from "../Networkable"
 import { PlayerData } from "../PlayerData"
 import { Room } from "../Room";
 
-import { MessageID, RpcID, SpawnID } from "@skeldjs/constant";
+import { MessageTag, RpcTag, SpawnID } from "@skeldjs/constant";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface PlayerPhysicsData {
@@ -34,8 +34,8 @@ export class PlayerPhysics extends Networkable<PlayerData> {
 
     enterVent(ventid: number) {
         this.room.client.stream.push({
-            tag: MessageID.RPC,
-            rpcid: RpcID.EnterVent,
+            tag: MessageTag.RPC,
+            rpcid: RpcTag.EnterVent,
             netid: this.netid,
             ventid
         });
@@ -43,8 +43,8 @@ export class PlayerPhysics extends Networkable<PlayerData> {
 
     exitVent(ventid: number) {
         this.room.client.stream.push({
-            tag: MessageID.RPC,
-            rpcid: RpcID.ExitVent,
+            tag: MessageTag.RPC,
+            rpcid: RpcTag.ExitVent,
             netid: this.netid,
             ventid
         });

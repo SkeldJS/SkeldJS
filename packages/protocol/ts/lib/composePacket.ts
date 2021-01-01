@@ -1,9 +1,9 @@
 import {
     DisconnectReason,
-    MessageID,
+    MessageTag,
     Opcode,
     PayloadTag,
-    RpcID
+    RpcTag
 } from "@skeldjs/constant"
 
 import {
@@ -132,92 +132,92 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                     writer.message(message.tag);
 
                     switch (message.tag) {
-                    case MessageID.Data:
+                    case MessageTag.Data:
                         writer.upacked(message.netid);
                         writer.buf(message.data);
                         break;
-                    case MessageID.RPC:
+                    case MessageTag.RPC:
                         writer.upacked(message.netid);
                         writer.uint8(message.rpcid);
                         
                         switch (message.rpcid) {
-                        case RpcID.PlayAnimation:
+                        case RpcTag.PlayAnimation:
                             writer.uint8(message.task);
                             break;
-                        case RpcID.CompleteTask:
+                        case RpcTag.CompleteTask:
                             writer.upacked(message.taskIdx);
                             break;
-                        case RpcID.SyncSettings:
+                        case RpcTag.SyncSettings:
                             const owriter = composeOptions(message.settings);
                             writer.upacked(owriter.size);
                             writer.buf(owriter);
                             break;
-                        case RpcID.SetInfected:
+                        case RpcTag.SetInfected:
                             writer.upacked(message.impostors.length);
                             for (let i = 0; i < message.impostors.length; i++) {
                                 writer.uint8(message.impostors[i]);
                             }
                             break;
-                        case RpcID.Exiled:
+                        case RpcTag.Exiled:
                             break;
-                        case RpcID.CheckName:
+                        case RpcTag.CheckName:
                             writer.string(message.name);
                             break;
-                        case RpcID.SetName:
+                        case RpcTag.SetName:
                             writer.string(message.name);
                             break;
-                        case RpcID.CheckColor:
+                        case RpcTag.CheckColor:
                             writer.uint8(message.color);
                             break;
-                        case RpcID.SetColor:
+                        case RpcTag.SetColor:
                             writer.uint8(message.color);
                             break;
-                        case RpcID.SetHat:
+                        case RpcTag.SetHat:
                             writer.upacked(message.hat);
                             break;
-                        case RpcID.SetSkin:
+                        case RpcTag.SetSkin:
                             writer.upacked(message.skin);
                             break;
-                        case RpcID.ReportDeadBody:
+                        case RpcTag.ReportDeadBody:
                             writer.uint8(message.bodyid);
                             break;
-                        case RpcID.MurderPlayer:
+                        case RpcTag.MurderPlayer:
                             writer.uint8(message.victimid);
                             break;
-                        case RpcID.SendChat:
+                        case RpcTag.SendChat:
                             writer.string(message.message);
                             break;
-                        case RpcID.StartMeeting:
+                        case RpcTag.StartMeeting:
                             writer.uint8(message.bodyid);
                             break;
-                        case RpcID.SetScanner:
+                        case RpcTag.SetScanner:
                             writer.bool(message.scanning);
                             writer.uint8(message.count);
                             break;
-                        case RpcID.SendChatNote:
+                        case RpcTag.SendChatNote:
                             writer.uint8(message.playerid);
                             writer.uint8(message.type);
                             break;
-                        case RpcID.SetPet:
+                        case RpcTag.SetPet:
                             writer.upacked(message.pet);
                             break;
-                        case RpcID.SetStartCounter:
+                        case RpcTag.SetStartCounter:
                             writer.upacked(message.seqId);
                             writer.int8(message.time);
                             break;
-                        case RpcID.EnterVent:
+                        case RpcTag.EnterVent:
                             writer.upacked(message.ventid);
                             break;
-                        case RpcID.ExitVent:
+                        case RpcTag.ExitVent:
                             writer.upacked(message.ventid);
                             break;
-                        case RpcID.SnapTo:
+                        case RpcTag.SnapTo:
                             writeVector2(writer, message.position);
                             writer.uint16(message.seqId);
                             break;
-                        case RpcID.Close:
+                        case RpcTag.Close:
                             break;
-                        case RpcID.VotingComplete:
+                        case RpcTag.VotingComplete:
                             writer.upacked(message.states.length);
                             for (let i = 0; i < message.states.length; i++) {
                                 writer.byte(message.states[i].state);
@@ -225,32 +225,32 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                             writer.uint8(message.exiled);
                             writer.bool(message.tie);
                             break;
-                        case RpcID.CastVote:
+                        case RpcTag.CastVote:
                             writer.uint8(message.votingid);
                             writer.uint8(message.suspectid);
                             break;
-                        case RpcID.ClearVote:
+                        case RpcTag.ClearVote:
                             break;
-                        case RpcID.AddVote:
+                        case RpcTag.AddVote:
                             writer.uint32(message.votingid);
                             writer.uint32(message.targetid);
                             break;
-                        case RpcID.CloseDoorsOfType:
+                        case RpcTag.CloseDoorsOfType:
                             writer.uint8(message.systemid);
                             break;
-                        case RpcID.RepairSystem:
+                        case RpcTag.RepairSystem:
                             writer.uint8(message.systemid);
                             writer.upacked(message.repairerid);
                             writer.uint8(message.value);
                             break;
-                        case RpcID.SetTasks:
+                        case RpcTag.SetTasks:
                             writer.uint8(message.playerid);
                             writer.upacked(message.taskids.length);
                             for (let i = 0; i < message.taskids.length; i++) {
                                 writer.upacked(message.taskids[i]);
                             }
                             break;
-                        case RpcID.UpdateGameData:
+                        case RpcTag.UpdateGameData:
                             for (let i = 0; i < message.players.length; i++) {
                                 const player = message.players[i];
                                 writer.message(player.playerId);
@@ -276,7 +276,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                             break;
                         }
                         break;
-                    case MessageID.Spawn:
+                    case MessageTag.Spawn:
                         writer.upacked(message.type);
                         writer.upacked(message.ownerid);
                         writer.byte(message.flags);
@@ -290,17 +290,17 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                             writer.end();
                         }
                         break;
-                    case MessageID.Despawn:
+                    case MessageTag.Despawn:
                         writer.upacked(message.netid);
                         break;
-                    case MessageID.SceneChange:
+                    case MessageTag.SceneChange:
                         writer.upacked(message.clientid);
                         writer.string(message.scene);
                         break;
-                    case MessageID.Ready:
+                    case MessageTag.Ready:
                         writer.upacked(message.clientid);
                         break;
-                    case MessageID.ChangeSettings:
+                    case MessageTag.ChangeSettings:
                         break;
                     }
 

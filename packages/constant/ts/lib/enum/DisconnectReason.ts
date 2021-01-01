@@ -1,0 +1,21 @@
+export enum DisconnectReason {
+    None,
+    GameFull,
+    GameStarted,
+    GameNotFound,
+    IncorrectVersion = 5,
+    Banned,
+    Kicked,
+    Custom,
+    InvalidName,
+    Hacking,
+    Destroy = 16,
+    Error,
+    IncorrectGame,
+    ServerRequest,
+    ServerFull,
+    FocusLostBackground = 207,
+    IntentionalLeaving,
+    FocusLost,
+    NewConnection
+}

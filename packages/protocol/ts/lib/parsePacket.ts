@@ -1,8 +1,8 @@
 import {
     Opcode,
     PayloadTag,
-    MessageID,
-    RpcID,
+    MessageTag,
+    RpcTag,
     DisconnectReason
 } from "@skeldjs/constant"
 
@@ -151,92 +151,92 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                     message.tag = mtag;
 
                     switch (message.tag) {
-                    case MessageID.Data:
+                    case MessageTag.Data:
                         message.netid = mreader.upacked();
                         const data_sz = mreader.left;
                         message.data = mreader.buf(data_sz);
                         break;
-                    case MessageID.RPC:
+                    case MessageTag.RPC:
                         message.netid = mreader.upacked();
                         message.rpcid = mreader.uint8();
 
                         switch (message.rpcid) {
-                        case RpcID.PlayAnimation:
+                        case RpcTag.PlayAnimation:
                             message.task = mreader.uint8();
                             break;
-                        case RpcID.CompleteTask:
+                        case RpcTag.CompleteTask:
                             message.taskIdx = mreader.upacked();
                             break;
-                        case RpcID.SyncSettings:
+                        case RpcTag.SyncSettings:
                             message.settings = parseOptions(mreader);
                             break;
-                        case RpcID.SetInfected:
+                        case RpcTag.SetInfected:
                             const num_infected = mreader.upacked();
                             message.impostors = [];
                             for (let i = 0; i < num_infected; i++) {
                                 message.impostors.push(mreader.uint8());
                             }
                             break;
-                        case RpcID.Exiled:
+                        case RpcTag.Exiled:
                             break;
-                        case RpcID.CheckName:
+                        case RpcTag.CheckName:
                             message.name = mreader.string();
                             break;
-                        case RpcID.SetName:
+                        case RpcTag.SetName:
                             message.name = mreader.string();
                             break;
-                        case RpcID.CheckColor:
+                        case RpcTag.CheckColor:
                             message.color = mreader.uint8();
                             break;
-                        case RpcID.SetColor:
+                        case RpcTag.SetColor:
                             message.color = mreader.uint8();
                             break;
-                        case RpcID.SetHat:
+                        case RpcTag.SetHat:
                             message.hat = mreader.upacked();
                             break;
-                        case RpcID.SetSkin:
+                        case RpcTag.SetSkin:
                             message.skin = mreader.upacked();
                             break;
-                        case RpcID.ReportDeadBody:
+                        case RpcTag.ReportDeadBody:
                             message.bodyid = mreader.uint8();
                             break;
-                        case RpcID.MurderPlayer:
+                        case RpcTag.MurderPlayer:
                             message.victimid = mreader.uint8();
                             break;
-                        case RpcID.SendChat:
+                        case RpcTag.SendChat:
                             message.message = mreader.string();
                             break;
-                        case RpcID.StartMeeting:
+                        case RpcTag.StartMeeting:
                             message.bodyid = mreader.uint8();
                             break;
-                        case RpcID.SetScanner:
+                        case RpcTag.SetScanner:
                             message.scanning = mreader.bool();
                             message.count = mreader.uint8();
                             break;
-                        case RpcID.SendChatNote:
+                        case RpcTag.SendChatNote:
                             message.playerid = mreader.uint8();
                             message.type = mreader.uint8();
                             break;
-                        case RpcID.SetPet:
+                        case RpcTag.SetPet:
                             message.pet = mreader.upacked();
                             break;
-                        case RpcID.SetStartCounter:
+                        case RpcTag.SetStartCounter:
                             message.seqId = mreader.upacked();
                             message.time = mreader.int8();
                             break;
-                        case RpcID.EnterVent:
+                        case RpcTag.EnterVent:
                             message.ventid = mreader.upacked();
                             break;
-                        case RpcID.ExitVent:
+                        case RpcTag.ExitVent:
                             message.ventid = mreader.upacked();
                             break;
-                        case RpcID.SnapTo:
+                        case RpcTag.SnapTo:
                             message.position = readVector2(mreader);
                             message.seqId = mreader.uint16();
                             break;
-                        case RpcID.Close:
+                        case RpcTag.Close:
                             break;
-                        case RpcID.VotingComplete:
+                        case RpcTag.VotingComplete:
                             const num_states = mreader.upacked();
                             message.states = [];
                             for (let i = 0; i < num_states; i++) {
@@ -250,25 +250,25 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                             message.exiled = mreader.uint8();
                             message.tie = mreader.bool();
                             break;
-                        case RpcID.CastVote:
+                        case RpcTag.CastVote:
                             message.votingid = mreader.uint8();
                             message.suspectid = mreader.uint8();
                             break;
-                        case RpcID.ClearVote:
+                        case RpcTag.ClearVote:
                             break;
-                        case RpcID.AddVote:
+                        case RpcTag.AddVote:
                             message.votingid = mreader.uint32();
                             message.targetid = mreader.uint32();
                             break;
-                        case RpcID.CloseDoorsOfType:
+                        case RpcTag.CloseDoorsOfType:
                             message.systemid = mreader.uint8();
                             break;
-                        case RpcID.RepairSystem:
+                        case RpcTag.RepairSystem:
                             message.systemid = mreader.uint8();
                             message.repairerid = mreader.upacked();
                             message.value = mreader.uint8();
                             break;
-                        case RpcID.SetTasks:
+                        case RpcTag.SetTasks:
                             message.playerid = mreader.uint8();
                             const num_tasks = mreader.upacked();
                             message.taskids = [];
@@ -276,7 +276,7 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                                 message.taskids.push(mreader.upacked());
                             }
                             break;
-                        case RpcID.UpdateGameData:
+                        case RpcTag.UpdateGameData:
                             message.players = [];
 
                             while (mreader.left > 0) {
@@ -309,7 +309,7 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                             break;
                         }
                         break;
-                    case MessageID.Spawn:
+                    case MessageTag.Spawn:
                         message.type = mreader.upacked();
                         message.ownerid = mreader.packed();
                         message.flags = mreader.byte();
@@ -324,17 +324,17 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                             message.components.push(component as ComponentData);
                         }
                         break;
-                    case MessageID.Despawn:
+                    case MessageTag.Despawn:
                         message.netid = mreader.upacked();
                         break;
-                    case MessageID.SceneChange:
+                    case MessageTag.SceneChange:
                         message.clientid = mreader.upacked();
                         message.scene = mreader.string();
                         break;
-                    case MessageID.Ready:
+                    case MessageTag.Ready:
                         message.clientid = mreader.upacked();
                         break;
-                    case MessageID.ChangeSettings:
+                    case MessageTag.ChangeSettings:
                         break;
                     }
 

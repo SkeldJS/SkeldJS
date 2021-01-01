@@ -1,5 +1,5 @@
 import {
-    MessageID
+    MessageTag
 } from "@skeldjs/constant"
 
 import { HazelBuffer } from "@skeldjs/util";
@@ -8,11 +8,11 @@ import { BaseHazelMessage } from "./Packets"
 import { RpcMessage } from "./RpcMessages";
 
 export interface BaseGameDataMessage extends BaseHazelMessage {
-    tag: MessageID;
+    tag: MessageTag;
 }
 
 export interface DataMessage extends BaseGameDataMessage {
-    tag: MessageID.Data;
+    tag: MessageTag.Data;
     netid: number;
     data: HazelBuffer;
 }
@@ -23,7 +23,7 @@ export interface ComponentData {
 }
 
 export interface SpawnMessage extends BaseGameDataMessage {
-    tag: MessageID.Spawn;
+    tag: MessageTag.Spawn;
     type: number;
     ownerid: number;
     flags: number;
@@ -31,23 +31,23 @@ export interface SpawnMessage extends BaseGameDataMessage {
 }
 
 export interface DespawnMessage extends BaseGameDataMessage {
-    tag: MessageID.Despawn;
+    tag: MessageTag.Despawn;
     netid: number;
 }
 
 export interface SceneChangeMessage extends BaseGameDataMessage {
-    tag: MessageID.SceneChange;
+    tag: MessageTag.SceneChange;
     clientid: number;
     scene: string;
 }
 
 export interface ReadyMessage extends BaseGameDataMessage {
-    tag: MessageID.Ready;
+    tag: MessageTag.Ready;
     clientid: number;
 }
 
 export interface ChangeSettings extends BaseGameDataMessage {
-    tag: MessageID.ChangeSettings;
+    tag: MessageTag.ChangeSettings;
 }
 
 export type GameDataMessage = DataMessage |

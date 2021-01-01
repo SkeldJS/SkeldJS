@@ -8,10 +8,10 @@ import {
 import { RpcMessage } from "@skeldjs/protocol";
 
 import {
-    MessageID,
+    MessageTag,
     Opcode,
     PayloadTag,
-    RpcID,
+    RpcTag,
     SpawnID
 } from "@skeldjs/constant";
 
@@ -73,7 +73,7 @@ export class CustomNetworkTransform extends Networkable<PlayerData> {
 
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
-            case RpcID.SnapTo:
+            case RpcTag.SnapTo:
                 if (CustomNetworkTransform.seqIdGreaterThan(message.seqId, this.seqId)) {
                     this.seqId = message.seqId;
                     this.position = message.position;
@@ -105,7 +105,7 @@ export class CustomNetworkTransform extends Networkable<PlayerData> {
                     code: this.room.code,
                     messages: [
                         {
-                            tag: MessageID.Data,
+                            tag: MessageTag.Data,
                             netid: this.netid,
                             data
                         }
@@ -137,8 +137,8 @@ export class CustomNetworkTransform extends Networkable<PlayerData> {
                     code: this.room.code,
                     messages: [
                         {
-                            tag: MessageID.RPC,
-                            rpcid: RpcID.SnapTo,
+                            tag: MessageTag.RPC,
+                            rpcid: RpcTag.SnapTo,
                             netid: this.netid,
                             seqId: this.seqId,
                             position

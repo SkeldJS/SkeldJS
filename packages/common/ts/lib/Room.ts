@@ -29,7 +29,7 @@ import {
 
 import {
     Opcode,
-    MessageID,
+    MessageTag,
     SpawnID,
     DisconnectReason,
     PayloadTag
@@ -324,7 +324,7 @@ export class Room extends Global {
         this._despawnComponent(component);
 
         this.client.stream.push({
-            tag: MessageID.Despawn,
+            tag: MessageTag.Despawn,
             netid: component.netid
         });
     }
@@ -462,7 +462,7 @@ export class Room extends Global {
             }
     
             this.client.stream.push({
-                tag: MessageID.Spawn,
+                tag: MessageTag.Spawn,
                 ownerid: object.ownerid,
                 type: type,
                 flags: object.flags,
@@ -493,7 +493,7 @@ export class Room extends Global {
 
     async handleGameData(message: GameDataMessage) {
         switch (message.tag) {
-        case MessageID.Data: {
+        case MessageTag.Data: {
             const component = this.netobjects.get(message.netid);
 
             if (component) {
@@ -501,7 +501,7 @@ export class Room extends Global {
             }
             break;
         }
-        case MessageID.RPC: {
+        case MessageTag.RPC: {
             const component = this.netobjects.get(message.netid);
 
             if (component) {
@@ -509,7 +509,7 @@ export class Room extends Global {
             }
             break;
         }
-        case MessageID.Spawn: {
+        case MessageTag.Spawn: {
             for (let i = 0; i < message.components.length; i++) {
                 const spawn_component = message.components[i];
                 const owner = this.objects.get(message.ownerid);
@@ -525,7 +525,7 @@ export class Room extends Global {
             }
             break;
         }
-        case MessageID.Despawn: {
+        case MessageTag.Despawn: {
             const component = this.netobjects.get(message.netid);
             
             if (component) {
@@ -533,7 +533,7 @@ export class Room extends Global {
             }
             break;
         }
-        case MessageID.SceneChange: {
+        case MessageTag.SceneChange: {
             const player = this.objects.get(message.clientid) as PlayerData;
 
             if (player) {
@@ -553,7 +553,7 @@ export class Room extends Global {
 
                                         if (!col) {
                                             acc.push({
-                                                tag: MessageID.Spawn,
+                                                tag: MessageTag.Spawn,
                                                 type: component.type,
                                                 ownerid: component.ownerid,
                                                 flags: component.classname === "PlayerControl" ? 1 : 0,
@@ -589,7 +589,7 @@ export class Room extends Global {
             }
             break;
         }
-        case MessageID.Ready: {
+        case MessageTag.Ready: {
             const player = this.objects.get(message.clientid) as PlayerData;
 
             if (player) {

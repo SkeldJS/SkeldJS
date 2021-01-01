@@ -1,5 +1,4 @@
-/** @eslint-disable-next-line @typescript-eslint/no-unused-vars */
-import { DisconnectReason } from "./Enums"
+import { DisconnectReason } from "../enum"
 
 export const DisconnectMessages = {
     [DisconnectReason.None]: "Forcibly disconnected from server. The remote sent a disconnect request.",
@@ -15,4 +14,4 @@ export const DisconnectMessages = {
     [DisconnectReason.IncorrectGame]: "Could not find the game you're looking for.",
     [DisconnectReason.ServerRequest]: "The server stopped this game. Possibly due to inactivity.",
     [DisconnectReason.ServerFull]: "The Among Us servers are overloaded. Sorry! Please try again later!"
-}
+} as const;
