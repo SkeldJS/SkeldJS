@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/common",
-  "version": "2.1.14",
+  "version": "2.2.0",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -8,9 +8,9 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@skeldjs/constant": "^2.1.14",
-    "@skeldjs/protocol": "^2.1.14",
-    "@skeldjs/util": "^2.1.14"
+    "@skeldjs/constant": "^2.2.0",
+    "@skeldjs/protocol": "^2.2.0",
+    "@skeldjs/util": "^2.2.0"
   },
   "license": "GPL-3.0-only",
   "gitHead": "54a32eaa51acdd1b6fabe13873787420ccdfa444"
