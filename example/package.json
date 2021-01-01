@@ -9,8 +9,8 @@
     "start": "ts-node"
   },
   "devDependencies": {
-    "@skeldjs/client": "^2.2.2",
-    "@skeldjs/common": "^2.2.2",
+    "@skeldjs/client": "^2.2.3",
+    "@skeldjs/common": "^2.2.3",
     "ts-node": "^9.1.1",
     "ts-node-dev": "^1.1.1",
     "typescript": "^4.1.3"
