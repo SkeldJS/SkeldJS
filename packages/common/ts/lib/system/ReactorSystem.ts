@@ -42,6 +42,7 @@ export class ReactorSystem extends SystemStatus {
         }
     }
     
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     HandleRepair(control: PlayerData, amount: number) {
         // todo: https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/28_repairsystem.md#reactor-and-laboratory
     }

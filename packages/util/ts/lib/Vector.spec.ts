@@ -1,13 +1,9 @@
 import assert from "assert"
-import { HazelBuffer } from "./HazelBuffer";
 
 import {
-    Vector2,
     clampValue,
     lerpValue,
-    unlerpValue,
-    writeVector2,
-    readVector2
+    unlerpValue
 } from "./Vector"
 
 describe("Vector utility functions", () => {
