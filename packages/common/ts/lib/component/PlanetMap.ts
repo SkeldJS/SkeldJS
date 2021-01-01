@@ -31,7 +31,7 @@ export class PlanetMap extends BaseShipStatus {
             queue: []
         }),
         [SystemType.Security]: new SecurityCameraSystem(this, {
-            players: []
+            players: new Set
         }),
         [SystemType.Communications]: new HudOverrideSystem(this, {
             sabotaged: false

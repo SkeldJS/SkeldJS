@@ -8,6 +8,7 @@
     "lint": "eslint packages/**/*.ts",
     "lint-staged": "lint-staged",
     "test": "ts-mocha packages/*/ts/lib/**/*.spec.ts --exclude node_modules",
+    "build-all": "lerna run build",
     "publish-all": "lerna publish",
     "postinstall": "husky install",
     "docs": "typedoc"
