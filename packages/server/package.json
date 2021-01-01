@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/server",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -9,9 +9,9 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/common": "^2.2.1",
-    "@skeldjs/protocol": "^2.2.1",
-    "@skeldjs/util": "^2.2.1"
+    "@skeldjs/common": "^2.2.2",
+    "@skeldjs/protocol": "^2.2.2",
+    "@skeldjs/util": "^2.2.2"
   },
   "gitHead": "a08b2fe1f52693c6379029a1c5cb37d092a892ff"
 }
