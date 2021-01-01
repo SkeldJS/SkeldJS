@@ -312,7 +312,7 @@ export class Room extends Global {
         this.netobjects.set(component.netid, component);
         component.owner.components.push(component);
 
-        this.emit("spawn", component);
+        component.owner.emit("spawn", component);
     }
 
     private _despawnComponent(component: Networkable) {
