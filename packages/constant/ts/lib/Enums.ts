@@ -388,3 +388,49 @@ export enum GameEndReason {
 export enum AlterGameTag {
     ChangePrivacy = 1
 }
+
+export enum TheSkeldVent {
+    Admin,
+    RightHallway,
+    Cafeteria,
+    Electrical,
+    UpperEngine,
+    Security,
+    MedBay,
+    Weapons,
+    LowerReactor,
+    LowerEngine,
+    Shields,
+    UpperReactor,
+    UpperNavigation,
+    LowerNavigation
+}
+
+export enum MiraHQVent {
+    Balcony = 1,
+    Cafeteria,
+    Reactor,
+    Labatory,
+    Office,
+    Admin,
+    Greenhouse,
+    MedBay,
+    Decontamination,
+    LockerRoom,
+    Launchpad
+}
+
+export enum PolusVent {
+    Security,
+    Electrical,
+    O2,
+    Communications,
+    Office,
+    Admin,
+    Labatory,
+    LavaPool,
+    Storage,
+    RightSeismic,
+    LeftSeismic,
+    OutsideAdmin
+}

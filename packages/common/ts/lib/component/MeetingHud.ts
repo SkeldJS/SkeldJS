@@ -81,8 +81,10 @@ export class MeetingHud extends Networkable<Global> {
         const voting = this.players.get(votingid);
 
         if (voting) {
-            voting.state |= suspectid & VoteState.VotedFor;
-            voting.state |= VoteState.VotedFor;
+            if (suspectid !== 0xFF)
+                voting.state |= suspectid & VoteState.VotedFor;
+
+            voting.state |= VoteState.DidVote;
         }
     }
 
@@ -91,7 +93,7 @@ export class MeetingHud extends Networkable<Global> {
 
         if (voting) {
             voting.state ^= 0xF;
-            voting.state ^= VoteState.VotedFor;
+            voting.state ^= VoteState.DidVote;
         }
     }
 
@@ -117,30 +119,27 @@ export class MeetingHud extends Networkable<Global> {
         })
     }
 
-    castVote(voting: PlayerDataResolvable, suspect: PlayerDataResolvable) {
-        const res_voting = this.room.resolvePlayer(voting);
-        const res_suspect = this.room.resolvePlayer(suspect);
+    castVote(voting: PlayerDataResolvable, suspect: PlayerDataResolvable|"skip") {
+        const votingid = this.room.resolvePlayer(voting).playerId;
+        const suspectid = suspect === "skip" ? 0xFF : this.room.resolvePlayer(suspect).playerId;
 
-        this._castVote(res_voting.playerId, res_suspect.playerId);
+        this._castVote(votingid, suspectid);
 
         this.room.client.stream.push({
             tag: MessageID.RPC,
             rpcid: RpcID.CastVote,
             netid: this.netid,
-            votingid: res_voting.playerId,
-            suspectid: res_suspect.playerId
+            votingid: votingid,
+            suspectid: suspectid
         });
     }
 
     static readPlayerState(reader: HazelBuffer): PlayerVoteState {
-        const voteState = {
+        return {
             state: reader.byte(),
             get voted() {
                 return (this.state & VoteState.VotedFor) - 1
             }
         }
-
-        return voteState;
     }
-
 }

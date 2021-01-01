@@ -1,9 +1,9 @@
 import { HazelBuffer } from "@skeldjs/util"
-
 import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 export interface MedScanSystemData {
     queue: number[];
@@ -13,7 +13,7 @@ export class MedScanSystem extends SystemStatus {
     static systemType = SystemType.MedBay as const;
     systemType = SystemType.MedBay as const;
 
-    queue: number[];
+    queue: PlayerData[];
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|MedScanSystemData) {
         super(ship, data);
@@ -25,7 +25,7 @@ export class MedScanSystem extends SystemStatus {
 
         this.queue = [];
         for (let i = 0; i < num_players; i++) {
-            this.queue.push(reader.uint8());
+            this.queue.push(this.ship.room.getPlayerByPlayerId(reader.uint8()));
         }
     }
 
@@ -34,7 +34,28 @@ export class MedScanSystem extends SystemStatus {
         writer.upacked(this.queue.length);
 
         for (let i = 0; i < this.queue.length; i++) {
-            writer.uint8(this.queue[i]);
+            writer.uint8(this.queue[i].playerId);
+        }
+    }
+
+    HandleRepair(control: PlayerData, amount: number) {
+        const playerId = amount & 0x1F;
+
+        const player = this.ship.room.getPlayerByPlayerId(playerId);
+
+        if (player) {
+            if (amount & 0x80) {
+                this.queue.push(player);
+
+                this.emit("medbayEnter", player);
+            } else if (amount & 0x40) {
+                const idx = this.queue.indexOf(player);
+
+                if (~idx) {
+                    this.queue.splice(idx, 1);
+                    this.emit("medbayLeave", player);
+                }
+            }
         }
     }
 }

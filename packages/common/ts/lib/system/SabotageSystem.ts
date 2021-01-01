@@ -4,6 +4,7 @@ import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 export interface SabotageSystemData {
     cooldown: number;
@@ -27,5 +28,13 @@ export class SabotageSystem extends SystemStatus {
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean) {
         writer.float(this.cooldown);
+    }
+
+    HandleRepair(control: PlayerData, amount: number) {
+        const system = this.ship.systems[amount] as SystemStatus;
+
+        if (system) {
+            system.sabotage(control);
+        }
     }
 }

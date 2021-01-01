@@ -57,6 +57,9 @@ export class PlayerControl extends Networkable<PlayerData> {
 
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
+            case RpcID.CompleteTask:
+                this._completeTask(message.taskIdx);
+                break;
             case RpcID.CheckName:
                 if (this.room.amhost) {
                     if (!this.room.gamedata) {
@@ -103,6 +106,9 @@ export class PlayerControl extends Networkable<PlayerData> {
                 break;
             case RpcID.SetSkin:
                 this._setSkin(message.skin);
+                break;
+            case RpcID.StartMeeting:
+                this.emit("meeting", message.bodyid === 0xFF ? null : this.room.getPlayerByPlayerId(message.bodyid));
                 break;
             case RpcID.SetPet:
                 this._setPet(message.pet);
@@ -156,6 +162,10 @@ export class PlayerControl extends Networkable<PlayerData> {
         }
     }
 
+    private _completeTask(taskIdx: number) {
+        if (this.room.gamedata) this.room.gamedata.completeTask(this.playerId, taskIdx);
+    }
+
     private _setName(name: string) {
         if (this.room.gamedata) this.room.gamedata.setName(this.playerId, name);
     }
@@ -176,73 +186,87 @@ export class PlayerControl extends Networkable<PlayerData> {
         if (this.room.gamedata) this.room.gamedata.setPet(this.playerId, pet);
     }
 
-    setName(name: string) {
-        if (this.owner.data) {
-            this._setName(name);
+    completeTask(taskIdx: number) {
+        this._completeTask(taskIdx);
 
-            if (this.owner.ishost) {
-                this.room.client.stream.push({
-                    tag: MessageID.RPC,
-                    netid: this.netid,
-                    rpcid: RpcID.SetName,
-                    name
-                });
-            }
+        this.room.client.stream.push({
+            tag: MessageID.RPC,
+            rpcid: RpcID.CompleteTask,
+            netid: this.netid,
+            taskIdx
+        });
+    }
+
+    murder(victim: PlayerDataResolvable) {
+        const res_victim = this.room.resolvePlayer(victim);
+
+        if (res_victim && res_victim.control) {
+            this.room.client.stream.push({
+                tag: MessageID.RPC,
+                rpcid: RpcID.MurderPlayer,
+                netid: this.netid,
+                victimid: res_victim.control.netid
+            });
+        }
+    }
+
+    setName(name: string) {
+        this._setName(name);
+
+        if (this.owner.ishost) {
+            this.room.client.stream.push({
+                tag: MessageID.RPC,
+                rpcid: RpcID.SetName,
+                netid: this.netid,
+                name
+            });
         }
     }
 
     setColor(color: ColorID) {
-        if (this.owner.data) {
-            this._setColor(color);
+        this._setColor(color);
 
-            if (this.owner.ishost) {
-                this.room.client.stream.push({
-                    tag: MessageID.RPC,
-                    netid: this.netid,
-                    rpcid: RpcID.SetColor,
-                    color
-                });
-            }
+        if (this.owner.ishost) {
+            this.room.client.stream.push({
+                tag: MessageID.RPC,
+                rpcid: RpcID.SetColor,
+                netid: this.netid,
+                color
+            });
         }
     }
     
     setHat(hat: HatID) {
-        if (this.owner.data) {
-            this._setHat(hat);
+        this._setHat(hat);
 
-            this.room.client.stream.push({
-                tag: MessageID.RPC,
-                netid: this.netid,
-                rpcid: RpcID.SetHat,
-                hat
-            });
-        }
+        this.room.client.stream.push({
+            tag: MessageID.RPC,
+            rpcid: RpcID.SetHat,
+            netid: this.netid,
+            hat
+        });
     }
     
     setSkin(skin: SkinID) {
-        if (this.owner.data) {
-            this._setSkin(skin);
+        this._setSkin(skin);
 
-            this.room.client.stream.push({
-                tag: MessageID.RPC,
-                netid: this.netid,
-                rpcid: RpcID.SetSkin,
-                skin
-            });
-        }
+        this.room.client.stream.push({
+            tag: MessageID.RPC,
+            rpcid: RpcID.SetSkin,
+            netid: this.netid,
+            skin
+        });
     }
     
     setPet(pet: PetID) {
-        if (this.owner.data) {
-            this._setPet(pet);
+        this._setPet(pet);
 
-            this.room.client.stream.push({
-                tag: MessageID.RPC,
-                netid: this.netid,
-                rpcid: RpcID.SetPet,
-                pet
-            });
-        }
+        this.room.client.stream.push({
+            tag: MessageID.RPC,
+            rpcid: RpcID.SetPet,
+            netid: this.netid,
+            pet
+        });
     }
 
     chat(message: string) {

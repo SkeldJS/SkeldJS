@@ -4,6 +4,7 @@ import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 export interface UserConsolePair {
     playerId: number;
@@ -61,6 +62,25 @@ export class HqHudSystem extends SystemStatus {
 
         for (let i = 0; i < this.completed.length; i++) {
             writer.uint8(this.completed[i]);
+        }
+    }
+
+    HandleRepair(control: PlayerData, amount: number) {
+        const consoleId = amount & 0xF;
+
+        const idx = this.active.findIndex(pair => pair.playerId === control.playerId);
+        
+        if (amount & 0x40) {
+            if (!~idx) {
+                this.active.push({
+                    consoleId,
+                    playerId: control.playerId
+                });
+            }
+        } else if (amount & 0x20) {
+            this.active.splice(idx);
+        } else if (amount & 0x10) {
+            this.completed.push(consoleId);
         }
     }
 }

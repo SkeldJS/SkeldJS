@@ -4,16 +4,17 @@ import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 
 export interface SecurityCameraSystemData {
-    players: number[];
+    players: Set<number>;
 }
 
 export class SecurityCameraSystem extends SystemStatus {
     static systemType = SystemType.Security as const;
     systemType = SystemType.Security as const;
     
-    players: number[];
+    players: Set<PlayerData>;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|SecurityCameraSystemData) {
         super(ship, data);
@@ -23,18 +24,27 @@ export class SecurityCameraSystem extends SystemStatus {
     Deserialize(reader: HazelBuffer, spawn: boolean) {
         const num_players = reader.upacked();
 
-        this.players = [];
+        this.players = new Set;
         for (let i = 0; i < num_players; i++) {
-            this.players.push(reader.uint8());
+            this.players.add(this.ship.room.getPlayerByPlayerId(reader.uint8()));
         }
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean) {
-        writer.upacked(this.players.length);
+        const players = Array.from(this.players);
+        writer.upacked(players.length);
 
-        for (let i = 0; i < this.players.length; i++) {
-            writer.uint8(this.players[i]);
+        for (let i = 0; i < players.length; i++) {
+            writer.uint8(players[i].playerId);
+        }
+    }
+
+    HandleRepair(control: PlayerData, amount: number) {
+        if (amount === 1) {
+            this.players.add(control);
+        } else {
+            this.players.delete(control);
         }
     }
 }
