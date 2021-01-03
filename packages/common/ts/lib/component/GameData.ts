@@ -101,7 +101,7 @@ export class GameData extends Networkable<Global> {
     FixedUpdate() {
         if (this.dirtyBit) {
             const players = [...this.players.values()].filter(player => {
-                return (1 << player.playerId) & this.dirtyBit
+                return (1 << player.playerId) & this.dirtyBit;
             });
 
             if (players.length) {
@@ -126,6 +126,7 @@ export class GameData extends Networkable<Global> {
 
         if (player) {
             player.name = name;
+            this.dirtyBit |= (1 << playerId);
         }
     }
 
@@ -134,6 +135,7 @@ export class GameData extends Networkable<Global> {
 
         if (player) {
             player.color = color;
+            this.dirtyBit |= (1 << playerId);
         }
     }
 

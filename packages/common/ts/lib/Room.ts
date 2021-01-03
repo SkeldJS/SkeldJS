@@ -32,7 +32,8 @@ import {
     MessageTag,
     SpawnID,
     DisconnectReason,
-    PayloadTag
+    PayloadTag,
+    AlterGameTag
 } from "@skeldjs/constant"
 
 import { Global } from "./Global"
@@ -44,6 +45,7 @@ import { Hostable } from "./Hostable"
 import { SpawnPrefabs } from "./prefabs"
 
 export type PlayerDataResolvable = number|PlayerData|PlayerControl;
+export type PrivacyType = "public"|"private";
 
 export interface SpawnObject {
     type: number;
@@ -66,6 +68,8 @@ export class Room extends Global {
     
     settings: GameOptions;
     counter: number;
+
+    privacy: PrivacyType;
 
     private _started: boolean;
 
@@ -91,7 +95,7 @@ export class Room extends Global {
     emit(event: string, ...args: any[]): boolean {
         this.client.emit(event, this, ...args);
 
-        return EventEmitter.prototype.emit.apply(this, ...args);
+        return EventEmitter.prototype.emit.call(this, event, ...args);
     }
     
     private get incr_netid() {
@@ -155,6 +159,40 @@ export class Room extends Global {
         }
 
         this.code = code;
+    }
+
+    private _setAlterGameTag(tag: number, value: number) {
+        switch (tag) {
+            case AlterGameTag.ChangePrivacy:
+                this.privacy = value ? "public" : "private";
+                break;
+        }
+    }
+
+    async setAlterGameTag(tag: number, value: number) {
+        this._setAlterGameTag(tag, value);
+
+        if (this.amhost) {
+            await this.client.send({
+                op: Opcode.Reliable,
+                payloads: [
+                    {
+                        tag: PayloadTag.AlterGame,
+                        code: this.code,
+                        alter_tag: AlterGameTag.ChangePrivacy,
+                        value
+                    }
+                ]
+            });
+        }
+    }
+    
+    async setPublic(is_public = true) {
+        await this.setAlterGameTag(AlterGameTag.ChangePrivacy, is_public ? 1 : 0);
+    }
+
+    async setVisibility(visibility: PrivacyType) {
+        await this.setPublic(visibility === "public");
     }
 
     async setSettings(settings: Partial<GameOptions>) {

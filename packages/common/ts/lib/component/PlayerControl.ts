@@ -60,6 +60,12 @@ export class PlayerControl extends Networkable<PlayerData> {
             case RpcTag.CompleteTask:
                 this._completeTask(message.taskIdx);
                 break;
+            case RpcTag.SyncSettings:
+                this._syncSettings(message.settings);
+                break;
+            case RpcTag.SetInfected:
+                this._setInfected(message.impostors);
+                break;
             case RpcTag.CheckName:
                 if (this.room.amhost) {
                     if (!this.room.gamedata) {
@@ -166,26 +172,6 @@ export class PlayerControl extends Networkable<PlayerData> {
         if (this.room.gamedata) this.room.gamedata.completeTask(this.playerId, taskIdx);
     }
 
-    private _setName(name: string) {
-        if (this.room.gamedata) this.room.gamedata.setName(this.playerId, name);
-    }
-
-    private _setColor(color: ColorID) {
-        if (this.room.gamedata) this.room.gamedata.setColor(this.playerId, color);
-    }
-
-    private _setHat(hat: HatID) {
-        if (this.room.gamedata) this.room.gamedata.setHat(this.playerId, hat);
-    }
-
-    private _setSkin(skin: SkinID) {
-        if (this.room.gamedata) this.room.gamedata.setSkin(this.playerId, skin);
-    }
-
-    private _setPet(pet: PetID) {
-        if (this.room.gamedata) this.room.gamedata.setPet(this.playerId, pet);
-    }
-
     completeTask(taskIdx: number) {
         this._completeTask(taskIdx);
 
@@ -210,10 +196,15 @@ export class PlayerControl extends Networkable<PlayerData> {
         }
     }
 
+    
+    private _setName(name: string) {
+        if (this.room.gamedata) this.room.gamedata.setName(this.playerId, name);
+    }
+
     setName(name: string) {
         this._setName(name);
 
-        if (this.owner.ishost) {
+        if (this.room.amhost) {
             this.room.client.stream.push({
                 tag: MessageTag.RPC,
                 rpcid: RpcTag.SetName,
@@ -223,10 +214,14 @@ export class PlayerControl extends Networkable<PlayerData> {
         }
     }
 
+    private _setColor(color: ColorID) {
+        if (this.room.gamedata) this.room.gamedata.setColor(this.playerId, color);
+    }
+
     setColor(color: ColorID) {
         this._setColor(color);
 
-        if (this.owner.ishost) {
+        if (this.room.amhost) {
             this.room.client.stream.push({
                 tag: MessageTag.RPC,
                 rpcid: RpcTag.SetColor,
@@ -234,6 +229,10 @@ export class PlayerControl extends Networkable<PlayerData> {
                 color
             });
         }
+    }
+
+    private _setHat(hat: HatID) {
+        if (this.room.gamedata) this.room.gamedata.setHat(this.playerId, hat);
     }
     
     setHat(hat: HatID) {
@@ -246,6 +245,10 @@ export class PlayerControl extends Networkable<PlayerData> {
             hat
         });
     }
+
+    private _setSkin(skin: SkinID) {
+        if (this.room.gamedata) this.room.gamedata.setSkin(this.playerId, skin);
+    }
     
     setSkin(skin: SkinID) {
         this._setSkin(skin);
@@ -256,6 +259,10 @@ export class PlayerControl extends Networkable<PlayerData> {
             netid: this.netid,
             skin
         });
+    }
+
+    private _setPet(pet: PetID) {
+        if (this.room.gamedata) this.room.gamedata.setPet(this.playerId, pet);
     }
     
     setPet(pet: PetID) {
@@ -277,6 +284,10 @@ export class PlayerControl extends Networkable<PlayerData> {
             message
         });
     }
+
+    private _syncSettings(settings: GameOptions) {
+        this.room.settings = settings;
+    }
     
     syncSettings(update_settings: Partial<GameOptions> = this.room.settings) {
         const settings = {
@@ -284,7 +295,7 @@ export class PlayerControl extends Networkable<PlayerData> {
             ...update_settings
         } as GameOptions;
 
-        this.room.settings = settings;
+        this._syncSettings(settings);
 
         this.room.client.stream.push({
             tag: MessageTag.RPC,
@@ -308,16 +319,22 @@ export class PlayerControl extends Networkable<PlayerData> {
         }
     }
 
+    private _setInfected(playerids: number[]) {
+        for (let i = 0; i < playerids.length; i++) {
+            const playerid = playerids[i];
+
+            const resolved = this.room.getPlayerByPlayerId(playerid);
+
+            if (resolved.data) {
+                resolved.data.impostor = true;
+            }
+        }
+    }
+
     setInfected(players: PlayerDataResolvable[]) {
         const resolved = players.map(this.room.resolvePlayer).filter(_=>_);
 
-        for (let i = 0; i < resolved.length; i++) {
-            const player = resolved[i];
-
-            if (player.data) {
-                player.data.impostor = true;
-            }
-        }
+        this._setInfected(resolved.map(player => player.playerId));
 
         if (this.owner.ishost) {
             this.room.client.stream.push({
