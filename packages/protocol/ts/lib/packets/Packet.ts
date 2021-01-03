@@ -7,7 +7,7 @@ import {
     PayloadMessage,
     PayloadMessageClientbound,
     PayloadMessageServerbound
-} from "./Payloads"
+} from "./Payload"
 
 export interface BasePacket {
     op: Opcode;
