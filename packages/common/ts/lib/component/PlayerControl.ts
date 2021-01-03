@@ -83,6 +83,8 @@ export class PlayerControl extends Networkable<PlayerData> {
                             }
                         }
                     }
+
+                    // const ran_clr = (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, "0");
             
                     this.setName(message.name);
                 }

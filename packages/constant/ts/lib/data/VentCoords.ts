@@ -5,10 +5,7 @@ import {
     PolusVent
 } from "../enum"
 
-import {
-    Vector2
-} from "@skeldjs/util"
-
+/** https://github.com/codyphobe/among-us-protocol/blob/master/07_miscellaneous/04_map_specific_ids_for_vents_and_tasks.md#the-skeld */
 export const VentCoords = {
     [MapID.TheSkeld]: {
         [TheSkeldVent.Admin]: {

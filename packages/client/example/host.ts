@@ -1,6 +1,5 @@
 import { SkeldjsClient } from "../ts"
 import * as skeldjs from "@skeldjs/common"
-import { ColorID } from "@skeldjs/common";
 
 const regcode = process.argv[2];
 
