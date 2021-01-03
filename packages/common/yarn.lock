@@ -2,26 +2,28 @@
 # yarn lockfile v1
 
 
-"@skeldjs/constant@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.1.3.tgz#20790e7f1df46f096eb541742dbd68cf5ad39cc0"
-  integrity sha512-8lo1/sy+xrLyfWxunepSVyFrL4Z8kprnmdncJhsOkIOHN0u92YWenjwuPf1CgpcOOqv1UDK0JTFruGFMVkllEg==
-
-"@skeldjs/protocol@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.1.3.tgz#dfa111dcf7ea5e24ebefd075acc64847aa3c9dba"
-  integrity sha512-uHIIwuZoa6dTPoi6ph/gDsT70Te5pBQ0rcmuX70HiEqnAH1/28e/ywiee+Jb2GEnqDyYSCNCJgKxEV/u66CsFQ==
+"@skeldjs/constant@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.2.5.tgz#1d339e1837674abe8a8085e29ff3ac5a1bd3b6a6"
+  integrity sha512-x01NV/n2DINcrDD73UK7UNTkCBLzGqcZ51OTtnIMileFz0ieDmeoyGymifgbCpbWWq9lvmP6wcfJacdno+/OIw==
   dependencies:
-    "@skeldjs/constant" "^2.1.3"
-    "@skeldjs/types" "^2.1.2"
-    "@skeldjs/util" "^2.1.2"
+    "@skeldjs/util" "^2.2.5"
 
-"@skeldjs/types@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.1.2.tgz#1cafe44ab005d2be1c9c98c0cbde4fa45390cd7e"
-  integrity sha512-fZ+Fv+9CEFWJzEXHV7yckMyLZC+/O66xrFC9h8mzMTjpVXvSNgiaDntwmF69WCE/aymZuMa06ryUxaVWH4Q7hw==
+"@skeldjs/protocol@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.2.5.tgz#975d4d7139a382d466b50c4c4650801fe706b641"
+  integrity sha512-xhNvISQ/S2roHuLD/cp8leAAjwe58wGPFSJB+ck8PBQYpa5mql9h76JajAbtOVBUh06srhBIHVF+qcOSPULilg==
+  dependencies:
+    "@skeldjs/constant" "^2.2.5"
+    "@skeldjs/types" "^2.2.2"
+    "@skeldjs/util" "^2.2.5"
 
-"@skeldjs/util@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.1.2.tgz#03cc57c3692fead42f2d1da170dbc6ca107f17e8"
-  integrity sha512-zAU6nHIi9+6N3i7edvbVACkayilSt7FW+YTgTchKdqVhbUF1nfN+NZXGydSeR+s5ik4vTqE2woWiE8jHr+JZgg==
+"@skeldjs/types@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.2.2.tgz#f0bab5d858f036075df1b564278cfa1de21b03db"
+  integrity sha512-iseHJRUy1wocOMVAePjdAuCyJoPqkq5+HLAQ+5Fp1eJ8+xI0Jn3UJMvmaBfeLiJClfkbaaoU4rBXmP5zPCotiA==
+
+"@skeldjs/util@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.2.5.tgz#2a7f24f37668b5f6ad3d99838e6aee0ef8955779"
+  integrity sha512-H/oF28/vawktv7zKZpCXqNboggUpnCtSFgo9ZjcMoF3amUrlYWWtp9zSaCT72vA+lAkbqphPW9kjTlRpEtL0PQ==

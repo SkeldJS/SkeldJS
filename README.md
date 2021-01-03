@@ -53,4 +53,10 @@ Or alternatively, you can use any of the following programs developed by others.
 # Notes
 > The most comprehensive set of JavaScript protocol implementations for Among Us.
 
+The following resources have been extremely useful in developing this project, and I suggest that you give the repositories a star where applicable.
+* https://sus.wiki Easily the most useful resource to me, a wiki covering the entire among us protocol and basic flows.
+* https://wireshark.org Tool for capturing individual game packets.
+  * https://github.com/cybershard/wireshark-amongus Plugin for wireshark for quickly filtering and deserialising among us packets, extremely useful for quickly debugging issues.
+* https://github.com/alexis-evelyn/Among-Us-Protocol/wiki The og wiki that got me interested.
+
 This repository is held under the GPL-V3 license, meaning I am not responsible for any consequences that may come from using the packages in SkeldJS.
