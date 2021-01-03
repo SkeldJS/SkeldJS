@@ -144,6 +144,7 @@ export class GameData extends Networkable<Global> {
 
         if (player) {
             player.hat = hat;
+            this.dirtyBit |= (1 << playerId);
         }
     }
     
@@ -152,6 +153,7 @@ export class GameData extends Networkable<Global> {
 
         if (player) {
             player.skin = skin;
+            this.dirtyBit |= (1 << playerId);
         }
     }
     
@@ -160,6 +162,7 @@ export class GameData extends Networkable<Global> {
 
         if (player) {
             player.pet = pet;
+            this.dirtyBit |= (1 << playerId);
         }
     }
 

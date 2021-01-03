@@ -9,7 +9,7 @@ import {
 import { GameOptions } from "../misc/GameOptions";
 import { GameDataMessage } from "./GameData";
 
-import { BaseHazelMessage } from "./Packets";
+import { BaseHazelMessage } from "./Packet";
 
 export interface BasePayloadMessage extends BaseHazelMessage {
     tag: PayloadTag;
