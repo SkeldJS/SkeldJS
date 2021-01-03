@@ -4,8 +4,8 @@ import {
 
 import { HazelBuffer } from "@skeldjs/util";
 
-import { BaseHazelMessage } from "./Packet"
-import { RpcMessage } from "./RpcMessage";
+import { BaseHazelMessage } from "./Packets"
+import { RpcMessage } from "./RpcMessages";
 
 export interface BaseGameDataMessage extends BaseHazelMessage {
     tag: MessageTag;
