@@ -1,8 +1,6 @@
 # Skeld JS
 
-![Alt text](https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSMain.png "Skeld JS")
-
-Documentation for the packages 
+![Skeld JS](https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSMain.png "Skeld JS")
 
 SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.
 
@@ -18,23 +16,41 @@ The repository also hosts utility packages for the projects listed above, that y
 * **Protocol** - Protocol interfaces with full parsing and composing.
 * **Constant** - Enums & data in Among Us that never change.
 * **Types** - Useful Among Us types, enums and interfaces.
+* **Util** - Basic utility functions.
 
-## Installation
+You can view auto-updating documentation for all packages hosted at github pages at https://skeldjs.github.io/SkeldJS.
+
+# Installation
+## Main region server installation
 ### Prerequisites
 * [Node.js >=15](https://nodejs.org)
 * [NPM](https://npmjs.org) (Installs with nodejs)
-* [Yarn](https://yarnpkg.com) (Can be installed with `npm install -g yarn` once `npm` has installed.)
-* [Git](https://git-scm.org)
+* [Yarn](https://yarnpkg.com) (Can be installed with `npm install -g yarn` in a command prompt once `npm` has installed.)
+* [Git](https://git-scm.org) (Optional)
 * A command prompt
 
 ### Install repository and packages
-Open a command prompt in a folder of your choosing.
 
-1. Install the repository with `git clone https://github.com/SkeldJS/SkeldJS`
+#### If you have installed [Git](https://git-scm.org)
 
-2. Enter the server install directory with `cd SkeldJS/packages/skeldjs`
+1. Open a command prompt in a folder of your choosing. See [here](https://helpdeskgeek.com/how-to/open-command-prompt-folder-windows-explorer/) for help on Windows.
 
-3. Install packages for the repository with `yarn install`
+2. Install the repository with `git clone https://github.com/SkeldJS/SkeldJS`
+
+3. Enter the server install directory with `cd SkeldJS/packages/skeldjs`
+
+4. Install packages for the repository with `yarn install`
+
+#### If you haven't
+1. Install the repository `.zip` by clicking the "Code > Download ZIP" button above. Or [click here](https://github.com/SkeldJS/SkeldJS/archive/master.zip).
+
+2. Extract all contents of the downloaded `.zip` into a folder of your choosing. See [here](https://www.howtogeek.com/668409/how-to-zip-and-unzip-files-on-windows-10) for help on Windows.
+
+3. Enter the folder where you extracted the `.zip` contents in a command prompt. See [here](https://helpdeskgeek.com/how-to/open-command-prompt-folder-windows-explorer/) for help on Windows.
+
+4. Enter the server install directory with `cd packages/skeldjs`
+
+5. Install packages for the repository with `yarn install`
 
 ### Configure and start
 To configure the server, open `config.json` in in any text editor.
@@ -43,12 +59,51 @@ Insert plugins in the `plugins` directory.
 
 Enter `npm start` in the command prompt to start the server.
 
-## Connection
+### Connection
 To connect, you can use `npm run set-server localhost 127.0.0.1`
 
 Or alternatively, you can use any of the following programs developed by others.
 * https://github.com/Koupah/Among-Us-Editor/releases
 * https://github.com/andruzzzhka/CustomServersClient/releases
+
+## NPM Packages
+You can install individual packages through NPM as the `@skeldjs` scope/namespace.
+
+### To install the client
+```
+npm install --save @skeldjs/client
+or
+yarn add @skeldjs/client
+```
+
+### To install the server
+```
+npm install --save @skeldjs/server
+or
+yarn add @skeldjs/server
+```
+
+### To install the proxy
+```
+npm install --save @skeldjs/proxy
+or
+yarn add @skeldjs/proxy
+```
+
+### To install utility packages
+```
+npm install --save @skeldjs/common
+npm install --save @skeldjs/protocol
+npm install --save @skeldjs/constant
+npm install --save @skeldjs/types
+npm install --save @skeldjs/util
+or
+yarn add @skeldjs/common
+yarn add @skeldjs/protocol
+yarn add @skeldjs/constant
+yarn add @skeldjs/types
+yarn add @skeldjs/util
+```
 
 # Notes
 > The most comprehensive set of JavaScript protocol implementations for Among Us.
@@ -57,6 +112,6 @@ The following resources have been extremely useful in developing this project, a
 * https://sus.wiki Easily the most useful resource to me, a wiki covering the entire among us protocol and basic flows.
 * https://wireshark.org Tool for capturing individual game packets.
   * https://github.com/cybershard/wireshark-amongus Plugin for wireshark for quickly filtering and deserialising among us packets, extremely useful for quickly debugging issues.
-* https://github.com/alexis-evelyn/Among-Us-Protocol/wiki The og wiki that got me interested.
+* https://github.com/alexis-evelyn/Among-Us-Protocol/wiki The first wiki I found that got me interested.
 
 This repository is held under the GPL-V3 license, meaning I am not responsible for any consequences that may come from using the packages in SkeldJS.
