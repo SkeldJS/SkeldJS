@@ -1,4 +1,4 @@
-![Skeld JS client](https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSClient.png "Skeld JS")]
+![Skeld JS client](https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSClient.png "Skeld JS")
 
 ## @skeldjs/client
 
