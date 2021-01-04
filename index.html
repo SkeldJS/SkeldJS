@@ -65,8 +65,7 @@
 				<a href="#skeld-js" id="skeld-js" style="color: inherit; text-decoration: none;">
 					<h1>Skeld JS</h1>
 				</a>
-				<p><img src="https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSMain.png" alt="Alt text" title="Skeld JS"></p>
-				<p>Documentation for the packages </p>
+				<p><img src="https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSMain.png" alt="Skeld JS" title="Skeld JS"></p>
 				<p>SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.</p>
 				<p>The repository holds several key programs for automating development with Among Us.</p>
 				<ul>
@@ -81,9 +80,14 @@
 					<li><strong>Protocol</strong> - Protocol interfaces with full parsing and composing.</li>
 					<li><strong>Constant</strong> - Enums &amp; data in Among Us that never change.</li>
 					<li><strong>Types</strong> - Useful Among Us types, enums and interfaces.</li>
+					<li><strong>Util</strong> - Basic utility functions.</li>
 				</ul>
+				<p>You can view auto-updating documentation for all packages hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS">https://skeldjs.github.io/SkeldJS</a>.</p>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
+					<h1>Installation</h1>
+				</a>
+				<a href="#main-region-server-installation" id="main-region-server-installation" style="color: inherit; text-decoration: none;">
+					<h2>Main region server installation</h2>
 				</a>
 				<a href="#prerequisites" id="prerequisites" style="color: inherit; text-decoration: none;">
 					<h3>Prerequisites</h3>
@@ -91,18 +95,37 @@
 				<ul>
 					<li><a href="https://nodejs.org">Node.js &gt;=15</a></li>
 					<li><a href="https://npmjs.org">NPM</a> (Installs with nodejs)</li>
-					<li><a href="https://yarnpkg.com">Yarn</a> (Can be installed with <code>npm install -g yarn</code> once <code>npm</code> has installed.)</li>
-					<li><a href="https://git-scm.org">Git</a></li>
+					<li><a href="https://yarnpkg.com">Yarn</a> (Can be installed with <code>npm install -g yarn</code> in a command prompt once <code>npm</code> has installed.)</li>
+					<li><a href="https://git-scm.org">Git</a> (Optional)</li>
 					<li>A command prompt</li>
 				</ul>
 				<a href="#install-repository-and-packages" id="install-repository-and-packages" style="color: inherit; text-decoration: none;">
 					<h3>Install repository and packages</h3>
 				</a>
-				<p>Open a command prompt in a folder of your choosing.</p>
+				<a href="#if-you-have-installed-git" id="if-you-have-installed-git" style="color: inherit; text-decoration: none;">
+					<h4>If you have installed <a href="https://git-scm.org">Git</a></h4>
+				</a>
 				<ol>
+					<li><p>Open a command prompt in a folder of your choosing. See <a href="https://helpdeskgeek.com/how-to/open-command-prompt-folder-windows-explorer/">here</a> for help on Windows.</p>
+					</li>
 					<li><p>Install the repository with <code>git clone https://github.com/SkeldJS/SkeldJS</code></p>
 					</li>
 					<li><p>Enter the server install directory with <code>cd SkeldJS/packages/skeldjs</code></p>
+					</li>
+					<li><p>Install packages for the repository with <code>yarn install</code></p>
+					</li>
+				</ol>
+				<a href="#if-you-haven39t" id="if-you-haven39t" style="color: inherit; text-decoration: none;">
+					<h4>If you haven&#39;t</h4>
+				</a>
+				<ol>
+					<li><p>Install the repository <code>.zip</code> by clicking the &quot;Code &gt; Download ZIP&quot; button above. Or <a href="https://github.com/SkeldJS/SkeldJS/archive/master.zip">click here</a>.</p>
+					</li>
+					<li><p>Extract all contents of the downloaded <code>.zip</code> into a folder of your choosing. See <a href="https://www.howtogeek.com/668409/how-to-zip-and-unzip-files-on-windows-10">here</a> for help on Windows.</p>
+					</li>
+					<li><p>Enter the folder where you extracted the <code>.zip</code> contents in a command prompt. See <a href="https://helpdeskgeek.com/how-to/open-command-prompt-folder-windows-explorer/">here</a> for help on Windows.</p>
+					</li>
+					<li><p>Enter the server install directory with <code>cd packages/skeldjs</code></p>
 					</li>
 					<li><p>Install packages for the repository with <code>yarn install</code></p>
 					</li>
@@ -114,7 +137,7 @@
 				<p>Insert plugins in the <code>plugins</code> directory.</p>
 				<p>Enter <code>npm start</code> in the command prompt to start the server.</p>
 				<a href="#connection" id="connection" style="color: inherit; text-decoration: none;">
-					<h2>Connection</h2>
+					<h3>Connection</h3>
 				</a>
 				<p>To connect, you can use <code>npm run set-server localhost 127.0.0.1</code></p>
 				<p>Or alternatively, you can use any of the following programs developed by others.</p>
@@ -122,6 +145,42 @@
 					<li><a href="https://github.com/Koupah/Among-Us-Editor/releases">https://github.com/Koupah/Among-Us-Editor/releases</a></li>
 					<li><a href="https://github.com/andruzzzhka/CustomServersClient/releases">https://github.com/andruzzzhka/CustomServersClient/releases</a></li>
 				</ul>
+				<a href="#npm-packages" id="npm-packages" style="color: inherit; text-decoration: none;">
+					<h2>NPM Packages</h2>
+				</a>
+				<p>You can install individual packages through NPM as the <code>@skeldjs</code> scope/namespace.</p>
+				<a href="#to-install-the-client" id="to-install-the-client" style="color: inherit; text-decoration: none;">
+					<h3>To install the client</h3>
+				</a>
+				<pre><code><span class="hljs-built_in">npm</span> install --save @skeldjs/client
+<span class="hljs-keyword">or</span>
+yarn add @skeldjs/client</code></pre>
+				<a href="#to-install-the-server" id="to-install-the-server" style="color: inherit; text-decoration: none;">
+					<h3>To install the server</h3>
+				</a>
+				<pre><code><span class="hljs-built_in">npm</span> install --save @skeldjs/server
+<span class="hljs-keyword">or</span>
+yarn add @skeldjs/server</code></pre>
+				<a href="#to-install-the-proxy" id="to-install-the-proxy" style="color: inherit; text-decoration: none;">
+					<h3>To install the proxy</h3>
+				</a>
+				<pre><code><span class="hljs-built_in">npm</span> install --save @skeldjs/proxy
+<span class="hljs-keyword">or</span>
+yarn add @skeldjs/proxy</code></pre>
+				<a href="#to-install-utility-packages" id="to-install-utility-packages" style="color: inherit; text-decoration: none;">
+					<h3>To install utility packages</h3>
+				</a>
+				<pre><code>npm install --save <span class="hljs-title">@skeldjs</span>/<span class="hljs-keyword">common</span>
+npm install --save <span class="hljs-title">@skeldjs</span>/protocol
+npm install --save <span class="hljs-title">@skeldjs</span>/<span class="hljs-keyword">constant</span>
+npm install --save <span class="hljs-title">@skeldjs</span>/types
+npm install --save <span class="hljs-title">@skeldjs</span>/util
+<span class="hljs-keyword">or</span>
+yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/<span class="hljs-keyword">common</span>
+yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/protocol
+yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/<span class="hljs-keyword">constant</span>
+yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/types
+yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/util</code></pre>
 				<a href="#notes" id="notes" style="color: inherit; text-decoration: none;">
 					<h1>Notes</h1>
 				</a>
@@ -135,7 +194,7 @@
 							<li><a href="https://github.com/cybershard/wireshark-amongus">https://github.com/cybershard/wireshark-amongus</a> Plugin for wireshark for quickly filtering and deserialising among us packets, extremely useful for quickly debugging issues.</li>
 						</ul>
 					</li>
-					<li><a href="https://github.com/alexis-evelyn/Among-Us-Protocol/wiki">https://github.com/alexis-evelyn/Among-Us-Protocol/wiki</a> The og wiki that got me interested.</li>
+					<li><a href="https://github.com/alexis-evelyn/Among-Us-Protocol/wiki">https://github.com/alexis-evelyn/Among-Us-Protocol/wiki</a> The first wiki I found that got me interested.</li>
 				</ul>
 				<p>This repository is held under the GPL-V3 license, meaning I am not responsible for any consequences that may come from using the packages in SkeldJS.</p>
 			</div>
