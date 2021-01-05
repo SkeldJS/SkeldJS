@@ -142,6 +142,10 @@ export class Room extends Global {
     }
 
     resolvePlayerClientID(player: PlayerDataResolvable) {
+        if (typeof player === "undefined") {
+            return null;
+        }
+
         if (typeof player === "number") {
             return player;
         }
