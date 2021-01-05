@@ -33,6 +33,7 @@ import {
 
 export function parseOptions(reader: HazelBuffer) {
     const options: Partial<GameOptions> = {};
+    reader.packed(); // Skip options length
     options.version = reader.uint8() as 1|2|3|4;
     options.players = reader.uint8();
     options.language = reader.int32();
@@ -75,7 +76,7 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
     packet.bound = bound;
 
     if (!Buffer.isBuffer(buffer)) {
-        if (bound === "client") return parsePacket(buffer.buffer, "client"); // Weird TypeScript typings, need something better xx.
+        if (bound === "client") return parsePacket(buffer.buffer, "client"); // Weird TypeScript typings.
         if (bound === "server") return parsePacket(buffer.buffer, "server");
         return;
     }

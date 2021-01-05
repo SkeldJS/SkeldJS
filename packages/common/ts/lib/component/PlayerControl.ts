@@ -14,7 +14,8 @@ import {
     SkinID,
     HatID,
     Opcode,
-    PayloadTag
+    PayloadTag,
+    ChatNoteType
 } from "@skeldjs/constant";
 
 export interface PlayerControlData {
@@ -83,8 +84,6 @@ export class PlayerControl extends Networkable<PlayerData> {
                             }
                         }
                     }
-
-                    // const ran_clr = (Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, "0");
             
                     this.setName(message.name);
                 }
@@ -287,6 +286,16 @@ export class PlayerControl extends Networkable<PlayerData> {
         });
     }
 
+    sendChatNote(type: ChatNoteType) {
+        this.room.client.stream.push({
+            tag: MessageTag.RPC,
+            rpcid: RpcTag.SendChatNote,
+            netid: this.netid,
+            playerid: this.playerId,
+            type: type
+        });
+    }
+
     private _syncSettings(settings: GameOptions) {
         this.room.settings = settings;
     }
@@ -322,15 +331,21 @@ export class PlayerControl extends Networkable<PlayerData> {
     }
 
     private _setInfected(playerids: number[]) {
+        const impostors: PlayerData[] = [];
+
         for (let i = 0; i < playerids.length; i++) {
             const playerid = playerids[i];
 
             const resolved = this.room.getPlayerByPlayerId(playerid);
 
+            impostors.push(resolved);
+
             if (resolved.data) {
                 resolved.data.impostor = true;
             }
         }
+
+        this.emit("setImpostors", impostors);
     }
 
     setInfected(players: PlayerDataResolvable[]) {

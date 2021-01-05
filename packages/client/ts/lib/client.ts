@@ -109,8 +109,10 @@ export class SkeldjsClient extends Hostable {
 
         setInterval(async () => {
             if (this.room) {
-                for (const [ , component ] of this.room.netobjects) {
-                    component.FixedUpdate();
+                if (this.room.amhost) {
+                    for (const [ , component ] of this.room.netobjects) {
+                        component.FixedUpdate();
+                    }
                 }
 
                 if (this.stream.length) {

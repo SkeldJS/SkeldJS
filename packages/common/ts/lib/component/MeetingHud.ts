@@ -1,5 +1,13 @@
 import { HazelBuffer } from "@skeldjs/util"
-import { MessageTag, Opcode, PayloadTag, RpcTag, SpawnID } from "@skeldjs/constant";
+
+import {
+    ChatNoteType,
+    MessageTag,
+    Opcode,
+    PayloadTag,
+    RpcTag,
+    SpawnID
+} from "@skeldjs/constant";
 
 import {
     VoteState,
@@ -76,14 +84,41 @@ export class MeetingHud extends Networkable<Global> {
         }
     }
 
+    FixedUpdate() {
+        if (this.dirtyBit) {
+            const players = [...this.players.entries()].filter(([ playerId ]) => {
+                return (1 << playerId) & this.dirtyBit;
+            });
+
+            if (players.length) {
+                const writer = HazelBuffer.alloc(1 + players.length);
+
+                this.Serialize(writer);
+
+                this.room.client.stream.push({
+                    tag: MessageTag.Data,
+                    netid: this.netid,
+                    data: writer
+                });
+            }
+        }
+
+        this.dirtyBit = 0;
+    }
+
     private _castVote(votingid: number, suspectid: number) {
         const voting = this.players.get(votingid);
 
         if (voting) {
             if (suspectid !== 0xFF)
-                voting.state |= suspectid & VoteState.VotedFor;
+                voting.state |= (suspectid & VoteState.VotedFor) + 1;
 
             voting.state |= VoteState.DidVote;
+            this.dirtyBit |= (1 << votingid);
+
+            if (this.room.amhost) {
+                this.room.host.control.sendChatNote(ChatNoteType.DidVote);
+            }
         }
     }
 
@@ -93,6 +128,7 @@ export class MeetingHud extends Networkable<Global> {
         if (voting) {
             voting.state ^= 0xF;
             voting.state ^= VoteState.DidVote;
+            this.dirtyBit |= (1 << votingid);
         }
     }
 
@@ -118,19 +154,33 @@ export class MeetingHud extends Networkable<Global> {
         })
     }
 
-    castVote(voting: PlayerDataResolvable, suspect: PlayerDataResolvable|"skip") {
+    async castVote(voting: PlayerDataResolvable, suspect: PlayerDataResolvable|"skip") {
         const votingid = this.room.resolvePlayer(voting).playerId;
         const suspectid = suspect === "skip" ? 0xFF : this.room.resolvePlayer(suspect).playerId;
 
         this._castVote(votingid, suspectid);
 
-        this.room.client.stream.push({
-            tag: MessageTag.RPC,
-            rpcid: RpcTag.CastVote,
-            netid: this.netid,
-            votingid: votingid,
-            suspectid: suspectid
-        });
+        if (!this.room.amhost) {
+            await this.room.client.send({
+                op: Opcode.Reliable,
+                payloads: [
+                    {
+                        tag: PayloadTag.GameDataTo,
+                        code: this.room.code,
+                        recipientid: this.room.hostid,
+                        messages: [
+                            {
+                                tag: MessageTag.RPC,
+                                rpcid: RpcTag.CastVote,
+                                netid: this.netid,
+                                votingid,
+                                suspectid
+                            }
+                        ]
+                    }
+                ]
+            });
+        }
     }
 
     static readPlayerState(reader: HazelBuffer): PlayerVoteState {

@@ -112,9 +112,9 @@ export class GameData extends Networkable<Global> {
                     players: players
                 });
             }
-
-            this.dirtyBit = 0;
         }
+        
+        this.dirtyBit = 0;
     }
 
     update(playerId: number) {
