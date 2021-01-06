@@ -19,10 +19,10 @@ const server = skeldjs.MasterServers.EU[1];
         console.log("Joined game.");
     }
     
-    /*const follow = "weakeyes";
+    const follow = "M";
     
     function followPlayer(player) {
-        if (player.data?.name === follow) {
+        // if (player.data?.name === follow) {
             let i = 0;
             setInterval(() => {
                 client.room.me.transform.snapTo({
@@ -32,13 +32,11 @@ const server = skeldjs.MasterServers.EU[1];
     
                 i += 0.1;
             }, 25);
-            const chars = ["a","b","c","d","e"];
-            client.room.me.control.checkName("a\nb\nc\nd\ne\f");
-        }
-    }
+        // }
+    }/*
 
-    client.on("spawn", (room, owner, component) => {
-        if (room === client.room) {
+    client.on("spawn", (room, component) => {
+        if (room === client.room && component.classname === "CustomNetworkTransform") {
             setTimeout(() => {
                 followPlayer(component.owner);
             }, 1000);
@@ -57,15 +55,40 @@ const server = skeldjs.MasterServers.EU[1];
         const impostors_fmt = impostors.length === 1 ? impostors[0] : impostors.slice(0, impostors.length - 1).join(", ") + " and " + impostors[impostors.length - 1];
 
         setTimeout(() => {
-            client.room.me.control.chat("Hey, I just voted " + impostors_fmt + " because I saw them vent");// " + (impostors.length > 1 ? "s" : ""));
-            
             client.room.meetinghud.castVote(client.room.me, control);
+            
+            client.room.me.control.chat("Hey, I just voted " + impostors_fmt + " because I saw them vent");
         }, (client.room.settings.discussionTime * 1000) + 3000);
+    });
+
+    client.room.on("setImpostors", (control: skeldjs.PlayerControl, impostors: skeldjs.PlayerData[]) => {
+        console.log("Host set the impostors to " + impostors.map(impostor => impostor.data?.name + " (" + impostor.id + ")").join(", "));
+
+        followPlayer(impostors[0]);
+    });
+
+    client.room.on("spawn", (control: skeldjs.PlayerControl) => {
+        if (control.classname === "PlayerControl") {
+            console.log(control.owner.data?.name + " (" + control.owner.id + ") spawned.");
+        }
+    });
+
+    client.room.on("join", (player: skeldjs.PlayerData) => {
+        console.log("Player " + player.id + " joined the game.");
+    });
+
+    client.room.on("setName", (gamedata: skeldjs.GameData, player: any, name: string) => {
+        console.log(client.room.getPlayerByPlayerId(player.playerId).id + " set their name to " + name);
     });
 
     client.room.me.once("spawn", () => {
         setTimeout(() => {
-            client.room.me.control.checkName("human man");
+            const chars = "bumole".split("");
+            setInterval(() => {
+                chars.unshift(chars.pop());
+                client.room.me.control.checkName(chars.join(""));
+            }, 100);
+
             client.room.me.control.checkColor(skeldjs.ColorID.Cyan);
         }, 500);
     });
