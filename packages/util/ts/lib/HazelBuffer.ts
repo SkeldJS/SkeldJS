@@ -413,13 +413,13 @@ export class HazelBuffer {
     packed(val: number): this;
     packed(val?: any): any {
         if (typeof val === "number") {
-            this.expand(Math.ceil(val.toString(16).length / 7));
+            this.expand(Math.ceil(val.toString(2).length / 7));
 
             do {
-                let b = val & 0b11111111;
+                let b = val & 0xFF;
 
-                if (val >= 0b10000000) {
-                    b |= 0b10000000;
+                if (val >= 0x80) {
+                    b |= 0x80;
                 }
 
                 this.uint8(b);
@@ -435,7 +435,7 @@ export class HazelBuffer {
                 const byte = this.uint8();
 
                 const read = (byte >> 7) & 1;
-                const val = read ? byte ^ 0b10000000 : byte;
+                const val = read ? byte ^ 0x80 : byte;
 
                 if (val) {
                     out |= val << shift * 7;
@@ -461,10 +461,10 @@ export class HazelBuffer {
             this.expand(Math.ceil(val.toString(16).length / 7));
 
             do {
-                let b = val & 0b11111111;
+                let b = val & 0xFF;
 
-                if (val >= 0b10000000) {
-                    b |= 0b10000000;
+                if (val >= 0x80) {
+                    b |= 0x80;
                 }
 
                 this.uint8(b);
@@ -480,7 +480,7 @@ export class HazelBuffer {
                 const byte = this.uint8();
 
                 const read = (byte >> 7) & 1;
-                const val = read ? byte ^ 0b10000000 : byte;
+                const val = read ? byte ^ 0x80 : byte;
 
                 if (val) {
                     out |= val << shift * 7;

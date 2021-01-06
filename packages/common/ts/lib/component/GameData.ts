@@ -127,6 +127,7 @@ export class GameData extends Networkable<Global> {
         if (player) {
             player.name = name;
             this.dirtyBit |= (1 << playerId);
+            this.emit("setName", player, name);
         }
     }
 
