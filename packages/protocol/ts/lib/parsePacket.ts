@@ -107,7 +107,7 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                 break;
             case PayloadTag.JoinGame:
                 if (payload.bound === "client") {
-                    payload.error = preader.left === 4;
+                    payload.error = !!DisconnectReason[preader.buffer.readInt32LE(preader.cursor)];
                     if (payload.error) {
                         payload.reason = preader.uint32();
                     } else if (payload.error === false) {

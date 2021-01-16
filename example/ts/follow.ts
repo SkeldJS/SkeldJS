@@ -45,6 +45,7 @@ const server = skeldjs.MasterServers.EU[1];
         }
 	});*/
 	
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	client.room.on("meeting", (client: SkeldjsClient, room: skeldjs.Room, control: skeldjs.PlayerControl, player: skeldjs.PlayerData) => {
 		console.log("meeting started.");
 		setTimeout(() => {
