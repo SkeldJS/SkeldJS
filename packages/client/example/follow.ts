@@ -1,5 +1,6 @@
 import { SkeldjsClient } from "../ts"
 import * as skeldjs from "@skeldjs/common"
+import { SpawnID } from "@skeldjs/common";
 
 const server = skeldjs.MasterServers.EU[1];
 
@@ -18,8 +19,8 @@ const server = skeldjs.MasterServers.EU[1];
     if (room) {
         console.log("Joined game.");
     }
-    
-    const follow = "M";
+    /*
+    // const follow = "M";
     
     function followPlayer(player) {
         // if (player.data?.name === follow) {
@@ -33,7 +34,7 @@ const server = skeldjs.MasterServers.EU[1];
                 i += 0.1;
             }, 25);
         // }
-    }/*
+    }
 
     client.on("spawn", (room, component) => {
         if (room === client.room && component.classname === "CustomNetworkTransform") {
@@ -41,8 +42,9 @@ const server = skeldjs.MasterServers.EU[1];
                 followPlayer(component.owner);
             }, 1000);
         }
-    });*/
+    });
     
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     client.room.on("meeting", (control: skeldjs.PlayerControl, player: skeldjs.PlayerData) => {
         const players = [...client.room.players.values()];
 
@@ -77,19 +79,13 @@ const server = skeldjs.MasterServers.EU[1];
         console.log("Player " + player.id + " joined the game.");
     });
 
-    client.room.on("setName", (gamedata: skeldjs.GameData, player: any, name: string) => {
+    client.room.on("setName", (_gamedata: skeldjs.GameData, player: any, name: string) => {
         console.log(client.room.getPlayerByPlayerId(player.playerId).id + " set their name to " + name);
     });
-
+*/
     client.room.me.once("spawn", () => {
         setTimeout(() => {
-            const chars = "bumole".split("");
-            setInterval(() => {
-                chars.unshift(chars.pop());
-                client.room.me.control.checkName(chars.join(""));
-            }, 100);
-
-            client.room.me.control.checkColor(skeldjs.ColorID.Cyan);
+			client.room.spawnPrefab(SpawnID.GameData, client.room);
         }, 500);
     });
 })();

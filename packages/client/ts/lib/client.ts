@@ -111,7 +111,9 @@ export class SkeldjsClient extends Hostable {
             if (this.room) {
                 if (this.room.amhost) {
                     for (const [ , component ] of this.room.netobjects) {
-                        component.FixedUpdate();
+                        if (component) {
+                            component.FixedUpdate();
+                        }
                     }
                 }
 
