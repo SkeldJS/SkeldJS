@@ -2,6 +2,7 @@
   "name": "@skeldjs/skeldjs",
   "version": "2.2.8",
   "main": "js/index.js",
+  "private": true,
   "scripts": {
     "build": "tsc -p ./",
     "build:ci": "yarn install && tsc -p ./",
