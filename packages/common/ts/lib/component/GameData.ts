@@ -99,7 +99,7 @@ export class GameData extends Networkable<Global> {
     }
 
     FixedUpdate() {
-        if (this.dirtyBit) {
+        if (this.dirtyBit && this.room.amhost) {
             const players = [...this.players.values()].filter(player => {
                 return (1 << player.playerId) & this.dirtyBit;
             });
