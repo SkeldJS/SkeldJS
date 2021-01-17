@@ -391,6 +391,10 @@ export class SkeldjsClient extends Hostable {
     }
 
     async send(packet: ServerboundPacket, waitAck: boolean = true): Promise<number> {
+        if (!this.socket) {
+            return null;
+        }
+
         if (packet.op === Opcode.Reliable || packet.op === Opcode.Hello || packet.op === Opcode.Ping) {
             // console.log("Sending reliable, ", util.inspect(packet, false, 10, true));
             packet.nonce = this.nonce;
@@ -411,6 +415,7 @@ export class SkeldjsClient extends Hostable {
                 const interval = setInterval(async () => {
                     if (++attempts > 8) {
                         await this.disconnect();
+                        clearInterval(interval);
                         throw new Error("Server failed to acknowledge packet 8 times.");
                     }
 
