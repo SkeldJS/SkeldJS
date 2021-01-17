@@ -418,7 +418,6 @@ export class SkeldjsClient extends Hostable {
                         clearInterval(interval);
                         this.emit("error", new Error("Server failed to acknowledge packet 8 times."));
                     }
-                    
                     await this._send(buffer);
                 }, 1500);
 
