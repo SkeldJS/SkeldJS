@@ -414,9 +414,9 @@ export class SkeldjsClient extends Hostable {
 
                 const interval = setInterval(async () => {
                     if (++attempts > 8) {
-                        await this.disconnect();
+                        await this.disconnect();   
                         clearInterval(interval);
-                        throw new Error("Server failed to acknowledge packet 8 times.");
+                        this.emit("error", new Error("Server failed to acknowledge packet 8 times."));
                     }
 
                     await this._send(buffer);
