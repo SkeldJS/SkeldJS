@@ -3,6 +3,11 @@ import { EventEmitter } from "events";
 import { Networkable } from "./Networkable";
 import { Room } from "./Room";
 
+type NetworkableConstructor<T> = {
+    new (room: Room, netid: number, ownerid: number): T;
+    classname: string;
+};
+
 export class Heritable extends EventEmitter {
     room: Room;
 
@@ -24,19 +29,22 @@ export class Heritable extends EventEmitter {
         return super.emit(event, ...args);
     }
 
-    getComponent<T extends Networkable>(ctr: {
-        new (room: Room, netid: number, ownerid: number): T;
-        classname: string;
-    }|number): T {
+    getComponent<T extends Networkable>(ctr: NetworkableConstructor<T>|NetworkableConstructor<T>[]|number): T {
         if (typeof ctr == "number") {
             return this.components.find(component => component && component.netid === ctr) as T;
         }
 
         for (let i = 0; i < this.components.length; i++) {
             const component = this.components[i];
-            
-            if (component && component.classname === ctr.classname) {
-                return component as T;
+
+            if (Array.isArray(ctr)) {
+                if (component && ctr.some(con => component.classname === con.classname)) {
+                    return component as T;
+                }
+            } else {
+                if (component && component.classname === ctr.classname) {
+                    return component as T;
+                }
             }
         }
 

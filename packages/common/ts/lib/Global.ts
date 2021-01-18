@@ -1,10 +1,16 @@
 import { Heritable } from "./Heritable";
 
-import { GameData } from "./component/GameData";
-import { LobbyBehaviour } from "./component/LobbyBehaviour";
-import { MeetingHud } from "./component/MeetingHud";
-import { ShipStatus } from "./component/ShipStatus";
-import { VoteBanSystem } from "./component/VoteBanSystem";
+import {
+    Airship,
+    AprilShipStatus,
+    GameData,
+    Headquarters,
+    LobbyBehaviour,
+    MeetingHud,
+    PlanetMap,
+    ShipStatus,
+    VoteBanSystem
+} from "./component";
 
 import { Room } from "./Room";
 
@@ -16,7 +22,7 @@ export class Global extends Heritable {
     }
 
     get shipstatus() {
-        return this.getComponent(ShipStatus);
+        return this.getComponent<ShipStatus|Headquarters|PlanetMap|AprilShipStatus|Airship>([ ShipStatus, Headquarters, PlanetMap, AprilShipStatus, Airship ]);
     }
 
     get meetinghud() {
