@@ -3,15 +3,11 @@ import {
     PayloadTag,
     MessageTag,
     RpcTag,
-    DisconnectReason
-} from "@skeldjs/constant"
-
-import {
-    VoteState,
+    DisconnectReason,
     PlayerDataFlags,
     PlayerGameData,
     TaskState
-} from "@skeldjs/types"
+} from "@skeldjs/constant"
 
 import {
     HazelBuffer,
@@ -241,12 +237,7 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                             const num_states = mreader.upacked();
                             message.states = [];
                             for (let i = 0; i < num_states; i++) {
-                                message.states.push({
-                                    state: mreader.byte(),
-                                    get voted() {
-                                        return (this.state & VoteState.VotedFor) - 1
-                                    }
-                                });
+                                message.states.push(mreader.byte());
                             }
                             message.exiled = mreader.uint8();
                             message.tie = mreader.bool();
@@ -291,9 +282,9 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                                 player.pet = preader.upacked();
                                 player.skin = preader.upacked();
                                 const flags = preader.byte();
-                                player.disconnected = (flags & PlayerDataFlags.Disconnected) > 0;
-                                player.impostor = (flags & PlayerDataFlags.Impostor) > 0;
-                                player.dead = (flags & PlayerDataFlags.Dead) > 0;
+                                player.disconnected = (flags & PlayerDataFlags.IsDisconnected) > 0;
+                                player.impostor = (flags & PlayerDataFlags.IsImpostor) > 0;
+                                player.dead = (flags & PlayerDataFlags.IsDead) > 0;
                                 const num_tasks = preader.uint8();
                                 player.tasks = [];
                                 for (let i = 0; i < num_tasks; i++) {

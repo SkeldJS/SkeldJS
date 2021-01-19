@@ -1,3 +1,5 @@
+import { TaskState } from "./TaskState"
+
 export interface PlayerGameData {
     playerId: number;
     name: string;
@@ -9,15 +11,4 @@ export interface PlayerGameData {
     impostor: boolean;
     dead: boolean;
     tasks: TaskState[];
-}
-
-export enum PlayerDataFlags {
-    Disconnected = 1,
-    Impostor = 2,
-    Dead = 0x4
-}
-
-export interface TaskState {
-    taskIdx: number;
-    completed: boolean;
 }
