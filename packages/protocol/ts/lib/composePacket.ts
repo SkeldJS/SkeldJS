@@ -220,7 +220,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                         case RpcTag.VotingComplete:
                             writer.upacked(message.states.length);
                             for (let i = 0; i < message.states.length; i++) {
-                                writer.byte(message.states[i].state);
+                                writer.byte(message.states[i]);
                             }
                             writer.uint8(message.exiled);
                             writer.bool(message.tie);

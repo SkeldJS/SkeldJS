@@ -1,9 +1,14 @@
 import { HazelBuffer } from "@skeldjs/util";
 
 import {
+    RpcTag,
     SpawnID,
     SystemType
 } from "@skeldjs/constant";
+
+import {
+    RpcMessage
+} from "@skeldjs/protocol"
 
 import {
     DeconSystem,
@@ -83,5 +88,18 @@ export class BaseShipStatus extends Networkable<Global> {
     /* eslint-disable-next-line */
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
 
+    }
+
+    HandleRPC(message: RpcMessage) {
+        switch (message.rpcid) {
+            case RpcTag.RepairSystem:
+                const system = this.systems[message.systemid] as SystemStatus;
+                const player = this.room.getPlayerByNetID(message.repairerid);
+
+                if (system && player) {
+                    system.HandleRepair(player, message.value);
+                }
+                break;
+        }
     }
 }

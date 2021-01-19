@@ -1,10 +1,6 @@
 import { HazelBuffer } from "@skeldjs/util";
 import { RpcMessage, GameOptions } from "@skeldjs/protocol";
 
-import { PlayerData } from "../PlayerData";
-import { Networkable } from "../Networkable"
-import { PlayerDataResolvable, Room } from "../Room";
-
 import {
     ColorID,
     MessageTag,
@@ -17,6 +13,10 @@ import {
     PayloadTag,
     ChatNoteType
 } from "@skeldjs/constant";
+
+import { PlayerData } from "../PlayerData";
+import { Networkable } from "../Networkable"
+import { PlayerDataResolvable, Room } from "../Room";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -114,8 +114,11 @@ export class PlayerControl extends Networkable<PlayerData> {
             case RpcTag.SetSkin:
                 this._setSkin(message.skin);
                 break;
+            case RpcTag.MurderPlayer:
+                this._murderPlayer(message.victimid);
+                break;
             case RpcTag.StartMeeting:
-                this.emit("meeting", message.bodyid === 0xFF ? null : this.room.getPlayerByPlayerId(message.bodyid));
+                this._startMeeting(message.bodyid);
                 break;
             case RpcTag.SetPet:
                 this._setPet(message.pet);
@@ -170,7 +173,13 @@ export class PlayerControl extends Networkable<PlayerData> {
     }
 
     private _completeTask(taskIdx: number) {
-        if (this.room.gamedata) this.room.gamedata.completeTask(this.playerId, taskIdx);
+        if (this.room.gamedata) {
+            this.room.gamedata.completeTask(this.playerId, taskIdx);
+
+            if (this.owner.data && this.owner.data.tasks) {
+                this.emit("completeTask", this.owner.data.tasks[taskIdx]);
+            }
+        }
     }
 
     completeTask(taskIdx: number) {
@@ -199,7 +208,11 @@ export class PlayerControl extends Networkable<PlayerData> {
 
     
     private _setName(name: string) {
-        if (this.room.gamedata) this.room.gamedata.setName(this.playerId, name);
+        if (this.room.gamedata) {
+            this.room.gamedata.setName(this.playerId, name);
+
+            this.emit("setName", name);
+        }
     }
 
     setName(name: string) {
@@ -216,7 +229,11 @@ export class PlayerControl extends Networkable<PlayerData> {
     }
 
     private _setColor(color: ColorID) {
-        if (this.room.gamedata) this.room.gamedata.setColor(this.playerId, color);
+        if (this.room.gamedata) {
+            this.room.gamedata.setColor(this.playerId, color);
+
+            this.emit("setColor", color);
+        }
     }
 
     setColor(color: ColorID) {
@@ -233,7 +250,11 @@ export class PlayerControl extends Networkable<PlayerData> {
     }
 
     private _setHat(hat: HatID) {
-        if (this.room.gamedata) this.room.gamedata.setHat(this.playerId, hat);
+        if (this.room.gamedata) {
+            this.room.gamedata.setHat(this.playerId, hat);
+
+            this.emit("setHat", hat);
+        }
     }
     
     setHat(hat: HatID) {
@@ -248,7 +269,11 @@ export class PlayerControl extends Networkable<PlayerData> {
     }
 
     private _setSkin(skin: SkinID) {
-        if (this.room.gamedata) this.room.gamedata.setSkin(this.playerId, skin);
+        if (this.room.gamedata) {
+            this.room.gamedata.setSkin(this.playerId, skin);
+
+            this.emit("setSkin", skin);
+        }
     }
     
     setSkin(skin: SkinID) {
@@ -263,7 +288,11 @@ export class PlayerControl extends Networkable<PlayerData> {
     }
 
     private _setPet(pet: PetID) {
-        if (this.room.gamedata) this.room.gamedata.setPet(this.playerId, pet);
+        if (this.room.gamedata) {
+            this.room.gamedata.setPet(this.playerId, pet);
+
+            this.emit("setPet", pet);
+        }
     }
     
     setPet(pet: PetID) {
@@ -298,6 +327,8 @@ export class PlayerControl extends Networkable<PlayerData> {
 
     private _syncSettings(settings: GameOptions) {
         this.room.settings = settings;
+
+        this.emit("syncSettings", settings);
     }
     
     syncSettings(update_settings: Partial<GameOptions> = this.room.settings) {
@@ -360,6 +391,52 @@ export class PlayerControl extends Networkable<PlayerData> {
                 rpcid: RpcTag.SetInfected,
                 impostors: resolved.map(player => player.playerId)
             });
+        }
+    }
+
+    private _murderPlayer(netid: number) {
+        const resolved = this.room.getPlayerByNetID(netid);
+
+        if (resolved) {
+            this.emit("murder", resolved);
+        }
+    }
+
+    private _startMeeting(bodyid: number) {
+        this.emit("meeting", bodyid === 0xFF ? null : this.room.getPlayerByPlayerId(bodyid));
+    }
+
+    startMeeting(body: PlayerDataResolvable) {
+        const resolved = this.room.resolvePlayer(body);
+
+        if (resolved) {
+            if (this.room.amhost) {
+                this.room.client.stream.push({
+                    tag: MessageTag.RPC,
+                    netid: this.netid,
+                    rpcid: RpcTag.StartMeeting,
+                    bodyid: resolved.playerId
+                });
+            } else {
+                this.room.client.send({
+                    op: Opcode.Reliable,
+                    payloads: [
+                        {
+                            tag: PayloadTag.GameDataTo,
+                            code: this.room.code,
+                            recipientid: this.room.hostid,
+                            messages: [
+                                {
+                                    tag: MessageTag.RPC,
+                                    netid: this.netid,
+                                    rpcid: RpcTag.ReportDeadBody,
+                                    bodyid: resolved.playerId
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
         }
     }
 }

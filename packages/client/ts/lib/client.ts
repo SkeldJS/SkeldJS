@@ -192,7 +192,12 @@ export class SkeldjsClient extends Hostable {
                     break;
                 case PayloadTag.StartGame:
                     if (this.room && this.room.code === payload.code) {
-                        await this.room.startGame();
+                        await this.room.handleStart();
+                    }
+                    break;
+                case PayloadTag.EndGame:
+                    if (this.room && this.room.code === payload.code) {
+                        await this.room.handleEnd(payload.reason);
                     }
                     break;
                 case PayloadTag.RemovePlayer:

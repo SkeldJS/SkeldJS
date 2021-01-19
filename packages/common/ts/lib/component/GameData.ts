@@ -1,18 +1,15 @@
 import { RpcMessage } from "@skeldjs/protocol";
 
 import {
-    PlayerGameData,
-    PlayerDataFlags
-} from "@skeldjs/types"
-
-import {
     ColorID,
     HatID,
     MessageTag,
     PetID,
     RpcTag,
     SkinID,
-    SpawnID
+    SpawnID,
+    PlayerDataFlags,
+    PlayerGameData
 } from "@skeldjs/constant";
 
 import { HazelBuffer } from "@skeldjs/util"
@@ -169,10 +166,13 @@ export class GameData extends Networkable<Global> {
 
     completeTask(playerId: number, taskIdx: number) {
         const player = this.players.get(playerId);
-        const task = player.tasks[taskIdx];
+        
+        if (player) {
+            const task = player.tasks[taskIdx];
 
-        if (task) {
-            task.completed = true;
+            if (task) {
+                task.completed = true;
+            }
         }
     }
 
@@ -211,10 +211,11 @@ export class GameData extends Networkable<Global> {
         data.hat = reader.upacked();
         data.pet = reader.upacked();
         data.skin = reader.upacked();
+        
         const flags = reader.byte();
-        data.disconnected = (flags & PlayerDataFlags.Disconnected) > 0;
-        data.impostor = (flags & PlayerDataFlags.Impostor) > 0;
-        data.dead = (flags & PlayerDataFlags.Dead) > 0;
+        data.disconnected = (flags & PlayerDataFlags.IsDisconnected) > 0;
+        data.impostor = (flags & PlayerDataFlags.IsImpostor) > 0;
+        data.dead = (flags & PlayerDataFlags.IsDead) > 0;
 
         data.tasks = [];
         const num_tasks = reader.uint8();

@@ -3,13 +3,9 @@ import {
     HatID,
     MessageTag,
     RpcTag,
-    SkinID
-} from "@skeldjs/constant";
-
-import {
-    PlayerVoteState,
+    SkinID,
     PlayerGameData
-} from "@skeldjs/types"
+} from "@skeldjs/constant";
 
 import {
     Vector2
@@ -144,7 +140,7 @@ export interface CloseRpc extends BaseRpcMessage {
 
 export interface VotingCompleteRpc extends BaseRpcMessage {
     rpcid: RpcTag.VotingComplete;
-    states: PlayerVoteState[];
+    states: number[];
     exiled: number;
     tie: boolean;
 }

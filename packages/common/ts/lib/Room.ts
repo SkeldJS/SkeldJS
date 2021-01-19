@@ -33,7 +33,8 @@ import {
     SpawnID,
     DisconnectReason,
     PayloadTag,
-    AlterGameTag
+    AlterGameTag,
+    GameEndReason
 } from "@skeldjs/constant"
 
 import { Global } from "./Global"
@@ -213,6 +214,7 @@ export class Room extends Global {
     }
 
     async setHost(host: PlayerDataResolvable) {
+        const before = this.hostid;
         const resolved_id = this.resolvePlayerClientID(host);
 
         this.hostid = resolved_id;
@@ -226,6 +228,10 @@ export class Room extends Global {
                 this.spawnPrefab(SpawnID.GameData, -2);
             }
         }
+
+        if (before !== this.hostid) {
+            this.emit("setHost", this.host);
+        }
     }
 
     async handleJoin(clientid: number) {
@@ -236,6 +242,10 @@ export class Room extends Global {
         this.objects.set(clientid, player);
         
         this.emit("join", player);
+    }
+    
+    private _removePlayer(player: PlayerData) {
+        this.emit("leave", player);
     }
 
     async handleLeave(client: PlayerDataResolvable) {
@@ -261,28 +271,16 @@ export class Room extends Global {
         }
         
         this.objects.delete(resolved);
+
+        this._removePlayer(player);
     }
 
-    beginCountdown() {
-        return new Promise<void>(resolve => {
-            if (this.amhost) {
-                let sec = 6;
-                const countdown = setInterval(() => {
-                    --sec;
-                    this.me.control.setStartCounter(sec);
-                
-                    if (sec < 1) {
-                        clearInterval(countdown);
-                        resolve();
-                    }
-                }, 1000);
-            }
-        });
+    private _startGame() {
+        this._started = true;
+        this.emit("gameStart");
     }
 
-
-
-    async startGame() {
+    async handleStart() {
         if (this.amhost) {
             await this.client.send({
                 op: Opcode.Reliable,
@@ -337,7 +335,41 @@ export class Room extends Global {
             this.spawnPrefab(ship_prefabs[this.settings?.map], -2);
         }
 
-        this._started = true;
+        this._startGame();
+    }
+
+    private _endGame(reason: GameEndReason) {
+        this._started = false;
+        this.emit("gameEnd", reason);
+    }
+
+    async handleEnd(reason: GameEndReason) {
+        this._endGame(reason);
+    }
+
+    beginCountdown() {
+        return new Promise<void>(resolve => {
+            if (this.amhost) {
+                let sec = 6;
+                const countdown = setInterval(() => {
+                    --sec;
+                    this.me.control.setStartCounter(sec);
+                
+                    if (sec < 1) {
+                        clearInterval(countdown);
+                        resolve();
+                    }
+                }, 1000);
+            }
+        });
+    }
+
+    async startGame() {
+        return await this.handleStart();
+    }
+
+    async endGame(reason: GameEndReason) {
+        return await this.handleEnd(reason);
     }
 
     async handleReady(player: PlayerDataResolvable) {
@@ -528,6 +560,15 @@ export class Room extends Global {
     getPlayerByPlayerId(playerId: number) {
         for (const [ , player ] of this.players) {
             if (player.playerId === playerId) return player;
+        }
+
+        return null;
+    }
+
+    getPlayerByNetID(netid: number) {
+        for (const [ , player ] of this.players) {
+            if (player.components.find(component => component.netid === netid))
+                return player;
         }
 
         return null;

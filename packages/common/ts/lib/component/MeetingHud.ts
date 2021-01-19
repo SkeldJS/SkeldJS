@@ -6,18 +6,18 @@ import {
     Opcode,
     PayloadTag,
     RpcTag,
-    SpawnID
+    SpawnID,
+    VoteState
 } from "@skeldjs/constant";
 
 import {
-    VoteState,
-    PlayerVoteState
-} from "@skeldjs/types"
+    RpcMessage
+} from "@skeldjs/protocol"
 
 import { Networkable } from "../Networkable";
 import { Global } from "../Global";
 import { PlayerDataResolvable, Room } from "../Room";
-import { RpcMessage } from "packages/protocol/js";
+import { PlayerVoteState } from "../misc/PlayerVoteState";
 
 export interface MeetingHudData {
     dirtyBit: number;
@@ -44,14 +44,14 @@ export class MeetingHud extends Networkable<Global> {
             this.players = new Map;
 
             for (let i = 0; i < this.players.size; i++) {
-                this.players.set(i, MeetingHud.readPlayerState(reader));
+                this.players.set(i, new PlayerVoteState(this.room, i, reader.byte()));
             }
         } else {
             const mask = reader.upacked();
 
             for (let i = 0; i < this.players.size; i++) {
                 if (mask & (1 << i)) {
-                    this.players.set(i, MeetingHud.readPlayerState(reader));
+                    this.players.set(i, new PlayerVoteState(this.room, i, reader.byte()));
                 }
             }
         }
@@ -75,6 +75,9 @@ export class MeetingHud extends Networkable<Global> {
 
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
+            case RpcTag.VotingComplete:
+                this._completeVoting(message.states, message.exiled, message.tie);
+                break;
             case RpcTag.CastVote:
                 this._castVote(message.votingid, message.suspectid);
                 break;
@@ -183,12 +186,10 @@ export class MeetingHud extends Networkable<Global> {
         }
     }
 
-    static readPlayerState(reader: HazelBuffer): PlayerVoteState {
-        return {
-            state: reader.byte(),
-            get voted() {
-                return (this.state & VoteState.VotedFor) - 1
-            }
-        }
+    private _completeVoting(states: number[], exiled: number, tie: boolean) {
+        const resolved = tie || exiled === 0xFF ? null : this.room.getPlayerByPlayerId(exiled);
+        const votes = new Map(states.map((state, i) => [ i, new PlayerVoteState(this.room, i, state) ]));
+
+        this.emit("completeVoting", tie, resolved, votes);
     }
 }
