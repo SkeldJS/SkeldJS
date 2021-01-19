@@ -19,7 +19,7 @@ const server = skeldjs.MasterServers.EU[1];
         console.log("Joined game.");
     }
 	
-	/*const follow = "weakeyes";
+	const follow = "weakeyes";
 	
 	function followPlayer(player) {
 		if (player.data?.name === follow) {
@@ -43,8 +43,8 @@ const server = skeldjs.MasterServers.EU[1];
 				followPlayer(component.owner);
 			}, 1000);
         }
-	});*/
-	
+	});
+	/*
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	client.room.on("meeting", (client: SkeldjsClient, room: skeldjs.Room, control: skeldjs.PlayerControl, player: skeldjs.PlayerData) => {
 		console.log("meeting started.");
@@ -58,5 +58,5 @@ const server = skeldjs.MasterServers.EU[1];
 			client.room.me.control.checkName("human man");
 			client.room.me.control.checkColor(skeldjs.ColorID.Cyan);
 		}, 500);
-	});
+	});*/
 })();

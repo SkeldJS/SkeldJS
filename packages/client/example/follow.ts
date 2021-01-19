@@ -1,6 +1,6 @@
 import { SkeldjsClient } from "../ts"
 import * as skeldjs from "@skeldjs/common"
-import { SpawnID } from "@skeldjs/common";
+import { ColorID } from "@skeldjs/common";
 
 const server = skeldjs.MasterServers.EU[1];
 
@@ -19,11 +19,10 @@ const server = skeldjs.MasterServers.EU[1];
     if (room) {
         console.log("Joined game.");
     }
-    /*
-    // const follow = "M";
+    const follow = "weakeyes";
     
     function followPlayer(player) {
-        // if (player.data?.name === follow) {
+        if (player.data?.name === follow) {
             let i = 0;
             setInterval(() => {
                 client.room.me.transform.snapTo({
@@ -33,7 +32,7 @@ const server = skeldjs.MasterServers.EU[1];
     
                 i += 0.1;
             }, 25);
-        // }
+        }
     }
 
     client.on("spawn", (room, component) => {
@@ -82,10 +81,11 @@ const server = skeldjs.MasterServers.EU[1];
     client.room.on("setName", (_gamedata: skeldjs.GameData, player: any, name: string) => {
         console.log(client.room.getPlayerByPlayerId(player.playerId).id + " set their name to " + name);
     });
-*/
+
     client.room.me.once("spawn", () => {
         setTimeout(() => {
-			client.room.spawnPrefab(SpawnID.GameData, client.room);
+            client.room.me.control.checkName("bumole");
+            client.room.me.control.checkColor(ColorID.Brown);
         }, 500);
     });
 })();

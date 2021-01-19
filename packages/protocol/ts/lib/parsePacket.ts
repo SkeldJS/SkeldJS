@@ -202,7 +202,7 @@ export function parsePacket(buffer: Buffer|HazelBuffer, bound: "client"|"server"
                             message.bodyid = mreader.uint8();
                             break;
                         case RpcTag.MurderPlayer:
-                            message.victimid = mreader.uint8();
+                            message.victimid = mreader.upacked();
                             break;
                         case RpcTag.SendChat:
                             message.message = mreader.string();
