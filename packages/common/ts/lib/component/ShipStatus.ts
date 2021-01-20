@@ -43,40 +43,42 @@ export class ShipStatus extends BaseShipStatus {
     }
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        this.systems = {
-            [SystemType.Reactor]: new ReactorSystem(this, {
-                timer: 10000,
-                completed: []
-            }),
-            [SystemType.Electrical]: new SwitchSystem(this, {
-                expected: [false, false, false, false, false],
-                actual: [false, false, false, false, false],
-                brightness: 100
-            }),
-            [SystemType.O2]: new LifeSuppSystem(this, {
-                timer: 10000,
-                completed: []
-            }),
-            [SystemType.MedBay]: new MedScanSystem(this, {
-                queue: []
-            }),
-            [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set
-            }),
-            [SystemType.Communications]: new HudOverrideSystem(this, {
-                sabotaged: false
-            }),
-            [SystemType.Doors]: new AutoDoorsSystem(this, {
-                dirtyBit: 0,
-                doors: [ 
-                    true, true, true, true, 
-                    true, true, true, true, 
-                    true, true, true, true,
-                    true ]
-            }),
-            [SystemType.Sabotage]: new SabotageSystem(this, {
-                cooldown: 0
-            })
+        if (spawn) {
+            this.systems = {
+                [SystemType.Reactor]: new ReactorSystem(this, {
+                    timer: 10000,
+                    completed: []
+                }),
+                [SystemType.Electrical]: new SwitchSystem(this, {
+                    expected: [false, false, false, false, false],
+                    actual: [false, false, false, false, false],
+                    brightness: 100
+                }),
+                [SystemType.O2]: new LifeSuppSystem(this, {
+                    timer: 10000,
+                    completed: []
+                }),
+                [SystemType.MedBay]: new MedScanSystem(this, {
+                    queue: []
+                }),
+                [SystemType.Security]: new SecurityCameraSystem(this, {
+                    players: new Set
+                }),
+                [SystemType.Communications]: new HudOverrideSystem(this, {
+                    sabotaged: false
+                }),
+                [SystemType.Doors]: new AutoDoorsSystem(this, {
+                    dirtyBit: 0,
+                    doors: [ 
+                        true, true, true, true, 
+                        true, true, true, true, 
+                        true, true, true, true,
+                        true ]
+                }),
+                [SystemType.Sabotage]: new SabotageSystem(this, {
+                    cooldown: 0
+                })
+            }
         }
 
         super.Deserialize(reader, spawn);
