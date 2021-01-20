@@ -27,6 +27,9 @@ export class HudOverrideSystem extends SystemStatus {
 
         if (!before && this.sabotaged)
             this.emit("systemSabotage");
+
+        if (before && this.sabotaged)
+            this.emit("systemRepair");
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -37,7 +40,6 @@ export class HudOverrideSystem extends SystemStatus {
     HandleRepair(control: PlayerData, amount: number) {
         if (amount === 0) {
             this.sabotaged = false;
-            this.emit("systemRepair");
         }
     }
 }
