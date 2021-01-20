@@ -26,7 +26,8 @@ export class SecurityCameraSystem extends SystemStatus {
 
         this.players = new Set;
         for (let i = 0; i < num_players; i++) {
-            this.players.add(this.ship.room.getPlayerByPlayerId(reader.uint8()));
+            const player = this.ship.room.getPlayerByPlayerId(reader.uint8());
+            this.players.add(player);
         }
     }
 
