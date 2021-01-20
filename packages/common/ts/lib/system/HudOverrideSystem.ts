@@ -28,7 +28,7 @@ export class HudOverrideSystem extends SystemStatus {
         if (!before && this.sabotaged)
             this.emit("systemSabotage");
 
-        if (before && this.sabotaged)
+        if (before && !this.sabotaged)
             this.emit("systemRepair");
     }
 
