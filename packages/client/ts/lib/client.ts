@@ -326,7 +326,7 @@ export class SkeldjsClient extends Hostable {
     }
 
     waitPacket(filter: PacketFilter|PacketFilter[]): Promise<ClientboundPacket> {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             const clearListeners = () => {
                 this.off("packet", onPacket);
                 this.off("disconnect", onDisconnect);
@@ -348,9 +348,8 @@ export class SkeldjsClient extends Hostable {
                 }
             }
 
-            function onDisconnect(reason: DisconnectReason, message: string) {
+            function onDisconnect() {
                 clearListeners();
-                reject("Client was disconnected reason: " + reason + ", message: " + message + ".");
             }
 
             this.on("packet",  onPacket);
@@ -384,7 +383,7 @@ export class SkeldjsClient extends Hostable {
     private _send(buffer: Buffer): Promise<number> {
         return new Promise((resolve, reject) => {
             if (!this.socket) {
-                reject("Socket not initialised.");
+                resolve(null);
             }
 
             this.socket.send(buffer, this.port, this.ip, (err, written) => {
@@ -423,7 +422,12 @@ export class SkeldjsClient extends Hostable {
                         clearInterval(interval);
                         this.emit("error", new Error("Server failed to acknowledge packet 8 times."));
                     }
-                    await this._send(buffer);
+
+                    if (await this._send(buffer) === null) {
+                        await this.disconnect();   
+                        clearInterval(interval);
+                        this.emit("error", new Error("Could not send message."));
+                    }
                 }, 1500);
 
                 await this.waitPacket(packet => packet.op === Opcode.Acknowledge && packet.nonce === packet.nonce);
