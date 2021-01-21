@@ -88,7 +88,7 @@ export class SkeldjsClient extends Hostable {
     settings_cache: GameOptions;
     stream: GameDataMessage[];
 
-    constructor(version: string|number, options: ClientConfig = { debug: DebugLevel.None }) {
+    constructor(version: string|number, options: ClientConfig = { debug: DebugLevel.None, allowHost: true }) {
         super();
 
         this.options = options;
@@ -411,6 +411,7 @@ export class SkeldjsClient extends Hostable {
                 nonce: packet.nonce,
                 ackd: false
             });
+
             this.packets_sent.splice(8);
 
             if (waitAck) {
