@@ -6,6 +6,7 @@ import {
 } from "@skeldjs/protocol"
 
 export abstract class Hostable extends EventEmitter {
+    options: { allowHost: boolean };
     clientid: number;
     stream: GameDataMessage[];
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

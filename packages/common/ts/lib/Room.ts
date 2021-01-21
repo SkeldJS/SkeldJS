@@ -122,6 +122,9 @@ export class Room extends Global {
     }
 
     get amhost() {
+        if (!this.client.options.allowHost)
+            return false;
+
         return this.client.clientid === this.hostid;
     }
 
