@@ -8,7 +8,7 @@
     "prepublishOnly": "npm run build"
   },
   "license": "GPL-3.0-only",
-  "gitHead": "a08b2fe1f52693c6379029a1c5cb37d092a892ff",
+  "gitHead": "57ac3aa61d43264152bc0dfa18c921adfd245091",
   "dependencies": {
     "@skeldjs/util": "^2.3.0"
   }
