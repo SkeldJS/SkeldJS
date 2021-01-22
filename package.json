@@ -7,6 +7,7 @@
   "scripts": {
     "lint": "eslint packages/**/*.ts",
     "lint-staged": "lint-staged",
+    "fix": "prettier --write",
     "test": "ts-mocha packages/*/ts/lib/**/*.spec.ts --exclude node_modules",
     "build-all": "lerna run build",
     "publish-all": "lerna publish",
@@ -25,6 +26,7 @@
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.3",
     "mocha": "^8.2.1",
+    "prettier": "^2.2.1",
     "ts-mocha": "^8.0.0",
     "ts-node": "^9.1.1",
     "typedoc": "0.19.2",

@@ -17,7 +17,7 @@ import {
 
 import {
     Room,
-} from "@skeldjs/common"
+} from "@skeldjs/core"
 
 import {
     ClientboundPacket

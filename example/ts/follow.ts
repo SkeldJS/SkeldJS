@@ -1,5 +1,5 @@
 import { SkeldjsClient } from "@skeldjs/client"
-import * as skeldjs from "@skeldjs/common"
+import * as skeldjs from "@skeldjs/core"
 
 const server = skeldjs.MasterServers.EU[1];
 

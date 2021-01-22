@@ -11,6 +11,6 @@ export enum DebugLevel {
 }
 
 export interface ClientConfig {
-    debug: DebugLevel;
-    allowHost: boolean;
+    debug?: DebugLevel;
+    allowHost?: boolean;
 }

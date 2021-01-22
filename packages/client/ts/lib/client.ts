@@ -1,14 +1,9 @@
 import dgram from "dgram"
 
 import {
-    ClientConfig,
-    DebugLevel
-} from "./interface/ClientConfig"
-
-import {
     DisconnectReason,
     DisconnectMessages,
-    
+
     DistanceID,
     LanguageID,
     MessageTag,
@@ -17,7 +12,7 @@ import {
     TaskBarUpdate,
     MapID,
     SpawnID
-} from "@skeldjs/constant"
+} from "@skeldjs/constant";
 
 import {
     ClientboundPacket,
@@ -31,7 +26,7 @@ import {
     RedirectPayload,
 
     GameDataMessage,
-    
+
     GameOptions,
 
     composePacket,
@@ -41,7 +36,7 @@ import {
 import {
     Room,
     Hostable
-} from "@skeldjs/common";
+} from "@skeldjs/core";
 
 import {
     Code2Int,
@@ -52,25 +47,34 @@ import {
     EncodeVersion,
     createMissingBitfield,
     getMissing,
-    SentPacket
+    SentPacket,
+    PropagatedEmitter
 } from "@skeldjs/util";
+
+import {
+    ClientConfig,
+    DebugLevel
+} from "./interface/ClientConfig";
 
 type PacketFilter = (packet: ClientboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageClientbound) => boolean;
 
-export interface SkeldjsClient extends Hostable {}
+export type SkeldjsClientEvents = PropagatedEmitter<Room> & {
+    disconnect: (reason: number, message: string) => void;
+    packet: (packet: ClientboundPacket) => void;
+}
 
 const update_interval = 1000 / 50; // How often fixed update should get called.
 
-export class SkeldjsClient extends Hostable {
+export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
     isServer = false as const;
 
     options: ClientConfig;
-    
+
     socket: dgram.Socket;
     ip: string;
     port: number;
-    
+
     packets_recv: number[];
     packets_sent: SentPacket[];
     private _nonce = 0;
@@ -104,7 +108,7 @@ export class SkeldjsClient extends Hostable {
         this.packets_sent = [];
 
         this._reset();
-        
+
         this.stream = [];
 
         setInterval(async () => {
@@ -221,7 +225,7 @@ export class SkeldjsClient extends Hostable {
 
                     this.room = new Room(this, payload.code);
                     await this.room.setHost(payload.hostid);
-                    
+
                     await this.room.handleJoin(this.clientid);
                     for (let i = 0; i < payload.clients.length; i++) {
                         await this.room.handleJoin(payload.clients[i]);
@@ -243,7 +247,7 @@ export class SkeldjsClient extends Hostable {
             missing.forEach(this.ack.bind(this));
             break;
         }
-        
+
         this.emit("packet", packet);
     }
 
@@ -301,13 +305,13 @@ export class SkeldjsClient extends Hostable {
 
                     sleep(6000).then(() => {
                         this.off("disconnect", onDisconnect);
-    
+
                         resolve();
                     });
                 });
             } else if (this.sent_disconnect) {
                 this.emit("disconnect", reason, message || DisconnectMessages[reason]);
-                
+
                 this._reset();
             }
         }
@@ -419,13 +423,13 @@ export class SkeldjsClient extends Hostable {
 
                 const interval = setInterval(async () => {
                     if (++attempts > 8) {
-                        await this.disconnect();   
+                        await this.disconnect();
                         clearInterval(interval);
                         this.emit("error", new Error("Server failed to acknowledge packet 8 times."));
                     }
 
                     if (await this._send(buffer) === null) {
-                        await this.disconnect();   
+                        await this.disconnect();
                         clearInterval(interval);
                         this.emit("error", new Error("Could not send message."));
                     }
@@ -507,12 +511,12 @@ export class SkeldjsClient extends Hostable {
         });
 
         const payload = await this.waitPayload([
-            payload => 
+            payload =>
                 payload.tag === PayloadTag.JoinGame &&
                 payload.error,
-            payload => 
+            payload =>
                 payload.tag === PayloadTag.Redirect,
-            payload => 
+            payload =>
                 payload.tag === PayloadTag.JoinedGame
         ]) as JoinGamePayloadClientboundError|RedirectPayload|JoinedGamePayload;
 
@@ -578,16 +582,16 @@ export class SkeldjsClient extends Hostable {
         });
 
         const payload = await this.waitPayload([
-            payload => 
+            payload =>
                 payload.tag === PayloadTag.JoinGame &&
                 payload.error,
-            payload => 
+            payload =>
                 payload.tag === PayloadTag.Redirect,
-            payload => 
+            payload =>
                 payload.tag === PayloadTag.HostGame
         ]) as JoinGamePayloadClientboundError|RedirectPayload|HostGamePayloadClientbound;
 
-        
+
         switch (payload.tag) {
         case PayloadTag.JoinGame:
             throw new Error("Join error: Failed to join game, code: " + payload.reason + " (Message: " + DisconnectMessages[payload.reason] + ")");
