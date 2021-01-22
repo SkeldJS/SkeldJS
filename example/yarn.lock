@@ -7,14 +7,14 @@
   resolved "https://registry.yarnpkg.com/@skeldjs/client/-/client-2.2.5.tgz#fb25d67e3be18f4ae48cc89fbc353ac816aec69b"
   integrity sha512-uvhBMzrfv3640yRKd2iB88ZAl34tYQyd4d/Tsx5av5aPJJHzk8EsPmEcpBovM9+0nL1FTVGD24V8l2UZCzI7nQ==
   dependencies:
-    "@skeldjs/common" "^2.2.5"
+    "@skeldjs/core" "^2.2.5"
     "@skeldjs/constant" "^2.2.5"
     "@skeldjs/protocol" "^2.2.5"
     "@skeldjs/util" "^2.2.5"
 
-"@skeldjs/common@^2.2.5":
+"@skeldjs/core@^2.2.5":
   version "2.2.5"
-  resolved "https://registry.yarnpkg.com/@skeldjs/common/-/common-2.2.5.tgz#a540561b6b019df5cceceb326047511da629e38a"
+  resolved "https://registry.yarnpkg.com/@skeldjs/core/-/common-2.2.5.tgz#a540561b6b019df5cceceb326047511da629e38a"
   integrity sha512-BF56D2QUiSYT9KfQlfeTq1ofgFfOTzuOqzEKZr9/V6Q1AhiZ3BartvBgczKFjE4zs5Q/+bBd6Rg7sFiSSod0NQ==
   dependencies:
     "@skeldjs/constant" "^2.2.5"

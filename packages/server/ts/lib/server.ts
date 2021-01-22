@@ -18,7 +18,7 @@ import {
     PayloadTag
 } from "@skeldjs/constant"
 
-import { Room } from "@skeldjs/common"
+import { Room } from "@skeldjs/core"
 
 import {
     HazelBuffer,

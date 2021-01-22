@@ -92,13 +92,13 @@ yarn add @skeldjs/proxy
 
 ### To install utility packages
 ```
-npm install --save @skeldjs/common
+npm install --save @skeldjs/core
 npm install --save @skeldjs/protocol
 npm install --save @skeldjs/constant
 npm install --save @skeldjs/types
 npm install --save @skeldjs/util
 or
-yarn add @skeldjs/common
+yarn add @skeldjs/core
 yarn add @skeldjs/protocol
 yarn add @skeldjs/constant
 yarn add @skeldjs/types

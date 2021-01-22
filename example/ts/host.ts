@@ -1,6 +1,5 @@
 import { SkeldjsClient } from "@skeldjs/client"
-import * as skeldjs from "@skeldjs/common"
-import { PlayerData } from "@skeldjs/common";
+import * as skeldjs from "@skeldjs/core"
 
 const regcode = process.argv[2];
 
