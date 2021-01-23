@@ -1,0 +1,17 @@
+{
+  "name": "@skeldjs/pathfinding",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "build": "node data/build.js && tsc -p ./",
+    "build:ci": "yarn install && tsc -p ./",
+    "prepublishOnly": "npm run build",
+    "postinstallOnly": "node data/build.js"
+  },
+  "dependencies": {
+    "@skeldjs/client": "^2.3.2",
+    "@skeldjs/constant": "^2.3.2",
+    "@skeldjs/util": "^2.3.2"
+  }
+}

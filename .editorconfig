@@ -11,3 +11,6 @@ indent_size = 4
 [{package.json,.travis.yml,.eslintrc.json}]
 indent_style = space
 indent_size = 2
+
+[*.txt]
+insert_final_newline = false
