@@ -47,3 +47,20 @@
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.3.2.tgz#1d7b3e3a919687638181470b046f9d410bdefb71"
   integrity sha512-PNvbiRLb0WSQw9vJFVNXcrRk0GFSc596saKsEOmAmcGLachMF7a12P5nf4aPQ8Ji9dxl50nDrg9q778nLJXE7w==
+
+"@types/pathfinding@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@types/pathfinding/-/pathfinding-0.0.4.tgz#e878b8ef5c014743e95495afc4291df2b1c94726"
+  integrity sha512-W/gYSgsGaA6gofQNktySOL3ekUqgcrGmmS/XUdCMO+RgOkaqQVnk7yri1vbfU9Dun3jgQxsOphdbOlbNZlr4Nw==
+
+heap@0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/heap/-/heap-0.2.5.tgz#713b65590ebcc40fcbeeaf55e851694092b39af1"
+  integrity sha1-cTtlWQ68xA/L7q9V6FFpQJKzmvE=
+
+pathfinding@^0.4.18:
+  version "0.4.18"
+  resolved "https://registry.yarnpkg.com/pathfinding/-/pathfinding-0.4.18.tgz#a9990f6fa22b7ef196e5651b049165403a045fe8"
+  integrity sha1-qZkPb6IrfvGW5WUbBJFlQDoEX+g=
+  dependencies:
+    heap "0.2.5"
