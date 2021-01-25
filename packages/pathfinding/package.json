@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/pathfinding",
-  "version": "0.0.1",
+  "version": "2.3.3",
   "main": "js/index.js",
   "license": "GPL-3.0-only",
   "scripts": {
@@ -10,10 +10,10 @@
     "postinstallOnly": "node js/build.js"
   },
   "dependencies": {
-    "@skeldjs/client": "^2.3.2",
-    "@skeldjs/constant": "^2.3.2",
-    "@skeldjs/core": "^2.3.2",
-    "@skeldjs/util": "^2.3.2",
+    "@skeldjs/client": "^2.3.3",
+    "@skeldjs/constant": "^2.3.3",
+    "@skeldjs/core": "^2.3.3",
+    "@skeldjs/util": "^2.3.3",
     "@types/pathfinding": "^0.0.4",
     "pathfinding": "^0.4.18"
   }
