@@ -43,7 +43,7 @@ export class GameData extends Networkable<GameDataEvents> {
 
     get owner() {
         return super.owner as Global;
-    }s
+    }
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
         if (spawn) {

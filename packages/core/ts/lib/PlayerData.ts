@@ -47,7 +47,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
     }
 
     get spawned() {
-        return this.control && this.physics && this.transform;
+        return !!(this.control && this.physics && this.transform);
     }
 
     get ishost() {

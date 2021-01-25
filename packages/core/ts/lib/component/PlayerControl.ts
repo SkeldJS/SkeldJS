@@ -35,6 +35,7 @@ export type PlayerControlEvents = {
     setImpostors: (impostors: PlayerData[]) => void;
     murder: (victim: PlayerData) => void;
     meeting: (meeting: PlayerData|null) => void;
+    chat: (message: string) => void;
 }
 
 export class PlayerControl extends Networkable<PlayerControlEvents> {
@@ -135,6 +136,9 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
             case RpcTag.MurderPlayer:
                 this._murderPlayer(message.victimid);
                 break;
+            case RpcTag.SendChat:
+                this._chat(message.message);
+                break;
             case RpcTag.StartMeeting:
                 this._startMeeting(message.bodyid);
                 break;
@@ -145,49 +149,45 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
     }
 
     async checkName(name: string) {
-        if (this.owner.data) {
-            await this.room.client.send({
-                op: Opcode.Reliable,
-                payloads: [
-                    {
-                        tag: PayloadTag.GameDataTo,
-                        code: this.room.code,
-                        recipientid: this.room.hostid,
-                        messages: [
-                            {
-                                tag: MessageTag.RPC,
-                                netid: this.netid,
-                                rpcid: RpcTag.CheckName,
-                                name
-                            }
-                        ]
-                    }
-                ]
-            });
-        }
+        await this.room.client.send({
+            op: Opcode.Reliable,
+            payloads: [
+                {
+                    tag: PayloadTag.GameDataTo,
+                    code: this.room.code,
+                    recipientid: this.room.hostid,
+                    messages: [
+                        {
+                            tag: MessageTag.RPC,
+                            netid: this.netid,
+                            rpcid: RpcTag.CheckName,
+                            name
+                        }
+                    ]
+                }
+            ]
+        });
     }
 
     async checkColor(color: ColorID) {
-        if (this.owner.data) {
-            await this.room.client.send({
-                op: Opcode.Reliable,
-                payloads: [
-                    {
-                        tag: PayloadTag.GameDataTo,
-                        code: this.room.code,
-                        recipientid: this.room.hostid,
-                        messages: [
-                            {
-                                tag: MessageTag.RPC,
-                                netid: this.netid,
-                                rpcid: RpcTag.CheckColor,
-                                color
-                            }
-                        ]
-                    }
-                ]
-            });
-        }
+        await this.room.client.send({
+            op: Opcode.Reliable,
+            payloads: [
+                {
+                    tag: PayloadTag.GameDataTo,
+                    code: this.room.code,
+                    recipientid: this.room.hostid,
+                    messages: [
+                        {
+                            tag: MessageTag.RPC,
+                            netid: this.netid,
+                            rpcid: RpcTag.CheckColor,
+                            color
+                        }
+                    ]
+                }
+            ]
+        });
     }
 
     private _completeTask(taskIdx: number) {
@@ -324,7 +324,13 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
         });
     }
 
+    private _chat(message: string) {
+        this.emit("chat", message);
+    }
+
     chat(message: string) {
+        this._chat(message);
+
         this.room.client.stream.push({
             tag: MessageTag.RPC,
             rpcid: RpcTag.SendChat,

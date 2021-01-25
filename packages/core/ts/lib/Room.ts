@@ -262,7 +262,7 @@ export class Room extends Global<RoomEvents> {
             }
         }
 
-        if (before !== this.hostid) {
+        if (before !== this.hostid && this.host) {
             this.host.emit("setHost");
         }
     }
