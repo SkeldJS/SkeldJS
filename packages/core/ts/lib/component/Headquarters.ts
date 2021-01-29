@@ -4,16 +4,18 @@ import { SpawnID, SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus, ShipStatusData } from "./BaseShipStatus"
 
-import { DeconSystem } from "../system/DeconSystem";
-import { LifeSuppSystem } from "../system/LifeSuppSystem";
-import { MedScanSystem } from "../system/MedScanSystem";
-import { ReactorSystem } from "../system/ReactorSystem";
-import { SabotageSystem } from "../system/SabotageSystem";
-import { SwitchSystem } from "../system/SwitchSystem";
-
 import { Global } from "../Global";
 import { Room } from "../Room";
-import { HqHudSystem } from "../system";
+
+import {
+    DeconSystem,
+    HqHudSystem,
+    LifeSuppSystem,
+    MedScanSystem,
+    ReactorSystem,
+    SabotageSystem,
+    SwitchSystem
+} from "../system";
 
 export class Headquarters extends BaseShipStatus {
     static type = SpawnID.Headquarters as const;
