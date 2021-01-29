@@ -8,16 +8,16 @@ on:
 
 jobs:
   build:
-    
+
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [14.x]
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
+
     steps:
     - uses: actions/checkout@v2
 
@@ -28,7 +28,7 @@ jobs:
 
     - run: npm install -g yarn
     - run: yarn install
-    - run: npx lerna run build:ci
+    - run: yarn run build-all:ci
     - run: yarn docs
 
     - name: GH Pages deploy
