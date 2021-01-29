@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/core",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -8,11 +8,11 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@skeldjs/constant": "^2.3.3",
-    "@skeldjs/protocol": "^2.3.3",
+    "@skeldjs/constant": "^2.3.4",
+    "@skeldjs/data": "^2.3.4",
+    "@skeldjs/protocol": "^2.3.4",
     "@skeldjs/types": "^2.2.7",
-    "@skeldjs/util": "^2.3.3",
-    "@skeldjs/data": "^0.0.2"
+    "@skeldjs/util": "^2.3.4"
   },
   "license": "GPL-3.0-only",
   "gitHead": "9d746a3898681fff7e1e6660d41f69c420ef5e1e"
