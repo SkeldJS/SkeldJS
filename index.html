@@ -74,13 +74,18 @@
 					<li><strong>Proxy</strong> - A proxy with both a programmable client and an electron client, to inspect and modify packets in detail.</li>
 				</ul>
 				<p>as well as a central <code>@skeldjs/skeldjs</code> package that contains a simple client API, and a server plugin API with support for Redis and multiple server nodes.</p>
-				<p>The repository also hosts utility packages for the projects listed above, that you can use individually.</p>
+				<p>The repository also hosts utility packages for the packages listed above, that you can use individually.</p>
 				<ul>
-					<li><strong>Common</strong> - Common Among Us structures and game objects that are shared across all main projects.</li>
+					<li><strong>Core</strong> - An impartial core internal API for Among Us structures and game objects that are shared across all main projects.</li>
 					<li><strong>Protocol</strong> - Protocol interfaces with full parsing and composing.</li>
-					<li><strong>Constant</strong> - Enums &amp; data in Among Us that never change.</li>
-					<li><strong>Types</strong> - Useful Among Us types, enums and interfaces.</li>
+					<li><strong>Constant</strong> - Enums &amp; bitfields in Among Us.</li>
+					<li><strong>Data</strong> - Among Us game data &amp; information.</li>
 					<li><strong>Util</strong> - Basic utility functions.</li>
+				</ul>
+				<p>As well as the main and utility packages, the project also contains several packages to be used as additions or addons to the client package. These are installed separately from the client although are helpful in automating client development.</p>
+				<ul>
+					<li><strong>Pathfinding</strong> - A* pathfinding implementation to get around the map, abstracted to be a seamless addition to the  client package.</li>
+					<li><strong>Task Manager</strong> - A tool used for managing task completion in the correct order .</li>
 				</ul>
 				<p>You can view auto-updating documentation for all packages hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS">https://skeldjs.github.io/SkeldJS</a>.</p>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
@@ -167,19 +172,27 @@ yarn add @skeldjs/server</code></pre>
 				<pre><code><span class="hljs-built_in">npm</span> install --save @skeldjs/proxy
 <span class="hljs-keyword">or</span>
 yarn add @skeldjs/proxy</code></pre>
+				<a href="#to-install-client-tools" id="to-install-client-tools" style="color: inherit; text-decoration: none;">
+					<h3>To install client tools</h3>
+				</a>
+				<pre><code><span class="hljs-built_in">npm</span> install --save @skeldjs/pathfinding
+<span class="hljs-built_in">npm</span> install --save @skeldjs/taskmanager
+<span class="hljs-keyword">or</span>
+yarn add @skeldjs/pathfinding
+yarn add @skeldjs/taskmanager</code></pre>
 				<a href="#to-install-utility-packages" id="to-install-utility-packages" style="color: inherit; text-decoration: none;">
 					<h3>To install utility packages</h3>
 				</a>
 				<pre><code>npm install --save <span class="hljs-title">@skeldjs</span>/core
 npm install --save <span class="hljs-title">@skeldjs</span>/protocol
 npm install --save <span class="hljs-title">@skeldjs</span>/<span class="hljs-keyword">constant</span>
-npm install --save <span class="hljs-title">@skeldjs</span>/types
+npm install --save <span class="hljs-title">@skeldjs</span>/data
 npm install --save <span class="hljs-title">@skeldjs</span>/util
 <span class="hljs-keyword">or</span>
 yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/core
 yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/protocol
 yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/<span class="hljs-keyword">constant</span>
-yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/types
+yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/data
 yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</span>/util</code></pre>
 				<a href="#notes" id="notes" style="color: inherit; text-decoration: none;">
 					<h1>Notes</h1>
@@ -215,6 +228,9 @@ yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</sp
 						<a href="modules/core.html">core</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="modules/data.html">data</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="modules/pathfinding.html">pathfinding</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -243,6 +259,9 @@ yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</sp
 						<a href="modules/core.html" class="tsd-kind-icon">core</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="modules/data.html" class="tsd-kind-icon">data</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -267,6 +286,7 @@ yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</sp
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
