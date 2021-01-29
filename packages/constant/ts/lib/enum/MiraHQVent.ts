@@ -2,7 +2,7 @@ export enum MiraHQVent {
     Balcony = 1,
     Cafeteria,
     Reactor,
-    Labatory,
+    Laboratory,
     Office,
     Admin,
     Greenhouse,

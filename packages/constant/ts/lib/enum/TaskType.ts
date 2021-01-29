@@ -1,5 +1,5 @@
 export enum TaskType {
-    SubmitSan = 0,
+    SubmitScan = 0,
     PrimeShields = 1,
     FuelEngines = 2,
     ChartCourse = 3,

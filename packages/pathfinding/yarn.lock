@@ -2,65 +2,58 @@
 # yarn lockfile v1
 
 
-"@skeldjs/client@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/client/-/client-2.3.2.tgz#3a54599b4ceece38a37fd751b668fd106c231b78"
-  integrity sha512-1+nlCeiroEt2hoR8HRypiPj+u8fY5hvD3kxSyCd9212HtdSWbC7I2OLuvak36/HW2AcZdTzGW9KyfvWqcPZzog==
+"@skeldjs/client@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@skeldjs/client/-/client-2.3.3.tgz#92c2547dd467f43e1ab16641cb6649ee918d0983"
+  integrity sha512-FYh3MKxZyVbrET8ty7dw+SbSVq98gruXKsECyjrw72pL6o/WBlJz+pP9x+VuBx9rL/98CJJqZUGKFFjCv9/MMw==
   dependencies:
-    "@skeldjs/constant" "^2.3.2"
-    "@skeldjs/core" "^2.3.2"
-    "@skeldjs/protocol" "^2.3.2"
-    "@skeldjs/util" "^2.3.2"
+    "@skeldjs/constant" "^2.3.3"
+    "@skeldjs/core" "^2.3.3"
+    "@skeldjs/protocol" "^2.3.3"
+    "@skeldjs/util" "^2.3.3"
 
-"@skeldjs/constant@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.2.tgz#8d7b7f3b8c840eea18c48eabb28d4cefd83edfe4"
-  integrity sha512-8FfOxgCvoyt5zGOFh70nQCtOcfe9t8UOdJeSHUK43+HQJKdCZtqU/R78+ArbLbd4Nbx5zOliuduYPZPAe5R8FQ==
+"@skeldjs/constant@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.3.tgz#eddd8a8252fd4d14c4bfbe48cd083c2ddbc0b7c8"
+  integrity sha512-0dCeBH8Yqtn3JJ7Izj5II/dTrwl9glzUScJHpjHX0yRR+4cCEpcInxrQQHkY0Z2KMwaRf7aYiTuw+ygdKYUhuA==
   dependencies:
-    "@skeldjs/util" "^2.3.2"
+    "@skeldjs/util" "^2.3.3"
 
-"@skeldjs/core@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/core/-/core-2.3.2.tgz#57560d04c317833943574aeef4c3a31be397f6d9"
-  integrity sha512-1tL6QNt4wB91vZaqZS0wRhr0C+Tpqq9bwnVtN+tTk1ZNteRugBQWlA1ts7DVQ7kZ6fRVRZ1rqos8ZhHZkjYc1w==
+"@skeldjs/core@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@skeldjs/core/-/core-2.3.3.tgz#ecc4c4ce2c404a6f8db5a1435c021eb9f0eece57"
+  integrity sha512-Vz2vHKrU8hmohB2ha2Ae0m/5O1whGXHldGPBrBhsMFHpgRN3inGkfYuyx0kIUUhe/K7xjyudHEdPrMKsvPGx7A==
   dependencies:
-    "@skeldjs/constant" "^2.3.2"
-    "@skeldjs/protocol" "^2.3.2"
+    "@skeldjs/constant" "^2.3.3"
+    "@skeldjs/protocol" "^2.3.3"
     "@skeldjs/types" "^2.2.7"
-    "@skeldjs/util" "^2.3.2"
+    "@skeldjs/util" "^2.3.3"
 
-"@skeldjs/protocol@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.3.2.tgz#8df9d912c3eb4ddbaaed6fb812a23c994a0701d4"
-  integrity sha512-q0c1ckfdYYYTs3XsCDorSubgWP5Zknjr0yMpy/qVczNt9rnRlGIKk1D9p1K9gl40o+NeoOT6YNiuB3Cmx6c6AA==
+"@skeldjs/protocol@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.3.3.tgz#951b7c47cbbecd10b13aca034c331cad29c7c74d"
+  integrity sha512-95sE/k2feIVDOF4pEST8NNBItond3KoNXnFG0MwF8RIFz4QzgDkn/RYOUa8/Kgv/mQWeRfHT4k13SCUtoYjHVg==
   dependencies:
-    "@skeldjs/constant" "^2.3.2"
+    "@skeldjs/constant" "^2.3.3"
     "@skeldjs/types" "^2.2.7"
-    "@skeldjs/util" "^2.3.2"
+    "@skeldjs/util" "^2.3.3"
 
 "@skeldjs/types@^2.2.7":
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.2.7.tgz#2070a2d3205099240df9e23edc1a483a698b06d2"
   integrity sha512-SNS3DiU2eoKMbU1fyZvQ57kngv+sCI7ziBmEVeRLTzK+10gN9Z9tuD1dHY+rlHhFnbttaJq7NVCyzkdDbvrjyQ==
 
-"@skeldjs/util@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.3.2.tgz#1d7b3e3a919687638181470b046f9d410bdefb71"
-  integrity sha512-PNvbiRLb0WSQw9vJFVNXcrRk0GFSc596saKsEOmAmcGLachMF7a12P5nf4aPQ8Ji9dxl50nDrg9q778nLJXE7w==
+"@skeldjs/util@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.3.3.tgz#245d257bdfbb4e6f603a50181c0fb025beb865d3"
+  integrity sha512-hN2siz8tB3VH3ulM3Sbu1a76R1MtrVt9kYd07vbrwDgdPGlR/TF+eq0ykOAFpykOFddSAT8FRtrlCpZyUUxO7g==
 
-"@types/pathfinding@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@types/pathfinding/-/pathfinding-0.0.4.tgz#e878b8ef5c014743e95495afc4291df2b1c94726"
-  integrity sha512-W/gYSgsGaA6gofQNktySOL3ekUqgcrGmmS/XUdCMO+RgOkaqQVnk7yri1vbfU9Dun3jgQxsOphdbOlbNZlr4Nw==
+"@types/heap@^0.2.28":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@types/heap/-/heap-0.2.28.tgz#c4247fae0e438c76ae05194c4b87cd5c4e859a7d"
+  integrity sha1-xCR/rg5DjHauBRlMS4fNXE6Fmn0=
 
-heap@0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/heap/-/heap-0.2.5.tgz#713b65590ebcc40fcbeeaf55e851694092b39af1"
-  integrity sha1-cTtlWQ68xA/L7q9V6FFpQJKzmvE=
-
-pathfinding@^0.4.18:
-  version "0.4.18"
-  resolved "https://registry.yarnpkg.com/pathfinding/-/pathfinding-0.4.18.tgz#a9990f6fa22b7ef196e5651b049165403a045fe8"
-  integrity sha1-qZkPb6IrfvGW5WUbBJFlQDoEX+g=
-  dependencies:
-    heap "0.2.5"
+heap@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/heap/-/heap-0.2.6.tgz#087e1f10b046932fc8594dd9e6d378afc9d1e5ac"
+  integrity sha1-CH4fELBGky/IWU3Z5tN4r8nR5aw=

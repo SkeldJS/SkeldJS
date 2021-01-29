@@ -1,4 +1,4 @@
-import { DisconnectReason } from "../enum"
+import { DisconnectReason } from "@skeldjs/constant"
 
 export const DisconnectMessages = {
     [DisconnectReason.None]: "Forcibly disconnected from server. The remote sent a disconnect request.",

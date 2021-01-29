@@ -3,7 +3,7 @@ import {
     TheSkeldVent,
     MiraHQVent,
     PolusVent
-} from "../enum"
+} from "@skeldjs/constant"
 
 /** https://github.com/codyphobe/among-us-protocol/blob/master/07_miscellaneous/04_map_specific_ids_for_vents_and_tasks.md#the-skeld */
 export const VentCoords = {
@@ -42,7 +42,7 @@ export const VentCoords = {
         },
         [TheSkeldVent.LowerReactor]: {
             x: -20.796825,
-            y: -20.796825 
+            y: -20.796825
         },
         [TheSkeldVent.LowerEngine]: {
             x: -15.251087,
@@ -58,7 +58,7 @@ export const VentCoords = {
         },
         [TheSkeldVent.UpperNavigation]: {
             x: 16.007935,
-            y: 16.007935 
+            y: 16.007935
         },
         [TheSkeldVent.LowerNavigation]: {
             x: 16.007935,
@@ -78,7 +78,7 @@ export const VentCoords = {
             x: 0.4791336,
             y: 0.4791336
         },
-        [MiraHQVent.Labatory]: {
+        [MiraHQVent.Laboratory]: {
             x: 11.60479,
             y: 11.60479
         },
@@ -136,7 +136,7 @@ export const VentCoords = {
             x: 20.088806,
             y: 20.088806
         },
-        [PolusVent.Labatory]: {
+        [PolusVent.Laboratory]: {
             x: 32.96254,
             y: 32.96254
         },

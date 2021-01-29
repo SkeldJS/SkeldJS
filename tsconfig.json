@@ -8,7 +8,6 @@
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "baseUrl": ".",
         "outDir": "./dist",
         "esModuleInterop": true,
         "moduleResolution": "Node",

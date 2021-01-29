@@ -19,13 +19,19 @@ export class TextBuilder {
 
         return this;
     }
-    
+
+    append(text: TextBuilder|string) {
+        this._str += text.toString();
+
+        return this;
+    }
+
     /**
      * Create a text tag (color, link)
      */
     tag(content: string) {
         this._str += "[" + content + "]";
-        
+
         return this;
     }
 
@@ -45,7 +51,7 @@ export class TextBuilder {
             this.tag(hexclr);
         } else if (typeof r === "number") {
             const hexclr = hex(r) + hex(g) + hex(b) + hex(a);
-            
+
             this.tag(hexclr);
         }
 

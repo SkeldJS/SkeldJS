@@ -395,7 +395,7 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
 
             impostors.push(resolved);
 
-            if (resolved.data) {
+            if (resolved?.data) {
                 resolved.data.impostor = true;
             }
         }

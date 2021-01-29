@@ -1,4 +1,4 @@
-import { MapID } from "../enum"
+import { MapID } from "@skeldjs/constant"
 
 export const MapDoors = {
     [MapID.TheSkeld]: 13,

@@ -1,6 +1,6 @@
-import { ColorID } from "../enum"
+import { ColorID } from "@skeldjs/constant"
 
-export const Colors = {
+export const ColorCodes = {
     [ColorID.Red]: {
         hex: "#c61111",
         rgb: [198, 17, 17]
@@ -19,7 +19,7 @@ export const Colors = {
     },
     [ColorID.Orange]: {
         hex: "#f07d0d",
-        rgb: [240, 125, 13	]
+        rgb: [240, 125, 13]
     },
     [ColorID.Yellow]: {
         hex: "#f6f657",
@@ -31,7 +31,7 @@ export const Colors = {
     },
     [ColorID.White]: {
         hex: "#d7e1f1",
-        rgb: [215, 225, 241	]
+        rgb: [215, 225, 241]
     },
     [ColorID.Purple]: {
         hex: "#6b2fbc",

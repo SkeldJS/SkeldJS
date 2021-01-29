@@ -2,9 +2,12 @@ import { HazelBuffer } from "@skeldjs/util"
 
 import {
     SystemType,
-    MapDoors,
     MapID
 } from "@skeldjs/constant";
+
+import {
+    MapDoors
+} from "@skeldjs/data"
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
@@ -22,7 +25,7 @@ export type DoorsSystemEvents = {
 export class DoorsSystem extends SystemStatus<DoorsSystemEvents> {
     static systemType = SystemType.Doors as const;
     systemType = SystemType.Doors as const;
-    
+
     cooldowns: Map<number, number>;
     doors: boolean[];
 
