@@ -2,47 +2,59 @@
 # yarn lockfile v1
 
 
-"@skeldjs/core@^2.1.12":
-  version "2.1.12"
-  resolved "https://registry.yarnpkg.com/@skeldjs/core/-/common-2.1.12.tgz#c3b01af482191f6322636ec27fc8851b948b8cb2"
-  integrity sha512-n7B5DlctuKDfq9QzlNa6slBclSrbDtAGT9iuRPuq0Jf+o/bb96HoJVw65yE3Pd22AbvbZiHyj6xtNw5hAjbHWA==
+"@skeldjs/constant@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.4.tgz#cceae73c25608246a12e9c07f0b383695983b76a"
+  integrity sha512-Fa9evjDLv81Qu9yOA46FrccO3u7IlsW/s4FnGjTo4elHJGKxEcEfG5qMLIIsbIhJOwkyoGrGbXwiovS8KhvxVA==
   dependencies:
-    "@skeldjs/constant" "^2.1.3"
-    "@skeldjs/protocol" "^2.1.3"
-    "@skeldjs/util" "^2.1.2"
+    "@skeldjs/util" "^2.3.4"
 
-"@skeldjs/constant@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.1.3.tgz#20790e7f1df46f096eb541742dbd68cf5ad39cc0"
-  integrity sha512-8lo1/sy+xrLyfWxunepSVyFrL4Z8kprnmdncJhsOkIOHN0u92YWenjwuPf1CgpcOOqv1UDK0JTFruGFMVkllEg==
-
-"@skeldjs/protocol@^2.1.3":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.1.3.tgz#dfa111dcf7ea5e24ebefd075acc64847aa3c9dba"
-  integrity sha512-uHIIwuZoa6dTPoi6ph/gDsT70Te5pBQ0rcmuX70HiEqnAH1/28e/ywiee+Jb2GEnqDyYSCNCJgKxEV/u66CsFQ==
+"@skeldjs/core@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/core/-/core-2.3.4.tgz#07b55500e2d6b7e96f53725c41c2cf41e903f197"
+  integrity sha512-Pfwr3j3oIp0w8PEwGLQsbwz62J2IoSWjAC2od7j3v7srvwZ9+opjYPs28lgZhaR/5zmc+PohohnK9Z8mULJ7Gg==
   dependencies:
-    "@skeldjs/constant" "^2.1.3"
-    "@skeldjs/types" "^2.1.2"
-    "@skeldjs/util" "^2.1.2"
+    "@skeldjs/constant" "^2.3.4"
+    "@skeldjs/data" "^2.3.4"
+    "@skeldjs/protocol" "^2.3.4"
+    "@skeldjs/types" "^2.2.7"
+    "@skeldjs/util" "^2.3.4"
 
-"@skeldjs/server@^2.1.12":
-  version "2.1.12"
-  resolved "https://registry.yarnpkg.com/@skeldjs/server/-/server-2.1.12.tgz#c52fa43977658fe742706adc9684c598ceb23a81"
-  integrity sha512-d8L4um5BGJcmfH5QmdF0PgYm2zZheCsuBdVnM490c+aE27OMOf+yGA381sC2oS9GqjX9vUrw78T6iNaOzKjeXA==
+"@skeldjs/data@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/data/-/data-2.3.4.tgz#66c9aaaf1315d15d6e65de776cf44d424646c265"
+  integrity sha512-3t7G9lUSP1q870EAz1AEmtvk/LoAzzBH2B+IzVzZoKCRsz/A1x78DlgGY+VdS+dvBGLkXakn/UhkfKHpX4C8yA==
   dependencies:
-    "@skeldjs/core" "^2.1.12"
-    "@skeldjs/protocol" "^2.1.3"
-    "@skeldjs/util" "^2.1.2"
+    "@skeldjs/constant" "^2.3.4"
+    "@skeldjs/util" "^2.3.4"
 
-"@skeldjs/types@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.1.2.tgz#1cafe44ab005d2be1c9c98c0cbde4fa45390cd7e"
-  integrity sha512-fZ+Fv+9CEFWJzEXHV7yckMyLZC+/O66xrFC9h8mzMTjpVXvSNgiaDntwmF69WCE/aymZuMa06ryUxaVWH4Q7hw==
+"@skeldjs/protocol@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.3.4.tgz#1592660933f61c02567495357f285e66e9532963"
+  integrity sha512-rSa1poTmCZ50dAntL+Wzy9oEe1yA3BCg5sSyfexkKd2tGj7VnvLaf5qe0p4lcUSoQcQoiOMjn8I7VqACdj3FqA==
+  dependencies:
+    "@skeldjs/constant" "^2.3.4"
+    "@skeldjs/types" "^2.2.7"
+    "@skeldjs/util" "^2.3.4"
 
-"@skeldjs/util@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.1.2.tgz#03cc57c3692fead42f2d1da170dbc6ca107f17e8"
-  integrity sha512-zAU6nHIi9+6N3i7edvbVACkayilSt7FW+YTgTchKdqVhbUF1nfN+NZXGydSeR+s5ik4vTqE2woWiE8jHr+JZgg==
+"@skeldjs/server@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/server/-/server-2.3.4.tgz#50671106a82aa3cb0f025e16f83f728f45cd73f8"
+  integrity sha512-piPfMAFOwlzFsxTmM26tXoerxUGUaeD4hbbhcozPr59hsrgJhnHXtOC/3NlZyVyna99GJPPoqJHchR+eo8UDIg==
+  dependencies:
+    "@skeldjs/core" "^2.3.4"
+    "@skeldjs/protocol" "^2.3.4"
+    "@skeldjs/util" "^2.3.4"
+
+"@skeldjs/types@^2.2.7":
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.2.7.tgz#2070a2d3205099240df9e23edc1a483a698b06d2"
+  integrity sha512-SNS3DiU2eoKMbU1fyZvQ57kngv+sCI7ziBmEVeRLTzK+10gN9Z9tuD1dHY+rlHhFnbttaJq7NVCyzkdDbvrjyQ==
+
+"@skeldjs/util@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.3.4.tgz#eef30b108fe175654c423a78930e1bc48f7fbbef"
+  integrity sha512-XaOaZSNqWPchpDdcCshnhs+iSKKUz5BPthf2Z49jFDHoThAnGhAFl9ABDGKSjMrdltyxFie27hr1uJ0imSJDEA==
 
 tedis@^0.1.12:
   version "0.1.12"

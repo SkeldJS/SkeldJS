@@ -3,16 +3,18 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus"
 
-import { DeconSystem } from "../system/DeconSystem";
-import { HudOverrideSystem } from "../system/HudOverrideSystem";
-import { MedScanSystem } from "../system/MedScanSystem";
-import { ReactorSystem } from "../system/ReactorSystem";
-import { SabotageSystem } from "../system/SabotageSystem";
-import { SwitchSystem } from "../system/SwitchSystem";
-import { DoorsSystem } from "../system/DoorsSystem";
-import { SecurityCameraSystem } from "../system/SecurityCameraSystem";
-
 import { Room } from "../Room";
+
+import {
+    DeconSystem,
+    HudOverrideSystem,
+    MedScanSystem,
+    ReactorSystem,
+    SabotageSystem,
+    SwitchSystem,
+    DoorsSystem,
+    SecurityCameraSystem
+} from "../system"
 
 export class PlanetMap extends BaseShipStatus {
     static type = SpawnID.PlanetMap as const;

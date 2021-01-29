@@ -2,51 +2,61 @@
 # yarn lockfile v1
 
 
-"@skeldjs/client@^2.3.3":
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/client/-/client-2.3.3.tgz#92c2547dd467f43e1ab16641cb6649ee918d0983"
-  integrity sha512-FYh3MKxZyVbrET8ty7dw+SbSVq98gruXKsECyjrw72pL6o/WBlJz+pP9x+VuBx9rL/98CJJqZUGKFFjCv9/MMw==
+"@skeldjs/client@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/client/-/client-2.3.4.tgz#185a6b47ac0ccd5ed4c190a36f5808a7d97060d1"
+  integrity sha512-i/Qy2V/QbO91o42yuWcEaWX/T8GqrKlqMMoTRur3MYM4POcqztHX6jUDCEOcC8RS2k/xMLlLnibzRL04Pb2vxQ==
   dependencies:
-    "@skeldjs/constant" "^2.3.3"
-    "@skeldjs/core" "^2.3.3"
-    "@skeldjs/protocol" "^2.3.3"
-    "@skeldjs/util" "^2.3.3"
+    "@skeldjs/constant" "^2.3.4"
+    "@skeldjs/core" "^2.3.4"
+    "@skeldjs/data" "^2.3.4"
+    "@skeldjs/protocol" "^2.3.4"
+    "@skeldjs/util" "^2.3.4"
 
-"@skeldjs/constant@^2.3.3":
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.3.tgz#eddd8a8252fd4d14c4bfbe48cd083c2ddbc0b7c8"
-  integrity sha512-0dCeBH8Yqtn3JJ7Izj5II/dTrwl9glzUScJHpjHX0yRR+4cCEpcInxrQQHkY0Z2KMwaRf7aYiTuw+ygdKYUhuA==
+"@skeldjs/constant@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.4.tgz#cceae73c25608246a12e9c07f0b383695983b76a"
+  integrity sha512-Fa9evjDLv81Qu9yOA46FrccO3u7IlsW/s4FnGjTo4elHJGKxEcEfG5qMLIIsbIhJOwkyoGrGbXwiovS8KhvxVA==
   dependencies:
-    "@skeldjs/util" "^2.3.3"
+    "@skeldjs/util" "^2.3.4"
 
-"@skeldjs/core@^2.3.3":
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/core/-/core-2.3.3.tgz#ecc4c4ce2c404a6f8db5a1435c021eb9f0eece57"
-  integrity sha512-Vz2vHKrU8hmohB2ha2Ae0m/5O1whGXHldGPBrBhsMFHpgRN3inGkfYuyx0kIUUhe/K7xjyudHEdPrMKsvPGx7A==
+"@skeldjs/core@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/core/-/core-2.3.4.tgz#07b55500e2d6b7e96f53725c41c2cf41e903f197"
+  integrity sha512-Pfwr3j3oIp0w8PEwGLQsbwz62J2IoSWjAC2od7j3v7srvwZ9+opjYPs28lgZhaR/5zmc+PohohnK9Z8mULJ7Gg==
   dependencies:
-    "@skeldjs/constant" "^2.3.3"
-    "@skeldjs/protocol" "^2.3.3"
+    "@skeldjs/constant" "^2.3.4"
+    "@skeldjs/data" "^2.3.4"
+    "@skeldjs/protocol" "^2.3.4"
     "@skeldjs/types" "^2.2.7"
-    "@skeldjs/util" "^2.3.3"
+    "@skeldjs/util" "^2.3.4"
 
-"@skeldjs/protocol@^2.3.3":
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.3.3.tgz#951b7c47cbbecd10b13aca034c331cad29c7c74d"
-  integrity sha512-95sE/k2feIVDOF4pEST8NNBItond3KoNXnFG0MwF8RIFz4QzgDkn/RYOUa8/Kgv/mQWeRfHT4k13SCUtoYjHVg==
+"@skeldjs/data@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/data/-/data-2.3.4.tgz#66c9aaaf1315d15d6e65de776cf44d424646c265"
+  integrity sha512-3t7G9lUSP1q870EAz1AEmtvk/LoAzzBH2B+IzVzZoKCRsz/A1x78DlgGY+VdS+dvBGLkXakn/UhkfKHpX4C8yA==
   dependencies:
-    "@skeldjs/constant" "^2.3.3"
+    "@skeldjs/constant" "^2.3.4"
+    "@skeldjs/util" "^2.3.4"
+
+"@skeldjs/protocol@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.3.4.tgz#1592660933f61c02567495357f285e66e9532963"
+  integrity sha512-rSa1poTmCZ50dAntL+Wzy9oEe1yA3BCg5sSyfexkKd2tGj7VnvLaf5qe0p4lcUSoQcQoiOMjn8I7VqACdj3FqA==
+  dependencies:
+    "@skeldjs/constant" "^2.3.4"
     "@skeldjs/types" "^2.2.7"
-    "@skeldjs/util" "^2.3.3"
+    "@skeldjs/util" "^2.3.4"
 
 "@skeldjs/types@^2.2.7":
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.2.7.tgz#2070a2d3205099240df9e23edc1a483a698b06d2"
   integrity sha512-SNS3DiU2eoKMbU1fyZvQ57kngv+sCI7ziBmEVeRLTzK+10gN9Z9tuD1dHY+rlHhFnbttaJq7NVCyzkdDbvrjyQ==
 
-"@skeldjs/util@^2.3.3":
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.3.3.tgz#245d257bdfbb4e6f603a50181c0fb025beb865d3"
-  integrity sha512-hN2siz8tB3VH3ulM3Sbu1a76R1MtrVt9kYd07vbrwDgdPGlR/TF+eq0ykOAFpykOFddSAT8FRtrlCpZyUUxO7g==
+"@skeldjs/util@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.3.4.tgz#eef30b108fe175654c423a78930e1bc48f7fbbef"
+  integrity sha512-XaOaZSNqWPchpDdcCshnhs+iSKKUz5BPthf2Z49jFDHoThAnGhAFl9ABDGKSjMrdltyxFie27hr1uJ0imSJDEA==
 
 "@types/heap@^0.2.28":
   version "0.2.28"
