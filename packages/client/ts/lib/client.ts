@@ -2,7 +2,6 @@ import dgram from "dgram"
 
 import {
     DisconnectReason,
-    DisconnectMessages,
 
     DistanceID,
     LanguageID,
@@ -13,6 +12,8 @@ import {
     MapID,
     SpawnID
 } from "@skeldjs/constant";
+
+import { DisconnectMessages } from "@skeldjs/data";
 
 import {
     ClientboundPacket,

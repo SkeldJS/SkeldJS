@@ -1,5 +1,4 @@
-import { SkeldjsClient } from "@skeldjs/client";
-import { ColorID, MasterServers } from "@skeldjs/constant";
+import { SkeldjsClient, ColorID, MasterServers } from "@skeldjs/client";
 import { SkeldjsPathfinder } from "..";
 
 (async () => {
@@ -29,7 +28,16 @@ import { SkeldjsPathfinder } from "..";
 
                 if (cmd === "walk") {
                     const found = [...client.room.players.values()].find(player => player.data?.name === args.join(" "));
-                    pathfinder.moveTo(found.transform.position);
+                    if (found) {
+                        pathfinder.go(found);
+                    }
+                } else if (cmd === "follow") {
+                    const found = [...client.room.players.values()].find(player => player.data?.name === args.join(" "));
+                    if (found) {
+                        pathfinder.follow(found);
+                    }
+                } else if (cmd === "stop") {
+                    pathfinder.stop();
                 }
             });
         }

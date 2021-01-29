@@ -1,48 +1,63 @@
-import { HazelBuffer, Vector2 } from "@skeldjs/util";
+import { HazelBuffer } from "@skeldjs/util";
+
+import { Node } from "./Node";
 
 export class Grid {
-    cells: number[][];
+    nodes: Node[][];
+    dirty: Set<Node>;
+    pathid: number;
 
     static fromBuffer(buffer: Buffer) {
         const reader = new HazelBuffer(buffer);
 
         const basex = reader.int16();
         const basey = reader.int16();
-        const width = reader.int16();
-        const height = reader.int16();
+        const width = reader.uint16();
+        const height = reader.uint16();
         const density = reader.uint8();
 
         const actual_width = width * density;
         const actual_height = height * density;
 
-        const cells = new Array(actual_height).fill(null).map(() => new Array(actual_width).fill(0));
+        const grid = new Grid(new Array(actual_height).fill(null).map(() => new Array(actual_width).fill(null)), basex, basey, width, height, density);
 
-        let j = 0;
-        let bit = reader.uint8();
+        let i = 0;
         while (reader.left) {
             const num = reader.upacked();
-            for (let i = 0; i < num; i++) {
-                const y = ~~(j / actual_width);
-                const x = j % actual_width;
+            const blocked = reader.bool();
+            const weight = reader.float();
 
-                cells[y][x] = bit;
-                j++;
+            for (let j = 0; j < num; j++) {
+                const x = i % actual_height;
+                const y = ~~(i / actual_height);
+
+                grid.nodes[y][x] = new Node(grid, x, y, blocked, weight);
+                i++;
             }
-            bit = 1 - bit;
         }
 
-        return new Grid(cells, basex, basey, width, height, density);
+        return grid;
     }
 
     static create(basex: number, basey: number, width: number, height: number, density: number) {
         const actual_width = width * density;
         const actual_height = height * density;
 
-        return new Grid(new Array(actual_height).fill(null).map(() => new Array(actual_width).fill(0)), basex, basey, width, height, density);
+        const grid = new Grid([], basex, basey, width, height, density);
+
+        grid.nodes = new Array(actual_height).fill(null).map((_, y) => {
+            return new Array(actual_width).fill(null).map((_, x) => {
+                return new Node(grid, x, y, false, 1);
+            });
+        });
+
+        return grid;
     }
 
-    constructor(cells: number[][], readonly basex: number, readonly basey: number, readonly width: number, readonly height: number, readonly density: number) {
-        this.cells = cells;
+    constructor(nodes: Node[][], readonly basex: number, readonly basey: number, readonly width: number, readonly height: number, readonly density: number) {
+        this.nodes = nodes;
+        this.dirty = new Set;
+        this.pathid = 0;
     }
 
     get actual_width() {
@@ -53,44 +68,11 @@ export class Grid {
         return this.height * this.density;
     }
 
-    createBuffer() {
-        const actual_width = this.width * this.density;
-        const actual_height = this.height * this.density;
-        const writer = HazelBuffer.alloc(actual_width * actual_height);
+    nearest(x: number, y: number): Node {
+        const nodex = ~~((x - this.basex) * this.density);
+        const nodey = ~~((y - this.basey) * this.density);
 
-        writer.int16(this.basex)
-            .int16(this.basey)
-            .int16(this.width)
-            .int16(this.height)
-            .uint8(this.density);
-
-        writer.uint8(this.cells[0][0]);
-
-        let j = 1;
-        let bit = this.cells[0][0];
-        for (let x = 0; x < this.cells.length; x++) {
-            for (let y = 0; y < this.cells.length; y++) {
-                const cell = this.cells[x][y];
-
-                if (cell !== bit) {
-                    writer.upacked(j);
-                    bit = cell;
-                    j = 0;
-                }
-                j++;
-            }
-        }
-
-        writer.realloc(writer.cursor);
-
-        return writer.buffer;
-    }
-
-    nearest(x: number, y: number): Vector2 {
-        return {
-            x: ~~((x - this.basex) * this.density),
-            y: ~~((y - this.basex) * this.density)
-        };
+        return this.nodes[nodey][nodex];
     }
 
     actual(x: number, y: number) {
@@ -101,21 +83,76 @@ export class Grid {
     }
 
     at(i: number) {
-        const x = ~~(i / this.actual_width);
-        const y = i % this.actual_width;
+        const x = ~~(i / this.actual_height);
+        const y = i % this.actual_height;
 
         return this.get(x, y);
     }
 
     get(x: number, y: number) {
-        return this.cells[y][x];
+        return this.nodes?.[y]?.[x];
     }
 
     set(x: number, y: number) {
-        this.cells[y][x] = 1;
+        if (!this.get(x, y))
+            return;
+
+        this.nodes[y][x].blocked = true;
     }
 
     unset(x: number, y: number) {
-        this.cells[y][x] = 0;
+        if (!this.get(x, y))
+            return;
+
+        this.nodes[y][x].blocked = false;
+    }
+
+    reset() {
+        for (const node of this.dirty) {
+            node.opened = false;
+            node.closed = false;
+            node.g = null;
+            node.h = null;
+        }
+    }
+
+    createBuffer() {
+        const actual_width = this.width * this.density;
+        const actual_height = this.height * this.density;
+
+        const writer = HazelBuffer.alloc(actual_width * actual_height);
+
+        writer.int16(this.basex);
+        writer.int16(this.basey);
+        writer.uint16(this.width);
+        writer.uint16(this.height);
+        writer.uint8(this.density);
+
+        let num = 0;
+        let current: Node = null;
+        for (let y = 0; y < this.actual_height; y++) {
+            for (let x = 0; x < this.actual_width; x++) {
+                if (!current) {
+                    current = this.nodes[y][x];
+                }
+
+                if (current.blocked !== this.nodes[y][x].blocked || current.weight !== this.nodes[y][x].weight) {
+                    writer.upacked(num);
+                    writer.bool(current.blocked);
+                    writer.float(current.weight);
+                    current = this.nodes[y][x];
+                    num = 0;
+                }
+
+                num++;
+            }
+        }
+        writer.upacked(num);
+        writer.bool(current.blocked);
+        writer.float(current.weight);
+
+        writer.realloc(writer.cursor);
+
+        return writer.buffer;
     }
 }

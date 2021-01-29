@@ -5,13 +5,46 @@ import path from "path";
 import readline from "readline";
 
 import { Grid } from "./lib/util/Grid";
+import { Node } from "./lib/util/Node";
+
+function gradientSetGridPointImpl(grid: Grid, original: Node, dropoff: number, radius: number) {
+    if (!original.blocked)
+        return;
+
+    (function recursiveSetNeighbors(node: Node, amount: number, radius: number) {
+        for (const neighbor of node.neighbors) {
+            if (!neighbor.blocked) {
+                if (amount > neighbor.weight) neighbor.weight = amount;
+            }
+
+            if (radius > 1) {
+                if (neighbor.y > original.y) {
+                    recursiveSetNeighbors(neighbor, amount - dropoff, radius - 0.4);
+                } else {
+                    recursiveSetNeighbors(neighbor, amount - dropoff, radius - 1);
+                }
+            }
+        }
+    })(original, radius, radius);
+}
+
+function gradientSetGridPoint(grid: Grid, x: number, y: number, dropoff: number, radius: number) {
+    const node = grid.get(x, y);
+
+    if (node) {
+        node.blocked = true;
+        gradientSetGridPointImpl(grid, node, dropoff, radius);
+    }
+}
 
 (async () => {
     const basex = -40;
     const basey = -40;
     const width = 80;
     const height = 80;
-    const density = 36;
+    const density = 8;
+    const gradientDropoff = 0;
+    const wallGradientWeight = Math.ceil(2);
 
     const files = await fs.readdir(path.resolve(__dirname, "../data/colliders"));
 
@@ -38,11 +71,19 @@ import { Grid } from "./lib/util/Grid";
                 })
             }) as Vector2[][];
 
+            const total_lines = lines.reduce((cur, ln) => cur + (ln.length - 1), 0);
+            const mil = ~~(total_lines / 100);
+
+            console.log("Compiling " + total_lines + " straight line" + (total_lines === 1 ? "" : "s"));
+
+            let j = 0;
             for (let i = 0; i < lines.length; i++) {
                 const points = lines[i];
-                const num_points = points.length;
+                const num_lines = points.length - 1;
 
-                for (let i = 0; i < num_points - 1; i++) {
+                process.stdout.write("0%");
+
+                for (let i = 0; i < num_lines; i++) {
                     // http://eugen.dedu.free.fr/projects/bresenham/
 
                     const c = grid.nearest(points[i].x, points[i].y);
@@ -84,15 +125,15 @@ import { Grid } from "./lib/util/Grid";
                                 y += ystep;
                                 error -= ddx;
                                 if (error + errorprev < ddx) {
-                                    grid.set(x, y - ystep);
+                                    gradientSetGridPoint(grid, x, y - ystep, gradientDropoff, wallGradientWeight);
                                 } else if (error + errorprev > ddx) {
-                                    grid.set(x - xstep, y);
+                                    gradientSetGridPoint(grid, x - xstep, y, gradientDropoff, wallGradientWeight);
                                 } else {
-                                    grid.set(x, y - ystep);
-                                    grid.set(x - xstep, y);
+                                    gradientSetGridPoint(grid, x, y - ystep, gradientDropoff, wallGradientWeight);
+                                    gradientSetGridPoint(grid, x - xstep, y, gradientDropoff, wallGradientWeight);
                                 }
                             }
-                            grid.set(x, y);
+                            gradientSetGridPoint(grid, x, y, gradientDropoff, wallGradientWeight);
                             errorprev = error;
                         }
                     } else {
@@ -104,17 +145,24 @@ import { Grid } from "./lib/util/Grid";
                                 x += xstep;
                                 error -= ddy;
                                 if (error + errorprev < ddy) {
-                                    grid.set(x - xstep, y);
+                                    gradientSetGridPoint(grid, x - xstep, y, gradientDropoff, wallGradientWeight);
                                 } else if (error + errorprev > ddy) {
-                                    grid.set(x, y - ystep);
+                                    gradientSetGridPoint(grid, x, y - ystep, gradientDropoff, wallGradientWeight);
                                 } else {
-                                    grid.set(x, y - ystep);
-                                    grid.set(x - xstep, y);
+                                    gradientSetGridPoint(grid, x, y - ystep, gradientDropoff, wallGradientWeight);
+                                    gradientSetGridPoint(grid, x - xstep, y, gradientDropoff, wallGradientWeight);
                                 }
                             }
-                            grid.set(x, y);
+                            gradientSetGridPoint(grid, x, y, gradientDropoff, wallGradientWeight);
                             errorprev = error;
                         }
+                    }
+
+                    j++;
+                    if (j % mil === 0) {
+                        readline.cursorTo(process.stdout, 0);
+                        readline.clearLine(process.stdout, 0);
+                        process.stdout.write(((j / total_lines) * 100).toFixed(1) + "%");
                     }
                 }
             }
@@ -122,6 +170,7 @@ import { Grid } from "./lib/util/Grid";
             const took = Date.now() - started;
             const buf =  grid.createBuffer();
 
+            process.stdout.write("\n");
             console.log(".." + took + "ms");
             console.log(".." + (buf.byteLength / 1024).toFixed(3) + "kb written");
 

@@ -1,4 +1,4 @@
-import { DistanceID } from "../enum/DistanceID"
+import { DistanceID } from "@skeldjs/constant"
 
 export const KillDistances = {
     [DistanceID.Short]: 1.0,

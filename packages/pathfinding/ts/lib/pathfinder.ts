@@ -1,96 +1,193 @@
 import { SkeldjsClient } from "@skeldjs/client";
-import { Vector2 } from "@skeldjs/util";
-import { MapID } from "@skeldjs/constant";
+import { TypedEmitter, Vector2 } from "@skeldjs/util";
 
-import pathfinding from "pathfinding";
+import {
+    CustomNetworkTransform,
+    PlayerData,
+    PlayerDataResolvable,
+    TheSkeldVent,
+    MiraHQVent,
+    PolusVent,
+    VentCoords,
+    Room
+} from "@skeldjs/core"
 
 import fs from "fs";
 import path from "path";
 
+import { PathfinderConfig } from "./interface/PathfinderConfig";
 import { Grid } from "./util/Grid";
+import { Node } from "./util/Node";
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+import { getShortestPath } from "./engine";
 
-export class SkeldjsPathfinder {
-    private gridCache: Record<MapID, Grid>;
-    private astar: pathfinding.AStarFinder;
+type SkeldjsPathfinderEvents = {
 
-    constructor(private client: SkeldjsClient) {
-        this.gridCache = {
-            [MapID.TheSkeld]: null,
-            [MapID.MiraHQ]: null,
-            [MapID.Polus]: null,
-            [MapID.Airship]: null
+}
+
+export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
+    private _clock: NodeJS.Timeout;
+    private _tick: number;
+    private _moved: boolean;
+    destination: Vector2;
+    grid: Grid;
+    path: Node[];
+    following: PlayerData;
+
+    constructor(private client: SkeldjsClient, public config: PathfinderConfig = {}) {
+        super();
+
+        this.client.on("move", this._handleMove.bind(this));
+        this.client.on("leave", this._handleLeave.bind(this));
+
+        this._init();
+    }
+
+    private get snode() {
+        if (!this.position)
+            return null;
+
+        return this.grid.nearest(this.position.x, this.position.y);
+    }
+
+    private get dnode() {
+        if (!this.destination)
+            return null;
+
+        return this.grid.nearest(this.destination.x, this.destination.y);
+    }
+
+    get position() {
+        return this.transform?.position;
+    }
+
+    get transform(): CustomNetworkTransform {
+        return this.me?.transform;
+    }
+
+    get me() {
+        return this.room?.me;
+    }
+
+    get room() {
+        return this.client?.room;
+    }
+
+    get map() {
+        return this.room?.settings?.map;
+    }
+
+    private _init() {
+        this._clock = setInterval(this._ontick.bind(this), 1000 / SkeldjsPathfinder.FixedUpdateInterval);
+    }
+
+    private _destroy() {
+        clearInterval(this._clock);
+    }
+
+    destroy() {
+        this._destroy();
+    }
+
+    private _ontick() {
+        this._tick++;
+
+        if (typeof this.map === "undefined")
+            return;
+
+        if (!this.grid) {
+            const buff = fs.readFileSync(path.resolve(__dirname, "../../data/build", ""+this.map));
+            this.grid = Grid.fromBuffer(buff);
+        }
+
+        if (!this.snode || !this.dnode)
+            return;
+
+        if (this._moved || !this.path || this._tick % (this.config.recalculateEvery || 1) === 0) {
+            this.recalculate();
+            this._moved = false;
+        }
+
+        const next = this.path.shift();
+
+        if (next) {
+            const pos = this.grid.actual(next.x, next.y);
+            this.transform.move(pos);
+        } else {
+            this.destination = null;
+            this.path = null;
+        }
+    }
+
+    recalculate() {
+        this.grid.reset();
+        this.path = getShortestPath(this.grid, this.snode, this.dnode);
+    }
+
+    private _go(dest: Vector2) {
+        this.destination =  { // Recreate object to not recalculate new player position after moving.
+            x: dest.x,
+            y: dest.y
         };
-
-        this.astar = new pathfinding.AStarFinder({
-            diagonalMovement: pathfinding.DiagonalMovement.Never
-        });
+        this._moved = true;
     }
 
-    private _getGrid(map: MapID) {
-        if (this.gridCache[map]) {
-            //return this.gridCache[map];
+    go(pos: PlayerDataResolvable|Vector2|Node) {
+        const vec = pos as Vector2;
+
+        if (vec.x) {
+            this._go(vec);
+            return;
         }
 
-        const buf = fs.readFileSync(path.resolve(__dirname, "../../data/build", ""+map));
-        const grid = Grid.fromBuffer(buf);
+        if (pos instanceof Node) {
+            return this.grid.actual(pos.x, pos.y)
+        }
 
-        this.gridCache[map] = grid;
+        const resolved = this.client?.room?.resolvePlayer(pos as PlayerDataResolvable);
 
-        return grid;
-    }
+        if (resolved && resolved.spawned) {
+            const position = resolved.transform.position;
 
-    getPath(startx: number, starty: number, x: number, y: number, grid: Grid) {
-        const start = grid.nearest(startx, starty);
-        const dest = grid.nearest(x, y);
-
-        const pfgrid = new pathfinding.Grid(grid.cells);
-
-        const path = this.astar.findPath(start.x, start.y, dest.x, dest.y, pfgrid);
-
-        return path// .filter((_, i) => i % grid.density === 0) // Only use coordinates on whole points
-            .map(coords => {
-            return {
-                x: coords[0],
-                y: coords[1]
-            };
-        });
-    }
-
-    async moveTo(position: Vector2) {
-        let curpos = this.client?.room?.me?.transform?.position;
-        if (!curpos)
-            return;
-
-        const map = this.client.room?.settings?.map;
-
-        if (typeof map !== "number")
-            return;
-
-        const playerSpeed = this.client.room?.settings?.playerSpeed;
-
-        if (typeof playerSpeed !== "number")
-            return;
-
-        const grid = this._getGrid(map);
-        const path = this.getPath(curpos.x, curpos.y, position.x, position.y, grid);
-
-        for (let i = 0; i < path.length; i++) {
-            const point = grid.actual(path[i].x, path[i].y);
-            const dist = Math.hypot(point.x - curpos.x, point.y - curpos.y);
-            const speed = playerSpeed * SkeldjsPathfinder.speedMultiplier;
-
-            this.client.room.me.transform.move(point);
-
-            await sleep(dist / speed * 10);
-
-            curpos = {
-                x: point.x,
-                y: point.y
-            };
+            return this.go(position);
         }
     }
 
-    static speedMultiplier = 1 / 50; // fixed update rate
+    vent(ventid: TheSkeldVent|MiraHQVent|PolusVent) {
+        if (!this.map)
+            return;
+
+        const coords = VentCoords[this.map][ventid];
+
+        this.go(coords);
+    }
+
+    stop() {
+        this.destination = null;
+        this._moved = true;
+    }
+
+    private _handleMove(room: Room, transform: CustomNetworkTransform, position: Vector2) {
+        if (transform.owner === this.following) {
+            this._go(position);
+        }
+    }
+
+    private _handleLeave(room: Room, player: PlayerData) {
+        if (player === this.following) {
+            this.stop();
+            this.following = null;
+        }
+    }
+
+    follow(player: PlayerDataResolvable) {
+        const resolved = this.client?.room?.resolvePlayer(player);
+
+        if (resolved && resolved.spawned) {
+            this.following = resolved;
+            this.stop();
+        }
+    }
+
+    static FixedUpdateInterval = 25 as const;
 }

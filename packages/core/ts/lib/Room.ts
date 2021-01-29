@@ -14,21 +14,6 @@ import {
 } from "@skeldjs/util";
 
 import {
-    Airship,
-    AprilShipStatus,
-    CustomNetworkTransform,
-    GameData,
-    Headquarters,
-    LobbyBehaviour,
-    MeetingHud,
-    PlanetMap,
-    PlayerControl,
-    PlayerPhysics,
-    ShipStatus,
-    VoteBanSystem
-} from "./component";
-
-import {
     Opcode,
     MessageTag,
     SpawnID,
@@ -38,6 +23,22 @@ import {
     GameEndReason
 } from "@skeldjs/constant";
 
+import {
+    Airship,
+    AprilShipStatus,
+    CustomNetworkTransform,
+    GameData,
+    Headquarters,
+    LobbyBehaviour,
+    MeetingHud,
+    PlanetMap,
+    PlayerControl,
+    PlayerIDResolvable,
+    PlayerPhysics,
+    ShipStatus,
+    VoteBanSystem
+} from "./component";
+
 import { Global } from "./Global";
 import { Heritable } from "./Heritable";
 import { Networkable } from "./Networkable";
@@ -46,7 +47,7 @@ import { Hostable } from "./Hostable";
 
 import { SpawnPrefabs } from "./prefabs";
 
-export type PlayerDataResolvable = number|PlayerData|PlayerControl;
+export type PlayerDataResolvable = number|PlayerData|PlayerControl|PlayerPhysics|CustomNetworkTransform;
 export type PrivacyType = "public"|"private";
 
 export interface SpawnObject {
@@ -85,6 +86,7 @@ export type RoomEvents = PropagatedEmitter<PlayerData> &
     gameStart: () => void;
     gameEnd: () => void;
     spawn: (component: AnyNetworkable) => void;
+    despawn: (component: AnyNetworkable) => void;
 }
 
 export class Room extends Global<RoomEvents> {
@@ -175,6 +177,22 @@ export class Room extends Global<RoomEvents> {
         return this.players.get(this.resolvePlayerClientID(player));
     }
 
+    resolvePlayerId(player: PlayerIDResolvable) {
+        if (typeof player === "number") {
+            return player;
+        }
+
+        if (player instanceof PlayerData) {
+            return player.playerId;
+        }
+
+        if (player instanceof PlayerControl) {
+            return player.playerId;
+        }
+
+        return player.playerId;
+    }
+
     resolvePlayerClientID(player: PlayerDataResolvable) {
         if (typeof player === "undefined") {
             return null;
@@ -184,11 +202,15 @@ export class Room extends Global<RoomEvents> {
             return player;
         }
 
-        if ((player as PlayerControl).netid) {
-            return (player as PlayerControl).ownerid;
+        if (player instanceof Networkable) {
+            return player.ownerid;
         }
 
-        return (player as PlayerData).id;
+        if (player instanceof PlayerData) {
+            return player.id;
+        }
+
+        return null;
     }
 
     async setCode(code: string|number) {
@@ -278,7 +300,7 @@ export class Room extends Global<RoomEvents> {
     }
 
     private _removePlayer(player: PlayerData) {
-        player.emit("leave");
+        player.emit("removePlayer");
     }
 
     async handleLeave(client: PlayerDataResolvable) {

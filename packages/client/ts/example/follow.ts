@@ -1,10 +1,9 @@
-import { SkeldjsClient } from "..";
-import * as skeldjs from "@skeldjs/core";
+import * as skeldjs from "..";
 
 const server = skeldjs.MasterServers.EU[1];
 
 (async () => {
-    const client = new SkeldjsClient("2020.11.17.0");
+    const client = new skeldjs.SkeldjsClient("2020.11.17.0");
 
     console.log("Connecting..");
     await client.connect(server[0], server[1]);

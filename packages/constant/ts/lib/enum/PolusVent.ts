@@ -5,7 +5,7 @@ export enum PolusVent {
     Communications,
     Office,
     Admin,
-    Labatory,
+    Laboratory,
     LavaPool,
     Storage,
     RightSeismic,

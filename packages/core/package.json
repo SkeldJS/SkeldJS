@@ -11,7 +11,8 @@
     "@skeldjs/constant": "^2.3.3",
     "@skeldjs/protocol": "^2.3.3",
     "@skeldjs/types": "^2.2.7",
-    "@skeldjs/util": "^2.3.3"
+    "@skeldjs/util": "^2.3.3",
+    "@skeldjs/data": "^0.0.2"
   },
   "license": "GPL-3.0-only",
   "gitHead": "9d746a3898681fff7e1e6660d41f69c420ef5e1e"

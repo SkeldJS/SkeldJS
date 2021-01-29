@@ -17,6 +17,10 @@ import { HazelBuffer } from "@skeldjs/util"
 import { Networkable } from "../Networkable";
 import { Global } from "../Global";
 import { Room } from "../Room";
+import { PlayerData } from "../PlayerData";
+
+import { PlayerControl } from "./PlayerControl";
+import { PlayerVoteState } from "../misc/PlayerVoteState";
 
 export interface GameDataData {
     dirtyBit: number;
@@ -27,6 +31,8 @@ export type GameDataEvents = {
     addPlayerData: (playerData: PlayerGameData) => void;
     removePlayerData: (playerData: PlayerGameData) => void;
 }
+
+export type PlayerIDResolvable = number|PlayerData|PlayerControl|PlayerGameData|PlayerVoteState;
 
 export class GameData extends Networkable<GameDataEvents> {
     static type = SpawnID.GameData as const;
@@ -43,6 +49,10 @@ export class GameData extends Networkable<GameDataEvents> {
 
     get owner() {
         return super.owner as Global;
+    }
+
+    resolvePlayerData(resolvable: PlayerIDResolvable) {
+        return this.players.get(this.room.resolvePlayerId(resolvable));
     }
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
@@ -93,6 +103,9 @@ export class GameData extends Networkable<GameDataEvents> {
 
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
+            case RpcTag.SetTasks:
+                this.setTasks
+                break;
             case RpcTag.UpdateGameData:
                 for (let i = 0; i < message.players.length; i++) {
                     const data = message.players[i];
@@ -122,57 +135,80 @@ export class GameData extends Networkable<GameDataEvents> {
         this.dirtyBit = 0;
     }
 
-    update(playerId: number) {
-        this.dirtyBit |= (1 << playerId);
+    update(resolvable: PlayerIDResolvable) {
+        const player = this.resolvePlayerData(resolvable);
+
+        if (player) {
+            this.dirtyBit |= (1 << player.playerId);
+        }
     }
 
-    setName(playerId: number, name: string) {
-        const player = this.players.get(playerId);
+    setName(resolvable: PlayerIDResolvable, name: string) {
+        const player = this.resolvePlayerData(resolvable);
 
         if (player) {
             player.name = name;
-            this.dirtyBit |= (1 << playerId);
+            this.update(player);
         }
     }
 
-    setColor(playerId: number, color: ColorID) {
-        const player = this.players.get(playerId);
+    setColor(resolvable: PlayerIDResolvable, color: ColorID) {
+        const player = this.resolvePlayerData(resolvable);
 
         if (player) {
             player.color = color;
-            this.dirtyBit |= (1 << playerId);
+            this.update(player);
         }
     }
 
-    setHat(playerId: number, hat: HatID) {
-        const player = this.players.get(playerId);
+    setHat(resolvable: PlayerIDResolvable, hat: HatID) {
+        const player = this.resolvePlayerData(resolvable);
 
         if (player) {
             player.hat = hat;
-            this.dirtyBit |= (1 << playerId);
+            this.update(player);
         }
     }
 
-    setSkin(playerId: number, skin: SkinID) {
-        const player = this.players.get(playerId);
+    setSkin(resolvable: PlayerIDResolvable, skin: SkinID) {
+        const player = this.resolvePlayerData(resolvable);
 
         if (player) {
             player.skin = skin;
-            this.dirtyBit |= (1 << playerId);
+            this.update(player);
         }
     }
 
-    setPet(playerId: number, pet: PetID) {
-        const player = this.players.get(playerId);
+    setPet(resolvable: PlayerIDResolvable, pet: PetID) {
+        const player = this.resolvePlayerData(resolvable);
 
         if (player) {
             player.pet = pet;
-            this.dirtyBit |= (1 << playerId);
+            this.update(player);
         }
     }
 
-    completeTask(playerId: number, taskIdx: number) {
+    private _setTasks(playerId: number, taskIds: number[]) {
         const player = this.players.get(playerId);
+
+        if (player) {
+            player.tasks = [];
+            this.emit("setTasks", player);
+            taskIds;
+        }
+    }
+
+    setTasks(resolvable: PlayerIDResolvable, taskIds: number[]) {
+        const player = this.resolvePlayerData(resolvable);
+
+        if (player) {
+            player.tasks = [];
+            taskIds;
+        }
+    }
+
+    completeTask(resolvable: PlayerIDResolvable, taskIdx: number) {
+        const player = this.resolvePlayerData(resolvable);
 
         if (player) {
             const task = player.tasks[taskIdx];
@@ -202,14 +238,18 @@ export class GameData extends Networkable<GameDataEvents> {
         this.update(playerId);
     }
 
-    remove(playerId: number) {
-        if (this.dirtyBit & (1 << playerId)) {
-            this.dirtyBit ^= (1 << playerId);
+    remove(resolvable: PlayerIDResolvable) {
+        const player = this.resolvePlayerData(resolvable);
+
+        if (player) {
+            if (this.dirtyBit & (1 << player.playerId)) {
+                this.dirtyBit ^= (1 << player.playerId);
+            }
+
+            this.emit("removePlayerData", this.players.get(player.playerId));
+
+            this.players.delete(player.playerId);
         }
-
-        this.emit("removePlayerData", this.players.get(playerId));
-
-        this.players.delete(playerId);
     }
 
     static readPlayerData(reader: HazelBuffer): PlayerGameData {

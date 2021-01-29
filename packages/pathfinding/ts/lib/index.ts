@@ -1,1 +1,1 @@
-export * from "./pathfinder";
+export * from "./Pathfinder";
