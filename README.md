@@ -11,12 +11,16 @@ The repository holds several key programs for automating development with Among 
 
 as well as a central `@skeldjs/skeldjs` package that contains a simple client API, and a server plugin API with support for Redis and multiple server nodes.
 
-The repository also hosts utility packages for the projects listed above, that you can use individually.
-* **Common** - Common Among Us structures and game objects that are shared across all main projects.
+The repository also hosts utility packages for the packages listed above, that you can use individually.
+* **Core** - An impartial core internal API for Among Us structures and game objects that are shared across all main projects.
 * **Protocol** - Protocol interfaces with full parsing and composing.
-* **Constant** - Enums & data in Among Us that never change.
-* **Types** - Useful Among Us types, enums and interfaces.
+* **Constant** - Enums & bitfields in Among Us.
+* **Data** - Among Us game data & information.
 * **Util** - Basic utility functions.
+
+As well as the main and utility packages, the project also contains several packages to be used as additions or addons to the client package. These are installed separately from the client although are helpful in automating client development.
+* **Pathfinding** - A* pathfinding implementation to get around the Among Us map, abstracted to be a seamless addition to the  client package.
+* **Task Manager** - A tool used for managing task completion in the correct order in Among Us.
 
 You can view auto-updating documentation for all packages hosted at github pages at https://skeldjs.github.io/SkeldJS.
 
