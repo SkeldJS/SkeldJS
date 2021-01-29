@@ -94,18 +94,27 @@ or
 yarn add @skeldjs/proxy
 ```
 
+### To install client tools
+```
+npm install --save @skeldjs/pathfinding
+npm install --save @skeldjs/taskmanager
+or
+yarn add @skeldjs/pathfinding
+yarn add @skeldjs/taskmanager
+```
+
 ### To install utility packages
 ```
 npm install --save @skeldjs/core
 npm install --save @skeldjs/protocol
 npm install --save @skeldjs/constant
-npm install --save @skeldjs/types
+npm install --save @skeldjs/data
 npm install --save @skeldjs/util
 or
 yarn add @skeldjs/core
 yarn add @skeldjs/protocol
 yarn add @skeldjs/constant
-yarn add @skeldjs/types
+yarn add @skeldjs/data
 yarn add @skeldjs/util
 ```
 
