@@ -9,6 +9,7 @@
     "lint-staged": "lint-staged",
     "fix": "prettier --write",
     "test": "ts-mocha packages/*/ts/lib/**/*.spec.ts --exclude node_modules",
+    "build-all:ci": "lerna run build:ci",
     "build-all": "lerna run build",
     "publish-all": "lerna publish",
     "postinstall": "husky install",
