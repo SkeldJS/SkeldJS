@@ -5,7 +5,7 @@
   "license": "GPL-3.0-only",
   "scripts": {
     "build": "tsc -p ./ && node js/build.js",
-    "build:ci": "yarn install && tsc -p ./",
+    "build:ci": "yarn install --ignore-scripts && yarn build",
     "prepublishOnly": "npm run build",
     "postinstall": "node js/build.js"
   },
