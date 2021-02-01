@@ -46,6 +46,7 @@ function gradientSetGridPoint(grid: Grid, x: number, y: number, dropoff: number,
     const gradientDropoff = 0;
     const wallGradientWeight = Math.ceil(2);
 
+    await fs.mkdir(path.resolve(__dirname, "../data/build"));
     const files = await fs.readdir(path.resolve(__dirname, "../data/colliders"));
 
     for (let i = 0; i < files.length; i++) {
