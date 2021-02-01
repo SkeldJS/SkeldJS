@@ -15,8 +15,10 @@
     "@skeldjs/core": "^2.3.9",
     "@skeldjs/data": "^2.3.9",
     "@skeldjs/util": "^2.3.4",
-    "@types/heap": "^0.2.28",
     "heap": "^0.2.6"
+  },
+  "devDependencies": {
+    "@types/heap": "^0.2.28"
   },
   "gitHead": "f7fdcbcdc55aa92dd58f97db001db122ba24095f"
 }
