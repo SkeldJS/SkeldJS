@@ -30,14 +30,16 @@ import {
 
     GameOptions,
 
-    composePacket,
-    parsePacket
+    composePacket
 } from "@skeldjs/protocol";
 
 import {
-    Room,
-    Hostable
+    Room
 } from "@skeldjs/core";
+
+import {
+    SkeldjsStateManager
+} from "@skeldjs/state";
 
 import {
     Code2Int,
@@ -66,11 +68,7 @@ export type SkeldjsClientEvents = PropagatedEmitter<Room> & {
     fixedUpdate: (stream: GameDataMessage[]) => void;
 }
 
-const update_interval = 1000 / 50; // How often fixed update should get called.
-
-export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
-    isServer = false as const;
-
+export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     options: ClientConfig;
 
     socket: dgram.Socket;
@@ -91,8 +89,10 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
     room: Room;
 
-    settings_cache: GameOptions;
+    private settings_cache: GameOptions;
     stream: GameDataMessage[];
+
+    private last_fixed_update;
 
     constructor(version: string|number, options: ClientConfig = { debug: DebugLevel.None, allowHost: true }) {
         super();
@@ -112,49 +112,48 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this._reset();
 
         this.stream = [];
+    }
 
-        let before = Date.now();
-        setInterval(async () => {
-            if (this.room) {
-                const delta = Date.now() - before;
-                before = Date.now();
-                for (const [ , component ] of this.room.netobjects) {
-                    if (component && (component.owner === this.room.me || (component.ownerid === -2 && this.room.amhost))) {
-                        component.FixedUpdate(delta);
-                        if (component.dirtyBit) {
-                            component.PreSerialize();
-                            const writer = HazelBuffer.alloc(0);
-                            if (component.Serialize(writer, false)) {
-                                this.stream.push({
-                                    tag: MessageTag.Data,
-                                    netid: component.netid,
-                                    data: writer
-                                });
-                            }
-                            component.dirtyBit = 0;
+    protected async FixedUpdate() {
+        if (this.room) {
+            const delta = Date.now() - this.last_fixed_update;
+            this.last_fixed_update = Date.now();
+            for (const [ , component ] of this.room.netobjects) {
+                if (component && (component.owner === this.room.me || (component.ownerid === -2 && this.room.amhost))) {
+                    component.FixedUpdate(delta);
+                    if (component.dirtyBit) {
+                        component.PreSerialize();
+                        const writer = HazelBuffer.alloc(0);
+                        if (component.Serialize(writer, false)) {
+                            this.stream.push({
+                                tag: MessageTag.Data,
+                                netid: component.netid,
+                                data: writer
+                            });
                         }
+                        component.dirtyBit = 0;
                     }
                 }
-
-                this.emit("fixedUpdate", this.stream);
-
-                if (this.stream.length) {
-                    const stream = this.stream;
-                    this.stream = [];
-
-                    await this.send({
-                        op: Opcode.Reliable,
-                        payloads: [
-                            {
-                                tag: PayloadTag.GameData,
-                                code: this.room.code,
-                                messages: stream
-                            }
-                        ]
-                    });
-                }
             }
-        }, update_interval);
+
+            this.emit("fixedUpdate", this.stream);
+
+            if (this.stream.length) {
+                const stream = this.stream;
+                this.stream = [];
+
+                await this.send({
+                    op: Opcode.Reliable,
+                    payloads: [
+                        {
+                            tag: PayloadTag.GameData,
+                            code: this.room.code,
+                            messages: stream
+                        }
+                    ]
+                });
+            }
+        }
     }
 
     get nonce() {
@@ -177,8 +176,8 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         });
     }
 
-    async onMessage(message: Buffer) {
-        const packet = parsePacket(message, "client");
+    async handlePacket(packet: ClientboundPacket) {
+        this.emit("packet", packet);
 
         switch (packet.op) {
         case Opcode.Reliable:
@@ -188,70 +187,6 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
             this.packets_recv.splice(8);
 
             this.ack(packet.nonce);
-            break;
-        }
-
-        switch (packet.op) {
-        case Opcode.Unreliable:
-        case Opcode.Reliable:
-            for (let i = 0; i < packet.payloads.length; i++) {
-                const payload = packet.payloads[i];
-
-                switch (payload.tag) {
-                case PayloadTag.HostGame:
-                    if (this.room) {
-                        this.room.setCode(payload.code);
-                    }
-                    break;
-                case PayloadTag.JoinGame:
-                    if (payload.error === false) { // For typings
-                        if (this.room && this.room.code === payload.code) {
-                            await this.room.handleJoin(payload.clientid);
-                            await this.room.setHost(payload.hostid);
-                        }
-                    }
-                    break;
-                case PayloadTag.StartGame:
-                    if (this.room && this.room.code === payload.code) {
-                        await this.room.handleStart();
-                    }
-                    break;
-                case PayloadTag.EndGame:
-                    if (this.room && this.room.code === payload.code) {
-                        await this.room.handleEnd(payload.reason);
-                    }
-                    break;
-                case PayloadTag.RemovePlayer:
-                    if (this.room && this.room.code === payload.code) {
-                        await this.room.handleLeave(payload.clientid);
-                        await this.room.setHost(payload.hostid);
-                    }
-                    break;
-                case PayloadTag.GameData:
-                case PayloadTag.GameDataTo:
-                    if (this.room && this.room.code === payload.code) {
-                        for (let i = 0; i < payload.messages.length; i++) {
-                            const message = payload.messages[i];
-
-                            await this.room.handleGameData(message);
-                        }
-                    }
-                    break;
-                case PayloadTag.JoinedGame:
-                    this.clientid = payload.clientid;
-
-                    this.room = new Room(this, payload.code);
-                    await this.room.setHost(payload.hostid);
-
-                    await this.room.handleJoin(this.clientid);
-                    for (let i = 0; i < payload.clients.length; i++) {
-                        await this.room.handleJoin(payload.clients[i]);
-                    }
-                    break;
-                case PayloadTag.AlterGame:
-                    break;
-                }
-            }
             break;
         case Opcode.Disconnect:
             await this.disconnect(packet.reason, packet.message);
@@ -265,7 +200,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
             break;
         }
 
-        this.emit("packet", packet);
+        super.handlePacket(packet);
     }
 
     async connect(ip: string, port: number) {

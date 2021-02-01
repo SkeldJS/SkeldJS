@@ -13,6 +13,7 @@
     "@skeldjs/core": "^2.3.9",
     "@skeldjs/data": "^2.3.9",
     "@skeldjs/protocol": "^2.3.9",
+    "@skeldjs/state": "^0.0.1",
     "@skeldjs/util": "^2.3.4"
   },
   "gitHead": "f7fdcbcdc55aa92dd58f97db001db122ba24095f"

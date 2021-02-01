@@ -1,0 +1,17 @@
+{
+  "name": "@skeldjs/state",
+  "version": "0.0.1",
+  "main": "js/index.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "build:ci": "yarn install && tsc -p ./",
+    "prepublishOnly": "npm run build"
+  },
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@skeldjs/constant": "^2.3.7",
+    "@skeldjs/core": "^2.3.9",
+    "@skeldjs/protocol": "^2.3.9",
+    "@skeldjs/util": "^2.3.4"
+  }
+}

@@ -48,6 +48,8 @@ import { Hostable } from "./Hostable";
 
 import { SpawnPrefabs } from "./prefabs";
 
+export type RoomID = string|number;
+
 export type PlayerDataResolvable = number|PlayerData|PlayerControl|PlayerPhysics|CustomNetworkTransform;
 export type PrivacyType = "public"|"private";
 
@@ -211,7 +213,7 @@ export class Room extends Global<RoomEvents> {
         return null;
     }
 
-    async setCode(code: string|number) {
+    setCode(code: string|number) {
         if (typeof code === "string") {
             return this.setCode(Code2Int(code));
         }
@@ -219,7 +221,7 @@ export class Room extends Global<RoomEvents> {
         this.code = code;
     }
 
-    private _setAlterGameTag(tag: number, value: number) {
+    private _setAlterGameTag(tag: AlterGameTag, value: number) {
         switch (tag) {
             case AlterGameTag.ChangePrivacy:
                 this.privacy = value ? "public" : "private";
@@ -227,7 +229,7 @@ export class Room extends Global<RoomEvents> {
         }
     }
 
-    async setAlterGameTag(tag: number, value: number) {
+    async setAlterGameTag(tag: AlterGameTag, value: number) {
         this._setAlterGameTag(tag, value);
 
         if (this.amhost) {
@@ -253,7 +255,7 @@ export class Room extends Global<RoomEvents> {
         await this.setPublic(visibility === "public");
     }
 
-    async setSettings(settings: Partial<GameOptions>) {
+    setSettings(settings: Partial<GameOptions>) {
         this.settings = {
             ...this.settings,
             ...settings
@@ -266,7 +268,7 @@ export class Room extends Global<RoomEvents> {
         }
     }
 
-    async setHost(host: PlayerDataResolvable) {
+    setHost(host: PlayerDataResolvable) {
         const before = this.hostid;
         const resolved_id = this.resolvePlayerClientID(host);
 
@@ -287,7 +289,7 @@ export class Room extends Global<RoomEvents> {
         }
     }
 
-    async handleJoin(clientid: number) {
+    handleJoin(clientid: number) {
         if (this.objects.has(clientid))
             return;
 
@@ -301,7 +303,7 @@ export class Room extends Global<RoomEvents> {
         player._emit("removePlayer");
     }
 
-    async handleLeave(client: PlayerDataResolvable) {
+    handleLeave(client: PlayerDataResolvable) {
         const resolved = this.resolvePlayerClientID(client);
 
         const player = this.players.get(resolved);
