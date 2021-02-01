@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/pathfinding",
-  "version": "2.3.9",
+  "version": "2.3.10",
   "main": "js/index.js",
   "license": "GPL-3.0-only",
   "scripts": {
