@@ -29,14 +29,4 @@ export class LobbyBehaviour extends Networkable<LobbyBehaviourEvents> {
     get owner() {
         return super.owner as Global;
     }
-
-    /* eslint-disable-next-line */
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-
-    }
-
-    /* eslint-disable-next-line */
-    Serialize(writer: HazelBuffer, spawn: boolean = false) {
-
-    }
 }

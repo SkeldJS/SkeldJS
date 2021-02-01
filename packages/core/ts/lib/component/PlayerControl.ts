@@ -32,6 +32,7 @@ export type PlayerControlEvents = {
     setSkin: (skin: SkinID) => void;
     setPet: (pet: PetID) => void;
     syncSettings: (settings: GameOptions) => void;
+    setStartCounter: (counter: number) => void;
     setImpostors: (impostors: PlayerData[]) => void;
     murder: (victim: PlayerData) => void;
     meeting: (meeting: PlayerData|null) => void;
@@ -73,6 +74,7 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
         }
 
         writer.uint8(this.playerId);
+        return true;
     }
 
     HandleRPC(message: RpcMessage) {
@@ -114,8 +116,11 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
                     }
 
                     const players = [...this.room.gamedata.players.values()];
-                    while (players.some(player => player.playerId !== this.playerId && player.color === message.color) && message.color < 13) {
+                    while (players.some(player => player.playerId !== this.playerId && player.color === message.color)) {
                         message.color++;
+                        if (message.color > 11) {
+                            message.color = 0;
+                        }
                     }
 
                     this.setColor(message.color);
@@ -144,6 +149,9 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
                 break;
             case RpcTag.SetPet:
                 this._setPet(message.pet);
+                break;
+            case RpcTag.SetStartCounter:
+                this._setStartCounter(message.time);
                 break;
         }
     }
@@ -371,18 +379,21 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
         });
     }
 
-    setStartCounter(counter: number) {
-        if (this.owner.ishost) {
-            this.lastStartCounter++;
+    private _setStartCounter(counter: number) {
+        this.lastStartCounter++;
+        this.emit("setStartCounter", counter)
+    }
 
-            this.room.client.stream.push({
-                tag: MessageTag.RPC,
-                netid: this.netid,
-                rpcid: RpcTag.SetStartCounter,
-                seqId: this.lastStartCounter,
-                time: counter
-            });
-        }
+    setStartCounter(counter: number) {
+        this._setStartCounter(counter);
+
+        this.room.client.stream.push({
+            tag: MessageTag.RPC,
+            netid: this.netid,
+            rpcid: RpcTag.SetStartCounter,
+            seqId: this.lastStartCounter,
+            time: counter
+        });
     }
 
     private _setInfected(playerids: number[]) {
@@ -393,10 +404,12 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
 
             const resolved = this.room.getPlayerByPlayerId(playerid);
 
-            impostors.push(resolved);
+            if (resolved) {
+                impostors.push(resolved);
 
-            if (resolved?.data) {
-                resolved.data.impostor = true;
+                if (resolved.data) {
+                    resolved.data.impostor = true;
+                }
             }
         }
 
@@ -404,18 +417,18 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
     }
 
     setInfected(players: PlayerDataResolvable[]) {
-        const resolved = players.map(this.room.resolvePlayer).filter(_=>_);
+        const resolved = players.map(player => this.room.resolvePlayer(player)).filter(_=>_);
 
         this._setInfected(resolved.map(player => player.playerId));
 
-        if (this.owner.ishost) {
+        // if (this.owner.ishost) {
             this.room.client.stream.push({
                 tag: MessageTag.RPC,
                 netid: this.netid,
                 rpcid: RpcTag.SetInfected,
                 impostors: resolved.map(player => player.playerId)
             });
-        }
+        // }
     }
 
     private _murderPlayer(netid: number) {
@@ -430,16 +443,16 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
         this.emit("meeting", bodyid === 0xFF ? null : this.room.getPlayerByPlayerId(bodyid));
     }
 
-    startMeeting(body: PlayerDataResolvable) {
-        const resolved = this.room.resolvePlayer(body);
+    startMeeting(body: PlayerDataResolvable|"emergency") {
+        const resolved = body === "emergency" ? null : this.room.resolvePlayer(body);
 
-        if (resolved) {
+        if (resolved || body === "emergency") {
             if (this.room.amhost) {
                 this.room.client.stream.push({
                     tag: MessageTag.RPC,
                     netid: this.netid,
                     rpcid: RpcTag.StartMeeting,
-                    bodyid: resolved.playerId
+                    bodyid: body === "emergency" ? 255 : resolved.playerId
                 });
             } else {
                 this.room.client.send({
@@ -454,7 +467,7 @@ export class PlayerControl extends Networkable<PlayerControlEvents> {
                                     tag: MessageTag.RPC,
                                     netid: this.netid,
                                     rpcid: RpcTag.ReportDeadBody,
-                                    bodyid: resolved.playerId
+                                    bodyid: body === "emergency" ? 255 : resolved.playerId
                                 }
                             ]
                         }

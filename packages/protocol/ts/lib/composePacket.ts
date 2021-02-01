@@ -62,7 +62,7 @@ export function composePacket(packet: ClientboundPacket, bound?: "client"): Haze
 export function composePacket(packet: ServerboundPacket, bound?: "server"): HazelBuffer;
 export function composePacket(packet: Packet, bound: "server"|"client" = "server"): HazelBuffer {
     packet.bound = bound;
-    
+
     const writer = HazelBuffer.alloc(512);
 
     writer.uint8(packet.op);
@@ -139,7 +139,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                     case MessageTag.RPC:
                         writer.upacked(message.netid);
                         writer.uint8(message.rpcid);
-                        
+
                         switch (message.rpcid) {
                         case RpcTag.PlayAnimation:
                             writer.uint8(message.task);
@@ -280,8 +280,8 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                         writer.upacked(message.type);
                         writer.upacked(message.ownerid);
                         writer.byte(message.flags);
-                        
-                        writer.upacked(message.components.length);
+
+                        writer.upacked(typeof message.num_components === "undefined" ? message.components.length : message.num_components);
                         for (let i = 0; i < message.components.length; i++) {
                             const component = message.components[i];
                             writer.upacked(component.netid);
@@ -390,7 +390,7 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                     }
                     writer.end();
                 }
-                
+
                 break;
             }
             writer.end();

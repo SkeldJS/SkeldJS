@@ -68,14 +68,13 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
-        writer.uint16(this.seqId);
-        writeVector2(writer, this.position);
-        writeVector2(writer, this.velocity);
-    }
-
-    /* eslint-disable-next-line @typescript-eslint/no-empty-function */
-    FixedUpdate() {
-
+        if (this.dirtyBit) {
+            writer.uint16(this.seqId);
+            writeVector2(writer, this.position);
+            writeVector2(writer, this.velocity);
+            return true;
+        }
+        this.dirtyBit = 0;
     }
 
     HandleRPC(message: RpcMessage) {

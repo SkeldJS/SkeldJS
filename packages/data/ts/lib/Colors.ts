@@ -49,4 +49,4 @@ export const ColorCodes = {
         hex: "#50f039",
         rgb: [80, 240, 57]
     },
-} as const;
+};

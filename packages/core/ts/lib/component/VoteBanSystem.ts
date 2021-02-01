@@ -70,6 +70,7 @@ export class VoteBanSystem extends Networkable<VoteBanSystemEvents> {
                 writer.upacked(voters[i]);
             }
         }
+        return true;
     }
 
     HandleRPC(message: RpcMessage) {
@@ -85,8 +86,10 @@ export class VoteBanSystem extends Networkable<VoteBanSystemEvents> {
         if (voted) {
             const next = voted.indexOf(null);
 
-            if (~next)
+            if (~next) {
                 voted[next] = voterid;
+                this.dirtyBit = 1;
+            }
 
             if (this.room.amhost && voted.every(v => typeof v === "number")) {
                 this.room.client.send({
@@ -104,6 +107,7 @@ export class VoteBanSystem extends Networkable<VoteBanSystemEvents> {
             }
         } else {
             this.voted.set(targetid, [voterid, null, null]);
+            this.dirtyBit = 1;
         }
     }
 

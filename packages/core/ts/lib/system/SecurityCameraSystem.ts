@@ -17,7 +17,7 @@ export type SecurityCameraSystemEvents = {
 export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemEvents> {
     static systemType = SystemType.Security as const;
     systemType = SystemType.Security as const;
-    
+
     players: Set<PlayerData>;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|SecurityCameraSystemData) {
@@ -51,5 +51,6 @@ export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemEvent
         } else {
             this.players.delete(control);
         }
+        this.dirty = true;
     }
 }

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@skeldjs/constant@^2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.4.tgz#cceae73c25608246a12e9c07f0b383695983b76a"
-  integrity sha512-Fa9evjDLv81Qu9yOA46FrccO3u7IlsW/s4FnGjTo4elHJGKxEcEfG5qMLIIsbIhJOwkyoGrGbXwiovS8KhvxVA==
+"@skeldjs/constant@^2.3.5":
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.5.tgz#3c385b1011882602e3e79c743badc9ec9cc4f7c8"
+  integrity sha512-tLAB/wTFPcakUM2mncphl9KF88dARBrnLMtpw3kVbS4rn+H+1iQDpMHCeCAyENqTeHREKPalhTOW5QOtJET5kA==
   dependencies:
     "@skeldjs/util" "^2.3.4"
 

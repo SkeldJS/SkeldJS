@@ -1,6 +1,6 @@
-import { TypedEmitter, TypedEvents } from "@skeldjs/util";
+import { PropagatedEvents, TypedEmitter, TypedEvents } from "@skeldjs/util";
 
-import { Networkable } from "./Networkable";
+import { Networkable, NetworkableEvents } from "./Networkable";
 import { Room } from "./Room";
 
 type NetworkableConstructor<T> = {
@@ -8,7 +8,7 @@ type NetworkableConstructor<T> = {
     classname: string;
 };
 
-type HeritableEvents = {
+type HeritableEvents = PropagatedEvents<Networkable, NetworkableEvents> & {
 
 }
 
@@ -30,7 +30,7 @@ export class Heritable<T extends TypedEvents = {}> extends TypedEmitter<T & Heri
 
     emit(event: string, ...args: any[]): boolean {
         this.room.emit(event, ...args);
-        
+
         return super.emit(event, ...args);
     }
 

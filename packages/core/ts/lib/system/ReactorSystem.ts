@@ -8,7 +8,7 @@ import { PlayerData } from "../PlayerData";
 
 export interface ReactorSystemData {
     timer: number;
-    completed: number[];
+    completed: Set<number>;
 }
 
 export type ReactorSystemEvents = {
@@ -18,12 +18,16 @@ export type ReactorSystemEvents = {
 export class ReactorSystem extends SystemStatus<ReactorSystemEvents> {
     static systemType = SystemType.Reactor as const;
     systemType = SystemType.Reactor as const;
-    
+
     timer: number;
-    completed: number[];
+    completed: Set<number>;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|ReactorSystemData) {
         super(ship, data);
+    }
+
+    get sabotaged() {
+        return this.timer < 10000;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -31,23 +35,49 @@ export class ReactorSystem extends SystemStatus<ReactorSystemEvents> {
         this.timer = reader.float();
 
         const num_consoles = reader.upacked();
-        this.completed = [];
+        this.completed.clear();
         for (let i = 0; i < num_consoles; i++) {
-            this.completed.push(reader.upacked());
+            this.completed.add(reader.upacked());
         }
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean) {
         writer.float(this.timer);
-
-        for (let i = 0; i < this.completed.length; i++) {
-            writer.upacked(this.completed[i]);
+        const completed = [...this.completed];
+        writer.upacked(completed.length);
+        for (let i = 0; i < completed.length; i++) {
+            writer.upacked(completed[i]);
         }
     }
-    
+
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     HandleRepair(control: PlayerData, amount: number) {
-        // todo: https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/28_repairsystem.md#reactor-and-laboratory
+        const consoleId = amount & 0x3;
+
+        if (amount & 0x40) {
+            this.completed.add(consoleId);
+        } else if (amount & 0x20) {
+            this.completed.delete(consoleId);
+        } else if (amount & 0x1) {
+            this.timer = 10000;
+            this.completed.clear();
+        }
+
+        this.dirty = true;
+    }
+
+    private _lastUpdate = 0;
+    Detoriorate(delta: number) {
+        if (!this.sabotaged)
+            return;
+
+        this.timer -= delta;
+        this._lastUpdate += delta;
+
+        if (this._lastUpdate > 2) {
+            this._lastUpdate = 0;
+            this.dirty = true;
+        }
     }
 }

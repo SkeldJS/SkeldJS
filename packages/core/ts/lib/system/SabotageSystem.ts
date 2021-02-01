@@ -17,7 +17,7 @@ export type SabotageSystemEvents = {
 export class SabotageSystem extends SystemStatus<SabotageSystemEvents> {
     static systemType = SystemType.Sabotage as const;
     systemType = SystemType.Sabotage as const;
-    
+
     cooldown: number;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|SabotageSystemData) {
@@ -37,8 +37,8 @@ export class SabotageSystem extends SystemStatus<SabotageSystemEvents> {
     HandleRepair(control: PlayerData, amount: number) {
         const system = this.ship.systems[amount] as SystemStatus;
 
-        if (system) {
-            system.sabotage(control);
-        }
+        system.HandleSabotage(control);
+
+        this.dirty = true;
     }
 }

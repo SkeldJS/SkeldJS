@@ -20,4 +20,8 @@ export type SystemStatusEvents = AutoDoorsSystemEvents &
     ReactorSystemEvents &
     SabotageSystemEvents &
     SecurityCameraSystemEvents &
-    SwitchSystemEvents;
+    SwitchSystemEvents &
+    {
+        sabotageSystem: () => void;
+        repairSystem: () => void;
+    }

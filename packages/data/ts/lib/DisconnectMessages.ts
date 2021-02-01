@@ -14,4 +14,4 @@ export const DisconnectMessages = {
     [DisconnectReason.IncorrectGame]: "Could not find the game you're looking for.",
     [DisconnectReason.ServerRequest]: "The server stopped this game. Possibly due to inactivity.",
     [DisconnectReason.ServerFull]: "The Among Us servers are overloaded. Sorry! Please try again later!"
-} as const;
+};

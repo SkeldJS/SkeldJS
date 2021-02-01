@@ -11,6 +11,14 @@ export class SystemStatus<T extends TypedEvents = {}> extends TypedEmitter<T & S
     static systemType: SystemType;
     systemType: SystemType;
 
+    get dirty() {
+        return (this.ship.dirtyBit & (1 << this.systemType)) > 0;
+    }
+
+    set dirty(val: boolean) {
+        this.ship.dirtyBit |= (1 << this.systemType);
+    }
+
     constructor(protected ship: BaseShipStatus, data?: HazelBuffer|any) {
         super();
 
@@ -31,13 +39,16 @@ export class SystemStatus<T extends TypedEvents = {}> extends TypedEmitter<T & S
 
     /* eslint-disable-next-line */
     Deserialize(reader: HazelBuffer, spawn: boolean) {}
-
     /* eslint-disable-next-line */
     Serialize(writer: HazelBuffer, spawn: boolean) {}
-
     /* eslint-disable-next-line */
     HandleRepair(control: PlayerData, amount: number) {}
-
     /* eslint-disable-next-line */
-    sabotage(control: PlayerData) {}
+    Detoriorate(delta: number) {}
+    /* eslint-disable-next-line */
+    HandleSabotage(control: PlayerData) {}
+
+    sabotage(control: PlayerData) {
+        this.HandleSabotage(control);
+    }
 }
