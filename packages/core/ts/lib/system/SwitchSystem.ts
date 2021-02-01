@@ -20,7 +20,7 @@ export type SwitchSystemEvents = {
 export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
     static systemType = SystemType.Electrical as const;
     systemType = SystemType.Electrical as const;
-    
+
     expected: SwitchSetup;
     actual: SwitchSetup;
     brightness: number;
@@ -33,14 +33,14 @@ export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
     Deserialize(reader: HazelBuffer, spawn: boolean) {
         this.expected = SwitchSystem.readSwitches(reader.byte());
         this.actual = SwitchSystem.readSwitches(reader.byte());
-        this.brightness = reader.uint8() / 100;
+        this.brightness = reader.uint8();
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean) {
         writer.byte(SwitchSystem.writeSwitches(this.expected));
         writer.byte(SwitchSystem.writeSwitches(this.actual));
-        writer.uint8(this.brightness * 100);
+        writer.uint8(this.brightness);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

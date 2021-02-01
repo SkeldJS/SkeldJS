@@ -8,7 +8,7 @@ import {
     TheSkeldVent,
     MiraHQVent,
     PolusVent,
-    VentCoords,
+    MapVentData,
     Room
 } from "@skeldjs/core"
 
@@ -22,13 +22,16 @@ import { Node } from "./util/Node";
 import { getShortestPath } from "./engine";
 
 type SkeldjsPathfinderEvents = {
-
+    start: (destination: Vector2) => void;
+    stop: (reached: boolean) => void;
+    pause: () => void;
+    recalculate: (path: Node[]) => void;
 }
 
 export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
-    private _clock: NodeJS.Timeout;
     private _tick: number;
     private _moved: boolean;
+    private _paused: boolean;
     destination: Vector2;
     grid: Grid;
     path: Node[];
@@ -37,10 +40,9 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
     constructor(private client: SkeldjsClient, public config: PathfinderConfig = {}) {
         super();
 
+        this.client.on("fixedUpdate", this._ontick.bind(this));
         this.client.on("move", this._handleMove.bind(this));
         this.client.on("leave", this._handleLeave.bind(this));
-
-        this._init();
     }
 
     private get snode() {
@@ -77,16 +79,8 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
         return this.room?.settings?.map;
     }
 
-    private _init() {
-        this._clock = setInterval(this._ontick.bind(this), 1000 / SkeldjsPathfinder.FixedUpdateInterval);
-    }
-
-    private _destroy() {
-        clearInterval(this._clock);
-    }
-
-    destroy() {
-        this._destroy();
+    get paused() {
+        return this._paused;
     }
 
     private _ontick() {
@@ -106,13 +100,21 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
         if (this._moved || !this.path || this._tick % (this.config.recalculateEvery || 1) === 0) {
             this.recalculate();
             this._moved = false;
+            this.emit("recalculate", this.path);
         }
+
+        if (this._paused)
+            return;
 
         const next = this.path.shift();
 
         if (next) {
             const pos = this.grid.actual(next.x, next.y);
             this.transform.move(pos);
+
+            if (this.path.length === 0) {
+                this._stop(true);
+            }
         } else {
             this.destination = null;
             this.path = null;
@@ -124,12 +126,34 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
         this.path = getShortestPath(this.grid, this.snode, this.dnode);
     }
 
+    pause() {
+        this._paused = true;
+        this.emit("pause");
+    }
+
+    start() {
+        this._paused = false;
+        this.emit("start");
+    }
+
+    private _stop(reached: boolean) {
+        this.destination = null;
+        if (!reached) this._moved = true;
+
+        this.emit("stop", reached);
+    }
+
+    stop() {
+        this._stop(false);
+    }
+
     private _go(dest: Vector2) {
         this.destination =  { // Recreate object to not recalculate new player position after moving.
             x: dest.x,
             y: dest.y
         };
         this._moved = true;
+        this.start();
     }
 
     go(pos: PlayerDataResolvable|Vector2|Node) {
@@ -157,25 +181,24 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
         if (!this.map)
             return;
 
-        const coords = VentCoords[this.map][ventid];
+        const coords = MapVentData[this.map][ventid];
 
-        this.go(coords);
-    }
-
-    stop() {
-        this.destination = null;
-        this._moved = true;
+        this.go(coords.position);
     }
 
     private _handleMove(room: Room, transform: CustomNetworkTransform, position: Vector2) {
         if (transform.owner === this.following) {
-            this._go(position);
+            this.destination = {
+                x: position.x,
+                y: position.y
+            };
+            this._moved = true;
         }
     }
 
     private _handleLeave(room: Room, player: PlayerData) {
         if (player === this.following) {
-            this.stop();
+            this._stop(false);
             this.following = null;
         }
     }
@@ -185,7 +208,6 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
 
         if (resolved && resolved.spawned) {
             this.following = resolved;
-            this.stop();
         }
     }
 

@@ -1,6 +1,6 @@
 import * as skeldjs from "..";
 
-const server = skeldjs.MasterServers.EU[1];
+const server = skeldjs.MasterServers.NA[1];
 
 (async () => {
     const client = new skeldjs.SkeldjsClient("2020.11.17.0");
@@ -21,7 +21,7 @@ const server = skeldjs.MasterServers.EU[1];
     const follow = "weakeyes";
 
     function followPlayer(player) {
-        if (player.data?.name === follow) {
+        if (player?.data?.name === follow) {
             let i = 0;
             setInterval(() => {
                 client.room.me.transform.snapTo({
@@ -43,7 +43,7 @@ const server = skeldjs.MasterServers.EU[1];
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    client.room.on("meeting", (control) => {
+    client.room.on("meeting", control => {
         const players = [...client.room.players.values()];
 
         const impostors = players.filter(player => {
@@ -67,13 +67,13 @@ const server = skeldjs.MasterServers.EU[1];
         followPlayer(impostors[0]);
     });
 
-    client.room.on("spawn", (component) => {
+    client.room.on("spawn", component => {
         if (component.classname === "PlayerControl") {
             console.log(component.owner.data?.name + " (" + component.owner.id + ") spawned.");
         }
     });
 
-    client.room.on("join", (player) => {
+    client.room.on("join", player => {
         console.log("Player " + player.id + " joined the game.");
     });
 
@@ -81,9 +81,9 @@ const server = skeldjs.MasterServers.EU[1];
         console.log(control.owner.id + " set their name to " + name);
     });
 
-    client.room.on("spawn", (component) => {
+    client.room.on("spawn", component => {
         if (component.owner === client.room.me && component.classname === "PlayerControl") {
-            component.checkName("bumole");
+            component.checkName("weakeyes");
             component.checkColor(skeldjs.ColorID.Brown);
         }
     });

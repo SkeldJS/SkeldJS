@@ -7,12 +7,13 @@
     "build": "tsc -p ./ && node js/build.js",
     "build:ci": "yarn install && tsc -p ./",
     "prepublishOnly": "npm run build",
-    "postinstallOnly": "node js/build.js"
+    "postinstall": "node js/build.js"
   },
   "dependencies": {
     "@skeldjs/client": "^2.3.5",
     "@skeldjs/constant": "^2.3.5",
     "@skeldjs/core": "^2.3.5",
+    "@skeldjs/data": "^2.3.5",
     "@skeldjs/util": "^2.3.4",
     "@types/heap": "^0.2.28",
     "heap": "^0.2.6"

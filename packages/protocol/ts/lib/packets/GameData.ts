@@ -27,6 +27,7 @@ export interface SpawnMessage extends BaseGameDataMessage {
     type: number;
     ownerid: number;
     flags: number;
+    num_components?: number;
     components: ComponentData[];
 }
 

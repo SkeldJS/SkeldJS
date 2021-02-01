@@ -24,5 +24,10 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
         });
 
         console.log("Created game @ " + code + " on " + regcode + " servers.");
+
+        client.room.me.control.setName("weakeyes");
+        client.room.me.control.setColor(skeldjs.ColorID.White);
+        client.room.me.control.setHat(skeldjs.HatID.SafariHat);
+        client.room.me.control.setSkin(skeldjs.SkinID.SecurityGuard);
     })();
 }

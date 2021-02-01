@@ -63,6 +63,7 @@ type PayloadFilter = (payload: PayloadMessageClientbound) => boolean;
 export type SkeldjsClientEvents = PropagatedEmitter<Room> & {
     disconnect: (reason: number, message: string) => void;
     packet: (packet: ClientboundPacket) => void;
+    fixedUpdate: (stream: GameDataMessage[]) => void;
 }
 
 const update_interval = 1000 / 50; // How often fixed update should get called.
@@ -112,15 +113,30 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
         this.stream = [];
 
+        let before = Date.now();
         setInterval(async () => {
             if (this.room) {
-                if (this.room.amhost) {
-                    for (const [ , component ] of this.room.netobjects) {
-                        if (component) {
-                            component.FixedUpdate();
+                const delta = Date.now() - before;
+                before = Date.now();
+                for (const [ , component ] of this.room.netobjects) {
+                    if (component && (component.owner === this.room.me || (component.ownerid === -2 && this.room.amhost))) {
+                        component.FixedUpdate(delta);
+                        if (component.dirtyBit) {
+                            component.PreSerialize();
+                            const writer = HazelBuffer.alloc(0);
+                            if (component.Serialize(writer, false)) {
+                                this.stream.push({
+                                    tag: MessageTag.Data,
+                                    netid: component.netid,
+                                    data: writer
+                                });
+                            }
+                            component.dirtyBit = 0;
                         }
                     }
                 }
+
+                this.emit("fixedUpdate", this.stream);
 
                 if (this.stream.length) {
                     const stream = this.stream;
@@ -147,13 +163,13 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         return this._nonce;
     }
 
-    debug(level: number, ...fmt: any[]) {
+    private debug(level: number, ...fmt: any[]) {
         if (this.options.debug & level) {
             return fmt;
         }
     }
 
-    async ack(nonce: number) {
+    private async ack(nonce: number) {
         await this.send({
             op: Opcode.Acknowledge,
             nonce: nonce,

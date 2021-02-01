@@ -13,7 +13,7 @@ export interface UserConsolePair {
 
 export interface HqHudSystemData {
     active: UserConsolePair[];
-    completed: number[];
+    completed: Set<number>;
 }
 
 export type HqHudSystemEvents = {
@@ -23,9 +23,9 @@ export type HqHudSystemEvents = {
 export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
-    
+
     active: UserConsolePair[];
-    completed: number[];
+    completed: Set<number>;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|HqHudSystemData) {
         super(ship, data);
@@ -45,9 +45,9 @@ export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
 
         const num_completed = reader.upacked();
 
-        this.completed = [];
+        this.completed = new Set;
         for (let i = 0; i < num_completed; i++) {
-            this.completed.push(reader.uint8());
+            this.completed.add(reader.uint8());
         }
     }
 
@@ -61,11 +61,12 @@ export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
             writer.uint8(active.playerId);
             writer.uint8(active.consoleId);
         }
-        
-        writer.upacked(this.completed.length);
 
-        for (let i = 0; i < this.completed.length; i++) {
-            writer.uint8(this.completed[i]);
+        const completed = [...this.completed];
+        writer.upacked(completed.length);
+
+        for (let i = 0; i < completed.length; i++) {
+            writer.uint8(completed[i]);
         }
     }
 
@@ -73,7 +74,7 @@ export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
         const consoleId = amount & 0xF;
 
         const idx = this.active.findIndex(pair => pair.playerId === control.playerId);
-        
+
         if (amount & 0x40) {
             if (!~idx) {
                 this.active.push({
@@ -82,9 +83,9 @@ export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
                 });
             }
         } else if (amount & 0x20) {
-            this.active.splice(idx);
+            this.active.splice(idx, 1);
         } else if (amount & 0x10) {
-            this.completed.push(consoleId);
+            this.completed.add(consoleId);
         }
     }
 }

@@ -1,3 +1,4 @@
 ts
 tsconfig.json
-data/colliders
+data/build
+ts/example

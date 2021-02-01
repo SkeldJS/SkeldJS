@@ -29,6 +29,7 @@ export type MeetingHudEvents = {
     voteCast: (voter: PlayerData, suspect: "skip"|PlayerData) => void;
     voteCleared: (player: PlayerData) => void;
     votingComplete: (tie: boolean, playerExiled: PlayerData, voteStates: PlayerVoteState[]) => void;
+    closeMeeting: () => void;
 }
 
 export class MeetingHud extends Networkable<MeetingHudEvents> {
@@ -82,10 +83,15 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
                 }
             }
         }
+        this.dirtyBit = 0;
+        return true;
     }
 
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
+            case RpcTag.Close:
+                this._close();
+                break;
             case RpcTag.VotingComplete:
                 this._completeVoting(message.states, message.exiled, message.tie);
                 break;
@@ -98,26 +104,18 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
         }
     }
 
-    FixedUpdate() {
-        if (this.dirtyBit) {
-            const players = [...this.players.entries()].filter(([ playerId ]) => {
-                return (1 << playerId) & this.dirtyBit;
-            });
+    private _close() {
+        this.emit("closeMeeting");
+    }
 
-            if (players.length) {
-                const writer = HazelBuffer.alloc(1 + players.length);
+    close() {
+        this._close();
 
-                this.Serialize(writer);
-
-                this.room.client.stream.push({
-                    tag: MessageTag.Data,
-                    netid: this.netid,
-                    data: writer
-                });
-            }
-        }
-
-        this.dirtyBit = 0;
+        this.room.client.stream.push({
+            tag: MessageTag.RPC,
+            rpcid: RpcTag.Close,
+            netid: this.netid
+        });
     }
 
     private _castVote(votingid: number, suspectid: number) {

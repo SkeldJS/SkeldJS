@@ -11,8 +11,7 @@ export interface HudOverrideSystemData {
 }
 
 export type HudOverrideSystemEvents = {
-    systemSabotage: () => void;
-    systemRepair: () => void;
+
 }
 
 export class HudOverrideSystem extends SystemStatus<HudOverrideSystemEvents> {

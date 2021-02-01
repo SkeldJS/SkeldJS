@@ -12,6 +12,7 @@ import {
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+import { Door } from "../misc/Door";
 
 export interface DoorsSystemData {
     cooldowns: Map<number, number>;
@@ -27,7 +28,7 @@ export class DoorsSystem extends SystemStatus<DoorsSystemEvents> {
     systemType = SystemType.Doors as const;
 
     cooldowns: Map<number, number>;
-    doors: boolean[];
+    doors: Door[];
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|DoorsSystemData) {
         super(ship, data);
@@ -45,7 +46,7 @@ export class DoorsSystem extends SystemStatus<DoorsSystemEvents> {
         }
 
         for (let i = 0; i < MapDoors[MapID.Polus]; i++) {
-            this.doors[i] = reader.bool();
+            this.doors[i].isOpen = reader.bool();
         }
     }
 
@@ -59,11 +60,13 @@ export class DoorsSystem extends SystemStatus<DoorsSystemEvents> {
         }
 
         for (let i = 0; i < MapDoors[MapID.Polus]; i++) {
-            writer.bool(this.doors[i]);
+            this.doors[i].Serialize(writer, spawn);
         }
     }
 
     HandleRepair(control: PlayerData, amount: number) {
-        this.doors[amount & 0x1F] = true;
+        const doorId = amount & 0x1f;
+
+        this.doors[doorId].open();
     }
 }

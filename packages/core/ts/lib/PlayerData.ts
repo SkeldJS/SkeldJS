@@ -1,3 +1,4 @@
+import { EventEmitter } from "events";
 import { MessageTag, Opcode, PayloadTag } from "@skeldjs/constant";
 
 import {
@@ -7,13 +8,19 @@ import {
 } from "./component";
 
 import { Heritable } from "./Heritable";
-import { Room } from "./Room"
+import { Room } from "./Room";
+import { PropagatedEmitter } from "@skeldjs/util";
 
-export type PlayerDataEvents = {
+export type PlayerDataEvents = PropagatedEmitter<PlayerControl> &
+    PropagatedEmitter<PlayerPhysics> &
+    PropagatedEmitter<CustomNetworkTransform> &
+ {
     ready: () => void;
     join: () => void;
     leave: () => void;
     setHost: () => void;
+    spawn: (component: PlayerControl|PlayerPhysics|CustomNetworkTransform) => void;
+    despawn: (component: PlayerControl|PlayerPhysics|CustomNetworkTransform) => void;
 }
 
 export class PlayerData extends Heritable<PlayerDataEvents> {
@@ -24,6 +31,16 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
 
     constructor(room: Room, clientid: number) {
         super(room, clientid);
+    }
+
+    _emit(event: string, ...args: any[]): boolean {
+        this.room.emit(event, this, ...args);
+
+        return super.emit(event, ...args);
+    }
+
+    emit(event: string, ...args: any[]): boolean {
+        return EventEmitter.prototype.emit.call(this, event, ...args);
     }
 
     get control() {
@@ -59,11 +76,10 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
     }
 
     async ready() {
-        this.emit("ready");
-
         this.isReady = true;
+        this._emit("ready");
 
-        if (this.isme) {
+        if (this.isme && !this.ishost) {
             await this.room.client.send({
                 op: Opcode.Reliable,
                 payloads: [

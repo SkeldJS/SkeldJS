@@ -2,7 +2,7 @@ import { TaskLength, TaskType, MapID, TheSkeldTask, MiraHQTask, PolusTask } from
 
 import { Vector2 } from "@skeldjs/util"
 
-interface TaskData {
+interface TaskDataModel {
     id: number;
     name: string;
     type: TaskType;
@@ -11,10 +11,10 @@ interface TaskData {
     consoles: Vector2[];
 }
 
-export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
+export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
     [MapID.TheSkeld]: {
         [TheSkeldTask.AdminSwipeCard]: {
-            id: 0,
+            id: TheSkeldTask.AdminSwipeCard,
             name: "Admin: Swipe Card",
             type: TaskType.SwipeCard,
             length: TaskLength.Common,
@@ -25,7 +25,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalFixWiring]: {
-            id: 1,
+            id: TheSkeldTask.ElectricalFixWiring,
             name: "Electrical: Fix Wiring",
             type: TaskType.FixWiring,
             length: TaskLength.Common,
@@ -51,7 +51,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.WeaponsClearAsteroids]: {
-            id: 2,
+            id: TheSkeldTask.WeaponsClearAsteroids,
             name: "Weapons: Clear Asteroids",
             type: TaskType.ClearAsteroids,
             length: TaskLength.Long,
@@ -62,7 +62,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.EnginesAlignEngineOutput]: {
-            id: 3,
+            id: TheSkeldTask.EnginesAlignEngineOutput,
             name: "Engines: Align Engine Output",
             type: TaskType.AlignEngineOutput,
             length: TaskLength.Short,
@@ -73,7 +73,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.MedBaySubmitScan]: {
-            id: 4,
+            id: TheSkeldTask.MedBaySubmitScan,
             name: "MedBay: Submit Scan",
             type: TaskType.SubmitScan,
             length: TaskLength.Long,
@@ -84,7 +84,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.MedBayInspectSample]: {
-            id: 5,
+            id: TheSkeldTask.MedBayInspectSample,
             name: "MedBay: Inspect Sample",
             type: TaskType.InspectSample,
             length: TaskLength.Long,
@@ -95,7 +95,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.StorageFuelEngines]: {
-            id: 6,
+            id: TheSkeldTask.StorageFuelEngines,
             name: "Storage: Fuel Engines",
             type: TaskType.FuelEngines,
             length: TaskLength.Long,
@@ -106,7 +106,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ReactorStartReactor]: {
-            id: 7,
+            id: TheSkeldTask.ReactorStartReactor,
             name: "Reactor: Start Reactor",
             type: TaskType.StartReactor,
             length: TaskLength.Long,
@@ -117,7 +117,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.O2EmptyChute]: {
-            id: 8,
+            id: TheSkeldTask.O2EmptyChute,
             name: "O2: Empty Chute",
             type: TaskType.EmptyChute,
             length: TaskLength.Long,
@@ -128,7 +128,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.CafeteriaEmptyGarbage]: {
-            id: 9,
+            id: TheSkeldTask.CafeteriaEmptyGarbage,
             name: "Cafeteria: Empty Garbage",
             type: TaskType.EmptyGarbage,
             length: TaskLength.Long,
@@ -142,7 +142,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.CommunicationsDownloadData]: {
-            id: 10,
+            id: TheSkeldTask.CommunicationsDownloadData,
             name: "Communications: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -168,7 +168,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalCalibrateDistributor]: {
-            id: 11,
+            id: TheSkeldTask.ElectricalCalibrateDistributor,
             name: "Electrical: Calibrate Distributor",
             type: TaskType.CalibrateDistributor,
             length: TaskLength.Short,
@@ -179,7 +179,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.NavigationChartCourse]: {
-            id: 12,
+            id: TheSkeldTask.NavigationChartCourse,
             name: "Navigation: Chart Course",
             type: TaskType.ChartCourse,
             length: TaskLength.Short,
@@ -190,7 +190,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.O2CleanO2Filter]: {
-            id: 13,
+            id: TheSkeldTask.O2CleanO2Filter,
             name: "O2: Clean O2 Filter",
             type: TaskType.CleanO2Filter,
             length: TaskLength.Short,
@@ -201,7 +201,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ReactorUnlockManifolds]: {
-            id: 14,
+            id: TheSkeldTask.ReactorUnlockManifolds,
             name: "Reactor: Unlock Manifolds",
             type: TaskType.UnlockManifolds,
             length: TaskLength.Short,
@@ -212,7 +212,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDownloadData]: {
-            id: 15,
+            id: TheSkeldTask.ElectricalDownloadData,
             name: "Electrical: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -238,7 +238,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.NavigationStabilizeSteering]: {
-            id: 16,
+            id: TheSkeldTask.NavigationStabilizeSteering,
             name: "Navigation: Stabilize Steering",
             type: TaskType.StabilizeSteering,
             length: TaskLength.Short,
@@ -249,7 +249,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.WeaponsDownloadData]: {
-            id: 17,
+            id: TheSkeldTask.WeaponsDownloadData,
             name: "Weapons: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -275,7 +275,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ShieldsPrimeShields]: {
-            id: 18,
+            id: TheSkeldTask.ShieldsPrimeShields,
             name: "Shields: Prime Shields",
             type: TaskType.PrimeShields,
             length: TaskLength.Short,
@@ -286,7 +286,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.CafeteriaDownloadData]: {
-            id: 19,
+            id: TheSkeldTask.CafeteriaDownloadData,
             name: "Cafeteria: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -312,7 +312,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.NavigationDownloadData]: {
-            id: 20,
+            id: TheSkeldTask.NavigationDownloadData,
             name: "Navigation: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -338,7 +338,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDivertPowerToShields]: {
-            id: 21,
+            id: TheSkeldTask.ElectricalDivertPowerToShields,
             name: "Electrical: Divert Power to Shields",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -373,7 +373,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDivertPowerToWeapons]: {
-            id: 22,
+            id: TheSkeldTask.ElectricalDivertPowerToWeapons,
             name: "Electrical: Divert Power to Weapons",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -408,7 +408,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDivertPowerToCommunications]: {
-            id: 23,
+            id: TheSkeldTask.ElectricalDivertPowerToCommunications,
             name: "Electrical: Divert Power to Communications",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -443,7 +443,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDivertPowerToUpperEngine]: {
-            id: 24,
+            id: TheSkeldTask.ElectricalDivertPowerToUpperEngine,
             name: "Electrical: Divert Power to Upper Engine",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -478,7 +478,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDivertPowerToO2]: {
-            id: 25,
+            id: TheSkeldTask.ElectricalDivertPowerToO2,
             name: "Electrical: Divert Power to O2",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -513,7 +513,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDivertPowerToNavigation]: {
-            id: 26,
+            id: TheSkeldTask.ElectricalDivertPowerToNavigation,
             name: "Electrical: Divert Power to Navigation",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -548,7 +548,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDivertPowerToLowerEngine]: {
-            id: 27,
+            id: TheSkeldTask.ElectricalDivertPowerToLowerEngine,
             name: "Electrical: Divert Power to Lower Engine",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -583,7 +583,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [TheSkeldTask.ElectricalDivertPowerToSecurity]: {
-            id: 28,
+            id: TheSkeldTask.ElectricalDivertPowerToSecurity,
             name: "Electrical: Divert Power to Security",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -620,7 +620,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
     },
     [MapID.MiraHQ]: {
         [MiraHQTask.HallwayFixWiring]: {
-            id: 0,
+            id: MiraHQTask.HallwayFixWiring,
             name: "Hallway: Fix Wiring",
             type: TaskType.FixWiring,
             length: TaskLength.Common,
@@ -643,7 +643,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.AdminEnterIDCode]: {
-            id: 1,
+            id: MiraHQTask.AdminEnterIDCode,
             name: "Admin: Enter ID Code",
             type: TaskType.EnterIdCode,
             length: TaskLength.Common,
@@ -654,7 +654,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.MedBaySubmitScan]: {
-            id: 2,
+            id: MiraHQTask.MedBaySubmitScan,
             name: "MedBay: Submit Scan",
             type: TaskType.SubmitScan,
             length: TaskLength.Long,
@@ -665,7 +665,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.BalconyClearAsteroids]: {
-            id: 3,
+            id: MiraHQTask.BalconyClearAsteroids,
             name: "Balcony: Clear Asteroids",
             type: TaskType.ClearAsteroids,
             length: TaskLength.Long,
@@ -676,7 +676,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ElectricalDivertPowerToAdmin]: {
-            id: 4,
+            id: MiraHQTask.ElectricalDivertPowerToAdmin,
             name: "Electrical: Divert Power to Admin",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -711,7 +711,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ElectricalDivertPowerToCafeteria]: {
-            id: 5,
+            id: MiraHQTask.ElectricalDivertPowerToCafeteria,
             name: "Electrical: Divert Power to Cafeteria",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -746,7 +746,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ElectricalDivertPowerToCommunications]: {
-            id: 6,
+            id: MiraHQTask.ElectricalDivertPowerToCommunications,
             name: "Electrical: Divert Power to Communications",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -781,7 +781,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ElectricalDivertPowerToLaunchpad]: {
-            id: 7,
+            id: MiraHQTask.ElectricalDivertPowerToLaunchpad,
             name: "Electrical: Divert Power to Launchpad",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -816,7 +816,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ElectricalDivertPowerToMedBay]: {
-            id: 8,
+            id: MiraHQTask.ElectricalDivertPowerToMedBay,
             name: "Electrical: Divert Power to MedBay",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -851,7 +851,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ElectricalDivertPowerToOffice]: {
-            id: 9,
+            id: MiraHQTask.ElectricalDivertPowerToOffice,
             name: "Electrical: Divert Power to Office",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -886,7 +886,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.StorageWaterPlants]: {
-            id: 10,
+            id: MiraHQTask.StorageWaterPlants,
             name: "Storage: Water Plants",
             type: TaskType.WaterPlants,
             length: TaskLength.Long,
@@ -900,7 +900,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ReactorStartReactor]: {
-            id: 11,
+            id: MiraHQTask.ReactorStartReactor,
             name: "Reactor: Start Reactor",
             type: TaskType.StartReactor,
             length: TaskLength.Long,
@@ -911,7 +911,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ElectricalDivertPowerToGreenhouse]: {
-            id: 12,
+            id: MiraHQTask.ElectricalDivertPowerToGreenhouse,
             name: "Electrical: Divert Power to Greenhouse",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -946,7 +946,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.AdminChartCourse]: {
-            id: 13,
+            id: MiraHQTask.AdminChartCourse,
             name: "Admin: Chart Course",
             type: TaskType.ChartCourse,
             length: TaskLength.Short,
@@ -957,7 +957,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.GreenhouseCleanO2Filter]: {
-            id: 14,
+            id: MiraHQTask.GreenhouseCleanO2Filter,
             name: "Greenhouse: Clean O2 Filter",
             type: TaskType.CleanO2Filter,
             length: TaskLength.Short,
@@ -968,7 +968,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.LaunchpadFuelEngines]: {
-            id: 15,
+            id: MiraHQTask.LaunchpadFuelEngines,
             name: "Launchpad: Fuel Engines",
             type: TaskType.FuelEngines,
             length: TaskLength.Short,
@@ -979,7 +979,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.LaboratoryAssembleArtifact]: {
-            id: 16,
+            id: MiraHQTask.LaboratoryAssembleArtifact,
             name: "Laboratory: Assemble Artifact",
             type: TaskType.AssembleArtifact,
             length: TaskLength.Short,
@@ -990,7 +990,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.LaboratorySortSamples]: {
-            id: 17,
+            id: MiraHQTask.LaboratorySortSamples,
             name: "Laboratory: Sort Samples",
             type: TaskType.SortSamples,
             length: TaskLength.Short,
@@ -1001,7 +1001,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.AdminPrimeShields]: {
-            id: 18,
+            id: MiraHQTask.AdminPrimeShields,
             name: "Admin: Prime Shields",
             type: TaskType.PrimeShields,
             length: TaskLength.Short,
@@ -1012,7 +1012,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.CafeteriaEmptyGarbage]: {
-            id: 19,
+            id: MiraHQTask.CafeteriaEmptyGarbage,
             name: "Cafeteria: Empty Garbage",
             type: TaskType.EmptyGarbage,
             length: TaskLength.Short,
@@ -1023,7 +1023,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.BalconyMeasureWeather]: {
-            id: 20,
+            id: MiraHQTask.BalconyMeasureWeather,
             name: "Balcony: Measure Weather",
             type: TaskType.MeasureWeather,
             length: TaskLength.Short,
@@ -1034,7 +1034,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ElectricalDivertPowerToLaboratory]: {
-            id: 21,
+            id: MiraHQTask.ElectricalDivertPowerToLaboratory,
             name: "Electrical: Divert Power to Laboratory",
             type: TaskType.DivertPower,
             length: TaskLength.Short,
@@ -1069,7 +1069,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.CafeteriaBuyBeverage]: {
-            id: 22,
+            id: MiraHQTask.CafeteriaBuyBeverage,
             name: "Cafeteria: Buy Beverage",
             type: TaskType.BuyBeverage,
             length: TaskLength.Short,
@@ -1080,7 +1080,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.OfficeProcessData]: {
-            id: 23,
+            id: MiraHQTask.OfficeProcessData,
             name: "Office: Process Data",
             type: TaskType.ProcessData,
             length: TaskLength.Short,
@@ -1091,7 +1091,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.LaunchpadRunDiagnostics]: {
-            id: 24,
+            id: MiraHQTask.LaunchpadRunDiagnostics,
             name: "Launchpad: Run Diagnostics",
             type: TaskType.RunDiagnostics,
             length: TaskLength.Long,
@@ -1102,7 +1102,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [MiraHQTask.ReactorUnlockManifolds]: {
-            id: 25,
+            id: MiraHQTask.ReactorUnlockManifolds,
             name: "Reactor: Unlock Manifolds",
             type: TaskType.UnlockManifolds,
             length: TaskLength.Short,
@@ -1115,7 +1115,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
     },
     [MapID.Polus]: {
         [PolusTask.OfficeSwipeCard]: {
-            id: 0,
+            id: PolusTask.OfficeSwipeCard,
             name: "Office: Swipe Card",
             type: TaskType.SwipeCard,
             length: TaskLength.Common,
@@ -1126,7 +1126,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.DropshipInsertKeys]: {
-            id: 1,
+            id: PolusTask.DropshipInsertKeys,
             name: "Dropship: Insert Keys",
             type: TaskType.InsertKeys,
             length: TaskLength.Common,
@@ -1137,7 +1137,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OfficeScanBoardingPass]: {
-            id: 2,
+            id: PolusTask.OfficeScanBoardingPass,
             name: "Office: Scan Boarding Pass",
             type: TaskType.ScanBoardingPass,
             length: TaskLength.Common,
@@ -1148,7 +1148,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.ElectricalFixWiring]: {
-            id: 3,
+            id: PolusTask.ElectricalFixWiring,
             name: "Electrical: Fix Wiring",
             type: TaskType.FixWiring,
             length: TaskLength.Common,
@@ -1174,7 +1174,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.WeaponsDownloadData]: {
-            id: 4,
+            id: PolusTask.WeaponsDownloadData,
             name: "Weapons: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -1200,7 +1200,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OfficeDownloadData]: {
-            id: 5,
+            id: PolusTask.OfficeDownloadData,
             name: "Office: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -1226,7 +1226,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.ElectricalDownloadData]: {
-            id: 6,
+            id: PolusTask.ElectricalDownloadData,
             name: "Electrical: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -1252,7 +1252,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.SpecimenRoomDownloadData]: {
-            id: 7,
+            id: PolusTask.SpecimenRoomDownloadData,
             name: "Specimen Room: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -1278,7 +1278,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.O2DownloadData]: {
-            id: 8,
+            id: PolusTask.O2DownloadData,
             name: "O2: Download Data",
             type: TaskType.UploadData,
             length: TaskLength.Short,
@@ -1304,7 +1304,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.SpecimenRoomStartReactor]: {
-            id: 9,
+            id: PolusTask.SpecimenRoomStartReactor,
             name: "Specimen Room: Start Reactor",
             type: TaskType.StartReactor,
             length: TaskLength.Long,
@@ -1315,7 +1315,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.StorageFuelEngines]: {
-            id: 10,
+            id: PolusTask.StorageFuelEngines,
             name: "Storage: Fuel Engines",
             type: TaskType.FuelEngines,
             length: TaskLength.Long,
@@ -1332,7 +1332,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.BoilerRoomOpenWaterways]: {
-            id: 11,
+            id: PolusTask.BoilerRoomOpenWaterways,
             name: "Boiler Room: Open Waterways",
             type: TaskType.OpenWaterways,
             length: TaskLength.Long,
@@ -1349,7 +1349,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.MedBayInspectSample]: {
-            id: 12,
+            id: PolusTask.MedBayInspectSample,
             name: "MedBay: Inspect Sample",
             type: TaskType.InspectSample,
             length: TaskLength.Long,
@@ -1360,7 +1360,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.BoilerRoomReplaceWaterJug]: {
-            id: 13,
+            id: PolusTask.BoilerRoomReplaceWaterJug,
             name: "Boiler Room: Replace Water Jug",
             type: TaskType.ReplaceWaterJug,
             length: TaskLength.Long,
@@ -1374,7 +1374,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OutsideFixWeatherNodeNODE_GI]: {
-            id: 14,
+            id: PolusTask.OutsideFixWeatherNodeNODE_GI,
             name: "Outside: Fix Weather Node Node_GI",
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
@@ -1403,7 +1403,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OutsideFixWeatherNodeNODE_IRO]: {
-            id: 15,
+            id: PolusTask.OutsideFixWeatherNodeNODE_IRO,
             name: "Outside: Fix Weather Node Node_IRO",
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
@@ -1432,7 +1432,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OutsideFixWeatherNodeNODE_PD]: {
-            id: 16,
+            id: PolusTask.OutsideFixWeatherNodeNODE_PD,
             name: "Outside: Fix Weather Node Node_PD",
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
@@ -1461,7 +1461,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OutsideFixWeatherNodeNODE_TB]: {
-            id: 17,
+            id: PolusTask.OutsideFixWeatherNodeNODE_TB,
             name: "Outside: Fix Weather Node Node_TB",
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
@@ -1490,7 +1490,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.CommunicationsRebootWiFi]: {
-            id: 18,
+            id: PolusTask.CommunicationsRebootWiFi,
             name: "Communications: Reboot WiFi",
             type: TaskType.RebootWifi,
             length: TaskLength.Long,
@@ -1501,7 +1501,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.O2MonitorTree]: {
-            id: 19,
+            id: PolusTask.O2MonitorTree,
             name: "O2: Monitor Tree",
             type: TaskType.MonitorO2,
             length: TaskLength.Short,
@@ -1512,7 +1512,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.SpecimenRoomUnlockManifolds]: {
-            id: 20,
+            id: PolusTask.SpecimenRoomUnlockManifolds,
             name: "Specimen Room: Unlock Manifolds",
             type: TaskType.UnlockManifolds,
             length: TaskLength.Short,
@@ -1523,7 +1523,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.SpecimenRoomStoreArtifacts]: {
-            id: 21,
+            id: PolusTask.SpecimenRoomStoreArtifacts,
             name: "Specimen Room: Store Artifacts",
             type: TaskType.StoreArtifacts,
             length: TaskLength.Short,
@@ -1534,7 +1534,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.O2FillCanisters]: {
-            id: 22,
+            id: PolusTask.O2FillCanisters,
             name: "O2: Fill Canisters",
             type: TaskType.FillCanisters,
             length: TaskLength.Short,
@@ -1545,7 +1545,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.O2EmptyGarbage]: {
-            id: 23,
+            id: PolusTask.O2EmptyGarbage,
             name: "O2: Empty Garbage",
             type: TaskType.EmptyGarbage,
             length: TaskLength.Short,
@@ -1556,7 +1556,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.DropshipChartCourse]: {
-            id: 24,
+            id: PolusTask.DropshipChartCourse,
             name: "Dropship: Chart Course",
             type: TaskType.ChartCourse,
             length: TaskLength.Short,
@@ -1567,7 +1567,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.MedBaySubmitScan]: {
-            id: 25,
+            id: PolusTask.MedBaySubmitScan,
             name: "MedBay: Submit Scan",
             type: TaskType.SubmitScan,
             length: TaskLength.Short,
@@ -1578,7 +1578,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.WeaponsClearAsteroids]: {
-            id: 26,
+            id: PolusTask.WeaponsClearAsteroids,
             name: "Weapons: Clear Asteroids",
             type: TaskType.ClearAsteroids,
             length: TaskLength.Short,
@@ -1589,7 +1589,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OutsideFixWeatherNodeNODE_CA]: {
-            id: 27,
+            id: PolusTask.OutsideFixWeatherNodeNODE_CA,
             name: "Outside: Fix Weather Node Node_CA",
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
@@ -1618,7 +1618,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OutsideFixWeatherNodeNODE_MLG]: {
-            id: 28,
+            id: PolusTask.OutsideFixWeatherNodeNODE_MLG,
             name: "Outside: Fix Weather Node Node_MLG",
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
@@ -1647,7 +1647,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.LaboratoryAlignTelescope]: {
-            id: 29,
+            id: PolusTask.LaboratoryAlignTelescope,
             name: "Laboratory: Align Telescope",
             type: TaskType.AlignTelescope,
             length: TaskLength.Short,
@@ -1658,7 +1658,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.LaboratoryRepairDrill]: {
-            id: 30,
+            id: PolusTask.LaboratoryRepairDrill,
             name: "Laboratory: Repair Drill",
             type: TaskType.RepairDrill,
             length: TaskLength.Short,
@@ -1669,7 +1669,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.LaboratoryRecordTemperature]: {
-            id: 31,
+            id: PolusTask.LaboratoryRecordTemperature,
             name: "Laboratory: Record Temperature",
             type: TaskType.RecordTemperature,
             length: TaskLength.Short,
@@ -1683,7 +1683,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
             }]
         },
         [PolusTask.OutsideRecordTemperature]: {
-            id: 32,
+            id: PolusTask.OutsideRecordTemperature,
             name: "Outside: Record Temperature",
             type: TaskType.RecordTemperature,
             length: TaskLength.Short,
@@ -1698,4 +1698,4 @@ export const MapTaskData: Record<MapID, Record<number, TaskData>>= {
         }
     },
     [MapID.Airship]: {}
-}
+};

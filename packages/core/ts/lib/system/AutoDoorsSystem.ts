@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer, PropagatedEmitter } from "@skeldjs/util"
 
 import {
     SystemType,
@@ -11,14 +11,16 @@ import {
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
 export interface AutoDoorsSystemData {
     dirtyBit: number;
     doors: boolean[];
 }
 
-export type AutoDoorsSystemEvents = {
-
+export type AutoDoorsSystemEvents = PropagatedEmitter<AutoOpenDoor> & {
+    doorOpen: (doorId: number) => void;
+    doorClose: (doorId: number) => void;
 }
 
 export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemEvents> {
@@ -26,40 +28,71 @@ export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemEvents> {
     systemType = SystemType.Doors as const;
 
     dirtyBit: number;
-    doors: boolean[];
+    doors: AutoOpenDoor[];
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|AutoDoorsSystemData) {
         super(ship, data);
     }
 
+    get dirty() {
+        return this.dirtyBit > 0;
+    }
+
+    set dirty(val: boolean) {
+        super.dirty = val;
+    }
+
     Deserialize(reader: HazelBuffer, spawn: boolean) {
+        if (!this.doors || this.doors.length !== MapDoors[MapID.TheSkeld]) {
+            this.doors = new Array(MapDoors[MapID.TheSkeld]).fill(0).map((door, i) => new AutoOpenDoor(this, i, false));
+        }
+
+        for (let i = 0; i < this.doors.length; i++) {
+            const door = this.doors[i];
+            if (typeof door === "boolean") {
+                this.doors[i] = new AutoOpenDoor(this, i, door);
+            }
+        }
+
         if (spawn) {
-            this.doors = [];
             for (let i = 0; i < MapDoors[MapID.TheSkeld]; i++) {
-                this.doors.push(reader.bool());
+                const open = reader.bool();
+                this.doors.push(new AutoOpenDoor(this, i, open));
             }
         } else {
             const mask = reader.upacked();
 
             for (let i = 0; i < MapDoors[MapID.TheSkeld]; i++) {
                 if (mask & (1 << i)) {
-                    this.doors[i] = reader.bool();
+                    const door = this.doors[i];
+                    door.open = open;
                 }
             }
         }
     }
 
     Serialize(writer: HazelBuffer, spawn: boolean) {
+        if (!this.doors || this.doors.length !== MapDoors[MapID.TheSkeld]) {
+            this.doors = new Array(MapDoors[MapID.TheSkeld]).fill(0).map((door, i) => new AutoOpenDoor(this, i, false));
+        }
+
+        for (let i = 0; i < this.doors.length; i++) {
+            const door = this.doors[i];
+            if (typeof door === "boolean") {
+                this.doors[i] = new AutoOpenDoor(this, i, door);
+            }
+        }
+
         if (spawn) {
             for (let i = 0; i < MapDoors[MapID.TheSkeld]; i++) {
-                writer.bool(this.doors[i]);
+                this.doors[i].Serialize(writer, spawn);
             }
         } else {
             writer.upacked(this.dirtyBit);
 
             for (let i = 0; i < MapDoors[MapID.TheSkeld]; i++) {
                 if (this.dirtyBit & (1 << i)) {
-                    writer.bool(this.doors[i]);
+                    this.doors[i].Serialize(writer, spawn);
                 }
             }
         }
