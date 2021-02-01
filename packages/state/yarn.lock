@@ -37,16 +37,6 @@
     "@skeldjs/types" "^2.2.7"
     "@skeldjs/util" "^2.3.4"
 
-"@skeldjs/state@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@skeldjs/state/-/state-0.0.1.tgz#e4d8f92b0241643eb77cb43b3f7b9a4bfcaa797e"
-  integrity sha512-Or5Dzm9hZMiAydbTbWa1rzDG0e9/d3TUVrF1WhHXEZncr3jrKqK7GUN4Qd4zxED8sskR5UerKWGWGfNcyJne8Q==
-  dependencies:
-    "@skeldjs/constant" "^2.3.7"
-    "@skeldjs/core" "^2.3.9"
-    "@skeldjs/protocol" "^2.3.9"
-    "@skeldjs/util" "^2.3.4"
-
 "@skeldjs/types@^2.2.7":
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.2.7.tgz#2070a2d3205099240df9e23edc1a483a698b06d2"
