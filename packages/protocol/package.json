@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/protocol",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -9,7 +9,7 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/constant": "^2.3.6",
+    "@skeldjs/constant": "^2.3.7",
     "@skeldjs/types": "^2.2.7",
     "@skeldjs/util": "^2.3.4"
   },
