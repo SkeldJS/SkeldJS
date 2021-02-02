@@ -5,7 +5,8 @@
         "**/*.d.ts",
         "**/*.spec.ts",
         "plugins",
-        "node_modules"
+        "node_modules",
+        "example"
     ],
     "all": true,
     "reporter": ["text", "json"]

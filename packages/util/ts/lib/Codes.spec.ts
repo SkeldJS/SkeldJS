@@ -67,6 +67,11 @@ describe("Code utility functions", () => {
             assert.strictEqual(Code2Int("HOLA"), 1213156417);
             assert.strictEqual(Code2Int("VECTOR"), -2080903964);
         });
+
+        it("Should return 0 on an invalid code length.", () => {
+            assert.strictEqual(Code2Int("IMPOSTER"), 0);
+            assert.strictEqual(Code2Int("SUS"), 0);
+        });
     });
 
     describe("Int2Code", () => {
