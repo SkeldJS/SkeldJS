@@ -1,4 +1,4 @@
-import { ColorID } from "@skeldjs/constant"
+import { ColorID } from "@skeldjs/constant";
 
 export const ColorCodes = {
     [ColorID.Red]: {

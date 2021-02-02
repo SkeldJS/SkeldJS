@@ -2,6 +2,12 @@
 
 ![Skeld JS](https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSMain.png "Skeld JS")
 
+[![codecov](https://codecov.io/gh/SkeldJS/SkeldJS/branch/master/graph/badge.svg?token=UHMXQNX805)](https://codecov.io/gh/SkeldJS/SkeldJS)
+[![license](https://img.shields.io/github/license/SkeldJS/SkeldJS)](https://github.com/skeldjs/SkeldJS)
+[![Lint and Test](https://github.com/skeldjs/SkeldJS/workflows/Lint%20&%20Test/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Lint+%26+Test%22)
+[![Build](https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22)
+[![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Docs%22)
+
 SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.
 
 The repository holds several key programs for automating development with Among Us.
