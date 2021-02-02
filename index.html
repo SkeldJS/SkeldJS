@@ -66,6 +66,11 @@
 					<h1>Skeld JS</h1>
 				</a>
 				<p><img src="https://raw.githubusercontent.com/SkeldJS/SkeldJS/master/asset/SkeldJSMain.png" alt="Skeld JS" title="Skeld JS"></p>
+				<p><a href="https://codecov.io/gh/SkeldJS/SkeldJS"><img src="https://codecov.io/gh/SkeldJS/SkeldJS/branch/master/graph/badge.svg?token=UHMXQNX805" alt="codecov"></a>
+					<a href="https://github.com/skeldjs/SkeldJS"><img src="https://img.shields.io/github/license/SkeldJS/SkeldJS" alt="license"></a>
+					<a href="https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Lint+%26+Test%22"><img src="https://github.com/skeldjs/SkeldJS/workflows/Lint%20&%20Test/badge.svg" alt="Lint and Test"></a>
+					<a href="https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22"><img src="https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg" alt="Build"></a>
+				<a href="https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Docs%22"><img src="https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg" alt="Docs"></a></p>
 				<p>SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.</p>
 				<p>The repository holds several key programs for automating development with Among Us.</p>
 				<ul>
@@ -76,6 +81,7 @@
 				<p>as well as a central <code>@skeldjs/skeldjs</code> package that contains a simple client API, and a server plugin API with support for Redis and multiple server nodes.</p>
 				<p>The repository also hosts utility packages for the packages listed above, that you can use individually.</p>
 				<ul>
+					<li><strong>State</strong> - A very small state manager to wrap the <strong>Core</strong> module that bases the client package.</li>
 					<li><strong>Core</strong> - An impartial core internal API for Among Us structures and game objects that are shared across all main projects.</li>
 					<li><strong>Protocol</strong> - Protocol interfaces with full parsing and composing.</li>
 					<li><strong>Constant</strong> - Enums &amp; bitfields in Among Us.</li>
@@ -219,6 +225,9 @@ yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</sp
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="modules/_plugins_index_.html">&quot;plugins/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="modules/client.html">client</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -243,12 +252,18 @@ yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</sp
 						<a href="modules/skeldjs.html">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="modules/state.html">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="modules/util.html">util</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="modules/_plugins_index_.html" class="tsd-kind-icon">&quot;plugins/index&quot;</a>
+					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/client.html" class="tsd-kind-icon">client</a>
 					</li>
@@ -272,6 +287,9 @@ yarn <span class="hljs-keyword">add</span> <span class="hljs-title">@skeldjs</sp
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/state.html" class="tsd-kind-icon">state</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/util.html" class="tsd-kind-icon">util</a>
