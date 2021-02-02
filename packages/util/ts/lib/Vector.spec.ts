@@ -4,7 +4,7 @@ import {
     clampValue,
     lerpValue,
     unlerpValue
-} from "./Vector"
+} from "./Vector";
 
 describe("Vector utility functions", () => {
     describe("clampValue", () => {
