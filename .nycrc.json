@@ -1,4 +1,12 @@
 {
     "extends": "@istanbuljs/nyc-config-typescript",
-    "reporter": ["json"]
+    "exclude": [
+        "**/*.js",
+        "**/*.d.ts",
+        "**/*.spec.ts",
+        "plugins",
+        "node_modules"
+    ],
+    "all": true,
+    "reporter": ["text", "json"]
 }
