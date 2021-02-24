@@ -40,8 +40,15 @@ export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelBuffer, spawn: boolean) {
+        const before = this.sabotaged;
         this.expected = SwitchSystem.readSwitches(reader.byte());
         this.actual = SwitchSystem.readSwitches(reader.byte());
+        if (!before && this.sabotaged) {
+            this.emit("system.sabotage", {});
+        }
+        if (before && !this.sabotaged) {
+            this.emit("system.repair", {});
+        }
         this.brightness = reader.uint8();
     }
 
