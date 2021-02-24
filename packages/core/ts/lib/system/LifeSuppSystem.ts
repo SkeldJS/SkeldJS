@@ -5,28 +5,31 @@ import { SystemType } from "@skeldjs/constant";
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+import { BaseSystemStatusEvents } from "./events";
 
 export interface LifeSuppSystemData {
     timer: number;
-    completed: number[];
+    completed: Set<number>;
 }
 
-export type LifeSuppSystemEvents = {
-    consoleCompleted: (consoleId: number) => void;
-    consolesCleared: () => void;
-    systemSabotage: () => void;
-    systemRepair: () => void;
+export type LifeSuppSystemEvents = BaseSystemStatusEvents & {
+    "o2.consoles.complete": { player?: PlayerData, consoleId: number };
+    "o2.consoles.clear": { player?: PlayerData };
 }
 
 export class LifeSuppSystem extends SystemStatus<LifeSuppSystemEvents> {
     static systemType = SystemType.O2 as const;
     systemType = SystemType.O2 as const;
 
+    private lastUpdate = 0;
+
     timer: number;
-    completed: number[];
+    completed: Set<number>;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|LifeSuppSystemData) {
         super(ship, data);
+
+        this.completed ||= new Set;
     }
 
     get sabotaged() {
@@ -35,12 +38,23 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemEvents> {
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelBuffer, spawn: boolean) {
+        const timer = reader.float();
         this.timer = reader.float();
 
+        if (timer === 10000 && this.timer < 10000) {
+            this.emit("system.sabotage", {});
+        } else if (timer < 10000 && this.timer === 10000) {
+            this.emit("system.repair", {});
+        }
+
         const num_consoles = reader.upacked();
-        this.completed = [];
-        for (let i = 0; i < num_consoles; i++) {
-            this.completed.push(reader.upacked());
+        if (this.completed.size > 0 && num_consoles === 0) {
+            this._clearConsoles();
+        } else {
+            for (let i = 0; i < num_consoles; i++) {
+                const consoleId = reader.upacked();
+                this._completeConsole(consoleId);
+            }
         }
     }
 
@@ -55,39 +69,60 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemEvents> {
         }
     }
 
-    HandleSabotage(control: PlayerData) {
-        this.HandleRepair(control, 0x80);
+    HandleSabotage(player: PlayerData) {
+        this.HandleRepair(player, 0x80);
     }
 
-    HandleRepair(control: PlayerData, amount: number) {
+    private _clearConsoles(player?: PlayerData) {
+        this.completed.clear();
+        this.dirty = true;
+        this.emit("o2.consoles.clear", { player });
+    }
+
+    private _completeConsole(consoleId: number, player?: PlayerData) {
+        if (!this.completed.has(consoleId)) {
+            this.completed.add(consoleId);
+            this.dirty = true;
+            this.emit("o2.consoles.complete", { player, consoleId });
+        }
+    }
+
+    completeConsole(consoleId: number) {
+        this.repair(this.ship.room.me, (consoleId & 0x3) | 0x40);
+    }
+
+    private _fix(player: PlayerData) {
+        this.timer = 10000;
+        this.dirty = true;
+        this.emit("system.repair", { player });
+        this._clearConsoles(player);
+    }
+
+    fix() {
+        this.repair(this.ship.room.me, 0x10);
+    }
+
+    HandleRepair(player: PlayerData, amount: number) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x80) {
             this.timer = 45;
-            this.completed.splice(0);
+            this._clearConsoles(player);
         } else if (amount & 0x40) {
-            this.completed.push(consoleId);
+            this._completeConsole(consoleId, player);
+            if (this.completed.size >= 2) {
+                this._fix(player);
+            }
         } else if (amount & 0x10) {
-            this.timer = 10000;
-            this.completed.splice(0);
+            this._fix(player);
         }
-
-        this.dirty = true;
     }
-
-    private lastUpdate = 0;
 
     Detoriorate(delta: number) {
         if (!this.sabotaged)
             return;
 
         this.timer -= delta;
-
-        if (this.completed.length >= 2) {
-            this.timer = 10000;
-            return;
-        }
-
         this.lastUpdate += delta;
 
         if (this.lastUpdate > 2) {

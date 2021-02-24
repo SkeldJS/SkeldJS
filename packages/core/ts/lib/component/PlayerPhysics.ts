@@ -1,8 +1,8 @@
 import { HazelBuffer } from "@skeldjs/util";
 
-import { Networkable } from "../Networkable";
+import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
-import { Room } from "../Room";
+import { Hostable } from "../Hostable";
 
 import { MessageTag, RpcTag, SpawnID } from "@skeldjs/constant";
 
@@ -11,9 +11,13 @@ export interface PlayerPhysicsData {
 
 }
 
-export type PlayerPhysicsEvents = {
-    enterVent: (ventid: number) => void;
-    exitVent: (ventid: number) => void;
+export type PlayerPhysicsEvents = NetworkableEvents & {
+    "player.entervent": {
+        ventid: number;
+    };
+    "player.exitvent": {
+        ventid: number;
+    };
 }
 
 export class PlayerPhysics extends Networkable<PlayerPhysicsEvents> {
@@ -25,7 +29,7 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsEvents> {
 
     vent: number;
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|PlayerPhysicsData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|PlayerPhysicsData) {
         super(room, netid, ownerid, data);
     }
 
@@ -35,13 +39,13 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsEvents> {
 
     private _enterVent(ventid: number) {
         this.vent = ventid;
-        this.emit("enterVent", ventid);
+        this.emit("player.entervent", ventid);
     }
 
     enterVent(ventid: number) {
         this._enterVent(ventid);
 
-        this.room.client.stream.push({
+        this.room.stream.push({
             tag: MessageTag.RPC,
             rpcid: RpcTag.EnterVent,
             netid: this.netid,
@@ -51,13 +55,13 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsEvents> {
 
     private _exitVent(ventid: number) {
         this.vent = null;
-        this.emit("exitVent", ventid);
+        this.emit("player.exitvent", ventid);
     }
 
     exitVent(ventid: number) {
         this._exitVent(ventid);
 
-        this.room.client.stream.push({
+        this.room.stream.push({
             tag: MessageTag.RPC,
             rpcid: RpcTag.ExitVent,
             netid: this.netid,

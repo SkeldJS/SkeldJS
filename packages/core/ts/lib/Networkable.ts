@@ -1,29 +1,30 @@
-import { HazelBuffer, TypedEmitter, TypedEvents } from "@skeldjs/util";
+import { HazelBuffer } from "@skeldjs/util";
 import { RpcMessage } from "@skeldjs/protocol"
-
 import { SpawnID } from "@skeldjs/constant";
 
-import { Room } from "./Room";
+import Emittery from "emittery";
+
+import { Hostable } from "./Hostable";
 
 export type NetworkableEvents = {
-
+    "component.spawn": {};
+    "component.despawn": {};
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export class Networkable<T extends TypedEvents = {}> extends TypedEmitter<T & NetworkableEvents> {
+export class Networkable<T extends Record<string, any> = any> extends Emittery<T & NetworkableEvents> {
     static type: SpawnID;
     type: SpawnID;
 
     static classname: string;
     classname: string;
 
-    room: Room;
+    room: Hostable;
     netid: number;
     ownerid: number;
 
     dirtyBit: number = 0;
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|any) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|any) {
         super();
 
         this.room = room;
@@ -39,13 +40,20 @@ export class Networkable<T extends TypedEvents = {}> extends TypedEmitter<T & Ne
         }
     }
 
-    emit(event: string, ...args: any[]): boolean {
-        this.owner.emit(event, this, ...args);
+    async emit(...args: any) {
+        const event = args[0];
+        const data = args[1];
+
+        if (this.owner) await this.owner.emit(event, {
+            ...data,
+            component: this
+        });
+
         if (this.owner !== this.room) {
-            this.room.emit(event, this, ...args);
+            this.room.emit(event, data);
         }
 
-        return super.emit(event, ...args);
+        return super.emit(event, data);
     }
 
     get owner() {
@@ -60,7 +68,7 @@ export class Networkable<T extends TypedEvents = {}> extends TypedEmitter<T & Ne
     PreSerialize() { }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     HandleRPC(message: RpcMessage) {}
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     FixedUpdate(delta: number) {}
 
     spawn() {

@@ -1,12 +1,14 @@
-import { HazelBuffer, TypedEmitter } from "@skeldjs/util";
+import { HazelBuffer } from "@skeldjs/util";
+import Emittery from "emittery";
+
 import { SystemStatus } from "../system";
 
 export type DoorEvents = {
-    doorOpen: () => void;
-    doorClose: () => void;
+        "doors.open": {};
+        "doors.close": {};
 }
 
-export class Door extends TypedEmitter<DoorEvents> {
+export class Door extends Emittery<DoorEvents> {
     private _isOpen: boolean;
 
     constructor(protected system: SystemStatus, readonly id: number, isOpen: boolean) {
@@ -15,10 +17,16 @@ export class Door extends TypedEmitter<DoorEvents> {
         this._isOpen = isOpen;
     }
 
-    emit(event: string, ...args: any[]) {
-        this.system.emit(event, this, ...args);
+    async emit(...args: any) {
+        const event = args[0];
+        const data = args[1];
 
-        return super.emit(event, ...args);
+        this.system.emit(event, {
+            ...data,
+            door: this
+        });
+
+        return super.emit(event, data);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,7 +55,7 @@ export class Door extends TypedEmitter<DoorEvents> {
             return;
 
         this._isOpen = true;
-        this.emit("open");
+        this.emit("doors.open", {});
     }
 
     close() {
@@ -55,6 +63,6 @@ export class Door extends TypedEmitter<DoorEvents> {
             return;
 
         this._isOpen = false;
-        this.emit("close");
+        this.emit("doors.close", {});
     }
 }

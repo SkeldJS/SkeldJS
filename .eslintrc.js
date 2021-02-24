@@ -20,6 +20,7 @@ module.exports = {
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/ban-types": "off",
         "no-case-declarations": "off",
         "no-fallthrough": "off"
     }

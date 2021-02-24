@@ -5,13 +5,14 @@ import { SystemType } from "@skeldjs/constant";
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+import { BaseSystemStatusEvents } from "./events";
 
 export interface ReactorSystemData {
     timer: number;
     completed: Set<number>;
 }
 
-export type ReactorSystemEvents = {
+export type ReactorSystemEvents = BaseSystemStatusEvents & {
 
 }
 
@@ -52,7 +53,7 @@ export class ReactorSystem extends SystemStatus<ReactorSystemEvents> {
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    HandleRepair(control: PlayerData, amount: number) {
+    HandleRepair(player: PlayerData, amount: number) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {

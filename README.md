@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/github/license/SkeldJS/SkeldJS)](https://github.com/skeldjs/SkeldJS)
 [![Lint and Test](https://github.com/skeldjs/SkeldJS/workflows/Lint%20&%20Test/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Lint+%26+Test%22)
 [![Build](https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22)
-[![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Docs%22)
+[![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://skeldjs.github.io/SkeldJS)
 
 SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.
 
@@ -112,12 +112,14 @@ yarn add @skeldjs/taskmanager
 
 ### To install utility packages
 ```
+npm install --save @skeldjs/state
 npm install --save @skeldjs/core
 npm install --save @skeldjs/protocol
 npm install --save @skeldjs/constant
 npm install --save @skeldjs/data
 npm install --save @skeldjs/util
 or
+yarn add @skeldjs/state
 yarn add @skeldjs/core
 yarn add @skeldjs/protocol
 yarn add @skeldjs/constant

@@ -34,9 +34,9 @@ export class RedisController {
             name: "",
             players: 0,
             port: this.server.config.port,
-            host: this.server.publicip
+            host: null
         };
-        
+
         return await this.client.hmset(room.code.toString(), room as any) === "OK";
     }
 

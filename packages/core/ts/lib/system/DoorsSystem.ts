@@ -12,14 +12,15 @@ import {
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { Door } from "../misc/Door";
+import { Door, DoorEvents } from "../misc/Door";
+import { PropagatedEvents } from "../util/PropagatedEvents";
 
 export interface DoorsSystemData {
     cooldowns: Map<number, number>;
     doors: boolean[];
 }
 
-export type DoorsSystemEvents = {
+export type DoorsSystemEvents = PropagatedEvents<DoorEvents, { system: DoorsSystem }> & {
 
 }
 
@@ -64,7 +65,7 @@ export class DoorsSystem extends SystemStatus<DoorsSystemEvents> {
         }
     }
 
-    HandleRepair(control: PlayerData, amount: number) {
+    HandleRepair(player: PlayerData, amount: number) {
         const doorId = amount & 0x1f;
 
         this.doors[doorId].open();

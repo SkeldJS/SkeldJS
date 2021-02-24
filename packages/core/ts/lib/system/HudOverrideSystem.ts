@@ -5,12 +5,13 @@ import { SystemType } from "@skeldjs/constant";
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+import { BaseSystemStatusEvents } from "./events";
 
 export interface HudOverrideSystemData {
     sabotaged: boolean;
 }
 
-export type HudOverrideSystemEvents = {
+export type HudOverrideSystemEvents = BaseSystemStatusEvents & {
 
 }
 
@@ -18,7 +19,11 @@ export class HudOverrideSystem extends SystemStatus<HudOverrideSystemEvents> {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
-    sabotaged: boolean;
+    _sabotaged: boolean;
+
+    get sabotaged() {
+        return this._sabotaged;
+    }
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|HudOverrideSystemData) {
         super(ship, data);
@@ -27,13 +32,13 @@ export class HudOverrideSystem extends SystemStatus<HudOverrideSystemEvents> {
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelBuffer, spawn: boolean) {
         const before = this.sabotaged;
-        this.sabotaged = reader.bool();
+        this._sabotaged = reader.bool();
 
-        if (!before && this.sabotaged)
-            this.emit("systemSabotage");
+        if (!before && this._sabotaged)
+            this.emit("system.sabotage", {});
 
-        if (before && !this.sabotaged)
-            this.emit("systemRepair");
+        if (before && !this._sabotaged)
+            this.emit("system.repair", {});
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -41,9 +46,10 @@ export class HudOverrideSystem extends SystemStatus<HudOverrideSystemEvents> {
         writer.bool(this.sabotaged);
     }
 
-    HandleRepair(control: PlayerData, amount: number) {
+    HandleRepair(player: PlayerData, amount: number) {
         if (amount === 0) {
-            this.sabotaged = false;
+            this._sabotaged = false;
+            this.dirty = true;
         }
     }
 }

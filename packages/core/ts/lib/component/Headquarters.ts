@@ -4,8 +4,7 @@ import { SpawnID, SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus, ShipStatusData } from "./BaseShipStatus"
 
-import { Global } from "../Global";
-import { Room } from "../Room";
+import { Hostable } from "../Hostable";
 
 import {
     DeconSystem,
@@ -34,12 +33,12 @@ export class Headquarters extends BaseShipStatus {
         [SystemType.Decontamination]: DeconSystem;
     };
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
     }
 
     get owner() {
-        return super.owner as Global;
+        return super.owner as Hostable;
     }
 
     Setup() {
@@ -55,14 +54,14 @@ export class Headquarters extends BaseShipStatus {
             }),
             [SystemType.O2]: new LifeSuppSystem(this, {
                 timer: 10000,
-                completed: []
+                completed: new Set
             }),
             [SystemType.MedBay]: new MedScanSystem(this, {
                 queue: []
             }),
             [SystemType.Communications]: new HqHudSystem(this, {
                 active: [],
-                completed: new Set
+                completed: new Set([0, 1])
             }),
             [SystemType.Sabotage]: new SabotageSystem(this, {
                 cooldown: 0

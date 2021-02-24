@@ -18,7 +18,7 @@ import {
     ReactorSystem
 } from "../system"
 
-import { Room } from "../Room";
+import { Hostable } from "../Hostable";
 
 export class AprilShipStatus extends BaseShipStatus {
     static type = SpawnID.AprilShipStatus as const;
@@ -38,7 +38,7 @@ export class AprilShipStatus extends BaseShipStatus {
         [SystemType.Sabotage]: SabotageSystem;
     };
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
     }
 
@@ -55,7 +55,7 @@ export class AprilShipStatus extends BaseShipStatus {
             }),
             [SystemType.O2]: new LifeSuppSystem(this, {
                 timer: 10000,
-                completed: []
+                completed: new Set
             }),
             [SystemType.MedBay]: new MedScanSystem(this, {
                 queue: []

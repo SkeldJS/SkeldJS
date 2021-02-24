@@ -14,11 +14,10 @@ import {
 } from "@skeldjs/protocol"
 
 import {
+    DisconnectReason,
     Opcode,
     PayloadTag
 } from "@skeldjs/constant"
-
-import { Room } from "@skeldjs/core"
 
 import {
     HazelBuffer,
@@ -28,6 +27,8 @@ import {
 } from "@skeldjs/util"
 
 import { RemoteClient } from "./RemoteClient";
+
+import { Room } from "./Room";
 
 type PacketFilter = (packet: ServerboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageServerbound) => boolean;
@@ -43,12 +44,9 @@ const default_config = (): ServerConfig => ({
 export class SkeldjsServer extends EventEmitter {
     config: ServerConfig;
 
-    publicip: string;
-    
     socket: dgram.Socket;
 
     remotes: Map<string, RemoteClient>;
-
     rooms: Map<number, Room>;
 
     private _inc_clientid;
@@ -74,7 +72,7 @@ export class SkeldjsServer extends EventEmitter {
         return new Promise<void>(resolve => {
             this.socket.bind(this.config.port, this.config.host, () => {
                 this.socket.on("message", this.onMessage.bind(this));
-                
+
                 resolve();
             });
         });
@@ -90,7 +88,7 @@ export class SkeldjsServer extends EventEmitter {
 
         this.remotes.set(rc, new RemoteClient(this, remote, this.inc_clientid()));
     }
-    
+
     waitPacket(from: RemoteClient, filter: PacketFilter|PacketFilter[]): Promise<ServerboundPacket> {
         return new Promise(resolve => {
             const clearListeners = () => {
@@ -150,7 +148,7 @@ export class SkeldjsServer extends EventEmitter {
 
         return packet.payloads.find(findPayload);
     }
-    
+
     private _send(remote: dgram.RemoteInfo, buffer: Buffer) {
         return new Promise((resolve, reject) => {
             if (!this.socket) {
@@ -244,7 +242,11 @@ export class SkeldjsServer extends EventEmitter {
                             break;
                         case PayloadTag.JoinGame:
                             const room = this.rooms.get(payload.code);
-                            room;
+                            if (room) {
+                                void 0;
+                            } else {
+                                client.joinError(DisconnectReason.GameNotFound);
+                            }
                             break;
                     }
                 }
@@ -263,7 +265,7 @@ export class SkeldjsServer extends EventEmitter {
             case Opcode.Acknowledge:
                 const sent = client.packets_sent.find(s => s.nonce === packet.nonce);
                 if (sent) sent.ackd = true;
-    
+
                 const missing = getMissing(client.packets_recv, packet.missingPackets);
                 missing.forEach(client.ack);
                 break;

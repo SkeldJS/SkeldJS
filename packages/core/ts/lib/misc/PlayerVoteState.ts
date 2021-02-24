@@ -1,9 +1,9 @@
 import { VoteState } from "@skeldjs/constant";
 
-import { Room } from "../Room";
+import { Hostable } from "../Hostable";
 
 export class PlayerVoteState {
-    constructor(private room: Room, public playerId: number, public state: number) {}
+    constructor(private room: Hostable, public playerId: number, public state: number) {}
 
     get votedFor() {
         return this.room.getPlayerByPlayerId((this.state & VoteState.VotedFor) - 1);

@@ -21,7 +21,7 @@ export class HazelBuffer {
     }
 
     [util.inspect.custom]() {
-        return "<HazelBuffer " + this.buffer.toString("hex") + ">";
+        return "<HazelBuffer " + this.buffer.toString("hex").match(/.{1,2}/g).join(" ") + ">";
     }
 
     [Symbol.iterator]() {
@@ -87,7 +87,7 @@ export class HazelBuffer {
     at(position: number) {
         return this.buffer[position];
     }
-    
+
     uint8(): number;
     uint8(val: number): this;
     uint8(val?: any): any {
@@ -104,7 +104,7 @@ export class HazelBuffer {
             return val;
         }
     }
-    
+
     int8(): number;
     int8(val: number): this;
     int8(val?: any): any {
@@ -160,7 +160,7 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readUInt16LE(this.cursor);
             this.cursor += 2;
-            
+
             return val;
         }
     }
@@ -177,7 +177,7 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readUInt16BE(this.cursor);
             this.cursor += 2;
-            
+
             return val;
         }
     }
@@ -200,7 +200,7 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readInt16LE(this.cursor);
             this.cursor += 2;
-            
+
             return val;
         }
     }
@@ -217,7 +217,7 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readInt16BE(this.cursor);
             this.cursor += 2;
-            
+
             return val;
         }
     }
@@ -240,7 +240,7 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readUInt32LE(this.cursor);
             this.cursor += 4;
-            
+
             return val;
         }
     }
@@ -257,7 +257,7 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readUInt32BE(this.cursor);
             this.cursor += 4;
-            
+
             return val;
         }
     }
@@ -280,7 +280,7 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readInt32LE(this.cursor);
             this.cursor += 4;
-            
+
             return val;
         }
     }
@@ -297,7 +297,7 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readInt32BE(this.cursor);
             this.cursor += 4;
-            
+
             return val;
         }
     }
@@ -320,11 +320,11 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readFloatLE(this.cursor);
             this.cursor += 4;
-            
+
             return val;
         }
     }
-    
+
     floatBE(): number;
     floatBE(val: number): this;
     floatBE(val?: any): any {
@@ -337,11 +337,11 @@ export class HazelBuffer {
         } else {
             const val = this.buffer.readFloatBE(this.cursor);
             this.cursor += 4;
-            
+
             return val;
         }
     }
-    
+
     float(endian?: endian): number;
     float(val: number,endian?: endian): this;
     float(val?: any,endian: endian = "le"): any {
@@ -395,16 +395,16 @@ export class HazelBuffer {
 
             this.buffer.write(str, this.cursor, encoding || "utf8");
             this.cursor += str.length;
-    
+
             return this;
         } else {
             const length = this.upacked();
             let str = "";
-    
+
             for (let i = 0; i < length; i++) {
                 str += this.char();
             }
-    
+
             return str;
         }
     }
@@ -430,7 +430,7 @@ export class HazelBuffer {
             return this;
         } else {
             let out = 0;
-            
+
             for (let shift = 0;; shift++) {
                 const byte = this.uint8();
 
@@ -442,7 +442,7 @@ export class HazelBuffer {
                 } else if (read) {
                     out <<= shift * 7;
                 }
-    
+
                 if (!read) {
                     break;
                 }
@@ -475,7 +475,7 @@ export class HazelBuffer {
             return this;
         } else {
             let out = 0;
-            
+
             for (let shift = 0;; shift++) {
                 const byte = this.uint8();
 
@@ -487,7 +487,7 @@ export class HazelBuffer {
                 } else if (read) {
                     out <<= shift * 7;
                 }
-    
+
                 if (!read) {
                     break;
                 }
@@ -506,9 +506,9 @@ export class HazelBuffer {
             return this.bytes(4).join(".");
         }
     }
-    
-    message(): [ number, HazelBuffer ]; 
-    message(tag?: number): this; 
+
+    message(): [ number, HazelBuffer ];
+    message(tag?: number): this;
     message(tag?: number) {
         if (typeof tag === "undefined") {
             const length = this.uint16();

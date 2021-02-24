@@ -1,4 +1,4 @@
-import { HazelBuffer, PropagatedEmitter } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util"
 
 import {
     SystemType,
@@ -12,15 +12,17 @@ import {
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
+import { DoorEvents } from "../misc/Door";
+import { PropagatedEvents } from "../util/PropagatedEvents";
+import { BaseSystemStatusEvents } from "./events";
 
 export interface AutoDoorsSystemData {
     dirtyBit: number;
     doors: boolean[];
 }
 
-export type AutoDoorsSystemEvents = PropagatedEmitter<AutoOpenDoor> & {
-    doorOpen: (doorId: number) => void;
-    doorClose: (doorId: number) => void;
+export type AutoDoorsSystemEvents = BaseSystemStatusEvents & PropagatedEvents<DoorEvents, { system: AutoDoorsSystem }> & {
+
 }
 
 export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemEvents> {

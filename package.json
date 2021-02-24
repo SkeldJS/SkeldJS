@@ -45,5 +45,8 @@
   },
   "lint-staged": {
     "*.ts": "eslint packages/**/*.ts"
+  },
+  "dependencies": {
+    "emittery": "^0.8.1"
   }
 }

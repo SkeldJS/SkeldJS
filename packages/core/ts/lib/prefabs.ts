@@ -15,11 +15,11 @@ import {
 
 import { Networkable } from "./Networkable"
 
-import { Room } from "./Room"
+import { Hostable } from "./Hostable"
 
 import { HazelBuffer } from "@skeldjs/util"
 
-export const SpawnPrefabs: ({ new(room: Room, netid: number, ownerid: number, data?: HazelBuffer|any): Networkable })[][] = [
+export const SpawnPrefabs: ({ new(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|any): Networkable })[][] = [
     [ ShipStatus ],
     [ MeetingHud ],
     [ LobbyBehaviour ],

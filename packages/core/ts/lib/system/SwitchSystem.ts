@@ -4,6 +4,7 @@ import { SystemType } from "@skeldjs/constant";
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+import { BaseSystemStatusEvents } from "./events";
 
 type SwitchSetup = [ boolean, boolean, boolean, boolean, boolean ];
 
@@ -13,8 +14,12 @@ export interface SwitchSystemData {
     brightness: number;
 }
 
-export type SwitchSystemEvents = {
-
+export type SwitchSystemEvents = BaseSystemStatusEvents & {
+    "electrical.switches.flip": {
+        player?: PlayerData;
+        num: number;
+        value: boolean;
+    };
 }
 
 export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
@@ -24,6 +29,10 @@ export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
     expected: SwitchSetup;
     actual: SwitchSetup;
     brightness: number;
+
+    get sabotaged() {
+        return this.expected.some((val, i) => this.actual[i] !== val);
+    }
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer|SwitchSystemData) {
         super(ship, data);
@@ -44,8 +53,28 @@ export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    HandleRepair(control: PlayerData, amount: number) {
-        this.actual[amount] = !this.actual[amount];
+    HandleRepair(player: PlayerData, amount: number) {
+        this._setSwitch(amount, !this.actual[amount], player);
+    }
+
+    private _setSwitch(num: number, value: boolean, player?: PlayerData) {
+        if (this.actual[num] === value)
+            return;
+
+        this.actual[num] = value;
+        this.dirty = true;
+        this.emit("electrical.switches.flip", { player, num, value });
+    }
+
+    setSwitch(num: number, value: boolean) {
+        if (this.actual[num] === value)
+            return;
+
+        this.flip(num);
+    }
+
+    flip(num: number) {
+        this.repair(this.ship.room.me, num);
     }
 
     static readSwitches(byte: number) {

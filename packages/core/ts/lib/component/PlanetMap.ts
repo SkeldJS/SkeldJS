@@ -3,7 +3,7 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus"
 
-import { Room } from "../Room";
+import { Hostable } from "../Hostable";
 
 import {
     DeconSystem,
@@ -35,7 +35,7 @@ export class PlanetMap extends BaseShipStatus {
         [SystemType.Laboratory]: ReactorSystem;
     };
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
     }
 

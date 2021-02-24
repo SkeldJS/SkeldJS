@@ -1,13 +1,14 @@
-import { HazelBuffer, TypedEmitter, TypedEvents } from "@skeldjs/util"
-import { SystemType } from "@skeldjs/constant";
+import { HazelBuffer } from "@skeldjs/util"
+import { MessageTag, RpcTag, SystemType } from "@skeldjs/constant";
+
+import Emittery from "emittery";
 
 import { BaseShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export class SystemStatus<T extends TypedEvents = {}> extends TypedEmitter<T & SystemStatusEvents> {
+export class SystemStatus<T extends Record<string, any> = {}> extends Emittery<T & SystemStatusEvents> {
     static systemType: SystemType;
     systemType: SystemType;
 
@@ -16,7 +17,15 @@ export class SystemStatus<T extends TypedEvents = {}> extends TypedEmitter<T & S
     }
 
     set dirty(val: boolean) {
-        this.ship.dirtyBit |= (1 << this.systemType);
+        if (val) {
+            this.ship.dirtyBit |= (1 << this.systemType);
+        } else {
+            this.ship.dirtyBit &= ~(1 << this.systemType);
+        }
+    }
+
+    get sabotaged() {
+        return false;
     }
 
     constructor(protected ship: BaseShipStatus, data?: HazelBuffer|any) {
@@ -31,10 +40,16 @@ export class SystemStatus<T extends TypedEvents = {}> extends TypedEmitter<T & S
         }
     }
 
-    emit(event: string, ...args: any[]): boolean {
-        this.ship.emit(event, this, ...args);
+    async emit(...args: any[]) {
+        const event = args[0];
+        const data = args[1];
 
-        return super.emit(event, ...args);
+        this.ship.emit(event, {
+            ...data,
+            system: this
+        });
+
+        return super.emit(event, data);
     }
 
     /* eslint-disable-next-line */
@@ -42,13 +57,43 @@ export class SystemStatus<T extends TypedEvents = {}> extends TypedEmitter<T & S
     /* eslint-disable-next-line */
     Serialize(writer: HazelBuffer, spawn: boolean) {}
     /* eslint-disable-next-line */
-    HandleRepair(control: PlayerData, amount: number) {}
+    HandleRepair(player: PlayerData, amount: number) {}
     /* eslint-disable-next-line */
     Detoriorate(delta: number) {}
     /* eslint-disable-next-line */
-    HandleSabotage(control: PlayerData) {}
+    HandleSabotage(player: PlayerData) {}
 
-    sabotage(control: PlayerData) {
-        this.HandleSabotage(control);
+    sabotage(player: PlayerData) {
+        if (this.ship.room.amhost) {
+            this.HandleSabotage(player);
+            this.emit("system.sabotage", { player });
+        } else {
+            this.ship.room.broadcast([{
+                tag: MessageTag.RPC,
+                netid: this.ship.netid,
+                rpcid: RpcTag.RepairSystem,
+                systemid: SystemType.Sabotage,
+                repairerid: player.control.netid,
+                value: this.systemType
+            }], true, this.ship.room.host);
+        }
     }
+
+    repair(player: PlayerData, amount: number) {
+        if (this.ship.room.amhost) {
+            this.HandleRepair(player, amount);
+        } else {
+            this.ship.room.broadcast([{
+                tag: MessageTag.RPC,
+                netid: this.ship.netid,
+                rpcid: RpcTag.RepairSystem,
+                systemid: this.systemType,
+                repairerid: player.control.netid,
+                value: amount
+            }], true, this.ship.room.host);
+        }
+    }
+
+    /* eslint-disable-next-line */
+    fix() {};
 }

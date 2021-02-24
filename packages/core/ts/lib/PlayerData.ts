@@ -1,26 +1,32 @@
-import { EventEmitter } from "events";
-import { MessageTag, Opcode, PayloadTag } from "@skeldjs/constant";
+import { MessageTag } from "@skeldjs/constant";
+import { GameDataMessage } from "@skeldjs/protocol";
+import Emittery from "emittery";
 
 import {
     CustomNetworkTransform,
+    CustomNetworkTransformEvents,
     PlayerControl,
+    PlayerControlEvents,
     PlayerPhysics,
+    PlayerPhysicsEvents,
 } from "./component";
 
 import { Heritable } from "./Heritable";
-import { Room } from "./Room";
-import { PropagatedEmitter } from "@skeldjs/util";
+import { Hostable } from "./Hostable";
 
-export type PlayerDataEvents = PropagatedEmitter<PlayerControl> &
-    PropagatedEmitter<PlayerPhysics> &
-    PropagatedEmitter<CustomNetworkTransform> &
- {
-    ready: () => void;
-    join: () => void;
-    leave: () => void;
-    setHost: () => void;
-    spawn: (component: PlayerControl|PlayerPhysics|CustomNetworkTransform) => void;
-    despawn: (component: PlayerControl|PlayerPhysics|CustomNetworkTransform) => void;
+export type PlayerDataEvents = PlayerControlEvents & PlayerPhysicsEvents & CustomNetworkTransformEvents &
+{
+    "player.ready": {};
+    "player.join": {};
+    "player.leave": {};
+    "player.sethost": {};
+    "player.scenechange": {};
+    "component.spawn": {
+        component: PlayerControl|PlayerPhysics|CustomNetworkTransform
+    };
+    "component.despawn": {
+        component: PlayerControl|PlayerPhysics|CustomNetworkTransform
+    };
 }
 
 export class PlayerData extends Heritable<PlayerDataEvents> {
@@ -28,19 +34,24 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
     inScene: boolean;
 
     left: boolean;
+    stream: GameDataMessage[];
 
-    constructor(room: Room, clientid: number) {
+    constructor(room: Hostable, clientid: number) {
         super(room, clientid);
+
+        this.stream = [];
     }
 
-    _emit(event: string, ...args: any[]): boolean {
-        this.room.emit(event, this, ...args);
+    async emit(...args: any[]) {
+        const event = args[0];
+        const data = args[1];
 
-        return super.emit(event, ...args);
-    }
+        this.room.emit(event, {
+            ...data,
+            player: this
+        });
 
-    emit(event: string, ...args: any[]): boolean {
-        return EventEmitter.prototype.emit.call(this, event, ...args);
+        return Emittery.prototype.emit.call(this, event, data);
     }
 
     get control() {
@@ -72,29 +83,18 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
     }
 
     get isme() {
-        return this.id === this.room.client.clientid;
+        return this.id === this.room.me?.id;
     }
 
     async ready() {
         this.isReady = true;
-        this._emit("ready");
+        this.emit("player.ready", {});
 
         if (this.isme && !this.ishost) {
-            await this.room.client.send({
-                op: Opcode.Reliable,
-                payloads: [
-                    {
-                        tag: PayloadTag.GameData,
-                        code: this.room.code,
-                        messages: [
-                            {
-                                tag: MessageTag.Ready,
-                                clientid: this.id
-                            }
-                        ]
-                    }
-                ]
-            });
+            await this.room.broadcast([{
+                tag: MessageTag.Ready,
+                clientid: this.id
+            }]);
         }
     }
 }

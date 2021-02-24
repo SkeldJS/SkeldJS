@@ -14,9 +14,8 @@ import {
 
 import { HazelBuffer } from "@skeldjs/util"
 
-import { Networkable } from "../Networkable";
-import { Global } from "../Global";
-import { Room } from "../Room";
+import { Networkable, NetworkableEvents } from "../Networkable";
+import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
 import { PlayerControl } from "./PlayerControl";
@@ -27,9 +26,17 @@ export interface GameDataData {
     players: Map<number, PlayerGameData>;
 }
 
-export type GameDataEvents = {
-    addPlayerData: (playerData: PlayerGameData) => void;
-    removePlayerData: (playerData: PlayerGameData) => void;
+export type GameDataEvents = NetworkableEvents & {
+    "gamedata.addplayer": {
+        playerData: PlayerGameData
+    };
+    "gamedata.removeplayer": {
+        playerData: PlayerGameData
+    };
+    "gamedata.settasks": {
+        playerData: PlayerGameData,
+        taskids: number[]
+    }
 }
 
 export type PlayerIDResolvable = number|PlayerData|PlayerControl|PlayerGameData|PlayerVoteState;
@@ -43,12 +50,12 @@ export class GameData extends Networkable<GameDataEvents> {
 
     players: Map<number, PlayerGameData>;
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|GameDataData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|GameDataData) {
         super(room, netid, ownerid, data);
     }
 
     get owner() {
-        return super.owner as Global;
+        return super.owner as Hostable;
     }
 
     resolvePlayerData(resolvable: PlayerIDResolvable) {
@@ -108,7 +115,7 @@ export class GameData extends Networkable<GameDataEvents> {
             });
 
             if (players.length) {
-                this.room.client.stream.push({
+                this.room.stream.push({
                     tag: MessageTag.RPC,
                     netid: this.netid,
                     rpcid: RpcTag.UpdateGameData,
@@ -197,7 +204,10 @@ export class GameData extends Networkable<GameDataEvents> {
                 taskIdx: i
             }));
 
-            this.emit("setTasks", player, taskIds);
+            this.emit("gamedata.settasks", {
+                playerData: player,
+                taskids: taskIds
+            });
         }
     }
 
@@ -206,7 +216,7 @@ export class GameData extends Networkable<GameDataEvents> {
 
         if (player) {
             this._setTasks(player.playerId, taskIds);
-            this.room.client.stream.push({
+            this.room.stream.push({
                 tag: MessageTag.RPC,
                 rpcid: RpcTag.SetTasks,
                 netid: this.netid,
@@ -243,7 +253,9 @@ export class GameData extends Networkable<GameDataEvents> {
             tasks: []
         });
 
-        this.emit("addPlayerData", this.players.get(playerId));
+        this.emit("gamedata.addplayer", {
+            playerData: this.players.get(playerId)
+        });
 
         this.update(playerId);
     }
@@ -256,7 +268,9 @@ export class GameData extends Networkable<GameDataEvents> {
                 this.dirtyBit ^= (1 << player.playerId);
             }
 
-            this.emit("removePlayerData", this.players.get(player.playerId));
+            this.emit("gamedata.removeplayer", {
+                playerData: this.players.get(player.playerId)
+            });
 
             this.players.delete(player.playerId);
         }

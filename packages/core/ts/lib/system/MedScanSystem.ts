@@ -4,12 +4,13 @@ import { SystemType } from "@skeldjs/constant";
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+import { BaseSystemStatusEvents } from "./events";
 
 export interface MedScanSystemData {
     queue: number[];
 }
 
-export type MedScanSystemEvents = {
+export type MedScanSystemEvents = BaseSystemStatusEvents & {
 
 }
 
@@ -42,16 +43,15 @@ export class MedScanSystem extends SystemStatus<MedScanSystemEvents> {
         }
     }
 
-    HandleRepair(control: PlayerData, amount: number) {
-        const playerId = amount & 0x1F;
+    HandleRepair(player: PlayerData, amount: number) {
+        const playerId = amount & 0x1f;
+        const resolved = this.ship.room.getPlayerByPlayerId(playerId);
 
-        const player = this.ship.room.getPlayerByPlayerId(playerId);
-
-        if (player) {
+        if (resolved) {
             if (amount & 0x80) {
-                this.queue.push(player);
+                this.queue.push(resolved);
             } else if (amount & 0x40) {
-                const idx = this.queue.indexOf(player);
+                const idx = this.queue.indexOf(resolved);
 
                 if (~idx) {
                     this.queue.splice(idx, 1);
