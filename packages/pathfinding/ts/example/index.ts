@@ -11,12 +11,12 @@ import { SkeldjsPathfinder } from "..";
 
     await client.joinGame(process.argv[3]);
 
-    client.on("spawn", ({ component }) => {
+    client.on("component.spawn", ({ component }) => {
         if (component.classname === "CustomNetworkTransform" && component.ownerid === client.clientid) {
             client.room.me.control.checkName("path");
             client.room.me.control.checkColor(ColorID.Blue);
 
-            component.on("move", ({ position }) => {
+            component.on("player.move", ({ position }) => {
                 console.log("X: " + position.x.toFixed(5) + ", Y: " + position.y.toFixed(5));
             });
 
