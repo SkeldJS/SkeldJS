@@ -1,25 +1,26 @@
-import { PropagatedEvents, TypedEmitter, TypedEvents } from "@skeldjs/util";
+import Emittery from "emittery";
 
 import { Networkable, NetworkableEvents } from "./Networkable";
-import { Room } from "./Room";
+import { Hostable } from "./Hostable";
+import { HazelBuffer } from "@skeldjs/util";
+import { PropagatedEvents } from "./util/PropagatedEvents";
 
 type NetworkableConstructor<T> = {
-    new (room: Room, netid: number, ownerid: number): T;
+    new (room: Hostable, netid: number, ownerid: number, data?: HazelBuffer | any): T;
     classname: string;
 };
 
-type HeritableEvents = PropagatedEvents<Networkable, NetworkableEvents> & {
+type HeritableEvents = PropagatedEvents<NetworkableEvents, { component: Networkable }> & {
 
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export class Heritable<T extends TypedEvents = {}> extends TypedEmitter<T & HeritableEvents> {
-    room: Room;
+export class Heritable<T extends Record<string, any> = any> extends Emittery<T & HeritableEvents> {
+    room: Hostable;
 
     id: number;
     components: Networkable[];
 
-    constructor(room: Room, id: number) {
+    constructor(room: Hostable, id: number) {
         super();
 
         this.id = id;
@@ -28,15 +29,22 @@ export class Heritable<T extends TypedEvents = {}> extends TypedEmitter<T & Heri
         this.components = [];
     }
 
-    emit(event: string, ...args: any[]): boolean {
-        this.room.emit(event, ...args);
+    // <Name extends string | number | symbol>(eventName: Name, eventData: any) => Promise<void>
+    // <Name extends string | number | symbol>(eventName: Name, eventData: any) => Promise<void>
+    async emit(...args: any[]) {
+        const event = args[0] as string;
+        const data = args[1] as any;
 
-        return super.emit(event, ...args);
+        this.room.emit(event, {
+            ...data
+        });
+
+        return super.emit(event, data);
     }
 
-    getComponent<T extends Networkable>(ctr: NetworkableConstructor<T>|NetworkableConstructor<T>[]|number): T {
+    getComponent<T>(ctr: NetworkableConstructor<T>|NetworkableConstructor<T>[]|number): T {
         if (typeof ctr == "number") {
-            return this.components.find(component => component && component.netid === ctr) as T;
+            return this.components.find(component => component && component.netid === ctr) as unknown as T;
         }
 
         for (let i = 0; i < this.components.length; i++) {
@@ -44,11 +52,11 @@ export class Heritable<T extends TypedEvents = {}> extends TypedEmitter<T & Heri
 
             if (Array.isArray(ctr)) {
                 if (component && ctr.some(con => component.classname === con.classname)) {
-                    return component as T;
+                    return component as unknown as T;
                 }
             } else {
                 if (component && component.classname === ctr.classname) {
-                    return component as T;
+                    return component as unknown as T;
                 }
             }
         }

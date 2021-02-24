@@ -9,15 +9,13 @@ import { RpcMessage } from "@skeldjs/protocol";
 
 import {
     MessageTag,
-    Opcode,
-    PayloadTag,
     RpcTag,
     SpawnID
 } from "@skeldjs/constant";
 
-import { Networkable } from "../Networkable";
+import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
-import { Room } from "../Room";
+import { Hostable } from "../Hostable";
 
 export interface CustomNetworkTransformData {
     seqId: number;
@@ -25,9 +23,14 @@ export interface CustomNetworkTransformData {
     velocity: Vector2;
 }
 
-export type CustomNetworkTransformEvents = {
-    move: (position: Vector2, velocity: Vector2) => void;
-    snapTo: (position: Vector2) => void;
+export type CustomNetworkTransformEvents = NetworkableEvents & {
+    "player.move": {
+        position: Vector2;
+        velocity: Vector2;
+    };
+    "player.snapto": {
+        position: Vector2;
+    };
 }
 
 export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEvents> {
@@ -42,7 +45,7 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
     position: Vector2;
     velocity: Vector2;
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|CustomNetworkTransformData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|CustomNetworkTransformData) {
         super(room, netid, ownerid, data);
     }
 
@@ -63,7 +66,16 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
         this.position = readVector2(reader);
         this.velocity = readVector2(reader);
 
-        this.emit("move", this.position, this.velocity);
+        this.emit("player.move", {
+            position: {
+                x: this.position.x,
+                y: this.position.y
+            },
+            velocity: {
+                x: this.velocity.x,
+                y: this.velocity.y
+            }
+        });
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -84,7 +96,12 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
                     this.seqId = message.seqId;
                     this.position = message.position;
                     this.velocity = { x: 0, y: 0 };
-                    this.emit("snapTo", this.position);
+                    this.emit("player.snapto", {
+                        position: {
+                            x: this.position.x,
+                            y: this.position.y
+                        }
+                    });
                 }
                 break;
         }
@@ -103,24 +120,22 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
         const data = HazelBuffer.alloc(10);
         this.Serialize(data);
 
-        await this.room.client.send({
-            op: Opcode.Unreliable,
-            payloads: [
-                {
-                    tag: PayloadTag.GameData,
-                    code: this.room.code,
-                    messages: [
-                        {
-                            tag: MessageTag.Data,
-                            netid: this.netid,
-                            data
-                        }
-                    ]
-                }
-            ]
-        });
+        await this.room.broadcast([{
+            tag: MessageTag.Data,
+            netid: this.netid,
+            data
+        }], false);
 
-        this.emit("move", this.position, this.velocity);
+        this.emit("player.move", {
+            position: {
+                x: this.position.x,
+                y: this.position.y
+            },
+            velocity: {
+                x: this.velocity.x,
+                y: this.velocity.y
+            }
+        });
     }
 
     async snapTo(position: Vector2) {
@@ -135,26 +150,20 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
         const data = HazelBuffer.alloc(10);
         this.Serialize(data);
 
-        await this.room.client.send({
-            op: Opcode.Reliable,
-            payloads: [
-                {
-                    tag: PayloadTag.GameData,
-                    code: this.room.code,
-                    messages: [
-                        {
-                            tag: MessageTag.RPC,
-                            rpcid: RpcTag.SnapTo,
-                            netid: this.netid,
-                            seqId: this.seqId,
-                            position
-                        }
-                    ]
-                }
-            ]
+        await this.room.stream.push({
+            tag: MessageTag.RPC,
+            rpcid: RpcTag.SnapTo,
+            netid: this.netid,
+            seqId: this.seqId,
+            position
         });
 
-        this.emit("snapTo", this.position);
+        this.emit("player.snapto", {
+            position: {
+                x: this.position.x,
+                y: this.position.y
+            }
+        });
     }
 
     static threshold = 2 ** 15 - 1;

@@ -4,6 +4,7 @@ import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
+import { BaseSystemStatusEvents } from "./events";
 
 export enum DeconState {
     Enter = 0x1,
@@ -17,14 +18,14 @@ export interface DeconSystemData {
     state: number;
 }
 
-export type DeconSystemEvents = {
-    
+export type DeconSystemEvents = BaseSystemStatusEvents & {
+
 }
 
 export class DeconSystem extends SystemStatus<DeconSystemEvents> {
     static systemType = SystemType.Decontamination as const;
     systemType = SystemType.Decontamination as const;
-    
+
     timer: number;
     state: number;
 

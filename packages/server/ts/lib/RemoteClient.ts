@@ -12,16 +12,15 @@ import {
 
 import {
     DisconnectReason,
-    Opcode
-} from "@skeldjs/constant"
-
-import {
-    Room,
-} from "@skeldjs/core"
+    Opcode,
+    PayloadTag
+} from "@skeldjs/constant";
 
 import {
     ClientboundPacket
-} from "@skeldjs/protocol"
+} from "@skeldjs/protocol";
+
+import { Room } from "./Room";
 
 export class RemoteClient extends EventEmitter {
     nonce: number;
@@ -76,5 +75,18 @@ export class RemoteClient extends EventEmitter {
                 message
             });
         }
+    }
+
+    async joinError(reason: DisconnectReason) {
+        this.server.send(this, {
+            op: Opcode.Reliable,
+            payloads: [
+                {
+                    tag: PayloadTag.JoinGame,
+                    error: true,
+                    reason
+                }
+            ]
+        });
     }
 }

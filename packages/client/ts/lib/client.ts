@@ -30,16 +30,16 @@ import {
 
     GameOptions,
 
-    composePacket
+    composePacket,
+    parsePacket,
+    GameDataToPayload,
+    GameDataPayload,
+    PayloadMessageServerbound
 } from "@skeldjs/protocol";
 
 import {
-    Room
+    Hostable, HostableEvents, PlayerData, RoomID
 } from "@skeldjs/core";
-
-import {
-    SkeldjsStateManager
-} from "@skeldjs/state";
 
 import {
     Code2Int,
@@ -50,8 +50,7 @@ import {
     EncodeVersion,
     createMissingBitfield,
     getMissing,
-    SentPacket,
-    PropagatedEmitter
+    SentPacket
 } from "@skeldjs/util";
 
 import {
@@ -62,13 +61,20 @@ import {
 type PacketFilter = (packet: ClientboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageClientbound) => boolean;
 
-export type SkeldjsClientEvents = PropagatedEmitter<Room> & {
-    disconnect: (reason: number, message: string) => void;
-    packet: (packet: ClientboundPacket) => void;
-    fixedUpdate: (stream: GameDataMessage[]) => void;
+export type SkeldjsClientEvents = HostableEvents & {
+    "client.disconnect": {
+        reason: DisconnectReason;
+        message: string;
+    };
+    "client.packet": {
+        packet: ClientboundPacket;
+    };
+    "client.fixedupdate": {
+        stream: GameDataMessage;
+    }
 }
 
-export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
+export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
     options: ClientConfig;
 
     socket: dgram.Socket;
@@ -86,8 +92,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     version: number;
 
     clientid: number;
-
-    room: Room;
 
     private settings_cache: GameOptions;
     stream: GameDataMessage[];
@@ -112,54 +116,64 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this._reset();
 
         this.stream = [];
-    }
 
-    protected async FixedUpdate() {
-        if (this.room) {
-            const delta = Date.now() - this.last_fixed_update;
-            this.last_fixed_update = Date.now();
-            for (const [ , component ] of this.room.netobjects) {
-                if (component && (component.owner === this.room.me || (component.ownerid === -2 && this.room.amhost))) {
-                    component.FixedUpdate(delta);
-                    if (component.dirtyBit) {
-                        component.PreSerialize();
-                        const writer = HazelBuffer.alloc(0);
-                        if (component.Serialize(writer, false)) {
-                            this.stream.push({
-                                tag: MessageTag.Data,
-                                netid: component.netid,
-                                data: writer
-                            });
-                        }
-                        component.dirtyBit = 0;
-                    }
-                }
-            }
-
-            this.emit("fixedUpdate", this.stream);
-
-            if (this.stream.length) {
-                const stream = this.stream;
-                this.stream = [];
-
-                await this.send({
-                    op: Opcode.Reliable,
-                    payloads: [
-                        {
-                            tag: PayloadTag.GameData,
-                            code: this.room.code,
-                            messages: stream
-                        }
-                    ]
-                });
-            }
-        }
+        setInterval(this.FixedUpdate.bind(this), SkeldjsClient.FixedUpdateInterval);
     }
 
     get nonce() {
         this._nonce++;
 
         return this._nonce;
+    }
+
+    get me() {
+        return this.players.get(this.clientid);
+    }
+
+    get amhost() {
+        return this.hostid === this.clientid;
+    }
+
+    protected async FixedUpdate() {
+        const delta = Date.now() - this.last_fixed_update;
+        this.last_fixed_update = Date.now();
+        for (const [ , component ] of this.netobjects) {
+            if (component && (component.ownerid === this.clientid || (component.ownerid === -2 && this.amhost))) {
+                component.FixedUpdate(delta / 1000);
+                if (component.dirtyBit) {
+                    component.PreSerialize();
+                    const writer = HazelBuffer.alloc(0);
+                    if (component.Serialize(writer, false)) {
+                        this.stream.push({
+                            tag: MessageTag.Data,
+                            netid: component.netid,
+                            data: writer
+                        });
+                    }
+                    component.dirtyBit = 0;
+                }
+            }
+        }
+
+        this.emit("client.fixedupdate", {
+            stream: this.stream
+        });
+
+        if (this.stream.length) {
+            const stream = this.stream;
+            this.stream = [];
+
+            await this.send({
+                op: Opcode.Reliable,
+                payloads: [
+                    {
+                        tag: PayloadTag.GameData,
+                        code: this.code,
+                        messages: stream
+                    }
+                ]
+            });
+        }
     }
 
     private debug(level: number, ...fmt: any[]) {
@@ -177,7 +191,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     }
 
     async handlePacket(packet: ClientboundPacket) {
-        this.emit("packet", packet);
+        this.emit("client.packet", { packet });
 
         switch (packet.op) {
         case Opcode.Reliable:
@@ -200,7 +214,71 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             break;
         }
 
-        super.handlePacket(packet);
+        switch (packet.op) {
+        case Opcode.Unreliable:
+        case Opcode.Reliable:
+            for (let i = 0; i < packet.payloads.length; i++) {
+                const payload = packet.payloads[i];
+
+                switch (payload.tag) {
+                case PayloadTag.HostGame:
+                    this.setCode(payload.code);
+                    break;
+                case PayloadTag.JoinGame:
+                    if (payload.error === false) {
+                        if (this.me && this.code === payload.code) {
+                            this.handleJoin(payload.clientid);
+                            this.setHost(payload.hostid);
+                        }
+                    }
+                    break;
+                case PayloadTag.StartGame:
+                    if (this.me && this.code === payload.code) {
+                        await this.handleStart();
+                    }
+                    break;
+                case PayloadTag.EndGame:
+                    if (this.me && this.code === payload.code) {
+                        await this.handleEnd(payload.reason);
+                    }
+                    break;
+                case PayloadTag.RemovePlayer:
+                    if (this.me && this.code === payload.code) {
+                        this.handleLeave(payload.clientid);
+                        this.setHost(payload.hostid);
+                    }
+                    break;
+                case PayloadTag.GameData:
+                case PayloadTag.GameDataTo:
+                    if (this.me && this.code === payload.code) {
+                        for (let i = 0; i < payload.messages.length; i++) {
+                            const message = payload.messages[i];
+
+                            this.handleGameData(message);
+                        }
+                    }
+                    break;
+                case PayloadTag.JoinedGame:
+                    this.clientid = payload.clientid;
+                    this.setCode(payload.code);
+                    this.setHost(payload.hostid);
+                    this.handleJoin(payload.clientid);
+                    for (let i = 0; i < payload.clients.length; i++) {
+                        this.handleJoin(payload.clients[i]);
+                    }
+                    break;
+                case PayloadTag.AlterGame:
+                    this._setAlterGameTag(payload.alter_tag, payload.value);
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    async onMessage(message: Buffer) {
+        const packet = parsePacket(message, "client");
+        this.handlePacket(packet);
     }
 
     async connect(ip: string, port: number) {
@@ -230,8 +308,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.packets_sent = [];
         this.packets_recv = [];
-
-        this.room = null;
     }
 
     async disconnect(reason?: DisconnectReason, message?: string) {
@@ -248,21 +324,24 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
                 await new Promise<void>(resolve => {
                     const onDisconnect = () => {
-                        this.off("disconnect", onDisconnect);
+                        this.off("client.disconnect", onDisconnect);
 
                         resolve();
                     }
 
-                    this.on("disconnect", onDisconnect);
+                    this.on("client.disconnect", onDisconnect);
 
                     sleep(6000).then(() => {
-                        this.off("disconnect", onDisconnect);
+                        this.off("client.disconnect", onDisconnect);
 
                         resolve();
                     });
                 });
             } else if (this.sent_disconnect) {
-                this.emit("disconnect", reason, message || DisconnectMessages[reason]);
+                this.emit("client.disconnect",  {
+                    reason,
+                    message: message || DisconnectMessages[reason]
+                });
 
                 this._reset();
             }
@@ -284,11 +363,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     waitPacket(filter: PacketFilter|PacketFilter[]): Promise<ClientboundPacket> {
         return new Promise(resolve => {
             const clearListeners = () => {
-                this.off("packet", onPacket);
-                this.off("disconnect", onDisconnect);
+                this.off("client.packet", onPacket);
+                this.off("client.disconnect", onDisconnect);
             }
 
-            function onPacket(packet: ClientboundPacket) {
+            function onPacket({ packet }: { packet: ClientboundPacket }) {
                 if (Array.isArray(filter)) {
                     for (let i = 0; i < filter.length; i++) {
                         if (filter[i](packet)) {
@@ -308,8 +387,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 clearListeners();
             }
 
-            this.on("packet",  onPacket);
-            this.on("disconnect", onDisconnect);
+            this.on("client.packet", onPacket);
+            this.on("client.disconnect", onDisconnect);
         });
     }
 
@@ -350,34 +429,39 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         });
     }
 
-    async send(packet: ServerboundPacket, waitAck: boolean = true): Promise<number> {
+    async send(packet: ServerboundPacket): Promise<void> {
         if (!this.socket) {
             return null;
         }
 
         if (packet.op === Opcode.Reliable || packet.op === Opcode.Hello || packet.op === Opcode.Ping) {
-            // console.log("Sending reliable, ", util.inspect(packet, false, 10, true));
             packet.nonce = this.nonce;
 
             const { buffer } = composePacket(packet, "server") as HazelBuffer;
 
-            const written = await this._send(buffer);
+            await this._send(buffer);
 
-            this.packets_sent.push({
+            const sent = {
                 nonce: packet.nonce,
                 ackd: false
-            });
+            }
 
+            this.packets_sent.push(sent);
             this.packets_sent.splice(8);
 
-            if (waitAck) {
-                let attempts = 0;
+            let attempts = 0;
+            const interval = setInterval(async () => {
+                if (sent.ackd) {
+                    return clearInterval(interval);
+                } else {
+                    if (!this.packets_sent.find(packet => sent.nonce === packet.nonce)) {
+                        return clearInterval(interval);
+                    }
 
-                const interval = setInterval(async () => {
                     if (++attempts > 8) {
                         await this.disconnect();
                         clearInterval(interval);
-                        this.emit("error", new Error("Server failed to acknowledge packet 8 times."));
+                        return this.emit("error", new Error("Server failed to acknowledge packet 8 times."));
                     }
 
                     if (await this._send(buffer) === null) {
@@ -385,36 +469,59 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                         clearInterval(interval);
                         this.emit("error", new Error("Could not send message."));
                     }
-                }, 1500);
-
-                await this.waitPacket(packet => packet.op === Opcode.Acknowledge && packet.nonce === packet.nonce);
-
-                clearInterval(interval);
-            }
-
-            return written;
+                }
+            }, 1500);
         } else {
             const { buffer } = composePacket(packet, "server");
 
-            return this._send(buffer);
+            await this._send(buffer);
         }
     }
 
-    async spawn() {
-        if (!this.room || this.room.me.inScene) {
+    async broadcast(messages: GameDataMessage[], reliable: boolean = true, recipient: PlayerData = null, payloads: PayloadMessageServerbound[] = []) {
+        if (recipient) {
+            await this.send({
+                op: reliable ? Opcode.Reliable : Opcode.Unreliable,
+                payloads: [
+                    ...(messages.length ? [{
+                        tag: PayloadTag.GameDataTo,
+                        code: this.code,
+                        recipientid: recipient.id,
+                        messages
+                    } as GameDataToPayload] : []),
+                    ...payloads
+                ]
+            });
+        } else {
+            await this.send({
+                op: reliable ? Opcode.Reliable : Opcode.Unreliable,
+                payloads: [
+                    ...(messages.length ? [{
+                        tag: PayloadTag.GameData,
+                        code: this.code,
+                        messages
+                    } as GameDataPayload] : []),
+                    ...payloads
+                ]
+            });
+        }
+    }
+
+    async spawnSelf() {
+        if (!this.me || this.me.inScene) {
             return;
         }
 
-        if (this.room.amhost) {
-            this.room.spawnPrefab(SpawnID.Player, this.room.me);
-            this.room.setSettings(this.settings_cache);
+        if (this.amhost) {
+            this.spawnPrefab(SpawnID.Player, this.me);
+            this.setSettings(this.settings_cache);
         } else {
             await this.send({
                 op: Opcode.Reliable,
                 payloads: [
                     {
                         tag: PayloadTag.GameData,
-                        code: this.room.code,
+                        code: this.code,
                         messages: [
                             {
                                 tag: MessageTag.SceneChange,
@@ -428,24 +535,20 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
     }
 
-    async join(code: Room|number|string, doSpawn: boolean = true): Promise<Room> {
+    async joinGame(code: RoomID, doSpawn: boolean = true): Promise<RoomID> {
         if (typeof code === "undefined") {
             throw new Error("No code provided.");
         }
 
         if (typeof code === "string") {
-            return this.join(Code2Int(code), doSpawn);
-        }
-
-        if (typeof code !== "number") {
-            return this.join(code.code, doSpawn);
+            return this.joinGame(Code2Int(code), doSpawn);
         }
 
         if (!this.identified) {
             return null;
         }
 
-        if (this.room && this.room.code !== code) {
+        if (this.me && this.code !== code) {
             await this.disconnect();
             await this.connect(this.ip, this.port);
             await this.identify(this.username);
@@ -482,21 +585,17 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             await this.connect(payload.ip, payload.port);
             await this.identify(username)
 
-            return await this.join(code, doSpawn);
+            return await this.joinGame(code, doSpawn);
         case PayloadTag.JoinedGame:
-            if (this.room) {
-                if (doSpawn) {
-                    await this.spawn();
-                }
-
-                return this.room;
+            if (doSpawn) {
+                await this.spawnSelf();
             }
-        }
 
-        return null;
+            return this.code;
+        }
     }
 
-    async host(host_settings: Partial<GameOptions> = {}, doJoin: boolean = true): Promise<string> {
+    async createGame(host_settings: Partial<GameOptions> = {}, doJoin: boolean = true): Promise<string> {
         const settings = {
             version: 4,
             players: 10,
@@ -543,10 +642,9 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 payload.tag === PayloadTag.HostGame
         ]) as JoinGamePayloadClientboundError|RedirectPayload|HostGamePayloadClientbound;
 
-
         switch (payload.tag) {
         case PayloadTag.JoinGame:
-            throw new Error("Join error: Failed to join game, code: " + payload.reason + " (Message: " + DisconnectMessages[payload.reason] + ")");
+            throw new Error("Join error: Failed to create game, code: " + payload.reason + " (Message: " + DisconnectMessages[payload.reason] + ")");
         case PayloadTag.Redirect:
             const username = this.username;
 
@@ -554,16 +652,18 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             await this.connect(payload.ip, payload.port);
             await this.identify(username);
 
-            return await this.host(host_settings, doJoin);
+            return await this.createGame(host_settings, doJoin);
         case PayloadTag.HostGame:
             this.settings_cache = settings;
 
             if (doJoin) {
-                await this.join(payload.code);
+                await this.joinGame(payload.code);
                 return Int2Code(payload.code);
             } else {
                 return Int2Code(payload.code);
             }
         }
     }
+
+    static FixedUpdateInterval = 1 / 50;
 }

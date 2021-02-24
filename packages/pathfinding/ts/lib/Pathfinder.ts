@@ -1,5 +1,5 @@
 import { SkeldjsClient } from "@skeldjs/client";
-import { TypedEmitter, Vector2 } from "@skeldjs/util";
+import { Vector2 } from "@skeldjs/util";
 
 import {
     CustomNetworkTransform,
@@ -8,9 +8,10 @@ import {
     TheSkeldVent,
     MiraHQVent,
     PolusVent,
-    MapVentData,
-    Room
-} from "@skeldjs/core"
+    MapVentData
+} from "@skeldjs/core";
+
+import Emittery from "emittery";
 
 import fs from "fs";
 import path from "path";
@@ -22,13 +23,19 @@ import { Node } from "./util/Node";
 import { getShortestPath } from "./engine";
 
 type SkeldjsPathfinderEvents = {
-    start: (destination: Vector2) => void;
-    stop: (reached: boolean) => void;
-    pause: () => void;
-    recalculate: (path: Node[]) => void;
+    "pathfinding.start": {
+        destination: Vector2;
+    };
+    "pathfinding.stop": {
+        reached: boolean;
+    };
+    "pathfinding.pause": {};
+    "engine.recalculate": {
+        path: Vector2[];
+    };
 }
 
-export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
+export class SkeldjsPathfinder extends Emittery<SkeldjsPathfinderEvents> {
     private _tick: number;
     private _moved: boolean;
     private _paused: boolean;
@@ -40,9 +47,9 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
     constructor(private client: SkeldjsClient, public config: PathfinderConfig = {}) {
         super();
 
-        this.client.on("fixedUpdate", this._ontick.bind(this));
-        this.client.on("move", this._handleMove.bind(this));
-        this.client.on("leave", this._handleLeave.bind(this));
+        this.client.on("client.fixedupdate", this._ontick.bind(this));
+        this.client.on("player.move", this._handleMove.bind(this));
+        this.client.on("player.leave", this._handleLeave.bind(this));
     }
 
     private get snode() {
@@ -100,7 +107,9 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
         if (this._moved || !this.path || this._tick % (this.config.recalculateEvery || 1) === 0) {
             this.recalculate();
             this._moved = false;
-            this.emit("recalculate", this.path);
+            this.emit("engine.recalculate", {
+                path: this.path.map(node => this.grid.actual(node.x, node.y))
+            });
         }
 
         if (this._paused)
@@ -128,19 +137,21 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
 
     pause() {
         this._paused = true;
-        this.emit("pause");
+        this.emit("pathfinding.pause", {});
     }
 
     start() {
         this._paused = false;
-        this.emit("start");
+        this.emit("pathfinding.start", {
+            destination: this.destination
+        });
     }
 
     private _stop(reached: boolean) {
         this.destination = null;
         if (!reached) this._moved = true;
 
-        this.emit("stop", reached);
+        this.emit("pathfinding.stop", { reached });
     }
 
     stop() {
@@ -186,8 +197,8 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
         this.go(coords.position);
     }
 
-    private _handleMove(room: Room, transform: CustomNetworkTransform, position: Vector2) {
-        if (transform.owner === this.following) {
+    private _handleMove({ component, position }: { component: CustomNetworkTransform, position: Vector2 }) {
+        if (component.owner === this.following) {
             this.destination = {
                 x: position.x,
                 y: position.y
@@ -196,7 +207,7 @@ export class SkeldjsPathfinder extends TypedEmitter<SkeldjsPathfinderEvents> {
         }
     }
 
-    private _handleLeave(room: Room, player: PlayerData) {
+    private _handleLeave({ player }: { player: PlayerData }) {
         if (player === this.following) {
             this._stop(false);
             this.following = null;

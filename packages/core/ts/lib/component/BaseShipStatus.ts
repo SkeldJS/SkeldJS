@@ -1,4 +1,4 @@
-import { HazelBuffer, PropagatedEvents } from "@skeldjs/util";
+import { HazelBuffer } from "@skeldjs/util";
 
 import {
     RpcTag,
@@ -28,8 +28,7 @@ import {
 import { SystemStatusEvents } from "../system/events";
 
 import { Networkable } from "../Networkable";
-import { Global } from "../Global";
-import { Room } from "../Room";
+import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
 type AllSystems = Partial<{
@@ -50,7 +49,7 @@ export interface ShipStatusData {
     systems: AllSystems;
 }
 
-export type ShipStatusEvents = PropagatedEvents<SystemStatus,SystemStatusEvents> & {
+export type ShipStatusEvents = SystemStatusEvents & {
 
 }
 
@@ -66,12 +65,12 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
 
     systems: AllSystems;
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
     }
 
     get owner() {
-        return super.owner as Global;
+        return super.owner as Hostable;
     }
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {

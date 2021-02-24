@@ -2,16 +2,16 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SpawnID } from "@skeldjs/constant";
 
-import { Networkable } from "../Networkable";
-import { Global } from "../Global";
-import { Room } from "../Room";
+import { Networkable, NetworkableEvents } from "../Networkable";
+import { Hostable } from "../Hostable";
+import { Heritable } from "../Heritable";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface LobbyBehaviourData {
 
 }
 
-export type LobbyBehaviourEvents = {
+export type LobbyBehaviourEvents = NetworkableEvents & {
 
 }
 
@@ -22,11 +22,11 @@ export class LobbyBehaviour extends Networkable<LobbyBehaviourEvents> {
     static classname = "LobbyBehaviour" as const;
     classname = "LobbyBehaviour" as const;
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|LobbyBehaviourData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|LobbyBehaviourData) {
         super(room, netid, ownerid, data);
     }
 
     get owner() {
-        return super.owner as Global;
+        return super.owner as Heritable;
     }
 }

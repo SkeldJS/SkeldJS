@@ -5,13 +5,19 @@ import { SystemType } from "@skeldjs/constant";
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+import { BaseSystemStatusEvents } from "./events";
 
 export interface SecurityCameraSystemData {
     players: Set<number>;
 }
 
-export type SecurityCameraSystemEvents = {
-
+export type SecurityCameraSystemEvents = BaseSystemStatusEvents & {
+    "security.cameras.join": {
+        player: PlayerData;
+    };
+    "security.cameras.leave": {
+        player: PlayerData;
+    };
 }
 
 export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemEvents> {
@@ -28,29 +34,54 @@ export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemEvent
     Deserialize(reader: HazelBuffer, spawn: boolean) {
         const num_players = reader.upacked();
 
-        this.players = new Set;
+        const before = new Set([...this.players]);
+        this.players.clear();
         for (let i = 0; i < num_players; i++) {
             const player = this.ship.room.getPlayerByPlayerId(reader.uint8());
-            this.players.add(player);
+            if (player && !before.has(player)) {
+                this._addPlayer(player);
+            }
+        }
+        for (const player of before) {
+            if (!this.players.has(player)) {
+                this._removePlayer(player);
+            }
         }
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean) {
-        const players = Array.from(this.players);
+        const players = [...this.players];
         writer.upacked(players.length);
-
         for (let i = 0; i < players.length; i++) {
             writer.uint8(players[i].playerId);
         }
     }
 
-    HandleRepair(control: PlayerData, amount: number) {
+    HandleRepair(player: PlayerData, amount: number) {
         if (amount === 1) {
-            this.players.add(control);
+            this._addPlayer(player);
         } else {
-            this.players.delete(control);
+            this._removePlayer(player);
         }
         this.dirty = true;
+    }
+
+    private _addPlayer(player: PlayerData) {
+        this.players.add(player);
+        this.emit("security.cameras.join", { player });
+    }
+
+    private _removePlayer(player: PlayerData) {
+        this.players.delete(player);
+        this.emit("security.cameras.leave", { player });
+    }
+
+    addPlayer(player: PlayerData) {
+        this.repair(player, 1);
+    }
+
+    removePlayer(player: PlayerData) {
+        this.repair(player, 0);
     }
 }

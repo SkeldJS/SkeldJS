@@ -3,7 +3,7 @@ import { SpawnID, SystemType } from "@skeldjs/constant";
 
 import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus"
 
-import { Room } from "../Room";
+import { Hostable } from "../Hostable";
 import { DoorsSystem, HudOverrideSystem, ReactorSystem, SabotageSystem, SecurityCameraSystem, SwitchSystem } from "../system";
 
 export class Airship extends BaseShipStatus {
@@ -22,7 +22,7 @@ export class Airship extends BaseShipStatus {
         [SystemType.Sabotage]: SabotageSystem;
     };
 
-    constructor(room: Room, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
+    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
         super(room, netid, ownerid, data);
     }
 
