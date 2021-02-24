@@ -8,5 +8,5 @@
     "prepublishOnly": "npm run build"
   },
   "license": "GPL-3.0-only",
-  "gitHead": "9d746a3898681fff7e1e6660d41f69c420ef5e1e"
+  "gitHead": "71b2e87c0263bf10d138b7f970df2bdfede138e0"
 }
