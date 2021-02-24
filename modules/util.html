@@ -81,9 +81,7 @@
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/util.hazelbuffer.html" class="tsd-kind-icon">Hazel<wbr>Buffer</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter"><a href="../classes/util.propagatableemitter.html" class="tsd-kind-icon">Propagatable<wbr>Emitter</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/util.textbuilder.html" class="tsd-kind-icon">Text<wbr>Builder</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter"><a href="../classes/util.typedemitter.html" class="tsd-kind-icon">Typed<wbr>Emitter</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -92,16 +90,6 @@
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/util.sentpacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/util.vector2.html" class="tsd-kind-icon">Vector2</a></li>
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/util.versioninfo.html" class="tsd-kind-icon">Version<wbr>Info</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="util.html#extractevents" class="tsd-kind-icon">Extract<wbr>Events</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="util.html#prependparameters" class="tsd-kind-icon">Prepend<wbr>Parameters</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="util.html#propagatedemitter" class="tsd-kind-icon">Propagated<wbr>Emitter</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="util.html#propagatedevents" class="tsd-kind-icon">Propagated<wbr>Events</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util.html#typedevents" class="tsd-kind-icon">Typed<wbr>Events</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -137,118 +125,6 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-					<a name="extractevents" class="tsd-anchor"></a>
-					<h3>Extract<wbr>Events</h3>
-					<div class="tsd-signature tsd-kind-icon">Extract<wbr>Events&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>events<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> D<span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">D</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">never</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/TypedEvents.ts#L22">packages/util/ts/lib/TypedEvents.ts:22</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>T<span class="tsd-signature-symbol">: </span><a href="../classes/util.typedemitter.html" class="tsd-signature-type">TypedEmitter</a><span class="tsd-signature-symbol">&lt;</span><a href="util.html#typedevents" class="tsd-signature-type">TypedEvents</a><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-					<a name="prependparameters" class="tsd-anchor"></a>
-					<h3>Prepend<wbr>Parameters</h3>
-					<div class="tsd-signature tsd-kind-icon">Prepend<wbr>Parameters&lt;P, T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>_<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span>, <span class="tsd-signature-symbol">...</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ExtractParameters</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/TypedEvents.ts#L26">packages/util/ts/lib/TypedEvents.ts:26</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>P</h4>
-						</li>
-						<li>
-							<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>_<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span>, <span class="tsd-signature-symbol">...</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ExtractParameters</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>_: <span class="tsd-signature-type">P</span></h5>
-											</li>
-											<li>
-												<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>params: <span class="tsd-signature-type">ExtractParameters</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-					<a name="propagatedemitter" class="tsd-anchor"></a>
-					<h3>Propagated<wbr>Emitter</h3>
-					<div class="tsd-signature tsd-kind-icon">Propagated<wbr>Emitter&lt;P&gt;<span class="tsd-signature-symbol">:</span> <a href="util.html#propagatedevents" class="tsd-signature-type">PropagatedEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">, </span><a href="util.html#extractevents" class="tsd-signature-type">ExtractEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/TypedEvents.ts#L32">packages/util/ts/lib/TypedEvents.ts:32</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>P<span class="tsd-signature-symbol">: </span><a href="../classes/util.typedemitter.html" class="tsd-signature-type">TypedEmitter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-					<a name="propagatedevents" class="tsd-anchor"></a>
-					<h3>Propagated<wbr>Events</h3>
-					<div class="tsd-signature tsd-kind-icon">Propagated<wbr>Events&lt;P, T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/TypedEvents.ts#L28">packages/util/ts/lib/TypedEvents.ts:28</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>P</h4>
-						</li>
-						<li>
-							<h4>T<span class="tsd-signature-symbol">: </span><a href="util.html#typedevents" class="tsd-signature-type">TypedEvents</a></h4>
-						</li>
-					</ul>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="typedevents" class="tsd-anchor"></a>
-					<h3>Typed<wbr>Events</h3>
-					<div class="tsd-signature tsd-kind-icon">Typed<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/TypedEvents.ts#L3">packages/util/ts/lib/TypedEvents.ts:3</a></li>
-						</ul>
-					</aside>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="code2int" class="tsd-anchor"></a>
@@ -260,7 +136,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Codes.ts#L72">packages/util/ts/lib/Codes.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Codes.ts#L72">packages/util/ts/lib/Codes.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -283,7 +159,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Version.ts#L19">packages/util/ts/lib/Version.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Version.ts#L19">packages/util/ts/lib/Version.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -306,7 +182,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Version.ts#L15">packages/util/ts/lib/Version.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Version.ts#L15">packages/util/ts/lib/Version.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -338,7 +214,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Version.ts#L8">packages/util/ts/lib/Version.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Version.ts#L8">packages/util/ts/lib/Version.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -361,7 +237,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Version.ts#L40">packages/util/ts/lib/Version.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Version.ts#L40">packages/util/ts/lib/Version.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -393,7 +269,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Version.ts#L32">packages/util/ts/lib/Version.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Version.ts#L32">packages/util/ts/lib/Version.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -416,7 +292,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Codes.ts#L82">packages/util/ts/lib/Codes.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Codes.ts#L82">packages/util/ts/lib/Codes.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -439,7 +315,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Codes.ts#L1">packages/util/ts/lib/Codes.ts:1</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Codes.ts#L1">packages/util/ts/lib/Codes.ts:1</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -462,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Codes.ts#L10">packages/util/ts/lib/Codes.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Codes.ts#L10">packages/util/ts/lib/Codes.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -479,7 +355,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Codes.ts#L19">packages/util/ts/lib/Codes.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Codes.ts#L19">packages/util/ts/lib/Codes.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -502,7 +378,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Codes.ts#L38">packages/util/ts/lib/Codes.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Codes.ts#L38">packages/util/ts/lib/Codes.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -525,7 +401,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Codes.ts#L49">packages/util/ts/lib/Codes.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Codes.ts#L49">packages/util/ts/lib/Codes.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -542,7 +418,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Codes.ts#L60">packages/util/ts/lib/Codes.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Codes.ts#L60">packages/util/ts/lib/Codes.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -565,7 +441,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Vector.ts#L8">packages/util/ts/lib/Vector.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Vector.ts#L8">packages/util/ts/lib/Vector.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -594,7 +470,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/SentPacket.ts#L6">packages/util/ts/lib/SentPacket.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/SentPacket.ts#L6">packages/util/ts/lib/SentPacket.ts:6</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -617,7 +493,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/SentPacket.ts#L20">packages/util/ts/lib/SentPacket.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/SentPacket.ts#L20">packages/util/ts/lib/SentPacket.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -643,7 +519,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/isEmpty.ts#L1">packages/util/ts/lib/isEmpty.ts:1</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/isEmpty.ts#L1">packages/util/ts/lib/isEmpty.ts:1</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -666,7 +542,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Vector.ts#L20">packages/util/ts/lib/Vector.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Vector.ts#L20">packages/util/ts/lib/Vector.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -695,7 +571,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Vector.ts#L41">packages/util/ts/lib/Vector.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Vector.ts#L41">packages/util/ts/lib/Vector.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -718,7 +594,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/ritoa.ts#L3">packages/util/ts/lib/ritoa.ts:3</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/ritoa.ts#L3">packages/util/ts/lib/ritoa.ts:3</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -750,7 +626,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/sleep.ts#L1">packages/util/ts/lib/sleep.ts:1</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/sleep.ts#L1">packages/util/ts/lib/sleep.ts:1</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -773,7 +649,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/unary.ts#L1">packages/util/ts/lib/unary.ts:1</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/unary.ts#L1">packages/util/ts/lib/unary.ts:1</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -817,7 +693,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Vector.ts#L29">packages/util/ts/lib/Vector.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Vector.ts#L29">packages/util/ts/lib/Vector.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -846,7 +722,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/util/ts/lib/Vector.ts#L33">packages/util/ts/lib/Vector.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/util/ts/lib/Vector.ts#L33">packages/util/ts/lib/Vector.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -869,6 +745,12 @@
 				<ul>
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_plugins_anticheat_index_.html">&quot;plugins/anticheat/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_plugins_index_.html">&quot;plugins/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="client.html">client</a>
@@ -894,9 +776,6 @@
 					<li class=" tsd-kind-module">
 						<a href="skeldjs.html">skeldjs</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="state.html">state</a>
-					</li>
 					<li class="current tsd-kind-module">
 						<a href="util.html">util</a>
 					</li>
@@ -904,6 +783,12 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="_plugins_anticheat_index_.html" class="tsd-kind-icon">&quot;plugins/anticheat/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_plugins_index_.html" class="tsd-kind-icon">&quot;plugins/index&quot;</a>
+					</li>
 					<li class=" tsd-kind-module">
 						<a href="client.html" class="tsd-kind-icon">client</a>
 					</li>
@@ -928,9 +813,6 @@
 					<li class=" tsd-kind-module">
 						<a href="skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="state.html" class="tsd-kind-icon">state</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-module">
@@ -939,14 +821,8 @@
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/util.hazelbuffer.html" class="tsd-kind-icon">Hazel<wbr>Buffer</a>
 							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="../classes/util.propagatableemitter.html" class="tsd-kind-icon">Propagatable<wbr>Emitter</a>
-							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/util.textbuilder.html" class="tsd-kind-icon">Text<wbr>Builder</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="../classes/util.typedemitter.html" class="tsd-kind-icon">Typed<wbr>Emitter</a>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/util.sentpacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
@@ -956,21 +832,6 @@
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/util.versioninfo.html" class="tsd-kind-icon">Version<wbr>Info</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="util.html#extractevents" class="tsd-kind-icon">Extract<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="util.html#prependparameters" class="tsd-kind-icon">Prepend<wbr>Parameters</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="util.html#propagatedemitter" class="tsd-kind-icon">Propagated<wbr>Emitter</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="util.html#propagatedevents" class="tsd-kind-icon">Propagated<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="util.html#typedevents" class="tsd-kind-icon">Typed<wbr>Events</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="util.html#code2int" class="tsd-kind-icon">Code2<wbr>Int</a>

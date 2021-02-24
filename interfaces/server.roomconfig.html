@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>StateManagerOptions | SkeldJS</title>
+	<title>RoomConfig | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/state.html">state</a>
+					<a href="../modules/server.html">server</a>
 				</li>
 				<li>
-					<a href="state.statemanageroptions.html">StateManagerOptions</a>
+					<a href="server.roomconfig.html">RoomConfig</a>
 				</li>
 			</ul>
-			<h1>Interface StateManagerOptions</h1>
+			<h1>Interface RoomConfig</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">StateManagerOptions</span>
+						<span class="target">RoomConfig</span>
 					</li>
 				</ul>
 			</section>
@@ -82,7 +82,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="state.statemanageroptions.html#allowhost" class="tsd-kind-icon">allow<wbr>Host</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="server.roomconfig.html#saah" class="tsd-kind-icon">SaaH</a></li>
 							</ul>
 						</section>
 					</div>
@@ -91,12 +91,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="allowhost" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> allow<wbr>Host</h3>
-					<div class="tsd-signature tsd-kind-icon">allow<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="saah" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> SaaH</h3>
+					<div class="tsd-signature tsd-kind-icon">SaaH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e4157ef/packages/state/ts/lib/interface/StateManagerOptions.ts#L2">packages/state/ts/lib/interface/StateManagerOptions.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/server/ts/lib/interface/RoomConfig.ts#L2">packages/server/ts/lib/interface/RoomConfig.ts:2</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -107,6 +107,12 @@
 				<ul>
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_plugins_anticheat_index_.html">&quot;plugins/anticheat/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_plugins_index_.html">&quot;plugins/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -126,14 +132,11 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html">protocol</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/server.html">server</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/skeldjs.html">skeldjs</a>
-					</li>
-					<li class="current tsd-kind-module">
-						<a href="../modules/state.html">state</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/util.html">util</a>
@@ -142,6 +145,12 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/_plugins_anticheat_index_.html" class="tsd-kind-icon">&quot;plugins/anticheat/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_plugins_index_.html" class="tsd-kind-icon">&quot;plugins/index&quot;</a>
+					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
 					</li>
@@ -160,35 +169,41 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/server.html" class="tsd-kind-icon">server</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-module">
-						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
+						<a href="../modules/server.html" class="tsd-kind-icon">server</a>
 						<ul>
-							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="../classes/state.skeldjsstatemanager.html" class="tsd-kind-icon">Skeldjs<wbr>State<wbr>Manager</a>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/server.remoteclient.html" class="tsd-kind-icon">Remote<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/server.room.html" class="tsd-kind-icon">Room</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/server.skeldjsserver.html" class="tsd-kind-icon">Skeldjs<wbr>Server</a>
 							</li>
 							<li class="current tsd-kind-interface tsd-parent-kind-module">
-								<a href="state.statemanageroptions.html" class="tsd-kind-icon">State<wbr>Manager<wbr>Options</a>
+								<a href="server.roomconfig.html" class="tsd-kind-icon">Room<wbr>Config</a>
 								<ul>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="state.statemanageroptions.html#allowhost" class="tsd-kind-icon">allow<wbr>Host</a>
+										<a href="server.roomconfig.html#saah" class="tsd-kind-icon">SaaH</a>
 									</li>
 								</ul>
 							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="server.serverconfig.html" class="tsd-kind-icon">Server<wbr>Config</a>
+							</li>
 							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/state.html#skeldjsstatemanagerevents" class="tsd-kind-icon">Skeldjs<wbr>State<wbr>Manager<wbr>Events</a>
+								<a href="../modules/server.html#roomevents" class="tsd-kind-icon">Room<wbr>Events</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
+					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/util.html" class="tsd-kind-icon">util</a>
 					</li>
