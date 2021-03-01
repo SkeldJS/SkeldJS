@@ -14,4 +14,9 @@ const server = skeldjs.MasterServers.NA[1];
     console.log("Joining game..");
 
     await client.joinGame(process.argv[2]);
+
+    client.me.on("player.spawn", async () => {
+        await client.me.control.checkName("poo head");
+        await client.me.control.checkColor(skeldjs.ColorID.Brown);
+    });
 })();

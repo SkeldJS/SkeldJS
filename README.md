@@ -15,7 +15,7 @@ The repository holds several key programs for automating development with Among 
 * **Client** - An Among Us client that allows you to host games, join games and act as a player programmatically.
 * **Proxy** - A proxy with both a programmable client and an electron client, to inspect and modify packets in detail.
 
-as well as a central `@skeldjs/skeldjs` package that contains a simple client API, and a server plugin API with support for Redis and multiple server nodes.
+as well as a central `@skeldjs/skeldjs` package that contains an abstracted client API, with Redis support and multiple server nodes.
 
 The repository also hosts utility packages for the packages listed above, that you can use individually.
 * **State** - A very small state manager to wrap the **Core** module that bases the client package.

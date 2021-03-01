@@ -90,6 +90,9 @@ export function composePacket(packet: Packet, bound: "server"|"client" = "server
                 if (payload.bound === "client") {
                     if (payload.error) {
                         writer.uint32(payload.reason);
+                        if (payload.reason === DisconnectReason.Custom) {
+                            writer.string(payload.message);
+                        }
                     } else if (payload.error === false) { // '===' false for type inference
                         writer.int32(payload.code);
                         writer.uint32(payload.clientid);

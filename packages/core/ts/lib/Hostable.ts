@@ -2,7 +2,6 @@ import {
     GameDataMessage,
     SpawnMessage,
     GameOptions,
-    Packet,
     PayloadMessage
 } from "@skeldjs/protocol";
 
@@ -80,10 +79,14 @@ export type AnyNetworkable = Airship |
 export type HostableEvents = PropagatedEvents<PlayerDataEvents, { player: PlayerData }> & ShipStatusEvents & GameDataEvents & LobbyBehaviourEvents & MeetingHudEvents & VoteBanSystemEvents & {
     "game.start": {};
     "game.end": {};
+    "room.fixedupdate": {
+        stream: GameDataMessage[];
+    }
 }
 
 export class Hostable<T extends Record<string, any> = any> extends Heritable<HostableEvents & T> {
     objects: Map<number, Heritable>;
+    players: Map<number, PlayerData>;
     netobjects: Map<number, Networkable>;
     stream: GameDataMessage[];
 
@@ -99,11 +102,15 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
     privacy: PrivacyType;
 
     private _started: boolean;
+    private last_fixed_update;
 
     constructor() {
         super(null, -2);
 
+        this.hostid = null;
+
         this.objects = new Map;
+        this.players = new Map;
         this.netobjects = new Map;
         this.stream = [];
 
@@ -111,6 +118,8 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         this.room = this;
 
         this._incr_netid = 0;
+
+        setInterval(this.FixedUpdate.bind(this), Hostable.FixedUpdateInterval);
     }
 
     async emit(...args: any[]) {
@@ -138,10 +147,6 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         return this._started;
     }
 
-    get players() {
-        return this.objects as Map<number, PlayerData>;
-    }
-
     get amhost() {
         return false;
     }
@@ -167,10 +172,40 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    async send(packet: Packet) {}
-
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
     async broadcast(messages: GameDataMessage[], reliable: boolean = true, recipient: PlayerData = null, payloads: PayloadMessage[] = []) {}
+
+    async FixedUpdate() {
+        const delta = Date.now() - this.last_fixed_update;
+        this.last_fixed_update = Date.now();
+        for (const [ , component ] of this.netobjects) {
+            if (component && (component.ownerid === this.me?.id || this.amhost)) {
+                component.FixedUpdate(delta / 1000);
+                if (component.dirtyBit) {
+                    component.PreSerialize();
+                    const writer = HazelBuffer.alloc(0);
+                    if (component.Serialize(writer, false)) {
+                        this.stream.push({
+                            tag: MessageTag.Data,
+                            netid: component.netid,
+                            data: writer
+                        });
+                    }
+                    component.dirtyBit = 0;
+                }
+            }
+        }
+
+        await this.emit("room.fixedupdate", {
+            stream: this.stream
+        });
+
+        if (this.stream.length) {
+            const stream = this.stream;
+            this.stream = [];
+
+            await this.broadcast(stream);
+        }
+    }
 
     resolvePlayer(player: PlayerDataResolvable) {
         return this.players.get(this.resolvePlayerClientID(player));
@@ -283,34 +318,39 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         }
     }
 
+    private _addPlayer(player: PlayerData) {
+        player.emit("player.join", {});
+    }
+
     handleJoin(clientid: number) {
         if (this.objects.has(clientid))
-            return;
+            return null;
 
         const player = new PlayerData(this, clientid);
+        this.players.set(clientid, player);
         this.objects.set(clientid, player);
 
-        player.emit("player.join", {});
+        this._addPlayer(player);
+
+        return player;
     }
 
     private _removePlayer(player: PlayerData) {
         player.emit("player.leave", {});
     }
 
-    handleLeave(client: PlayerDataResolvable) {
-        const resolved = this.resolvePlayerClientID(client);
-
-        const player = this.players.get(resolved);
+    handleLeave(resolvable: PlayerDataResolvable) {
+        const player = this.resolvePlayer(resolvable);
 
         if (!player)
-            return;
+            return null;
 
         if (this.gamedata && this.gamedata.players.get(player.playerId)) {
             this.gamedata.remove(player.playerId);
         }
 
-        if (this.votebansystem && this.votebansystem.voted.get(resolved)) {
-            this.votebansystem.voted.delete(resolved);
+        if (this.votebansystem && this.votebansystem.voted.get(player.id)) {
+            this.votebansystem.voted.delete(player.id);
         }
 
         for (let i = 0; i < player.components.length; i++) {
@@ -319,9 +359,11 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
             this.despawnComponent(component);
         }
 
-        this.objects.delete(resolved);
+        this.players.delete(player.id);
+        this.objects.delete(player.id);
 
         this._removePlayer(player);
+        return player;
     }
 
     private _startGame() {
@@ -722,4 +764,6 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         }
         }
     }
+
+    static FixedUpdateInterval = 1 / 50;
 }

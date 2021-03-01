@@ -2,11 +2,13 @@
 ## Client
 * `client.disconnect` - Emitted when the client gets disconnected.
 * `client.packet` - Emitted after a client has received and processed a packet.
-* `client.fixedupdate` - Emitted before the client sends data from a FixedUpdate interval.
 
 ## Game
 * `game.start` - Emitted when a game starts.
 * `game.end` - Emitted when a game ends.
+
+## Room
+* `room.fixedupdate` - Emitted before the client sends data from a FixedUpdate interval.
 
 ## Networkable
 * `component.spawn` - Emitted when a component is spawned.
@@ -18,6 +20,7 @@
 * `player.leave` - Emitted when a player leaves.
 * `player.sethost` - Emitted when a player is made the host.
 * `player.scenechange` - Emitted when a player changes scene.
+* `player.spawn` - Emitted when a player fully spawns.
 
 ## GameData
 * `gamedata.addplayer` - Emitted when a player is added to GameData.

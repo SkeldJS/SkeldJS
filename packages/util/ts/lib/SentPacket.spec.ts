@@ -43,7 +43,7 @@ describe("Acknowledgement packet utility functions", () => {
         it("Should get all missing packets from a bitfield.", () => {
             const recv = [8, 7, 6, 5, 4, 3, 2, 1];
 
-            assert.deepStrictEqual(getMissing(recv, 0b10010011), [1, 2, 5, 8]);
+            assert.deepStrictEqual(getMissing(recv, 0b01101100), [1, 2, 5, 8]);
         });
     });
 });

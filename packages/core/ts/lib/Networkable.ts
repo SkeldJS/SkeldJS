@@ -49,10 +49,6 @@ export class Networkable<T extends Record<string, any> = any> extends Emittery<T
             component: this
         });
 
-        if (this.owner !== this.room) {
-            this.room.emit(event, data);
-        }
-
         return super.emit(event, data);
     }
 

@@ -1,5 +1,9 @@
-import { SkeldjsClient, ColorID, MasterServers } from "@skeldjs/client";
+import { SkeldjsClient, ColorID, MasterServers, HatID } from "@skeldjs/client";
 import { SkeldjsPathfinder } from "..";
+
+function getPlayerByName(client: SkeldjsClient, name: string) {
+    return [...client.players.values()].find(player => player.data?.name === name);
+}
 
 (async () => {
     const client = new SkeldjsClient("2020.11.17.0");
@@ -11,14 +15,11 @@ import { SkeldjsPathfinder } from "..";
 
     await client.joinGame(process.argv[3]);
 
-    client.on("component.spawn", ({ component }) => {
-        if (component.classname === "CustomNetworkTransform" && component.ownerid === client.clientid) {
-            client.room.me.control.checkName("path");
-            client.room.me.control.checkColor(ColorID.Blue);
-
-            component.on("player.move", ({ position }) => {
-                console.log("X: " + position.x.toFixed(5) + ", Y: " + position.y.toFixed(5));
-            });
+    client.on("player.spawn", ({ player }) => {
+        if (player.isme) {
+            client.me.control.checkName("path");
+            client.me.control.checkColor(ColorID.Pink);
+            client.me.control.setHat(HatID.Flower);
 
             const stdin = process.openStdin();
             stdin.addListener("data", function (data: Buffer) {
@@ -26,18 +27,21 @@ import { SkeldjsPathfinder } from "..";
                 const args = str.split(" ");
                 const cmd = args.shift();
 
-                if (cmd === "walk") {
-                    const found = [...client.room.players.values()].find(player => player.data?.name === args.join(" "));
-                    if (found) {
-                        pathfinder.go(found);
+                switch (cmd) {
+                    case "walk": {
+                        const player = getPlayerByName(client, args.join(" "));
+                        if (player) pathfinder.go(player);
+                        break;
                     }
-                } else if (cmd === "follow") {
-                    const found = [...client.room.players.values()].find(player => player.data?.name === args.join(" "));
-                    if (found) {
-                        pathfinder.follow(found);
+                    case "follow": {
+                        const player = getPlayerByName(client, args.join(" "));
+                        if (player) pathfinder.follow(player);
+                        break;
                     }
-                } else if (cmd === "stop") {
-                    pathfinder.stop();
+                    case "stop": {
+                        pathfinder.stop();
+                        break;
+                    }
                 }
             });
         }
