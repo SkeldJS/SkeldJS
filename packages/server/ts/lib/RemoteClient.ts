@@ -1,4 +1,4 @@
-import { EventEmitter } from "events"
+import Emittery from "emittery";
 import dgram from "dgram"
 
 import { SkeldjsServer } from "./server";
@@ -17,12 +17,16 @@ import {
 } from "@skeldjs/constant";
 
 import {
-    ClientboundPacket
+    ClientboundPacket, GameDataMessage, PayloadMessageClientbound
 } from "@skeldjs/protocol";
 
 import { Room } from "./Room";
 
-export class RemoteClient extends EventEmitter {
+export type RemoteClientEvents = {
+
+}
+
+export class RemoteClient extends Emittery<RemoteClientEvents> {
     nonce: number;
 
     version: number;
@@ -36,8 +40,17 @@ export class RemoteClient extends EventEmitter {
     packets_sent: SentPacket[];
     packets_recv: number[];
 
+    stream: GameDataMessage[];
+
     constructor(private server: SkeldjsServer, public readonly remote: dgram.RemoteInfo, public readonly clientid: number) {
         super();
+
+        this.nonce = 0;
+        this.room = null;
+
+        this.packets_sent = [];
+        this.packets_recv = [];
+        this.stream = [];
     }
 
     identify(username: string, version: string|number) {
@@ -49,6 +62,10 @@ export class RemoteClient extends EventEmitter {
             const [ year, month, day, revision ] = version.split(".").map(unary(parseInt));
             this.version = EncodeVersion(year, month, day, revision);
         }
+    }
+
+    async sendPayload(reliable: boolean, ...payloads: PayloadMessageClientbound[]) {
+        return await this.server.sendPayload(this, reliable, ...payloads);
     }
 
     async send(packet: ClientboundPacket) {
@@ -64,6 +81,20 @@ export class RemoteClient extends EventEmitter {
     }
 
     async disconnect(reason: DisconnectReason = -1, message?: string) {
+        if (this.room) {
+            await this.room.handleLeave(this.clientid);
+            for (const [ , remote ] of this.room.remotes) {
+                remote.sendPayload(true, {
+                    tag: PayloadTag.RemovePlayer,
+                    code: this.room.code,
+                    clientid: this.clientid,
+                    hostid: this.room.options.SaaH ? remote.clientid : this.room.hostid,
+                    reason: 0
+                });
+            }
+            this.room = null;
+        }
+
         if (reason === -1) {
             this.server.send(this, {
                 op: Opcode.Disconnect
@@ -75,16 +106,18 @@ export class RemoteClient extends EventEmitter {
                 message
             });
         }
+        this.disconnected = true;
     }
 
-    async joinError(reason: DisconnectReason) {
+    async joinError(reason: DisconnectReason, message?: string) {
         this.server.send(this, {
             op: Opcode.Reliable,
             payloads: [
                 {
                     tag: PayloadTag.JoinGame,
                     error: true,
-                    reason
+                    reason,
+                    message
                 }
             ]
         });

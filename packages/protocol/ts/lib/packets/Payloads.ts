@@ -41,6 +41,7 @@ export interface JoinGamePayloadClientboundError extends BaseJoinGamePayloadClie
     bound?: "client";
     error: true;
     reason: DisconnectReason;
+    message?: string;
 }
 
 export interface JoinGamePayloadClientboundNewPlayer extends BaseJoinGamePayloadClientbound {

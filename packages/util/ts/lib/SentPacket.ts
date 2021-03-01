@@ -18,5 +18,7 @@ export function createMissingBitfield(sent: SentPacket[]) {
 }
 
 export function getMissing(recv: number[], bits: number) {
-    return recv.reverse().filter((_, i) => (bits & (1 << i)) > 0);
+    return recv.reverse().filter((_, i) => {
+        return (bits & (1 << i)) === 0;
+    });
 }

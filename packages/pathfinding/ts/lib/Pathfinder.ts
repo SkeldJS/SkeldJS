@@ -47,6 +47,7 @@ export class SkeldjsPathfinder extends Emittery<SkeldjsPathfinderEvents> {
     constructor(private client: SkeldjsClient, public config: PathfinderConfig = {}) {
         super();
 
+        this._tick = 0;
         this.client.on("client.fixedupdate", this._ontick.bind(this));
         this.client.on("player.move", this._handleMove.bind(this));
         this.client.on("player.leave", this._handleLeave.bind(this));
@@ -93,6 +94,9 @@ export class SkeldjsPathfinder extends Emittery<SkeldjsPathfinderEvents> {
     private _ontick() {
         this._tick++;
 
+        if (this._tick % SkeldjsPathfinder.MovementInterval !== 0)
+            return;
+
         if (typeof this.map === "undefined")
             return;
 
@@ -119,7 +123,8 @@ export class SkeldjsPathfinder extends Emittery<SkeldjsPathfinderEvents> {
 
         if (next) {
             const pos = this.grid.actual(next.x, next.y);
-            this.transform.move(pos);
+            const dist = Math.hypot(this.position.x - pos.x, this.position.y - pos.y);
+            this.transform.move(pos, { x: dist * this.client.settings.playerSpeed, y: dist * this.client.settings.playerSpeed });
 
             if (this.path.length === 0) {
                 this._stop(true);
@@ -222,5 +227,5 @@ export class SkeldjsPathfinder extends Emittery<SkeldjsPathfinderEvents> {
         }
     }
 
-    static FixedUpdateInterval = 25 as const;
+    static MovementInterval = 6 as const;
 }

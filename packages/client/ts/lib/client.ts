@@ -38,7 +38,10 @@ import {
 } from "@skeldjs/protocol";
 
 import {
-    Hostable, HostableEvents, PlayerData, RoomID
+    Hostable,
+    HostableEvents,
+    PlayerData,
+    RoomID
 } from "@skeldjs/core";
 
 import {
@@ -69,9 +72,6 @@ export type SkeldjsClientEvents = HostableEvents & {
     "client.packet": {
         packet: ClientboundPacket;
     };
-    "client.fixedupdate": {
-        stream: GameDataMessage;
-    }
 }
 
 export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
@@ -96,8 +96,6 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
     private settings_cache: GameOptions;
     stream: GameDataMessage[];
 
-    private last_fixed_update;
-
     constructor(version: string|number, options: ClientConfig = { debug: DebugLevel.None, allowHost: true }) {
         super();
 
@@ -116,8 +114,6 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this._reset();
 
         this.stream = [];
-
-        setInterval(this.FixedUpdate.bind(this), SkeldjsClient.FixedUpdateInterval);
     }
 
     get nonce() {
@@ -132,48 +128,6 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
     get amhost() {
         return this.hostid === this.clientid;
-    }
-
-    protected async FixedUpdate() {
-        const delta = Date.now() - this.last_fixed_update;
-        this.last_fixed_update = Date.now();
-        for (const [ , component ] of this.netobjects) {
-            if (component && (component.ownerid === this.clientid || (component.ownerid === -2 && this.amhost))) {
-                component.FixedUpdate(delta / 1000);
-                if (component.dirtyBit) {
-                    component.PreSerialize();
-                    const writer = HazelBuffer.alloc(0);
-                    if (component.Serialize(writer, false)) {
-                        this.stream.push({
-                            tag: MessageTag.Data,
-                            netid: component.netid,
-                            data: writer
-                        });
-                    }
-                    component.dirtyBit = 0;
-                }
-            }
-        }
-
-        this.emit("client.fixedupdate", {
-            stream: this.stream
-        });
-
-        if (this.stream.length) {
-            const stream = this.stream;
-            this.stream = [];
-
-            await this.send({
-                op: Opcode.Reliable,
-                payloads: [
-                    {
-                        tag: PayloadTag.GameData,
-                        code: this.code,
-                        messages: stream
-                    }
-                ]
-            });
-        }
     }
 
     private debug(level: number, ...fmt: any[]) {
@@ -197,7 +151,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         case Opcode.Reliable:
         case Opcode.Hello:
         case Opcode.Ping:
-            this.packets_recv.push(packet.nonce);
+            this.packets_recv.unshift(packet.nonce);
             this.packets_recv.splice(8);
 
             this.ack(packet.nonce);
@@ -446,7 +400,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 ackd: false
             }
 
-            this.packets_sent.push(sent);
+            this.packets_sent.unshift(sent);
             this.packets_sent.splice(8);
 
             let attempts = 0;
@@ -478,7 +432,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         }
     }
 
-    async broadcast(messages: GameDataMessage[], reliable: boolean = true, recipient: PlayerData = null, payloads: PayloadMessageServerbound[] = []) {
+    async broadcast(messages: GameDataMessage[], reliable = true, recipient: PlayerData = null, payloads: PayloadMessageServerbound[] = []) {
         if (recipient) {
             await this.send({
                 op: reliable ? Opcode.Reliable : Opcode.Unreliable,
@@ -664,6 +618,4 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
             }
         }
     }
-
-    static FixedUpdateInterval = 1 / 50;
 }

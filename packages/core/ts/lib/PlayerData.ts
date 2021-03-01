@@ -21,6 +21,7 @@ export type PlayerDataEvents = PlayerControlEvents & PlayerPhysicsEvents & Custo
     "player.leave": {};
     "player.sethost": {};
     "player.scenechange": {};
+    "player.spawn": {};
     "component.spawn": {
         component: PlayerControl|PlayerPhysics|CustomNetworkTransform
     };
@@ -40,6 +41,12 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
         super(room, clientid);
 
         this.stream = [];
+
+        this.on("component.spawn", () => {
+            if (this.spawned) {
+                this.emit("player.spawn", {});
+            }
+        });
     }
 
     async emit(...args: any[]) {

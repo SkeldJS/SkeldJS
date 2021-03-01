@@ -80,13 +80,11 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
-        if (this.dirtyBit) {
-            writer.uint16(this.seqId);
-            writeVector2(writer, this.position);
-            writeVector2(writer, this.velocity);
-            return true;
-        }
+        writer.uint16(this.seqId);
+        writeVector2(writer, this.position);
+        writeVector2(writer, this.velocity);
         this.dirtyBit = 0;
+        return true;
     }
 
     HandleRPC(message: RpcMessage) {
@@ -117,13 +115,14 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
         this.position = position;
         this.velocity = velocity;
 
-        const data = HazelBuffer.alloc(10);
-        this.Serialize(data);
+        this.dirtyBit = 1;
+        const writer = HazelBuffer.alloc(10);
+        this.Serialize(writer, false);
 
         await this.room.broadcast([{
             tag: MessageTag.Data,
             netid: this.netid,
-            data
+            data: writer
         }], false);
 
         this.emit("player.move", {

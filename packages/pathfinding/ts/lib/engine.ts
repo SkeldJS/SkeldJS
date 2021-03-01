@@ -32,7 +32,9 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
         }
 
         if (current === end) {
-            return current.path;
+            const path = current.path;
+            path.shift();
+            return path;
         }
 
         const neighbors = current.neighbors.filter(node => !node.blocked);
@@ -59,7 +61,9 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
     }
 
     if (closest) {
-        return closest.path;
+        const path = closest.path;
+        path.shift();
+        return path;
     }
 
     return [];
