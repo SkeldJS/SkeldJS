@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util";
 import { RpcMessage } from "@skeldjs/protocol"
 import { SpawnID } from "@skeldjs/constant";
 
-import Emittery from "emittery";
+import { EventEmitter } from "@skeldjs/events";
 
 import { Hostable } from "./Hostable";
 
@@ -11,7 +11,7 @@ export type NetworkableEvents = {
     "component.despawn": {};
 }
 
-export class Networkable<T extends Record<string, any> = any> extends Emittery<T & NetworkableEvents> {
+export class Networkable<T extends Record<string, any> = any> extends EventEmitter<T & NetworkableEvents> {
     static type: SpawnID;
     type: SpawnID;
 

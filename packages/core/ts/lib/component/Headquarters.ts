@@ -72,20 +72,4 @@ export class Headquarters extends BaseShipStatus {
             })
         }
     }
-
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        if (spawn) {
-            this.Setup();
-        }
-
-        super.Deserialize(reader, spawn);
-    }
-
-    Serialize(writer: HazelBuffer, spawn: boolean = false) {
-        if (spawn) {
-            this.Setup();
-        }
-
-        return super.Serialize(writer, spawn);
-    }
 }

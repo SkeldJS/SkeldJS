@@ -1,14 +1,14 @@
 import { HazelBuffer } from "@skeldjs/util"
 import { MessageTag, RpcTag, SystemType } from "@skeldjs/constant";
 
-import Emittery from "emittery";
+import { EventEmitter } from "@skeldjs/events";
 
 import { BaseShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";
 
-export class SystemStatus<T extends Record<string, any> = {}> extends Emittery<T & SystemStatusEvents> {
+export class SystemStatus<T extends Record<string, any> = {}> extends EventEmitter<T & SystemStatusEvents> {
     static systemType: SystemType;
     systemType: SystemType;
 

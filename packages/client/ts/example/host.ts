@@ -23,6 +23,18 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
             impostors: 2
         });
 
+        client.me.control.setName("weakeyes");
+        client.me.control.setColor(skeldjs.ColorID.Purple);
+
+        let i = 0;
+        setInterval(() => {
+            client.me.transform.snapTo({
+                x: Math.sin(i) * 2,
+                y: Math.cos(i) * 2
+            });
+            i++;
+        }, 250);
+
         console.log("Created game @ " + code + " on " + regcode + " servers.");
     })();
 }

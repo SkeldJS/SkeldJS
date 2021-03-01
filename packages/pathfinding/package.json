@@ -15,6 +15,7 @@
     "@skeldjs/core": "^2.4.1",
     "@skeldjs/data": "^2.4.1",
     "@skeldjs/util": "^2.4.1",
+    "@skeldjs/events": "^2.4.1",
     "heap": "^0.2.6"
   },
   "devDependencies": {

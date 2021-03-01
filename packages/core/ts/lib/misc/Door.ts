@@ -1,5 +1,5 @@
 import { HazelBuffer } from "@skeldjs/util";
-import Emittery from "emittery";
+import { EventEmitter } from "@skeldjs/events";
 
 import { SystemStatus } from "../system";
 
@@ -8,7 +8,7 @@ export type DoorEvents = {
         "doors.close": {};
 }
 
-export class Door extends Emittery<DoorEvents> {
+export class Door extends EventEmitter<DoorEvents> {
     private _isOpen: boolean;
 
     constructor(protected system: SystemStatus, readonly id: number, isOpen: boolean) {

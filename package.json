@@ -47,6 +47,6 @@
     "*.ts": "eslint packages/**/*.ts"
   },
   "dependencies": {
-    "emittery": "^0.8.1"
+    "@skeldjs/events": "^2.4.1"
   }
 }
