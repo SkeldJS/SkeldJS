@@ -1,6 +1,6 @@
 import { MessageTag } from "@skeldjs/constant";
 import { GameDataMessage } from "@skeldjs/protocol";
-import Emittery from "emittery";
+import { EventEmitter } from "@skeldjs/events";
 
 import {
     CustomNetworkTransform,
@@ -58,7 +58,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
             player: this
         });
 
-        return Emittery.prototype.emit.call(this, event, data);
+        return EventEmitter.prototype.emit.call(this, event, data);
     }
 
     get control() {

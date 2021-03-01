@@ -11,7 +11,7 @@ import {
     MapVentData
 } from "@skeldjs/core";
 
-import Emittery from "emittery";
+import { EventEmitter } from "@skeldjs/events";
 
 import fs from "fs";
 import path from "path";
@@ -35,7 +35,7 @@ type SkeldjsPathfinderEvents = {
     };
 }
 
-export class SkeldjsPathfinder extends Emittery<SkeldjsPathfinderEvents> {
+export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     private _tick: number;
     private _moved: boolean;
     private _paused: boolean;

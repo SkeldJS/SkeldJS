@@ -20,7 +20,7 @@ import {
     GameEndReason
 } from "@skeldjs/constant";
 
-import Emittery from "emittery";
+import { EventEmitter } from "@skeldjs/events";
 
 import {
     Airship,
@@ -126,7 +126,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         const event = args[0];
         const data = args[1];
 
-        return Emittery.prototype.emit.call(this, event, data);
+        return EventEmitter.prototype.emit.call(this, event, data);
     }
 
     get incr_netid() {

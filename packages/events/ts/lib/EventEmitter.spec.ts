@@ -43,11 +43,11 @@ describe("EventEmitter", () => {
     describe("EventEmitter#on", () => {
         it("Should add a listener and return a function removing it.", () => {
             const emitter = new EventEmitter<TestEvents>();
+            const listeners = emitter.getListeners("hello.123");
 
             const off = emitter.on("hello.123", async (ev, data) => {
                 assert.strictEqual(data.alphabet, 5);
             });
-            const listeners = emitter.listeners.get("hello.123");
 
             assert.strictEqual(listeners.size, 1);
             off();
@@ -56,17 +56,47 @@ describe("EventEmitter", () => {
     });
 
     describe("EventEmitter#once", () => {
-        it("Should add a listener and return a function removing it.", () => {
+        it("Should only listen to an event once, before being removed.", () => {
             const emitter = new EventEmitter<TestEvents>();
+            const listeners = emitter.getListeners("hello.123");
 
-            const off = emitter.on("hello.123", async (ev, data) => {
-                assert.strictEqual(data.alphabet, 5);
+            emitter.once("hello.123", async (ev, data) => {
+                assert.strictEqual(data.alphabet, 6);
             });
-            const listeners = emitter.listeners.get("hello.123");
 
             assert.strictEqual(listeners.size, 1);
-            off();
+            emitter.emit("hello.123", { alphabet: 6 });
             assert.strictEqual(listeners.size, 0);
+        });
+    });
+
+    describe("EventEmitter#off", () => {
+        it("Should remove a listener.", () => {
+            const emitter = new EventEmitter<TestEvents>();
+            const listeners = emitter.getListeners("hello.123");
+
+            async function response(ev, data) {
+                assert.strictEqual(data.alphabet, 5);
+            }
+
+            emitter.on("hello.123", response);
+            assert.strictEqual(listeners.size, 1);
+            emitter.off("hello.123", response);
+            assert.strictEqual(listeners.size, 0);
+        });
+    });
+
+    describe("EventEmitter#getListeners", () => {
+        it("Get listeners for an event.", () => {
+            const emitter = new EventEmitter<TestEvents>();
+            const listeners = emitter.getListeners("hello.123");
+
+            async function response(ev, data) {
+                assert.strictEqual(data.alphabet, 5);
+            }
+
+            emitter.on("hello.123", response);
+            assert.strictEqual(listeners.size, 1);
         });
     });
 });

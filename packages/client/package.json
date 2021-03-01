@@ -14,7 +14,7 @@
     "@skeldjs/data": "^2.4.1",
     "@skeldjs/protocol": "^2.4.1",
     "@skeldjs/util": "^2.4.1",
-    "emittery": "^0.8.1"
+    "@skeldjs/events": "^2.4.1"
   },
   "gitHead": "71b2e87c0263bf10d138b7f970df2bdfede138e0"
 }

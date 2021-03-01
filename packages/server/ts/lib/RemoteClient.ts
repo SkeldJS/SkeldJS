@@ -1,4 +1,4 @@
-import Emittery from "emittery";
+import { EventEmitter } from "@skeldjs/events";
 import dgram from "dgram"
 
 import { SkeldjsServer } from "./server";
@@ -26,7 +26,7 @@ export type RemoteClientEvents = {
 
 }
 
-export class RemoteClient extends Emittery<RemoteClientEvents> {
+export class RemoteClient extends EventEmitter<RemoteClientEvents> {
     nonce: number;
 
     version: number;

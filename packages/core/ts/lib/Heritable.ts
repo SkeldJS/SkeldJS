@@ -1,4 +1,4 @@
-import Emittery from "emittery";
+import { EventEmitter } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "./Networkable";
 import { Hostable } from "./Hostable";
@@ -14,7 +14,7 @@ type HeritableEvents = PropagatedEvents<NetworkableEvents, { component: Networka
 
 }
 
-export class Heritable<T extends Record<string, any> = any> extends Emittery<T & HeritableEvents> {
+export class Heritable<T extends Record<string, any> = any> extends EventEmitter<T & HeritableEvents> {
     room: Hostable;
 
     id: number;

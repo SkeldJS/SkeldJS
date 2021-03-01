@@ -73,8 +73,12 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
         return super.owner as Hostable;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    Setup() {}
+
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
         if (spawn) {
+            this.Setup();
             for (let i = 0; i < 32; i++) {
                 const system = this.systems[i] as SystemStatus;
 
@@ -99,6 +103,7 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
         const systems = Object.values(this.systems);
         if (spawn) {
+            this.Setup();
             for (let i = 0; i < systems.length; i++) {
                 const system = systems[i];
 
