@@ -1,3 +1,3 @@
 export enum AlterGameTag {
-    ChangePrivacy = 1
+    ChangePrivacy = 1,
 }

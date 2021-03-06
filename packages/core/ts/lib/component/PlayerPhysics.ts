@@ -7,9 +7,7 @@ import { Hostable } from "../Hostable";
 import { MessageTag, RpcTag, SpawnID } from "@skeldjs/constant";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
-export interface PlayerPhysicsData {
-
-}
+export interface PlayerPhysicsData {}
 
 export type PlayerPhysicsEvents = NetworkableEvents & {
     "player.entervent": {
@@ -18,9 +16,9 @@ export type PlayerPhysicsEvents = NetworkableEvents & {
     "player.exitvent": {
         ventid: number;
     };
-}
+};
 
-export class PlayerPhysics extends Networkable<PlayerPhysicsEvents> {
+export class PlayerPhysics extends Networkable<PlayerPhysicsData, PlayerPhysicsEvents> {
     static type = SpawnID.Player as const;
     type = SpawnID.Player as const;
 
@@ -29,7 +27,12 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsEvents> {
 
     vent: number;
 
-    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|PlayerPhysicsData) {
+    constructor(
+        room: Hostable,
+        netid: number,
+        ownerid: number,
+        data?: HazelBuffer | PlayerPhysicsData
+    ) {
         super(room, netid, ownerid, data);
     }
 
@@ -49,7 +52,7 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsEvents> {
             tag: MessageTag.RPC,
             rpcid: RpcTag.EnterVent,
             netid: this.netid,
-            ventid
+            ventid,
         });
     }
 
@@ -65,7 +68,7 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsEvents> {
             tag: MessageTag.RPC,
             rpcid: RpcTag.ExitVent,
             netid: this.netid,
-            ventid
+            ventid,
         });
     }
 }

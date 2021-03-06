@@ -1,1 +1,1 @@
-export * from "./GameOptions"
+export * from "./GameOptions";

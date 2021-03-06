@@ -1,4 +1,4 @@
-import assert from "assert"
+import assert from "assert";
 
 import {
     V1Code2Int,
@@ -8,8 +8,8 @@ import {
     V2Gen,
     V2Int2Code,
     Code2Int,
-    Int2Code
-} from "./Codes"
+    Int2Code,
+} from "./Codes";
 
 describe("Code utility functions", () => {
     describe("V1Code2Int", () => {
@@ -77,7 +77,7 @@ describe("Code utility functions", () => {
     describe("Int2Code", () => {
         it("Should convert an integer to a 4 or 6 letter code.", () => {
             assert.strictEqual(Int2Code(-2050590356), "QUEASY");
-            assert.strictEqual(Int2Code(1245796954), "JAZZ")
+            assert.strictEqual(Int2Code(1245796954), "JAZZ");
         });
     });
 });

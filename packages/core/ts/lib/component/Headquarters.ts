@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SpawnID, SystemType } from "@skeldjs/constant";
 
-import { BaseShipStatus, ShipStatusData } from "./BaseShipStatus"
+import { BaseShipStatus, ShipStatusData } from "./BaseShipStatus";
 
 import { Hostable } from "../Hostable";
 
@@ -13,7 +13,7 @@ import {
     MedScanSystem,
     ReactorSystem,
     SabotageSystem,
-    SwitchSystem
+    SwitchSystem,
 } from "../system";
 
 export class Headquarters extends BaseShipStatus {
@@ -33,7 +33,12 @@ export class Headquarters extends BaseShipStatus {
         [SystemType.Decontamination]: DeconSystem;
     };
 
-    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
+    constructor(
+        room: Hostable,
+        netid: number,
+        ownerid: number,
+        data?: HazelBuffer | ShipStatusData
+    ) {
         super(room, netid, ownerid, data);
     }
 
@@ -45,31 +50,31 @@ export class Headquarters extends BaseShipStatus {
         this.systems = {
             [SystemType.Reactor]: new ReactorSystem(this, {
                 timer: 10000,
-                completed: new Set
+                completed: new Set(),
             }),
             [SystemType.Electrical]: new SwitchSystem(this, {
                 expected: [false, false, false, false, false],
                 actual: [false, false, false, false, false],
-                brightness: 100
+                brightness: 100,
             }),
             [SystemType.O2]: new LifeSuppSystem(this, {
                 timer: 10000,
-                completed: new Set
+                completed: new Set(),
             }),
             [SystemType.MedBay]: new MedScanSystem(this, {
-                queue: []
+                queue: [],
             }),
             [SystemType.Communications]: new HqHudSystem(this, {
                 active: [],
-                completed: new Set([0, 1])
+                completed: new Set([0, 1]),
             }),
             [SystemType.Sabotage]: new SabotageSystem(this, {
-                cooldown: 0
+                cooldown: 0,
             }),
             [SystemType.Decontamination]: new DeconSystem(this, {
                 timer: 10000,
-                state: 0
-            })
-        }
+                state: 0,
+            }),
+        };
     }
 }

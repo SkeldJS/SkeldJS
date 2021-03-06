@@ -1,5 +1,5 @@
 export interface ServerConfig {
-    versions?: (string|number)[];
+    versions?: (string | number)[];
     port: number;
     host: string;
 }

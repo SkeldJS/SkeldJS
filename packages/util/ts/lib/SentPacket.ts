@@ -4,7 +4,7 @@ export interface SentPacket {
 }
 
 export function createMissingBitfield(sent: SentPacket[]) {
-    let val = 0xFF;
+    let val = 0xff;
 
     for (let i = 0; i < Math.min(8, sent.length); i++) {
         const packet = sent[i];

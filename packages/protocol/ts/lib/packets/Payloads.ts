@@ -3,8 +3,8 @@ import {
     DisconnectReason,
     GameEndReason,
     MapID,
-    PayloadTag
-} from "@skeldjs/constant"
+    PayloadTag,
+} from "@skeldjs/constant";
 
 import { GameOptions } from "../misc/GameOptions";
 import { GameDataMessage } from "./GameData";
@@ -13,7 +13,7 @@ import { BaseHazelMessage } from "./Packets";
 
 export interface BasePayloadMessage extends BaseHazelMessage {
     tag: PayloadTag;
-    bound?: "server"|"client";
+    bound?: "server" | "client";
 }
 
 export interface HostGamePayloadClientbound extends BasePayloadMessage {
@@ -28,7 +28,9 @@ export interface HostGamePayloadServerbound {
     settings: GameOptions;
 }
 
-export type HostGamePayload = HostGamePayloadClientbound|HostGamePayloadServerbound;
+export type HostGamePayload =
+    | HostGamePayloadClientbound
+    | HostGamePayloadServerbound;
 
 export interface BaseJoinGamePayloadClientbound extends BasePayloadMessage {
     tag: PayloadTag.JoinGame;
@@ -36,7 +38,8 @@ export interface BaseJoinGamePayloadClientbound extends BasePayloadMessage {
     error: boolean;
 }
 
-export interface JoinGamePayloadClientboundError extends BaseJoinGamePayloadClientbound {
+export interface JoinGamePayloadClientboundError
+    extends BaseJoinGamePayloadClientbound {
     tag: PayloadTag.JoinGame;
     bound?: "client";
     error: true;
@@ -44,7 +47,8 @@ export interface JoinGamePayloadClientboundError extends BaseJoinGamePayloadClie
     message?: string;
 }
 
-export interface JoinGamePayloadClientboundNewPlayer extends BaseJoinGamePayloadClientbound {
+export interface JoinGamePayloadClientboundNewPlayer
+    extends BaseJoinGamePayloadClientbound {
     tag: PayloadTag.JoinGame;
     bound?: "client";
     error: false;
@@ -53,7 +57,9 @@ export interface JoinGamePayloadClientboundNewPlayer extends BaseJoinGamePayload
     hostid: number;
 }
 
-export type JoinGamePayloadClientbound = JoinGamePayloadClientboundError|JoinGamePayloadClientboundNewPlayer;
+export type JoinGamePayloadClientbound =
+    | JoinGamePayloadClientboundError
+    | JoinGamePayloadClientboundNewPlayer;
 
 export interface JoinGamePayloadServerbound extends BasePayloadMessage {
     tag: PayloadTag.JoinGame;
@@ -62,7 +68,9 @@ export interface JoinGamePayloadServerbound extends BasePayloadMessage {
     mapOwnership: number;
 }
 
-export type JoinGamePayload = JoinGamePayloadClientbound|JoinGamePayloadServerbound
+export type JoinGamePayload =
+    | JoinGamePayloadClientbound
+    | JoinGamePayloadServerbound;
 
 export interface StartGamePayload extends BasePayloadMessage {
     tag: PayloadTag.StartGame;
@@ -81,16 +89,20 @@ export interface BaseRemovePlayerPayload extends BasePayloadMessage {
     reason: DisconnectReason;
 }
 
-export interface RemovePlayerPayloadClientbound extends BaseRemovePlayerPayload {
+export interface RemovePlayerPayloadClientbound
+    extends BaseRemovePlayerPayload {
     bound?: "client";
     hostid: number;
 }
 
-export interface RemovePlayerPayloadServerbound extends BaseRemovePlayerPayload {
+export interface RemovePlayerPayloadServerbound
+    extends BaseRemovePlayerPayload {
     bound?: "server";
 }
 
-export type RemovePlayerPayload = RemovePlayerPayloadClientbound|RemovePlayerPayloadServerbound;
+export type RemovePlayerPayload =
+    | RemovePlayerPayloadClientbound
+    | RemovePlayerPayloadServerbound;
 
 export interface GameDataPayload extends BasePayloadMessage {
     tag: PayloadTag.GameData;
@@ -194,31 +206,38 @@ export interface GetGameListV2PayloadServerbound extends BasePayloadMessage {
     options: GameOptions;
 }
 
-export type GetGameListV2 = GetGameListV2PayloadClientbound|GetGameListV2PayloadServerbound;
+export type GetGameListV2 =
+    | GetGameListV2PayloadClientbound
+    | GetGameListV2PayloadServerbound;
 
-export type PayloadMessageBidirectional = StartGamePayload |
-    RemoveGamePayload |
-    GameDataPayload |
-    GameDataToPayload |
-    JoinedGamePayload |
-    EndGamePayload |
-    GetGameListPayload |
-    AlterGamePayload |
-    KickPlayerPayload |
-    WaitForHostPayload |
-    RedirectPayload |
-    ReselectServerPayload;
+export type PayloadMessageBidirectional =
+    | StartGamePayload
+    | RemoveGamePayload
+    | GameDataPayload
+    | GameDataToPayload
+    | JoinedGamePayload
+    | EndGamePayload
+    | GetGameListPayload
+    | AlterGamePayload
+    | KickPlayerPayload
+    | WaitForHostPayload
+    | RedirectPayload
+    | ReselectServerPayload;
 
-export type PayloadMessageClientbound = PayloadMessageBidirectional |
-    HostGamePayloadClientbound |
-    JoinGamePayloadClientbound |
-    RemovePlayerPayloadClientbound |
-    GetGameListV2PayloadClientbound;
+export type PayloadMessageClientbound =
+    | PayloadMessageBidirectional
+    | HostGamePayloadClientbound
+    | JoinGamePayloadClientbound
+    | RemovePlayerPayloadClientbound
+    | GetGameListV2PayloadClientbound;
 
-export type PayloadMessageServerbound = PayloadMessageBidirectional |
-    HostGamePayloadServerbound |
-    JoinGamePayloadServerbound |
-    RemovePlayerPayloadServerbound |
-    GetGameListV2PayloadServerbound;
+export type PayloadMessageServerbound =
+    | PayloadMessageBidirectional
+    | HostGamePayloadServerbound
+    | JoinGamePayloadServerbound
+    | RemovePlayerPayloadServerbound
+    | GetGameListV2PayloadServerbound;
 
-export type PayloadMessage = PayloadMessageClientbound|PayloadMessageServerbound;
+export type PayloadMessage =
+    | PayloadMessageClientbound
+    | PayloadMessageServerbound;

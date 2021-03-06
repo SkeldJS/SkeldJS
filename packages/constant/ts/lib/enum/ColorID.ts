@@ -10,5 +10,5 @@ export enum ColorID {
     Purple,
     Brown,
     Cyan,
-    Lime
+    Lime,
 }

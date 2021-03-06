@@ -7,5 +7,5 @@ export enum SpawnID {
     Headquarters = 5,
     PlanetMap = 6,
     AprilShipStatus = 7,
-    Airship = 8
+    Airship = 8,
 }

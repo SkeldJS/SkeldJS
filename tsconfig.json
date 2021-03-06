@@ -11,7 +11,8 @@
         "outDir": "./dist",
         "esModuleInterop": true,
         "moduleResolution": "Node",
-        "declaration": true
+        "declaration": true,
+        "sourceMap": true
     },
     "filesGlob": [
         "./**/*.ts",

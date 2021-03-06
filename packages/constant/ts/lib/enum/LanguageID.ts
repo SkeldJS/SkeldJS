@@ -8,5 +8,5 @@ export enum LanguageID {
     Arabic = 32,
     Filipino = 64,
     Polish = 128,
-    English = 256
+    English = 256,
 }

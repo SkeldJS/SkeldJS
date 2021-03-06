@@ -1,19 +1,12 @@
-import { HazelBuffer } from "@skeldjs/util"
-
-import {
-    SystemType,
-    MapID
-} from "@skeldjs/constant";
-
-import {
-    MapDoors
-} from "@skeldjs/data";
+import { HazelBuffer } from "@skeldjs/util";
+import { SystemType, MapID } from "@skeldjs/constant";
+import { MapDoors } from "@skeldjs/data";
+import { PropagatedEvents } from "@skeldjs/events";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 import { DoorEvents } from "../misc/Door";
-import { PropagatedEvents } from "../util/PropagatedEvents";
 import { BaseSystemStatusEvents } from "./events";
 
 export interface AutoDoorsSystemData {
@@ -21,18 +14,20 @@ export interface AutoDoorsSystemData {
     doors: boolean[];
 }
 
-export type AutoDoorsSystemEvents = BaseSystemStatusEvents & PropagatedEvents<DoorEvents, { system: AutoDoorsSystem }> & {
+export type AutoDoorsSystemEvents = BaseSystemStatusEvents &
+    PropagatedEvents<DoorEvents, { system: AutoDoorsSystem }> & {};
 
-}
-
-export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemEvents> {
+export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemData, AutoDoorsSystemEvents> {
     static systemType = SystemType.Doors as const;
     systemType = SystemType.Doors as const;
 
     dirtyBit: number;
     doors: AutoOpenDoor[];
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|AutoDoorsSystemData) {
+    constructor(
+        ship: BaseShipStatus,
+        data?: HazelBuffer | AutoDoorsSystemData
+    ) {
         super(ship, data);
     }
 
@@ -46,7 +41,9 @@ export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemEvents> {
 
     Deserialize(reader: HazelBuffer, spawn: boolean) {
         if (!this.doors || this.doors.length !== MapDoors[MapID.TheSkeld]) {
-            this.doors = new Array(MapDoors[MapID.TheSkeld]).fill(0).map((door, i) => new AutoOpenDoor(this, i, false));
+            this.doors = new Array(MapDoors[MapID.TheSkeld])
+                .fill(0)
+                .map((door, i) => new AutoOpenDoor(this, i, false));
         }
 
         for (let i = 0; i < this.doors.length; i++) {
@@ -75,7 +72,9 @@ export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemEvents> {
 
     Serialize(writer: HazelBuffer, spawn: boolean) {
         if (!this.doors || this.doors.length !== MapDoors[MapID.TheSkeld]) {
-            this.doors = new Array(MapDoors[MapID.TheSkeld]).fill(0).map((door, i) => new AutoOpenDoor(this, i, false));
+            this.doors = new Array(MapDoors[MapID.TheSkeld])
+                .fill(0)
+                .map((door, i) => new AutoOpenDoor(this, i, false));
         }
 
         for (let i = 0; i < this.doors.length; i++) {

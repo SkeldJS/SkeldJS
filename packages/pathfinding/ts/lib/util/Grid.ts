@@ -19,7 +19,16 @@ export class Grid {
         const actual_width = width * density;
         const actual_height = height * density;
 
-        const grid = new Grid(new Array(actual_height).fill(null).map(() => new Array(actual_width).fill(null)), basex, basey, width, height, density);
+        const grid = new Grid(
+            new Array(actual_height)
+                .fill(null)
+                .map(() => new Array(actual_width).fill(null)),
+            basex,
+            basey,
+            width,
+            height,
+            density
+        );
 
         let i = 0;
         while (reader.left) {
@@ -39,7 +48,13 @@ export class Grid {
         return grid;
     }
 
-    static create(basex: number, basey: number, width: number, height: number, density: number) {
+    static create(
+        basex: number,
+        basey: number,
+        width: number,
+        height: number,
+        density: number
+    ) {
         const actual_width = width * density;
         const actual_height = height * density;
 
@@ -54,9 +69,16 @@ export class Grid {
         return grid;
     }
 
-    constructor(nodes: Node[][], readonly basex: number, readonly basey: number, readonly width: number, readonly height: number, readonly density: number) {
+    constructor(
+        nodes: Node[][],
+        readonly basex: number,
+        readonly basey: number,
+        readonly width: number,
+        readonly height: number,
+        readonly density: number
+    ) {
         this.nodes = nodes;
-        this.dirty = new Set;
+        this.dirty = new Set();
         this.pathid = 0;
     }
 
@@ -77,8 +99,8 @@ export class Grid {
 
     actual(x: number, y: number) {
         return {
-            x: (x / this.density) + this.basex,
-            y: (y / this.density) + this.basey
+            x: x / this.density + this.basex,
+            y: y / this.density + this.basey,
         };
     }
 
@@ -94,15 +116,13 @@ export class Grid {
     }
 
     set(x: number, y: number) {
-        if (!this.get(x, y))
-            return;
+        if (!this.get(x, y)) return;
 
         this.nodes[y][x].blocked = true;
     }
 
     unset(x: number, y: number) {
-        if (!this.get(x, y))
-            return;
+        if (!this.get(x, y)) return;
 
         this.nodes[y][x].blocked = false;
     }
@@ -136,7 +156,10 @@ export class Grid {
                     current = this.nodes[y][x];
                 }
 
-                if (current.blocked !== this.nodes[y][x].blocked || current.weight !== this.nodes[y][x].weight) {
+                if (
+                    current.blocked !== this.nodes[y][x].blocked ||
+                    current.weight !== this.nodes[y][x].weight
+                ) {
                     writer.upacked(num);
                     writer.bool(current.blocked);
                     writer.float(current.weight);

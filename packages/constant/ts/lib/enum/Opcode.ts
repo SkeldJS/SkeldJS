@@ -4,5 +4,5 @@ export enum Opcode {
     Hello = 8,
     Disconnect = 9,
     Acknowledge = 10,
-    Ping = 12
+    Ping = 12,
 }

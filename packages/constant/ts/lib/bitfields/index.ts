@@ -1,2 +1,2 @@
-export * from "./PlayerDataFlags"
-export * from "./VoteState"
+export * from "./PlayerDataFlags";
+export * from "./VoteState";

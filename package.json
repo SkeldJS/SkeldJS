@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint packages/**/*.ts",
     "lint-staged": "lint-staged",
-    "fix": "prettier --write",
+    "fix": "prettier --write packages/**/*.ts",
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
     "build-all:ci": "lerna run build:ci",

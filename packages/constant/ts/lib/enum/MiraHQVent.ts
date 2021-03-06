@@ -9,5 +9,5 @@ export enum MiraHQVent {
     MedBay,
     Decontamination,
     LockerRoom,
-    Launchpad
+    Launchpad,
 }

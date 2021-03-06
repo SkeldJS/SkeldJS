@@ -12,5 +12,5 @@ export enum MiraHQRoom {
     Office,
     Storage,
     Reactor,
-    NUM_ROOMS
+    NUM_ROOMS,
 }

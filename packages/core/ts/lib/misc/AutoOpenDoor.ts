@@ -4,7 +4,11 @@ import { Door } from "./Door";
 export class AutoOpenDoor extends Door {
     private _timer: number;
 
-    constructor(protected system: SystemStatus, readonly id: number, isOpen: boolean) {
+    constructor(
+        protected system: SystemStatus,
+        readonly id: number,
+        isOpen: boolean
+    ) {
         super(system, id, isOpen);
     }
 

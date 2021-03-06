@@ -7,11 +7,19 @@ import readline from "readline";
 import { Grid } from "./lib/util/Grid";
 import { Node } from "./lib/util/Node";
 
-function gradientSetGridPointImpl(grid: Grid, original: Node, dropoff: number, radius: number) {
-    if (!original.blocked)
-        return;
+function gradientSetGridPointImpl(
+    grid: Grid,
+    original: Node,
+    dropoff: number,
+    radius: number
+) {
+    if (!original.blocked) return;
 
-    (function recursiveSetNeighbors(node: Node, amount: number, radius: number) {
+    (function recursiveSetNeighbors(
+        node: Node,
+        amount: number,
+        radius: number
+    ) {
         for (const neighbor of node.neighbors) {
             if (!neighbor.blocked) {
                 if (amount > neighbor.weight) neighbor.weight = amount;
@@ -19,16 +27,30 @@ function gradientSetGridPointImpl(grid: Grid, original: Node, dropoff: number, r
 
             if (radius > 1) {
                 if (neighbor.y > original.y) {
-                    recursiveSetNeighbors(neighbor, amount - dropoff, radius - 0.4);
+                    recursiveSetNeighbors(
+                        neighbor,
+                        amount - dropoff,
+                        radius - 0.4
+                    );
                 } else {
-                    recursiveSetNeighbors(neighbor, amount - dropoff, radius - 1);
+                    recursiveSetNeighbors(
+                        neighbor,
+                        amount - dropoff,
+                        radius - 1
+                    );
                 }
             }
         }
     })(original, radius, radius);
 }
 
-function gradientSetGridPoint(grid: Grid, x: number, y: number, dropoff: number, radius: number) {
+function gradientSetGridPoint(
+    grid: Grid,
+    x: number,
+    y: number,
+    dropoff: number,
+    radius: number
+) {
     const node = grid.get(x, y);
 
     if (node) {
@@ -53,7 +75,9 @@ function gradientSetGridPoint(grid: Grid, x: number, y: number, dropoff: number,
             throw e;
         }
     }
-    const files = await fs.readdir(path.resolve(__dirname, "../data/colliders"));
+    const files = await fs.readdir(
+        path.resolve(__dirname, "../data/colliders")
+    );
 
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
@@ -66,22 +90,30 @@ function gradientSetGridPoint(grid: Grid, x: number, y: number, dropoff: number,
         console.log("Compiling " + file + "..");
 
         try {
-            const lines = data.split("\r\n").map(line => {
+            const lines = data.split("\r\n").map((line) => {
                 const points = line.match(/\(-?\d+(\.\d+)?, ?-?\d+(\.\d+)?\)/g);
 
-                return points.map(point => {
+                return points.map((point) => {
                     const numbers = point.match(/-?\d+(\.\d+)?/g);
                     const x = parseFloat(numbers[0]) * 1.2;
                     const y = parseFloat(numbers[1]) * 1.2;
 
                     return { x, y };
-                })
+                });
             }) as Vector2[][];
 
-            const total_lines = lines.reduce((cur, ln) => cur + (ln.length - 1), 0);
+            const total_lines = lines.reduce(
+                (cur, ln) => cur + (ln.length - 1),
+                0
+            );
             const mil = ~~(total_lines / 100);
 
-            console.log("Compiling " + total_lines + " straight line" + (total_lines === 1 ? "" : "s"));
+            console.log(
+                "Compiling " +
+                    total_lines +
+                    " straight line" +
+                    (total_lines === 1 ? "" : "s")
+            );
 
             let j = 0;
             for (let i = 0; i < lines.length; i++) {
@@ -132,15 +164,45 @@ function gradientSetGridPoint(grid: Grid, x: number, y: number, dropoff: number,
                                 y += ystep;
                                 error -= ddx;
                                 if (error + errorprev < ddx) {
-                                    gradientSetGridPoint(grid, x, y - ystep, gradientDropoff, wallGradientWeight);
+                                    gradientSetGridPoint(
+                                        grid,
+                                        x,
+                                        y - ystep,
+                                        gradientDropoff,
+                                        wallGradientWeight
+                                    );
                                 } else if (error + errorprev > ddx) {
-                                    gradientSetGridPoint(grid, x - xstep, y, gradientDropoff, wallGradientWeight);
+                                    gradientSetGridPoint(
+                                        grid,
+                                        x - xstep,
+                                        y,
+                                        gradientDropoff,
+                                        wallGradientWeight
+                                    );
                                 } else {
-                                    gradientSetGridPoint(grid, x, y - ystep, gradientDropoff, wallGradientWeight);
-                                    gradientSetGridPoint(grid, x - xstep, y, gradientDropoff, wallGradientWeight);
+                                    gradientSetGridPoint(
+                                        grid,
+                                        x,
+                                        y - ystep,
+                                        gradientDropoff,
+                                        wallGradientWeight
+                                    );
+                                    gradientSetGridPoint(
+                                        grid,
+                                        x - xstep,
+                                        y,
+                                        gradientDropoff,
+                                        wallGradientWeight
+                                    );
                                 }
                             }
-                            gradientSetGridPoint(grid, x, y, gradientDropoff, wallGradientWeight);
+                            gradientSetGridPoint(
+                                grid,
+                                x,
+                                y,
+                                gradientDropoff,
+                                wallGradientWeight
+                            );
                             errorprev = error;
                         }
                     } else {
@@ -152,15 +214,45 @@ function gradientSetGridPoint(grid: Grid, x: number, y: number, dropoff: number,
                                 x += xstep;
                                 error -= ddy;
                                 if (error + errorprev < ddy) {
-                                    gradientSetGridPoint(grid, x - xstep, y, gradientDropoff, wallGradientWeight);
+                                    gradientSetGridPoint(
+                                        grid,
+                                        x - xstep,
+                                        y,
+                                        gradientDropoff,
+                                        wallGradientWeight
+                                    );
                                 } else if (error + errorprev > ddy) {
-                                    gradientSetGridPoint(grid, x, y - ystep, gradientDropoff, wallGradientWeight);
+                                    gradientSetGridPoint(
+                                        grid,
+                                        x,
+                                        y - ystep,
+                                        gradientDropoff,
+                                        wallGradientWeight
+                                    );
                                 } else {
-                                    gradientSetGridPoint(grid, x, y - ystep, gradientDropoff, wallGradientWeight);
-                                    gradientSetGridPoint(grid, x - xstep, y, gradientDropoff, wallGradientWeight);
+                                    gradientSetGridPoint(
+                                        grid,
+                                        x,
+                                        y - ystep,
+                                        gradientDropoff,
+                                        wallGradientWeight
+                                    );
+                                    gradientSetGridPoint(
+                                        grid,
+                                        x - xstep,
+                                        y,
+                                        gradientDropoff,
+                                        wallGradientWeight
+                                    );
                                 }
                             }
-                            gradientSetGridPoint(grid, x, y, gradientDropoff, wallGradientWeight);
+                            gradientSetGridPoint(
+                                grid,
+                                x,
+                                y,
+                                gradientDropoff,
+                                wallGradientWeight
+                            );
                             errorprev = error;
                         }
                     }
@@ -169,24 +261,34 @@ function gradientSetGridPoint(grid: Grid, x: number, y: number, dropoff: number,
                     if (j % mil === 0) {
                         readline.cursorTo(process.stdout, 0);
                         readline.clearLine(process.stdout, 0);
-                        process.stdout.write(((j / total_lines) * 100).toFixed(1) + "%");
+                        process.stdout.write(
+                            ((j / total_lines) * 100).toFixed(1) + "%"
+                        );
                     }
                 }
             }
 
             const took = Date.now() - started;
-            const buf =  grid.createBuffer();
+            const buf = grid.createBuffer();
 
             process.stdout.write("\n");
             console.log(".." + took + "ms");
-            console.log(".." + (buf.byteLength / 1024).toFixed(3) + "kb written");
+            console.log(
+                ".." + (buf.byteLength / 1024).toFixed(3) + "kb written"
+            );
 
-
-        await fs.writeFile(path.resolve(__dirname, "../data/build", path.basename(file, ".txt")), buf);
+            await fs.writeFile(
+                path.resolve(
+                    __dirname,
+                    "../data/build",
+                    path.basename(file, ".txt")
+                ),
+                buf
+            );
         } catch (e) {
             readline.cursorTo(process.stdout, 0);
             console.log("..There was an error parsing " + file);
-            console.log(e.toString())
+            console.log(e.toString());
             continue;
         }
     }

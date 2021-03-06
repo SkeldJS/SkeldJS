@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -18,15 +18,18 @@ export type SecurityCameraSystemEvents = BaseSystemStatusEvents & {
     "security.cameras.leave": {
         player: PlayerData;
     };
-}
+};
 
-export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemEvents> {
+export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemData, SecurityCameraSystemEvents> {
     static systemType = SystemType.Security as const;
     systemType = SystemType.Security as const;
 
     players: Set<PlayerData>;
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|SecurityCameraSystemData) {
+    constructor(
+        ship: BaseShipStatus,
+        data?: HazelBuffer | SecurityCameraSystemData
+    ) {
         super(ship, data);
     }
 

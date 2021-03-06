@@ -93,5 +93,5 @@ export enum HatID {
     NinjaMask,
     RamHorns,
     MiniCrewmateSnowman,
-    GeoffKeighleyMask
+    GeoffKeighleyMask,
 }

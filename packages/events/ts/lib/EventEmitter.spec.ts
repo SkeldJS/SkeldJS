@@ -3,8 +3,8 @@ import assert from "assert";
 import { EventEmitter } from "./EventEmitter";
 
 type TestEvents = {
-    "hello.123": { alphabet: number }
-}
+    "hello.123": { alphabet: number };
+};
 
 describe("EventEmitter", () => {
     describe("EventEmitter#emit", () => {
@@ -34,7 +34,9 @@ describe("EventEmitter", () => {
                 didreceive = true;
             });
 
-            const went_through = await emitter.emit("hello.123", { alphabet: 5 });
+            const went_through = await emitter.emit("hello.123", {
+                alphabet: 5,
+            });
             assert(!went_through);
             assert(!didreceive);
         });
