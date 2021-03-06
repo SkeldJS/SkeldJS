@@ -1,7 +1,6 @@
 import { Tedis } from "tedis";
 
 import { SkeldjsServer } from "@skeldjs/server";
-import { isEmpty } from "@skeldjs/util";
 
 interface RoomInfo {
     code: number;
@@ -71,7 +70,7 @@ export class RedisController {
     async getRoom(code: number) {
         const room = await this.client.hgetall(code.toString());
 
-        if (isEmpty(room)) return null;
+        if (Object.keys(room).length === 0) return null;
 
         return (room as unknown) as RoomInfo;
     }
