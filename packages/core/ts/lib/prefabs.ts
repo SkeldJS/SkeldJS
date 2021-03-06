@@ -10,23 +10,30 @@ import {
     PlayerControl,
     PlayerPhysics,
     ShipStatus,
-    VoteBanSystem
-} from "./component"
+    VoteBanSystem,
+} from "./component";
 
-import { Networkable } from "./Networkable"
+import { Networkable } from "./Networkable";
 
-import { Hostable } from "./Hostable"
+import { Hostable } from "./Hostable";
 
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
-export const SpawnPrefabs: ({ new(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|any): Networkable })[][] = [
-    [ ShipStatus ],
-    [ MeetingHud ],
-    [ LobbyBehaviour ],
-    [ GameData, VoteBanSystem ],
-    [ PlayerControl, PlayerPhysics, CustomNetworkTransform ],
-    [ Headquarters ],
-    [ PlanetMap ],
-    [ AprilShipStatus ],
-    [ Airship ]
+export const SpawnPrefabs: {
+    new (
+        room: Hostable,
+        netid: number,
+        ownerid: number,
+        data?: HazelBuffer | any
+    ): Networkable;
+}[][] = [
+    [ShipStatus],
+    [MeetingHud],
+    [LobbyBehaviour],
+    [GameData, VoteBanSystem],
+    [PlayerControl, PlayerPhysics, CustomNetworkTransform],
+    [Headquarters],
+    [PlanetMap],
+    [AprilShipStatus],
+    [Airship],
 ];

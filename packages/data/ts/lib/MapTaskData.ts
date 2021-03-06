@@ -1,6 +1,13 @@
-import { TaskLength, TaskType, MapID, TheSkeldTask, MiraHQTask, PolusTask } from "@skeldjs/constant";
+import {
+    TaskLength,
+    TaskType,
+    MapID,
+    TheSkeldTask,
+    MiraHQTask,
+    PolusTask,
+} from "@skeldjs/constant";
 
-import { Vector2 } from "@skeldjs/util"
+import { Vector2 } from "@skeldjs/util";
 
 interface TaskDataModel {
     id: number;
@@ -19,10 +26,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.SwipeCard,
             length: TaskLength.Common,
             visual: false,
-            consoles: [{
-                x: 4.5,
-                y: -8.6
-            }]
+            consoles: [
+                {
+                    x: 4.5,
+                    y: -8.6,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalFixWiring]: {
             id: TheSkeldTask.ElectricalFixWiring,
@@ -30,25 +39,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.FixWiring,
             length: TaskLength.Common,
             visual: false,
-            consoles: [{
-                x: -7.7,
-                y: -7.7
-            }, {
-                x: 14.5,
-                y: -3.8
-            }, {
-                x: -15.6,
-                y: -4.6
-            }, {
-                x: -1.9,
-                y: -8.7
-            }, {
-                x: 1.4,
-                y: -6.4
-            }, {
-                x: -5.3,
-                y: 5.2
-            }]
+            consoles: [
+                {
+                    x: -7.7,
+                    y: -7.7,
+                },
+                {
+                    x: 14.5,
+                    y: -3.8,
+                },
+                {
+                    x: -15.6,
+                    y: -4.6,
+                },
+                {
+                    x: -1.9,
+                    y: -8.7,
+                },
+                {
+                    x: 1.4,
+                    y: -6.4,
+                },
+                {
+                    x: -5.3,
+                    y: 5.2,
+                },
+            ],
         },
         [TheSkeldTask.WeaponsClearAsteroids]: {
             id: TheSkeldTask.WeaponsClearAsteroids,
@@ -56,10 +72,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ClearAsteroids,
             length: TaskLength.Long,
             visual: true,
-            consoles: [{
-                x: 9.1,
-                y: 1.8
-            }]
+            consoles: [
+                {
+                    x: 9.1,
+                    y: 1.8,
+                },
+            ],
         },
         [TheSkeldTask.EnginesAlignEngineOutput]: {
             id: TheSkeldTask.EnginesAlignEngineOutput,
@@ -67,10 +85,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.AlignEngineOutput,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -19.2,
-                y: -12.6
-            }]
+            consoles: [
+                {
+                    x: -19.2,
+                    y: -12.6,
+                },
+            ],
         },
         [TheSkeldTask.MedBaySubmitScan]: {
             id: TheSkeldTask.MedBaySubmitScan,
@@ -78,10 +98,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.SubmitScan,
             length: TaskLength.Long,
             visual: true,
-            consoles: [{
-                x: -7.3,
-                y: -5.2
-            }]
+            consoles: [
+                {
+                    x: -7.3,
+                    y: -5.2,
+                },
+            ],
         },
         [TheSkeldTask.MedBayInspectSample]: {
             id: TheSkeldTask.MedBayInspectSample,
@@ -89,10 +111,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.InspectSample,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: -6.1,
-                y: -4.3
-            }]
+            consoles: [
+                {
+                    x: -6.1,
+                    y: -4.3,
+                },
+            ],
         },
         [TheSkeldTask.StorageFuelEngines]: {
             id: TheSkeldTask.StorageFuelEngines,
@@ -100,10 +124,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.FuelEngines,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: -2.8,
-                y: -13.9
-            }]
+            consoles: [
+                {
+                    x: -2.8,
+                    y: -13.9,
+                },
+            ],
         },
         [TheSkeldTask.ReactorStartReactor]: {
             id: TheSkeldTask.ReactorStartReactor,
@@ -111,10 +137,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.StartReactor,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: -21.8,
-                y: -5.6
-            }]
+            consoles: [
+                {
+                    x: -21.8,
+                    y: -5.6,
+                },
+            ],
         },
         [TheSkeldTask.O2EmptyChute]: {
             id: TheSkeldTask.O2EmptyChute,
@@ -122,10 +150,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.EmptyChute,
             length: TaskLength.Long,
             visual: true,
-            consoles: [{
-                x: 4.9,
-                y: -3.3
-            }]
+            consoles: [
+                {
+                    x: 4.9,
+                    y: -3.3,
+                },
+            ],
         },
         [TheSkeldTask.CafeteriaEmptyGarbage]: {
             id: TheSkeldTask.CafeteriaEmptyGarbage,
@@ -133,13 +163,16 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.EmptyGarbage,
             length: TaskLength.Long,
             visual: true,
-            consoles: [{
-                x: 4.5,
-                y: 3.9
-            }, {
-                x: 0.8,
-                y: -16.7
-            }]
+            consoles: [
+                {
+                    x: 4.5,
+                    y: 3.9,
+                },
+                {
+                    x: 0.8,
+                    y: -16.7,
+                },
+            ],
         },
         [TheSkeldTask.CommunicationsDownloadData]: {
             id: TheSkeldTask.CommunicationsDownloadData,
@@ -147,25 +180,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 2.5,
-                y: -6.3
-            }, {
-                x: 3.5,
-                y: 4.9
-            }, {
-                x: 17.0,
-                y: -2.4
-            }, {
-                x: 8.7,
-                y: 3.9
-            }, {
-                x: -9.7,
-                y: -7.3
-            }, {
-                x: 3.9,
-                y: -14.0
-            }]
+            consoles: [
+                {
+                    x: 2.5,
+                    y: -6.3,
+                },
+                {
+                    x: 3.5,
+                    y: 4.9,
+                },
+                {
+                    x: 17.0,
+                    y: -2.4,
+                },
+                {
+                    x: 8.7,
+                    y: 3.9,
+                },
+                {
+                    x: -9.7,
+                    y: -7.3,
+                },
+                {
+                    x: 3.9,
+                    y: -14.0,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalCalibrateDistributor]: {
             id: TheSkeldTask.ElectricalCalibrateDistributor,
@@ -173,10 +213,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.CalibrateDistributor,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -5.9,
-                y: -7.5
-            }]
+            consoles: [
+                {
+                    x: -5.9,
+                    y: -7.5,
+                },
+            ],
         },
         [TheSkeldTask.NavigationChartCourse]: {
             id: TheSkeldTask.NavigationChartCourse,
@@ -184,10 +226,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ChartCourse,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 18.1,
-                y: -3.3
-            }]
+            consoles: [
+                {
+                    x: 18.1,
+                    y: -3.3,
+                },
+            ],
         },
         [TheSkeldTask.O2CleanO2Filter]: {
             id: TheSkeldTask.O2CleanO2Filter,
@@ -195,10 +239,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.CleanO2Filter,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 5.7,
-                y: -3.0
-            }]
+            consoles: [
+                {
+                    x: 5.7,
+                    y: -3.0,
+                },
+            ],
         },
         [TheSkeldTask.ReactorUnlockManifolds]: {
             id: TheSkeldTask.ReactorUnlockManifolds,
@@ -206,10 +252,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UnlockManifolds,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -22.5,
-                y: -2.5
-            }]
+            consoles: [
+                {
+                    x: -22.5,
+                    y: -2.5,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDownloadData]: {
             id: TheSkeldTask.ElectricalDownloadData,
@@ -217,25 +265,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 2.5,
-                y: -6.3
-            }, {
-                x: 3.5,
-                y: 4.9
-            }, {
-                x: 17.0,
-                y: -2.4
-            }, {
-                x: 8.7,
-                y: 3.9
-            }, {
-                x: -9.7,
-                y: -7.3
-            }, {
-                x: 3.9,
-                y: -14.0
-            }]
+            consoles: [
+                {
+                    x: 2.5,
+                    y: -6.3,
+                },
+                {
+                    x: 3.5,
+                    y: 4.9,
+                },
+                {
+                    x: 17.0,
+                    y: -2.4,
+                },
+                {
+                    x: 8.7,
+                    y: 3.9,
+                },
+                {
+                    x: -9.7,
+                    y: -7.3,
+                },
+                {
+                    x: 3.9,
+                    y: -14.0,
+                },
+            ],
         },
         [TheSkeldTask.NavigationStabilizeSteering]: {
             id: TheSkeldTask.NavigationStabilizeSteering,
@@ -243,10 +298,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.StabilizeSteering,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 18.7,
-                y: -4.7
-            }]
+            consoles: [
+                {
+                    x: 18.7,
+                    y: -4.7,
+                },
+            ],
         },
         [TheSkeldTask.WeaponsDownloadData]: {
             id: TheSkeldTask.WeaponsDownloadData,
@@ -254,25 +311,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 2.5,
-                y: -6.3,
-            }, {
-                x: 3.5,
-                y: 4.9
-            }, {
-                x: 17.0,
-                y: -2.4
-            }, {
-                x: 8.7,
-                y: 3.9
-            }, {
-                x: -9.7,
-                y: -7.3
-            }, {
-                x: 3.9,
-                y: -14.0
-            }]
+            consoles: [
+                {
+                    x: 2.5,
+                    y: -6.3,
+                },
+                {
+                    x: 3.5,
+                    y: 4.9,
+                },
+                {
+                    x: 17.0,
+                    y: -2.4,
+                },
+                {
+                    x: 8.7,
+                    y: 3.9,
+                },
+                {
+                    x: -9.7,
+                    y: -7.3,
+                },
+                {
+                    x: 3.9,
+                    y: -14.0,
+                },
+            ],
         },
         [TheSkeldTask.ShieldsPrimeShields]: {
             id: TheSkeldTask.ShieldsPrimeShields,
@@ -280,10 +344,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.PrimeShields,
             length: TaskLength.Short,
             visual: true,
-            consoles: [{
-                x: 7.5,
-                y: -14.0
-            }]
+            consoles: [
+                {
+                    x: 7.5,
+                    y: -14.0,
+                },
+            ],
         },
         [TheSkeldTask.CafeteriaDownloadData]: {
             id: TheSkeldTask.CafeteriaDownloadData,
@@ -291,25 +357,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 2.5,
-                y: -6.3
-            }, {
-                x: 3.5,
-                y: 4.9
-            }, {
-                x: 17.0,
-                y: -2.4
-            }, {
-                x: 8.7,
-                y: 3.9
-            }, {
-                x: -9.7,
-                y: -7.3
-            }, {
-                x: 3.9,
-                y: -14.0
-            }]
+            consoles: [
+                {
+                    x: 2.5,
+                    y: -6.3,
+                },
+                {
+                    x: 3.5,
+                    y: 4.9,
+                },
+                {
+                    x: 17.0,
+                    y: -2.4,
+                },
+                {
+                    x: 8.7,
+                    y: 3.9,
+                },
+                {
+                    x: -9.7,
+                    y: -7.3,
+                },
+                {
+                    x: 3.9,
+                    y: -14.0,
+                },
+            ],
         },
         [TheSkeldTask.NavigationDownloadData]: {
             id: TheSkeldTask.NavigationDownloadData,
@@ -317,25 +390,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 2.5,
-                y: -6.3
-            }, {
-                x: 3.5,
-                y: 4.9
-            }, {
-                x: 17.0,
-                y: -2.4
-            }, {
-                x: 8.7,
-                y: 3.9
-            }, {
-                x: -9.7,
-                y: -7.3
-            }, {
-                x: 3.9,
-                y: -14.0
-            }]
+            consoles: [
+                {
+                    x: 2.5,
+                    y: -6.3,
+                },
+                {
+                    x: 3.5,
+                    y: 4.9,
+                },
+                {
+                    x: 17.0,
+                    y: -2.4,
+                },
+                {
+                    x: 8.7,
+                    y: 3.9,
+                },
+                {
+                    x: -9.7,
+                    y: -7.3,
+                },
+                {
+                    x: 3.9,
+                    y: -14.0,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDivertPowerToShields]: {
             id: TheSkeldTask.ElectricalDivertPowerToShields,
@@ -343,34 +423,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: -2.4
-            }, {
-                x: 11.4,
-                y: 2.1
-            }, {
-                x: 8.4,
-                y: -2.5
-            }, {
-                x: 10.7,
-                y: -10.1
-            }, {
-                x: -9.0,
-                y: -7.3
-            }, {
-                x: -18.0,
-                y: -9.3
-            }, {
-                x: -17.2,
-                y: -3.1
-            }, {
-                x: 6.2,
-                y: -14.1
-            }, {
-                x: -12.1,
-                y: -3.1
-            }]
+            consoles: [
+                {
+                    x: 16.0,
+                    y: -2.4,
+                },
+                {
+                    x: 11.4,
+                    y: 2.1,
+                },
+                {
+                    x: 8.4,
+                    y: -2.5,
+                },
+                {
+                    x: 10.7,
+                    y: -10.1,
+                },
+                {
+                    x: -9.0,
+                    y: -7.3,
+                },
+                {
+                    x: -18.0,
+                    y: -9.3,
+                },
+                {
+                    x: -17.2,
+                    y: -3.1,
+                },
+                {
+                    x: 6.2,
+                    y: -14.1,
+                },
+                {
+                    x: -12.1,
+                    y: -3.1,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDivertPowerToWeapons]: {
             id: TheSkeldTask.ElectricalDivertPowerToWeapons,
@@ -378,34 +468,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: -2.4
-            }, {
-                x: 11.4,
-                y: 2.1
-            }, {
-                x: 8.4,
-                y: -2.5
-            }, {
-                x: 10.7,
-                y: -10.1
-            }, {
-                x: -9.0,
-                y: -7.3
-            }, {
-                x: -18.0,
-                y: -9.3
-            }, {
-                x: -17.2,
-                y: -3.1
-            }, {
-                x: 6.2,
-                y: -14.1
-            }, {
-                x: -12.1,
-                y: -3.1
-            }]
+            consoles: [
+                {
+                    x: 16.0,
+                    y: -2.4,
+                },
+                {
+                    x: 11.4,
+                    y: 2.1,
+                },
+                {
+                    x: 8.4,
+                    y: -2.5,
+                },
+                {
+                    x: 10.7,
+                    y: -10.1,
+                },
+                {
+                    x: -9.0,
+                    y: -7.3,
+                },
+                {
+                    x: -18.0,
+                    y: -9.3,
+                },
+                {
+                    x: -17.2,
+                    y: -3.1,
+                },
+                {
+                    x: 6.2,
+                    y: -14.1,
+                },
+                {
+                    x: -12.1,
+                    y: -3.1,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDivertPowerToCommunications]: {
             id: TheSkeldTask.ElectricalDivertPowerToCommunications,
@@ -413,34 +513,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: -2.4
-            }, {
-                x: 11.4,
-                y: 2.1
-            }, {
-                x: 8.4,
-                y: -2.5
-            }, {
-                x: 10.7,
-                y: -10.1
-            }, {
-                x: -9.0,
-                y: -7.3
-            }, {
-                x: -18.0,
-                y: -9.3
-            }, {
-                x: -17.2,
-                y: -3.1
-            }, {
-                x: 6.2,
-                y: -14.1
-            }, {
-                x: -12.1,
-                y: -3.1
-            }]
+            consoles: [
+                {
+                    x: 16.0,
+                    y: -2.4,
+                },
+                {
+                    x: 11.4,
+                    y: 2.1,
+                },
+                {
+                    x: 8.4,
+                    y: -2.5,
+                },
+                {
+                    x: 10.7,
+                    y: -10.1,
+                },
+                {
+                    x: -9.0,
+                    y: -7.3,
+                },
+                {
+                    x: -18.0,
+                    y: -9.3,
+                },
+                {
+                    x: -17.2,
+                    y: -3.1,
+                },
+                {
+                    x: 6.2,
+                    y: -14.1,
+                },
+                {
+                    x: -12.1,
+                    y: -3.1,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDivertPowerToUpperEngine]: {
             id: TheSkeldTask.ElectricalDivertPowerToUpperEngine,
@@ -448,34 +558,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: -2.4
-            }, {
-                x: 11.4,
-                y: 2.1
-            }, {
-                x: 8.4,
-                y: -2.5
-            }, {
-                x: 10.7,
-                y: -10.1
-            }, {
-                x: -9.0,
-                y: -7.3
-            }, {
-                x: -18.0,
-                y: -9.3
-            }, {
-                x: -17.2,
-                y: -3.1
-            }, {
-                x: 6.2,
-                y: -14.1
-            }, {
-                x: -12.1,
-                y: -3.1
-            }]
+            consoles: [
+                {
+                    x: 16.0,
+                    y: -2.4,
+                },
+                {
+                    x: 11.4,
+                    y: 2.1,
+                },
+                {
+                    x: 8.4,
+                    y: -2.5,
+                },
+                {
+                    x: 10.7,
+                    y: -10.1,
+                },
+                {
+                    x: -9.0,
+                    y: -7.3,
+                },
+                {
+                    x: -18.0,
+                    y: -9.3,
+                },
+                {
+                    x: -17.2,
+                    y: -3.1,
+                },
+                {
+                    x: 6.2,
+                    y: -14.1,
+                },
+                {
+                    x: -12.1,
+                    y: -3.1,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDivertPowerToO2]: {
             id: TheSkeldTask.ElectricalDivertPowerToO2,
@@ -483,34 +603,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: -2.4
-            }, {
-                x: 11.4,
-                y: 2.1
-            }, {
-                x: 8.4,
-                y: -2.5
-            }, {
-                x: 10.7,
-                y: -10.1
-            }, {
-                x: -9.0,
-                y: -7.3
-            }, {
-                x: -18.0,
-                y: -9.3
-            }, {
-                x: -17.2,
-                y: -3.1
-            }, {
-                x: 6.2,
-                y: -14.1
-            }, {
-                x: -12.1,
-                y: -3.1
-            }]
+            consoles: [
+                {
+                    x: 16.0,
+                    y: -2.4,
+                },
+                {
+                    x: 11.4,
+                    y: 2.1,
+                },
+                {
+                    x: 8.4,
+                    y: -2.5,
+                },
+                {
+                    x: 10.7,
+                    y: -10.1,
+                },
+                {
+                    x: -9.0,
+                    y: -7.3,
+                },
+                {
+                    x: -18.0,
+                    y: -9.3,
+                },
+                {
+                    x: -17.2,
+                    y: -3.1,
+                },
+                {
+                    x: 6.2,
+                    y: -14.1,
+                },
+                {
+                    x: -12.1,
+                    y: -3.1,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDivertPowerToNavigation]: {
             id: TheSkeldTask.ElectricalDivertPowerToNavigation,
@@ -518,34 +648,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: -2.4
-            }, {
-                x: 11.4,
-                y: 2.1
-            }, {
-                x: 8.4,
-                y: -2.5
-            }, {
-                x: 10.7,
-                y: -10.1
-            }, {
-                x: -9.0,
-                y: -7.3
-            }, {
-                x: -18.0,
-                y: -9.3
-            }, {
-                x: -17.2,
-                y: -3.1
-            }, {
-                x: 6.2,
-                y: -14.1
-            }, {
-                x: -12.1,
-                y: -3.1
-            }]
+            consoles: [
+                {
+                    x: 16.0,
+                    y: -2.4,
+                },
+                {
+                    x: 11.4,
+                    y: 2.1,
+                },
+                {
+                    x: 8.4,
+                    y: -2.5,
+                },
+                {
+                    x: 10.7,
+                    y: -10.1,
+                },
+                {
+                    x: -9.0,
+                    y: -7.3,
+                },
+                {
+                    x: -18.0,
+                    y: -9.3,
+                },
+                {
+                    x: -17.2,
+                    y: -3.1,
+                },
+                {
+                    x: 6.2,
+                    y: -14.1,
+                },
+                {
+                    x: -12.1,
+                    y: -3.1,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDivertPowerToLowerEngine]: {
             id: TheSkeldTask.ElectricalDivertPowerToLowerEngine,
@@ -553,34 +693,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: -2.4
-            }, {
-                x: 11.4,
-                y: 2.1
-            }, {
-                x: 8.4,
-                y: -2.5
-            }, {
-                x: 10.7,
-                y: -10.1
-            }, {
-                x: -9.0,
-                y: -7.3
-            }, {
-                x: -18.0,
-                y: -9.3
-            }, {
-                x: -17.2,
-                y: -3.1
-            }, {
-                x: 6.2,
-                y: -14.1
-            }, {
-                x: -12.1,
-                y: -3.1
-            }]
+            consoles: [
+                {
+                    x: 16.0,
+                    y: -2.4,
+                },
+                {
+                    x: 11.4,
+                    y: 2.1,
+                },
+                {
+                    x: 8.4,
+                    y: -2.5,
+                },
+                {
+                    x: 10.7,
+                    y: -10.1,
+                },
+                {
+                    x: -9.0,
+                    y: -7.3,
+                },
+                {
+                    x: -18.0,
+                    y: -9.3,
+                },
+                {
+                    x: -17.2,
+                    y: -3.1,
+                },
+                {
+                    x: 6.2,
+                    y: -14.1,
+                },
+                {
+                    x: -12.1,
+                    y: -3.1,
+                },
+            ],
         },
         [TheSkeldTask.ElectricalDivertPowerToSecurity]: {
             id: TheSkeldTask.ElectricalDivertPowerToSecurity,
@@ -588,35 +738,45 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: -2.4
-            }, {
-                x: 11.4,
-                y: 2.1
-            }, {
-                x: 8.4,
-                y: -2.5
-            }, {
-                x: 10.7,
-                y: -10.1
-            }, {
-                x: -9.0,
-                y: -7.3
-            }, {
-                x: -18.0,
-                y: -9.3
-            }, {
-                x: -17.2,
-                y: -3.1
-            }, {
-                x: 6.2,
-                y: -14.1
-            }, {
-                x: -12.1,
-                y: -3.1
-            }]
-        }
+            consoles: [
+                {
+                    x: 16.0,
+                    y: -2.4,
+                },
+                {
+                    x: 11.4,
+                    y: 2.1,
+                },
+                {
+                    x: 8.4,
+                    y: -2.5,
+                },
+                {
+                    x: 10.7,
+                    y: -10.1,
+                },
+                {
+                    x: -9.0,
+                    y: -7.3,
+                },
+                {
+                    x: -18.0,
+                    y: -9.3,
+                },
+                {
+                    x: -17.2,
+                    y: -3.1,
+                },
+                {
+                    x: 6.2,
+                    y: -14.1,
+                },
+                {
+                    x: -12.1,
+                    y: -3.1,
+                },
+            ],
+        },
     },
     [MapID.MiraHQ]: {
         [MiraHQTask.HallwayFixWiring]: {
@@ -625,22 +785,28 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.FixWiring,
             length: TaskLength.Common,
             visual: false,
-            consoles: [{
-                x: 18.4,
-                y: 1.2
-            }, {
-                x: 12.1,
-                y: 8.0
-            }, {
-                x: 6.1,
-                y: 15.0
-            }, {
-                x: 4.4,
-                y: 2.5
-            }, {
-                x: 17.0,
-                y: 21.4
-            }]
+            consoles: [
+                {
+                    x: 18.4,
+                    y: 1.2,
+                },
+                {
+                    x: 12.1,
+                    y: 8.0,
+                },
+                {
+                    x: 6.1,
+                    y: 15.0,
+                },
+                {
+                    x: 4.4,
+                    y: 2.5,
+                },
+                {
+                    x: 17.0,
+                    y: 21.4,
+                },
+            ],
         },
         [MiraHQTask.AdminEnterIDCode]: {
             id: MiraHQTask.AdminEnterIDCode,
@@ -648,10 +814,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.EnterIdCode,
             length: TaskLength.Common,
             visual: false,
-            consoles: [{
-                x: 19.9,
-                y: 19.0
-            }]
+            consoles: [
+                {
+                    x: 19.9,
+                    y: 19.0,
+                },
+            ],
         },
         [MiraHQTask.MedBaySubmitScan]: {
             id: MiraHQTask.MedBaySubmitScan,
@@ -659,10 +827,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.SubmitScan,
             length: TaskLength.Long,
             visual: true,
-            consoles: [{
-                x: 16.2,
-                y: 0.3
-            }]
+            consoles: [
+                {
+                    x: 16.2,
+                    y: 0.3,
+                },
+            ],
         },
         [MiraHQTask.BalconyClearAsteroids]: {
             id: MiraHQTask.BalconyClearAsteroids,
@@ -670,10 +840,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ClearAsteroids,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 19.2,
-                y: -2.4
-            }]
+            consoles: [
+                {
+                    x: 19.2,
+                    y: -2.4,
+                },
+            ],
         },
         [MiraHQTask.ElectricalDivertPowerToAdmin]: {
             id: MiraHQTask.ElectricalDivertPowerToAdmin,
@@ -681,34 +853,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.3,
-                y: 0.9
-            }, {
-                x: 21.6,
-                y: 5.8
-            }, {
-                x: 0.8,
-                y: 11.5
-            }, {
-                x: 7.7,
-                y: 14.9
-            }, {
-                x: 20.3,
-                y: 21.4
-            }, {
-                x: 16.2,
-                y: 20.0
-            }, {
-                x: 13.9,
-                y: 22.9
-            }, {
-                x: 14.0,
-                y: 5.9
-            }, {
-                x: 14.8,
-                y: 2.0
-            }]
+            consoles: [
+                {
+                    x: -6.3,
+                    y: 0.9,
+                },
+                {
+                    x: 21.6,
+                    y: 5.8,
+                },
+                {
+                    x: 0.8,
+                    y: 11.5,
+                },
+                {
+                    x: 7.7,
+                    y: 14.9,
+                },
+                {
+                    x: 20.3,
+                    y: 21.4,
+                },
+                {
+                    x: 16.2,
+                    y: 20.0,
+                },
+                {
+                    x: 13.9,
+                    y: 22.9,
+                },
+                {
+                    x: 14.0,
+                    y: 5.9,
+                },
+                {
+                    x: 14.8,
+                    y: 2.0,
+                },
+            ],
         },
         [MiraHQTask.ElectricalDivertPowerToCafeteria]: {
             id: MiraHQTask.ElectricalDivertPowerToCafeteria,
@@ -716,34 +898,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.3,
-                y: 0.9
-            }, {
-                x: 21.6,
-                y: 5.8
-            }, {
-                x: 0.8,
-                y: 11.5
-            }, {
-                x: 7.7,
-                y: 14.9
-            }, {
-                x: 20.3,
-                y: 21.4
-            }, {
-                x: 16.2,
-                y: 20.0
-            }, {
-                x: 13.9,
-                y: 22.9
-            }, {
-                x: 14.0,
-                y: 5.9
-            }, {
-                x: 14.8,
-                y: 2.0
-            }]
+            consoles: [
+                {
+                    x: -6.3,
+                    y: 0.9,
+                },
+                {
+                    x: 21.6,
+                    y: 5.8,
+                },
+                {
+                    x: 0.8,
+                    y: 11.5,
+                },
+                {
+                    x: 7.7,
+                    y: 14.9,
+                },
+                {
+                    x: 20.3,
+                    y: 21.4,
+                },
+                {
+                    x: 16.2,
+                    y: 20.0,
+                },
+                {
+                    x: 13.9,
+                    y: 22.9,
+                },
+                {
+                    x: 14.0,
+                    y: 5.9,
+                },
+                {
+                    x: 14.8,
+                    y: 2.0,
+                },
+            ],
         },
         [MiraHQTask.ElectricalDivertPowerToCommunications]: {
             id: MiraHQTask.ElectricalDivertPowerToCommunications,
@@ -751,34 +943,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.3,
-                y: 0.9
-            }, {
-                x: 21.6,
-                y: 5.8
-            }, {
-                x: 0.8,
-                y: 11.5
-            }, {
-                x: 7.7,
-                y: 14.9
-            }, {
-                x: 20.3,
-                y: 21.4
-            }, {
-                x: 16.2,
-                y: 20.0
-            }, {
-                x: 13.9,
-                y: 22.9
-            }, {
-                x: 14.0,
-                y: 5.9
-            }, {
-                x: 14.8,
-                y: 2.0
-            }]
+            consoles: [
+                {
+                    x: -6.3,
+                    y: 0.9,
+                },
+                {
+                    x: 21.6,
+                    y: 5.8,
+                },
+                {
+                    x: 0.8,
+                    y: 11.5,
+                },
+                {
+                    x: 7.7,
+                    y: 14.9,
+                },
+                {
+                    x: 20.3,
+                    y: 21.4,
+                },
+                {
+                    x: 16.2,
+                    y: 20.0,
+                },
+                {
+                    x: 13.9,
+                    y: 22.9,
+                },
+                {
+                    x: 14.0,
+                    y: 5.9,
+                },
+                {
+                    x: 14.8,
+                    y: 2.0,
+                },
+            ],
         },
         [MiraHQTask.ElectricalDivertPowerToLaunchpad]: {
             id: MiraHQTask.ElectricalDivertPowerToLaunchpad,
@@ -786,34 +988,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.3,
-                y: 0.9
-            }, {
-                x: 21.6,
-                y: 5.8
-            }, {
-                x: 0.8,
-                y: 11.5
-            }, {
-                x: 7.7,
-                y: 14.9
-            }, {
-                x: 20.3,
-                y: 21.4
-            }, {
-                x: 16.2,
-                y: 20.0
-            }, {
-                x: 13.9,
-                y: 22.9
-            }, {
-                x: 14.0,
-                y: 5.9
-            }, {
-                x: 14.8,
-                y: 2.0
-            }]
+            consoles: [
+                {
+                    x: -6.3,
+                    y: 0.9,
+                },
+                {
+                    x: 21.6,
+                    y: 5.8,
+                },
+                {
+                    x: 0.8,
+                    y: 11.5,
+                },
+                {
+                    x: 7.7,
+                    y: 14.9,
+                },
+                {
+                    x: 20.3,
+                    y: 21.4,
+                },
+                {
+                    x: 16.2,
+                    y: 20.0,
+                },
+                {
+                    x: 13.9,
+                    y: 22.9,
+                },
+                {
+                    x: 14.0,
+                    y: 5.9,
+                },
+                {
+                    x: 14.8,
+                    y: 2.0,
+                },
+            ],
         },
         [MiraHQTask.ElectricalDivertPowerToMedBay]: {
             id: MiraHQTask.ElectricalDivertPowerToMedBay,
@@ -821,34 +1033,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.3,
-                y: 0.9
-            }, {
-                x: 21.6,
-                y: 5.8
-            }, {
-                x: 0.8,
-                y: 11.5
-            }, {
-                x: 7.7,
-                y: 14.9
-            }, {
-                x: 20.3,
-                y: 21.4
-            }, {
-                x: 16.2,
-                y: 20.0
-            }, {
-                x: 13.9,
-                y: 22.9
-            }, {
-                x: 14.0,
-                y: 5.9
-            }, {
-                x: 14.8,
-                y: 2.0
-            }]
+            consoles: [
+                {
+                    x: -6.3,
+                    y: 0.9,
+                },
+                {
+                    x: 21.6,
+                    y: 5.8,
+                },
+                {
+                    x: 0.8,
+                    y: 11.5,
+                },
+                {
+                    x: 7.7,
+                    y: 14.9,
+                },
+                {
+                    x: 20.3,
+                    y: 21.4,
+                },
+                {
+                    x: 16.2,
+                    y: 20.0,
+                },
+                {
+                    x: 13.9,
+                    y: 22.9,
+                },
+                {
+                    x: 14.0,
+                    y: 5.9,
+                },
+                {
+                    x: 14.8,
+                    y: 2.0,
+                },
+            ],
         },
         [MiraHQTask.ElectricalDivertPowerToOffice]: {
             id: MiraHQTask.ElectricalDivertPowerToOffice,
@@ -856,34 +1078,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.3,
-                y: 0.9
-            }, {
-                x: 21.6,
-                y: 5.8
-            }, {
-                x: 0.8,
-                y: 11.5
-            }, {
-                x: 7.7,
-                y: 14.9
-            }, {
-                x: 20.3,
-                y: 21.4
-            }, {
-                x: 16.2,
-                y: 20.0
-            }, {
-                x: 13.9,
-                y: 22.9
-            }, {
-                x: 14.0,
-                y: 5.9
-            }, {
-                x: 14.8,
-                y: 2.0
-            }]
+            consoles: [
+                {
+                    x: -6.3,
+                    y: 0.9,
+                },
+                {
+                    x: 21.6,
+                    y: 5.8,
+                },
+                {
+                    x: 0.8,
+                    y: 11.5,
+                },
+                {
+                    x: 7.7,
+                    y: 14.9,
+                },
+                {
+                    x: 20.3,
+                    y: 21.4,
+                },
+                {
+                    x: 16.2,
+                    y: 20.0,
+                },
+                {
+                    x: 13.9,
+                    y: 22.9,
+                },
+                {
+                    x: 14.0,
+                    y: 5.9,
+                },
+                {
+                    x: 14.8,
+                    y: 2.0,
+                },
+            ],
         },
         [MiraHQTask.StorageWaterPlants]: {
             id: MiraHQTask.StorageWaterPlants,
@@ -891,13 +1123,16 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.WaterPlants,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 19.6,
-                y: 5.2
-            }, {
-                x: 20.5,
-                y: 22.8
-            }]
+            consoles: [
+                {
+                    x: 19.6,
+                    y: 5.2,
+                },
+                {
+                    x: 20.5,
+                    y: 22.8,
+                },
+            ],
         },
         [MiraHQTask.ReactorStartReactor]: {
             id: MiraHQTask.ReactorStartReactor,
@@ -905,10 +1140,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.StartReactor,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 2.5,
-                y: 12.4
-            }]
+            consoles: [
+                {
+                    x: 2.5,
+                    y: 12.4,
+                },
+            ],
         },
         [MiraHQTask.ElectricalDivertPowerToGreenhouse]: {
             id: MiraHQTask.ElectricalDivertPowerToGreenhouse,
@@ -916,34 +1153,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.3,
-                y: 0.9
-            }, {
-                x: 21.6,
-                y: 5.8
-            }, {
-                x: 0.8,
-                y: 11.5
-            }, {
-                x: 7.7,
-                y: 14.9
-            }, {
-                x: 20.3,
-                y: 21.4
-            }, {
-                x: 16.2,
-                y: 20.0
-            }, {
-                x: 13.9,
-                y: 22.9
-            }, {
-                x: 14.0,
-                y: 5.9
-            }, {
-                x: 14.8,
-                y: 2.0
-            }]
+            consoles: [
+                {
+                    x: -6.3,
+                    y: 0.9,
+                },
+                {
+                    x: 21.6,
+                    y: 5.8,
+                },
+                {
+                    x: 0.8,
+                    y: 11.5,
+                },
+                {
+                    x: 7.7,
+                    y: 14.9,
+                },
+                {
+                    x: 20.3,
+                    y: 21.4,
+                },
+                {
+                    x: 16.2,
+                    y: 20.0,
+                },
+                {
+                    x: 13.9,
+                    y: 22.9,
+                },
+                {
+                    x: 14.0,
+                    y: 5.9,
+                },
+                {
+                    x: 14.8,
+                    y: 2.0,
+                },
+            ],
         },
         [MiraHQTask.AdminChartCourse]: {
             id: MiraHQTask.AdminChartCourse,
@@ -951,10 +1198,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ChartCourse,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 22.2,
-                y: 21.2
-            }]
+            consoles: [
+                {
+                    x: 22.2,
+                    y: 21.2,
+                },
+            ],
         },
         [MiraHQTask.GreenhouseCleanO2Filter]: {
             id: MiraHQTask.GreenhouseCleanO2Filter,
@@ -962,10 +1211,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.CleanO2Filter,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 17.2,
-                y: 24.5
-            }]
+            consoles: [
+                {
+                    x: 17.2,
+                    y: 24.5,
+                },
+            ],
         },
         [MiraHQTask.LaunchpadFuelEngines]: {
             id: MiraHQTask.LaunchpadFuelEngines,
@@ -973,10 +1224,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.FuelEngines,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.4,
-                y: 2.3
-            }]
+            consoles: [
+                {
+                    x: -6.4,
+                    y: 2.3,
+                },
+            ],
         },
         [MiraHQTask.LaboratoryAssembleArtifact]: {
             id: MiraHQTask.LaboratoryAssembleArtifact,
@@ -984,10 +1237,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.AssembleArtifact,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 9.4,
-                y: 14.6
-            }]
+            consoles: [
+                {
+                    x: 9.4,
+                    y: 14.6,
+                },
+            ],
         },
         [MiraHQTask.LaboratorySortSamples]: {
             id: MiraHQTask.LaboratorySortSamples,
@@ -995,10 +1250,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.SortSamples,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 9.7,
-                y: 11.1
-            }]
+            consoles: [
+                {
+                    x: 9.7,
+                    y: 11.1,
+                },
+            ],
         },
         [MiraHQTask.AdminPrimeShields]: {
             id: MiraHQTask.AdminPrimeShields,
@@ -1006,10 +1263,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.PrimeShields,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 21.2,
-                y: 17.9
-            }]
+            consoles: [
+                {
+                    x: 21.2,
+                    y: 17.9,
+                },
+            ],
         },
         [MiraHQTask.CafeteriaEmptyGarbage]: {
             id: MiraHQTask.CafeteriaEmptyGarbage,
@@ -1017,10 +1276,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.EmptyGarbage,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 25.3,
-                y: 5.8
-            }]
+            consoles: [
+                {
+                    x: 25.3,
+                    y: 5.8,
+                },
+            ],
         },
         [MiraHQTask.BalconyMeasureWeather]: {
             id: MiraHQTask.BalconyMeasureWeather,
@@ -1028,10 +1289,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.MeasureWeather,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 28.9,
-                y: -1.7
-            }]
+            consoles: [
+                {
+                    x: 28.9,
+                    y: -1.7,
+                },
+            ],
         },
         [MiraHQTask.ElectricalDivertPowerToLaboratory]: {
             id: MiraHQTask.ElectricalDivertPowerToLaboratory,
@@ -1039,34 +1302,44 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.DivertPower,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: -6.3,
-                y: 0.9
-            }, {
-                x: 21.6,
-                y: 5.8
-            }, {
-                x: 0.8,
-                y: 11.5
-            }, {
-                x: 7.7,
-                y: 14.9
-            }, {
-                x: 20.3,
-                y: 21.4
-            }, {
-                x: 16.2,
-                y: 20.0
-            }, {
-                x: 13.9,
-                y: 22.9
-            }, {
-                x: 14.0,
-                y: 5.9
-            }, {
-                x: 14.8,
-                y: 2.0
-            }]
+            consoles: [
+                {
+                    x: -6.3,
+                    y: 0.9,
+                },
+                {
+                    x: 21.6,
+                    y: 5.8,
+                },
+                {
+                    x: 0.8,
+                    y: 11.5,
+                },
+                {
+                    x: 7.7,
+                    y: 14.9,
+                },
+                {
+                    x: 20.3,
+                    y: 21.4,
+                },
+                {
+                    x: 16.2,
+                    y: 20.0,
+                },
+                {
+                    x: 13.9,
+                    y: 22.9,
+                },
+                {
+                    x: 14.0,
+                    y: 5.9,
+                },
+                {
+                    x: 14.8,
+                    y: 2.0,
+                },
+            ],
         },
         [MiraHQTask.CafeteriaBuyBeverage]: {
             id: MiraHQTask.CafeteriaBuyBeverage,
@@ -1074,10 +1347,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.BuyBeverage,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 27.5,
-                y: 5.7
-            }]
+            consoles: [
+                {
+                    x: 27.5,
+                    y: 5.7,
+                },
+            ],
         },
         [MiraHQTask.OfficeProcessData]: {
             id: MiraHQTask.OfficeProcessData,
@@ -1085,10 +1360,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ProcessData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 15.8,
-                y: 21.4
-            }]
+            consoles: [
+                {
+                    x: 15.8,
+                    y: 21.4,
+                },
+            ],
         },
         [MiraHQTask.LaunchpadRunDiagnostics]: {
             id: MiraHQTask.LaunchpadRunDiagnostics,
@@ -1096,10 +1373,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.RunDiagnostics,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: -2.5,
-                y: 1.9
-            }]
+            consoles: [
+                {
+                    x: -2.5,
+                    y: 1.9,
+                },
+            ],
         },
         [MiraHQTask.ReactorUnlockManifolds]: {
             id: MiraHQTask.ReactorUnlockManifolds,
@@ -1107,11 +1386,13 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UnlockManifolds,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 0.4,
-                y: 13.3
-            }]
-        }
+            consoles: [
+                {
+                    x: 0.4,
+                    y: 13.3,
+                },
+            ],
+        },
     },
     [MapID.Polus]: {
         [PolusTask.OfficeSwipeCard]: {
@@ -1120,10 +1401,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.SwipeCard,
             length: TaskLength.Common,
             visual: false,
-            consoles: [{
-                x: 24.8,
-                y: -16.2
-            }]
+            consoles: [
+                {
+                    x: 24.8,
+                    y: -16.2,
+                },
+            ],
         },
         [PolusTask.DropshipInsertKeys]: {
             id: PolusTask.DropshipInsertKeys,
@@ -1131,10 +1414,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.InsertKeys,
             length: TaskLength.Common,
             visual: false,
-            consoles: [{
-                x: 17.4,
-                y: 0.1
-            }]
+            consoles: [
+                {
+                    x: 17.4,
+                    y: 0.1,
+                },
+            ],
         },
         [PolusTask.OfficeScanBoardingPass]: {
             id: PolusTask.OfficeScanBoardingPass,
@@ -1142,10 +1427,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ScanBoardingPass,
             length: TaskLength.Common,
             visual: false,
-            consoles: [{
-                x: 25.8,
-                y: -16.0
-            }]
+            consoles: [
+                {
+                    x: 25.8,
+                    y: -16.0,
+                },
+            ],
         },
         [PolusTask.ElectricalFixWiring]: {
             id: PolusTask.ElectricalFixWiring,
@@ -1153,25 +1440,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.FixWiring,
             length: TaskLength.Common,
             visual: false,
-            consoles: [{
-                x: 3.1,
-                y: -8.7
-            }, {
-                x: 6.5,
-                y: -18.5
-            }, {
-                x: 16.4,
-                y: -18.5
-            }, {
-                x: 40.6,
-                y: -9.0
-            }, {
-                x: 37.3,
-                y: -8.9
-            }, {
-                x: 33.0,
-                y: -9.0
-            }]
+            consoles: [
+                {
+                    x: 3.1,
+                    y: -8.7,
+                },
+                {
+                    x: 6.5,
+                    y: -18.5,
+                },
+                {
+                    x: 16.4,
+                    y: -18.5,
+                },
+                {
+                    x: 40.6,
+                    y: -9.0,
+                },
+                {
+                    x: 37.3,
+                    y: -8.9,
+                },
+                {
+                    x: 33.0,
+                    y: -9.0,
+                },
+            ],
         },
         [PolusTask.WeaponsDownloadData]: {
             id: PolusTask.WeaponsDownloadData,
@@ -1179,25 +1473,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 6.6,
-                y: -8.7
-            }, {
-                x: 2.9,
-                y: -15.4
-            }, {
-                x: 13.9,
-                y: -22.1
-            }, {
-                x: 11.7,
-                y: -15.1
-            }, {
-                x: 27.7,
-                y: -16.0
-            }, {
-                x: 37.7,
-                y: -18.5
-            }]
+            consoles: [
+                {
+                    x: 6.6,
+                    y: -8.7,
+                },
+                {
+                    x: 2.9,
+                    y: -15.4,
+                },
+                {
+                    x: 13.9,
+                    y: -22.1,
+                },
+                {
+                    x: 11.7,
+                    y: -15.1,
+                },
+                {
+                    x: 27.7,
+                    y: -16.0,
+                },
+                {
+                    x: 37.7,
+                    y: -18.5,
+                },
+            ],
         },
         [PolusTask.OfficeDownloadData]: {
             id: PolusTask.OfficeDownloadData,
@@ -1205,25 +1506,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 6.6,
-                y: -8.7
-            }, {
-                x: 2.9,
-                y: -15.4
-            }, {
-                x: 13.9,
-                y: -22.1
-            }, {
-                x: 11.7,
-                y: -15.1
-            }, {
-                x: 27.7,
-                y: -16.0
-            }, {
-                x: 37.7,
-                y: -18.5
-            }]
+            consoles: [
+                {
+                    x: 6.6,
+                    y: -8.7,
+                },
+                {
+                    x: 2.9,
+                    y: -15.4,
+                },
+                {
+                    x: 13.9,
+                    y: -22.1,
+                },
+                {
+                    x: 11.7,
+                    y: -15.1,
+                },
+                {
+                    x: 27.7,
+                    y: -16.0,
+                },
+                {
+                    x: 37.7,
+                    y: -18.5,
+                },
+            ],
         },
         [PolusTask.ElectricalDownloadData]: {
             id: PolusTask.ElectricalDownloadData,
@@ -1231,25 +1539,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 6.6,
-                y: -8.7
-            }, {
-                x: 2.9,
-                y: -15.4
-            }, {
-                x: 13.9,
-                y: -22.1
-            }, {
-                x: 11.7,
-                y: -15.1
-            }, {
-                x: 27.7,
-                y: -16.0
-            }, {
-                x: 37.7,
-                y: -18.5
-            }]
+            consoles: [
+                {
+                    x: 6.6,
+                    y: -8.7,
+                },
+                {
+                    x: 2.9,
+                    y: -15.4,
+                },
+                {
+                    x: 13.9,
+                    y: -22.1,
+                },
+                {
+                    x: 11.7,
+                    y: -15.1,
+                },
+                {
+                    x: 27.7,
+                    y: -16.0,
+                },
+                {
+                    x: 37.7,
+                    y: -18.5,
+                },
+            ],
         },
         [PolusTask.SpecimenRoomDownloadData]: {
             id: PolusTask.SpecimenRoomDownloadData,
@@ -1257,25 +1572,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 6.6,
-                y: -8.7
-            }, {
-                x: 2.9,
-                y: -15.4
-            }, {
-                x: 13.9,
-                y: -22.1
-            }, {
-                x: 11.7,
-                y: -15.1
-            }, {
-                x: 27.7,
-                y: -16.0
-            }, {
-                x: 37.7,
-                y: -18.5
-            }]
+            consoles: [
+                {
+                    x: 6.6,
+                    y: -8.7,
+                },
+                {
+                    x: 2.9,
+                    y: -15.4,
+                },
+                {
+                    x: 13.9,
+                    y: -22.1,
+                },
+                {
+                    x: 11.7,
+                    y: -15.1,
+                },
+                {
+                    x: 27.7,
+                    y: -16.0,
+                },
+                {
+                    x: 37.7,
+                    y: -18.5,
+                },
+            ],
         },
         [PolusTask.O2DownloadData]: {
             id: PolusTask.O2DownloadData,
@@ -1283,25 +1605,32 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UploadData,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 6.6,
-                y: -8.7
-            }, {
-                x: 2.9,
-                y: -15.4
-            }, {
-                x: 13.9,
-                y: -22.1
-            }, {
-                x: 11.7,
-                y: -15.1
-            }, {
-                x: 27.7,
-                y: -16.0
-            }, {
-                x: 37.7,
-                y: -18.5
-            }]
+            consoles: [
+                {
+                    x: 6.6,
+                    y: -8.7,
+                },
+                {
+                    x: 2.9,
+                    y: -15.4,
+                },
+                {
+                    x: 13.9,
+                    y: -22.1,
+                },
+                {
+                    x: 11.7,
+                    y: -15.1,
+                },
+                {
+                    x: 27.7,
+                    y: -16.0,
+                },
+                {
+                    x: 37.7,
+                    y: -18.5,
+                },
+            ],
         },
         [PolusTask.SpecimenRoomStartReactor]: {
             id: PolusTask.SpecimenRoomStartReactor,
@@ -1309,10 +1638,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.StartReactor,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 34.8,
-                y: -18.9
-            }]
+            consoles: [
+                {
+                    x: 34.8,
+                    y: -18.9,
+                },
+            ],
         },
         [PolusTask.StorageFuelEngines]: {
             id: PolusTask.StorageFuelEngines,
@@ -1320,16 +1651,20 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.FuelEngines,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 21.1,
-                y: -11.3
-            }, {
-                x: 11.4,
-                y: -6.2
-            }, {
-                x: 22.0,
-                y: -6.2
-            }]
+            consoles: [
+                {
+                    x: 21.1,
+                    y: -11.3,
+                },
+                {
+                    x: 11.4,
+                    y: -6.2,
+                },
+                {
+                    x: 22.0,
+                    y: -6.2,
+                },
+            ],
         },
         [PolusTask.BoilerRoomOpenWaterways]: {
             id: PolusTask.BoilerRoomOpenWaterways,
@@ -1337,16 +1672,20 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.OpenWaterways,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 3.7,
-                y: -24.2
-            }, {
-                x: 0.9,
-                y: -24.2
-            }, {
-                x: 18.4,
-                y: -23.7
-            }]
+            consoles: [
+                {
+                    x: 3.7,
+                    y: -24.2,
+                },
+                {
+                    x: 0.9,
+                    y: -24.2,
+                },
+                {
+                    x: 18.4,
+                    y: -23.7,
+                },
+            ],
         },
         [PolusTask.MedBayInspectSample]: {
             id: PolusTask.MedBayInspectSample,
@@ -1354,10 +1693,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.InspectSample,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 36.5,
-                y: -5.6
-            }]
+            consoles: [
+                {
+                    x: 36.5,
+                    y: -5.6,
+                },
+            ],
         },
         [PolusTask.BoilerRoomReplaceWaterJug]: {
             id: PolusTask.BoilerRoomReplaceWaterJug,
@@ -1365,13 +1706,16 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ReplaceWaterJug,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 1.2,
-                y: -23.1
-            }, {
-                x: 16.8,
-                y: -16.0
-            }]
+            consoles: [
+                {
+                    x: 1.2,
+                    y: -23.1,
+                },
+                {
+                    x: 16.8,
+                    y: -16.0,
+                },
+            ],
         },
         [PolusTask.OutsideFixWeatherNodeNODE_GI]: {
             id: PolusTask.OutsideFixWeatherNodeNODE_GI,
@@ -1379,28 +1723,36 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 29.4,
-                y: -6.8
-            }, {
-                x: 23.0,
-                y: -6.9
-            }, {
-                x: 8.4,
-                y: -15.5
-            }, {
-                x: 7.2,
-                y: -25.4
-            }, {
-                x: 15.0,
-                y: -25.4
-            }, {
-                x: 14.5,
-                y: -12.2
-            }, {
-                x: 30.9,
-                y: -12.2
-            }]
+            consoles: [
+                {
+                    x: 29.4,
+                    y: -6.8,
+                },
+                {
+                    x: 23.0,
+                    y: -6.9,
+                },
+                {
+                    x: 8.4,
+                    y: -15.5,
+                },
+                {
+                    x: 7.2,
+                    y: -25.4,
+                },
+                {
+                    x: 15.0,
+                    y: -25.4,
+                },
+                {
+                    x: 14.5,
+                    y: -12.2,
+                },
+                {
+                    x: 30.9,
+                    y: -12.2,
+                },
+            ],
         },
         [PolusTask.OutsideFixWeatherNodeNODE_IRO]: {
             id: PolusTask.OutsideFixWeatherNodeNODE_IRO,
@@ -1408,28 +1760,36 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 29.4,
-                y: -6.8
-            }, {
-                x: 23.0,
-                y: -6.9
-            }, {
-                x: 8.4,
-                y: -15.5
-            }, {
-                x: 7.2,
-                y: -25.4
-            }, {
-                x: 15.0,
-                y: -25.4
-            }, {
-                x: 14.5,
-                y: -12.2
-            }, {
-                x: 30.9,
-                y: -12.2
-            }]
+            consoles: [
+                {
+                    x: 29.4,
+                    y: -6.8,
+                },
+                {
+                    x: 23.0,
+                    y: -6.9,
+                },
+                {
+                    x: 8.4,
+                    y: -15.5,
+                },
+                {
+                    x: 7.2,
+                    y: -25.4,
+                },
+                {
+                    x: 15.0,
+                    y: -25.4,
+                },
+                {
+                    x: 14.5,
+                    y: -12.2,
+                },
+                {
+                    x: 30.9,
+                    y: -12.2,
+                },
+            ],
         },
         [PolusTask.OutsideFixWeatherNodeNODE_PD]: {
             id: PolusTask.OutsideFixWeatherNodeNODE_PD,
@@ -1437,28 +1797,36 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 29.4,
-                y: -6.8
-            }, {
-                x: 23.0,
-                y: -6.9
-            }, {
-                x: 8.4,
-                y: -15.5
-            }, {
-                x: 7.2,
-                y: -25.4
-            }, {
-                x: 15.0,
-                y: -25.4
-            }, {
-                x: 14.5,
-                y: -12.2
-            }, {
-                x: 30.9,
-                y: -12.2
-            }]
+            consoles: [
+                {
+                    x: 29.4,
+                    y: -6.8,
+                },
+                {
+                    x: 23.0,
+                    y: -6.9,
+                },
+                {
+                    x: 8.4,
+                    y: -15.5,
+                },
+                {
+                    x: 7.2,
+                    y: -25.4,
+                },
+                {
+                    x: 15.0,
+                    y: -25.4,
+                },
+                {
+                    x: 14.5,
+                    y: -12.2,
+                },
+                {
+                    x: 30.9,
+                    y: -12.2,
+                },
+            ],
         },
         [PolusTask.OutsideFixWeatherNodeNODE_TB]: {
             id: PolusTask.OutsideFixWeatherNodeNODE_TB,
@@ -1466,28 +1834,36 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 29.4,
-                y: -6.8
-            }, {
-                x: 23.0,
-                y: -6.9
-            }, {
-                x: 8.4,
-                y: -15.5
-            }, {
-                x: 7.2,
-                y: -25.4
-            }, {
-                x: 15.0,
-                y: -25.4
-            }, {
-                x: 14.5,
-                y: -12.2
-            }, {
-                x: 30.9,
-                y: -12.2
-            }]
+            consoles: [
+                {
+                    x: 29.4,
+                    y: -6.8,
+                },
+                {
+                    x: 23.0,
+                    y: -6.9,
+                },
+                {
+                    x: 8.4,
+                    y: -15.5,
+                },
+                {
+                    x: 7.2,
+                    y: -25.4,
+                },
+                {
+                    x: 15.0,
+                    y: -25.4,
+                },
+                {
+                    x: 14.5,
+                    y: -12.2,
+                },
+                {
+                    x: 30.9,
+                    y: -12.2,
+                },
+            ],
         },
         [PolusTask.CommunicationsRebootWiFi]: {
             id: PolusTask.CommunicationsRebootWiFi,
@@ -1495,10 +1871,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.RebootWifi,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 11.0,
-                y: -15.3
-            }]
+            consoles: [
+                {
+                    x: 11.0,
+                    y: -15.3,
+                },
+            ],
         },
         [PolusTask.O2MonitorTree]: {
             id: PolusTask.O2MonitorTree,
@@ -1506,10 +1884,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.MonitorO2,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 1.7,
-                y: -16.0
-            }]
+            consoles: [
+                {
+                    x: 1.7,
+                    y: -16.0,
+                },
+            ],
         },
         [PolusTask.SpecimenRoomUnlockManifolds]: {
             id: PolusTask.SpecimenRoomUnlockManifolds,
@@ -1517,10 +1897,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.UnlockManifolds,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 34.4,
-                y: -19.5
-            }]
+            consoles: [
+                {
+                    x: 34.4,
+                    y: -19.5,
+                },
+            ],
         },
         [PolusTask.SpecimenRoomStoreArtifacts]: {
             id: PolusTask.SpecimenRoomStoreArtifacts,
@@ -1528,10 +1910,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.StoreArtifacts,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 36.5,
-                y: -18.8
-            }]
+            consoles: [
+                {
+                    x: 36.5,
+                    y: -18.8,
+                },
+            ],
         },
         [PolusTask.O2FillCanisters]: {
             id: PolusTask.O2FillCanisters,
@@ -1539,10 +1923,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.FillCanisters,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 1.1,
-                y: -19.5
-            }]
+            consoles: [
+                {
+                    x: 1.1,
+                    y: -19.5,
+                },
+            ],
         },
         [PolusTask.O2EmptyGarbage]: {
             id: PolusTask.O2EmptyGarbage,
@@ -1550,10 +1936,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.EmptyGarbage,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 5.0,
-                y: -20.7
-            }]
+            consoles: [
+                {
+                    x: 5.0,
+                    y: -20.7,
+                },
+            ],
         },
         [PolusTask.DropshipChartCourse]: {
             id: PolusTask.DropshipChartCourse,
@@ -1561,10 +1949,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ChartCourse,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 16.0,
-                y: 0.1
-            }]
+            consoles: [
+                {
+                    x: 16.0,
+                    y: 0.1,
+                },
+            ],
         },
         [PolusTask.MedBaySubmitScan]: {
             id: PolusTask.MedBaySubmitScan,
@@ -1572,10 +1962,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.SubmitScan,
             length: TaskLength.Short,
             visual: true,
-            consoles: [{
-                x: 40.3,
-                y: -7.1
-            }]
+            consoles: [
+                {
+                    x: 40.3,
+                    y: -7.1,
+                },
+            ],
         },
         [PolusTask.WeaponsClearAsteroids]: {
             id: PolusTask.WeaponsClearAsteroids,
@@ -1583,10 +1975,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ClearAsteroids,
             length: TaskLength.Short,
             visual: true,
-            consoles: [{
-                x: 9.9,
-                y: -22.4
-            }]
+            consoles: [
+                {
+                    x: 9.9,
+                    y: -22.4,
+                },
+            ],
         },
         [PolusTask.OutsideFixWeatherNodeNODE_CA]: {
             id: PolusTask.OutsideFixWeatherNodeNODE_CA,
@@ -1594,28 +1988,36 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 29.4,
-                y: -6.8
-            }, {
-                x: 23.0,
-                y: -6.9
-            }, {
-                x: 8.4,
-                y: -15.5
-            }, {
-                x: 7.2,
-                y: -25.4
-            }, {
-                x: 15.0,
-                y: -25.4
-            }, {
-                x: 14.5,
-                y: -12.2
-            }, {
-                x: 30.9,
-                y: -12.2
-            }]
+            consoles: [
+                {
+                    x: 29.4,
+                    y: -6.8,
+                },
+                {
+                    x: 23.0,
+                    y: -6.9,
+                },
+                {
+                    x: 8.4,
+                    y: -15.5,
+                },
+                {
+                    x: 7.2,
+                    y: -25.4,
+                },
+                {
+                    x: 15.0,
+                    y: -25.4,
+                },
+                {
+                    x: 14.5,
+                    y: -12.2,
+                },
+                {
+                    x: 30.9,
+                    y: -12.2,
+                },
+            ],
         },
         [PolusTask.OutsideFixWeatherNodeNODE_MLG]: {
             id: PolusTask.OutsideFixWeatherNodeNODE_MLG,
@@ -1623,28 +2025,36 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.ActivateWeatherNodes,
             length: TaskLength.Long,
             visual: false,
-            consoles: [{
-                x: 29.4,
-                y: -6.8
-            }, {
-                x: 23.0,
-                y: -6.9
-            }, {
-                x: 8.4,
-                y: -15.5
-            }, {
-                x: 7.2,
-                y: -25.4
-            }, {
-                x: 15.0,
-                y: -25.4
-            }, {
-                x: 14.5,
-                y: -12.2
-            }, {
-                x: 30.9,
-                y: -12.2
-            }]
+            consoles: [
+                {
+                    x: 29.4,
+                    y: -6.8,
+                },
+                {
+                    x: 23.0,
+                    y: -6.9,
+                },
+                {
+                    x: 8.4,
+                    y: -15.5,
+                },
+                {
+                    x: 7.2,
+                    y: -25.4,
+                },
+                {
+                    x: 15.0,
+                    y: -25.4,
+                },
+                {
+                    x: 14.5,
+                    y: -12.2,
+                },
+                {
+                    x: 30.9,
+                    y: -12.2,
+                },
+            ],
         },
         [PolusTask.LaboratoryAlignTelescope]: {
             id: PolusTask.LaboratoryAlignTelescope,
@@ -1652,10 +2062,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.AlignTelescope,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 33.9,
-                y: -5.5
-            }]
+            consoles: [
+                {
+                    x: 33.9,
+                    y: -5.5,
+                },
+            ],
         },
         [PolusTask.LaboratoryRepairDrill]: {
             id: PolusTask.LaboratoryRepairDrill,
@@ -1663,10 +2075,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.RepairDrill,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 27.4,
-                y: -7.0
-            }]
+            consoles: [
+                {
+                    x: 27.4,
+                    y: -7.0,
+                },
+            ],
         },
         [PolusTask.LaboratoryRecordTemperature]: {
             id: PolusTask.LaboratoryRecordTemperature,
@@ -1674,13 +2088,16 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.RecordTemperature,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 31.3,
-                y: -6.7
-            }, {
-                x: 30.9,
-                y: -15.3
-            }]
+            consoles: [
+                {
+                    x: 31.3,
+                    y: -6.7,
+                },
+                {
+                    x: 30.9,
+                    y: -15.3,
+                },
+            ],
         },
         [PolusTask.OutsideRecordTemperature]: {
             id: PolusTask.OutsideRecordTemperature,
@@ -1688,14 +2105,17 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             type: TaskType.RecordTemperature,
             length: TaskLength.Short,
             visual: false,
-            consoles: [{
-                x: 31.3,
-                y: -6.7
-            }, {
-                x: 30.9,
-                y: -15.3
-            }]
-        }
+            consoles: [
+                {
+                    x: 31.3,
+                    y: -6.7,
+                },
+                {
+                    x: 30.9,
+                    y: -15.3,
+                },
+            ],
+        },
     },
-    [MapID.Airship]: {}
+    [MapID.Airship]: {},
 };

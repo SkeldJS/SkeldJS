@@ -2,8 +2,8 @@ import {
     MapID,
     DistanceID,
     LanguageID,
-    TaskBarUpdate
-} from "@skeldjs/constant"
+    TaskBarUpdate,
+} from "@skeldjs/constant";
 
 export interface BaseGameOptions {
     version: number;
@@ -46,4 +46,8 @@ export interface GameOptionsV4 extends Omit<GameOptionsV3, "version"> {
     taskbarUpdates: TaskBarUpdate;
 }
 
-export type GameOptions = GameOptionsV1 | GameOptionsV2 | GameOptionsV3 | GameOptionsV4;
+export type GameOptions =
+    | GameOptionsV1
+    | GameOptionsV2
+    | GameOptionsV3
+    | GameOptionsV4;

@@ -20,7 +20,7 @@ export class TextBuilder {
         return this;
     }
 
-    append(text: TextBuilder|string) {
+    append(text: TextBuilder | string) {
         this._str += text.toString();
 
         return this;
@@ -40,7 +40,7 @@ export class TextBuilder {
      */
     color(hex: string): TextBuilder;
     color(r: number, g: number, b: number, a: number): TextBuilder;
-    color(r: string|number, g?: number, b?: number, a?: number): TextBuilder {
+    color(r: string | number, g?: number, b?: number, a?: number): TextBuilder {
         if (typeof r === "string") {
             if (!/^[a-fA-F0-9]+$/.test(r)) {
                 return this.color(r.replace(/[^a-fA-F0-9]/g, "0"));

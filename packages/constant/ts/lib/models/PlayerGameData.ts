@@ -1,4 +1,4 @@
-import { TaskState } from "./TaskState"
+import { TaskState } from "./TaskState";
 
 export interface PlayerGameData {
     playerId: number;

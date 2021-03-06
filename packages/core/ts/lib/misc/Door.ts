@@ -4,14 +4,18 @@ import { EventEmitter } from "@skeldjs/events";
 import { SystemStatus } from "../system";
 
 export type DoorEvents = {
-        "doors.open": {};
-        "doors.close": {};
-}
+    "doors.open": {};
+    "doors.close": {};
+};
 
 export class Door extends EventEmitter<DoorEvents> {
     private _isOpen: boolean;
 
-    constructor(protected system: SystemStatus, readonly id: number, isOpen: boolean) {
+    constructor(
+        protected system: SystemStatus,
+        readonly id: number,
+        isOpen: boolean
+    ) {
         super();
 
         this._isOpen = isOpen;
@@ -23,7 +27,7 @@ export class Door extends EventEmitter<DoorEvents> {
 
         this.system.emit(event, {
             ...data,
-            door: this
+            door: this,
         });
 
         return super.emit(event, data);
@@ -44,23 +48,19 @@ export class Door extends EventEmitter<DoorEvents> {
     }
 
     set isOpen(isOpen: boolean) {
-        if (isOpen)
-            this.open();
-        else
-            this.close();
+        if (isOpen) this.open();
+        else this.close();
     }
 
     open() {
-        if (this._isOpen)
-            return;
+        if (this._isOpen) return;
 
         this._isOpen = true;
         this.emit("doors.open", {});
     }
 
     close() {
-        if (!this._isOpen)
-            return;
+        if (!this._isOpen) return;
 
         this._isOpen = false;
         this.emit("doors.close", {});

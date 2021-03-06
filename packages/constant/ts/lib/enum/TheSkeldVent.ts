@@ -12,5 +12,5 @@ export enum TheSkeldVent {
     Shields,
     UpperReactor,
     UpperNavigation,
-    LowerNavigation
+    LowerNavigation,
 }

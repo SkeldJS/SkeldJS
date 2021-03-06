@@ -1,3 +1,3 @@
 export enum ChatNoteType {
-    DidVote
+    DidVote,
 }

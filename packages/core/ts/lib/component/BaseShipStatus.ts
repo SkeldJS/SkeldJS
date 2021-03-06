@@ -1,14 +1,8 @@
 import { HazelBuffer } from "@skeldjs/util";
 
-import {
-    RpcTag,
-    SpawnID,
-    SystemType
-} from "@skeldjs/constant";
+import { RpcTag, SpawnID, SystemType } from "@skeldjs/constant";
 
-import {
-    RpcMessage
-} from "@skeldjs/protocol";
+import { RpcMessage } from "@skeldjs/protocol";
 
 import {
     DeconSystem,
@@ -22,7 +16,7 @@ import {
     SabotageSystem,
     SwitchSystem,
     ReactorSystem,
-    SystemStatus
+    SystemStatus,
 } from "../system";
 
 import { SystemStatusEvents } from "../system/events";
@@ -32,31 +26,39 @@ import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
 type AllSystems = Partial<{
-    [SystemType.Reactor]: ReactorSystem,
-    [SystemType.Electrical]: SwitchSystem,
-    [SystemType.O2]: LifeSuppSystem,
-    [SystemType.MedBay]: MedScanSystem,
-    [SystemType.Security]: SecurityCameraSystem,
-    [SystemType.Communications]: HudOverrideSystem|HqHudSystem,
-    [SystemType.Doors]: AutoDoorsSystem|DoorsSystem,
-    [SystemType.Sabotage]: SabotageSystem,
-    [SystemType.Decontamination]: DeconSystem,
-    [SystemType.Decontamination2]: DeconSystem,
-    [SystemType.Laboratory]: ReactorSystem
+    [SystemType.Reactor]: ReactorSystem;
+    [SystemType.Electrical]: SwitchSystem;
+    [SystemType.O2]: LifeSuppSystem;
+    [SystemType.MedBay]: MedScanSystem;
+    [SystemType.Security]: SecurityCameraSystem;
+    [SystemType.Communications]: HudOverrideSystem | HqHudSystem;
+    [SystemType.Doors]: AutoDoorsSystem | DoorsSystem;
+    [SystemType.Sabotage]: SabotageSystem;
+    [SystemType.Decontamination]: DeconSystem;
+    [SystemType.Decontamination2]: DeconSystem;
+    [SystemType.Laboratory]: ReactorSystem;
 }>;
 
 export interface ShipStatusData {
     systems: AllSystems;
 }
 
-export type ShipStatusEvents = SystemStatusEvents & {
+export type ShipStatusEvents = SystemStatusEvents & {};
 
-}
+export type ShipStatusType =
+    | SpawnID.ShipStatus
+    | SpawnID.Headquarters
+    | SpawnID.PlanetMap
+    | SpawnID.AprilShipStatus
+    | SpawnID.Airship;
+export type ShipStatusClassname =
+    | "ShipStatus"
+    | "Headquarters"
+    | "PlanetMap"
+    | "AprilShipStatus"
+    | "Airship";
 
-export type ShipStatusType = SpawnID.ShipStatus|SpawnID.Headquarters|SpawnID.PlanetMap|SpawnID.AprilShipStatus|SpawnID.Airship;
-export type ShipStatusClassname = "ShipStatus"|"Headquarters"|"PlanetMap"|"AprilShipStatus"|"Airship";
-
-export class BaseShipStatus extends Networkable<ShipStatusEvents> {
+export class BaseShipStatus extends Networkable<ShipStatusData, ShipStatusEvents> {
     static type: ShipStatusType;
     type: ShipStatusType;
 
@@ -65,7 +67,12 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
 
     systems: AllSystems;
 
-    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|ShipStatusData) {
+    constructor(
+        room: Hostable,
+        netid: number,
+        ownerid: number,
+        data?: HazelBuffer | ShipStatusData
+    ) {
         super(room, netid, ownerid, data);
     }
 
@@ -77,8 +84,9 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
     Setup() {}
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        if (spawn) {
+        if (!this.systems)
             this.Setup();
+        if (spawn) {
             for (let i = 0; i < 32; i++) {
                 const system = this.systems[i] as SystemStatus;
 
@@ -92,7 +100,7 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
             for (let i = 0; i < 32; i++) {
                 const system = this.systems[i] as SystemStatus;
 
-                if (system && (mask & (1 << i))) {
+                if (system && mask & (1 << i)) {
                     system.Deserialize(reader, spawn);
                 }
             }
@@ -101,9 +109,10 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
 
     /* eslint-disable-next-line */
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
+        if (!this.systems)
+            this.Setup();
         const systems = Object.values(this.systems);
         if (spawn) {
-            this.Setup();
             for (let i = 0; i < systems.length; i++) {
                 const system = systems[i];
 
@@ -142,6 +151,9 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
     }
 
     FixedUpdate(delta: number) {
+        if (!this.systems)
+            this.Setup();
+
         const systems = Object.values(this.systems);
         for (let i = 0; i < systems.length; i++) {
             const system = systems[i];
@@ -151,7 +163,10 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
     }
 
     selectInfected() {
-        const available = [...this.room.players.values()].filter(player => player.data && !player.data.disconnected && !player.data.dead);
+        const available = [...this.room.players.values()].filter(
+            (player) =>
+                player.data && !player.data.disconnected && !player.data.dead
+        );
         const max = available.length < 7 ? 1 : available.length < 9 ? 2 : 3;
         const impostors: PlayerData[] = [];
 
@@ -165,7 +180,7 @@ export class BaseShipStatus extends Networkable<ShipStatusEvents> {
     }
 
     begin() {
-        for (const [ , player ] of this.room.players) {
+        for (const [, player] of this.room.players) {
             this.room.gamedata.setTasks(player, [1, 2, 3]);
         }
     }

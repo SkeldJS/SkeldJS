@@ -1,10 +1,8 @@
-import {
-    MessageTag
-} from "@skeldjs/constant"
+import { MessageTag } from "@skeldjs/constant";
 
 import { HazelBuffer } from "@skeldjs/util";
 
-import { BaseHazelMessage } from "./Packets"
+import { BaseHazelMessage } from "./Packets";
 import { RpcMessage } from "./RpcMessages";
 
 export interface BaseGameDataMessage extends BaseHazelMessage {
@@ -51,10 +49,11 @@ export interface ChangeSettings extends BaseGameDataMessage {
     tag: MessageTag.ChangeSettings;
 }
 
-export type GameDataMessage = DataMessage |
-    RpcMessage |
-    SpawnMessage |
-    DespawnMessage |
-    SceneChangeMessage |
-    ReadyMessage |
-    ChangeSettings;
+export type GameDataMessage =
+    | DataMessage
+    | RpcMessage
+    | SpawnMessage
+    | DespawnMessage
+    | SceneChangeMessage
+    | ReadyMessage
+    | ChangeSettings;

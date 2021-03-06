@@ -1,10 +1,10 @@
-import util from "util"
+import util from "util";
 
-type endian = "le"|"be";
+type endian = "le" | "be";
 
 export class HazelBuffer {
     static alloc(size: number, encoding: BufferEncoding = "utf8") {
-        return new HazelBuffer(Buffer.alloc(Math.max(0, size), null, encoding))
+        return new HazelBuffer(Buffer.alloc(Math.max(0, size), null, encoding));
     }
 
     static from(buf: any, encoding: BufferEncoding = "hex") {
@@ -21,7 +21,14 @@ export class HazelBuffer {
     }
 
     [util.inspect.custom]() {
-        return "<HazelBuffer " + this.buffer.toString("hex").match(/.{1,2}/g).join(" ") + ">";
+        return (
+            "<HazelBuffer " +
+            this.buffer
+                .toString("hex")
+                .match(/.{1,2}/g)
+                .join(" ") +
+            ">"
+        );
     }
 
     [Symbol.iterator]() {
@@ -31,10 +38,10 @@ export class HazelBuffer {
             next: () => {
                 return {
                     value: this.buffer[cursor],
-                    done: cursor++ >= this.size - 1
-                }
-            }
-        }
+                    done: cursor++ >= this.size - 1,
+                };
+            },
+        };
     }
 
     get size() {
@@ -124,7 +131,7 @@ export class HazelBuffer {
 
     byte(): number;
     byte(val: number): this;
-    byte(val?: any): any{
+    byte(val?: any): any {
         return this.uint8(val);
     }
 
@@ -183,9 +190,11 @@ export class HazelBuffer {
     }
 
     uint16(endian?: endian): number;
-    uint16(val: number,endian?: endian): this;
-    uint16(val?: any,endian: endian = "le"): any {
-        return endian === "be" || val === "be" ? this.uint16BE(val) : this.uint16LE(val);
+    uint16(val: number, endian?: endian): this;
+    uint16(val?: any, endian: endian = "le"): any {
+        return endian === "be" || val === "be"
+            ? this.uint16BE(val)
+            : this.uint16LE(val);
     }
 
     int16LE(): number;
@@ -223,9 +232,11 @@ export class HazelBuffer {
     }
 
     int16(endian?: endian): number;
-    int16(val: number,endian?: endian): this;
-    int16(val?: any,endian: endian = "le"): any {
-        return endian === "be" || val === "be" ? this.int16BE(val) : this.int16LE(val);
+    int16(val: number, endian?: endian): this;
+    int16(val?: any, endian: endian = "le"): any {
+        return endian === "be" || val === "be"
+            ? this.int16BE(val)
+            : this.int16LE(val);
     }
 
     uint32LE(): number;
@@ -263,9 +274,11 @@ export class HazelBuffer {
     }
 
     uint32(endian?: endian): number;
-    uint32(val: number,endian?: endian): this;
-    uint32(val?: any,endian: endian = "le"): any {
-        return endian === "be" || val === "be" ? this.uint32BE(val) : this.uint32LE(val);
+    uint32(val: number, endian?: endian): this;
+    uint32(val?: any, endian: endian = "le"): any {
+        return endian === "be" || val === "be"
+            ? this.uint32BE(val)
+            : this.uint32LE(val);
     }
 
     int32LE(): number;
@@ -303,9 +316,11 @@ export class HazelBuffer {
     }
 
     int32(endian?: endian): number;
-    int32(val: number,endian?: endian): this;
-    int32(val?: any,endian: endian = "le"): any {
-        return endian === "be" || val === "be" ? this.int32BE(val) : this.int32LE(val);
+    int32(val: number, endian?: endian): this;
+    int32(val?: any, endian: endian = "le"): any {
+        return endian === "be" || val === "be"
+            ? this.int32BE(val)
+            : this.int32LE(val);
     }
 
     floatLE(): number;
@@ -343,9 +358,11 @@ export class HazelBuffer {
     }
 
     float(endian?: endian): number;
-    float(val: number,endian?: endian): this;
-    float(val?: any,endian: endian = "le"): any {
-        return endian === "be" || val === "be" ? this.floatBE(val) : this.floatLE(val);
+    float(val: number, endian?: endian): this;
+    float(val?: any, endian: endian = "le"): any {
+        return endian === "be" || val === "be"
+            ? this.floatBE(val)
+            : this.floatLE(val);
     }
 
     bytes(bytes: number): number[];
@@ -370,7 +387,7 @@ export class HazelBuffer {
         }
     }
 
-    buf(buff: HazelBuffer|Buffer): HazelBuffer;
+    buf(buff: HazelBuffer | Buffer): HazelBuffer;
     buf(buff: number): HazelBuffer;
     buf(buff: any): any {
         if (typeof buff !== "number") {
@@ -379,7 +396,9 @@ export class HazelBuffer {
 
             return this;
         } else {
-            const buf = new HazelBuffer(this.buffer.slice(this.cursor, this.cursor + buff));
+            const buf = new HazelBuffer(
+                this.buffer.slice(this.cursor, this.cursor + buff)
+            );
             this.cursor += buff;
 
             return buf;
@@ -416,7 +435,7 @@ export class HazelBuffer {
             this.expand(Math.ceil(val.toString(2).length / 7));
 
             do {
-                let b = val & 0xFF;
+                let b = val & 0xff;
 
                 if (val >= 0x80) {
                     b |= 0x80;
@@ -431,14 +450,14 @@ export class HazelBuffer {
         } else {
             let out = 0;
 
-            for (let shift = 0;; shift++) {
+            for (let shift = 0; ; shift++) {
                 const byte = this.uint8();
 
                 const read = (byte >> 7) & 1;
                 const val = read ? byte ^ 0x80 : byte;
 
                 if (val) {
-                    out |= val << shift * 7;
+                    out |= val << (shift * 7);
                 } else if (read) {
                     out <<= shift * 7;
                 }
@@ -461,7 +480,7 @@ export class HazelBuffer {
             this.expand(Math.ceil(val.toString(16).length / 7));
 
             do {
-                let b = val & 0xFF;
+                let b = val & 0xff;
 
                 if (val >= 0x80) {
                     b |= 0x80;
@@ -476,14 +495,14 @@ export class HazelBuffer {
         } else {
             let out = 0;
 
-            for (let shift = 0;; shift++) {
+            for (let shift = 0; ; shift++) {
                 const byte = this.uint8();
 
                 const read = (byte >> 7) & 1;
                 const val = read ? byte ^ 0x80 : byte;
 
                 if (val) {
-                    out |= val << shift * 7;
+                    out |= val << (shift * 7);
                 } else if (read) {
                     out <<= shift * 7;
                 }
@@ -501,20 +520,20 @@ export class HazelBuffer {
     ip(val: string): this;
     ip(val?: any): any {
         if (typeof val === "string") {
-            return this.bytes(val.split(".").map(byte => parseInt(byte)));
+            return this.bytes(val.split(".").map((byte) => parseInt(byte)));
         } else {
             return this.bytes(4).join(".");
         }
     }
 
-    message(): [ number, HazelBuffer ];
+    message(): [number, HazelBuffer];
     message(tag?: number): this;
     message(tag?: number) {
         if (typeof tag === "undefined") {
             const length = this.uint16();
             const tag = this.uint8();
 
-            return [ tag, this.buf(length) ];
+            return [tag, this.buf(length)];
         }
 
         this.messageStack.push(this.cursor);
@@ -529,8 +548,7 @@ export class HazelBuffer {
         const lenpos = this.messageStack.pop();
         const curpos = this.cursor;
 
-        return this
-            .goto(lenpos)
+        return this.goto(lenpos)
             .uint16(curpos - lenpos - 3)
             .goto(curpos);
     }

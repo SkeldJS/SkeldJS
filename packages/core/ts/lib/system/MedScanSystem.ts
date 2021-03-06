@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
@@ -10,17 +10,15 @@ export interface MedScanSystemData {
     queue: number[];
 }
 
-export type MedScanSystemEvents = BaseSystemStatusEvents & {
+export type MedScanSystemEvents = BaseSystemStatusEvents & {};
 
-}
-
-export class MedScanSystem extends SystemStatus<MedScanSystemEvents> {
+export class MedScanSystem extends SystemStatus<MedScanSystemData, MedScanSystemEvents> {
     static systemType = SystemType.MedBay as const;
     systemType = SystemType.MedBay as const;
 
     queue: PlayerData[];
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|MedScanSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer | MedScanSystemData) {
         super(ship, data);
     }
 

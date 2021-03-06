@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -11,22 +11,22 @@ export interface SabotageSystemData {
     cooldown: number;
 }
 
-export type SabotageSystemEvents = BaseSystemStatusEvents & {
+export type SabotageSystemEvents = BaseSystemStatusEvents & {};
 
-}
-
-export class SabotageSystem extends SystemStatus<SabotageSystemEvents> {
+export class SabotageSystem extends SystemStatus<SabotageSystemData, SabotageSystemEvents> {
     static systemType = SystemType.Sabotage as const;
     systemType = SystemType.Sabotage as const;
 
     cooldown: number;
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|SabotageSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer | SabotageSystemData) {
         super(ship, data);
     }
 
     get anySabotaged() {
-        return Object.values(this.ship.systems).some(system => system.sabotaged);
+        return Object.values(this.ship.systems).some(
+            (system) => system.sabotaged
+        );
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

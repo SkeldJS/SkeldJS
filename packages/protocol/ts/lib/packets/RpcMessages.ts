@@ -4,12 +4,10 @@ import {
     MessageTag,
     RpcTag,
     SkinID,
-    PlayerGameData
+    PlayerGameData,
 } from "@skeldjs/constant";
 
-import {
-    Vector2
-} from "@skeldjs/util"
+import { Vector2 } from "@skeldjs/util";
 
 import { BaseGameDataMessage } from "./GameData";
 
@@ -136,7 +134,7 @@ export interface SnapToRpc extends BaseRpcMessage {
 
 export interface CloseRpc extends BaseRpcMessage {
     rpcid: RpcTag.Close;
-}   
+}
 
 export interface VotingCompleteRpc extends BaseRpcMessage {
     rpcid: RpcTag.VotingComplete;
@@ -184,34 +182,35 @@ export interface UpdateGameDataRpc extends BaseRpcMessage {
     players: PlayerGameData[];
 }
 
-export type RpcMessage = PlayAnimationRpc |
-    CompleteTaskRpc |
-    SyncSettingsRpc |
-    SetInfectedRpc |
-    ExiledRpc |
-    CheckNameRpc |
-    SetNameRpc |
-    CheckColorRpc |
-    SetColorRpc |
-    SetHatRpc |
-    SetSkinRpc |
-    ReportDeadBodyRpc |
-    MurderPlayerRpc |
-    SendChatRpc |
-    StartMeetingRpc |
-    SetScannerRpc |
-    SendChatNoteRpc |
-    SetPetRpc |
-    SetStartCounterRpc |
-    EnterVentRpc |
-    ExitVentRpc |
-    SnapToRpc |
-    CloseRpc |
-    VotingCompleteRpc |
-    CastVoteRpc |
-    ClearVoteRpc |
-    AddVoteRpc |
-    CloseDoorsOfTypeRpc |
-    RepairSystemRpc |
-    SetTasksRpc |
-    UpdateGameDataRpc;
+export type RpcMessage =
+    | PlayAnimationRpc
+    | CompleteTaskRpc
+    | SyncSettingsRpc
+    | SetInfectedRpc
+    | ExiledRpc
+    | CheckNameRpc
+    | SetNameRpc
+    | CheckColorRpc
+    | SetColorRpc
+    | SetHatRpc
+    | SetSkinRpc
+    | ReportDeadBodyRpc
+    | MurderPlayerRpc
+    | SendChatRpc
+    | StartMeetingRpc
+    | SetScannerRpc
+    | SendChatNoteRpc
+    | SetPetRpc
+    | SetStartCounterRpc
+    | EnterVentRpc
+    | ExitVentRpc
+    | SnapToRpc
+    | CloseRpc
+    | VotingCompleteRpc
+    | CastVoteRpc
+    | ClearVoteRpc
+    | AddVoteRpc
+    | CloseDoorsOfTypeRpc
+    | RepairSystemRpc
+    | SetTasksRpc
+    | UpdateGameDataRpc;

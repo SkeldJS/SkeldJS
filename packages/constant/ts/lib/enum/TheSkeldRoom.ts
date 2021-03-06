@@ -13,5 +13,5 @@ export enum TheSkeldRoom {
     Storage,
     UpperEngine,
     Weapons,
-    NUM_ROOMS
+    NUM_ROOMS,
 }

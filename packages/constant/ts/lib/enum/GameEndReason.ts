@@ -5,5 +5,5 @@ export enum GameEndReason {
     ImpostorByKill,
     ImpostorBySabotage,
     ImpostorDisconnect,
-    HumansDisconnect
+    HumansDisconnect,
 }

@@ -1,10 +1,6 @@
-import assert from "assert"
+import assert from "assert";
 
-import {
-    clampValue,
-    lerpValue,
-    unlerpValue
-} from "./Vector";
+import { clampValue, lerpValue, unlerpValue } from "./Vector";
 
 describe("Vector utility functions", () => {
     describe("clampValue", () => {
@@ -34,7 +30,7 @@ describe("Vector utility functions", () => {
             assert.strictEqual(unlerpValue(60), 1.25);
             assert.strictEqual(unlerpValue(-40), 0);
 
-            assert.strictEqual(unlerpValue(3, 1, 4), (1/3)*2);
+            assert.strictEqual(unlerpValue(3, 1, 4), (1 / 3) * 2);
         });
     });
 });
