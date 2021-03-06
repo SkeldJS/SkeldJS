@@ -51,7 +51,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         super();
 
         this._tick = 0;
-        this.client.on("client.fixedupdate", this._ontick.bind(this));
+        this.client.on("room.fixedupdate", this._ontick.bind(this));
         this.client.on("player.move", this._handleMove.bind(this));
         this.client.on("player.leave", this._handleLeave.bind(this));
     }
