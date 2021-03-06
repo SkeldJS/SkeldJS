@@ -7,5 +7,6 @@
     "build:ci": "yarn install && tsc -p ./",
     "prepublishOnly": "npm run build"
   },
-  "license": "GPL-3.0-only"
+  "license": "GPL-3.0-only",
+  "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7"
 }

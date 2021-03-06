@@ -17,7 +17,7 @@ function getPlayerByName(client: SkeldjsClient, name: string) {
 
     await client.joinGame(process.argv[3]);
 
-    client.on("player.spawn", ({ player }) => {
+    client.on("player.spawn", (ev, { player }) => {
         if (player.isme) {
             client.me.control.checkName("path");
             client.me.control.checkColor(ColorID.Pink);
