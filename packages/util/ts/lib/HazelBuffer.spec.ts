@@ -1,5 +1,4 @@
 import assert from "assert";
-import util from "util";
 
 import { HazelBuffer } from "./HazelBuffer";
 
@@ -41,28 +40,6 @@ describe("HazelBuffer", () => {
             assert.strictEqual(buffer2.size, 10);
             assert.strictEqual(buffer2.at(3), 0x15);
             assert.strictEqual(buffer2.at(6), 0x62);
-        });
-    });
-
-    describe("HazelBuffer#util.inspect.custom", () => {
-        it("Should produce a short inspection of the buffer from a util.inspect call.", () => {
-            const buffer = HazelBuffer.from([
-                0x20,
-                0x7b,
-                0x6d,
-                0x2a,
-                0x79,
-                0xde,
-                0x0c,
-                0xdf,
-                0xdd,
-                0x65,
-            ]);
-
-            assert.strictEqual(
-                util.inspect(buffer),
-                "<HazelBuffer 20 7b 6d 2a 79 de 0c df dd 65>"
-            );
         });
     });
 
