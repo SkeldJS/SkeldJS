@@ -1,5 +1,3 @@
-import util from "util";
-
 type endian = "le" | "be";
 
 export class HazelBuffer {
@@ -18,17 +16,6 @@ export class HazelBuffer {
     constructor(public buffer: Buffer) {
         this.messageStack = [];
         this.cursor = 0;
-    }
-
-    [util.inspect.custom]() {
-        return (
-            "<HazelBuffer " +
-            this.buffer
-                .toString("hex")
-                .match(/.{1,2}/g)
-                .join(" ") +
-            ">"
-        );
     }
 
     [Symbol.iterator]() {
