@@ -100,7 +100,7 @@ export class EventEmitter<Events extends EventData> {
         listeners.clear();
     }
 
-    protected removeAllListeners<EventName extends keyof Events>() {
+    protected removeAllListeners() {
         this.listeners.clear();
     }
 }

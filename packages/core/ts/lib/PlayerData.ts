@@ -96,10 +96,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
 
     async ready() {
         this.isReady = true;
-        console.log("ready!", this.data.name);
         this.emit("player.ready", {});
-
-        console.log(this.isme, !this.ishost);
 
         if (this.isme && !this.ishost) {
             await this.room.broadcast([

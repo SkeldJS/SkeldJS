@@ -103,7 +103,6 @@ export function composePacket(
                             }
                         } else {
                             writer.int32(payload.code);
-                            writer.byte(payload.mapOwnership);
                         }
                         break;
                     case PayloadTag.StartGame:
