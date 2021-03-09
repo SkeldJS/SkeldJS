@@ -38,7 +38,7 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSys
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelBuffer, spawn: boolean) {
-        const timer = reader.float();
+        const timer = this.timer;
         this.timer = reader.float();
 
         if (timer === 10000 && this.timer < 10000) {
