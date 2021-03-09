@@ -79,9 +79,16 @@ export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents
             }
         }
 
+        const before_completed = this.completed.size;
         const num_completed = reader.upacked();
         for (let i = 0; i < num_completed; i++) {
             this._completeConsole(reader.uint8());
+        }
+        if (before_completed === 2 && num_completed === 0) {
+            this.emit("system.sabotage", {});
+        }
+        if (before_completed < 2 && num_completed === 2) {
+            this.emit("system.repair", {});
         }
     }
 
