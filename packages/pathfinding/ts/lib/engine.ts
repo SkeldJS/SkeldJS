@@ -37,16 +37,22 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
             return path;
         }
 
-        const neighbors = current.neighbors.filter(node => !node.blocked);
+        const neighbors = current.neighbors.filter((node) => !node.blocked);
         for (const neighbor of neighbors) {
-            if (neighbor.closed)
-                continue;
+            if (neighbor.closed) continue;
 
-            const g = (current.g + (neighbor.x - current.x === 0 || neighbor.y - current.y === 0 ? 1 : Math.SQRT2)) * neighbor.weight;
+            const g =
+                (current.g +
+                    (neighbor.x - current.x === 0 ||
+                    neighbor.y - current.y === 0
+                        ? 1
+                        : Math.SQRT2)) *
+                neighbor.weight;
 
             if (!neighbor.closed || g < neighbor.g) {
                 neighbor.g = g;
-                neighbor.h ||= 1 * heuristic(neighbor.x - end.x, neighbor.y - end.y);
+                neighbor.h ||=
+                    1 * heuristic(neighbor.x - end.x, neighbor.y - end.y);
                 neighbor.parent = current;
 
                 if (!neighbor.opened) {

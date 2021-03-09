@@ -9,10 +9,10 @@ import {
     SkinID,
     SpawnID,
     PlayerDataFlags,
-    PlayerGameData
+    PlayerGameData,
 } from "@skeldjs/constant";
 
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
@@ -28,20 +28,25 @@ export interface GameDataData {
 
 export type GameDataEvents = NetworkableEvents & {
     "gamedata.addplayer": {
-        playerData: PlayerGameData
+        playerData: PlayerGameData;
     };
     "gamedata.removeplayer": {
-        playerData: PlayerGameData
+        playerData: PlayerGameData;
     };
     "gamedata.settasks": {
-        playerData: PlayerGameData,
-        taskids: number[]
-    }
-}
+        playerData: PlayerGameData;
+        taskids: number[];
+    };
+};
 
-export type PlayerIDResolvable = number|PlayerData|PlayerControl|PlayerGameData|PlayerVoteState;
+export type PlayerIDResolvable =
+    | number
+    | PlayerData
+    | PlayerControl
+    | PlayerGameData
+    | PlayerVoteState;
 
-export class GameData extends Networkable<GameDataEvents> {
+export class GameData extends Networkable<GameDataData, GameDataEvents> {
     static type = SpawnID.GameData as const;
     type = SpawnID.GameData as const;
 
@@ -50,7 +55,12 @@ export class GameData extends Networkable<GameDataEvents> {
 
     players: Map<number, PlayerGameData>;
 
-    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|GameDataData) {
+    constructor(
+        room: Hostable,
+        netid: number,
+        ownerid: number,
+        data?: HazelBuffer | GameDataData
+    ) {
         super(room, netid, ownerid, data);
     }
 
@@ -64,7 +74,7 @@ export class GameData extends Networkable<GameDataEvents> {
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
         if (spawn) {
-            this.players = new Map;
+            this.players = new Map();
 
             const num_players = spawn ? reader.upacked() : reader.uint8();
 
@@ -80,8 +90,8 @@ export class GameData extends Networkable<GameDataEvents> {
         if (spawn) {
             writer.upacked(this.players.size);
 
-            for (const [ playerid, player ] of this.players) {
-                if (((1 << playerid) & this.dirtyBit) || spawn) {
+            for (const [playerid, player] of this.players) {
+                if ((1 << playerid) & this.dirtyBit || spawn) {
                     writer.uint8(player.playerId);
                     writer.string(player.name);
                     writer.upacked(player.color);
@@ -90,8 +100,8 @@ export class GameData extends Networkable<GameDataEvents> {
                     writer.upacked(player.skin);
                     writer.byte(
                         (player.disconnected ? 1 : 0) |
-                        (player.impostor ? 2 : 0) |
-                        (player.dead ? 4 : 0)
+                            (player.impostor ? 2 : 0) |
+                            (player.dead ? 4 : 0)
                     );
 
                     writer.uint8(player.tasks.length);
@@ -110,7 +120,7 @@ export class GameData extends Networkable<GameDataEvents> {
 
     PreSerialize() {
         if (this.dirtyBit && this.room.amhost) {
-            const players = [...this.players.values()].filter(player => {
+            const players = [...this.players.values()].filter((player) => {
                 return (1 << player.playerId) & this.dirtyBit;
             });
 
@@ -119,7 +129,7 @@ export class GameData extends Networkable<GameDataEvents> {
                     tag: MessageTag.RPC,
                     netid: this.netid,
                     rpcid: RpcTag.UpdateGameData,
-                    players: players
+                    players: players,
                 });
             }
         }
@@ -130,7 +140,7 @@ export class GameData extends Networkable<GameDataEvents> {
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
             case RpcTag.SetTasks:
-                this.setTasks
+                this.setTasks;
                 break;
             case RpcTag.UpdateGameData:
                 for (let i = 0; i < message.players.length; i++) {
@@ -146,7 +156,7 @@ export class GameData extends Networkable<GameDataEvents> {
         const player = this.resolvePlayerData(resolvable);
 
         if (player) {
-            this.dirtyBit |= (1 << player.playerId);
+            this.dirtyBit |= 1 << player.playerId;
         }
     }
 
@@ -201,12 +211,12 @@ export class GameData extends Networkable<GameDataEvents> {
         if (player) {
             player.tasks = taskIds.map((id, i) => ({
                 completed: false,
-                taskIdx: i
+                taskIdx: i,
             }));
 
             this.emit("gamedata.settasks", {
                 playerData: player,
-                taskids: taskIds
+                taskids: taskIds,
             });
         }
     }
@@ -221,7 +231,7 @@ export class GameData extends Networkable<GameDataEvents> {
                 rpcid: RpcTag.SetTasks,
                 netid: this.netid,
                 playerid: player.playerId,
-                taskids: taskIds
+                taskids: taskIds,
             });
             this.update(player);
         }
@@ -250,11 +260,11 @@ export class GameData extends Networkable<GameDataEvents> {
             disconnected: false,
             impostor: false,
             dead: false,
-            tasks: []
+            tasks: [],
         });
 
         this.emit("gamedata.addplayer", {
-            playerData: this.players.get(playerId)
+            playerData: this.players.get(playerId),
         });
 
         this.update(playerId);
@@ -265,11 +275,11 @@ export class GameData extends Networkable<GameDataEvents> {
 
         if (player) {
             if (this.dirtyBit & (1 << player.playerId)) {
-                this.dirtyBit ^= (1 << player.playerId);
+                this.dirtyBit ^= 1 << player.playerId;
             }
 
             this.emit("gamedata.removeplayer", {
-                playerData: this.players.get(player.playerId)
+                playerData: this.players.get(player.playerId),
             });
 
             this.players.delete(player.playerId);

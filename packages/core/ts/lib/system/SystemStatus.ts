@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 import { MessageTag, RpcTag, SystemType } from "@skeldjs/constant";
 
 import { EventEmitter } from "@skeldjs/events";
@@ -8,7 +8,10 @@ import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";
 
-export class SystemStatus<T extends Record<string, any> = {}> extends EventEmitter<T & SystemStatusEvents> {
+export class SystemStatus<
+    DataT = any,
+    T extends Record<string, any> = {}
+> extends EventEmitter<T & SystemStatusEvents> {
     static systemType: SystemType;
     systemType: SystemType;
 
@@ -18,7 +21,7 @@ export class SystemStatus<T extends Record<string, any> = {}> extends EventEmitt
 
     set dirty(val: boolean) {
         if (val) {
-            this.ship.dirtyBit |= (1 << this.systemType);
+            this.ship.dirtyBit |= 1 << this.systemType;
         } else {
             this.ship.dirtyBit &= ~(1 << this.systemType);
         }
@@ -28,16 +31,20 @@ export class SystemStatus<T extends Record<string, any> = {}> extends EventEmitt
         return false;
     }
 
-    constructor(protected ship: BaseShipStatus, data?: HazelBuffer|any) {
+    constructor(protected ship: BaseShipStatus, data?: HazelBuffer | DataT) {
         super();
 
         if (data) {
-            if ((data as HazelBuffer).buffer) {
-                this.Deserialize(data, true);
+            if (data instanceof HazelBuffer) {
+                this.Deserialize(data as HazelBuffer, true);
             } else {
-                Object.assign(this, data);
+                this.patch(data);
             }
         }
+    }
+
+    protected patch(data: DataT) {
+        Object.assign(this, data);
     }
 
     async emit(...args: any[]) {
@@ -46,7 +53,7 @@ export class SystemStatus<T extends Record<string, any> = {}> extends EventEmitt
 
         this.ship.emit(event, {
             ...data,
-            system: this
+            system: this,
         });
 
         return super.emit(event, data);
@@ -68,14 +75,20 @@ export class SystemStatus<T extends Record<string, any> = {}> extends EventEmitt
             this.HandleSabotage(player);
             this.emit("system.sabotage", { player });
         } else {
-            this.ship.room.broadcast([{
-                tag: MessageTag.RPC,
-                netid: this.ship.netid,
-                rpcid: RpcTag.RepairSystem,
-                systemid: SystemType.Sabotage,
-                repairerid: player.control.netid,
-                value: this.systemType
-            }], true, this.ship.room.host);
+            this.ship.room.broadcast(
+                [
+                    {
+                        tag: MessageTag.RPC,
+                        netid: this.ship.netid,
+                        rpcid: RpcTag.RepairSystem,
+                        systemid: SystemType.Sabotage,
+                        repairerid: player.control.netid,
+                        value: this.systemType,
+                    },
+                ],
+                true,
+                this.ship.room.host
+            );
         }
     }
 
@@ -83,17 +96,23 @@ export class SystemStatus<T extends Record<string, any> = {}> extends EventEmitt
         if (this.ship.room.amhost) {
             this.HandleRepair(player, amount);
         } else {
-            this.ship.room.broadcast([{
-                tag: MessageTag.RPC,
-                netid: this.ship.netid,
-                rpcid: RpcTag.RepairSystem,
-                systemid: this.systemType,
-                repairerid: player.control.netid,
-                value: amount
-            }], true, this.ship.room.host);
+            this.ship.room.broadcast(
+                [
+                    {
+                        tag: MessageTag.RPC,
+                        netid: this.ship.netid,
+                        rpcid: RpcTag.RepairSystem,
+                        systemid: this.systemType,
+                        repairerid: player.control.netid,
+                        value: amount,
+                    },
+                ],
+                true,
+                this.ship.room.host
+            );
         }
     }
 
     /* eslint-disable-next-line */
-    fix() {};
+    fix() {}
 }

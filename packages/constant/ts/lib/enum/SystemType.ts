@@ -28,5 +28,5 @@ export enum SystemType {
     Decontamination2 = 26,
     Outside = 27,
     Specimens = 28,
-    BoilerRoom = 29
+    BoilerRoom = 29,
 }

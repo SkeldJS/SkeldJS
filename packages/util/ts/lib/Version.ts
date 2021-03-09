@@ -6,18 +6,22 @@ export interface VersionInfo {
 }
 
 export function EncodeVersionInfo(info: VersionInfo) {
-    return (info.year * 25000) +
-        (info.month * 1800) +
-        (info.day * 50) +
-        info.revision;
+    return (
+        info.year * 25000 + info.month * 1800 + info.day * 50 + info.revision
+    );
 }
 
-export function EncodeVersion(year: number, month: number, day: number, revision: number) {
+export function EncodeVersion(
+    year: number,
+    month: number,
+    day: number,
+    revision: number
+) {
     return EncodeVersionInfo({ year, month, day, revision });
 }
 
 export function DecodeVersion(version: number) {
-    const info: Partial<VersionInfo> = {}
+    const info: Partial<VersionInfo> = {};
 
     info.year = Math.floor(version / 25000);
     version %= 25000;
@@ -29,14 +33,27 @@ export function DecodeVersion(version: number) {
     return info as VersionInfo;
 }
 
-export function FormatVersionInfo(version: VersionInfo|number) {
+export function FormatVersionInfo(version: VersionInfo | number) {
     if (typeof version === "number") {
         return FormatVersionInfo(DecodeVersion(version));
     }
 
-    return version.year + "." + version.month + "." + version.day + "." + version.revision;
+    return (
+        version.year +
+        "." +
+        version.month +
+        "." +
+        version.day +
+        "." +
+        version.revision
+    );
 }
 
-export function FormatVersion(year: number, month: number, day: number, revision: number) {
+export function FormatVersion(
+    year: number,
+    month: number,
+    day: number,
+    revision: number
+) {
     return year + "." + month + "." + day + "." + revision;
 }

@@ -14,21 +14,22 @@ import {
 import { Heritable } from "./Heritable";
 import { Hostable } from "./Hostable";
 
-export type PlayerDataEvents = PlayerControlEvents & PlayerPhysicsEvents & CustomNetworkTransformEvents &
-{
-    "player.ready": {};
-    "player.join": {};
-    "player.leave": {};
-    "player.sethost": {};
-    "player.scenechange": {};
-    "player.spawn": {};
-    "component.spawn": {
-        component: PlayerControl|PlayerPhysics|CustomNetworkTransform
+export type PlayerDataEvents = PlayerControlEvents &
+    PlayerPhysicsEvents &
+    CustomNetworkTransformEvents & {
+        "player.ready": {};
+        "player.join": {};
+        "player.leave": {};
+        "player.sethost": {};
+        "player.scenechange": {};
+        "player.spawn": {};
+        "player.component.spawn": {
+            component: PlayerControl | PlayerPhysics | CustomNetworkTransform;
+        };
+        "player.component.despawn": {
+            component: PlayerControl | PlayerPhysics | CustomNetworkTransform;
+        };
     };
-    "component.despawn": {
-        component: PlayerControl|PlayerPhysics|CustomNetworkTransform
-    };
-}
 
 export class PlayerData extends Heritable<PlayerDataEvents> {
     isReady: boolean;
@@ -55,7 +56,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
 
         this.room.emit(event, {
             ...data,
-            player: this
+            player: this,
         });
 
         return EventEmitter.prototype.emit.call(this, event, data);
@@ -95,13 +96,18 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
 
     async ready() {
         this.isReady = true;
+        console.log("ready!", this.data.name);
         this.emit("player.ready", {});
 
+        console.log(this.isme, !this.ishost);
+
         if (this.isme && !this.ishost) {
-            await this.room.broadcast([{
-                tag: MessageTag.Ready,
-                clientid: this.id
-            }]);
+            await this.room.broadcast([
+                {
+                    tag: MessageTag.Ready,
+                    clientid: this.id,
+                },
+            ]);
         }
     }
 }

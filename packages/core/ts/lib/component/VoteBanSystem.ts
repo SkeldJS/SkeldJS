@@ -1,11 +1,6 @@
 import { HazelBuffer } from "@skeldjs/util";
 
-import {
-    MessageTag,
-    PayloadTag,
-    RpcTag,
-    SpawnID
-} from "@skeldjs/constant";
+import { MessageTag, PayloadTag, RpcTag, SpawnID } from "@skeldjs/constant";
 
 import { RpcMessage } from "@skeldjs/protocol";
 
@@ -17,11 +12,9 @@ export interface VoteBanSystemData {
     clients: Map<number, [number, number, number]>;
 }
 
-export type VoteBanSystemEvents = NetworkableEvents & {
+export type VoteBanSystemEvents = NetworkableEvents & {};
 
-}
-
-export class VoteBanSystem extends Networkable<VoteBanSystemEvents> {
+export class VoteBanSystem extends Networkable<VoteBanSystemData, VoteBanSystemEvents> {
     static type = SpawnID.GameData;
     type = SpawnID.GameData;
 
@@ -30,10 +23,15 @@ export class VoteBanSystem extends Networkable<VoteBanSystemEvents> {
 
     voted: Map<number, [number, number, number]>;
 
-    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|VoteBanSystemData) {
+    constructor(
+        room: Hostable,
+        netid: number,
+        ownerid: number,
+        data?: HazelBuffer | VoteBanSystemData
+    ) {
         super(room, netid, ownerid, data);
 
-        this.voted = new Map;
+        this.voted = new Map();
     }
 
     get owner() {
@@ -62,7 +60,7 @@ export class VoteBanSystem extends Networkable<VoteBanSystemEvents> {
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
         writer.upacked(this.voted.size);
 
-        for (const [ clientid, voters ] of this.voted) {
+        for (const [clientid, voters] of this.voted) {
             writer.uint32(clientid);
 
             for (let i = 0; i < 3; i++) {
@@ -90,14 +88,16 @@ export class VoteBanSystem extends Networkable<VoteBanSystemEvents> {
                 this.dirtyBit = 1;
             }
 
-            if (this.room.amhost && voted.every(v => typeof v === "number")) {
-                this.room.broadcast([], true, null, [{
-                    tag: PayloadTag.KickPlayer,
-                    code: this.room.code,
-                    clientid: targetid,
-                    banned: false,
-                    reason: 0
-                }]);
+            if (this.room.amhost && voted.every((v) => typeof v === "number")) {
+                this.room.broadcast([], true, null, [
+                    {
+                        tag: PayloadTag.KickPlayer,
+                        code: this.room.code,
+                        clientid: targetid,
+                        banned: false,
+                        reason: 0,
+                    },
+                ]);
             }
         } else {
             this.voted.set(targetid, [voterid, null, null]);
@@ -116,7 +116,7 @@ export class VoteBanSystem extends Networkable<VoteBanSystemEvents> {
             rpcid: RpcTag.AddVote,
             netid: this.netid,
             votingid: voterid,
-            targetid: targetid
+            targetid: targetid,
         });
     }
 }

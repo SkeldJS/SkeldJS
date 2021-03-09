@@ -44,6 +44,6 @@ export function readVector2(reader: HazelBuffer): Vector2 {
 
     return {
         x: lerpValue(x / 65535),
-        y: lerpValue(y / 65535)
-    }
+        y: lerpValue(y / 65535),
+    };
 }

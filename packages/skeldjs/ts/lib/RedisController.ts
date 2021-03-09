@@ -1,7 +1,6 @@
 import { Tedis } from "tedis";
 
 import { SkeldjsServer } from "@skeldjs/server";
-import { isEmpty } from "@skeldjs/util";
 
 interface RoomInfo {
     code: number;
@@ -15,16 +14,21 @@ interface RoomInfo {
 export class RedisController {
     client: Tedis;
 
-    constructor(private server: SkeldjsServer, port: number, host: string, password: string = "") {
+    constructor(
+        private server: SkeldjsServer,
+        port: number,
+        host: string,
+        password: string = ""
+    ) {
         this.client = new Tedis({
             port,
             host,
-            password
+            password,
         });
     }
 
     async roomExists(code: number) {
-        return await this.client.exists(code.toString()) === 1;
+        return (await this.client.exists(code.toString())) === 1;
     }
 
     async createRoom(code: number, max_players: number) {
@@ -34,33 +38,44 @@ export class RedisController {
             name: "",
             players: 0,
             port: this.server.config.port,
-            host: null
+            host: null,
         };
 
-        return await this.client.hmset(room.code.toString(), room as any) === "OK";
+        return (
+            (await this.client.hmset(room.code.toString(), room as any)) ===
+            "OK"
+        );
     }
 
     async setRoomName(code: number, name: string) {
-        return await this.client.hset(code.toString(), "name", name) === 1;
+        return (await this.client.hset(code.toString(), "name", name)) === 1;
     }
 
     async setRoomPlayers(code: number, players: number) {
-        return await this.client.hset(code.toString(), "players", players) === 1;
+        return (
+            (await this.client.hset(code.toString(), "players", players)) === 1
+        );
     }
 
     async setRoomMaxPlayers(code: number, max_players: number) {
-        return await this.client.hset(code.toString(), "max_players", max_players) === 1;
+        return (
+            (await this.client.hset(
+                code.toString(),
+                "max_players",
+                max_players
+            )) === 1
+        );
     }
 
     async getRoom(code: number) {
         const room = await this.client.hgetall(code.toString());
 
-        if (isEmpty(room)) return null;
+        if (Object.keys(room).length === 0) return null;
 
-        return room as unknown as RoomInfo;
+        return (room as unknown) as RoomInfo;
     }
 
     async destroyRoom(code: number) {
-        return await this.client.del(code.toString()) > 0;
+        return (await this.client.del(code.toString())) > 0;
     }
 }

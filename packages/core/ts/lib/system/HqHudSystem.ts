@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -19,19 +19,19 @@ export interface HqHudSystemData {
 
 export type HqHudSystemEvents = BaseSystemStatusEvents & {
     "hqhud.consoles.reset": {};
-    "hqhud.consoles.open": { player: PlayerData; consoleId: number; };
-    "hqhud.consoles.close": { player: PlayerData; consoleId: number; };
-    "hqhud.consoles.complete": { player?: PlayerData; consoleId: number; };
-}
+    "hqhud.consoles.open": { player: PlayerData; consoleId: number };
+    "hqhud.consoles.close": { player: PlayerData; consoleId: number };
+    "hqhud.consoles.complete": { player?: PlayerData; consoleId: number };
+};
 
 export enum HqHudSystemRepairTag {
     CompleteConsole = 0x10,
     CloseConsole = 0x20,
     OpenConsole = 0x40,
-    Sabotage = 0x80
+    Sabotage = 0x80,
 }
 
-export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
+export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents> {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
@@ -44,12 +44,14 @@ export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
         return this.completed.size < 2;
     }
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|HqHudSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer | HqHudSystemData) {
         super(ship, data);
     }
 
     private _getIdx(consoleId: number, playerId: number) {
-        return this.active.findIndex(pair => pair.consoleId === consoleId && pair.playerId === playerId);
+        return this.active.findIndex(
+            (pair) => pair.consoleId === consoleId && pair.playerId === playerId
+        );
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -64,7 +66,7 @@ export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
 
             const player = this.ship.room.getPlayerByPlayerId(playerId);
             if (player) {
-                this._openConsole(consoleId, player)
+                this._openConsole(consoleId, player);
             }
         }
 
@@ -77,9 +79,16 @@ export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
             }
         }
 
+        const before_completed = this.completed.size;
         const num_completed = reader.upacked();
         for (let i = 0; i < num_completed; i++) {
             this._completeConsole(reader.uint8());
+        }
+        if (before_completed === 2 && num_completed === 0) {
+            this.emit("system.sabotage", {});
+        }
+        if (before_completed < 2 && num_completed === 2) {
+            this.emit("system.repair", {});
         }
     }
 
@@ -146,20 +155,32 @@ export class HqHudSystem extends SystemStatus<HqHudSystemEvents> {
     }
 
     openConsole(consoleId: number) {
-        this.repair(this.ship.room.me, (consoleId & 0xf) | HqHudSystemRepairTag.OpenConsole);
+        this.repair(
+            this.ship.room.me,
+            (consoleId & 0xf) | HqHudSystemRepairTag.OpenConsole
+        );
     }
 
     closeConsole(consoleId: number) {
-        this.repair(this.ship.room.me, (consoleId & 0xf) | HqHudSystemRepairTag.CloseConsole);
+        this.repair(
+            this.ship.room.me,
+            (consoleId & 0xf) | HqHudSystemRepairTag.CloseConsole
+        );
     }
 
     completeConsole(consoleId: number) {
-        this.repair(this.ship.room.me, (consoleId & 0xf) | HqHudSystemRepairTag.CompleteConsole);
+        this.repair(
+            this.ship.room.me,
+            (consoleId & 0xf) | HqHudSystemRepairTag.CompleteConsole
+        );
     }
 
     fix() {
         this.repair(this.ship.room.me, HqHudSystemRepairTag.CompleteConsole);
-        this.repair(this.ship.room.me, 1 & HqHudSystemRepairTag.CompleteConsole);
+        this.repair(
+            this.ship.room.me,
+            1 & HqHudSystemRepairTag.CompleteConsole
+        );
     }
 
     HandleRepair(player: PlayerData, amount: number) {

@@ -1,3 +1,3 @@
-export * from "./lib"
+export * from "./lib";
 
-export * from "@skeldjs/core"
+export * from "@skeldjs/core";

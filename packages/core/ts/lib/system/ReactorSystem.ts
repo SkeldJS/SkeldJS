@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -12,18 +12,16 @@ export interface ReactorSystemData {
     completed: Set<number>;
 }
 
-export type ReactorSystemEvents = BaseSystemStatusEvents & {
+export type ReactorSystemEvents = BaseSystemStatusEvents & {};
 
-}
-
-export class ReactorSystem extends SystemStatus<ReactorSystemEvents> {
+export class ReactorSystem extends SystemStatus<ReactorSystemData, ReactorSystemEvents> {
     static systemType = SystemType.Reactor as const;
     systemType = SystemType.Reactor as const;
 
     timer: number;
     completed: Set<number>;
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|ReactorSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer | ReactorSystemData) {
         super(ship, data);
     }
 
@@ -70,8 +68,7 @@ export class ReactorSystem extends SystemStatus<ReactorSystemEvents> {
 
     private _lastUpdate = 0;
     Detoriorate(delta: number) {
-        if (!this.sabotaged)
-            return;
+        if (!this.sabotaged) return;
 
         this.timer -= delta;
         this._lastUpdate += delta;

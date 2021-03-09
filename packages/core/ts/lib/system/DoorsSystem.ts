@@ -1,37 +1,31 @@
-import { HazelBuffer } from "@skeldjs/util"
-
-import {
-    SystemType,
-    MapID
-} from "@skeldjs/constant";
-
-import {
-    MapDoors
-} from "@skeldjs/data"
+import { HazelBuffer } from "@skeldjs/util";
+import { SystemType, MapID } from "@skeldjs/constant";
+import { MapDoors } from "@skeldjs/data";
+import { PropagatedEvents } from "@skeldjs/events";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { Door, DoorEvents } from "../misc/Door";
-import { PropagatedEvents } from "../util/PropagatedEvents";
 
 export interface DoorsSystemData {
     cooldowns: Map<number, number>;
     doors: boolean[];
 }
 
-export type DoorsSystemEvents = PropagatedEvents<DoorEvents, { system: DoorsSystem }> & {
+export type DoorsSystemEvents = PropagatedEvents<
+    DoorEvents,
+    { system: DoorsSystem }
+> & {};
 
-}
-
-export class DoorsSystem extends SystemStatus<DoorsSystemEvents> {
+export class DoorsSystem extends SystemStatus<DoorsSystemData, DoorsSystemEvents> {
     static systemType = SystemType.Doors as const;
     systemType = SystemType.Doors as const;
 
     cooldowns: Map<number, number>;
     doors: Door[];
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|DoorsSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer | DoorsSystemData) {
         super(ship, data);
     }
 
@@ -55,7 +49,7 @@ export class DoorsSystem extends SystemStatus<DoorsSystemEvents> {
     Serialize(writer: HazelBuffer, spawn: boolean) {
         writer.upacked(this.cooldowns.size);
 
-        for (const [ doorId, cooldown ] of this.cooldowns) {
+        for (const [doorId, cooldown] of this.cooldowns) {
             writer.uint8(doorId);
             writer.float(cooldown);
         }

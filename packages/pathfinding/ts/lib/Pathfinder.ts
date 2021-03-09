@@ -8,10 +8,10 @@ import {
     TheSkeldVent,
     MiraHQVent,
     PolusVent,
-    MapVentData
+    MapVentData,
 } from "@skeldjs/core";
 
-import { EventEmitter } from "@skeldjs/events";
+import { EventContext, EventEmitter } from "@skeldjs/events";
 
 import fs from "fs";
 import path from "path";
@@ -33,7 +33,7 @@ type SkeldjsPathfinderEvents = {
     "engine.recalculate": {
         path: Vector2[];
     };
-}
+};
 
 export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     private _tick: number;
@@ -44,25 +44,26 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     path: Node[];
     following: PlayerData;
 
-    constructor(private client: SkeldjsClient, public config: PathfinderConfig = {}) {
+    constructor(
+        private client: SkeldjsClient,
+        public config: PathfinderConfig = {}
+    ) {
         super();
 
         this._tick = 0;
-        this.client.on("client.fixedupdate", this._ontick.bind(this));
+        this.client.on("room.fixedupdate", this._ontick.bind(this));
         this.client.on("player.move", this._handleMove.bind(this));
         this.client.on("player.leave", this._handleLeave.bind(this));
     }
 
     private get snode() {
-        if (!this.position)
-            return null;
+        if (!this.position) return null;
 
         return this.grid.nearest(this.position.x, this.position.y);
     }
 
     private get dnode() {
-        if (!this.destination)
-            return null;
+        if (!this.destination) return null;
 
         return this.grid.nearest(this.destination.x, this.destination.y);
     }
@@ -94,37 +95,45 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     private _ontick() {
         this._tick++;
 
-        if (this._tick % SkeldjsPathfinder.MovementInterval !== 0)
-            return;
+        if (this._tick % SkeldjsPathfinder.MovementInterval !== 0) return;
 
-        if (typeof this.map === "undefined")
-            return;
+        if (typeof this.map === "undefined") return;
 
         if (!this.grid) {
-            const buff = fs.readFileSync(path.resolve(__dirname, "../../data/build", ""+this.map));
+            const buff = fs.readFileSync(
+                path.resolve(__dirname, "../../data/build", "" + this.map)
+            );
             this.grid = Grid.fromBuffer(buff);
         }
 
-        if (!this.snode || !this.dnode)
-            return;
+        if (!this.snode || !this.dnode) return;
 
-        if (this._moved || !this.path || this._tick % (this.config.recalculateEvery || 1) === 0) {
+        if (
+            this._moved ||
+            !this.path ||
+            this._tick % (this.config.recalculateEvery || 1) === 0
+        ) {
             this.recalculate();
             this._moved = false;
             this.emit("engine.recalculate", {
-                path: this.path.map(node => this.grid.actual(node.x, node.y))
+                path: this.path.map((node) => this.grid.actual(node.x, node.y)),
             });
         }
 
-        if (this._paused)
-            return;
+        if (this._paused) return;
 
         const next = this.path.shift();
 
         if (next) {
             const pos = this.grid.actual(next.x, next.y);
-            const dist = Math.hypot(this.position.x - pos.x, this.position.y - pos.y);
-            this.transform.move(pos, { x: dist * this.client.settings.playerSpeed, y: dist * this.client.settings.playerSpeed });
+            const dist = Math.hypot(
+                this.position.x - pos.x,
+                this.position.y - pos.y
+            );
+            this.transform.move(pos, {
+                x: dist * this.client.settings.playerSpeed,
+                y: dist * this.client.settings.playerSpeed,
+            });
 
             if (this.path.length === 0) {
                 this._stop(true);
@@ -148,7 +157,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     start() {
         this._paused = false;
         this.emit("pathfinding.start", {
-            destination: this.destination
+            destination: this.destination,
         });
     }
 
@@ -164,15 +173,16 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     }
 
     private _go(dest: Vector2) {
-        this.destination =  { // Recreate object to not recalculate new player position after moving.
+        this.destination = {
+            // Recreate object to not recalculate new player position after moving.
             x: dest.x,
-            y: dest.y
+            y: dest.y,
         };
         this._moved = true;
         this.start();
     }
 
-    go(pos: PlayerDataResolvable|Vector2|Node) {
+    go(pos: PlayerDataResolvable | Vector2 | Node) {
         const vec = pos as Vector2;
 
         if (vec.x) {
@@ -181,10 +191,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         }
 
         if (pos instanceof Node) {
-            return this.grid.actual(pos.x, pos.y)
+            return this.grid.actual(pos.x, pos.y);
         }
 
-        const resolved = this.client?.room?.resolvePlayer(pos as PlayerDataResolvable);
+        const resolved = this.client?.room?.resolvePlayer(
+            pos as PlayerDataResolvable
+        );
 
         if (resolved && resolved.spawned) {
             const position = resolved.transform.position;
@@ -193,26 +205,31 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         }
     }
 
-    vent(ventid: TheSkeldVent|MiraHQVent|PolusVent) {
-        if (!this.map)
-            return;
+    vent(ventid: TheSkeldVent | MiraHQVent | PolusVent) {
+        if (!this.map) return;
 
         const coords = MapVentData[this.map][ventid];
 
         this.go(coords.position);
     }
 
-    private _handleMove({ component, position }: { component: CustomNetworkTransform, position: Vector2 }) {
+    private _handleMove(ev: EventContext, {
+        component,
+        position,
+    }: {
+        component: CustomNetworkTransform;
+        position: Vector2;
+    }) {
         if (component.owner === this.following) {
             this.destination = {
                 x: position.x,
-                y: position.y
+                y: position.y,
             };
             this._moved = true;
         }
     }
 
-    private _handleLeave({ player }: { player: PlayerData }) {
+    private _handleLeave(ev: EventContext, { player }: { player: PlayerData }) {
         if (player === this.following) {
             this._stop(false);
             this.following = null;

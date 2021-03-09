@@ -1,2 +1,2 @@
-export * from "./PlayerGameData"
-export * from "./TaskState"
+export * from "./PlayerGameData";
+export * from "./TaskState";

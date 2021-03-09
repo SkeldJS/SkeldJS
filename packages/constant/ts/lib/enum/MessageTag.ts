@@ -5,5 +5,5 @@ export enum MessageTag {
     Despawn = 5,
     SceneChange = 6,
     Ready = 7,
-    ChangeSettings = 8
+    ChangeSettings = 8,
 }

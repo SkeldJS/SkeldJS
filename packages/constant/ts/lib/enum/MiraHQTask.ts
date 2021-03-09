@@ -25,5 +25,5 @@ export enum MiraHQTask {
     OfficeProcessData,
     LaunchpadRunDiagnostics,
     ReactorUnlockManifolds,
-    NUM_TASKS
+    NUM_TASKS,
 }

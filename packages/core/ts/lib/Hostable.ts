@@ -2,14 +2,10 @@ import {
     GameDataMessage,
     SpawnMessage,
     GameOptions,
-    PayloadMessage
+    PayloadMessage,
 } from "@skeldjs/protocol";
 
-import {
-    Code2Int,
-    HazelBuffer,
-    sleep
-} from "@skeldjs/util";
+import { Code2Int, HazelBuffer, sleep } from "@skeldjs/util";
 
 import {
     MessageTag,
@@ -17,10 +13,10 @@ import {
     DisconnectReason,
     PayloadTag,
     AlterGameTag,
-    GameEndReason
+    GameEndReason,
 } from "@skeldjs/constant";
 
-import { EventEmitter } from "@skeldjs/events";
+import { EventEmitter, PropagatedEvents } from "@skeldjs/events";
 
 import {
     Airship,
@@ -41,7 +37,7 @@ import {
     ShipStatus,
     ShipStatusEvents,
     VoteBanSystem,
-    VoteBanSystemEvents
+    VoteBanSystemEvents,
 } from "./component";
 
 import { Heritable } from "./Heritable";
@@ -49,12 +45,16 @@ import { Networkable } from "./Networkable";
 import { PlayerData, PlayerDataEvents } from "./PlayerData";
 
 import { SpawnPrefabs } from "./prefabs";
-import { PropagatedEvents } from "./util/PropagatedEvents";
 
-export type RoomID = string|number;
+export type RoomID = string | number;
 
-export type PlayerDataResolvable = number|PlayerData|PlayerControl|PlayerPhysics|CustomNetworkTransform;
-export type PrivacyType = "public"|"private";
+export type PlayerDataResolvable =
+    | number
+    | PlayerData
+    | PlayerControl
+    | PlayerPhysics
+    | CustomNetworkTransform;
+export type PrivacyType = "public" | "private";
 
 export interface SpawnObject {
     type: number;
@@ -63,28 +63,45 @@ export interface SpawnObject {
     components: Networkable[];
 }
 
-export type AnyNetworkable = Airship |
-    AprilShipStatus |
-    CustomNetworkTransform |
-    GameData |
-    Headquarters |
-    LobbyBehaviour |
-    MeetingHud |
-    PlanetMap |
-    PlayerControl |
-    PlayerPhysics |
-    ShipStatus |
-    VoteBanSystem;
+export type AnyNetworkable =
+    | Airship
+    | AprilShipStatus
+    | CustomNetworkTransform
+    | GameData
+    | Headquarters
+    | LobbyBehaviour
+    | MeetingHud
+    | PlanetMap
+    | PlayerControl
+    | PlayerPhysics
+    | ShipStatus
+    | VoteBanSystem;
 
-export type HostableEvents = PropagatedEvents<PlayerDataEvents, { player: PlayerData }> & ShipStatusEvents & GameDataEvents & LobbyBehaviourEvents & MeetingHudEvents & VoteBanSystemEvents & {
-    "game.start": {};
-    "game.end": {};
-    "room.fixedupdate": {
-        stream: GameDataMessage[];
-    }
-}
+export type HostableEvents = PropagatedEvents<
+    PlayerDataEvents,
+    { player: PlayerData }
+> &
+    ShipStatusEvents &
+    GameDataEvents &
+    LobbyBehaviourEvents &
+    MeetingHudEvents &
+    VoteBanSystemEvents & {
+        "game.start": {};
+        "game.end": {};
+        "room.fixedupdate": {
+            stream: GameDataMessage[];
+        };
+        "component.spawn": {
+            component: AnyNetworkable;
+        };
+        "component.despawn": {
+            component: AnyNetworkable;
+        };
+    };
 
-export class Hostable<T extends Record<string, any> = any> extends Heritable<HostableEvents & T> {
+export class Hostable<T extends Record<string, any> = any> extends Heritable<
+    HostableEvents & T
+> {
     objects: Map<number, Heritable>;
     players: Map<number, PlayerData>;
     netobjects: Map<number, Networkable>;
@@ -109,9 +126,9 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
 
         this.hostid = null;
 
-        this.objects = new Map;
-        this.players = new Map;
-        this.netobjects = new Map;
+        this.objects = new Map();
+        this.players = new Map();
+        this.netobjects = new Map();
         this.stream = [];
 
         this.objects.set(-2, this);
@@ -152,7 +169,9 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
     }
 
     get shipstatus() {
-        return this.getComponent<ShipStatus|Headquarters|PlanetMap|AprilShipStatus|Airship>([ ShipStatus, Headquarters, PlanetMap, AprilShipStatus, Airship ]);
+        return this.getComponent<
+            ShipStatus | Headquarters | PlanetMap | AprilShipStatus | Airship
+        >([ShipStatus, Headquarters, PlanetMap, AprilShipStatus, Airship]);
     }
 
     get meetinghud() {
@@ -171,14 +190,26 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         return this.getComponent(VoteBanSystem);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    async broadcast(messages: GameDataMessage[], reliable: boolean = true, recipient: PlayerData = null, payloads: PayloadMessage[] = []) {}
+    async broadcast(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        messages: GameDataMessage[],
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        reliable: boolean = true,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        recipient: PlayerData = null,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        payloads: PayloadMessage[] = []
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+    ) {}
 
     async FixedUpdate() {
         const delta = Date.now() - this.last_fixed_update;
         this.last_fixed_update = Date.now();
-        for (const [ , component ] of this.netobjects) {
-            if (component && (component.ownerid === this.me?.id || this.amhost)) {
+        for (const [, component] of this.netobjects) {
+            if (
+                component &&
+                (component.ownerid === this.me?.id || this.amhost)
+            ) {
                 component.FixedUpdate(delta / 1000);
                 if (component.dirtyBit) {
                     component.PreSerialize();
@@ -187,7 +218,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
                         this.stream.push({
                             tag: MessageTag.Data,
                             netid: component.netid,
-                            data: writer
+                            data: writer,
                         });
                     }
                     component.dirtyBit = 0;
@@ -196,7 +227,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         }
 
         await this.emit("room.fixedupdate", {
-            stream: this.stream
+            stream: this.stream,
         });
 
         if (this.stream.length) {
@@ -247,7 +278,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         return null;
     }
 
-    setCode(code: string|number) {
+    setCode(code: string | number) {
         if (typeof code === "string") {
             return this.setCode(Code2Int(code));
         }
@@ -267,17 +298,22 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         this._setAlterGameTag(tag, value);
 
         if (this.amhost) {
-            await this.broadcast([], true, null, [{
-                tag: PayloadTag.AlterGame,
-                code: this.code,
-                alter_tag: AlterGameTag.ChangePrivacy,
-                value
-            }]);
+            await this.broadcast([], true, null, [
+                {
+                    tag: PayloadTag.AlterGame,
+                    code: this.code,
+                    alter_tag: AlterGameTag.ChangePrivacy,
+                    value,
+                },
+            ]);
         }
     }
 
     async setPublic(is_public = true) {
-        await this.setAlterGameTag(AlterGameTag.ChangePrivacy, is_public ? 1 : 0);
+        await this.setAlterGameTag(
+            AlterGameTag.ChangePrivacy,
+            is_public ? 1 : 0
+        );
     }
 
     async setVisibility(visibility: PrivacyType) {
@@ -287,7 +323,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
     setSettings(settings: Partial<GameOptions>) {
         this.settings = {
             ...this.settings,
-            ...settings
+            ...settings,
         } as GameOptions;
 
         if (this.amhost) {
@@ -323,8 +359,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
     }
 
     handleJoin(clientid: number) {
-        if (this.objects.has(clientid))
-            return null;
+        if (this.objects.has(clientid)) return null;
 
         const player = new PlayerData(this, clientid);
         this.players.set(clientid, player);
@@ -342,8 +377,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
     handleLeave(resolvable: PlayerDataResolvable) {
         const player = this.resolvePlayer(resolvable);
 
-        if (!player)
-            return null;
+        if (!player) return null;
 
         if (this.gamedata && this.gamedata.players.get(player.playerId)) {
             this.gamedata.remove(player.playerId);
@@ -372,61 +406,65 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
     }
 
     async handleStart() {
-        if (this._started)
-            return;
+        console.log(this._started, this.amhost);
+        if (this._started) return;
 
         this._startGame();
         if (this.amhost) {
-            await this.broadcast([], true, null, [{
-                tag: PayloadTag.StartGame,
-                code: this.code
-            }]);
-
-            await Promise.race([
-                sleep(5000),
-                new Promise<void>(resolve => {
-                    // eslint-disable-next-line @typescript-eslint/no-this-alias
-                    const _this = this;
-                    // grrrr typescript as any
-                    (this as any).on("ready", function onReady() {
-                        for (const [ , player ] of _this.players) {
-                            if (player.id !== _this.id && !player.isReady)
-                                return;
-                        }
-
-                        (_this as any).off("ready", onReady);
-                        resolve();
-                    });
-
-                    this.me.ready();
-                })
+            await Promise.all([
+                this.broadcast([], true, null, [
+                    {
+                        tag: PayloadTag.StartGame,
+                        code: this.code,
+                    },
+                ]),
+                Promise.race([
+                    Promise.all([...this.players.values()].map(player => player.wait("player.ready"))),
+                    sleep(5000)
+                ]),
+                this.me?.ready()
             ]);
 
             const removes = [];
-            for (const [ clientId, player ] of this.players) {
-                if (!player.isReady) {
+            for (const [clientId, player] of this.players) {
+                if (!player.isReady)
                     removes.push(clientId);
-                }
             }
 
-            await this.broadcast([],true,null,removes.map(clientId => {
-                return {
-                    tag: PayloadTag.RemovePlayer,
-                    code: this.code,
-                    clientid: clientId,
-                    reason: DisconnectReason.Error
-                }
-            }));
+            if (removes.length) {
+                await this.broadcast(
+                    [],
+                    true,
+                    null,
+                    removes.map((clientId) => {
+                        return {
+                            tag: PayloadTag.RemovePlayer,
+                            code: this.code,
+                            clientid: clientId,
+                            reason: DisconnectReason.Error,
+                        };
+                    })
+                );
+            }
 
-            if (this.lobbybehaviour)
-                this.despawnComponent(this.lobbybehaviour);
+            if (this.lobbybehaviour) this.despawnComponent(this.lobbybehaviour);
 
-            const ship_prefabs = [SpawnID.ShipStatus, SpawnID.Headquarters, SpawnID.PlanetMap, SpawnID.AprilShipStatus, SpawnID.Airship];
-            const object = this.spawnPrefab(ship_prefabs[this.settings?.map], -2);
+            const ship_prefabs = [
+                SpawnID.ShipStatus,
+                SpawnID.Headquarters,
+                SpawnID.PlanetMap,
+                SpawnID.AprilShipStatus,
+                SpawnID.Airship,
+            ];
+            const object = this.spawnPrefab(
+                ship_prefabs[this.settings?.map],
+                -2
+            );
             const shipstatus = object.components[0] as BaseShipStatus;
             shipstatus.selectInfected();
             shipstatus.begin();
         } else {
+            console.log("ready");
             if (this.me) await this.me.ready();
         }
     }
@@ -481,13 +519,23 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         component.owner.components.push(component);
 
         component.emit("component.spawn", {});
+        if (component.ownerid !== -2) {
+            component.emit("player.component.spawn", {});
+        }
     }
 
     private _despawnComponent(component: Networkable) {
         this.netobjects.delete(component.netid);
 
         component.emit("component.despawn", {});
-        component.owner.components.splice(component.owner.components.indexOf(component), 1, null);
+        if (component.ownerid !== -2) {
+            component.emit("player.component.despawn", {});
+        }
+        component.owner.components.splice(
+            component.owner.components.indexOf(component),
+            1,
+            null
+        );
     }
 
     despawnComponent(component: Networkable) {
@@ -495,7 +543,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
 
         this.stream.push({
             tag: MessageTag.Despawn,
-            netid: component.netid
+            netid: component.netid,
         });
     }
 
@@ -509,125 +557,163 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
         return null;
     }
 
-    spawnPrefab(type: SpawnID, owner: Heritable|number): SpawnObject {
+    spawnPrefab(type: SpawnID, owner: Heritable | number): SpawnObject {
         const ownerid = typeof owner === "number" ? owner : owner.id;
 
         const object: Partial<SpawnObject> = {
             type: SpawnID.ShipStatus,
             ownerid: ownerid,
             flags: type === SpawnID.Player ? 1 : 0,
-            components: []
+            components: [],
         };
 
         switch (type) {
-        case SpawnID.ShipStatus: {
-            const shipstatus = new ShipStatus(this, this.incr_netid, ownerid);
+            case SpawnID.ShipStatus: {
+                const shipstatus = new ShipStatus(
+                    this,
+                    this.incr_netid,
+                    ownerid
+                );
 
-            this.spawnComponent(shipstatus);
+                this.spawnComponent(shipstatus);
 
-            object.components.push(shipstatus);
-            break;
-        }
-        case SpawnID.MeetingHud:
-            const meetinghud = new MeetingHud(this, this.incr_netid, ownerid, {
-                dirtyBit: 0,
-                players: new Map
-            });
+                object.components.push(shipstatus);
+                break;
+            }
+            case SpawnID.MeetingHud:
+                const meetinghud = new MeetingHud(
+                    this,
+                    this.incr_netid,
+                    ownerid,
+                    {
+                        dirtyBit: 0,
+                        players: new Map(),
+                    }
+                );
 
-            this.spawnComponent(meetinghud);
+                this.spawnComponent(meetinghud);
 
-            object.components.push(meetinghud);
-            break;
-        case SpawnID.LobbyBehaviour:
-            const lobbybehaviour = new LobbyBehaviour(this, this.incr_netid, ownerid, {
+                object.components.push(meetinghud);
+                break;
+            case SpawnID.LobbyBehaviour:
+                const lobbybehaviour = new LobbyBehaviour(
+                    this,
+                    this.incr_netid,
+                    ownerid,
+                    {}
+                );
 
-            });
+                this.spawnComponent(lobbybehaviour);
 
-            this.spawnComponent(lobbybehaviour);
+                object.components.push(lobbybehaviour);
+                break;
+            case SpawnID.GameData:
+                const gamedata = new GameData(this, this.incr_netid, ownerid, {
+                    dirtyBit: 0,
+                    players: new Map(),
+                });
 
-            object.components.push(lobbybehaviour);
-            break;
-        case SpawnID.GameData:
-            const gamedata = new GameData(this, this.incr_netid, ownerid, {
-                dirtyBit: 0,
-                players: new Map
-            });
+                this.spawnComponent(gamedata);
 
-            this.spawnComponent(gamedata);
+                const votebansystem = new VoteBanSystem(
+                    this,
+                    this.incr_netid,
+                    ownerid,
+                    {
+                        clients: new Map(),
+                    }
+                );
 
-            const votebansystem = new VoteBanSystem(this, this.incr_netid, ownerid, {
-                clients: new Map
-            });
+                this.spawnComponent(votebansystem);
 
-            this.spawnComponent(votebansystem);
+                object.components.push(gamedata);
+                object.components.push(votebansystem);
+                break;
+            case SpawnID.Player:
+                const playerId = this.getAvailablePlayerID();
 
-            object.components.push(gamedata);
-            object.components.push(votebansystem);
-            break;
-        case SpawnID.Player:
-            const playerId = this.getAvailablePlayerID();
+                if (this.gamedata) this.gamedata.add(playerId);
 
-            if (this.gamedata) this.gamedata.add(playerId);
+                const control = new PlayerControl(
+                    this,
+                    this.incr_netid,
+                    ownerid,
+                    {
+                        isNew: true,
+                        playerId,
+                    }
+                );
 
-            const control = new PlayerControl(this, this.incr_netid, ownerid, {
-                isNew: true,
-                playerId
-            });
+                this.spawnComponent(control);
 
-            this.spawnComponent(control);
+                const physics = new PlayerPhysics(
+                    this,
+                    this.incr_netid,
+                    ownerid,
+                    {}
+                );
 
-            const physics = new PlayerPhysics(this, this.incr_netid, ownerid, {
+                this.spawnComponent(physics);
 
-            });
+                const transform = new CustomNetworkTransform(
+                    this,
+                    this.incr_netid,
+                    ownerid,
+                    {
+                        seqId: 1,
+                        position: {
+                            x: 0,
+                            y: 0,
+                        },
+                        velocity: {
+                            x: 0,
+                            y: 0,
+                        },
+                    }
+                );
 
-            this.spawnComponent(physics);
+                this.spawnComponent(transform);
 
-            const transform = new CustomNetworkTransform(this, this.incr_netid, ownerid, {
-                seqId: 1,
-                position: {
-                    x: 0,
-                    y: 0,
-                },
-                velocity: {
-                    x: 0,
-                    y: 0
-                }
-            });
+                object.components.push(control);
+                object.components.push(physics);
+                object.components.push(transform);
+                break;
+            case SpawnID.Headquarters:
+                const headquarters = new Headquarters(
+                    this,
+                    this.incr_netid,
+                    ownerid
+                );
 
-            this.spawnComponent(transform);
+                this.spawnComponent(headquarters);
 
-            object.components.push(control);
-            object.components.push(physics);
-            object.components.push(transform);
-            break;
-        case SpawnID.Headquarters:
-            const headquarters = new Headquarters(this, this.incr_netid, ownerid);
+                object.components.push(headquarters);
+                break;
+            case SpawnID.PlanetMap:
+                const planetmap = new PlanetMap(this, this.incr_netid, ownerid);
 
-            this.spawnComponent(headquarters);
+                this.spawnComponent(planetmap);
 
-            object.components.push(headquarters);
-            break;
-        case SpawnID.PlanetMap:
-            const planetmap = new PlanetMap(this, this.incr_netid, ownerid);
+                object.components.push(planetmap);
+                break;
+            case SpawnID.AprilShipStatus:
+                const aprilshipstatus = new AprilShipStatus(
+                    this,
+                    this.incr_netid,
+                    ownerid
+                );
 
-            this.spawnComponent(planetmap);
+                this.spawnComponent(aprilshipstatus);
 
-            object.components.push(planetmap);
-            break;
-        case SpawnID.AprilShipStatus:
-            const aprilshipstatus = new AprilShipStatus(this, this.incr_netid, ownerid);
+                object.components.push(aprilshipstatus);
+                break;
+            case SpawnID.Airship:
+                const airship = new Airship(this, this.incr_netid, ownerid);
 
-            this.spawnComponent(aprilshipstatus);
+                this.spawnComponent(airship);
 
-            object.components.push(aprilshipstatus);
-            break;
-        case SpawnID.Airship:
-            const airship = new Airship(this, this.incr_netid, ownerid);
-
-            this.spawnComponent(airship);
-
-            object.components.push(airship);
-            break;
+                object.components.push(airship);
+                break;
         }
 
         this.stream.push({
@@ -635,22 +721,22 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
             ownerid: object.ownerid,
             type: type,
             flags: object.flags,
-            components: object.components.map(component => {
+            components: object.components.map((component) => {
                 const data = HazelBuffer.alloc(0);
                 component.Serialize(data, true);
 
                 return {
                     netid: component.netid,
-                    data
-                }
-            })
+                    data,
+                };
+            }),
         });
 
         return object as SpawnObject;
     }
 
     getPlayerByPlayerId(playerId: number) {
-        for (const [ , player ] of this.players) {
+        for (const [, player] of this.players) {
             if (player.playerId === playerId) return player;
         }
 
@@ -658,8 +744,12 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
     }
 
     getPlayerByNetID(netid: number) {
-        for (const [ , player ] of this.players) {
-            if (player.components.find(component => component?.netid === netid))
+        for (const [, player] of this.players) {
+            if (
+                player.components.find(
+                    (component) => component?.netid === netid
+                )
+            )
                 return player;
         }
 
@@ -668,100 +758,123 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<Hos
 
     async handleGameData(message: GameDataMessage) {
         switch (message.tag) {
-        case MessageTag.Data: {
-            const component = this.netobjects.get(message.netid);
+            case MessageTag.Data: {
+                const component = this.netobjects.get(message.netid);
 
-            if (component) {
-                component.Deserialize(message.data);
-            }
-            break;
-        }
-        case MessageTag.RPC: {
-            const component = this.netobjects.get(message.netid);
-
-            if (component) {
-                component.HandleRPC(message);
-            }
-            break;
-        }
-        case MessageTag.Spawn: {
-            for (let i = 0; i < message.components.length; i++) {
-                const spawn_component = message.components[i];
-                const owner = this.objects.get(message.ownerid);
-
-                if (owner) {
-                    const component = new SpawnPrefabs[message.type][i](this, spawn_component.netid, message.ownerid, spawn_component.data);
-
-                    if (this.netobjects.get(component.netid))
-                        continue;
-
-                    this.spawnComponent(component);
+                if (component) {
+                    component.Deserialize(message.data);
                 }
+                break;
             }
-            break;
-        }
-        case MessageTag.Despawn: {
-            const component = this.netobjects.get(message.netid);
+            case MessageTag.RPC: {
+                const component = this.netobjects.get(message.netid);
 
-            if (component) {
-                this._despawnComponent(component);
+                if (component) {
+                    component.HandleRPC(message);
+                }
+                break;
             }
-            break;
-        }
-        case MessageTag.SceneChange: {
-            const player = this.objects.get(message.clientid) as PlayerData;
+            case MessageTag.Spawn: {
+                for (let i = 0; i < message.components.length; i++) {
+                    const spawn_component = message.components[i];
+                    const owner = this.objects.get(message.ownerid);
 
-            if (player) {
-                if (message.scene === "OnlineGame") {
-                    player.inScene = true;
+                    if (owner) {
+                        const component = new SpawnPrefabs[message.type][i](
+                            this,
+                            spawn_component.netid,
+                            message.ownerid,
+                            spawn_component.data
+                        );
 
-                    if (this.amhost) {
-                        await this.broadcast([...this.netobjects.values()].reduce<SpawnMessage[]>((acc, component) => {
-                            let col = acc.find(msg => msg.type === component.type && msg.ownerid === component.ownerid);
+                        if (this.netobjects.get(component.netid)) continue;
 
-                            if (!col) {
-                                acc.push({
-                                    tag: MessageTag.Spawn,
-                                    type: component.type,
-                                    ownerid: component.ownerid,
-                                    flags: component.classname === "PlayerControl" ? 1 : 0,
-                                    components: []
-                                });
-
-                                col = acc.find(msg => msg.type === component.type && msg.ownerid === component.ownerid);
-                            }
-
-                            const data = HazelBuffer.alloc(0);
-                            component.Serialize(data, true);
-
-                            col.components.push({
-                                netid: component.netid,
-                                data
-                            });
-
-                            return acc;
-                        }, []), true, player);
-
-                        this.spawnPrefab(SpawnID.Player, player);
-
-                        if (this.me) {
-                            this.me.control.syncSettings(this.settings);
-                        }
-
-                        player.emit("player.scenechange", {});
+                        this.spawnComponent(component);
                     }
                 }
+                break;
             }
-            break;
-        }
-        case MessageTag.Ready: {
-            const player = this.players.get(message.clientid);
+            case MessageTag.Despawn: {
+                const component = this.netobjects.get(message.netid);
 
-            if (player) {
-                player.ready();
+                if (component) {
+                    this._despawnComponent(component);
+                }
+                break;
             }
-            break;
-        }
+            case MessageTag.SceneChange: {
+                const player = this.objects.get(message.clientid) as PlayerData;
+
+                if (player) {
+                    if (message.scene === "OnlineGame") {
+                        player.inScene = true;
+
+                        if (this.amhost) {
+                            await this.broadcast(
+                                [...this.netobjects.values()].reduce<
+                                    SpawnMessage[]
+                                >((acc, component) => {
+                                    let col = acc.find(
+                                        (msg) =>
+                                            msg.type === component.type &&
+                                            msg.ownerid === component.ownerid
+                                    );
+
+                                    if (!col) {
+                                        acc.push({
+                                            tag: MessageTag.Spawn,
+                                            type: component.type,
+                                            ownerid: component.ownerid,
+                                            flags:
+                                                component.classname ===
+                                                "PlayerControl"
+                                                    ? 1
+                                                    : 0,
+                                            components: [],
+                                        });
+
+                                        col = acc.find(
+                                            (msg) =>
+                                                msg.type === component.type &&
+                                                msg.ownerid ===
+                                                    component.ownerid
+                                        );
+                                    }
+
+                                    const data = HazelBuffer.alloc(0);
+                                    component.Serialize(data, true);
+
+                                    col.components.push({
+                                        netid: component.netid,
+                                        data,
+                                    });
+
+                                    return acc;
+                                }, []),
+                                true,
+                                player
+                            );
+
+                            this.spawnPrefab(SpawnID.Player, player);
+
+                            if (this.me) {
+                                this.me.control.syncSettings(this.settings);
+                            }
+
+                            player.emit("player.scenechange", {});
+                        }
+                    }
+                }
+                break;
+            }
+            case MessageTag.Ready: {
+                const player = this.players.get(message.clientid);
+
+                if (player) {
+                    player.ready();
+                }
+                break;
+            }
         }
     }
 
