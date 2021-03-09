@@ -91,6 +91,12 @@ export type HostableEvents = PropagatedEvents<
         "room.fixedupdate": {
             stream: GameDataMessage[];
         };
+        "component.spawn": {
+            component: AnyNetworkable;
+        };
+        "component.despawn": {
+            component: AnyNetworkable;
+        };
     };
 
 export class Hostable<T extends Record<string, any> = any> extends Heritable<
@@ -513,12 +519,18 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         component.owner.components.push(component);
 
         component.emit("component.spawn", {});
+        if (component.ownerid !== -2) {
+            component.emit("player.component.spawn", {});
+        }
     }
 
     private _despawnComponent(component: Networkable) {
         this.netobjects.delete(component.netid);
 
         component.emit("component.despawn", {});
+        if (component.ownerid !== -2) {
+            component.emit("player.component.despawn", {});
+        }
         component.owner.components.splice(
             component.owner.components.indexOf(component),
             1,
