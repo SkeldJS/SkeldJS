@@ -331,9 +331,9 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 }
             }
 
-            function onDisconnect(d : { message : string, reason : number }) {
+            function onDisconnect(ev, { message, reason }) {
                 clearListeners();
-                reject(new Error(`${d.reason} - ${d.message}`));
+                reject(new Error(`${reason} - ${message}`));
             }
 
             this.on("client.packet", onPacket);
