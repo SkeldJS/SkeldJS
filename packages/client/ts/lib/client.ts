@@ -309,7 +309,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
     waitPacket(
         filter: PacketFilter | PacketFilter[]
     ): Promise<ClientboundPacket> {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             const clearListeners = () => {
                 this.off("client.packet", onPacket);
                 this.off("client.disconnect", onDisconnect);
@@ -331,8 +331,9 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 }
             }
 
-            function onDisconnect() {
+            function onDisconnect(d : { message : string, reason : number }) {
                 clearListeners();
+                reject(new Error(`${d.reason} - ${d.message}`));
             }
 
             this.on("client.packet", onPacket);
