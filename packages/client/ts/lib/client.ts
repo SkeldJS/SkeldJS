@@ -185,7 +185,6 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                             }
                             break;
                         case PayloadTag.StartGame:
-                            console.log(this.code, payload.code, this.code === payload.code);
                             if (this.me && this.code === payload.code) {
                                 await this.handleStart();
                             }
