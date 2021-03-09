@@ -23,10 +23,10 @@ export type PlayerDataEvents = PlayerControlEvents &
         "player.sethost": {};
         "player.scenechange": {};
         "player.spawn": {};
-        "component.spawn": {
+        "player.component.spawn": {
             component: PlayerControl | PlayerPhysics | CustomNetworkTransform;
         };
-        "component.despawn": {
+        "player.component.despawn": {
             component: PlayerControl | PlayerPhysics | CustomNetworkTransform;
         };
     };
