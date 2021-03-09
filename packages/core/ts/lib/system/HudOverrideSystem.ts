@@ -40,7 +40,6 @@ export class HudOverrideSystem extends SystemStatus<HudOverrideSystemData, HudOv
         this._sabotaged = reader.bool();
 
         if (!before && this._sabotaged) this.emit("system.sabotage", {});
-
         if (before && !this._sabotaged) this.emit("system.repair", {});
     }
 
@@ -49,8 +48,19 @@ export class HudOverrideSystem extends SystemStatus<HudOverrideSystemData, HudOv
         writer.bool(this.sabotaged);
     }
 
+    fix() {
+        this.HandleRepair(this.ship.room.me, 0);
+    }
+
+    HandleSabotage() {
+        this.emit("system.sabotage", {});
+        this._sabotaged = true;
+        this.dirty = true;
+    }
+
     HandleRepair(player: PlayerData, amount: number) {
         if (amount === 0) {
+            this.emit("system.repair", {});
             this._sabotaged = false;
             this.dirty = true;
         }

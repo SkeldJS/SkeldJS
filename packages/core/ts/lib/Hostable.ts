@@ -406,7 +406,6 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
     }
 
     async handleStart() {
-        console.log(this._started, this.amhost);
         if (this._started) return;
 
         this._startGame();
@@ -464,7 +463,6 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
             shipstatus.selectInfected();
             shipstatus.begin();
         } else {
-            console.log("ready");
             if (this.me) await this.me.ready();
         }
     }
