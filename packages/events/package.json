@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/events",
-  "version": "2.5.1",
+  "version": "2.5.5",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
