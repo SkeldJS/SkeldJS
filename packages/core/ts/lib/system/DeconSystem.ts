@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -10,7 +10,7 @@ export enum DeconState {
     Enter = 0x1,
     Closed = 0x2,
     Exit = 0x4,
-    HeadingUp = 0x8
+    HeadingUp = 0x8,
 }
 
 export interface DeconSystemData {
@@ -18,18 +18,16 @@ export interface DeconSystemData {
     state: number;
 }
 
-export type DeconSystemEvents = BaseSystemStatusEvents & {
+export type DeconSystemEvents = BaseSystemStatusEvents & {};
 
-}
-
-export class DeconSystem extends SystemStatus<DeconSystemEvents> {
+export class DeconSystem extends SystemStatus<DeconSystemData, DeconSystemEvents> {
     static systemType = SystemType.Decontamination as const;
     systemType = SystemType.Decontamination as const;
 
     timer: number;
     state: number;
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|DeconSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer | DeconSystemData) {
         super(ship, data);
     }
 

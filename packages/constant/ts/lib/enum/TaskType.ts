@@ -41,5 +41,5 @@ export enum TaskType {
     RepairDrill = 39,
     AlignTelescope = 40,
     RecordTemperature = 41,
-    RebootWifi = 42
+    RebootWifi = 42,
 }

@@ -1,17 +1,14 @@
-import {
-    DisconnectReason,
-    Opcode
-} from "@skeldjs/constant"
+import { DisconnectReason, Opcode } from "@skeldjs/constant";
 
 import {
     PayloadMessage,
     PayloadMessageClientbound,
-    PayloadMessageServerbound
-} from "./Payloads"
+    PayloadMessageServerbound,
+} from "./Payloads";
 
 export interface BasePacket {
     op: Opcode;
-    bound?: "server"|"client";
+    bound?: "server" | "client";
 }
 
 export interface BaseHazelMessage {
@@ -19,7 +16,7 @@ export interface BaseHazelMessage {
 }
 
 export interface BaseNormalPacket extends BasePacket {
-    op: Opcode.Unreliable|Opcode.Reliable,
+    op: Opcode.Unreliable | Opcode.Reliable;
     payloads: PayloadMessage[];
 }
 
@@ -34,7 +31,9 @@ export interface UnreliablePacketServerbound extends BaseNormalPacket {
     bound?: "server";
     payloads: PayloadMessageServerbound[];
 }
-export type UnreliablePacket = UnreliablePacketClientbound|UnreliablePacketServerbound;
+export type UnreliablePacket =
+    | UnreliablePacketClientbound
+    | UnreliablePacketServerbound;
 
 export interface ReliablePacketClientbound extends BasePacket {
     op: Opcode.Reliable;
@@ -50,7 +49,9 @@ export interface ReliablePacketServerbound extends BasePacket {
     payloads: PayloadMessageServerbound[];
 }
 
-export type ReliablePacket = ReliablePacketClientbound|ReliablePacketServerbound;
+export type ReliablePacket =
+    | ReliablePacketClientbound
+    | ReliablePacketServerbound;
 
 export interface HelloPacket extends BasePacket {
     op: Opcode.Hello;
@@ -61,9 +62,9 @@ export interface HelloPacket extends BasePacket {
 }
 
 export interface DisconnectPacket extends BasePacket {
-    op: Opcode.Disconnect,
+    op: Opcode.Disconnect;
     show_reason?: boolean;
-    reason?: DisconnectReason,
+    reason?: DisconnectReason;
     message?: string;
 }
 
@@ -78,14 +79,22 @@ export interface PingPacket extends BasePacket {
     nonce?: number;
 }
 
-export type NormalPacket = UnreliablePacket|ReliablePacket;
+export type NormalPacket = UnreliablePacket | ReliablePacket;
 
-export type NormalClientbound = UnreliablePacketClientbound|ReliablePacketClientbound;
-export type NormalServerbound = UnreliablePacketServerbound|ReliablePacketServerbound;
+export type NormalClientbound =
+    | UnreliablePacketClientbound
+    | ReliablePacketClientbound;
+export type NormalServerbound =
+    | UnreliablePacketServerbound
+    | ReliablePacketServerbound;
 
-export type SpecialPacket = HelloPacket|DisconnectPacket|AcknowledgementPacket|PingPacket;
+export type SpecialPacket =
+    | HelloPacket
+    | DisconnectPacket
+    | AcknowledgementPacket
+    | PingPacket;
 
-export type ClientboundPacket = NormalClientbound|SpecialPacket;
-export type ServerboundPacket = NormalServerbound|SpecialPacket;
+export type ClientboundPacket = NormalClientbound | SpecialPacket;
+export type ServerboundPacket = NormalServerbound | SpecialPacket;
 
-export type Packet = NormalPacket|SpecialPacket;
+export type Packet = NormalPacket | SpecialPacket;

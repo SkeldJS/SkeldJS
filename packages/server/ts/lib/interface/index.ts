@@ -1,1 +1,1 @@
-export * from "./ServerConfig"
+export * from "./ServerConfig";

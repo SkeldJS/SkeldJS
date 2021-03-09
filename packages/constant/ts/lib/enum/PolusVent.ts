@@ -10,5 +10,5 @@ export enum PolusVent {
     Storage,
     RightSeismic,
     LeftSeismic,
-    OutsideAdmin
+    OutsideAdmin,
 }

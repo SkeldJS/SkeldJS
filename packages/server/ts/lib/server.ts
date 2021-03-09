@@ -1,7 +1,6 @@
-import { EventEmitter } from "events"
-import dgram from "dgram"
 
-import { ServerConfig } from "./interface/ServerConfig"
+import dgram from "dgram";
+import { ServerConfig } from "./interface/ServerConfig";
 
 import {
     parsePacket,
@@ -12,41 +11,42 @@ import {
     PayloadMessageClientbound,
     PayloadMessageServerbound,
     HostGamePayloadServerbound,
-    JoinGamePayloadServerbound
-} from "@skeldjs/protocol"
+    JoinGamePayloadServerbound,
+} from "@skeldjs/protocol";
 
-import {
-    DisconnectReason,
-    Opcode,
-    PayloadTag
-} from "@skeldjs/constant"
+import { DisconnectReason, Opcode, PayloadTag } from "@skeldjs/constant";
 
-import {
-    HazelBuffer,
-    V2Gen,
-    ritoa,
-    getMissing,
-    sleep
-} from "@skeldjs/util"
+import { HazelBuffer, V2Gen, ritoa, getMissing, sleep } from "@skeldjs/util";
+import { AlterGameTag } from "@skeldjs/core";
+import { EventContext, EventEmitter, PropagatedEvents } from "@skeldjs/events";
 
 import { RemoteClient } from "./RemoteClient";
 
-import { Room } from "./Room";
-import { AlterGameTag } from "@skeldjs/core"
-import { SpecialID } from "./constants/IDs"
+import { Room, RoomEvents } from "./Room";
+import { SpecialID } from "./constants/IDs";
 
 type PacketFilter = (packet: ServerboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageServerbound) => boolean;
 
-export interface SkeldjsServer {}
-
 const default_config = (): ServerConfig => ({
     versions: ["2020.11.17"],
     port: 22023,
-    host: "0.0.0.0"
+    host: "0.0.0.0",
 });
 
-export class SkeldjsServer extends EventEmitter {
+export type SkeldjsServerEvents = PropagatedEvents<RoomEvents, { room: Room }> & {
+    packet: {
+        client: RemoteClient,
+        packet: ServerboundPacket
+    };
+    disconnect: {
+        client: RemoteClient,
+        reason: DisconnectReason,
+        message?: string
+    };
+}
+
+export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
     config: ServerConfig;
 
     socket: dgram.Socket;
@@ -61,14 +61,14 @@ export class SkeldjsServer extends EventEmitter {
 
         this.config = {
             ...default_config(),
-            ...config
+            ...config,
         };
         this._inc_clientid = 0;
 
         this.socket = dgram.createSocket("udp4");
 
-        this.remotes = new Map;
-        this.rooms = new Map;
+        this.remotes = new Map();
+        this.rooms = new Map();
     }
 
     private inc_clientid() {
@@ -78,7 +78,7 @@ export class SkeldjsServer extends EventEmitter {
     }
 
     async listen() {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve) => {
             this.socket.bind(this.config.port, this.config.host, () => {
                 this.socket.on("message", this.onMessage.bind(this));
 
@@ -100,14 +100,17 @@ export class SkeldjsServer extends EventEmitter {
         return client;
     }
 
-    waitPacket(from: RemoteClient, filter: PacketFilter|PacketFilter[]): Promise<ServerboundPacket> {
-        return new Promise(resolve => {
+    waitPacket(
+        from: RemoteClient,
+        filter: PacketFilter | PacketFilter[]
+    ): Promise<ServerboundPacket> {
+        return new Promise((resolve) => {
             const clearListeners = () => {
                 this.off("packet", onPacket);
                 this.off("disconnect", onDisconnect);
-            }
+            };
 
-            function onPacket(client: RemoteClient, packet: ServerboundPacket) {
+            function onPacket(ev: EventContext, { client, packet }: { client: RemoteClient, packet: ServerboundPacket }) {
                 if (client !== from) return;
 
                 if (Array.isArray(filter)) {
@@ -125,19 +128,22 @@ export class SkeldjsServer extends EventEmitter {
                 }
             }
 
-            function onDisconnect(client: RemoteClient) {
+            function onDisconnect(ev: EventContext, { client }: { client: RemoteClient }) {
                 if (client !== from) return;
 
                 clearListeners();
                 resolve(null);
             }
 
-            this.on("packet",  onPacket);
+            this.on("packet", onPacket);
             this.on("disconnect", onDisconnect);
         });
     }
 
-    async waitPayload(from: RemoteClient, filter: PayloadFilter|PayloadFilter[]): Promise<PayloadMessage> {
+    async waitPayload(
+        from: RemoteClient,
+        filter: PayloadFilter | PayloadFilter[]
+    ): Promise<PayloadMessage> {
         function findPayload(payload) {
             if (Array.isArray(filter)) {
                 for (let i = 0; i < filter.length; i++) {
@@ -151,11 +157,14 @@ export class SkeldjsServer extends EventEmitter {
         }
 
         function onPacket(packet) {
-            return (packet.op === Opcode.Unreliable || packet.op === Opcode.Reliable) &&
-                packet.payloads.some(findPayload);
+            return (
+                (packet.op === Opcode.Unreliable ||
+                    packet.op === Opcode.Reliable) &&
+                packet.payloads.some(findPayload)
+            );
         }
 
-        const packet = await this.waitPacket(from, onPacket) as any; // Fixes typings...................
+        const packet = (await this.waitPacket(from, onPacket)) as any; // Fixes typings...................
 
         return packet.payloads.find(findPayload);
     }
@@ -166,16 +175,25 @@ export class SkeldjsServer extends EventEmitter {
                 reject("Socket not initialised.");
             }
 
-            this.socket.send(buffer, remote.port, remote.address, (err, written) => {
-                if (err) return reject(err);
+            this.socket.send(
+                buffer,
+                remote.port,
+                remote.address,
+                (err, written) => {
+                    if (err) return reject(err);
 
-                resolve(written);
-            });
+                    resolve(written);
+                }
+            );
         });
     }
 
     async send(client: RemoteClient, packet: ClientboundPacket) {
-        if (packet.op === Opcode.Reliable || packet.op === Opcode.Hello || packet.op === Opcode.Ping) {
+        if (
+            packet.op === Opcode.Reliable ||
+            packet.op === Opcode.Hello ||
+            packet.op === Opcode.Ping
+        ) {
             packet.nonce = client.nonce;
             client.nonce++;
 
@@ -185,8 +203,8 @@ export class SkeldjsServer extends EventEmitter {
 
             const sent = {
                 nonce: packet.nonce,
-                ackd: false
-            }
+                ackd: false,
+            };
 
             client.packets_sent.unshift(sent);
             client.packets_sent.splice(8);
@@ -196,7 +214,11 @@ export class SkeldjsServer extends EventEmitter {
                 if (sent.ackd) {
                     return clearInterval(interval);
                 } else {
-                    if (!client.packets_sent.find(packet => sent.nonce === packet.nonce)) {
+                    if (
+                        !client.packets_sent.find(
+                            (packet) => sent.nonce === packet.nonce
+                        )
+                    ) {
                         return clearInterval(interval);
                     }
 
@@ -206,7 +228,7 @@ export class SkeldjsServer extends EventEmitter {
                         return;
                     }
 
-                    if (await this._send(client.remote, buffer) === null) {
+                    if ((await this._send(client.remote, buffer)) === null) {
                         await client.disconnect();
                         clearInterval(interval);
                         return;
@@ -220,10 +242,14 @@ export class SkeldjsServer extends EventEmitter {
         }
     }
 
-    async sendPayload(client: RemoteClient, reliable: boolean, ...payloads: PayloadMessageClientbound[]) {
+    async sendPayload(
+        client: RemoteClient,
+        reliable: boolean,
+        ...payloads: PayloadMessageClientbound[]
+    ) {
         await this.send(client, {
             op: reliable ? Opcode.Reliable : Opcode.Unreliable,
-            payloads: payloads
+            payloads: payloads,
         });
     }
 
@@ -233,29 +259,37 @@ export class SkeldjsServer extends EventEmitter {
         return code;
     }
 
-    async handleHostGame(payload: HostGamePayloadServerbound, client: RemoteClient) {
+    async handleHostGame(
+        payload: HostGamePayloadServerbound,
+        client: RemoteClient
+    ) {
         const code = this.generateUniqueCode();
         const room = new Room(this, { SaaH: true });
         room.setHost(SpecialID.SaaH);
         room.code = code;
         this.rooms.set(code, room);
 
-        room.settings = payload.settings
+        room.settings = payload.settings;
 
         await this.sendPayload(client, true, {
             tag: PayloadTag.HostGame,
-            code
+            code,
         });
     }
 
-    async handleJoinGame(payload: JoinGamePayloadServerbound, client: RemoteClient) {
+    async handleJoinGame(
+        payload: JoinGamePayloadServerbound,
+        client: RemoteClient
+    ) {
         const room = this.rooms.get(payload.code);
         if (client.room) {
-            return await client.joinError(DisconnectReason.Custom, "Already in game, please leave your current one before joining a new one.");
+            return await client.joinError(
+                DisconnectReason.Custom,
+                "Already in game, please leave your current one before joining a new one."
+            );
         }
 
-        if (!room)
-            return await client.joinError(DisconnectReason.GameNotFound);
+        if (!room) return await client.joinError(DisconnectReason.GameNotFound);
 
         if (room.players.size >= room.settings.players)
             return await client.joinError(DisconnectReason.GameFull);
@@ -263,48 +297,48 @@ export class SkeldjsServer extends EventEmitter {
         const player = await room.handleJoin(client.clientid);
         room.remotes.set(client.clientid, client);
         client.room = room;
-        if (!room.hostid)
-            room.hostid = client.clientid;
+        if (!room.hostid) room.hostid = client.clientid;
 
-        await this.sendPayload(client, true, {
-            tag: PayloadTag.JoinedGame,
-            code: room.code,
-            clientid: client.clientid,
-            hostid: room.hostid,
-            clients: [...room.remotes.values()].filter(player => player.clientid !== client.clientid).map(player => player.clientid)
-        }, {
-            tag: PayloadTag.AlterGame,
-            code: room.code,
-            alter_tag: AlterGameTag.ChangePrivacy,
-            value: room.privacy === "public" ? 1 : 0
-        });
+        await this.sendPayload(
+            client,
+            true,
+            {
+                tag: PayloadTag.JoinedGame,
+                code: room.code,
+                clientid: client.clientid,
+                hostid: room.hostid,
+                clients: [...room.remotes.values()]
+                    .filter((player) => player.clientid !== client.clientid)
+                    .map((player) => player.clientid),
+            },
+            {
+                tag: PayloadTag.AlterGame,
+                code: room.code,
+                alter_tag: AlterGameTag.ChangePrivacy,
+                value: room.privacy === "public" ? 1 : 0,
+            }
+        );
 
-        await room.broadcast(null, true, null, [{
-            tag: PayloadTag.JoinGame,
-            error: false,
-            code: room.code,
-            clientid: client.clientid,
-            hostid: room.hostid
-        }]);
+        await room.broadcast(null, true, null, [
+            {
+                tag: PayloadTag.JoinGame,
+                error: false,
+                code: room.code,
+                clientid: client.clientid,
+                hostid: room.hostid,
+            },
+        ]);
 
         if (room.options.SaaH) {
-            await player.once("player.spawn");
-            await Promise.race([Promise.all([player.once("player.setname"), player.once("player.setcolor")]), sleep(1000)]);
-            for (const [ , remote ] of this.remotes) {
-                this.sendPayload(remote, true, {
-                    tag: PayloadTag.JoinGame,
-                    error: false,
-                    code: room.code,
-                    clientid: SpecialID.Nil,
-                    hostid: remote.clientid
-                }, {
-                    tag: PayloadTag.RemovePlayer,
-                    code: room.code,
-                    clientid: SpecialID.Nil,
-                    hostid: remote.clientid,
-                    reason: 0
-                });
-            }
+            await player.wait("player.spawn");
+            await Promise.race([
+                Promise.all([
+                    player.wait("player.setname"),
+                    player.wait("player.setcolor"),
+                ]),
+                sleep(1000),
+            ]);
+            await room.setHost(SpecialID.SaaH);
         }
     }
 
@@ -340,21 +374,27 @@ export class SkeldjsServer extends EventEmitter {
                         case PayloadTag.GameData: {
                             const room = this.rooms.get(payload.code);
                             if (room) {
-                                for (let i = 0; i < payload.messages.length; i++) {
+                                for (
+                                    let i = 0;
+                                    i < payload.messages.length;
+                                    i++
+                                ) {
                                     const message = payload.messages[i];
                                     await room.handleGameData(message);
                                 }
-                                for (const [ , remote ] of room.remotes) {
+                                for (const [, remote] of room.remotes) {
                                     if (remote.clientid === client.clientid)
                                         continue;
 
                                     await remote.send({
                                         op: Opcode.Reliable,
-                                        payloads: [{
-                                            tag: PayloadTag.GameData,
-                                            code: room.code,
-                                            messages: payload.messages
-                                        }]
+                                        payloads: [
+                                            {
+                                                tag: PayloadTag.GameData,
+                                                code: room.code,
+                                                messages: payload.messages,
+                                            },
+                                        ],
                                     });
                                 }
                             }
@@ -363,13 +403,15 @@ export class SkeldjsServer extends EventEmitter {
                         case PayloadTag.GameDataTo: {
                             const room = this.rooms.get(payload.code);
                             if (room) {
-                                const recipient = room.remotes.get(payload.recipientid);
+                                const recipient = room.remotes.get(
+                                    payload.recipientid
+                                );
                                 if (recipient) {
                                     await this.sendPayload(recipient, true, {
                                         tag: PayloadTag.GameDataTo,
                                         code: payload.code,
                                         recipientid: payload.recipientid,
-                                        messages: payload.messages
+                                        messages: payload.messages,
                                     });
                                 }
                             }
@@ -384,17 +426,21 @@ export class SkeldjsServer extends EventEmitter {
                 client.version = packet.clientver;
                 break;
             case Opcode.Disconnect:
-                if (!client.disconnected)
-                    client.disconnect();
+                if (!client.disconnected) client.disconnect();
 
-                this.remotes.delete(ritoa(client.remote))
+                this.remotes.delete(ritoa(client.remote));
                 break;
             case Opcode.Acknowledge:
-                const sent = client.packets_sent.find(s => s.nonce === packet.nonce);
+                const sent = client.packets_sent.find(
+                    (s) => s.nonce === packet.nonce
+                );
                 if (sent) sent.ackd = true;
 
-                const missing = getMissing(client.packets_recv, packet.missingPackets);
-                missing.forEach(nonce => client.ack(nonce));
+                const missing = getMissing(
+                    client.packets_recv,
+                    packet.missingPackets
+                );
+                missing.forEach((nonce) => client.ack(nonce));
                 break;
             case Opcode.Ping:
                 break;

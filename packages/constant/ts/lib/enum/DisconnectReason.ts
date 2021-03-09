@@ -17,5 +17,5 @@ export enum DisconnectReason {
     FocusLostBackground = 207,
     IntentionalLeaving,
     FocusLost,
-    NewConnection
+    NewConnection,
 }

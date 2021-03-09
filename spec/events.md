@@ -21,6 +21,7 @@
 * `player.sethost` - Emitted when a player is made the host.
 * `player.scenechange` - Emitted when a player changes scene.
 * `player.spawn` - Emitted when a player fully spawns.
+* `player.component.spawn` - Emitted when a player's component spawns.
 
 ## GameData
 * `gamedata.addplayer` - Emitted when a player is added to GameData.

@@ -1,9 +1,53 @@
+import { HazelBuffer, sleep } from "@skeldjs/util";
 import * as skeldjs from "..";
 
 const regcode = process.argv[2];
 
+function setChat(client: skeldjs.SkeldjsClient, player: skeldjs.PlayerData, vis: boolean) {
+    const mh_netid = client.incr_netid;
+
+    client.broadcast([{
+        tag: skeldjs.MessageTag.RPC,
+        netid: client.gamedata.netid,
+        rpcid: skeldjs.RpcTag.UpdateGameData,
+        players: [{
+            ...player.data,
+            dead: vis
+        }]
+    }, {
+        tag: skeldjs.MessageTag.Spawn,
+        ownerid: -2,
+        type: skeldjs.SpawnID.MeetingHud,
+        flags: 0,
+        num_components: 1,
+        components: [{
+            netid: mh_netid,
+            data: HazelBuffer.alloc(0)
+        }]
+    }, {
+        tag: skeldjs.MessageTag.RPC,
+        netid: mh_netid,
+        rpcid: skeldjs.RpcTag.Close
+    }, {
+        tag: skeldjs.MessageTag.Despawn,
+        netid: mh_netid
+    }, {
+        tag: skeldjs.MessageTag.RPC,
+        netid: client.gamedata.netid,
+        rpcid: skeldjs.RpcTag.UpdateGameData,
+        players: [{
+            ...player.data,
+            dead: false
+        }]
+    }], true, player);
+}
+
+const prefix = "/";
+
 if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
-    console.log("Region must be either EU (Europe), NA (North America) or AS (Asia).");
+    console.log(
+        "Region must be either EU (Europe), NA (North America) or AS (Asia)."
+    );
 } else {
     const server = skeldjs.MasterServers[regcode][1];
 
@@ -19,22 +63,18 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
         console.log("Creating game..");
         const code = await client.createGame({
             players: 10,
-            map: skeldjs.MapID.MiraHQ,
-            impostors: 2
+            map: skeldjs.MapID.Airship,
+            impostors: 2,
         });
 
-        client.me.control.setName("weakeyes");
+        client.me.control.setName("poo boy");
         client.me.control.setColor(skeldjs.ColorID.Purple);
 
-        let i = 0;
-        setInterval(() => {
-            client.me.transform.snapTo({
-                x: Math.sin(i) * 2,
-                y: Math.cos(i) * 2
-            });
-            i++;
-        }, 250);
-
         console.log("Created game @ " + code + " on " + regcode + " servers.");
+
+        client.on("player.spawn", async () => {
+            await sleep(5000);
+            client.me.control.chat("I HATE ROBSCOB");
+        });
     })();
 }

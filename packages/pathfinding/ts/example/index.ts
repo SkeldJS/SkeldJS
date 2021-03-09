@@ -2,20 +2,22 @@ import { SkeldjsClient, ColorID, MasterServers, HatID } from "@skeldjs/client";
 import { SkeldjsPathfinder } from "..";
 
 function getPlayerByName(client: SkeldjsClient, name: string) {
-    return [...client.players.values()].find(player => player.data?.name === name);
+    return [...client.players.values()].find(
+        (player) => player.data?.name === name
+    );
 }
 
 (async () => {
     const client = new SkeldjsClient("2020.11.17.0");
     const pathfinder = new SkeldjsPathfinder(client);
 
-    const server = MasterServers[process.argv[2] as "EU"|"NA"|"AS"][0];
+    const server = MasterServers[process.argv[2] as "EU" | "NA" | "AS"][0];
     await client.connect(server[0], server[1]);
     await client.identify("weakeyes");
 
     await client.joinGame(process.argv[3]);
 
-    client.on("player.spawn", ({ player }) => {
+    client.on("player.spawn", (ev, { player }) => {
         if (player.isme) {
             client.me.control.checkName("path");
             client.me.control.checkColor(ColorID.Pink);

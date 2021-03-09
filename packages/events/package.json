@@ -1,11 +1,12 @@
 {
   "name": "@skeldjs/events",
-  "version": "2.4.1",
+  "version": "2.5.1",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
     "build:ci": "yarn install && tsc -p ./",
     "prepublishOnly": "npm run build"
   },
-  "license": "GPL-3.0-only"
+  "license": "GPL-3.0-only",
+  "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7"
 }

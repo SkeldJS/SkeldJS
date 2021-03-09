@@ -10,5 +10,5 @@ export enum PetID {
     EllieRose,
     Squig,
     Bedcrab,
-    Glitch
+    Glitch,
 }

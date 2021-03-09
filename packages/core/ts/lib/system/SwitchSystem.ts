@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { BaseShipStatus } from "../component";
@@ -6,7 +6,7 @@ import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { BaseSystemStatusEvents } from "./events";
 
-type SwitchSetup = [ boolean, boolean, boolean, boolean, boolean ];
+type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
 export interface SwitchSystemData {
     expected: SwitchSetup;
@@ -20,9 +20,9 @@ export type SwitchSystemEvents = BaseSystemStatusEvents & {
         num: number;
         value: boolean;
     };
-}
+};
 
-export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
+export class SwitchSystem extends SystemStatus<SwitchSystemData, SwitchSystemEvents> {
     static systemType = SystemType.Electrical as const;
     systemType = SystemType.Electrical as const;
 
@@ -34,7 +34,7 @@ export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
         return this.expected.some((val, i) => this.actual[i] !== val);
     }
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|SwitchSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer | SwitchSystemData) {
         super(ship, data);
     }
 
@@ -65,8 +65,7 @@ export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
     }
 
     private _setSwitch(num: number, value: boolean, player?: PlayerData) {
-        if (this.actual[num] === value)
-            return;
+        if (this.actual[num] === value) return;
 
         this.actual[num] = value;
         this.dirty = true;
@@ -74,8 +73,7 @@ export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
     }
 
     setSwitch(num: number, value: boolean) {
-        if (this.actual[num] === value)
-            return;
+        if (this.actual[num] === value) return;
 
         this.flip(num);
     }
@@ -97,10 +95,12 @@ export class SwitchSystem extends SystemStatus<SwitchSystemEvents> {
     }
 
     static writeSwitches(switches: SwitchSetup) {
-        return (~~switches[0]) |
+        return (
+            ~~switches[0] |
             (~~switches[1] << 1) |
             (~~switches[2] << 2) |
             (~~switches[3] << 3) |
-            (~~switches[4] << 4);
+            (~~switches[4] << 4)
+        );
     }
 }

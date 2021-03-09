@@ -29,5 +29,5 @@ export enum RpcTag {
     CloseDoorsOfType = 27,
     RepairSystem = 28,
     SetTasks = 29,
-    UpdateGameData = 30
+    UpdateGameData = 30,
 }

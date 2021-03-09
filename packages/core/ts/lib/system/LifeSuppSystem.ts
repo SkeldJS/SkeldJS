@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -13,11 +13,11 @@ export interface LifeSuppSystemData {
 }
 
 export type LifeSuppSystemEvents = BaseSystemStatusEvents & {
-    "o2.consoles.complete": { player?: PlayerData, consoleId: number };
+    "o2.consoles.complete": { player?: PlayerData; consoleId: number };
     "o2.consoles.clear": { player?: PlayerData };
-}
+};
 
-export class LifeSuppSystem extends SystemStatus<LifeSuppSystemEvents> {
+export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSystemEvents> {
     static systemType = SystemType.O2 as const;
     systemType = SystemType.O2 as const;
 
@@ -26,10 +26,10 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemEvents> {
     timer: number;
     completed: Set<number>;
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|LifeSuppSystemData) {
+    constructor(ship: BaseShipStatus, data?: HazelBuffer | LifeSuppSystemData) {
         super(ship, data);
 
-        this.completed ||= new Set;
+        this.completed ||= new Set();
     }
 
     get sabotaged() {
@@ -119,8 +119,7 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemEvents> {
     }
 
     Detoriorate(delta: number) {
-        if (!this.sabotaged)
-            return;
+        if (!this.sabotaged) return;
 
         this.timer -= delta;
         this.lastUpdate += delta;

@@ -10,5 +10,5 @@ export enum PolusRoom {
     SpecimenRoom,
     Storage,
     Weapons,
-    NUM_ROOMS
+    NUM_ROOMS,
 }

@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -11,11 +11,9 @@ export interface HudOverrideSystemData {
     sabotaged: boolean;
 }
 
-export type HudOverrideSystemEvents = BaseSystemStatusEvents & {
+export type HudOverrideSystemEvents = BaseSystemStatusEvents & {};
 
-}
-
-export class HudOverrideSystem extends SystemStatus<HudOverrideSystemEvents> {
+export class HudOverrideSystem extends SystemStatus<HudOverrideSystemData, HudOverrideSystemEvents> {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
@@ -25,8 +23,15 @@ export class HudOverrideSystem extends SystemStatus<HudOverrideSystemEvents> {
         return this._sabotaged;
     }
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer|HudOverrideSystemData) {
+    constructor(
+        ship: BaseShipStatus,
+        data?: HazelBuffer | HudOverrideSystemData
+    ) {
         super(ship, data);
+    }
+
+    patch(data: HudOverrideSystemData) {
+        this._sabotaged = data.sabotaged;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -34,11 +39,9 @@ export class HudOverrideSystem extends SystemStatus<HudOverrideSystemEvents> {
         const before = this.sabotaged;
         this._sabotaged = reader.bool();
 
-        if (!before && this._sabotaged)
-            this.emit("system.sabotage", {});
+        if (!before && this._sabotaged) this.emit("system.sabotage", {});
 
-        if (before && !this._sabotaged)
-            this.emit("system.repair", {});
+        if (before && !this._sabotaged) this.emit("system.repair", {});
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

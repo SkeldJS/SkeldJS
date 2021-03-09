@@ -1,17 +1,8 @@
-import {
-    Vector2,
-    readVector2,
-    writeVector2,
-    HazelBuffer
-} from "@skeldjs/util";
+import { Vector2, readVector2, writeVector2, HazelBuffer } from "@skeldjs/util";
 
 import { RpcMessage } from "@skeldjs/protocol";
 
-import {
-    MessageTag,
-    RpcTag,
-    SpawnID
-} from "@skeldjs/constant";
+import { MessageTag, RpcTag, SpawnID } from "@skeldjs/constant";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
@@ -31,9 +22,9 @@ export type CustomNetworkTransformEvents = NetworkableEvents & {
     "player.snapto": {
         position: Vector2;
     };
-}
+};
 
-export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEvents> {
+export class CustomNetworkTransform extends Networkable<CustomNetworkTransformData, CustomNetworkTransformEvents> {
     static type = SpawnID.Player as const;
     type = SpawnID.Player as const;
 
@@ -45,7 +36,12 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
     position: Vector2;
     velocity: Vector2;
 
-    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|CustomNetworkTransformData) {
+    constructor(
+        room: Hostable,
+        netid: number,
+        ownerid: number,
+        data?: HazelBuffer | CustomNetworkTransformData
+    ) {
         super(room, netid, ownerid, data);
     }
 
@@ -69,12 +65,12 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
         this.emit("player.move", {
             position: {
                 x: this.position.x,
-                y: this.position.y
+                y: this.position.y,
             },
             velocity: {
                 x: this.velocity.x,
-                y: this.velocity.y
-            }
+                y: this.velocity.y,
+            },
         });
     }
 
@@ -90,15 +86,20 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
     HandleRPC(message: RpcMessage) {
         switch (message.rpcid) {
             case RpcTag.SnapTo:
-                if (CustomNetworkTransform.seqIdGreaterThan(message.seqId, this.seqId)) {
+                if (
+                    CustomNetworkTransform.seqIdGreaterThan(
+                        message.seqId,
+                        this.seqId
+                    )
+                ) {
                     this.seqId = message.seqId;
                     this.position = message.position;
                     this.velocity = { x: 0, y: 0 };
                     this.emit("player.snapto", {
                         position: {
                             x: this.position.x,
-                            y: this.position.y
-                        }
+                            y: this.position.y,
+                        },
                     });
                 }
                 break;
@@ -119,21 +120,26 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
         const writer = HazelBuffer.alloc(10);
         this.Serialize(writer, false);
 
-        await this.room.broadcast([{
-            tag: MessageTag.Data,
-            netid: this.netid,
-            data: writer
-        }], false);
+        await this.room.broadcast(
+            [
+                {
+                    tag: MessageTag.Data,
+                    netid: this.netid,
+                    data: writer,
+                },
+            ],
+            false
+        );
 
         this.emit("player.move", {
             position: {
                 x: this.position.x,
-                y: this.position.y
+                y: this.position.y,
             },
             velocity: {
                 x: this.velocity.x,
-                y: this.velocity.y
-            }
+                y: this.velocity.y,
+            },
         });
     }
 
@@ -154,14 +160,14 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformEv
             rpcid: RpcTag.SnapTo,
             netid: this.netid,
             seqId: this.seqId,
-            position
+            position,
         });
 
         this.emit("player.snapto", {
             position: {
                 x: this.position.x,
-                y: this.position.y
-            }
+                y: this.position.y,
+            },
         });
     }
 

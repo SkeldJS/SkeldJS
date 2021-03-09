@@ -14,5 +14,5 @@ export enum SkinID {
     Tarmac,
     Miner,
     Winter,
-    Archaeologist
+    Archaeologist,
 }

@@ -1,5 +1,5 @@
 import { EventEmitter } from "@skeldjs/events";
-import dgram from "dgram"
+import dgram from "dgram";
 
 import { SkeldjsServer } from "./server";
 
@@ -7,24 +7,20 @@ import {
     EncodeVersion,
     unary,
     createMissingBitfield,
-    SentPacket
+    SentPacket,
 } from "@skeldjs/util";
 
-import {
-    DisconnectReason,
-    Opcode,
-    PayloadTag
-} from "@skeldjs/constant";
+import { DisconnectReason, Opcode, PayloadTag } from "@skeldjs/constant";
 
 import {
-    ClientboundPacket, GameDataMessage, PayloadMessageClientbound
+    ClientboundPacket,
+    GameDataMessage,
+    PayloadMessageClientbound,
 } from "@skeldjs/protocol";
 
 import { Room } from "./Room";
 
-export type RemoteClientEvents = {
-
-}
+export type RemoteClientEvents = {};
 
 export class RemoteClient extends EventEmitter<RemoteClientEvents> {
     nonce: number;
@@ -42,7 +38,11 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
 
     stream: GameDataMessage[];
 
-    constructor(private server: SkeldjsServer, public readonly remote: dgram.RemoteInfo, public readonly clientid: number) {
+    constructor(
+        private server: SkeldjsServer,
+        public readonly remote: dgram.RemoteInfo,
+        public readonly clientid: number
+    ) {
         super();
 
         this.nonce = 0;
@@ -53,18 +53,23 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
         this.stream = [];
     }
 
-    identify(username: string, version: string|number) {
+    identify(username: string, version: string | number) {
         this.username = username;
 
         if (typeof version === "number") {
             this.version = version;
         } else {
-            const [ year, month, day, revision ] = version.split(".").map(unary(parseInt));
+            const [year, month, day, revision] = version
+                .split(".")
+                .map(unary(parseInt));
             this.version = EncodeVersion(year, month, day, revision);
         }
     }
 
-    async sendPayload(reliable: boolean, ...payloads: PayloadMessageClientbound[]) {
+    async sendPayload(
+        reliable: boolean,
+        ...payloads: PayloadMessageClientbound[]
+    ) {
         return await this.server.sendPayload(this, reliable, ...payloads);
     }
 
@@ -76,20 +81,22 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
         await this.send({
             op: Opcode.Acknowledge,
             nonce,
-            missingPackets: createMissingBitfield(this.packets_sent)
+            missingPackets: createMissingBitfield(this.packets_sent),
         });
     }
 
     async disconnect(reason: DisconnectReason = -1, message?: string) {
         if (this.room) {
             await this.room.handleLeave(this.clientid);
-            for (const [ , remote ] of this.room.remotes) {
+            for (const [, remote] of this.room.remotes) {
                 remote.sendPayload(true, {
                     tag: PayloadTag.RemovePlayer,
                     code: this.room.code,
                     clientid: this.clientid,
-                    hostid: this.room.options.SaaH ? remote.clientid : this.room.hostid,
-                    reason: 0
+                    hostid: this.room.options.SaaH
+                        ? remote.clientid
+                        : this.room.hostid,
+                    reason: 0,
                 });
             }
             this.room = null;
@@ -97,13 +104,13 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
 
         if (reason === -1) {
             this.server.send(this, {
-                op: Opcode.Disconnect
+                op: Opcode.Disconnect,
             });
         } else {
             this.server.send(this, {
                 op: Opcode.Disconnect,
                 reason,
-                message
+                message,
             });
         }
         this.disconnected = true;
@@ -117,9 +124,9 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
                     tag: PayloadTag.JoinGame,
                     error: true,
                     reason,
-                    message
-                }
-            ]
+                    message,
+                },
+            ],
         });
     }
 }

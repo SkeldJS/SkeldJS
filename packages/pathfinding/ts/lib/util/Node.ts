@@ -12,7 +12,13 @@ export class Node {
     blocked: boolean;
     weight: number;
 
-    constructor(private _grid: Grid, x: number, y: number, blocked: boolean, weight: number = 1) {
+    constructor(
+        private _grid: Grid,
+        x: number,
+        y: number,
+        blocked: boolean,
+        weight: number = 1
+    ) {
         this.x = x;
         this.y = y;
         this.blocked = blocked;
@@ -38,8 +44,7 @@ export class Node {
     get path(): Node[] {
         const path: Node[] = [this];
 
-        if (!this.parent)
-            return path;
+        if (!this.parent) return path;
 
         return [...this.parent.path, ...path];
     }
@@ -89,6 +94,11 @@ export class Node {
     }
 
     isWithin(node: Node, radius: number) {
-        return this.x >= node.x - radius && this.x <= node.x + radius && this.y >= node.y - radius && this.y <= node.y + radius;
+        return (
+            this.x >= node.x - radius &&
+            this.x <= node.x + radius &&
+            this.y >= node.y - radius &&
+            this.y <= node.y + radius
+        );
     }
 }

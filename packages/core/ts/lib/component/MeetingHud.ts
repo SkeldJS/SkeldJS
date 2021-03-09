@@ -1,16 +1,14 @@
-import { HazelBuffer } from "@skeldjs/util"
+import { HazelBuffer } from "@skeldjs/util";
 
 import {
     ChatNoteType,
     MessageTag,
     RpcTag,
     SpawnID,
-    VoteState
+    VoteState,
 } from "@skeldjs/constant";
 
-import {
-    RpcMessage
-} from "@skeldjs/protocol"
+import { RpcMessage } from "@skeldjs/protocol";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
@@ -26,20 +24,20 @@ export interface MeetingHudData {
 export type MeetingHudEvents = NetworkableEvents & {
     "meetinghud.votecast": {
         voter: PlayerData;
-        suspect: PlayerData|"skip"
+        suspect: PlayerData | "skip";
     };
     "meetinghud.voteclear": {
-        player: PlayerData
+        player: PlayerData;
     };
     "meetinghud.votingcomplete": {
         tie: boolean;
         ejected: PlayerData;
-        voteStates: PlayerVoteState[]
+        voteStates: PlayerVoteState[];
     };
     "meetinghud.close": {};
-}
+};
 
-export class MeetingHud extends Networkable<MeetingHudEvents> {
+export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     static type = SpawnID.MeetingHud as const;
     type = SpawnID.MeetingHud as const;
 
@@ -49,7 +47,12 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
     dirtyBit: number;
     players: Map<number, PlayerVoteState>;
 
-    constructor(room: Hostable, netid: number, ownerid: number, data?: HazelBuffer|MeetingHudData) {
+    constructor(
+        room: Hostable,
+        netid: number,
+        ownerid: number,
+        data?: HazelBuffer | MeetingHudData
+    ) {
         super(room, netid, ownerid, data);
     }
 
@@ -60,17 +63,23 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
         if (spawn) {
             this.dirtyBit = 0;
-            this.players = new Map;
+            this.players = new Map();
 
             for (let i = 0; i < this.players.size; i++) {
-                this.players.set(i, new PlayerVoteState(this.room, i, reader.byte()));
+                this.players.set(
+                    i,
+                    new PlayerVoteState(this.room, i, reader.byte())
+                );
             }
         } else {
             const mask = reader.upacked();
 
             for (let i = 0; i < this.players.size; i++) {
                 if (mask & (1 << i)) {
-                    this.players.set(i, new PlayerVoteState(this.room, i, reader.byte()));
+                    this.players.set(
+                        i,
+                        new PlayerVoteState(this.room, i, reader.byte())
+                    );
                 }
             }
         }
@@ -78,13 +87,13 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
 
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
         if (spawn) {
-            for (const [ , player ] of this.players) {
+            for (const [, player] of this.players) {
                 writer.upacked(player.state);
             }
         } else {
             writer.upacked(this.dirtyBit);
 
-            for (const [ playerId, player ] of this.players) {
+            for (const [playerId, player] of this.players) {
                 if (this.dirtyBit & (1 << playerId)) {
                     writer.upacked(player.state);
                 }
@@ -100,7 +109,11 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
                 this._close();
                 break;
             case RpcTag.VotingComplete:
-                this._completeVoting(message.states, message.exiled, message.tie);
+                this._completeVoting(
+                    message.states,
+                    message.exiled,
+                    message.tie
+                );
                 break;
             case RpcTag.CastVote:
                 this._castVote(message.votingid, message.suspectid);
@@ -121,7 +134,7 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
         this.room.stream.push({
             tag: MessageTag.RPC,
             rpcid: RpcTag.Close,
-            netid: this.netid
+            netid: this.netid,
         });
     }
 
@@ -130,12 +143,12 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
 
         const resolved_suspect = this.room.getPlayerByPlayerId(suspectid);
 
-        if (voting && (resolved_suspect || suspectid === 0xFF)) {
-            if (suspectid !== 0xFF)
+        if (voting && (resolved_suspect || suspectid === 0xff)) {
+            if (suspectid !== 0xff)
                 voting.state |= (suspectid & VoteState.VotedFor) + 1;
 
             voting.state |= VoteState.DidVote;
-            this.dirtyBit |= (1 << votingid);
+            this.dirtyBit |= 1 << votingid;
 
             if (this.room.amhost) {
                 this.room.host.control.sendChatNote(ChatNoteType.DidVote);
@@ -143,7 +156,7 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
 
             this.emit("meetinghud.votecast", {
                 voter: voting,
-                suspect: resolved_suspect || "skip"
+                suspect: resolved_suspect || "skip",
             });
         }
     }
@@ -153,12 +166,12 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
         const resolved = this.room.getPlayerByPlayerId(voterid);
 
         if (voting) {
-            voting.state ^= 0xF;
+            voting.state ^= 0xf;
             voting.state ^= VoteState.DidVote;
-            this.dirtyBit |= (1 << voterid);
+            this.dirtyBit |= 1 << voterid;
 
             this.emit("meetinghud.voteclear", {
-                player: resolved
+                player: resolved,
             });
         }
     }
@@ -167,39 +180,65 @@ export class MeetingHud extends Networkable<MeetingHudEvents> {
         const voter = this.room.resolvePlayer(resolvable);
 
         if (voter) {
-            await this.room.broadcast([{
-                tag: MessageTag.RPC,
-                rpcid: RpcTag.ClearVote,
-                netid: this.netid
-            }], true, voter);
+            await this.room.broadcast(
+                [
+                    {
+                        tag: MessageTag.RPC,
+                        rpcid: RpcTag.ClearVote,
+                        netid: this.netid,
+                    },
+                ],
+                true,
+                voter
+            );
         }
     }
 
-    async castVote(voting: PlayerDataResolvable, suspect: PlayerDataResolvable|"skip") {
+    async castVote(
+        voting: PlayerDataResolvable,
+        suspect: PlayerDataResolvable | "skip"
+    ) {
         const votingid = this.room.resolvePlayer(voting).playerId;
-        const suspectid = suspect === "skip" ? 0xFF : this.room.resolvePlayer(suspect).playerId;
+        const suspectid =
+            suspect === "skip"
+                ? 0xff
+                : this.room.resolvePlayer(suspect).playerId;
 
         this._castVote(votingid, suspectid);
 
         if (!this.room.amhost) {
-            await this.room.broadcast([{
-                tag: MessageTag.RPC,
-                rpcid: RpcTag.CastVote,
-                netid: this.netid,
-                votingid,
-                suspectid
-            }], true, this.room.host);
+            await this.room.broadcast(
+                [
+                    {
+                        tag: MessageTag.RPC,
+                        rpcid: RpcTag.CastVote,
+                        netid: this.netid,
+                        votingid,
+                        suspectid,
+                    },
+                ],
+                true,
+                this.room.host
+            );
         }
     }
 
     private _completeVoting(states: number[], exiled: number, tie: boolean) {
-        const resolved = tie || exiled === 0xFF ? null : this.room.getPlayerByPlayerId(exiled);
-        const votes = new Map(states.map((state, i) => [ i, new PlayerVoteState(this.room, i, state) ]));
+        const resolved =
+            tie || exiled === 0xff
+                ? null
+                : this.room.getPlayerByPlayerId(exiled);
+        const votes = new Map(
+            states.map((state, i) => [
+                i,
+                new PlayerVoteState(this.room, i, state),
+            ])
+        );
 
         this.emit("meetinghud.votingcomplete", {
             tie,
             ejected: resolved,
-            voteStates: votes
+            voteStates: votes,
         });
     }
 }

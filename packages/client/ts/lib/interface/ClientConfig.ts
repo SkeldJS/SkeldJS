@@ -7,7 +7,7 @@ export enum DebugLevel {
     Spawn = 8,
     Despawn = 16,
     Data = 32,
-    Objects = DebugLevel.Spawn | DebugLevel.Despawn | DebugLevel.Data
+    Objects = DebugLevel.Spawn | DebugLevel.Despawn | DebugLevel.Data,
 }
 
 export interface ClientConfig {

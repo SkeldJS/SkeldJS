@@ -32,5 +32,5 @@ export enum PolusTask {
     LaboratoryRepairDrill,
     LaboratoryRecordTemperature,
     OutsideRecordTemperature,
-    NUM_TASKS
+    NUM_TASKS,
 }

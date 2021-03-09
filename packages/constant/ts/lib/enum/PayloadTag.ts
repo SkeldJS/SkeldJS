@@ -14,5 +14,5 @@ export enum PayloadTag {
     WaitForHost = 12,
     Redirect = 13,
     MasterServerList = 14,
-    GetGameListV2 = 16
+    GetGameListV2 = 16,
 }

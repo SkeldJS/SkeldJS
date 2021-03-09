@@ -28,5 +28,5 @@ export enum TheSkeldTask {
     ElectricalDivertPowerToNavigation,
     ElectricalDivertPowerToLowerEngine,
     ElectricalDivertPowerToSecurity,
-    NUM_TASKS
+    NUM_TASKS,
 }

@@ -1,4 +1,4 @@
-export * from "./lib"
+export * from "./lib";
 
-export * from "@skeldjs/constant"
-export * from "@skeldjs/data"
+export * from "@skeldjs/constant";
+export * from "@skeldjs/data";

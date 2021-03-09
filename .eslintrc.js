@@ -22,6 +22,7 @@ module.exports = {
         "@typescript-eslint/no-empty-interface": "off",
         "@typescript-eslint/ban-types": "off",
         "no-case-declarations": "off",
-        "no-fallthrough": "off"
+        "no-fallthrough": "off",
+        "semi": ["error", "always"]
     }
 };

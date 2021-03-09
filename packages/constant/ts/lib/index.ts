@@ -1,3 +1,3 @@
-export * from "./bitfields"
-export * from "./enum"
-export * from "./models"
+export * from "./bitfields";
+export * from "./enum";
+export * from "./models";
