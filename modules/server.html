@@ -79,6 +79,12 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/server.specialid.html" class="tsd-kind-icon">SpecialID</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/server.remoteclient.html" class="tsd-kind-icon">Remote<wbr>Client</a></li>
@@ -96,7 +102,9 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="server.html#remoteclientevents" class="tsd-kind-icon">Remote<wbr>Client<wbr>Events</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="server.html#roomevents" class="tsd-kind-icon">Room<wbr>Events</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="server.html#skeldjsserverevents" class="tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events</a></li>
 							</ul>
 						</section>
 					</div>
@@ -105,12 +113,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="roomevents" class="tsd-anchor"></a>
-					<h3>Room<wbr>Events</h3>
-					<div class="tsd-signature tsd-kind-icon">Room<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
+					<a name="remoteclientevents" class="tsd-anchor"></a>
+					<h3>Remote<wbr>Client<wbr>Events</h3>
+					<div class="tsd-signature tsd-kind-icon">Remote<wbr>Client<wbr>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/server/ts/lib/Room.ts#L8">packages/server/ts/lib/Room.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/server/ts/lib/RemoteClient.ts#L23">packages/server/ts/lib/RemoteClient.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -118,6 +126,26 @@
 						<ul class="tsd-parameters">
 						</ul>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="roomevents" class="tsd-anchor"></a>
+					<h3>Room<wbr>Events</h3>
+					<div class="tsd-signature tsd-kind-icon">Room<wbr>Events<span class="tsd-signature-symbol">:</span> <a href="core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>room.destroy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/server/ts/lib/Room.ts#L24">packages/server/ts/lib/Room.ts:24</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="skeldjsserverevents" class="tsd-anchor"></a>
+					<h3>Skeldjs<wbr>Server<wbr>Events</h3>
+					<div class="tsd-signature tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events<span class="tsd-signature-symbol">:</span> <a href="events.html#propagatedevents" class="tsd-signature-type">PropagatedEvents</a><span class="tsd-signature-symbol">&lt;</span><a href="server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">{ </span>room<span class="tsd-signature-symbol">: </span><a href="../classes/server.room.html" class="tsd-signature-type">Room</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>disconnect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>client<span class="tsd-signature-symbol">: </span><a href="../classes/server.remoteclient.html" class="tsd-signature-type">RemoteClient</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>reason<span class="tsd-signature-symbol">: </span><a href="../enums/constant.disconnectreason.html" class="tsd-signature-type">DisconnectReason</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>packet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>client<span class="tsd-signature-symbol">: </span><a href="../classes/server.remoteclient.html" class="tsd-signature-type">RemoteClient</a><span class="tsd-signature-symbol">; </span>packet<span class="tsd-signature-symbol">: </span><a href="protocol.html#serverboundpacket" class="tsd-signature-type">ServerboundPacket</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/server/ts/lib/server.ts#L37">packages/server/ts/lib/server.ts:37</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -144,6 +172,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="data.html">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="pathfinding.html">pathfinding</a>
@@ -183,6 +214,9 @@
 						<a href="data.html" class="tsd-kind-icon">data</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="events.html" class="tsd-kind-icon">events</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -193,6 +227,9 @@
 					<li class="current tsd-kind-module">
 						<a href="server.html" class="tsd-kind-icon">server</a>
 						<ul>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/server.specialid.html" class="tsd-kind-icon">SpecialID</a>
+							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/server.remoteclient.html" class="tsd-kind-icon">Remote<wbr>Client</a>
 							</li>
@@ -209,7 +246,13 @@
 								<a href="../interfaces/server.serverconfig.html" class="tsd-kind-icon">Server<wbr>Config</a>
 							</li>
 							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="server.html#remoteclientevents" class="tsd-kind-icon">Remote<wbr>Client<wbr>Events</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 								<a href="server.html#roomevents" class="tsd-kind-icon">Room<wbr>Events</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="server.html#skeldjsserverevents" class="tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events</a>
 							</li>
 						</ul>
 					</li>

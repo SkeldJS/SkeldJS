@@ -60,7 +60,7 @@
 					<a href="core.systemstatus.html">SystemStatus</a>
 				</li>
 			</ul>
-			<h1>Class SystemStatus&lt;T&gt;</h1>
+			<h1>Class SystemStatus&lt;DataT, T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -71,6 +71,9 @@
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
+						<h4>DataT = <span class="tsd-signature-type">any</span></h4>
+					</li>
+					<li>
 						<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span> = <span class="tsd-signature-symbol">{}</span></h4>
 					</li>
 				</ul>
@@ -79,7 +82,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Emittery</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">&gt;</span>
+						<span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SystemStatus</span>
@@ -128,21 +131,9 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-class"><a href="../interfaces/core.systemstatus.listenerchangeddata.html" class="tsd-kind-icon">Listener<wbr>Changed<wbr>Data</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-class tsd-is-static"><a href="core.systemstatus.html#unsubscribefn" class="tsd-kind-icon">Unsubscribe<wbr>Fn</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="core.systemstatus.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.systemstatus.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -150,8 +141,6 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="core.systemstatus.html#ship" class="tsd-kind-icon">ship</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.systemstatus.html#systemtype" class="tsd-kind-icon">system<wbr>Type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="core.systemstatus.html#listeneradded" class="tsd-kind-icon">listener<wbr>Added</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="core.systemstatus.html#listenerremoved" class="tsd-kind-icon">listener<wbr>Removed</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="core.systemstatus.html#systemtype-1" class="tsd-kind-icon">system<wbr>Type</a></li>
 							</ul>
 						</section>
@@ -170,73 +159,37 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.systemstatus.html#handlerepair" class="tsd-kind-icon">Handle<wbr>Repair</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.systemstatus.html#handlesabotage" class="tsd-kind-icon">Handle<wbr>Sabotage</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.systemstatus.html#serialize" class="tsd-kind-icon">Serialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.systemstatus.html#anyevent" class="tsd-kind-icon">any<wbr>Event</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.systemstatus.html#bindmethods" class="tsd-kind-icon">bind<wbr>Methods</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.systemstatus.html#clearlisteners" class="tsd-kind-icon">clear<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.systemstatus.html#emit" class="tsd-kind-icon">emit</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.systemstatus.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.systemstatus.html#events" class="tsd-kind-icon">events</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.systemstatus.html#fix" class="tsd-kind-icon">fix</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.systemstatus.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.systemstatus.html#getlisteners" class="tsd-kind-icon">get<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.systemstatus.html#off" class="tsd-kind-icon">off</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.systemstatus.html#offany" class="tsd-kind-icon">off<wbr>Any</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.systemstatus.html#on" class="tsd-kind-icon">on</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.systemstatus.html#onany" class="tsd-kind-icon">on<wbr>Any</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.systemstatus.html#once" class="tsd-kind-icon">once</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="core.systemstatus.html#patch" class="tsd-kind-icon">patch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-protected"><a href="core.systemstatus.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-protected"><a href="core.systemstatus.html#removelisteners" class="tsd-kind-icon">remove<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.systemstatus.html#repair" class="tsd-kind-icon">repair</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.systemstatus.html#sabotage" class="tsd-kind-icon">sabotage</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="core.systemstatus.html#mixin" class="tsd-kind-icon">mixin</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.systemstatus.html#wait" class="tsd-kind-icon">wait</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
-					<a name="unsubscribefn" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Unsubscribe<wbr>Fn</h3>
-					<div class="tsd-signature tsd-kind-icon">Unsubscribe<wbr>Fn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in packages/client/node_modules/emittery/index.d.ts:414</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Removes an event subscription.</p>
-						</div>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-signature">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>System<wbr>Status<span class="tsd-signature-symbol">(</span>ship<span class="tsd-signature-symbol">: </span><a href="core.baseshipstatus.html" class="tsd-signature-type">BaseShipStatus</a>, data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">HazelBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.systemstatus.html" class="tsd-signature-type">SystemStatus</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>System<wbr>Status<span class="tsd-signature-symbol">(</span>ship<span class="tsd-signature-symbol">: </span><a href="core.baseshipstatus.html" class="tsd-signature-type">BaseShipStatus</a>, data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">HazelBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DataT</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="core.systemstatus.html" class="tsd-signature-type">SystemStatus</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides EventEmitter.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L29">packages/core/ts/lib/system/SystemStatus.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L32">packages/core/ts/lib/system/SystemStatus.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -245,7 +198,7 @@
 									<h5>ship: <a href="core.baseshipstatus.html" class="tsd-signature-type">BaseShipStatus</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">HazelBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">HazelBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DataT</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="core.systemstatus.html" class="tsd-signature-type">SystemStatus</a></h4>
@@ -261,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">ship<span class="tsd-signature-symbol">:</span> <a href="core.baseshipstatus.html" class="tsd-signature-type">BaseShipStatus</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L31">packages/core/ts/lib/system/SystemStatus.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L34">packages/core/ts/lib/system/SystemStatus.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -271,83 +224,9 @@
 					<div class="tsd-signature tsd-kind-icon">system<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.systemtype.html" class="tsd-signature-type">SystemType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L13">packages/core/ts/lib/system/SystemStatus.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L16">packages/core/ts/lib/system/SystemStatus.ts:16</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-					<a name="listeneradded" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> listener<wbr>Added</h3>
-					<div class="tsd-signature tsd-kind-icon">listener<wbr>Added<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">listenerAdded</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#listeneradded">listenerAdded</a></p>
-						<ul>
-							<li>Defined in packages/client/node_modules/emittery/index.d.ts:77</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when an event listener was added.</p>
-						</div>
-						<p>An object with <code>listener</code> and <code>eventName</code> (if <code>on</code> or <code>off</code> was used) is provided as event data.</p>
-						<dl class="tsd-comment-tags">
-							<dt>example</dt>
-							<dd><pre><code><span class="hljs-keyword">import</span> Emittery = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-<span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> Emittery();
-
-emitter.on(Emittery.listenerAdded, <span class="hljs-function">(<span class="hljs-params">{listener, eventName}</span>) =&gt;</span> {
-<span class="hljs-built_in">console</span>.log(listener);
-<span class="hljs-comment">//=&gt; data =&gt; {}</span>
-
-<span class="hljs-built_in">console</span>.log(eventName);
-<span class="hljs-comment">//=&gt; &#x27;🦄&#x27;</span>
-});
-
-emitter.on(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {
-<span class="hljs-comment">// Handle data</span>
-});</code></pre>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-					<a name="listenerremoved" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> listener<wbr>Removed</h3>
-					<div class="tsd-signature tsd-kind-icon">listener<wbr>Removed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">listenerRemoved</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#listenerremoved">listenerRemoved</a></p>
-						<ul>
-							<li>Defined in packages/client/node_modules/emittery/index.d.ts:105</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Fires when an event listener was removed.</p>
-						</div>
-						<p>An object with <code>listener</code> and <code>eventName</code> (if <code>on</code> or <code>off</code> was used) is provided as event data.</p>
-						<dl class="tsd-comment-tags">
-							<dt>example</dt>
-							<dd><pre><code><span class="hljs-keyword">import</span> Emittery = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-<span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> Emittery();
-
-<span class="hljs-keyword">const</span> off = emitter.on(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> {
-<span class="hljs-comment">// Handle data</span>
-});
-
-emitter.on(Emittery.listenerRemoved, <span class="hljs-function">(<span class="hljs-params">{listener, eventName}</span>) =&gt;</span> {
-<span class="hljs-built_in">console</span>.log(listener);
-<span class="hljs-comment">//=&gt; data =&gt; {}</span>
-
-<span class="hljs-built_in">console</span>.log(eventName);
-<span class="hljs-comment">//=&gt; &#x27;🦄&#x27;</span>
-});
-
-off();</code></pre>
-							</dd>
-						</dl>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
 					<a name="systemtype-1" class="tsd-anchor"></a>
@@ -355,7 +234,7 @@ off();</code></pre>
 					<div class="tsd-signature tsd-kind-icon">system<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.systemtype.html" class="tsd-signature-type">SystemType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L12">packages/core/ts/lib/system/SystemStatus.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L15">packages/core/ts/lib/system/SystemStatus.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -373,7 +252,7 @@ off();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L15">packages/core/ts/lib/system/SystemStatus.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L18">packages/core/ts/lib/system/SystemStatus.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -381,7 +260,7 @@ off();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L19">packages/core/ts/lib/system/SystemStatus.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L22">packages/core/ts/lib/system/SystemStatus.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -404,7 +283,7 @@ off();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L27">packages/core/ts/lib/system/SystemStatus.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L30">packages/core/ts/lib/system/SystemStatus.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -424,7 +303,7 @@ off();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L56">packages/core/ts/lib/system/SystemStatus.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L63">packages/core/ts/lib/system/SystemStatus.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -450,7 +329,7 @@ off();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L62">packages/core/ts/lib/system/SystemStatus.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L69">packages/core/ts/lib/system/SystemStatus.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -473,7 +352,7 @@ off();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L60">packages/core/ts/lib/system/SystemStatus.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L67">packages/core/ts/lib/system/SystemStatus.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -499,7 +378,7 @@ off();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L64">packages/core/ts/lib/system/SystemStatus.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L71">packages/core/ts/lib/system/SystemStatus.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -522,7 +401,7 @@ off();</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L58">packages/core/ts/lib/system/SystemStatus.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L65">packages/core/ts/lib/system/SystemStatus.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -538,143 +417,18 @@ off();</code></pre>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="anyevent" class="tsd-anchor"></a>
-					<h3>any<wbr>Event</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">any<wbr>Event<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#anyevent">anyEvent</a></p>
-								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:367</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get an async iterator which buffers a tuple of an event name and data each time an event is emitted.</p>
-								</div>
-								<p>Call <code>return()</code> on the iterator to remove the subscription.</p>
-								<p>In the same way as for <code>events</code>, you can subscribe by using the <code>for await</code> statement.</p>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code><span class="hljs-keyword">import</span> Emittery = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-const emitter = <span class="hljs-keyword">new</span> Emittery();
-const iterator = emitter.anyEvent();
-
-emitter.emit(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈1&#x27;</span>); <span class="hljs-regexp">//</span> Buffered
-emitter.emit(<span class="hljs-string">&#x27;🌟&#x27;</span>, <span class="hljs-string">&#x27;🌈2&#x27;</span>); <span class="hljs-regexp">//</span> Buffered
-
-iterator.next()
-.<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">({value, done})</span> =&gt;</span> {
-<span class="hljs-regexp">//</span> done <span class="hljs-keyword">is</span> <span class="hljs-literal">false</span>
-<span class="hljs-regexp">//</span> value <span class="hljs-keyword">is</span> [<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈1&#x27;</span>]
-<span class="hljs-keyword">return</span> iterator.next();
-})
-.<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">({value, done})</span> =&gt;</span> {
-<span class="hljs-regexp">//</span> done <span class="hljs-keyword">is</span> <span class="hljs-literal">false</span>
-<span class="hljs-regexp">//</span> value <span class="hljs-keyword">is</span> [<span class="hljs-string">&#x27;🌟&#x27;</span>, <span class="hljs-string">&#x27;🌈2&#x27;</span>]
-<span class="hljs-regexp">//</span> revoke subscription
-<span class="hljs-keyword">return</span> iterator.<span class="hljs-keyword">return</span>();
-})
-.<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">({done})</span> =&gt;</span> {
-<span class="hljs-regexp">//</span> done <span class="hljs-keyword">is</span> <span class="hljs-literal">true</span>
-});</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">AsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="bindmethods" class="tsd-anchor"></a>
-					<h3>bind<wbr>Methods</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">bind<wbr>Methods<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span>, methodNames<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#bindmethods">bindMethods</a></p>
-								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:407</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Bind the given <code>methodNames</code>, or all <code>Emittery</code> methods if <code>methodNames</code> is not defined, into the <code>target</code> object.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code><span class="hljs-keyword">import</span> <span class="hljs-type">Emittery</span> = require(<span class="hljs-symbol">&#x27;emitter</span>y&#x27;);
-
-const <span class="hljs-class"><span class="hljs-keyword">object</span> </span>= {};
-
-<span class="hljs-keyword">new</span> <span class="hljs-type">Emittery</span>().bindMethods(<span class="hljs-class"><span class="hljs-keyword">object</span>)</span>;
-
-<span class="hljs-keyword">object</span>.emit(<span class="hljs-symbol">&#x27;even</span>t&#x27;);</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>target: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> methodNames: <span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="clearlisteners" class="tsd-anchor"></a>
-					<h3>clear<wbr>Listeners</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">clear<wbr>Listeners<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#clearlisteners">clearListeners</a></p>
-								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:386</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Clear all event listeners on the instance.</p>
-								</div>
-								<p>If <code>eventName</code> is given, only the listeners for that event are cleared.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> eventName: <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="emit" class="tsd-anchor"></a>
 					<h3>emit</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">emit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="pathfinding.skeldjspathfinder.html">SkeldjsPathfinder</a>.<a href="pathfinding.skeldjspathfinder.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L43">packages/core/ts/lib/system/SystemStatus.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L50">packages/core/ts/lib/system/SystemStatus.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -683,177 +437,7 @@ const <span class="hljs-class"><span class="hljs-keyword">object</span> </span>=
 									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-					<a name="emitserial" class="tsd-anchor"></a>
-					<h3>emit<wbr>Serial</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">emit<wbr>Serial&lt;Name&gt;<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon">emit<wbr>Serial&lt;Name&gt;<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Name</span>, eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#emitserial">emitSerial</a></p>
-								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:315</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Same as <code>emit()</code>, but it waits for each listener to resolve before triggering the next one. This can be useful if your events depend on each other. Although ideally they should not. Prefer <code>emit()</code> whenever possible.</p>
-								</div>
-								<p>If any of the listeners throw/reject, the returned promise will be rejected with the error and the remaining listeners will <em>not</em> be called.</p>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DatalessEventNames</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol">&gt;</span></h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>eventName: <span class="tsd-signature-type">Name</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>A promise that resolves when all the event listeners are done.</p>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#emitserial">emitSerial</a></p>
-								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:316</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>eventName: <span class="tsd-signature-type">Name</span></h5>
-								</li>
-								<li>
-									<h5>eventData: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-					<a name="events" class="tsd-anchor"></a>
-					<h3>events</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">events&lt;Name&gt;<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#events">events</a></p>
-								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:239</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get an async iterator which buffers data each time an event is emitted.</p>
-								</div>
-								<p>Call <code>return()</code> on the iterator to remove the subscription.</p>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code><span class="hljs-keyword">import</span> Emittery = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-<span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> Emittery();
-<span class="hljs-keyword">const</span> iterator = emitter.events(<span class="hljs-string">&#x27;🦄&#x27;</span>);
-
-emitter.emit(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈1&#x27;</span>); <span class="hljs-comment">// Buffered</span>
-emitter.emit(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈2&#x27;</span>); <span class="hljs-comment">// Buffered</span>
-
-iterator
-.next()
-.then(<span class="hljs-function">(<span class="hljs-params">{value, done}</span>) =&gt;</span> {
-<span class="hljs-comment">// done === false</span>
-<span class="hljs-comment">// value === &#x27;🌈1&#x27;</span>
-<span class="hljs-keyword">return</span> iterator.next();
-})
-.then(<span class="hljs-function">(<span class="hljs-params">{value, done}</span>) =&gt;</span> {
-<span class="hljs-comment">// done === false</span>
-<span class="hljs-comment">// value === &#x27;🌈2&#x27;</span>
-<span class="hljs-comment">// Revoke subscription</span>
-<span class="hljs-keyword">return</span> iterator.return();
-})
-.then(<span class="hljs-function">(<span class="hljs-params">{done}</span>) =&gt;</span> {
-<span class="hljs-comment">// done === true</span>
-});</code></pre>
-										<p>In practice you would usually consume the events using the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of">for await</a> statement. In that case, to revoke the subscription simply break the loop.</p>
-									</dd>
-									<dt>example</dt>
-									<dd><pre><code><span class="hljs-keyword">import</span> Emittery = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-<span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> Emittery();
-<span class="hljs-keyword">const</span> iterator = emitter.events(<span class="hljs-string">&#x27;🦄&#x27;</span>);
-
-emitter.emit(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈1&#x27;</span>); <span class="hljs-comment">// Buffered</span>
-emitter.emit(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈2&#x27;</span>); <span class="hljs-comment">// Buffered</span>
-
-<span class="hljs-comment">// In an async context.</span>
-<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> data <span class="hljs-keyword">of</span> iterator) {
-<span class="hljs-keyword">if</span> (data === <span class="hljs-string">&#x27;🌈2&#x27;</span>) {
-<span class="hljs-keyword">break</span>; <span class="hljs-comment">// Revoke the subscription when we see the value `🌈2`.</span>
-}
-}</code></pre>
-										<p>It accepts multiple event names.</p>
-									</dd>
-									<dt>example</dt>
-									<dd><pre><code><span class="hljs-keyword">import</span> Emittery = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-<span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> Emittery();
-<span class="hljs-keyword">const</span> iterator = emitter.events([<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🦊&#x27;</span>]);
-
-emitter.emit(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈1&#x27;</span>); <span class="hljs-comment">// Buffered</span>
-emitter.emit(<span class="hljs-string">&#x27;🦊&#x27;</span>, <span class="hljs-string">&#x27;🌈2&#x27;</span>); <span class="hljs-comment">// Buffered</span>
-
-iterator
-.next()
-.then(<span class="hljs-function">(<span class="hljs-params">{value, done}</span>) =&gt;</span> {
-<span class="hljs-comment">// done === false</span>
-<span class="hljs-comment">// value === &#x27;🌈1&#x27;</span>
-<span class="hljs-keyword">return</span> iterator.next();
-})
-.then(<span class="hljs-function">(<span class="hljs-params">{value, done}</span>) =&gt;</span> {
-<span class="hljs-comment">// done === false</span>
-<span class="hljs-comment">// value === &#x27;🌈2&#x27;</span>
-<span class="hljs-comment">// Revoke subscription</span>
-<span class="hljs-keyword">return</span> iterator.return();
-})
-.then(<span class="hljs-function">(<span class="hljs-params">{done}</span>) =&gt;</span> {
-<span class="hljs-comment">// done === true</span>
-});</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>eventName: <span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">AsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -867,39 +451,40 @@ iterator
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L98">packages/core/ts/lib/system/SystemStatus.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L117">packages/core/ts/lib/system/SystemStatus.ts:117</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="listenercount" class="tsd-anchor"></a>
-					<h3>listener<wbr>Count</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">listener<wbr>Count<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="getlisteners" class="tsd-anchor"></a>
+					<h3>get<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#listenercount">listenerCount</a></p>
+								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#getlisteners">getListeners</a></p>
 								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:391</li>
+									<li>Defined in packages/client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:15</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The number of listeners for the <code>eventName</code> or all events if not specified.</p>
-								</div>
-							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> eventName: <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h5>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -907,122 +492,29 @@ iterator
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;Name&gt;<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Name</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#off">off</a></p>
 								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:266</li>
+									<li>Defined in packages/client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:14</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Remove one or more event subscriptions.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code>import Emittery = require(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-const <span class="hljs-keyword">emitter</span> = new Emittery();
-
-const listener = data =&gt; console.<span class="hljs-keyword">log</span>(data);
-(async () =&gt; {
-<span class="hljs-keyword">emitter</span>.on([<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🐶&#x27;</span>, <span class="hljs-string">&#x27;🦊&#x27;</span>], listener);
-await <span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit</span>(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>);
-await <span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit</span>(<span class="hljs-string">&#x27;🐶&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>);
-await <span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit</span>(<span class="hljs-string">&#x27;🦊&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>);
-<span class="hljs-keyword">emitter</span>.off(<span class="hljs-string">&#x27;🦄&#x27;</span>, listener);
-<span class="hljs-keyword">emitter</span>.off([<span class="hljs-string">&#x27;🐶&#x27;</span>, <span class="hljs-string">&#x27;🦊&#x27;</span>], listener);
-await <span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit</span>(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;a&#x27;</span>); <span class="hljs-comment">// nothing happens</span>
-await <span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit</span>(<span class="hljs-string">&#x27;🐶&#x27;</span>, <span class="hljs-string">&#x27;b&#x27;</span>); <span class="hljs-comment">// nothing happens</span>
-await <span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit</span>(<span class="hljs-string">&#x27;🦊&#x27;</span>, <span class="hljs-string">&#x27;c&#x27;</span>); <span class="hljs-comment">// nothing happens</span>
-})();</code></pre>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>eventName: <span class="tsd-signature-type">Name</span></h5>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-signature">
-											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>eventData: <span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="offany" class="tsd-anchor"></a>
-					<h3>off<wbr>Any</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off<wbr>Any<span class="tsd-signature-symbol">(</span>listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a>, eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#offany">offAny</a></p>
-								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:374</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Remove an <code>onAny</code> subscription.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>listener: <span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a>, eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-signature">
-											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a>, eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>eventName: <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h5>
-														</li>
-														<li>
-															<h5>eventData: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1033,125 +525,44 @@ await <span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit<
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;Name&gt;<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Name</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Emittery.UnsubscribeFn</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#on">on</a></p>
 								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:151</li>
+									<li>Defined in packages/client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:11</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Subscribe to one or more events.</p>
-								</div>
-								<p>Using the same listener multiple times for the same event will result in only one method call per emitted event.</p>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code><span class="hljs-keyword">import</span> Emittery = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-<span class="hljs-keyword">const</span> emitter = <span class="hljs-keyword">new</span> Emittery();
-
-emitter.<span class="hljs-literal">on</span>(<span class="hljs-string">&#x27;🦄&#x27;</span>, data =&gt; {
-<span class="hljs-built_in">console</span>.log(data);
-});
-emitter.<span class="hljs-literal">on</span>([<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🐶&#x27;</span>], data =&gt; {
-<span class="hljs-built_in">console</span>.log(data);
-});
-
-emitter.emit(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈&#x27;</span>); <span class="hljs-regexp">// log =&gt; &#x27;🌈&#x27; x2
-emitter.emit(&#x27;🐶&#x27;, &#x27;🍖&#x27;); //</span> log =&gt; <span class="hljs-string">&#x27;🍖&#x27;</span></code></pre>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>eventName: <span class="tsd-signature-type">Name</span></h5>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-signature">
-											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>eventData: <span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Emittery.UnsubscribeFn</span></h4>
-							<p>An unsubscribe method.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="onany" class="tsd-anchor"></a>
-					<h3>on<wbr>Any</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on<wbr>Any<span class="tsd-signature-symbol">(</span>listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a>, eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Emittery.UnsubscribeFn</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#onany">onAny</a></p>
-								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:326</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Subscribe to be notified about any event.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
 							<ul class="tsd-parameters">
-								<li>
-									<h5>listener: <span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a>, eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-signature">
-											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a>, eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>eventName: <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h5>
-														</li>
-														<li>
-															<h5>eventData: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">]</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-												</li>
-											</ul>
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 										</li>
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Emittery.UnsubscribeFn</span></h4>
-							<p>A method to unsubscribe.</p>
 						</li>
 					</ul>
 				</section>
@@ -1159,54 +570,121 @@ emitter.emit(&#x27;🐶&#x27;, &#x27;🍖&#x27;); //</span> log =&gt; <span clas
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;Name&gt;<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#once">once</a></p>
 								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:295</li>
+									<li>Defined in packages/client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:12</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Subscribe to one or more events only once. It will be unsubscribed after the first
-									event.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code>import Emittery = require(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-const <span class="hljs-keyword">emitter</span> = new Emittery();
-
-<span class="hljs-keyword">emitter</span>.once(<span class="hljs-string">&#x27;🦄&#x27;</span>).then(data =&gt; {
-console.<span class="hljs-keyword">log</span>(data);
-<span class="hljs-comment">//=&gt; &#x27;🌈&#x27;</span>
-});
-<span class="hljs-keyword">emitter</span>.once([<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🐶&#x27;</span>]).then(data =&gt; {
-console.<span class="hljs-keyword">log</span>(data);
-});
-
-<span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit</span>(<span class="hljs-string">&#x27;🦄&#x27;</span>, <span class="hljs-string">&#x27;🌈&#x27;</span>); <span class="hljs-comment">// Logs `🌈` twice</span>
-<span class="hljs-keyword">emitter</span>.<span class="hljs-keyword">emit</span>(<span class="hljs-string">&#x27;🐶&#x27;</span>, <span class="hljs-string">&#x27;🍖&#x27;</span>); <span class="hljs-comment">// Nothing happens</span></code></pre>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>eventName: <span class="tsd-signature-type">Name</span></h5>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">OmnipresentEventData</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Name</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>The event data when <code>eventName</code> is emitted.</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="patch" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> patch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">patch<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataT</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L46">packages/core/ts/lib/system/SystemStatus.ts:46</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>data: <span class="tsd-signature-type">DataT</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-protected">
+					<a name="removealllisteners" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> remove<wbr>All<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>All<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#removealllisteners">removeAllListeners</a></p>
+								<ul>
+									<li>Defined in packages/client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:17</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-protected">
+					<a name="removelisteners" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> remove<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#removelisteners">removeListeners</a></p>
+								<ul>
+									<li>Defined in packages/client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:16</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1220,7 +698,7 @@ console.<span class="hljs-keyword">log</span>(data);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L82">packages/core/ts/lib/system/SystemStatus.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L95">packages/core/ts/lib/system/SystemStatus.ts:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1246,7 +724,7 @@ console.<span class="hljs-keyword">log</span>(data);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f6de02/packages/core/ts/lib/system/SystemStatus.ts#L66">packages/core/ts/lib/system/SystemStatus.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/core/ts/lib/system/SystemStatus.ts#L73">packages/core/ts/lib/system/SystemStatus.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1259,71 +737,33 @@ console.<span class="hljs-keyword">log</span>(data);
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-					<a name="mixin" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> mixin</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">mixin<span class="tsd-signature-symbol">(</span>emitteryPropertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span>, methodNames<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span>&lt;T&gt;<span class="tsd-signature-symbol">(</span>klass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="wait" class="tsd-anchor"></a>
+					<h3>wait</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#mixin">mixin</a></p>
+								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#wait">wait</a></p>
 								<ul>
-									<li>Defined in packages/client/node_modules/emittery/index.d.ts:122</li>
+									<li>Defined in packages/client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:13</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>In TypeScript, it returns a decorator which mixins <code>Emittery</code> as property <code>emitteryPropertyName</code> and <code>methodNames</code>, or all <code>Emittery</code> methods if <code>methodNames</code> is not defined, into the target class.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code><span class="hljs-keyword">import</span> Emittery = require(<span class="hljs-string">&#x27;emittery&#x27;</span>);
-
-@Emittery.<span class="hljs-keyword">mixin</span>(<span class="hljs-string">&#x27;emittery&#x27;</span>)
-<span class="hljs-keyword">class</span> <span class="hljs-symbol">MyClass</span> {}
-
-<span class="hljs-keyword">const</span> instance = new MyClass();
-
-instance.emit(<span class="hljs-string">&#x27;event&#x27;</span>);</code></pre>
-									</dd>
-								</dl>
-							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>emitteryPropertyName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> methodNames: <span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns &lt;T&gt;<span class="tsd-signature-symbol">(</span>klass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter-signature">
-									<ul class="tsd-signatures tsd-kind-type-literal tsd-has-type-parameter">
-										<li class="tsd-signature tsd-kind-icon">&lt;T&gt;<span class="tsd-signature-symbol">(</span>klass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<h4 class="tsd-type-parameters-title">Type parameters</h4>
-											<ul class="tsd-type-parameters">
-												<li>
-													<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>constructor<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h4>
-												</li>
-											</ul>
-											<h4 class="tsd-parameters-title">Parameters</h4>
-											<ul class="tsd-parameters">
-												<li>
-													<h5>klass: <span class="tsd-signature-type">T</span></h5>
-												</li>
-											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-										</li>
-									</ul>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1352,6 +792,9 @@ instance.emit(<span class="hljs-string">&#x27;event&#x27;</span>);</code></pre>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/data.html">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html">pathfinding</a>
@@ -1392,13 +835,7 @@ instance.emit(<span class="hljs-string">&#x27;event&#x27;</span>);</code></pre>
 							<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 								<a href="core.systemstatus.html" class="tsd-kind-icon">System<wbr>Status</a>
 								<ul>
-									<li class=" tsd-kind-interface tsd-parent-kind-class">
-										<a href="../interfaces/core.systemstatus.listenerchangeddata.html" class="tsd-kind-icon">Listener<wbr>Changed<wbr>Data</a>
-									</li>
-									<li class=" tsd-kind-type-alias tsd-parent-kind-class tsd-is-static">
-										<a href="core.systemstatus.html#unsubscribefn" class="tsd-kind-icon">Unsubscribe<wbr>Fn</a>
-									</li>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class">
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.systemstatus.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
@@ -1406,12 +843,6 @@ instance.emit(<span class="hljs-string">&#x27;event&#x27;</span>);</code></pre>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.systemstatus.html#systemtype" class="tsd-kind-icon">system<wbr>Type</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-										<a href="core.systemstatus.html#listeneradded" class="tsd-kind-icon">listener<wbr>Added</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-										<a href="core.systemstatus.html#listenerremoved" class="tsd-kind-icon">listener<wbr>Removed</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
 										<a href="core.systemstatus.html#systemtype-1" class="tsd-kind-icon">system<wbr>Type</a>
@@ -1437,44 +868,32 @@ instance.emit(<span class="hljs-string">&#x27;event&#x27;</span>);</code></pre>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.systemstatus.html#serialize" class="tsd-kind-icon">Serialize</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.systemstatus.html#anyevent" class="tsd-kind-icon">any<wbr>Event</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.systemstatus.html#bindmethods" class="tsd-kind-icon">bind<wbr>Methods</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.systemstatus.html#clearlisteners" class="tsd-kind-icon">clear<wbr>Listeners</a>
-									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.systemstatus.html#emit" class="tsd-kind-icon">emit</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-										<a href="core.systemstatus.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-										<a href="core.systemstatus.html#events" class="tsd-kind-icon">events</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.systemstatus.html#fix" class="tsd-kind-icon">fix</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.systemstatus.html#listenercount" class="tsd-kind-icon">listener<wbr>Count</a>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.systemstatus.html#getlisteners" class="tsd-kind-icon">get<wbr>Listeners</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.systemstatus.html#off" class="tsd-kind-icon">off</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.systemstatus.html#offany" class="tsd-kind-icon">off<wbr>Any</a>
-									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.systemstatus.html#on" class="tsd-kind-icon">on</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.systemstatus.html#onany" class="tsd-kind-icon">on<wbr>Any</a>
-									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.systemstatus.html#once" class="tsd-kind-icon">once</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+										<a href="core.systemstatus.html#patch" class="tsd-kind-icon">patch</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-protected">
+										<a href="core.systemstatus.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-protected">
+										<a href="core.systemstatus.html#removelisteners" class="tsd-kind-icon">remove<wbr>Listeners</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.systemstatus.html#repair" class="tsd-kind-icon">repair</a>
@@ -1482,8 +901,8 @@ instance.emit(<span class="hljs-string">&#x27;event&#x27;</span>);</code></pre>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.systemstatus.html#sabotage" class="tsd-kind-icon">sabotage</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-										<a href="core.systemstatus.html#mixin" class="tsd-kind-icon">mixin</a>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.systemstatus.html#wait" class="tsd-kind-icon">wait</a>
 									</li>
 								</ul>
 							</li>
@@ -1493,6 +912,9 @@ instance.emit(<span class="hljs-string">&#x27;event&#x27;</span>);</code></pre>
 				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/data.html" class="tsd-kind-icon">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
@@ -1535,16 +957,14 @@ instance.emit(<span class="hljs-string">&#x27;event&#x27;</span>);</code></pre>
 				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>

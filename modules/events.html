@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;plugins/index&quot; | SkeldJS</title>
+	<title>events | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,16 +54,25 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_plugins_index_.html">&quot;plugins/index&quot;</a>
+					<a href="events.html">events</a>
 				</li>
 			</ul>
-			<h1>Module &quot;plugins/index&quot;</h1>
+			<h1>Package events</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<a href="#skeldjsevents" id="skeldjsevents" style="color: inherit; text-decoration: none;">
+						<h2>@skeldjs/events</h2>
+					</a>
+					<p>A simple cancellable asynchronous event emitter.</p>
+					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS/modules/data.html">https://skeldjs.github.io/SkeldJS/modules/data.html</a></p>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -71,11 +80,76 @@
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_plugins_index_.skeldjsdummyclient.html" class="tsd-kind-icon">Skeldjs<wbr>Dummy<wbr>Client</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_plugins_index_.skeldjsdummyserver.html" class="tsd-kind-icon">Skeldjs<wbr>Dummy<wbr>Server</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_plugins_index_.skeldjsplugin.html" class="tsd-kind-icon">Skeldjs<wbr>Plugin</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter"><a href="../classes/events.eventemitter.html" class="tsd-kind-icon">Event<wbr>Emitter</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="events.html#eventcontext" class="tsd-kind-icon">Event<wbr>Context</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="events.html#propagatedevents" class="tsd-kind-icon">Propagated<wbr>Events</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="eventcontext" class="tsd-anchor"></a>
+					<h3>Event<wbr>Context</h3>
+					<div class="tsd-signature tsd-kind-icon">Event<wbr>Context<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>cancel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>cancelled<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/events/ts/lib/EventEmitter.ts#L1">packages/events/ts/lib/EventEmitter.ts:1</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>cancel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>cancelled<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="propagatedevents" class="tsd-anchor"></a>
+					<h3>Propagated<wbr>Events</h3>
+					<div class="tsd-signature tsd-kind-icon">Propagated<wbr>Events&lt;Child, Prepend&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/15e34bb/packages/events/ts/lib/PropagatedEvents.ts#L1">packages/events/ts/lib/PropagatedEvents.ts:1</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Child<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li>
+							<h4>Prepend<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+						</ul>
 					</div>
 				</section>
 			</section>
@@ -89,7 +163,7 @@
 					<li class=" tsd-kind-module">
 						<a href="_plugins_anticheat_index_.html">&quot;plugins/anticheat/index&quot;</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="_plugins_index_.html">&quot;plugins/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -104,7 +178,7 @@
 					<li class=" tsd-kind-module">
 						<a href="data.html">data</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -129,24 +203,9 @@
 					<li class=" tsd-kind-module">
 						<a href="_plugins_anticheat_index_.html" class="tsd-kind-icon">&quot;plugins/anticheat/index&quot;</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="_plugins_index_.html" class="tsd-kind-icon">&quot;plugins/index&quot;</a>
-						<ul>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/_plugins_index_.skeldjsdummyclient.html" class="tsd-kind-icon">Skeldjs<wbr>Dummy<wbr>Client</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/_plugins_index_.skeldjsdummyserver.html" class="tsd-kind-icon">Skeldjs<wbr>Dummy<wbr>Server</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/_plugins_index_.skeldjsplugin.html" class="tsd-kind-icon">Skeldjs<wbr>Plugin</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="client.html" class="tsd-kind-icon">client</a>
 					</li>
@@ -159,9 +218,24 @@
 					<li class=" tsd-kind-module">
 						<a href="data.html" class="tsd-kind-icon">data</a>
 					</li>
-					<li class=" tsd-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
 						<a href="events.html" class="tsd-kind-icon">events</a>
+						<ul>
+							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="../classes/events.eventemitter.html" class="tsd-kind-icon">Event<wbr>Emitter</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="events.html#eventcontext" class="tsd-kind-icon">Event<wbr>Context</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="events.html#propagatedevents" class="tsd-kind-icon">Propagated<wbr>Events</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
