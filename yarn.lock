@@ -1134,6 +1134,11 @@
     "@octokit/openapi-types" "^2.0.1"
     "@types/node" ">= 8"
 
+"@skeldjs/events@^2.4.1":
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/@skeldjs/events/-/events-2.5.6.tgz#e6d9d8cc08dbc1d8f44d633815a5ee801da963d6"
+  integrity sha512-/AkU258nt0+aPGAfp9CmFUKzr7ORzIS8EKl2Qrz/Oa5v60KlZc4X337QuYeg5tLjkhFmnCyb79kTd5QT4W7+3A==
+
 "@strictsoftware/typedoc-plugin-monorepo@^0.3.1":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@strictsoftware/typedoc-plugin-monorepo/-/typedoc-plugin-monorepo-0.3.1.tgz#83a704bad2cf90a05f62f1c2587b0be09693a9a0"
@@ -2479,11 +2484,6 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
-
-emittery@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/emittery/-/emittery-0.8.1.tgz#bb23cc86d03b30aa75a7f734819dee2e1ba70860"
-  integrity sha512-uDfvUjVrfGJJhymx/kz6prltenw1u7WrCg1oa94zYY8xxVpLLUu045LAT0dhDZdXG58/EpPL/5kA180fQ/qudg==
 
 emoji-regex@^7.0.1:
   version "7.0.3"
