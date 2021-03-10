@@ -4,7 +4,7 @@
     "readme": "./README.md",
     "out": "docs",
     "mode": "modules",
-    "exclude": ["example/**/*.ts", "plugins", "spec"],
+    "exclude": ["example/**/*.ts", "plugins/**/*.ts", "spec/**/*.ts"],
     "external-modulemap": ".*packages\/([^\/]+)",
     "excludePrivate": true,
     "excludeNotExported": true
