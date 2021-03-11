@@ -1,8 +1,7 @@
 {
   "name": "@skeldjs/text",
-  "version": "2.5.7",
+  "version": "2.5.9",
   "main": "js/index.js",
-  "private": true,
   "scripts": {
     "build": "tsc -p ./",
     "build:ci": "yarn install && tsc -p ./",
