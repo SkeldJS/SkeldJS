@@ -91,6 +91,9 @@ export type HostableEvents = PropagatedEvents<
         "room.fixedupdate": {
             stream: GameDataMessage[];
         };
+        "room.setpublic": {
+            public: boolean;
+        };
         "component.spawn": {
             component: AnyNetworkable;
         };
@@ -290,6 +293,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         switch (tag) {
             case AlterGameTag.ChangePrivacy:
                 this.privacy = value ? "public" : "private";
+                this.emit("setPublic", { public: this.privacy === "public" });
                 break;
         }
     }
@@ -314,10 +318,6 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
             AlterGameTag.ChangePrivacy,
             is_public ? 1 : 0
         );
-    }
-
-    async setVisibility(visibility: PrivacyType) {
-        await this.setPublic(visibility === "public");
     }
 
     setSettings(settings: Partial<GameOptions>) {
@@ -722,6 +722,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
             flags: object.flags,
             components: object.components.map((component) => {
                 const data = HazelBuffer.alloc(0);
+                component.PreSerialize();
                 component.Serialize(data, true);
 
                 return {
@@ -841,6 +842,7 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
                                     }
 
                                     const data = HazelBuffer.alloc(0);
+                                    component.PreSerialize();
                                     component.Serialize(data, true);
 
                                     col.components.push({

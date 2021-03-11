@@ -100,7 +100,7 @@ function transformer(tokens: ParseToken[], tagName?: string) {
             part.value.children = child_parts;
         }
 
-        parts.push(part as ParsePart);
+        parts.push(part);
     }
 
     return parts;

@@ -20,7 +20,16 @@ import {
 
 import { Room } from "./Room";
 
-export type RemoteClientEvents = {};
+export type RemoteClientEvents = {
+    "remote.connected": {
+        username: string;
+        version: number;
+    };
+    "remote.joinroom": {
+        code: number;
+        found: Room;
+    }
+};
 
 export class RemoteClient extends EventEmitter<RemoteClientEvents> {
     nonce: number;
@@ -51,6 +60,18 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
         this.packets_sent = [];
         this.packets_recv = [];
         this.stream = [];
+    }
+
+    async emit(...args: any[]) {
+        const event = args[0] as keyof RemoteClientEvents;
+        const data = args[1] as any;
+
+        this.server.emit(event, {
+            remote: this,
+            ...data
+        });
+
+        return super.emit(event, data);
     }
 
     identify(username: string, version: string | number) {

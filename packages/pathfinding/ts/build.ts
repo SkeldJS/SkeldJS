@@ -64,9 +64,9 @@ function gradientSetGridPoint(
     const basey = -40;
     const width = 80;
     const height = 80;
-    const density = 8;
+    const density = 16;
     const gradientDropoff = 0;
-    const wallGradientWeight = Math.ceil(2);
+    const wallGradientWeight = 2;
 
     try {
         await fs.mkdir(path.resolve(__dirname, "../data/build"));

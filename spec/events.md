@@ -88,3 +88,9 @@
 * `pathfinding.pause` - Emitted when the pathfinder is paused.
 
 * `engine.recalculate` - Emitted when the pathfinder recalculates its path.
+
+
+# Server
+* `remote.connected` - Emitted when a client connects to the server.
+* `remote.joinroom` - Emitted when a client is joining a room.
+* `remote.hostroom` - Emitted when a client is about to host a room.

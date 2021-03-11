@@ -133,7 +133,6 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
                 });
             }
         }
-
         this.dirtyBit = 0;
     }
 
