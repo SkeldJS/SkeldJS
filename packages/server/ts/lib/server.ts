@@ -20,7 +20,7 @@ import { HazelBuffer, V2Gen, ritoa, getMissing, sleep } from "@skeldjs/util";
 import { AlterGameTag } from "@skeldjs/core";
 import { EventContext, EventEmitter, PropagatedEvents } from "@skeldjs/events";
 
-import { RemoteClient } from "./RemoteClient";
+import { RemoteClient, RemoteClientEvents } from "./RemoteClient";
 
 import { Room, RoomEvents } from "./Room";
 import { SpecialID } from "./constants/IDs";
@@ -34,7 +34,10 @@ const default_config = (): ServerConfig => ({
     host: "0.0.0.0",
 });
 
-export type SkeldjsServerEvents = PropagatedEvents<RoomEvents, { room: Room }> & {
+export type SkeldjsServerEvents =
+    PropagatedEvents<RoomEvents, { room: Room }> &
+    PropagatedEvents<RemoteClientEvents, { remote: RemoteClient }> &
+    {
     packet: {
         client: RemoteClient,
         packet: ServerboundPacket
