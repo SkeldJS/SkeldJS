@@ -390,7 +390,8 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         for (let i = 0; i < player.components.length; i++) {
             const component = player.components[i];
 
-            this.despawnComponent(component);
+            if (component)
+                this.despawnComponent(component);
         }
 
         this.players.delete(player.id);

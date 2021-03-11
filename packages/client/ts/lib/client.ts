@@ -240,7 +240,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this.handlePacket(packet);
     }
 
-    async connect(ip: string, port: number) {
+    async connect(ip: string, port: number, username?: string) {
         await this.disconnect();
 
         this.ip = ip;
@@ -250,6 +250,10 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this.connected = true;
 
         this.socket.on("message", this.onMessage.bind(this));
+
+        if (typeof username === "string") {
+            await this.identify(username);
+        }
     }
 
     private _reset() {
