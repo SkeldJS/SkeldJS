@@ -1,18 +1,4 @@
-export enum Align {
-    Left = "left",
-    Center = "center",
-    Right = "right"
-}
 
-export type TMPColorName = "black"|"blue"|"green"|"orange"|"purple";
-
-export type TMPTag = "doc"|"align"|"alpha"|"color"|"b"|"i"|"cspace"|"font"|"indent"|"line-height"|"line-indent"|"link"|"lowercase"|"uppercase"|"smallcaps"|"margin"|
-    "mark"|"mspace"|"noparse"|"nobr"|"page"|"pos"|"size"|"space"|"sprite"|"s"|"u"|"style"|"sub"|"sup"|"voffset"|"width";
-
-export type TMPNode = TMPElement|string;
-export type TMPRGBA = [ number, number, number, number ];
-
-const hex = (h: number) => h.toString(16).padStart(2, "0");
 
 export class TMPElement {
     static SINGLES: TMPTag[] = ["page"];
@@ -90,94 +76,82 @@ export class TMPElement {
     }
 
     text(node: TMPNode) {
-        if (typeof node === "string") {
-            if (node.includes("<")) {
-                this.children.push(new TMPElement("noparse", {}, node));
-                return this;
-            }
-        }
-
-        this.children.push(node);
+        this.children.push(text(node));
         return this;
     }
 
-    align(align: Align, content: TMPNode) {
-        this.children.push(new TMPElement("align", { align }, content));
+    align(alignment: Align, content: TMPNode) {
+        this.children.push(align(alignment, content));
         return this;
     }
 
-    alpha(alpha: string|number, content: TMPNode) {
-        this.children.push(new TMPElement("alpha", { alpha }, content));
+    alpha(opacity: string|number, content: TMPNode) {
+        this.children.push(alpha(opacity, content));
         return this;
     }
 
-    color(color: string|[number, number, number, number], content: TMPNode) {
-        if (typeof color === "string") {
-            this.children.push(new TMPElement("color", { color }, content));
-            return this;
-        }
-
-        const [ r, g, b, a ] = color;
-        return this.color(hex(r) + hex(g) + hex(b) + hex(a), content);
+    color(clr: string|[number, number, number, number], content: TMPNode) {
+        this.children.push(color(clr, content));
+        return this;
     }
 
     bold(content: TMPNode) {
-        this.children.push(new TMPElement("b", {}, content));
+        this.children.push(bold(content));
         return this;
     }
 
     italics(content: TMPNode) {
-        this.children.push(new TMPElement("i", {}, content));
+        this.children.push(italics(content));
         return this;
     }
 
-    spacing(spacing: string|number, content: TMPNode) {
-        this.children.push(new TMPElement("cspace", { cpsace: spacing }, content));
+    spacing(space: string|number, content: TMPNode) {
+        this.children.push(spacing(space, content));
         return this;
     }
 
     font(face: string, content: TMPNode) {
-        this.children.push(new TMPElement("font", { font: face }, content));
+        this.children.push(font(face, content));
         return this;
     }
 
-    indent(indent: string|number, content: TMPNode) {
-        this.children.push(new TMPElement("indent", { indent }, content));
+    indent(indentation: string|number, content: TMPNode) {
+        this.children.push(indent(indentation, content));
         return this;
     }
 
     lnheight(height: string|number, content: TMPNode) {
-        this.children.push(new TMPElement("line-height", { "line-height": height }, content));
+        this.children.push(lnheight(height, content));
         return true;
     }
 
-    lnindent(height: string|number, content: TMPNode) {
-        this.children.push(new TMPElement("line-indent", { "line-indent": height }, content));
+    lnindent(indentation: string|number, content: TMPNode) {
+        this.children.push(lnindent(indentation, content));
         return true;
     }
 
     link(resource: string, content: TMPNode) {
-        this.children.push(new TMPElement("link", { link: resource }, content));
+        this.children.push(link(resource, content));
         return true;
     }
 
     lowercase(content: TMPNode) {
-        this.children.push(new TMPElement("lowercase", {}, content));
+        this.children.push(lowercase(content));
         return this;
     }
 
     uppercase(content: TMPNode) {
-        this.children.push(new TMPElement("uppercase", {}, content));
+        this.children.push(uppercase(content));
         return this;
     }
 
     smallcaps(content: TMPNode) {
-        this.children.push(new TMPElement("smallcaps", {}, content));
+        this.children.push(smallcaps(content));
         return this;
     }
 
-    margin(margin: string|number, content: TMPNode) {
-        this.children.push(new TMPElement("margin", { margin }, content));
+    margin(amount: string|number, content: TMPNode) {
+        this.children.push(margin(amount, content));
     }
 
     highlight(color: string|[number, number, number, number], content: TMPNode) {
