@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SkeldjsDummyClient | SkeldJS</title>
+	<title>ParseToken | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,13 +54,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_plugins_index_.html">&quot;plugins/index&quot;</a>
+					<a href="../modules/text.html">text</a>
 				</li>
 				<li>
-					<a href="_plugins_index_.skeldjsdummyclient.html">SkeldjsDummyClient</a>
+					<a href="text.parsetoken.html">ParseToken</a>
 				</li>
 			</ul>
-			<h1>Class SkeldjsDummyClient</h1>
+			<h1>Interface ParseToken</h1>
 		</div>
 	</div>
 </header>
@@ -71,7 +71,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SkeldjsDummyClient</span>
+						<span class="target">ParseToken</span>
 					</li>
 				</ul>
 			</section>
@@ -80,88 +80,36 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_plugins_index_.skeldjsdummyclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_plugins_index_.skeldjsdummyclient.html#connect" class="tsd-kind-icon">connect</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_plugins_index_.skeldjsdummyclient.html#join" class="tsd-kind-icon">join</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="text.parsetoken.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="text.parsetoken.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Skeldjs<wbr>Dummy<wbr>Client<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_plugins_index_.skeldjsdummyclient.html" class="tsd-signature-type">SkeldjsDummyClient</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/cbef9d8/plugins/index.ts#L1">plugins/index.ts:1</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="_plugins_index_.skeldjsdummyclient.html" class="tsd-signature-type">SkeldjsDummyClient</a></h4>
-						</li>
-					</ul>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="type" class="tsd-anchor"></a>
+					<h3>type</h3>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/text.tokentype.html" class="tsd-signature-type">TokenType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f0b949/packages/text/ts/lib/parser.ts#L17">text/ts/lib/parser.ts:17</a></li>
+						</ul>
+					</aside>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="connect" class="tsd-anchor"></a>
-					<h3>connect</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>server<span class="tsd-signature-symbol">: </span><a href="_plugins_index_.skeldjsdummyserver.html" class="tsd-signature-type">SkeldjsDummyServer</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/cbef9d8/plugins/index.ts#L6">plugins/index.ts:6</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>server: <a href="_plugins_index_.skeldjsdummyserver.html" class="tsd-signature-type">SkeldjsDummyServer</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="join" class="tsd-anchor"></a>
-					<h3>join</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">join<span class="tsd-signature-symbol">(</span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/cbef9d8/plugins/index.ts#L10">plugins/index.ts:10</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>code: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="value" class="tsd-anchor"></a>
+					<h3>value</h3>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f0b949/packages/text/ts/lib/parser.ts#L18">text/ts/lib/parser.ts:18</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -170,12 +118,6 @@
 				<ul>
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/_plugins_anticheat_index_.html">&quot;plugins/anticheat/index&quot;</a>
-					</li>
-					<li class="current tsd-kind-module">
-						<a href="../modules/_plugins_index_.html">&quot;plugins/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -204,6 +146,9 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/skeldjs.html">skeldjs</a>
 					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/text.html">text</a>
+					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/util.html">util</a>
 					</li>
@@ -211,38 +156,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-module">
-						<a href="../modules/_plugins_anticheat_index_.html" class="tsd-kind-icon">&quot;plugins/anticheat/index&quot;</a>
-					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
-						<a href="../modules/_plugins_index_.html" class="tsd-kind-icon">&quot;plugins/index&quot;</a>
-						<ul>
-							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="_plugins_index_.skeldjsdummyclient.html" class="tsd-kind-icon">Skeldjs<wbr>Dummy<wbr>Client</a>
-								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class">
-										<a href="_plugins_index_.skeldjsdummyclient.html#constructor" class="tsd-kind-icon">constructor</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="_plugins_index_.skeldjsdummyclient.html#connect" class="tsd-kind-icon">connect</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="_plugins_index_.skeldjsdummyclient.html#join" class="tsd-kind-icon">join</a>
-									</li>
-								</ul>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="_plugins_index_.skeldjsdummyserver.html" class="tsd-kind-icon">Skeldjs<wbr>Dummy<wbr>Server</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="_plugins_index_.skeldjsplugin.html" class="tsd-kind-icon">Skeldjs<wbr>Plugin</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
 					</li>
@@ -270,6 +183,74 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="../modules/text.html" class="tsd-kind-icon">text</a>
+						<ul>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/text.align.html" class="tsd-kind-icon">Align</a>
+							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/text.parttype.html" class="tsd-kind-icon">Part<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/text.tokentype.html" class="tsd-kind-icon">Token<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/text.tmpelement.html" class="tsd-kind-icon">TMPElement</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="text.baseparsepart.html" class="tsd-kind-icon">Base<wbr>Parse<wbr>Part</a>
+							</li>
+							<li class="current tsd-kind-interface tsd-parent-kind-module">
+								<a href="text.parsetoken.html" class="tsd-kind-icon">Parse<wbr>Token</a>
+								<ul>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="text.parsetoken.html#type" class="tsd-kind-icon">type</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="text.parsetoken.html#value" class="tsd-kind-icon">value</a>
+									</li>
+								</ul>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="text.tagparsepart.html" class="tsd-kind-icon">Tag<wbr>Parse<wbr>Part</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="text.tagpartattribute.html" class="tsd-kind-icon">Tag<wbr>Part<wbr>Attribute</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="text.textparsepart.html" class="tsd-kind-icon">Text<wbr>Parse<wbr>Part</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/text.html#parsepart" class="tsd-kind-icon">Parse<wbr>Part</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/text.html#tmpcolorname" class="tsd-kind-icon">TMPColor<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/text.html#tmpnode" class="tsd-kind-icon">TMPNode</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/text.html#tmprgba" class="tsd-kind-icon">TMPRGBA</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/text.html#tmptag" class="tsd-kind-icon">TMPTag</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="../modules/text.html#parsetmp" class="tsd-kind-icon">parseTMP</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="../modules/text.html#tb" class="tsd-kind-icon">tb</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="../modules/text.html#tohtml" class="tsd-kind-icon">toHTML</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/util.html" class="tsd-kind-icon">util</a>
 					</li>
@@ -291,16 +272,15 @@
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>
