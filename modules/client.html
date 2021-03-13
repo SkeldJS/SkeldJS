@@ -71,7 +71,72 @@
 						<h2>@skeldjs/client</h2>
 					</a>
 					<p>This package contains a complete programmable Among Us client, and while it is one package of a bigger project, <a href="https://github.com/skeldjs/SkeldJS">skeldjs</a>, it is intended to be installed on its own with <code>npm install --save @skeldjs/client</code> or <code>yarn add @skeldjs/client</code>.</p>
-					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS/modules/client.html">https://skeldjs.github.io/SkeldJS/modules/client.html</a> </p>
+					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS/modules/client.html">https://skeldjs.github.io/SkeldJS/modules/client.html</a></p>
+					<a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
+						<h2>Basic Usage</h2>
+					</a>
+					<a href="#join-a-game" id="join-a-game" style="color: inherit; text-decoration: none;">
+						<h3>Join a game</h3>
+					</a>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SkeldjsClient(<span class="hljs-string">&quot;2021.3.5.0&quot;</span>);
+
+<span class="hljs-keyword">await</span> client.connect(<span class="hljs-string">&quot;EU&quot;</span>, <span class="hljs-string">&quot;weakeyes&quot;</span>);
+
+<span class="hljs-keyword">await</span> client.joinGame(<span class="hljs-string">&quot;ABCDEF&quot;</span>);
+
+<span class="hljs-keyword">await</span> client.me.control.checkName(<span class="hljs-string">&quot;weakeyes&quot;</span>);
+<span class="hljs-keyword">await</span> client.me.control.checkColor(ColorID.Blue);</code></pre>
+					<a href="#host-a-game" id="host-a-game" style="color: inherit; text-decoration: none;">
+						<h3>Host a game</h3>
+					</a>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SkeldjsClient(<span class="hljs-string">&quot;2021.3.5.0&quot;</span>);
+
+<span class="hljs-keyword">await</span> client.connect(<span class="hljs-string">&quot;EU&quot;</span>, <span class="hljs-string">&quot;weakeyes&quot;</span>);
+
+<span class="hljs-keyword">await</span> client.createGame({
+    <span class="hljs-attr">players</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">map</span>: skeldjs.MapID.TheSkeld,
+    <span class="hljs-attr">impostors</span>: <span class="hljs-number">2</span>,
+});
+
+<span class="hljs-keyword">await</span> client.me.control.setName(<span class="hljs-string">&quot;weakeyes&quot;</span>);
+<span class="hljs-keyword">await</span> client.me.control.setColor(ColorID.Blue);</code></pre>
+					<a href="#advanced-usage" id="advanced-usage" style="color: inherit; text-decoration: none;">
+						<h2>Advanced Usage</h2>
+					</a>
+					<a href="#host-a-game-and-say-hello-to-everyone-that-joins" id="host-a-game-and-say-hello-to-everyone-that-joins" style="color: inherit; text-decoration: none;">
+						<h3>Host a game and say hello to everyone that joins</h3>
+					</a>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SkeldjsClient(<span class="hljs-string">&quot;2020.3.5.0&quot;</span>);
+
+<span class="hljs-keyword">await</span> client.connect(<span class="hljs-string">&quot;EU&quot;</span>, <span class="hljs-string">&quot;weakeyes&quot;</span>);
+
+<span class="hljs-keyword">await</span> client.createGame({
+    <span class="hljs-attr">players</span>: <span class="hljs-number">10</span>,
+    <span class="hljs-attr">map</span>: skeldjs.MapID.TheSkeld,
+    <span class="hljs-attr">impostors</span>: <span class="hljs-number">2</span>,
+});
+
+<span class="hljs-keyword">await</span> client.me.control.setName(<span class="hljs-string">&quot;weakeyes&quot;</span>);
+<span class="hljs-keyword">await</span> client.me.control.setColor(ColorID.Blue);
+
+client.on(<span class="hljs-string">&quot;player.setname&quot;</span>, <span class="hljs-keyword">async</span> ev =&gt; {
+    client.me.control.chat(<span class="hljs-string">&quot;Hello, &quot;</span> + ev.data.name + <span class="hljs-string">&quot;!&quot;</span>);
+});
+</code></pre>
+					<a href="#search-for-games-and-join-a-random-one" id="search-for-games-and-join-a-random-one" style="color: inherit; text-decoration: none;">
+						<h3>Search for games and join a random one</h3>
+					</a>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SkeldjsClient(<span class="hljs-string">&quot;2021.3.5.0&quot;</span>);
+
+<span class="hljs-keyword">await</span> client.connect(<span class="hljs-string">&quot;EU&quot;</span>, <span class="hljs-string">&quot;weakeyes&quot;</span>);
+
+<span class="hljs-keyword">const</span> games = <span class="hljs-keyword">await</span> client.findGames([skeldjs.MapID.TheSkeld], <span class="hljs-string">&quot;any&quot;</span>, skeldjs.LanguageID.All);
+<span class="hljs-keyword">const</span> game = games[<span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * games.length)];
+
+<span class="hljs-keyword">const</span> code = <span class="hljs-keyword">await</span> game.join();
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&quot;Joined &quot;</span> + game);</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -87,6 +152,7 @@
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/client.gamelisting.html" class="tsd-kind-icon">Game<wbr>Listing</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/client.skeldjsclient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a></li>
 							</ul>
 						</section>
@@ -113,7 +179,7 @@
 					<div class="tsd-signature tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events<span class="tsd-signature-symbol">:</span> <a href="core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>client.disconnect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>reason<span class="tsd-signature-symbol">: </span><a href="../enums/constant.disconnectreason.html" class="tsd-signature-type">DisconnectReason</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>client.packet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>packet<span class="tsd-signature-symbol">: </span><a href="protocol.html#clientboundpacket" class="tsd-signature-type">ClientboundPacket</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/client/ts/lib/client.ts#L55">client/ts/lib/client.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/client/ts/lib/client.ts#L62">client/ts/lib/client.ts:62</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -153,6 +219,9 @@
 						<a href="skeldjs.html">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="tasks.html">tasks</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="text.html">text</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -169,6 +238,9 @@
 						<ul>
 							<li class=" tsd-kind-enum tsd-parent-kind-module">
 								<a href="../enums/client.debuglevel.html" class="tsd-kind-icon">Debug<wbr>Level</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.gamelisting.html" class="tsd-kind-icon">Game<wbr>Listing</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.skeldjsclient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
@@ -206,6 +278,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="skeldjs.html" class="tsd-kind-icon">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="text.html" class="tsd-kind-icon">text</a>

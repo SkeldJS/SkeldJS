@@ -69,8 +69,71 @@
 					<a href="#skeldjstext" id="skeldjstext" style="color: inherit; text-decoration: none;">
 						<h2>@skeldjs/text</h2>
 					</a>
-					<p>This package contains a text building API for the text formatter used in Among Us, and while you can install it on its own with <code>npm install --save @skeldjs/text</code> or <code>yarn add @skeldjs/text</code>, it is one package of a bigger project, <a href="https://github.com/skeldjs/SkeldJS">skeldjs</a>.</p>
+					<p>This package contains a text building API for the <a href="http://digitalnativestudios.com/textmeshpro/docs/rich-text">Rich Text formatter used in Among Us</a>, and while you can install it on its own with <code>npm install --save @skeldjs/text</code> or <code>yarn add @skeldjs/text</code>, it is one package of a bigger project, <a href="https://github.com/skeldjs/SkeldJS">skeldjs</a>.</p>
 					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS/modules/text.html">https://skeldjs.github.io/SkeldJS/modules/text.html</a></p>
+					<a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
+						<h2>Basic Usage</h2>
+					</a>
+					<a href="#creating-a-basic-document" id="creating-a-basic-document" style="color: inherit; text-decoration: none;">
+						<h3>Creating a basic document</h3>
+					</a>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> formatted = tb()
+    .bold(
+        color(<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;Hello&quot;</span>)
+    );
+
+<span class="hljs-built_in">console</span>.log(formatted.toString()); <span class="hljs-comment">// &lt;b&gt;&lt;color=&quot;red&quot;&gt;Hello&lt;/color&gt;&lt;/b&gt;</span></code></pre>
+					<p>or you can define a boilerplate for the document, where the children of the elements in the <code>tb</code> function are not considered.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> formatted = tb(bold(), color(<span class="hljs-string">&quot;red&quot;</span>))
+    .text(<span class="hljs-string">&quot;Hello&quot;</span>);
+
+<span class="hljs-built_in">console</span>.log(formatted.toString()); <span class="hljs-comment">// &lt;b&gt;&lt;color=&quot;red&quot;&gt;Hello&lt;/color&gt;&lt;/b&gt;</span></code></pre>
+					<p>You can also create elements standalone.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> formatted = bold(<span class="hljs-string">&quot;Hello&quot;</span>);
+
+<span class="hljs-built_in">console</span>.log(formatted.toString()); <span class="hljs-comment">// &lt;b&gt;Hello&lt;/b&gt;</span></code></pre>
+					<a href="#parse-richtext" id="parse-richtext" style="color: inherit; text-decoration: none;">
+						<h3>Parse RichText</h3>
+					</a>
+					<p>The package also provides a way to parse the Rich Text format.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> parsed = parseTMP(<span class="hljs-string">&quot;&lt;b&gt;&lt;color=red&gt;Hello&lt;/color&gt;&lt;/b&gt;&quot;</span>);
+
+<span class="hljs-built_in">console</span>.log(parsed);
+<span class="hljs-comment">/*
+TMPElement {
+  tagName: &#x27;doc&#x27;,
+  attributes: {},
+  children: [
+    TMPElement {
+      tagName: &#x27;b&#x27;,
+      attributes: {},
+      children: [
+        TMPElement {
+          tagName: &#x27;color&#x27;,
+          attributes: { color: &#x27;red&#x27; },
+          children: [ &#x27;Hello&#x27; ]
+        }
+      ]
+    }
+  ]
+}
+*/</span></code></pre>
+					<a href="#generate-html" id="generate-html" style="color: inherit; text-decoration: none;">
+						<h3>Generate HTML</h3>
+					</a>
+					<p>It also provides a way to convert roughly to HTML where possible.</p>
+					<pre><code class="language-ts"><span class="hljs-keyword">const</span> parsed = parseTMP(<span class="hljs-string">&quot;&lt;b&gt;&lt;color=red&gt;Hello&lt;/color&gt;&lt;/b&gt;&quot;</span>);
+
+<span class="hljs-built_in">console</span>.log(toHTML(parsed));
+<span class="hljs-comment">/*
+&lt;div style=&quot;width:100%;height:100%;&quot;&gt;
+    &lt;b&gt;
+        &lt;div style=&quot;display:inline-block;color:red&quot;&gt;
+            &lt;span&gt;Hello&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/b&gt;
+&lt;/div&gt;
+*/</span></code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -160,7 +223,7 @@
 					<div class="tsd-signature tsd-kind-icon">Parse<wbr>Part<span class="tsd-signature-symbol">:</span> <a href="../interfaces/text.tagparsepart.html" class="tsd-signature-type">TagParsePart</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/text.textparsepart.html" class="tsd-signature-type">TextParsePart</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/parser.ts#L40">text/ts/lib/parser.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/parser.ts#L40">text/ts/lib/parser.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,7 +233,7 @@
 					<div class="tsd-signature tsd-kind-icon">TMPColor<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"black"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"blue"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"green"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"orange"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"purple"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/builder.ts#L3">text/ts/lib/builder.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/builder.ts#L3">text/ts/lib/builder.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,7 +243,7 @@
 					<div class="tsd-signature tsd-kind-icon">TMPNode<span class="tsd-signature-symbol">:</span> <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/builder.ts#L8">text/ts/lib/builder.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/builder.ts#L8">text/ts/lib/builder.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -190,7 +253,7 @@
 					<div class="tsd-signature tsd-kind-icon">TMPRGBA<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/builder.ts#L9">text/ts/lib/builder.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/builder.ts#L9">text/ts/lib/builder.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -200,7 +263,7 @@
 					<div class="tsd-signature tsd-kind-icon">TMPTag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"doc"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"align"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"alpha"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"color"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"b"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"i"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cspace"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"font"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"indent"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"line-height"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"line-indent"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"link"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"lowercase"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"uppercase"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"smallcaps"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"margin"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"mark"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"mspace"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"noparse"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"nobr"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"page"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pos"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"size"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"space"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sprite"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"s"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"u"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"style"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sub"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sup"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"voffset"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"width"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/builder.ts#L5">text/ts/lib/builder.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/builder.ts#L5">text/ts/lib/builder.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -217,7 +280,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L23">text/ts/lib/factories.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L23">text/ts/lib/factories.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -243,7 +306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L27">text/ts/lib/factories.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L27">text/ts/lib/factories.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -269,7 +332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L40">text/ts/lib/factories.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L40">text/ts/lib/factories.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -292,7 +355,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L31">text/ts/lib/factories.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L31">text/ts/lib/factories.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -318,7 +381,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L58">text/ts/lib/factories.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L58">text/ts/lib/factories.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -344,7 +407,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L94">text/ts/lib/factories.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L94">text/ts/lib/factories.ts:94</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -370,7 +433,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L62">text/ts/lib/factories.ts:62</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L62">text/ts/lib/factories.ts:62</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -396,7 +459,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L46">text/ts/lib/factories.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L46">text/ts/lib/factories.ts:46</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -419,7 +482,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L74">text/ts/lib/factories.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L74">text/ts/lib/factories.ts:74</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -445,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L66">text/ts/lib/factories.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L66">text/ts/lib/factories.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -471,7 +534,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L70">text/ts/lib/factories.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L70">text/ts/lib/factories.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -497,7 +560,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L78">text/ts/lib/factories.ts:78</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L78">text/ts/lib/factories.ts:78</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -520,7 +583,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L90">text/ts/lib/factories.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L90">text/ts/lib/factories.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -546,7 +609,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L105">text/ts/lib/factories.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L105">text/ts/lib/factories.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -572,7 +635,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L111">text/ts/lib/factories.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L111">text/ts/lib/factories.ts:111</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -595,7 +658,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L115">text/ts/lib/factories.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L115">text/ts/lib/factories.ts:115</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
@@ -612,7 +675,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/parser.ts#L136">text/ts/lib/parser.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/parser.ts#L136">text/ts/lib/parser.ts:136</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -635,7 +698,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L119">text/ts/lib/factories.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L119">text/ts/lib/factories.ts:119</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -661,7 +724,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L123">text/ts/lib/factories.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L123">text/ts/lib/factories.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -687,7 +750,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L86">text/ts/lib/factories.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L86">text/ts/lib/factories.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -710,7 +773,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L127">text/ts/lib/factories.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L127">text/ts/lib/factories.ts:127</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -736,7 +799,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L52">text/ts/lib/factories.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L52">text/ts/lib/factories.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -762,7 +825,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L131">text/ts/lib/factories.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L131">text/ts/lib/factories.ts:131</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -785,7 +848,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L143">text/ts/lib/factories.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L143">text/ts/lib/factories.ts:143</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -808,7 +871,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L149">text/ts/lib/factories.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L149">text/ts/lib/factories.ts:149</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -831,7 +894,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/builder.ts#L284">text/ts/lib/builder.ts:284</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/builder.ts#L284">text/ts/lib/builder.ts:284</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -854,7 +917,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L11">text/ts/lib/factories.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L11">text/ts/lib/factories.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -877,7 +940,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/html.ts#L3">text/ts/lib/html.ts:3</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/html.ts#L3">text/ts/lib/html.ts:3</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -900,7 +963,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L137">text/ts/lib/factories.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L137">text/ts/lib/factories.ts:137</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -923,7 +986,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L82">text/ts/lib/factories.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L82">text/ts/lib/factories.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -946,7 +1009,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L155">text/ts/lib/factories.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L155">text/ts/lib/factories.ts:155</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -972,7 +1035,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ec8ebf9/packages/text/ts/lib/factories.ts#L159">text/ts/lib/factories.ts:159</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/text/ts/lib/factories.ts#L159">text/ts/lib/factories.ts:159</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1023,6 +1086,9 @@
 					<li class=" tsd-kind-module">
 						<a href="skeldjs.html">skeldjs</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="tasks.html">tasks</a>
+					</li>
 					<li class="current tsd-kind-module">
 						<a href="text.html">text</a>
 					</li>
@@ -1059,6 +1125,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="skeldjs.html" class="tsd-kind-icon">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 				</ul>
 				<ul class="current">
