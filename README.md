@@ -27,7 +27,7 @@ The repository also hosts utility packages for the packages listed above, that y
 
 As well as the main and utility packages, the project also contains several packages to be used as additions or addons to the client package. These are installed separately from the client although are helpful in automating client development.
 * **Pathfinding** - A* pathfinding implementation to get around the map, abstracted to be a seamless addition to the  client package.
-* **Task Manager** - A tool used for managing task completion in the correct order .
+* **Task Manager** - A tool used for managing task completion in the correct order.
 
 You can view auto-updating documentation for all packages hosted at github pages at https://skeldjs.github.io/SkeldJS.
 
@@ -104,10 +104,10 @@ yarn add @skeldjs/proxy
 ### To install client tools
 ```
 npm install --save @skeldjs/pathfinding
-npm install --save @skeldjs/taskmanager
+npm install --save @skeldjs/tasks
 or
 yarn add @skeldjs/pathfinding
-yarn add @skeldjs/taskmanager
+yarn add @skeldjs/tasks
 ```
 
 ### To install utility packages
