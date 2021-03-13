@@ -48,14 +48,14 @@ function setChat(room: Room, player: PlayerData, vis: boolean) {
 }
 
 const prefix = "/";
-server.on("player.chat", async (ev, { room, player, message }) => {
-    const args = message.split(" ");
+server.on("player.chat", async ev => {
+    const args = ev.data.message.split(" ");
     const cmd = args.shift();
 
-    console.log("Got " + message);
+    console.log("Got " + ev.data.message);
     if (cmd === prefix + "hide") {
-        await setChat(room, player, false);
+        await setChat(ev.data.room, ev.data.player, false);
         await sleep(5000);
-        await setChat(room, player, true);
+        await setChat(ev.data.room, ev.data.player, true);
     }
 });

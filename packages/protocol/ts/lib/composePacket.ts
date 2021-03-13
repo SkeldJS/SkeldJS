@@ -421,7 +421,9 @@ export function composePacket(
                     case PayloadTag.GetGameListV2:
                         if (payload.bound === "server") {
                             writer.upacked(0x00);
-                            composeOptions(payload.options);
+                            const options = composeOptions(payload.options);
+                            writer.upacked(options.size);
+                            writer.buf(options);
                         } else {
                             if (payload.counts) {
                                 writer.message(1);

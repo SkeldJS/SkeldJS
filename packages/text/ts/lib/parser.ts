@@ -1,4 +1,4 @@
-import { TMPElement, TMPTag } from "./builder";
+import { DocElement, TMPElement, TMPTag } from "./builder";
 
 export enum TokenType {
     BeginTag,
@@ -108,7 +108,7 @@ function transformer(tokens: ParseToken[], tagName?: string) {
 
 function construct(part: ParsePart|ParsePart[]) {
     if (Array.isArray(part)) {
-        const doc = new TMPElement("doc", {});
+        const doc = new DocElement;
         for (let i = 0; i < part.length; i++) {
             doc.children.push(construct(part[i]));
         }
@@ -151,7 +151,7 @@ export function parseTMP(content: string) {
                 }
                 escaping = false;
             } else if (char === "\\") {
-                escaping = true;
+                escaping = !escaping;
             } else {
                 escaping = false;
                 last.value += content[i];

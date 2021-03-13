@@ -1,13 +1,13 @@
-export type EventContext = {
+export type EventContext<T> = {
     cancelled: boolean;
     cancel: () => void;
+    data: T;
 };
 
 type EventData = Record<string, any>;
 
 type Listener<Events extends EventData, EventName extends keyof Events> = (
-    ev: EventContext,
-    data: Events[EventName]
+    ev: EventContext<Events[EventName]>
 ) => void|Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
@@ -24,15 +24,16 @@ export class EventEmitter<Events extends EventData> {
         const listeners = this.getListeners(event);
 
         if (listeners.size) {
-            const ctx: EventContext = {
+            const ctx: EventContext<Events[EventName]> = {
                 cancelled: false,
                 cancel() {
                     this.cancelled = true;
                 },
+                data
             };
 
             for (const listener of listeners) {
-                await listener(ctx, data);
+                await listener(ctx);
                 if (ctx.cancelled) {
                     return false;
                 }
@@ -56,20 +57,20 @@ export class EventEmitter<Events extends EventData> {
         event: EventName,
         listener: Listener<Events, EventName>
     ) {
-        const removeListener = this.on(event, async (ev, data) => {
+        const removeListener = this.on(event, async ev => {
             removeListener();
-            await listener(ev, data);
+            await listener(ev);
         });
         return removeListener;
     }
 
     wait<EventName extends keyof Events>(
         event: EventName
-    ): Promise<[EventContext, Events[EventName]]> {
+    ): Promise<EventContext<Events[EventName]>> {
         return new Promise((resolve) => {
-            const removeListener = this.on(event, async (ev, data) => {
+            const removeListener = this.on(event, async ev => {
                 removeListener();
-                resolve([ev, data]);
+                resolve(ev);
             });
         });
     }
