@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/protocol",
-  "version": "2.5.6",
+  "version": "2.6.0",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
