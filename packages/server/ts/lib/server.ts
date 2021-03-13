@@ -113,26 +113,26 @@ export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
                 this.off("disconnect", onDisconnect);
             };
 
-            function onPacket(ev: EventContext, { client, packet }: { client: RemoteClient, packet: ServerboundPacket }) {
-                if (client !== from) return;
+            function onPacket(ev: EventContext<{ client: RemoteClient, packet: ServerboundPacket }>) {
+                if (ev.data.client !== from) return;
 
                 if (Array.isArray(filter)) {
                     for (let i = 0; i < filter.length; i++) {
-                        if (filter[i](packet)) {
+                        if (filter[i](ev.data.packet)) {
                             clearListeners();
-                            resolve(packet);
+                            resolve(ev.data.packet);
                         }
                     }
                 } else {
-                    if (filter(packet)) {
+                    if (filter(ev.data.packet)) {
                         clearListeners();
-                        resolve(packet);
+                        resolve(ev.data.packet);
                     }
                 }
             }
 
-            function onDisconnect(ev: EventContext, { client }: { client: RemoteClient }) {
-                if (client !== from) return;
+            function onDisconnect(ev: EventContext<{ client: RemoteClient }>) {
+                if (ev.data.client !== from) return;
 
                 clearListeners();
                 resolve(null);

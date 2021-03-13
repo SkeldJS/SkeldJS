@@ -1,6 +1,6 @@
 import assert from "assert";
 
-import { EventEmitter } from "./EventEmitter";
+import { EventContext, EventEmitter } from "./EventEmitter";
 
 type TestEvents = {
     "hello.123": { alphabet: number };
@@ -12,8 +12,8 @@ describe("EventEmitter", () => {
             let didreceive = false;
             const emitter = new EventEmitter<TestEvents>();
 
-            emitter.on("hello.123", async (ev, data) => {
-                assert.strictEqual(data.alphabet, 5);
+            emitter.on("hello.123", async ev => {
+                assert.strictEqual(ev.data.alphabet, 5);
                 didreceive = true;
             });
 
@@ -25,8 +25,8 @@ describe("EventEmitter", () => {
             let didreceive = false;
             const emitter = new EventEmitter<TestEvents>();
 
-            emitter.on("hello.123", async (ev, data) => {
-                assert.strictEqual(data.alphabet, 5);
+            emitter.on("hello.123", async ev => {
+                assert.strictEqual(ev.data.alphabet, 5);
                 ev.cancel();
             });
 
@@ -47,8 +47,8 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            const off = emitter.on("hello.123", async (ev, data) => {
-                assert.strictEqual(data.alphabet, 5);
+            const off = emitter.on("hello.123", async ev => {
+                assert.strictEqual(ev.data.alphabet, 5);
             });
 
             assert.strictEqual(listeners.size, 1);
@@ -62,8 +62,8 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            emitter.once("hello.123", async (ev, data) => {
-                assert.strictEqual(data.alphabet, 6);
+            emitter.once("hello.123", async ev => {
+                assert.strictEqual(ev.data.alphabet, 6);
             });
 
             assert.strictEqual(listeners.size, 1);
@@ -77,8 +77,8 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            async function response(ev, data) {
-                assert.strictEqual(data.alphabet, 5);
+            async function response(ev: EventContext<{ alphabet: number }>) {
+                assert.strictEqual(ev.data.alphabet, 5);
             }
 
             emitter.on("hello.123", response);
@@ -93,8 +93,8 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            async function response(ev, data) {
-                assert.strictEqual(data.alphabet, 5);
+            async function response(ev: EventContext<{ alphabet: number }>) {
+                assert.strictEqual(ev.data.alphabet, 5);
             }
 
             emitter.on("hello.123", response);

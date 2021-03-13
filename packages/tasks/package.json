@@ -1,0 +1,14 @@
+{
+  "name": "@skeldjs/tasks",
+  "version": "2.5.12",
+  "main": "js/index.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "build:ci": "yarn install && tsc -p ./",
+    "prepublishOnly": "npm run build"
+  },
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@skeldjs/core": "^2.5.11"
+  }
+}

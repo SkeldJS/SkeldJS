@@ -85,6 +85,7 @@
 ## SkeldjsPathfinder
 * `pathfinding.start` - Emitted when the pathfinder starts.
 * `pathfinding.stop` - Emitted when the pathfinder is stopped or reaches its destination.
+* `pathfinding.end` - Emitted when the pathfinder reaches its destination.
 * `pathfinding.pause` - Emitted when the pathfinder is paused.
 
 * `engine.recalculate` - Emitted when the pathfinder recalculates its path.

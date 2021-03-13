@@ -1,4 +1,6 @@
 import dgram from "dgram";
+import dns from "dns";
+import util from "util";
 
 import {
     DisconnectReason,
@@ -12,7 +14,9 @@ import {
     SpawnID,
 } from "@skeldjs/constant";
 
-import { DisconnectMessages } from "@skeldjs/data";
+import { EventContext } from "@skeldjs/events";
+
+import { DisconnectMessages, MatchmakingServers } from "@skeldjs/data";
 
 import {
     ClientboundPacket,
@@ -30,6 +34,7 @@ import {
     GameDataToPayload,
     GameDataPayload,
     PayloadMessageServerbound,
+    GetGameListV2PayloadClientbound,
 } from "@skeldjs/protocol";
 
 import { Hostable, HostableEvents, PlayerData, RoomID } from "@skeldjs/core";
@@ -47,7 +52,9 @@ import {
 } from "@skeldjs/util";
 
 import { ClientConfig, DebugLevel } from "./interface/ClientConfig";
-import { EventContext } from "../../../core/node_modules/@skeldjs/events/js";
+import { GameListing } from "./GameListing";
+
+const lookupDns = util.promisify(dns.lookup);
 
 type PacketFilter = (packet: ClientboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageClientbound) => boolean;
@@ -240,10 +247,18 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this.handlePacket(packet);
     }
 
-    async connect(ip: string, port: number, username?: string) {
+    async connect(host: "NA"|"EU"|"AS", username?: string);
+    async connect(host: string, username?: string, port?: number);
+    async connect(host: string, username?: string, port: number = 22023) {
         await this.disconnect();
 
-        this.ip = ip;
+        if (host in MatchmakingServers) {
+            return await this.connect(MatchmakingServers[host][0], username, 22023);
+        }
+
+        const ip = await lookupDns(host);
+
+        this.ip = ip.address;
         this.port = port;
 
         this.socket = dgram.createSocket("udp4");
@@ -318,25 +333,25 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 this.off("client.disconnect", onDisconnect);
             };
 
-            function onPacket(ev: EventContext, { packet }: { packet: ClientboundPacket }) {
+            function onPacket(ev: EventContext<{ packet: ClientboundPacket }>) {
                 if (Array.isArray(filter)) {
                     for (let i = 0; i < filter.length; i++) {
-                        if (filter[i](packet)) {
+                        if (filter[i](ev.data.packet)) {
                             clearListeners();
-                            resolve(packet);
+                            resolve(ev.data.packet);
                         }
                     }
                 } else {
-                    if (filter(packet)) {
+                    if (filter(ev.data.packet)) {
                         clearListeners();
-                        resolve(packet);
+                        resolve(ev.data.packet);
                     }
                 }
             }
 
-            function onDisconnect(ev: EventContext, { message, reason } : { message: string, reason: number }) {
+            function onDisconnect(ev: EventContext<{ message: string, reason: number }>) {
                 clearListeners();
-                reject(new Error(`${reason} - ${message}`));
+                reject(new Error(`${ev.data.reason} - ${ev.data.message}`));
             }
 
             this.on("client.packet", onPacket);
@@ -535,9 +550,9 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         }
 
         if (this.me && this.code !== code) {
+            const username = this.username;
             await this.disconnect();
-            await this.connect(this.ip, this.port);
-            await this.identify(this.username);
+            await this.connect(this.ip, username, this.port);
         }
 
         await this.send({
@@ -571,10 +586,8 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 );
             case PayloadTag.Redirect:
                 const username = this.username;
-
                 await this.disconnect();
-                await this.connect(payload.ip, payload.port);
-                await this.identify(username);
+                await this.connect(payload.ip, username, payload.port);
 
                 return await this.joinGame(code, doSpawn);
             case PayloadTag.JoinedGame:
@@ -591,29 +604,8 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         doJoin: boolean = true
     ): Promise<string> {
         const settings = {
-            version: 4,
-            players: 10,
-            language: LanguageID.Other,
-            map: MapID.TheSkeld,
-            playerSpeed: 1,
-            crewmateVision: 1,
-            impostorVision: 1.5,
-            killCooldown: 45,
-            commonTasks: 1,
-            longTasks: 1,
-            shortTasks: 2,
-            emergencies: 1,
-            impostors: 3,
-            killDistance: DistanceID.Medium,
-            discussionTime: 15,
-            votingTime: 120,
-            isDefaults: false,
-            emergencyCooldown: 15,
-            confirmEjects: true,
-            visualTasks: true,
-            anonymousVotes: false,
-            taskbarUpdates: TaskBarUpdate.Always,
-            ...host_settings,
+            ...SkeldjsClient.defaultGameOptions,
+            ...host_settings
         } as GameOptions;
 
         await this.send({
@@ -648,8 +640,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 const username = this.username;
 
                 await this.disconnect();
-                await this.connect(payload.ip, payload.port);
-                await this.identify(username);
+                await this.connect(payload.ip, username, payload.port);
 
                 return await this.createGame(host_settings, doJoin);
             case PayloadTag.HostGame:
@@ -663,4 +654,71 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 }
         }
     }
+
+    async findGames(maps: number|MapID[] = 0x7 /* all maps */, impostors = 0 /* any impostors */, language = LanguageID.All): Promise<GameListing[]> {
+        if (Array.isArray(maps)) {
+            return await this.findGames(maps.reduce((acc, cur) => acc | (1 << cur), 0) /* convert to bitfield */, impostors, language);
+        }
+
+        const options = {
+            ...SkeldjsClient.defaultGameOptions,
+            map: maps,
+            impostors: 0,
+            language: LanguageID.English
+        } as GameOptions;
+
+        await this.send({
+            op: Opcode.Reliable,
+            payloads: [
+                {
+                    tag: PayloadTag.GetGameListV2,
+                    options,
+                },
+            ],
+        });
+
+        const payload = (await this.waitPayload([
+            (payload) => payload.tag === PayloadTag.GetGameListV2,
+        ])) as
+            | GetGameListV2PayloadClientbound;
+
+        const games = payload.games.map(game => new GameListing(this,
+            game.ip,
+            game.port,
+            game.code,
+            game.name,
+            game.players,
+            game.age,
+            game.map,
+            game.impostors,
+            game.max_players
+        ));
+
+        return games;
+    }
+
+    static defaultGameOptions = {
+        version: 4,
+        players: 10,
+        language: LanguageID.Other,
+        map: MapID.TheSkeld,
+        playerSpeed: 1,
+        crewmateVision: 1,
+        impostorVision: 1.5,
+        killCooldown: 45,
+        commonTasks: 1,
+        longTasks: 1,
+        shortTasks: 2,
+        emergencies: 1,
+        impostors: 3,
+        killDistance: DistanceID.Medium,
+        discussionTime: 15,
+        votingTime: 120,
+        isDefaults: false,
+        emergencyCooldown: 15,
+        confirmEjects: true,
+        visualTasks: true,
+        anonymousVotes: false,
+        taskbarUpdates: TaskBarUpdate.Always
+    };
 }

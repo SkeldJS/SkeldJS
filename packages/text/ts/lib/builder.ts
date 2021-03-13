@@ -259,7 +259,7 @@ export class TMPElement {
 }
 
 export class DocElement extends TMPElement {
-    constructor(public boiler: TMPElement[]) {
+    constructor(public boiler: TMPElement[] = []) {
         super("doc", {});
     }
 

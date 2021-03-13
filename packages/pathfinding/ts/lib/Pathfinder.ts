@@ -1,4 +1,3 @@
-import { SkeldjsClient } from "@skeldjs/client";
 import { Vector2 } from "@skeldjs/util";
 
 import {
@@ -9,6 +8,7 @@ import {
     MiraHQVent,
     PolusVent,
     MapVentData,
+    Hostable,
 } from "@skeldjs/core";
 
 import { EventContext, EventEmitter } from "@skeldjs/events";
@@ -29,7 +29,11 @@ type SkeldjsPathfinderEvents = {
     "pathfinding.stop": {
         reached: boolean;
     };
+    "pathfinding.end": {};
     "pathfinding.pause": {};
+    "engine.move": {
+        position: Vector2;
+    }
     "engine.recalculate": {
         path: Vector2[];
     };
@@ -45,7 +49,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     following: PlayerData;
 
     constructor(
-        private client: SkeldjsClient,
+        private client: Hostable,
         public config: PathfinderConfig = {}
     ) {
         super();
@@ -92,7 +96,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         return this._paused;
     }
 
-    private _ontick() {
+    private async _ontick() {
         this._tick++;
 
         if (this._tick % SkeldjsPathfinder.MovementInterval !== 0) return;
@@ -130,10 +134,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
                 this.position.x - pos.x,
                 this.position.y - pos.y
             );
-            this.transform.move(pos, {
-                x: dist * this.client.settings.playerSpeed,
-                y: dist * this.client.settings.playerSpeed,
-            });
+            if (await this.emit("engine.move", { position: pos })) {
+                this.transform.move(pos, {
+                    x: dist * this.client.settings.playerSpeed,
+                    y: dist * this.client.settings.playerSpeed,
+                });
+            }
 
             if (this.path.length === 0) {
                 this._stop(true);
@@ -166,6 +172,9 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         if (!reached) this._moved = true;
 
         this.emit("pathfinding.stop", { reached });
+        if (reached) {
+            this.emit("pathfinding.end", {});
+        }
     }
 
     stop() {
@@ -213,24 +222,21 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         this.go(coords.position);
     }
 
-    private _handleMove(ev: EventContext, {
-        component,
-        position,
-    }: {
+    private _handleMove(ev: EventContext<{
         component: CustomNetworkTransform;
         position: Vector2;
-    }) {
-        if (component.owner === this.following) {
+    }>) {
+        if (ev.data.component.owner === this.following) {
             this.destination = {
-                x: position.x,
-                y: position.y,
+                x: ev.data.position.x,
+                y: ev.data.position.y,
             };
             this._moved = true;
         }
     }
 
-    private _handleLeave(ev: EventContext, { player }: { player: PlayerData }) {
-        if (player === this.following) {
+    private _handleLeave(ev: EventContext<{ player: PlayerData }>) {
+        if (ev.data.player === this.following) {
             this._stop(false);
             this.following = null;
         }
