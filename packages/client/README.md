@@ -63,7 +63,7 @@ const client = new SkeldjsClient("2021.3.5.0");
 
 await client.connect("EU", "weakeyes");
 
-const games = await client.findGames([skeldjs.MapID.TheSkeld], "any", skeldjs.LanguageID.All);
+const games = await client.findGames();
 const game = games[Math.floor(Math.random() * games.length)];
 
 const code = await game.join();
