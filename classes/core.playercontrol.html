@@ -67,11 +67,19 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a player object for interacting with the game and other players.</p>
+					</div>
+					<p>See <a href="../interfaces/core.playercontrolevents.html">PlayerControlEvents</a> for events to listen to.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="core.networkable.html" class="tsd-signature-type">Networkable</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontroldata.html" class="tsd-signature-type">PlayerControlData</a><span class="tsd-signature-symbol">, </span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol">&gt;</span>
+						<a href="core.networkable.html" class="tsd-signature-type">Networkable</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontroldata.html" class="tsd-signature-type">PlayerControlData</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">PlayerControl</span>
@@ -164,7 +172,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L74">core/ts/lib/component/PlayerControl.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L158">core/ts/lib/component/PlayerControl.ts:158</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -196,7 +204,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#classname-1">classname</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L69">core/ts/lib/component/PlayerControl.ts:69</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L146">core/ts/lib/component/PlayerControl.ts:146</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -207,9 +215,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#dirtybit">dirtyBit</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L28">core/ts/lib/Networkable.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L59">core/ts/lib/Networkable.ts:59</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The dirty state of this component.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="isnew" class="tsd-anchor"></a>
@@ -217,9 +230,14 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>New<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L73">core/ts/lib/component/PlayerControl.ts:73</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L153">core/ts/lib/component/PlayerControl.ts:153</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether the player was just spawned, or was spawned before joining.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="netid" class="tsd-anchor"></a>
@@ -228,9 +246,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#netid">netid</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L25">core/ts/lib/Networkable.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L49">core/ts/lib/Networkable.ts:49</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The net ID of this component.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ownerid" class="tsd-anchor"></a>
@@ -239,9 +262,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#ownerid">ownerid</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L26">core/ts/lib/Networkable.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L54">core/ts/lib/Networkable.ts:54</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The ID of the owner of this component.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="playerid" class="tsd-anchor"></a>
@@ -249,9 +277,14 @@
 					<div class="tsd-signature tsd-kind-icon">player<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L74">core/ts/lib/component/PlayerControl.ts:74</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L158">core/ts/lib/component/PlayerControl.ts:158</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The player ID of the player.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="room" class="tsd-anchor"></a>
@@ -260,9 +293,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#room">room</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L24">core/ts/lib/Networkable.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L44">core/ts/lib/Networkable.ts:44</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The room that this component belongs to.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="type" class="tsd-anchor"></a>
@@ -271,7 +309,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#type-1">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L66">core/ts/lib/component/PlayerControl.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L143">core/ts/lib/component/PlayerControl.ts:143</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -282,7 +320,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#classname-1">classname</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L68">core/ts/lib/component/PlayerControl.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L145">core/ts/lib/component/PlayerControl.ts:145</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -293,7 +331,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#type-1">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L65">core/ts/lib/component/PlayerControl.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L142">core/ts/lib/component/PlayerControl.ts:142</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -311,7 +349,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#owner">owner</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L85">core/ts/lib/component/PlayerControl.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L169">core/ts/lib/component/PlayerControl.ts:169</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="core.playerdata.html" class="tsd-signature-type">PlayerData</a></h4>
@@ -332,7 +370,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#deserialize">Deserialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L89">core/ts/lib/component/PlayerControl.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L173">core/ts/lib/component/PlayerControl.ts:173</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -359,7 +397,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#fixedupdate">FixedUpdate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L83">core/ts/lib/Networkable.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L114">core/ts/lib/Networkable.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -383,7 +421,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#handlerpc">HandleRPC</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L107">core/ts/lib/component/PlayerControl.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L191">core/ts/lib/component/PlayerControl.ts:191</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -407,7 +445,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#preserialize">PreSerialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L79">core/ts/lib/Networkable.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L110">core/ts/lib/Networkable.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -425,7 +463,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#serialize">Serialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L97">core/ts/lib/component/PlayerControl.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L181">core/ts/lib/component/PlayerControl.ts:181</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -451,13 +489,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L375">core/ts/lib/component/PlayerControl.ts:375</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L565">core/ts/lib/component/PlayerControl.ts:565</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Type a message into the chat. Can be in <a href="http://digitalnativestudios.com/textmeshpro/docs/rich-text" class="external">TextMesh Pro</a> format.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p>{TMPElement}</p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript">player.control.chat(<span class="hljs-string">&quot;Hello!&quot;</span>);</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>message: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The message to send.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -474,13 +528,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L221">core/ts/lib/component/PlayerControl.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L327">core/ts/lib/component/PlayerControl.ts:327</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ask the host to check a colour and change it if required, e.g. changing it if it&#39;s taken.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-comment">// Set your colour when you spawn.</span>
+client.me.on(<span class="hljs-string">&quot;player.spawn&quot;</span>, <span class="hljs-function"><span class="hljs-params">ev</span> =&gt;</span> {
+  player.control.checkColour(ColorID.Blue);
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>color: <a href="../enums/constant.colorid.html" class="tsd-signature-type">ColorID</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The colour to check.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -497,13 +567,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L206">core/ts/lib/component/PlayerControl.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L301">core/ts/lib/component/PlayerControl.ts:301</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ask the host to check a name and modify it if required, e.g. appending numbers to the end).</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-comment">// Set your name when you spawn.</span>
+client.me.on(<span class="hljs-string">&quot;player.spawn&quot;</span>, <span class="hljs-function"><span class="hljs-params">ev</span> =&gt;</span> {
+  player.control.checkName(<span class="hljs-string">&quot;weakeyes&quot;</span>);
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name to check.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -520,13 +606,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L248">core/ts/lib/component/PlayerControl.ts:248</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L365">core/ts/lib/component/PlayerControl.ts:365</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Mark a task as complete.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-comment">// Complete all of a player&#x27;s tasks.</span>
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; player.data.tasks.length; i++) {
+  player.control.completeTask(i);
+}</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>taskIdx: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The index of the player&#39;s tasks to mark complete.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -544,9 +646,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#despawn">despawn</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L89">core/ts/lib/Networkable.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L126">core/ts/lib/Networkable.ts:126</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Despawns the component from the room it belongs in.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -563,7 +670,7 @@
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#emit">emit</a></p>
 								<p>Overrides <a href="pathfinding.skeldjspathfinder.html">SkeldjsPathfinder</a>.<a href="pathfinding.skeldjspathfinder.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L55">core/ts/lib/Networkable.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L86">core/ts/lib/Networkable.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -580,7 +687,7 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -593,7 +700,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -602,7 +709,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -616,13 +723,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L259">core/ts/lib/component/PlayerControl.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L394">core/ts/lib/component/PlayerControl.ts:394</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Murder a player as the Impostor.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-keyword">if</span> (client.me.data.impostor) {
+  client.me.murder(player)
+}</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>victim: <a href="../modules/core.html#playerdataresolvable" class="tsd-signature-type">PlayerDataResolvable</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The victim to murder.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -633,7 +755,7 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -646,7 +768,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -655,7 +777,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -666,7 +788,7 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -679,7 +801,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -688,7 +810,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -711,7 +833,7 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -724,7 +846,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -733,7 +855,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -763,7 +885,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#patch">patch</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L51">core/ts/lib/Networkable.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L82">core/ts/lib/Networkable.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -811,7 +933,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -834,13 +956,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L499">core/ts/lib/component/PlayerControl.ts:499</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L743">core/ts/lib/component/PlayerControl.ts:743</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ask the host to start a meeting either for a reported body or for an emergency.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p>{PlayerControl.startMeeting} If the player is the host and this can happen immediately.</p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-comment">// Report a dead body.</span>
+client.me.control.startMeeting(player);
+
+<span class="hljs-comment">// Call an emergency meeting.</span>
+client.me.control.startMeeting(<span class="hljs-string">&quot;emergency&quot;</span>);</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>body: <a href="../modules/core.html#playerdataresolvable" class="tsd-signature-type">PlayerDataResolvable</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"emergency"</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Either the body to report or whether it was an emergency.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -857,13 +999,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L386">core/ts/lib/component/PlayerControl.ts:386</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L584">core/ts/lib/component/PlayerControl.ts:584</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send a chat note, currently only used for the &quot;X voted for&quot; message in chat.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript">player.control.sendChatNote(ChatNoteType.DidVote);</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>type: <a href="../enums/constant.chatnotetype.html" class="tsd-signature-type">ChatNoteType</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The type of chat note to send.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -880,13 +1035,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L301">core/ts/lib/component/PlayerControl.ts:301</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L458">core/ts/lib/component/PlayerControl.ts:458</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Force set the colour of the player.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-comment">// Set your colour when you spawn.</span>
+client.me.on(<span class="hljs-string">&quot;player.spawn&quot;</span>, <span class="hljs-function"><span class="hljs-params">ev</span> =&gt;</span> {
+  player.control.setColor(ColorID.Blue);
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>color: <a href="../enums/constant.colorid.html" class="tsd-signature-type">ColorID</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The colour to set.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -903,13 +1074,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L322">core/ts/lib/component/PlayerControl.ts:322</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L487">core/ts/lib/component/PlayerControl.ts:487</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the hat of the player.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript">player.control.setHat(HatID.Fez);</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>hat: <a href="../enums/constant.hatid.html" class="tsd-signature-type">HatID</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The hat to set.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -926,13 +1110,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L455">core/ts/lib/component/PlayerControl.ts:455</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L681">core/ts/lib/component/PlayerControl.ts:681</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the impostors of the game.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p>{BaseShipStatus.selectInfected} for an example.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>players: <a href="../modules/core.html#playerdataresolvable" class="tsd-signature-type">PlayerDataResolvable</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The players to set as the impostors.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -949,13 +1146,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L280">core/ts/lib/component/PlayerControl.ts:280</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L426">core/ts/lib/component/PlayerControl.ts:426</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Force set the name of the player.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-comment">// Set your name when you spawn.</span>
+client.me.on(<span class="hljs-string">&quot;player.spawn&quot;</span>, <span class="hljs-function"><span class="hljs-params">ev</span> =&gt;</span> {
+  player.control.setName(<span class="hljs-string">&quot;weakeyes&quot;</span>);
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name to set.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -972,13 +1185,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L360">core/ts/lib/component/PlayerControl.ts:360</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L541">core/ts/lib/component/PlayerControl.ts:541</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the pet of the player.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript">player.control.setPet(PetID.Robot);</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pet: <a href="../enums/constant.petid.html" class="tsd-signature-type">PetID</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The pet to set.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -995,13 +1221,26 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L341">core/ts/lib/component/PlayerControl.ts:341</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L514">core/ts/lib/component/PlayerControl.ts:514</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the skin of the player.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript">player.control.setSkin(SkinID.Miner);</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>skin: <a href="../enums/constant.skinid.html" class="tsd-signature-type">SkinID</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The skin to set.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1018,13 +1257,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L423">core/ts/lib/component/PlayerControl.ts:423</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L644">core/ts/lib/component/PlayerControl.ts:644</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the &quot;Game starting in X&quot; counter.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">5</span>; i &gt; <span class="hljs-number">0</span>; i--) {
+  player.control.setStartCounter(i);
+  <span class="hljs-keyword">await</span> sleep(<span class="hljs-number">1000</span>);
+}</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>counter: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The counter to set to.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1042,9 +1297,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#spawn">spawn</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L85">core/ts/lib/Networkable.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L119">core/ts/lib/Networkable.ts:119</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Spawn this component if does not exist in the room it belongs in.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1059,13 +1319,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L485">core/ts/lib/component/PlayerControl.ts:485</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L716">core/ts/lib/component/PlayerControl.ts:716</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Immediately tart a meeting either for a reported body or for an emergency.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p>{PlayerControl.reportDeadBody} If the player is not the host.</p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-comment">// Report a dead body.</span>
+client.me.control.startMeeting(player);
+
+<span class="hljs-comment">// Call an emergency meeting.</span>
+client.me.control.startMeeting(<span class="hljs-string">&quot;emergency&quot;</span>);</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>body: <a href="../modules/core.html#playerdataresolvable" class="tsd-signature-type">PlayerDataResolvable</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"emergency"</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Either the body to report or whether it was an emergency.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1082,13 +1362,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/PlayerControl.ts#L402">core/ts/lib/component/PlayerControl.ts:402</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/PlayerControl.ts#L611">core/ts/lib/component/PlayerControl.ts:611</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sync or update room settings with every client.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript">player.control.syncSettings({
+  <span class="hljs-attr">crewmateVision</span>: <span class="hljs-number">1.25</span>,
+  <span class="hljs-attr">votingTime</span>: <span class="hljs-number">60</span>
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> update_settings: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/protocol.html#gameoptions" class="tsd-signature-type">GameOptions</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = this.room.settings</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The settings to sync or update (Can be partial).</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1099,7 +1395,7 @@
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1112,7 +1408,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1121,7 +1417,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#playercontrolevents" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.playercontrolevents.html" class="tsd-signature-type">PlayerControlEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>

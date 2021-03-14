@@ -67,11 +67,19 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a room on the server.</p>
+					</div>
+					<p>See <a href="../interfaces/server.roomevents.html">RoomEvents</a> for events to listen to.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol">&gt;</span>
+						<span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">Room</span>
@@ -181,7 +189,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Hostable.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L29">server/ts/lib/Room.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L40">server/ts/lib/Room.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -283,7 +291,7 @@
 					<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/server.roomconfig.html" class="tsd-signature-type">RoomConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L31">server/ts/lib/Room.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L42">server/ts/lib/Room.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -315,9 +323,14 @@
 					<div class="tsd-signature tsd-kind-icon">remotes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L29">server/ts/lib/Room.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L40">server/ts/lib/Room.ts:40</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The remote clients currently connected to the room.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="room" class="tsd-anchor"></a>
@@ -377,7 +390,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Hostable.amhost</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L59">server/ts/lib/Room.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L70">server/ts/lib/Room.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -467,7 +480,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Hostable.me</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L55">server/ts/lib/Room.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L66">server/ts/lib/Room.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -623,7 +636,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Hostable.broadcast</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L121">server/ts/lib/Room.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L132">server/ts/lib/Room.ts:132</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -679,7 +692,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L68">server/ts/lib/Room.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L79">server/ts/lib/Room.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -697,7 +710,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L43">server/ts/lib/Room.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L54">server/ts/lib/Room.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -768,7 +781,7 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -781,7 +794,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -790,7 +803,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -925,7 +938,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#handleleave">handleLeave</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L79">server/ts/lib/Room.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L90">server/ts/lib/Room.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -973,7 +986,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#handlestart">handleStart</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L63">server/ts/lib/Room.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L74">server/ts/lib/Room.ts:74</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -984,7 +997,7 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -997,7 +1010,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1006,7 +1019,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1017,7 +1030,7 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1030,7 +1043,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1039,7 +1052,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -1062,7 +1075,7 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1075,7 +1088,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1084,7 +1097,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -1138,7 +1151,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1285,7 +1298,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#sethost">setHost</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/Room.ts#L97">server/ts/lib/Room.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/Room.ts#L108">server/ts/lib/Room.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1419,7 +1432,7 @@
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1432,7 +1445,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1441,7 +1454,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/server.html#roomevents" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.hostableevents.html" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/server.roomevents.html" class="tsd-signature-type">RoomEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">HeritableEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1717,19 +1730,19 @@
 								<a href="server.skeldjsserver.html" class="tsd-kind-icon">Skeldjs<wbr>Server</a>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/server.remoteclientevents.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Events</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/server.roomconfig.html" class="tsd-kind-icon">Room<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/server.roomevents.html" class="tsd-kind-icon">Room<wbr>Events</a>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/server.serverconfig.html" class="tsd-kind-icon">Server<wbr>Config</a>
 							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#remoteclientevents" class="tsd-kind-icon">Remote<wbr>Client<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#roomevents" class="tsd-kind-icon">Room<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#skeldjsserverevents" class="tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events</a>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/server.skeldjsserverevents.html" class="tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events</a>
 							</li>
 						</ul>
 					</li>

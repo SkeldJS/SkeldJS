@@ -71,7 +71,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="core.networkable.html" class="tsd-signature-type">Networkable</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghuddata.html" class="tsd-signature-type">MeetingHudData</a><span class="tsd-signature-symbol">, </span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol">&gt;</span>
+						<a href="core.networkable.html" class="tsd-signature-type">Networkable</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghuddata.html" class="tsd-signature-type">MeetingHudData</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">MeetingHud</span>
@@ -97,8 +97,8 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.meetinghud.html#dirtybit" class="tsd-kind-icon">dirty<wbr>Bit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#netid" class="tsd-kind-icon">netid</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#ownerid" class="tsd-kind-icon">ownerid</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.meetinghud.html#players" class="tsd-kind-icon">players</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.meetinghud.html#states" class="tsd-kind-icon">states</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.meetinghud.html#type" class="tsd-kind-icon">type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.meetinghud.html#classname-1" class="tsd-kind-icon">classname</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.meetinghud.html#type-1" class="tsd-kind-icon">type</a></li>
@@ -150,7 +150,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L48">core/ts/lib/component/MeetingHud.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L90">core/ts/lib/component/MeetingHud.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -182,7 +182,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#classname-1">classname</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L45">core/ts/lib/component/MeetingHud.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L80">core/ts/lib/component/MeetingHud.ts:80</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,9 +193,14 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#dirtybit">dirtyBit</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L47">core/ts/lib/component/MeetingHud.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L85">core/ts/lib/component/MeetingHud.ts:85</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The dirty vote states to be updated on the next fixed update.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="netid" class="tsd-anchor"></a>
@@ -204,9 +209,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#netid">netid</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L25">core/ts/lib/Networkable.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L49">core/ts/lib/Networkable.ts:49</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The net ID of this component.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="ownerid" class="tsd-anchor"></a>
@@ -215,19 +225,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#ownerid">ownerid</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L26">core/ts/lib/Networkable.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L54">core/ts/lib/Networkable.ts:54</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="players" class="tsd-anchor"></a>
-					<h3>players</h3>
-					<div class="tsd-signature tsd-kind-icon">players<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="core.playervotestate.html" class="tsd-signature-type">PlayerVoteState</a><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L48">core/ts/lib/component/MeetingHud.ts:48</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The ID of the owner of this component.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="room" class="tsd-anchor"></a>
@@ -236,9 +241,29 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#room">room</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L24">core/ts/lib/Networkable.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L44">core/ts/lib/Networkable.ts:44</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The room that this component belongs to.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="states" class="tsd-anchor"></a>
+					<h3>states</h3>
+					<div class="tsd-signature tsd-kind-icon">states<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="core.playervotestate.html" class="tsd-signature-type">PlayerVoteState</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L90">core/ts/lib/component/MeetingHud.ts:90</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The vote states in the meeting hud.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="type" class="tsd-anchor"></a>
@@ -247,7 +272,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#type-1">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L42">core/ts/lib/component/MeetingHud.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L77">core/ts/lib/component/MeetingHud.ts:77</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -258,7 +283,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#classname-1">classname</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L44">core/ts/lib/component/MeetingHud.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L79">core/ts/lib/component/MeetingHud.ts:79</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -269,7 +294,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#type-1">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L41">core/ts/lib/component/MeetingHud.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L76">core/ts/lib/component/MeetingHud.ts:76</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -287,7 +312,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#owner">owner</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L59">core/ts/lib/component/MeetingHud.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L101">core/ts/lib/component/MeetingHud.ts:101</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="core.heritable.html" class="tsd-signature-type">Heritable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -308,7 +333,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#deserialize">Deserialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L63">core/ts/lib/component/MeetingHud.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L105">core/ts/lib/component/MeetingHud.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -335,7 +360,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#fixedupdate">FixedUpdate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L83">core/ts/lib/Networkable.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L114">core/ts/lib/Networkable.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -359,7 +384,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#handlerpc">HandleRPC</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L106">core/ts/lib/component/MeetingHud.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L148">core/ts/lib/component/MeetingHud.ts:148</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -383,7 +408,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#preserialize">PreSerialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L79">core/ts/lib/Networkable.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L110">core/ts/lib/Networkable.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -401,7 +426,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#serialize">Serialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L88">core/ts/lib/component/MeetingHud.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L130">core/ts/lib/component/MeetingHud.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -427,16 +452,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L197">core/ts/lib/component/MeetingHud.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L261">core/ts/lib/component/MeetingHud.ts:261</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Cast a vote on behalf of a user (or yourself).</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-typescript"><span class="hljs-comment">// Make everyone vote a certain player.</span>
+<span class="hljs-keyword">for</span> ([ clientid, player ] <span class="hljs-keyword">of</span> room.players) {
+  <span class="hljs-keyword">if</span> (player !== suspect) {
+    room.meetinghud.castVote(player, suspect);
+  }
+}</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>voting: <a href="../modules/core.html#playerdataresolvable" class="tsd-signature-type">PlayerDataResolvable</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The player who is voting.</p>
+									</div>
 								</li>
 								<li>
 									<h5>suspect: <a href="../modules/core.html#playerdataresolvable" class="tsd-signature-type">PlayerDataResolvable</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"skip"</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The player to vote for.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -453,13 +499,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L179">core/ts/lib/component/MeetingHud.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L228">core/ts/lib/component/MeetingHud.ts:228</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove someone&#39;s vote (usually due to their suspect getting disconnected).</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>resolvable: <a href="../modules/core.html#playerdataresolvable" class="tsd-signature-type">PlayerDataResolvable</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The player to remove the vote of.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -476,9 +530,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/component/MeetingHud.ts#L131">core/ts/lib/component/MeetingHud.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/component/MeetingHud.ts#L176">core/ts/lib/component/MeetingHud.ts:176</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Close the meeting hud for all clients.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -494,9 +553,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#despawn">despawn</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L89">core/ts/lib/Networkable.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L126">core/ts/lib/Networkable.ts:126</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Despawns the component from the room it belongs in.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -513,7 +577,7 @@
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#emit">emit</a></p>
 								<p>Overrides <a href="pathfinding.skeldjspathfinder.html">SkeldjsPathfinder</a>.<a href="pathfinding.skeldjspathfinder.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L55">core/ts/lib/Networkable.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L86">core/ts/lib/Networkable.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -530,7 +594,7 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -543,7 +607,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -552,7 +616,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -560,7 +624,7 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -573,7 +637,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -582,7 +646,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -593,7 +657,7 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -606,7 +670,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -615,7 +679,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -638,7 +702,7 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -651,7 +715,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -660,7 +724,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -690,7 +754,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#patch">patch</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L51">core/ts/lib/Networkable.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L82">core/ts/lib/Networkable.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -738,7 +802,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -762,9 +826,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.networkable.html">Networkable</a>.<a href="core.networkable.html#spawn">spawn</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Networkable.ts#L85">core/ts/lib/Networkable.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Networkable.ts#L119">core/ts/lib/Networkable.ts:119</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Spawn this component if does not exist in the room it belongs in.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -773,7 +842,7 @@
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -786,7 +855,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -795,7 +864,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#meetinghudevents" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#networkableevents" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.meetinghudevents.html" class="tsd-signature-type">MeetingHudEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../interfaces/core.networkableevents.html" class="tsd-signature-type">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -876,11 +945,11 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.meetinghud.html#ownerid" class="tsd-kind-icon">ownerid</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.meetinghud.html#players" class="tsd-kind-icon">players</a>
-									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.meetinghud.html#room" class="tsd-kind-icon">room</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.meetinghud.html#states" class="tsd-kind-icon">states</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.meetinghud.html#type" class="tsd-kind-icon">type</a>

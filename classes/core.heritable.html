@@ -67,6 +67,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a basic identifiable entity with components.</p>
+					</div>
+					<p>See {@link HeritableEvents} for events to listen to.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
@@ -144,7 +152,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Heritable.ts#L29">core/ts/lib/Heritable.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Heritable.ts#L44">core/ts/lib/Heritable.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -169,9 +177,14 @@
 					<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <a href="core.networkable.html" class="tsd-signature-type">Networkable</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Heritable.ts#L29">core/ts/lib/Heritable.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Heritable.ts#L44">core/ts/lib/Heritable.ts:44</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The components for this object.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="id" class="tsd-anchor"></a>
@@ -179,9 +192,14 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Heritable.ts#L28">core/ts/lib/Heritable.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Heritable.ts#L39">core/ts/lib/Heritable.ts:39</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The ID of the object.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="room" class="tsd-anchor"></a>
@@ -189,9 +207,14 @@
 					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <a href="core.hostable.html" class="tsd-signature-type">Hostable</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Heritable.ts#L26">core/ts/lib/Heritable.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Heritable.ts#L34">core/ts/lib/Heritable.ts:34</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The room that this object belongs to.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -207,7 +230,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="pathfinding.skeldjspathfinder.html">SkeldjsPathfinder</a>.<a href="pathfinding.skeldjspathfinder.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Heritable.ts#L40">core/ts/lib/Heritable.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Heritable.ts#L55">core/ts/lib/Heritable.ts:55</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -224,15 +247,20 @@
 					<a name="getcomponent" class="tsd-anchor"></a>
 					<h3>get<wbr>Component</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Component&lt;T&gt;<span class="tsd-signature-symbol">(</span>ctr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Component&lt;T&gt;<span class="tsd-signature-symbol">(</span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/Heritable.ts#L51">core/ts/lib/Heritable.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/Heritable.ts#L70">core/ts/lib/Heritable.ts:70</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a certain component from the object.</p>
+								</div>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -242,7 +270,10 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ctr: <span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<h5>component: <span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The component class to get.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>

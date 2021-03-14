@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DeconState | SkeldJS</title>
+	<title>SabotageSystemEvents | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,73 +57,102 @@
 					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="core.deconstate.html">DeconState</a>
+					<a href="core.sabotagesystemevents.html">SabotageSystemEvents</a>
 				</li>
 			</ul>
-			<h1>Enumeration DeconState</h1>
+			<h1>Interface SabotageSystemEvents</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="core.basesystemstatusevents.html" class="tsd-signature-type">BaseSystemStatusEvents</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">SabotageSystemEvents</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Enumeration members</h3>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="core.deconstate.html#closed" class="tsd-kind-icon">Closed</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="core.deconstate.html#enter" class="tsd-kind-icon">Enter</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="core.deconstate.html#exit" class="tsd-kind-icon">Exit</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="core.deconstate.html#headingup" class="tsd-kind-icon">Heading<wbr>Up</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.sabotagesystemevents.html#system_repair" class="tsd-kind-icon">system.repair</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.sabotagesystemevents.html#system_sabotage" class="tsd-kind-icon">system.sabotage</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="closed" class="tsd-anchor"></a>
-					<h3>Closed</h3>
-					<div class="tsd-signature tsd-kind-icon">Closed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="system_repair" class="tsd-anchor"></a>
+					<h3>system.repair</h3>
+					<div class="tsd-signature tsd-kind-icon">system.repair<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>player<span class="tsd-signature-symbol">?: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="core.deconsystemevents.html">DeconSystemEvents</a>.<a href="core.deconsystemevents.html#system_repair">system.repair</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/DeconSystem.ts#L11">core/ts/lib/system/DeconSystem.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/events.ts#L36">core/ts/lib/system/events.ts:36</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a system is repaired.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> player<span class="tsd-signature-symbol">?: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The player that repaired the system, only known the current client is the host of the room.</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="enter" class="tsd-anchor"></a>
-					<h3>Enter</h3>
-					<div class="tsd-signature tsd-kind-icon">Enter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="system_sabotage" class="tsd-anchor"></a>
+					<h3>system.sabotage</h3>
+					<div class="tsd-signature tsd-kind-icon">system.sabotage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>player<span class="tsd-signature-symbol">?: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="core.deconsystemevents.html">DeconSystemEvents</a>.<a href="core.deconsystemevents.html#system_sabotage">system.sabotage</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/DeconSystem.ts#L10">core/ts/lib/system/DeconSystem.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/events.ts#L27">core/ts/lib/system/events.ts:27</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="exit" class="tsd-anchor"></a>
-					<h3>Exit</h3>
-					<div class="tsd-signature tsd-kind-icon">Exit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/DeconSystem.ts#L12">core/ts/lib/system/DeconSystem.ts:12</a></li>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a system is sabotaged.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> player<span class="tsd-signature-symbol">?: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The player that sabotaged the system, only known the current client is the host of the room.</p>
+									</div>
+								</div>
+							</li>
 						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="headingup" class="tsd-anchor"></a>
-					<h3>Heading<wbr>Up</h3>
-					<div class="tsd-signature tsd-kind-icon">Heading<wbr>Up<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 8</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/DeconSystem.ts#L13">core/ts/lib/system/DeconSystem.ts:13</a></li>
-						</ul>
-					</aside>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -184,20 +213,14 @@
 					<li class="current tsd-kind-module">
 						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
 						<ul>
-							<li class="current tsd-kind-enum tsd-parent-kind-module">
-								<a href="core.deconstate.html" class="tsd-kind-icon">Decon<wbr>State</a>
+							<li class="current tsd-kind-interface tsd-parent-kind-module">
+								<a href="core.sabotagesystemevents.html" class="tsd-kind-icon">Sabotage<wbr>System<wbr>Events</a>
 								<ul>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="core.deconstate.html#closed" class="tsd-kind-icon">Closed</a>
+									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a href="core.sabotagesystemevents.html#system_repair" class="tsd-kind-icon">system.repair</a>
 									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="core.deconstate.html#enter" class="tsd-kind-icon">Enter</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="core.deconstate.html#exit" class="tsd-kind-icon">Exit</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="core.deconstate.html#headingup" class="tsd-kind-icon">Heading<wbr>Up</a>
+									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a href="core.sabotagesystemevents.html#system_sabotage" class="tsd-kind-icon">system.sabotage</a>
 									</li>
 								</ul>
 							</li>

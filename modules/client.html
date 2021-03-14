@@ -131,7 +131,7 @@ client.on(<span class="hljs-string">&quot;player.setname&quot;</span>, <span cla
 
 <span class="hljs-keyword">await</span> client.connect(<span class="hljs-string">&quot;EU&quot;</span>, <span class="hljs-string">&quot;weakeyes&quot;</span>);
 
-<span class="hljs-keyword">const</span> games = <span class="hljs-keyword">await</span> client.findGames([skeldjs.MapID.TheSkeld], <span class="hljs-string">&quot;any&quot;</span>, skeldjs.LanguageID.All);
+<span class="hljs-keyword">const</span> games = <span class="hljs-keyword">await</span> client.findGames();
 <span class="hljs-keyword">const</span> game = games[<span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * games.length)];
 
 <span class="hljs-keyword">const</span> code = <span class="hljs-keyword">await</span> game.join();
@@ -160,28 +160,10 @@ client.on(<span class="hljs-string">&quot;player.setname&quot;</span>, <span cla
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/client.clientconfig.html" class="tsd-kind-icon">Client<wbr>Config</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="client.html#skeldjsclientevents" class="tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/client.skeldjsclientevents.html" class="tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events</a></li>
 							</ul>
 						</section>
 					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="skeldjsclientevents" class="tsd-anchor"></a>
-					<h3>Skeldjs<wbr>Client<wbr>Events</h3>
-					<div class="tsd-signature tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events<span class="tsd-signature-symbol">:</span> <a href="core.html#hostableevents" class="tsd-signature-type">HostableEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>client.disconnect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>reason<span class="tsd-signature-symbol">: </span><a href="../enums/constant.disconnectreason.html" class="tsd-signature-type">DisconnectReason</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>client.packet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>packet<span class="tsd-signature-symbol">: </span><a href="protocol.html#clientboundpacket" class="tsd-signature-type">ClientboundPacket</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/client/ts/lib/client.ts#L62">client/ts/lib/client.ts:62</a></li>
-						</ul>
-					</aside>
 				</section>
 			</section>
 		</div>
@@ -248,8 +230,8 @@ client.on(<span class="hljs-string">&quot;player.setname&quot;</span>, <span cla
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/client.clientconfig.html" class="tsd-kind-icon">Client<wbr>Config</a>
 							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="client.html#skeldjsclientevents" class="tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events</a>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/client.skeldjsclientevents.html" class="tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events</a>
 							</li>
 						</ul>
 					</li>

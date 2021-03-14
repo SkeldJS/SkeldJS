@@ -67,11 +67,19 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a programmable Among Us region server.</p>
+					</div>
+					<p>See <a href="../interfaces/server.skeldjsserverevents.html">SkeldjsServerEvents</a> for events to listen to.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">&gt;</span>
+						<span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SkeldjsServer</span>
@@ -138,7 +146,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L60">server/ts/lib/server.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L100">server/ts/lib/server.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,9 +168,14 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/server.serverconfig.html" class="tsd-signature-type">ServerConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L53">server/ts/lib/server.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L83">server/ts/lib/server.ts:83</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The config for the server.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="remotes" class="tsd-anchor"></a>
@@ -170,9 +183,14 @@
 					<div class="tsd-signature tsd-kind-icon">remotes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L57">server/ts/lib/server.ts:57</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L93">server/ts/lib/server.ts:93</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The remote clients currently connected to the server.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="rooms" class="tsd-anchor"></a>
@@ -180,9 +198,14 @@
 					<div class="tsd-signature tsd-kind-icon">rooms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="server.room.html" class="tsd-signature-type">Room</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L58">server/ts/lib/server.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L98">server/ts/lib/server.ts:98</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The active rooms in the server.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="socket" class="tsd-anchor"></a>
@@ -190,9 +213,14 @@
 					<div class="tsd-signature tsd-kind-icon">socket<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Socket</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L55">server/ts/lib/server.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L88">server/ts/lib/server.ts:88</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The datagram socket for the server.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -214,7 +242,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -240,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L259">server/ts/lib/server.ts:259</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L299">server/ts/lib/server.ts:299</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -251,7 +279,7 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -264,7 +292,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -273,7 +301,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -287,7 +315,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L93">server/ts/lib/server.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L133">server/ts/lib/server.ts:133</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -310,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L265">server/ts/lib/server.ts:265</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L305">server/ts/lib/server.ts:305</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -336,7 +364,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L283">server/ts/lib/server.ts:283</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L323">server/ts/lib/server.ts:323</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -362,7 +390,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L83">server/ts/lib/server.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L123">server/ts/lib/server.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -373,7 +401,7 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -386,7 +414,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -395,7 +423,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -406,7 +434,7 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -419,7 +447,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -428,7 +456,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -457,7 +485,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L348">server/ts/lib/server.ts:348</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L388">server/ts/lib/server.ts:388</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -477,7 +505,7 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -490,7 +518,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -499,7 +527,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -553,7 +581,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -576,7 +604,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L194">server/ts/lib/server.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L234">server/ts/lib/server.ts:234</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -602,7 +630,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L248">server/ts/lib/server.ts:248</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L288">server/ts/lib/server.ts:288</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -638,7 +666,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/server.html#skeldjsserverevents" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -661,7 +689,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L106">server/ts/lib/server.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L146">server/ts/lib/server.ts:146</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -687,7 +715,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/server/ts/lib/server.ts#L146">server/ts/lib/server.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/server/ts/lib/server.ts#L186">server/ts/lib/server.ts:186</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -861,19 +889,19 @@
 								</ul>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/server.remoteclientevents.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Events</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/server.roomconfig.html" class="tsd-kind-icon">Room<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/server.roomevents.html" class="tsd-kind-icon">Room<wbr>Events</a>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/server.serverconfig.html" class="tsd-kind-icon">Server<wbr>Config</a>
 							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#remoteclientevents" class="tsd-kind-icon">Remote<wbr>Client<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#roomevents" class="tsd-kind-icon">Room<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#skeldjsserverevents" class="tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events</a>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/server.skeldjsserverevents.html" class="tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events</a>
 							</li>
 						</ul>
 					</li>

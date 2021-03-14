@@ -67,11 +67,19 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a system responsible for handling the medbay scan queue.</p>
+					</div>
+					<p>See <a href="../interfaces/core.medscansystemevents.html">MedScanSystemEvents</a> for events to listen to.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="core.systemstatus.html" class="tsd-signature-type">SystemStatus</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemdata.html" class="tsd-signature-type">MedScanSystemData</a><span class="tsd-signature-symbol">, </span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol">&gt;</span>
+						<a href="core.systemstatus.html" class="tsd-signature-type">SystemStatus</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemdata.html" class="tsd-signature-type">MedScanSystemData</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">MedScanSystem</span>
@@ -144,7 +152,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.systemstatus.html">SystemStatus</a>.<a href="core.systemstatus.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/MedScanSystem.ts#L19">core/ts/lib/system/MedScanSystem.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/MedScanSystem.ts#L27">core/ts/lib/system/MedScanSystem.ts:27</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -169,9 +177,14 @@
 					<div class="tsd-signature tsd-kind-icon">queue<span class="tsd-signature-symbol">:</span> <a href="core.playerdata.html" class="tsd-signature-type">PlayerData</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/MedScanSystem.ts#L19">core/ts/lib/system/MedScanSystem.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/MedScanSystem.ts#L27">core/ts/lib/system/MedScanSystem.ts:27</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current queue to access the medbay scan.s</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="ship" class="tsd-anchor"></a>
@@ -180,7 +193,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#ship">ship</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L34">core/ts/lib/system/SystemStatus.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L40">core/ts/lib/system/SystemStatus.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -191,7 +204,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.systemstatus.html">SystemStatus</a>.<a href="core.systemstatus.html#systemtype-1">systemType</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/MedScanSystem.ts#L17">core/ts/lib/system/MedScanSystem.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/MedScanSystem.ts#L22">core/ts/lib/system/MedScanSystem.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -202,7 +215,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="core.systemstatus.html">SystemStatus</a>.<a href="core.systemstatus.html#systemtype-1">systemType</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/MedScanSystem.ts#L16">core/ts/lib/system/MedScanSystem.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/MedScanSystem.ts#L21">core/ts/lib/system/MedScanSystem.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -221,18 +234,28 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#dirty">dirty</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L18">core/ts/lib/system/SystemStatus.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L21">core/ts/lib/system/SystemStatus.ts:21</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether or not this system is dirty.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#dirty">dirty</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L22">core/ts/lib/system/SystemStatus.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L25">core/ts/lib/system/SystemStatus.ts:25</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether or not this system is dirty.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -254,9 +277,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#sabotaged">sabotaged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L30">core/ts/lib/system/SystemStatus.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L36">core/ts/lib/system/SystemStatus.ts:36</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether or not this system is sabotaged.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -275,7 +303,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.systemstatus.html">SystemStatus</a>.<a href="core.systemstatus.html#deserialize">Deserialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/MedScanSystem.ts#L26">core/ts/lib/system/MedScanSystem.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/MedScanSystem.ts#L34">core/ts/lib/system/MedScanSystem.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -302,7 +330,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#detoriorate">Detoriorate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L69">core/ts/lib/system/SystemStatus.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L75">core/ts/lib/system/SystemStatus.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -326,7 +354,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#handlerepair">HandleRepair</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/MedScanSystem.ts#L44">core/ts/lib/system/MedScanSystem.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/MedScanSystem.ts#L52">core/ts/lib/system/MedScanSystem.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -353,7 +381,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#handlesabotage">HandleSabotage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L71">core/ts/lib/system/SystemStatus.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L77">core/ts/lib/system/SystemStatus.ts:77</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -377,7 +405,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="core.systemstatus.html">SystemStatus</a>.<a href="core.systemstatus.html#serialize">Serialize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/MedScanSystem.ts#L36">core/ts/lib/system/MedScanSystem.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/MedScanSystem.ts#L44">core/ts/lib/system/MedScanSystem.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -405,7 +433,7 @@
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#emit">emit</a></p>
 								<p>Overrides <a href="pathfinding.skeldjspathfinder.html">SkeldjsPathfinder</a>.<a href="pathfinding.skeldjspathfinder.html#emit">emit</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L50">core/ts/lib/system/SystemStatus.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L56">core/ts/lib/system/SystemStatus.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -429,7 +457,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#fix">fix</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L117">core/ts/lib/system/SystemStatus.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L123">core/ts/lib/system/SystemStatus.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -440,7 +468,7 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -453,7 +481,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -462,7 +490,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -470,7 +498,7 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -483,7 +511,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -492,7 +520,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -503,7 +531,7 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -516,7 +544,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -525,7 +553,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -548,7 +576,7 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -561,7 +589,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -570,7 +598,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -600,7 +628,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#patch">patch</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L46">core/ts/lib/system/SystemStatus.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L52">core/ts/lib/system/SystemStatus.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -648,7 +676,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -672,7 +700,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#repair">repair</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L95">core/ts/lib/system/SystemStatus.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L101">core/ts/lib/system/SystemStatus.ts:101</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -699,7 +727,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="core.deconsystem.html">DeconSystem</a>.<a href="core.deconsystem.html#sabotage">sabotage</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/725733a/packages/core/ts/lib/system/SystemStatus.ts#L73">core/ts/lib/system/SystemStatus.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/core/ts/lib/system/SystemStatus.ts#L79">core/ts/lib/system/SystemStatus.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -716,7 +744,7 @@
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -729,7 +757,7 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -738,7 +766,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../modules/core.html#medscansystemevents" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/core.medscansystemevents.html" class="tsd-signature-type">MedScanSystemEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type">SystemStatusEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
