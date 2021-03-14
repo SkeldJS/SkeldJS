@@ -26,7 +26,7 @@ interface HeritableEvents extends PropagatedEvents<
  * See {@link HeritableEvents} for events to listen to.
  */
 export class Heritable<
-    T extends Record<string, any> = any
+    T extends Record<string, any> = {}
 > extends EventEmitter<T & HeritableEvents> {
     /**
      * The room that this object belongs to.

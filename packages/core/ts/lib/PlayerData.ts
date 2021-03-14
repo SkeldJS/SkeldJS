@@ -160,7 +160,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
      * Whether or not the player is the host of the room they belong in.
      */
     get ishost() {
-        return this.room.host === this;
+        return this.room.hostid === this.id;
     }
 
     /**
@@ -175,7 +175,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
      */
     async ready() {
         this.isReady = true;
-        this.emit("player.ready", {});
+        await this.emit("player.ready", {});
 
         if (this.isme && !this.ishost) {
             await this.room.broadcast([

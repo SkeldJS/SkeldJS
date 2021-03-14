@@ -87,7 +87,7 @@ export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemData, AutoDoors
         if (!this.doors || this.doors.length !== MapDoors[MapID.TheSkeld]) {
             this.doors = new Array(MapDoors[MapID.TheSkeld])
                 .fill(0)
-                .map((door, i) => new AutoOpenDoor(this, i, false));
+                .map((door, i) => new AutoOpenDoor(this, i, true));
         }
 
         for (let i = 0; i < this.doors.length; i++) {

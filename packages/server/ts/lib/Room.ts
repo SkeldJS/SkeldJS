@@ -40,7 +40,7 @@ export class Room extends Hostable<RoomEvents> {
     remotes: Map<number, RemoteClient>;
 
     constructor(private server: SkeldjsServer, public options: RoomConfig) {
-        super();
+        super({ doFixedUpdate: true });
 
         this.remotes = new Map();
 
@@ -87,8 +87,8 @@ export class Room extends Hostable<RoomEvents> {
         this.server.rooms.delete(this.code);
     }
 
-    handleLeave(resolvable: PlayerDataResolvable) {
-        const player = super.handleLeave(resolvable);
+    async handleLeave(resolvable: PlayerDataResolvable) {
+        const player = await super.handleLeave(resolvable);
 
         if (!this.players.size) {
             this.destroy();

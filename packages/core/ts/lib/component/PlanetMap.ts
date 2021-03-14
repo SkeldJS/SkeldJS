@@ -78,7 +78,7 @@ export class PlanetMap extends BaseShipStatus {
                     true,
                     true,
                     true,
-                    true,
+                    true
                 ],
                 cooldowns: new Map(),
             }),

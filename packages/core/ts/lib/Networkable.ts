@@ -24,7 +24,7 @@ export interface NetworkableEvents {
  */
 export class Networkable<
     DataT = any,
-    T extends Record<string, any> = any,
+    T extends Record<string, any> = {},
 > extends EventEmitter<T & NetworkableEvents> {
     static type: SpawnID;
     /**
@@ -87,11 +87,12 @@ export class Networkable<
         const event = args[0];
         const data = args[1];
 
-        if (this.owner)
+        if (this.owner) {
             await this.owner.emit(event, {
                 ...data,
                 component: this,
             });
+        }
 
         return super.emit(event, data);
     }
@@ -116,14 +117,14 @@ export class Networkable<
     /**
      * Spawn this component if does not exist in the room it belongs in.
      */
-    spawn() {
-        this.room.spawnComponent(this);
+    async spawn() {
+        return await this.room.spawnComponent(this);
     }
 
     /**
      * Despawns the component from the room it belongs in.
      */
-    despawn() {
-        this.room.despawnComponent(this);
+    async despawn() {
+        return await this.room.despawnComponent(this);
     }
 }
