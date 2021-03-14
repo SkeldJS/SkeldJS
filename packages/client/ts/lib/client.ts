@@ -41,7 +41,6 @@ import { Hostable, HostableEvents, PlayerData, RoomID } from "@skeldjs/core";
 
 import {
     Code2Int,
-    Int2Code,
     HazelBuffer,
     sleep,
     unary,
@@ -59,38 +58,115 @@ const lookupDns = util.promisify(dns.lookup);
 type PacketFilter = (packet: ClientboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageClientbound) => boolean;
 
-export type SkeldjsClientEvents = HostableEvents & {
+export interface SkeldjsClientEvents extends HostableEvents {
+    /**
+     * Emitted when the client gets disconnected.
+     */
     "client.disconnect": {
+        /**
+         * The reason for why the client was disconnected.
+         */
         reason: DisconnectReason;
+        /**
+         * A message provided if the disconnect reason was custom.
+         */
         message: string;
     };
+    /**
+     * Emitted when a client receives a packet.
+     */
     "client.packet": {
+        /**
+         * The packet that was received.
+         */
         packet: ClientboundPacket;
     };
-};
+}
 
+/**
+ * Represents a programmable Among Us client.
+ *
+ * See {@link SkeldjsClientEvents} for events to listen to.
+ */
 export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
+    /**
+     * The options for the client.
+     */
     options: ClientConfig;
 
+    /**
+     * The datagram socket for the client.
+     */
     socket: dgram.Socket;
+
+    /**
+     * The IP of the server that the client is currently connected to.
+     */
     ip: string;
+
+    /**
+     * The port of the server that the client is currently connected to.
+     */
     port: number;
 
+    /**
+     * An array of 8 of the most recent packets received from the server.
+     */
     packets_recv: number[];
+
+    /**
+     * An array of 8 of the most recent packet sent by the client.
+     */
     packets_sent: SentPacket[];
+
     private _nonce = 0;
 
+    /**
+     * Whether or not the client is currently connected to a server.
+     */
     connected: boolean;
+
+    /**
+     * Whether or not the client has sent a disconnect packet.
+     */
     sent_disconnect: boolean;
+
+    /**
+     * Whether or not the client is identified with the connected server.
+     */
     identified: boolean;
+
+    /**
+     * The username of the client.
+     */
     username: string;
+
+    /**
+     * The version of the client.
+     */
     version: number;
 
+    /**
+     * The client ID of the client.
+     */
     clientid: number;
 
     private settings_cache: GameOptions;
+
+    /**
+     * The client message stream to the server sent every fixed update.
+     */
     stream: GameDataMessage[];
 
+    /**
+     * Create a new Skeldjs client instance.
+     * @param version The version of the client.
+     * @param options Additional client options.
+     * @example
+	 *```typescript
+     * const client = new SkeldjsClient("2021.3.5.0");
+     * ```
+	 */
     constructor(
         version: string | number,
         options: ClientConfig = { debug: DebugLevel.None, allowHost: true }
@@ -127,7 +203,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
     }
 
     get amhost() {
-        return this.hostid === this.clientid;
+        return this.hostid === this.clientid && this.options.allowHost;
     }
 
     private debug(level: number, ...fmt: any[]) {
@@ -247,6 +323,19 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this.handlePacket(packet);
     }
 
+    /**
+     * Connect to a region or IP. Optionally identify with a username (can be done later with the {@link SkeldjsClient.identify} method).
+     * @param host The hostname to connect to.
+     * @param username The username to identify with
+     * @example
+	 *```typescript
+     * // Connect to an official Among Us region.
+     * await connect("NA", "weakeyes");
+     *
+     * // Connect to a locally hosted private server.
+     * await connect("127.0.0.1", "weakeyes");
+     * ```
+	 */
     async connect(host: "NA"|"EU"|"AS", username?: string);
     async connect(host: string, username?: string, port?: number);
     async connect(host: string, username?: string, port: number = 22023) {
@@ -288,6 +377,9 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this.packets_recv = [];
     }
 
+    /**
+     * Disconnect from the server currently connected to.
+     */
     async disconnect(reason?: DisconnectReason, message?: string) {
         if (this.connected) {
             if (this.identified && !this.sent_disconnect) {
@@ -312,6 +404,14 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         }
     }
 
+    /**
+     * Identify with the connected server. (Can be done before in the {@link SkeldjsClient.connect} method)
+     * @param username The username to identify with.
+     * @example
+	 *```typescript
+     * await client.identify("weakeyes");
+     * ```
+	 */
     async identify(username: string) {
         await this.send({
             op: Opcode.Hello,
@@ -359,6 +459,11 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         });
     }
 
+    /**
+     * Wait to receive a payload message from the server with a specified filter.
+     * @param filter Either a filter or an array of filters to match the payload to receive.
+     * @returns The payload or payloads in question.
+     */
     async waitPayload(
         filter: PayloadFilter | PayloadFilter[]
     ): Promise<PayloadMessage> {
@@ -401,6 +506,9 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         });
     }
 
+    /**
+     * Send a packet to the connected server.
+     */
     async send(packet: ServerboundPacket): Promise<void> {
         if (!this.socket) {
             return null;
@@ -466,6 +574,13 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         }
     }
 
+    /**
+     * Broadcast a message to a specific player or to all players in the game.
+     * @param messages The messages to broadcast.
+     * @param reliable Whether or not the message should be acknowledged by the server.
+     * @param recipient The optional recipient of the messages.
+     * @param payload Additional payloads to be sent to the server. (Not necessarily broadcasted to all players, or even the recipient.)
+     */
     async broadcast(
         messages: GameDataMessage[],
         reliable = true,
@@ -508,6 +623,18 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         }
     }
 
+    /**
+     * Spawn your own player if `doSpawn = false` was used in the {@link SkeldjsClient.joinGame} method.
+     * @example
+     * ```typescript
+     * // Spawn your player 5 seconds after joining a game without spawning.
+     * await client.joinGame("ABCDEF", false);
+     *
+     * setTimeout(() => {
+     *   await client.spawnSelf();
+     * }, 5000)
+     * ```
+	 */
     async spawnSelf() {
         if (!this.me || this.me.inScene) {
             return;
@@ -533,9 +660,20 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                     },
                 ],
             });
+            await this.me.wait("player.spawn");
         }
     }
 
+    /**
+     * Join a room given the 4 or 6 digit code.
+     * @param code The code of the room to join.
+     * @param doSpawn Whether or not to spawn the player. If false, the client will be unaware of any existing objects in the game until {@link SkeldjsClient.spawnSelf} is called.
+     * @returns The code of the room joined.
+     * @example
+	 *```typescript
+     * await client.joinGame("ABCDEF");
+     * ```
+	 */
     async joinGame(code: RoomID, doSpawn: boolean = true): Promise<RoomID> {
         if (typeof code === "undefined") {
             throw new Error("No code provided.");
@@ -599,10 +737,25 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         }
     }
 
+    /**
+     * Create a game with given settings.
+     * @param host_settings The settings to create the game with.
+     * @param doJoin Whether or not to join the game after created.
+     * @returns The game code of the room.
+     * @example
+	 *```typescript
+     * // Create a game on The Skeld with an English chat with 2 impostors.
+     * await client.createGame({
+     *   map: MapID.TheSkeld,
+     *   language: LanguageID.English,
+     *   impostors: 2
+     * });
+     * ```
+	 */
     async createGame(
         host_settings: Partial<GameOptions> = {},
         doJoin: boolean = true
-    ): Promise<string> {
+    ): Promise<RoomID> {
         const settings = {
             ...SkeldjsClient.defaultGameOptions,
             ...host_settings
@@ -648,13 +801,32 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
                 if (doJoin) {
                     await this.joinGame(payload.code);
-                    return Int2Code(payload.code);
+                    return payload.code;
                 } else {
-                    return Int2Code(payload.code);
+                    return payload.code;
                 }
         }
     }
 
+    /**
+     * Search for public games.
+     * @param maps The maps of games to look for. If a number, it will be a bitfield of the maps, else, it will be an array of the maps.
+     * @param impostors The number of impostors to look for. 0 for any amount.
+     * @param language The language of the game to look for, {@link LanguageID.All} for any.
+     * @returns An array of game listings with the data and a {@link GameListing.join} method to join the game.
+     * @example
+	 *```typescript
+     * // Search for games and join a random one.
+     * const client = new SkeldjsClient("2021.3.5.0");
+
+     * await client.connect("EU", "weakeyes");
+
+     * const games = await client.findGames();
+     * const game = games[Math.floor(Math.random() * games.length)];
+
+     * const code = await game.join();
+     * ```
+	 */
     async findGames(maps: number|MapID[] = 0x7 /* all maps */, impostors = 0 /* any impostors */, language = LanguageID.All): Promise<GameListing[]> {
         if (Array.isArray(maps)) {
             return await this.findGames(maps.reduce((acc, cur) => acc | (1 << cur), 0) /* convert to bitfield */, impostors, language);

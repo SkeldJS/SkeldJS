@@ -13,16 +13,33 @@ export interface DoorsSystemData {
     doors: boolean[];
 }
 
-export type DoorsSystemEvents = PropagatedEvents<
+export interface DoorsSystemEvents extends PropagatedEvents<
     DoorEvents,
-    { system: DoorsSystem }
-> & {};
+    {
+        /**
+         * The system that the doors belong to.
+         */
+        system: DoorsSystem
+    }
+> {}
 
+/**
+ * Represents a system for doors that must be manually opened.
+ *
+ * See {@link DoorsSystemEvents} for events to listen to.
+ */
 export class DoorsSystem extends SystemStatus<DoorsSystemData, DoorsSystemEvents> {
     static systemType = SystemType.Doors as const;
     systemType = SystemType.Doors as const;
 
+    /**
+     * The cooldowns of every door.
+     */
     cooldowns: Map<number, number>;
+
+    /**
+     * The doors in the map.
+     */
     doors: Door[];
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer | DoorsSystemData) {

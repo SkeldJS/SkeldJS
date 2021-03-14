@@ -13,6 +13,11 @@ import {
     SwitchSystem,
 } from "../system";
 
+/**
+ * Represents a room object for the Airship map.
+ *
+ * See {@link ShipStatusEvents} for events to listen to.
+ */
 export class Airship extends BaseShipStatus {
     static type = SpawnID.Airship as const;
     type = SpawnID.Airship as const;

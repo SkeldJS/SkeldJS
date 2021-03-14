@@ -15,17 +15,32 @@ type NetworkableConstructor<T> = {
     classname: string;
 };
 
-type HeritableEvents = PropagatedEvents<
+interface HeritableEvents extends PropagatedEvents<
     NetworkableEvents,
     { component: Networkable }
-> & {};
+> {}
 
+/**
+ * Represents a basic identifiable entity with components.
+ *
+ * See {@link HeritableEvents} for events to listen to.
+ */
 export class Heritable<
     T extends Record<string, any> = any
 > extends EventEmitter<T & HeritableEvents> {
+    /**
+     * The room that this object belongs to.
+     */
     room: Hostable;
 
+    /**
+     * The ID of the object.
+     */
     id: number;
+
+    /**
+     * The components for this object.
+     */
     components: Networkable[];
 
     constructor(room: Hostable, id: number) {
@@ -48,28 +63,32 @@ export class Heritable<
         return super.emit(event, data);
     }
 
+    /**
+     * Get a certain component from the object.
+     * @param component The component class to get.
+     */
     getComponent<T>(
-        ctr: NetworkableConstructor<T> | NetworkableConstructor<T>[] | number
+        component: NetworkableConstructor<T> | NetworkableConstructor<T>[] | number
     ): T {
-        if (typeof ctr == "number") {
+        if (typeof component == "number") {
             return (this.components.find(
-                (component) => component && component.netid === ctr
+                com => com && com.netid === component
             ) as unknown) as T;
         }
 
         for (let i = 0; i < this.components.length; i++) {
-            const component = this.components[i];
+            const c = this.components[i];
 
-            if (Array.isArray(ctr)) {
+            if (Array.isArray(component)) {
                 if (
-                    component &&
-                    ctr.some((con) => component.classname === con.classname)
+                    c &&
+                    component.some(com => c.classname === com.classname)
                 ) {
-                    return (component as unknown) as T;
+                    return (c as unknown) as T;
                 }
             } else {
-                if (component && component.classname === ctr.classname) {
-                    return (component as unknown) as T;
+                if (c && c.classname === component.classname) {
+                    return (c as unknown) as T;
                 }
             }
         }

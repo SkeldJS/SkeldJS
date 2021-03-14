@@ -17,12 +17,51 @@ export interface HqHudSystemData {
     completed: Set<number>;
 }
 
-export type HqHudSystemEvents = BaseSystemStatusEvents & {
+export interface HqHudSystemEvents extends BaseSystemStatusEvents {
+    /**
+     * Emitted when the Mira HQ communiation consoles are reset.
+     */
     "hqhud.consoles.reset": {};
-    "hqhud.consoles.open": { player: PlayerData; consoleId: number };
-    "hqhud.consoles.close": { player: PlayerData; consoleId: number };
-    "hqhud.consoles.complete": { player?: PlayerData; consoleId: number };
-};
+    /**
+     * Emitted when a Mira HQ communication console is opened.
+     */
+    "hqhud.consoles.open": {
+        /**
+         * The player that opened the console.
+         */
+        player: PlayerData;
+        /**
+         * The ID of the console that was opened.
+         */
+        consoleId: number
+    };
+    /**
+     * Emitted when a Mira HQ communication console is closed.
+     */
+    "hqhud.consoles.close": {
+        /**
+         * The player that closed the console.
+         */
+        player: PlayerData;
+        /**
+         * The ID of the console that was closed.
+         */
+        consoleId: number
+    };
+    /**
+     * Emitted when a Mira HQ communication console is complete.
+     */
+    "hqhud.consoles.complete": {
+        /**
+         * The player that completed the console, only known if the current client is the host of the room.
+         */
+        player?: PlayerData;
+        /**
+         * The ID of the console that was completed.
+         */
+        consoleId: number
+    };
+}
 
 export enum HqHudSystemRepairTag {
     CompleteConsole = 0x10,
@@ -31,13 +70,28 @@ export enum HqHudSystemRepairTag {
     Sabotage = 0x80,
 }
 
+/**
+ * Represents a system responsible for handling communication consoles on Mira HQ.
+ *
+ * See {@link HqHudSystemEvents} for events to listen to.
+ */
 export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents> {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
+    /**
+     * The timer until the consoles are reset.
+     */
     timer: number;
 
+    /**
+     * The currently opened consoles.
+     */
     active: UserConsolePair[];
+
+    /**
+     * The completed consoles.
+     */
     completed: Set<number>;
 
     get sabotaged() {
@@ -154,6 +208,10 @@ export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents
         this.emit("system.repair", {});
     }
 
+    /**
+     * Mark the console as being used by your player.
+     * @param consoleId The ID of the console to mark as being used.
+     */
     openConsole(consoleId: number) {
         this.repair(
             this.ship.room.me,
@@ -161,6 +219,10 @@ export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents
         );
     }
 
+    /**
+     * Mark the console as no longer being used by your player.
+     * @param consoleId The ID of the console to mark as not being used.
+     */
     closeConsole(consoleId: number) {
         this.repair(
             this.ship.room.me,
@@ -168,6 +230,10 @@ export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents
         );
     }
 
+    /**
+     * Mark a console as completed.
+     * @param consoleId The ID of the console to mark as completed.
+     */
     completeConsole(consoleId: number) {
         this.repair(
             this.ship.room.me,
@@ -176,11 +242,8 @@ export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents
     }
 
     fix() {
-        this.repair(this.ship.room.me, HqHudSystemRepairTag.CompleteConsole);
-        this.repair(
-            this.ship.room.me,
-            1 & HqHudSystemRepairTag.CompleteConsole
-        );
+        this.completeConsole(0);
+        this.completeConsole(1);
     }
 
     HandleRepair(player: PlayerData, amount: number) {

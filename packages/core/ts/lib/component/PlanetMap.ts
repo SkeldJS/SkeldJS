@@ -16,6 +16,11 @@ import {
     SecurityCameraSystem,
 } from "../system";
 
+/**
+ * Represents a room object for the Polus map.
+ *
+ * See {@link ShipStatusEvents} for events to listen to.
+ */
 export class PlanetMap extends BaseShipStatus {
     static type = SpawnID.PlanetMap as const;
     type = SpawnID.PlanetMap as const;

@@ -20,31 +20,84 @@ import {
 
 import { Room } from "./Room";
 
-export type RemoteClientEvents = {
+export interface RemoteClientEvents {
+    /**
+     * Emitted when a remote client connects to the server.
+     */
     "remote.connected": {
+        /**
+         * The username that the remote client identified with.
+         */
         username: string;
+        /**
+         * The version of the remote client's game client.
+         */
         version: number;
     };
+    /**
+     * Emitted when a remote client joins a room.
+     */
     "remote.joinroom": {
+        /**
+         * The code of the room that the remote client joined.
+         */
         code: number;
+        /**
+         * The room that the remote client joined.
+         */
         found: Room;
     }
-};
+}
 
+/**
+ * Represents a remotely connected client.
+ *
+ * See {@link RemoteClientEvents} for events to listen to.
+ */
 export class RemoteClient extends EventEmitter<RemoteClientEvents> {
+    /**
+     * The last unique packet ID of the client.
+     */
     nonce: number;
 
+    /**
+     * The version of the remote client's game client.
+     */
     version: number;
+
+    /**
+     * The username of the remote client.
+     */
     username: string;
 
+    /**
+     * Whether or not the remote client has identified with the server.
+     */
     identified: boolean;
+
+    /**
+     * Whether or not the remote client has disconnected.
+     */
     disconnected: boolean;
 
+    /**
+     * The room that the remote client is currently in.
+     */
     room: Room;
 
+    /**
+     * An array of the last 8 packets that have been sent to the remote client.
+     */
     packets_sent: SentPacket[];
+
+    /**
+     * An array of the last 8 packets that have been received from the remote client.
+     */
     packets_recv: number[];
 
+    /**
+     * The message stream to be sent on fixed update.
+     */
     stream: GameDataMessage[];
 
     constructor(

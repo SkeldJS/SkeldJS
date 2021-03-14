@@ -10,12 +10,20 @@ export interface MedScanSystemData {
     queue: number[];
 }
 
-export type MedScanSystemEvents = BaseSystemStatusEvents & {};
+export interface MedScanSystemEvents extends BaseSystemStatusEvents {}
 
+/**
+ * Represents a system responsible for handling the medbay scan queue.
+ *
+ * See {@link MedScanSystemEvents} for events to listen to.
+ */
 export class MedScanSystem extends SystemStatus<MedScanSystemData, MedScanSystemEvents> {
     static systemType = SystemType.MedBay as const;
     systemType = SystemType.MedBay as const;
 
+    /**
+     * The current queue to access the medbay scan.s
+     */
     queue: PlayerData[];
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer | MedScanSystemData) {

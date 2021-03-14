@@ -12,18 +12,45 @@ export interface LifeSuppSystemData {
     completed: Set<number>;
 }
 
-export type LifeSuppSystemEvents = BaseSystemStatusEvents & {
-    "o2.consoles.complete": { player?: PlayerData; consoleId: number };
-    "o2.consoles.clear": { player?: PlayerData };
-};
+export interface LifeSuppSystemEvents extends BaseSystemStatusEvents {
+    /**
+     * Emitted when an O2 console is completed.
+     */
+    "o2.consoles.complete": {
+        /**
+         * The player that completed the console, only known if the current client is the host.
+         */
+        player?: PlayerData;
+        /**
+         * The ID of the console that was completed.
+         */
+        consoleId: number
+    };
+    /**
+     * Emitted when the O2 consoles are cleared.
+     */
+    "o2.consoles.clear": {};
+}
 
+/**
+ * Represents a system responsible for handling oxygen consoles.
+ *
+ * See {@link LifeSuppSystemEvents} for events to listen to.
+ */
 export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSystemEvents> {
     static systemType = SystemType.O2 as const;
     systemType = SystemType.O2 as const;
 
     private lastUpdate = 0;
 
+    /**
+     * The timer until oxygen runs out.
+     */
     timer: number;
+
+    /**
+     * The completed consoles.
+     */
     completed: Set<number>;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer | LifeSuppSystemData) {
@@ -73,10 +100,10 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSys
         this.HandleRepair(player, 0x80);
     }
 
-    private _clearConsoles(player?: PlayerData) {
+    private _clearConsoles() {
         this.completed.clear();
         this.dirty = true;
-        this.emit("o2.consoles.clear", { player });
+        this.emit("o2.consoles.clear", {});
     }
 
     private _completeConsole(consoleId: number, player?: PlayerData) {
@@ -87,6 +114,10 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSys
         }
     }
 
+    /**
+     * Mark a console as being complete.
+     * @param consoleId The ID of the console to mark as complete.
+     */
     completeConsole(consoleId: number) {
         this.repair(this.ship.room.me, (consoleId & 0x3) | 0x40);
     }
@@ -95,7 +126,7 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSys
         this.timer = 10000;
         this.dirty = true;
         this.emit("system.repair", { player });
-        this._clearConsoles(player);
+        this._clearConsoles();
     }
 
     fix() {
@@ -107,7 +138,7 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSys
 
         if (amount & 0x80) {
             this.timer = 45;
-            this._clearConsoles(player);
+            this._clearConsoles();
         } else if (amount & 0x40) {
             this._completeConsole(consoleId, player);
             if (this.completed.size >= 2) {

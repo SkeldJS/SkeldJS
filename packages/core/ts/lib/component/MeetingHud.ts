@@ -21,21 +21,56 @@ export interface MeetingHudData {
     players: Map<number, PlayerVoteState>;
 }
 
-export type MeetingHudEvents = NetworkableEvents & {
+/**
+ * Represents a room object that holds voting states.
+ *
+ * See {@link MeetingHudEvents} for events to listen to.
+ */
+export interface MeetingHudEvents extends NetworkableEvents {
+    /**
+     * Emitted when a player casts a vote.
+     */
     "meetinghud.votecast": {
+        /**
+         * The player that cast the vote.
+         */
         voter: PlayerData;
+        /**
+         * The suspect that the player voted for.
+         */
         suspect: PlayerData | "skip";
     };
+    /**
+     * Emitted when a player's vote is cleared.
+     */
     "meetinghud.voteclear": {
+        /**
+         * The player that had their vote cleared.
+         */
         player: PlayerData;
     };
+    /**
+     * Emitted when voting is completed.
+     */
     "meetinghud.votingcomplete": {
+        /**
+         * Whether or not the votes ended in a tie.
+         */
         tie: boolean;
+        /**
+         * The player that got voted out.
+         */
         ejected: PlayerData;
+        /**
+         * The vote states of each player in the meeting.
+         */
         voteStates: PlayerVoteState[];
     };
+    /**
+     * Emitted when the meeting hud is closed.
+     */
     "meetinghud.close": {};
-};
+}
 
 export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     static type = SpawnID.MeetingHud as const;
@@ -44,8 +79,15 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     static classname = "MeetingHud" as const;
     classname = "MeetingHud" as const;
 
+    /**
+     * The dirty vote states to be updated on the next fixed update.
+     */
     dirtyBit: number;
-    players: Map<number, PlayerVoteState>;
+
+    /**
+     * The vote states in the meeting hud.
+     */
+    states: Map<number, PlayerVoteState>;
 
     constructor(
         room: Hostable,
@@ -63,10 +105,10 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
         if (spawn) {
             this.dirtyBit = 0;
-            this.players = new Map();
+            this.states = new Map();
 
-            for (let i = 0; i < this.players.size; i++) {
-                this.players.set(
+            for (let i = 0; i < this.states.size; i++) {
+                this.states.set(
                     i,
                     new PlayerVoteState(this.room, i, reader.byte())
                 );
@@ -74,9 +116,9 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         } else {
             const mask = reader.upacked();
 
-            for (let i = 0; i < this.players.size; i++) {
+            for (let i = 0; i < this.states.size; i++) {
                 if (mask & (1 << i)) {
-                    this.players.set(
+                    this.states.set(
                         i,
                         new PlayerVoteState(this.room, i, reader.byte())
                     );
@@ -87,13 +129,13 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
 
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
         if (spawn) {
-            for (const [, player] of this.players) {
+            for (const [, player] of this.states) {
                 writer.upacked(player.state);
             }
         } else {
             writer.upacked(this.dirtyBit);
 
-            for (const [playerId, player] of this.players) {
+            for (const [playerId, player] of this.states) {
                 if (this.dirtyBit & (1 << playerId)) {
                     writer.upacked(player.state);
                 }
@@ -128,6 +170,9 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         this.emit("meetighud.close", {});
     }
 
+    /**
+     * Close the meeting hud for all clients.
+     */
     close() {
         this._close();
 
@@ -139,7 +184,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     }
 
     private _castVote(votingid: number, suspectid: number) {
-        const voting = this.players.get(votingid);
+        const voting = this.states.get(votingid);
 
         const resolved_suspect = this.room.getPlayerByPlayerId(suspectid);
 
@@ -162,7 +207,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     }
 
     private _clearVote(voterid: number) {
-        const voting = this.players.get(voterid);
+        const voting = this.states.get(voterid);
         const resolved = this.room.getPlayerByPlayerId(voterid);
 
         if (voting) {
@@ -176,10 +221,15 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         }
     }
 
+    /**
+     * Remove someone's vote (usually due to their suspect getting disconnected).
+     * @param resolvable The player to remove the vote of.
+     */
     async clearVote(resolvable: PlayerDataResolvable) {
         const voter = this.room.resolvePlayer(resolvable);
 
         if (voter) {
+            // this.players.get(voter.playerId).votedFor = 0;
             await this.room.broadcast(
                 [
                     {
@@ -194,6 +244,20 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         }
     }
 
+    /**
+     * Cast a vote on behalf of a user (or yourself).
+     * @param voting The player who is voting.
+     * @param suspect The player to vote for.
+     * @example
+	 *```typescript
+     * // Make everyone vote a certain player.
+     * for ([ clientid, player ] of room.players) {
+     *   if (player !== suspect) {
+     *     room.meetinghud.castVote(player, suspect);
+     *   }
+     * }
+     * ```
+	 */
     async castVote(
         voting: PlayerDataResolvable,
         suspect: PlayerDataResolvable | "skip"

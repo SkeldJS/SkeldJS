@@ -17,6 +17,11 @@ import {
 
 import { Hostable } from "../Hostable";
 
+/**
+ * Represents a room object for the The Skeld map.
+ *
+ * See {@link ShipStatusEvents} for events to listen to.
+ */
 export class ShipStatus extends BaseShipStatus {
     static type = SpawnID.ShipStatus as const;
     type = SpawnID.ShipStatus as const;

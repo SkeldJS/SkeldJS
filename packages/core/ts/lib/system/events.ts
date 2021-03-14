@@ -20,10 +20,26 @@ import {
 } from "./SecurityCameraSystem";
 import { SwitchSystem, SwitchSystemEvents } from "./SwitchSystem";
 
-export type BaseSystemStatusEvents = {
-    "system.sabotage": { player?: PlayerData };
-    "system.repair": { player?: PlayerData };
-};
+export interface BaseSystemStatusEvents {
+    /**
+     * Emitted when a system is sabotaged.
+     */
+    "system.sabotage": {
+        /**
+         * The player that sabotaged the system, only known the current client is the host of the room.
+         */
+        player?: PlayerData
+    };
+    /**
+     * Emitted when a system is repaired.
+     */
+    "system.repair": {
+        /**
+         * The player that repaired the system, only known the current client is the host of the room.
+         */
+        player?: PlayerData
+    };
+}
 
 type AnySystem =
     | AutoDoorsSystem

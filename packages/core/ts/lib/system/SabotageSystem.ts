@@ -11,12 +11,20 @@ export interface SabotageSystemData {
     cooldown: number;
 }
 
-export type SabotageSystemEvents = BaseSystemStatusEvents & {};
+export interface SabotageSystemEvents extends BaseSystemStatusEvents {}
 
+/**
+ * Represents a system responsible for handling system sabotages.
+ *
+ * See {@link SabotageSystemEvents} for events to listen to.
+ */
 export class SabotageSystem extends SystemStatus<SabotageSystemData, SabotageSystemEvents> {
     static systemType = SystemType.Sabotage as const;
     systemType = SystemType.Sabotage as const;
 
+    /**
+     * The cooldown before another sabotage can happen.
+     */
     cooldown: number;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer | SabotageSystemData) {

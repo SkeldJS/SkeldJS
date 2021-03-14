@@ -11,14 +11,23 @@ export interface HudOverrideSystemData {
     sabotaged: boolean;
 }
 
-export type HudOverrideSystemEvents = BaseSystemStatusEvents & {};
+export interface HudOverrideSystemEvents extends BaseSystemStatusEvents {}
 
+
+/**
+ * Represents a system responsible for handling communication sabotages on The Skeld and Polus.
+ *
+ * See {@link HudOverrideSystemEvents} for events to listen to.
+ */
 export class HudOverrideSystem extends SystemStatus<HudOverrideSystemData, HudOverrideSystemEvents> {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
-    _sabotaged: boolean;
+    private _sabotaged: boolean;
 
+    /**
+     * Whether or not communications is sabotaged.
+     */
     get sabotaged() {
         return this._sabotaged;
     }

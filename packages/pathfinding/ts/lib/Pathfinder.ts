@@ -22,30 +22,81 @@ import { Node } from "./util/Node";
 
 import { getShortestPath } from "./engine";
 
-type SkeldjsPathfinderEvents = {
+interface SkeldjsPathfinderEvents {
+    /**
+     * Emitted when the pathfinder starts or is resumed.
+     */
     "pathfinding.start": {
+        /**
+         * The destination of the pathfinder.
+         */
         destination: Vector2;
     };
+    /**
+     * Emitted when the pathfinder stops.
+     */
     "pathfinding.stop": {
+        /**
+         * Whether or not the pathfinder reached its intended destination.
+         */
         reached: boolean;
     };
+    /**
+     * Emitted when the pathfinder reaches its intended destination.
+     */
     "pathfinding.end": {};
+    /**
+     * Emitted when the pathfinder is paused.
+     */
     "pathfinding.pause": {};
+    /**
+     * Emitted when the engine intends to make a move.
+     */
     "engine.move": {
+        /**
+         * The position the engine intends to move to.
+         */
         position: Vector2;
     }
+    /**
+     * Emitted when the engine recalculates a path.
+     */
     "engine.recalculate": {
+        /**
+         * The path that the engine intends to take.
+         */
         path: Vector2[];
     };
-};
+}
 
+/**
+ * Represents a pathfinding utility for the {@link SkeldjsClient SkeldJS Client}.
+ *
+ * See {@link SkeldjsPathfinderEvents} for events to listen to.
+ */
 export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     private _tick: number;
     private _moved: boolean;
     private _paused: boolean;
+
+    /**
+     * The destination of the pathfinder.
+     */
     destination: Vector2;
+
+    /**
+     * The grid of nodes for the pathfinder engine.
+     */
     grid: Grid;
+
+    /**
+     * The current intended path of the pathfinder.
+     */
     path: Node[];
+
+    /**
+     * The player that the pathfinder is currently finding.
+     */
     following: PlayerData;
 
     constructor(
@@ -117,11 +168,8 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
             !this.path ||
             this._tick % (this.config.recalculateEvery || 1) === 0
         ) {
-            this.recalculate();
+            await this.recalculate();
             this._moved = false;
-            this.emit("engine.recalculate", {
-                path: this.path.map((node) => this.grid.actual(node.x, node.y)),
-            });
         }
 
         if (this._paused) return;
@@ -150,9 +198,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         }
     }
 
-    recalculate() {
+    async recalculate() {
         this.grid.reset();
         this.path = getShortestPath(this.grid, this.snode, this.dnode);
+        await this.emit("engine.recalculate", {
+            path: this.path.map((node) => this.grid.actual(node.x, node.y)),
+        });
     }
 
     pause() {

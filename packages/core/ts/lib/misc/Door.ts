@@ -3,11 +3,22 @@ import { EventEmitter } from "@skeldjs/events";
 
 import { SystemStatus } from "../system";
 
-export type DoorEvents = {
+export interface DoorEvents {
+    /**
+     * Emitted when the door opens.
+     */
     "doors.open": {};
+    /**
+     * Emitted when the door closes.
+     */
     "doors.close": {};
-};
+}
 
+/**
+ * Represents a manual door for the {@link DoorsSystem}.
+ *
+ * See {@link DoorEvents} for events to listen to.
+ */
 export class Door extends EventEmitter<DoorEvents> {
     private _isOpen: boolean;
 
@@ -43,6 +54,9 @@ export class Door extends EventEmitter<DoorEvents> {
         writer.bool(this._isOpen);
     }
 
+    /**
+     * Whether or not this door is currently open.
+     */
     get isOpen() {
         return this._isOpen;
     }
@@ -52,6 +66,9 @@ export class Door extends EventEmitter<DoorEvents> {
         else this.close();
     }
 
+    /**
+     * Force the door open.
+     */
     open() {
         if (this._isOpen) return;
 
@@ -59,6 +76,9 @@ export class Door extends EventEmitter<DoorEvents> {
         this.emit("doors.open", {});
     }
 
+    /**
+     * Force the door to close.
+     */
     close() {
         if (!this._isOpen) return;
 

@@ -1,7 +1,6 @@
 import { HazelBuffer } from "@skeldjs/util";
 import { SystemType, MapID } from "@skeldjs/constant";
 import { MapDoors } from "@skeldjs/data";
-import { PropagatedEvents } from "@skeldjs/events";
 
 import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
@@ -14,14 +13,28 @@ export interface AutoDoorsSystemData {
     doors: boolean[];
 }
 
-export type AutoDoorsSystemEvents = BaseSystemStatusEvents &
-    PropagatedEvents<DoorEvents, { system: AutoDoorsSystem }> & {};
+type BaseAutoDoorsSystemEvents = BaseSystemStatusEvents &
+    DoorEvents;
 
+export interface AutoDoorsSystemEvents extends BaseAutoDoorsSystemEvents {}
+
+/**
+ * Represents a system for doors that open after a period of time.
+ *
+ * See {@link AutoDoorsSystemEvents} for events to listen to.
+ */
 export class AutoDoorsSystem extends SystemStatus<AutoDoorsSystemData, AutoDoorsSystemEvents> {
     static systemType = SystemType.Doors as const;
     systemType = SystemType.Doors as const;
 
+    /**
+     * The dirty doors to be updated on the next fixed update.
+     */
     dirtyBit: number;
+
+    /**
+     * The doors in the map.
+     */
     doors: AutoOpenDoor[];
 
     constructor(

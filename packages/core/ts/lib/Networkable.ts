@@ -6,25 +6,56 @@ import { EventEmitter } from "@skeldjs/events";
 
 import { Hostable } from "./Hostable";
 
-export type NetworkableEvents = {
+export interface NetworkableEvents {
+    /**
+     * Emitted when this component is spawned.
+     */
     "component.spawn": {};
+    /**
+     * Emitted when this component is despawned.
+     */
     "component.despawn": {};
-};
+}
 
+/**
+ * Represents a basic networkable object in Among Us.
+ *
+ * See {@link NetworkableEvents} for events to listen to.
+ */
 export class Networkable<
     DataT = any,
     T extends Record<string, any> = any,
 > extends EventEmitter<T & NetworkableEvents> {
     static type: SpawnID;
+    /**
+     * The type of object that this component belongs to.
+     */
     type: SpawnID;
 
     static classname: string;
+    /**
+     * The class name of this component.
+     */
     classname: string;
 
+    /**
+     * The room that this component belongs to.
+     */
     room: Hostable;
+
+    /**
+     * The net ID of this component.
+     */
     netid: number;
+
+    /**
+     * The ID of the owner of this component.
+     */
     ownerid: number;
 
+    /**
+     * The dirty state of this component.
+     */
     dirtyBit: number = 0;
 
     constructor(
@@ -82,10 +113,16 @@ export class Networkable<
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     FixedUpdate(delta: number) {}
 
+    /**
+     * Spawn this component if does not exist in the room it belongs in.
+     */
     spawn() {
         this.room.spawnComponent(this);
     }
 
+    /**
+     * Despawns the component from the room it belongs in.
+     */
     despawn() {
         this.room.despawnComponent(this);
     }

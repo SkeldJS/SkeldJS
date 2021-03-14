@@ -16,6 +16,11 @@ import {
     SwitchSystem,
 } from "../system";
 
+/**
+ * Represents a room object for the Mira HQ map.
+ *
+ * See {@link ShipStatusEvents} for events to listen to.
+ */
 export class Headquarters extends BaseShipStatus {
     static type = SpawnID.Headquarters as const;
     type = SpawnID.Headquarters as const;

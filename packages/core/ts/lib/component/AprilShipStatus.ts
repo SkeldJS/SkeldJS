@@ -17,6 +17,11 @@ import {
 
 import { Hostable } from "../Hostable";
 
+/**
+ * Represents a room object for the April Fools' version of the The Skeld map.
+ *
+ * See {@link ShipStatusEvents} for events to listen to.
+ */
 export class AprilShipStatus extends BaseShipStatus {
     static type = SpawnID.AprilShipStatus as const;
     type = SpawnID.AprilShipStatus as const;
