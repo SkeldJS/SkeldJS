@@ -34,27 +34,67 @@ const default_config = (): ServerConfig => ({
     host: "0.0.0.0",
 });
 
-export type SkeldjsServerEvents =
+type BaseSkeldjsServerEvents =
     PropagatedEvents<RoomEvents, { room: Room }> &
-    PropagatedEvents<RemoteClientEvents, { remote: RemoteClient }> &
-    {
+    PropagatedEvents<RemoteClientEvents, { remote: RemoteClient }>;
+
+export interface SkeldjsServerEvents extends BaseSkeldjsServerEvents {
+    /**
+     * Emitted when a packet is received from a remote client.
+     */
     packet: {
+        /**
+         * The remote client that sent the packet.
+         */
         client: RemoteClient,
+        /**
+         * The packet that was received.
+         */
         packet: ServerboundPacket
     };
+    /**
+     * Emitted when a remote client is disconnected.
+     */
     disconnect: {
+        /**
+         * The remote client that was disconected.
+         */
         client: RemoteClient,
+        /**
+         * The reason for why the remote client was disconnected.
+         */
         reason: DisconnectReason,
+        /**
+         * The message for why the remote client was disconncted if the reason is custom.
+         */
         message?: string
     };
 }
 
+/**
+ * Represents a programmable Among Us region server.
+ *
+ * See {@link SkeldjsServerEvents} for events to listen to.
+ */
 export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
+    /**
+     * The config for the server.
+     */
     config: ServerConfig;
 
+    /**
+     * The datagram socket for the server.
+     */
     socket: dgram.Socket;
 
+    /**
+     * The remote clients currently connected to the server.
+     */
     remotes: Map<string, RemoteClient>;
+
+    /**
+     * The active rooms in the server.
+     */
     rooms: Map<number, Room>;
 
     private _inc_clientid;

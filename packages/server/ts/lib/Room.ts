@@ -4,7 +4,7 @@ import {
     Opcode,
     PayloadTag,
     PlayerData,
-    PlayerDataResolvable,
+    PlayerDataResolvable
 } from "@skeldjs/core";
 
 import {
@@ -21,11 +21,22 @@ import { RoomConfig } from "./interface/RoomConfig";
 import { RemoteClient } from "./RemoteClient";
 import { SkeldjsServer } from "./server";
 
-export type RoomEvents = HostableEvents & {
+export interface RoomEvents extends HostableEvents {
+    /**
+     * Emitted when the room is destroyed.
+     */
     "room.destroy": {};
-};
+}
 
+/**
+ * Represents a room on the server.
+ *
+ * See {@link RoomEvents} for events to listen to.
+ */
 export class Room extends Hostable<RoomEvents> {
+    /**
+     * The remote clients currently connected to the room.
+     */
     remotes: Map<number, RemoteClient>;
 
     constructor(private server: SkeldjsServer, public options: RoomConfig) {

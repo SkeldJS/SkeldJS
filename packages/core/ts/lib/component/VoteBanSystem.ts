@@ -12,8 +12,13 @@ export interface VoteBanSystemData {
     clients: Map<number, [number, number, number]>;
 }
 
-export type VoteBanSystemEvents = NetworkableEvents & {};
+export interface VoteBanSystemEvents extends NetworkableEvents {}
 
+/**
+ * Represents a room object for handling vote kicks.
+ *
+ * See {@link VoteBanSystemEvents} for events to listen to.
+ */
 export class VoteBanSystem extends Networkable<VoteBanSystemData, VoteBanSystemEvents> {
     static type = SpawnID.GameData;
     type = SpawnID.GameData;
@@ -21,6 +26,9 @@ export class VoteBanSystem extends Networkable<VoteBanSystemData, VoteBanSystemE
     static classname = "VoteBanSystem" as const;
     classname = "VoteBanSystem" as const;
 
+    /**
+     * The accumulated votes.
+     */
     voted: Map<number, [number, number, number]>;
 
     constructor(
@@ -105,6 +113,15 @@ export class VoteBanSystem extends Networkable<VoteBanSystemData, VoteBanSystemE
         }
     }
 
+    /**
+     * Add the vote of a player to vote for another player to be kicked.
+     * @param voter The player to count the vote as.
+     * @param target The player to vote to be kicked.
+     * @example
+	 *```typescript
+     * room.votebansystem.addVote(client.me, player);
+     * ```
+	 */
     addVote(voter: PlayerDataResolvable, target: PlayerDataResolvable) {
         const voterid = this.room.resolvePlayerClientID(voter);
         const targetid = this.room.resolvePlayerClientID(target);

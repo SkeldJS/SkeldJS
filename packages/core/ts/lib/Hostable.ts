@@ -77,48 +77,132 @@ export type AnyNetworkable =
     | ShipStatus
     | VoteBanSystem;
 
-export type HostableEvents = PropagatedEvents<
+
+export type BaseHostableEvents = PropagatedEvents<
     PlayerDataEvents,
-    { player: PlayerData }
+    {
+        /**
+         * The player that emitted this event.
+         */
+        player?: PlayerData
+    }
 > &
     ShipStatusEvents &
     GameDataEvents &
     LobbyBehaviourEvents &
     MeetingHudEvents &
-    VoteBanSystemEvents & {
-        "game.start": {};
-        "game.end": {};
-        "room.fixedupdate": {
-            stream: GameDataMessage[];
-        };
-        "room.setpublic": {
-            public: boolean;
-        };
-        "component.spawn": {
-            component: AnyNetworkable;
-        };
-        "component.despawn": {
-            component: AnyNetworkable;
-        };
+    VoteBanSystemEvents;
+export interface HostableEvents extends BaseHostableEvents
+{
+    /**
+     * Emitted when a game is started.
+     */
+    "game.start": {};
+    /**
+     * Emitted when a game is ended.
+     */
+    "game.end": {
+        reason: GameEndReason;
     };
+    /**
+     * Emitted when a fixed update is called.
+     */
+    "room.fixedupdate": {
+        /**
+         * The gamedata stream that will be broadcasted at the end of the fixed update.
+         */
+        stream: GameDataMessage[];
+    };
+    /**
+     * Emitted when the publicity of the room is modified.
+     */
+    "room.setpublic": {
+        /**
+         * Whether or not the room is public.
+         */
+        public: boolean;
+    };
+    /**
+     * Emitted when a component is spawned.
+     */
+    "component.spawn": {
+        /**
+         * The component that was spawned.
+         */
+        component: AnyNetworkable;
+        /**
+         * The player owner of the component, if applicable.
+         */
+        player?: PlayerData;
+    };
+    /**
+     * Emitted when a component is despawned.
+     */
+    "component.despawn": {
+        /**
+         * The component that was spawned.
+         */
+        component: AnyNetworkable;
+        /**
+         * The player owner of the component, if applicable.
+         */
+        player?: PlayerData;
+    };
+}
 
+/**
+ * Represents an object capable of hosting games.
+ *
+ * See {@link HostableEvents} for events to listen to.
+ */
 export class Hostable<T extends Record<string, any> = any> extends Heritable<
     HostableEvents & T
 > {
+    /**
+     * The objects in the room.
+     */
     objects: Map<number, Heritable>;
+
+    /**
+     * The players in the room.
+     */
     players: Map<number, PlayerData>;
+
+    /**
+     * The networkable components in the room.
+     */
     netobjects: Map<number, Networkable>;
+
+    /**
+     * The current message stream to be sent to the server on fixed update.
+     */
     stream: GameDataMessage[];
 
+    /**
+     * The code of the room.
+     */
     code: number;
 
-    hostid: number;
+    /**
+     * The ID of the host of the room.
+     */
+    hostid: number
 
     private _incr_netid: number;
 
+    /**
+     * The settings of the room.
+     */
     settings: GameOptions;
+
+    /**
+     * The current start counter for the room.
+     */
     counter: number;
 
+    /**
+     * The privacy state of the room.
+     */
     privacy: PrivacyType;
 
     private _started: boolean;
@@ -159,36 +243,60 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         return null;
     }
 
+    /**
+     * The host of the room.
+     */
     get host() {
         return this.players.get(this.hostid);
     }
 
+    /**
+     * Whether or not the game has started.
+     */
     get started() {
         return this._started;
     }
 
+    /**
+     * Whether or not the current client is the host of the room.
+     */
     get amhost() {
         return false;
     }
 
+    /**
+     * The shipstatus object for the room.
+     */
     get shipstatus() {
         return this.getComponent<
             ShipStatus | Headquarters | PlanetMap | AprilShipStatus | Airship
         >([ShipStatus, Headquarters, PlanetMap, AprilShipStatus, Airship]);
     }
 
+    /**
+     * The meeting hud object for the room.
+     */
     get meetinghud() {
         return this.getComponent(MeetingHud);
     }
 
+    /**
+     * The lobby behaviour object for the room.
+     */
     get lobbybehaviour() {
         return this.getComponent(LobbyBehaviour);
     }
 
+    /**
+     * The game data object for the room.
+     */
     get gamedata() {
         return this.getComponent(GameData);
     }
 
+    /**
+     * The vote ban system object for the room.
+     */
     get votebansystem() {
         return this.getComponent(VoteBanSystem);
     }
@@ -241,10 +349,25 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         }
     }
 
+    /**
+     * Resolve a player by some identifier.
+     * @param player The identifier to resolve to a player.
+     * @returns The resolved player.
+     * @example
+	 *```typescript
+     * // Resolve a player by their clientid.
+     * const player = room.resolvePlayer(11013);
+     * ```
+	 */
     resolvePlayer(player: PlayerDataResolvable) {
         return this.players.get(this.resolvePlayerClientID(player));
     }
 
+    /**
+     * Resolve a player ID by some identifier.
+     * @param player The identifier to resolve to a player ID.
+     * @returns The resolved player ID.
+     */
     resolvePlayerId(player: PlayerIDResolvable) {
         if (typeof player === "number") {
             return player;
@@ -261,6 +384,11 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         return player.playerId;
     }
 
+    /**
+     * Resolve a clientid by some identifier.
+     * @param player The identifier to resolve to a client ID.
+     * @returns The resolved client ID.
+     */
     resolvePlayerClientID(player: PlayerDataResolvable) {
         if (typeof player === "undefined") {
             return null;
@@ -281,7 +409,14 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         return null;
     }
 
-    setCode(code: string | number) {
+    /**
+     * Set the code of the room.
+     * @example
+	 *```typescript
+     * room.setCode("ABCDEF");
+     * ```
+	 */
+    setCode(code: RoomID) {
         if (typeof code === "string") {
             return this.setCode(Code2Int(code));
         }
@@ -298,6 +433,15 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         }
     }
 
+    /**
+     * Change the value of a game tag. Currently only used for changing the privacy of a game.
+     * @param tag The tag to change.
+     * @param value The new value of the tag.
+     * @example
+	 *```typescript
+     * room.setAlterGameTag(AlterGameTag.ChangePrivacy, 1); // 0 for private, 1 for public.
+     * ```
+	 */
     async setAlterGameTag(tag: AlterGameTag, value: number) {
         this._setAlterGameTag(tag, value);
 
@@ -313,6 +457,14 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         }
     }
 
+    /**
+     * Set the publicity of the game.
+     * @param is_public Whether or not the game should be made public.
+     * @example
+	 *```typescript
+     * room.setPublic(false);
+     * ```
+	 */
     async setPublic(is_public = true) {
         await this.setAlterGameTag(
             AlterGameTag.ChangePrivacy,
@@ -320,6 +472,17 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         );
     }
 
+    /**
+     * Change the settings of the room. If the host, it will broadcast these changes.
+     * @param settings The settings to set to (Can be partial).
+     * @example
+	 *```typescript
+     * room.syncSettings({
+     *   crewmateVision: 0.5,
+     *   votingTime: 120
+     * });
+     * ```
+	 */
     setSettings(settings: Partial<GameOptions>) {
         this.settings = {
             ...this.settings,
@@ -333,6 +496,11 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         }
     }
 
+    /**
+     * Set the host of the room. If the current client is the host, it will conduct required host changes.
+     * e.g. Spawning objects if they are not already spawned.
+     * @param host The new host of the room.
+     */
     setHost(host: PlayerDataResolvable) {
         const before = this.hostid;
         const resolved_id = this.resolvePlayerClientID(host);
@@ -358,6 +526,10 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         player.emit("player.join", {});
     }
 
+    /**
+     * Handle when a client joins the game.
+     * @param clientid The ID of the client that joined the game.
+     */
     handleJoin(clientid: number) {
         if (this.objects.has(clientid)) return null;
 
@@ -374,6 +546,10 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         player.emit("player.leave", {});
     }
 
+    /**
+     * Handle when a client leaves the game.
+     * @param resolvable The client that left the game.
+     */
     handleLeave(resolvable: PlayerDataResolvable) {
         const player = this.resolvePlayer(resolvable);
 
@@ -406,6 +582,9 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         this.emit("game.start", {});
     }
 
+    /**
+     * Handle when the game is started.
+     */
     async handleStart() {
         if (this._started) return;
 
@@ -473,10 +652,17 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         this.emit("game.end", { reason });
     }
 
+    /**
+     * Handle when the game is ended.
+     * @param reason The reason for why the game ended.
+     */
     async handleEnd(reason: GameEndReason) {
         this._endGame(reason);
     }
 
+    /**
+     * Begin a "Game starts in X" countdown from 5 to 0 (Usually before starting a game).
+     */
     async beginCountdown() {
         this.me.control.setStartCounter(5);
         await sleep(1000);
@@ -495,20 +681,48 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         });
     }
 
+    /**
+     * Start a game.
+     */
     async startGame() {
         return await this.handleStart();
     }
 
+    /**
+     * End the current game.
+     */
     async endGame(reason: GameEndReason) {
         return await this.handleEnd(reason);
     }
 
+    /**
+     * Handle when a client readies up.
+     * @param player The client that readied.
+     */
     async handleReady(player: PlayerDataResolvable) {
         const resolved = this.resolvePlayer(player);
 
         await resolved.ready();
     }
 
+    /**
+     * Spawn a component (Not broadcasted to all clients).
+     * @param component The component being spawned.
+     * @example
+	 *```typescript
+     * const meetinghud = new MeetingHud(
+     *   this,
+     *   this.incr_netid,
+     *   ownerid,
+     *   {
+     *     dirtyBit: 0,
+     *     players: new Map(),
+     *   }
+     * );
+     *
+     * this.spawnComponent(meetinghud);
+     * ```
+	 */
     spawnComponent(component: Networkable) {
         if (this.netobjects.get(component.netid)) {
             return;
@@ -537,6 +751,14 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         );
     }
 
+    /**
+     * Despawn a component.
+     * @param component The component being despawned.
+     * @example
+	 *```typescript
+     * room.despawnComponent(room.meetinghud);
+     * ```
+	 */
     despawnComponent(component: Networkable) {
         this._despawnComponent(component);
 
@@ -546,16 +768,34 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         });
     }
 
-    private getAvailablePlayerID() {
-        for (let i = 0; i < 10; i++) {
+    /**
+     * Get an available player ID.
+     * @returns The player ID that was found.
+     * @example
+	 *```typescript
+     * // Get an available player ID and add it to the gamedata.
+     * const playerId = room.getAvailablePlayerID();
+     * room.gamedata.add(playerId);
+     * ```
+	 */
+    getAvailablePlayerID() {
+        for (let i = 0;; i++) {
             if (!this.getPlayerByPlayerId(i)) {
                 return i;
             }
         }
-
-        return null;
     }
 
+    /**
+     * Spawn a prefab of an object.
+     * @param type The type of object to spawn.
+     * @param owner The owner or ID of the owner of the object to spawn.
+     * @returns The object that was spawned.
+     * @example
+	 *```typescript
+     * room.spawnPrefab(SpawnID.Player, client.me);
+     * ```
+	 */
     spawnPrefab(type: SpawnID, owner: Heritable | number): SpawnObject {
         const ownerid = typeof owner === "number" ? owner : owner.id;
 
@@ -735,6 +975,11 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         return object as SpawnObject;
     }
 
+    /**
+     * Get a player by their player ID.
+     * @param playerId The player ID of the player.
+     * @returns The player that was found, or null if they do not exist.
+     */
     getPlayerByPlayerId(playerId: number) {
         for (const [, player] of this.players) {
             if (player.playerId === playerId) return player;
@@ -743,6 +988,11 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         return null;
     }
 
+    /**
+     * Get a player by one of their components' netids.
+     * @param netid The network ID of the component of the player to search.
+     * @returns The player that was found, or null if they do not exist.
+     */
     getPlayerByNetID(netid: number) {
         for (const [, player] of this.players) {
             if (
@@ -756,6 +1006,9 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         return null;
     }
 
+    /**
+     * Handle a single game data packet.
+     */
     async handleGameData(message: GameDataMessage) {
         switch (message.tag) {
             case MessageTag.Data: {
@@ -879,5 +1132,8 @@ export class Hostable<T extends Record<string, any> = any> extends Heritable<
         }
     }
 
+    /**
+     * How often a FixedUpdate should be called.
+     */
     static FixedUpdateInterval = 1 / 50;
 }

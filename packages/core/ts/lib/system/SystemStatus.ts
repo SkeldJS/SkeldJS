@@ -15,6 +15,9 @@ export class SystemStatus<
     static systemType: SystemType;
     systemType: SystemType;
 
+    /**
+     * Whether or not this system is dirty.
+     */
     get dirty() {
         return (this.ship.dirtyBit & (1 << this.systemType)) > 0;
     }
@@ -27,6 +30,9 @@ export class SystemStatus<
         }
     }
 
+    /**
+     * Whether or not this system is sabotaged.
+     */
     get sabotaged() {
         return false;
     }

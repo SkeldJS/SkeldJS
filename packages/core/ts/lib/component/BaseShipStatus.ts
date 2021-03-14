@@ -43,7 +43,7 @@ export interface ShipStatusData {
     systems: AllSystems;
 }
 
-export type ShipStatusEvents = SystemStatusEvents & {};
+export interface ShipStatusEvents extends SystemStatusEvents {}
 
 export type ShipStatusType =
     | SpawnID.ShipStatus
@@ -52,6 +52,7 @@ export type ShipStatusType =
     | SpawnID.AprilShipStatus
     | SpawnID.Airship;
 export type ShipStatusClassname =
+
     | "ShipStatus"
     | "Headquarters"
     | "PlanetMap"

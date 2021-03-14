@@ -9,15 +9,32 @@ import { MessageTag, RpcTag, SpawnID } from "@skeldjs/constant";
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface PlayerPhysicsData {}
 
-export type PlayerPhysicsEvents = NetworkableEvents & {
+export interface PlayerPhysicsEvents extends NetworkableEvents {
+    /**
+     * Emitted when a player enters a vent.
+     */
     "player.entervent": {
+        /**
+         * The ID of the vent that the player entered.
+         */
         ventid: number;
     };
+    /**
+     * Emitted when a player exits a vent.
+     */
     "player.exitvent": {
+        /**
+         * The ID of the vent that the player exited.
+         */
         ventid: number;
     };
-};
+}
 
+/**
+ * Represents a player object for handling vent entering and exiting.
+ *
+ * See {@link PlayerPhysicsEvents} for events to listen to.
+ */
 export class PlayerPhysics extends Networkable<PlayerPhysicsData, PlayerPhysicsEvents> {
     static type = SpawnID.Player as const;
     type = SpawnID.Player as const;
@@ -25,6 +42,9 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsData, PlayerPhysicsE
     static classname = "PlayerPhysics" as const;
     classname = "PlayerPhysics" as const;
 
+    /**
+     * The ID of the vent that the player is currently in.
+     */
     vent: number;
 
     constructor(
@@ -45,6 +65,14 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsData, PlayerPhysicsE
         this.emit("player.entervent", ventid);
     }
 
+    /**
+     * Enter a vent.
+     * @param ventid The ID of the vent to enter.
+     * @example
+	 *```typescript
+     * client.me.physics.enterVent(PolusVent.Office);
+     * ```
+	 */
     enterVent(ventid: number) {
         this._enterVent(ventid);
 
@@ -61,6 +89,14 @@ export class PlayerPhysics extends Networkable<PlayerPhysicsData, PlayerPhysicsE
         this.emit("player.exitvent", ventid);
     }
 
+    /**
+     * Exit a vent (Does not have to be the same vent or in the same network as the vent you entered).
+     * @param ventid The ID of the vent to exit.
+     * @example
+	 *```typescript
+     * client.me.physics.enterVent(PolusVent.Office);
+     * ```
+	 */
     exitVent(ventid: number) {
         this._exitVent(ventid);
 

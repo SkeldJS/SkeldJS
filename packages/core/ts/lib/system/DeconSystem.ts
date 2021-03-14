@@ -6,25 +6,37 @@ import { BaseShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { BaseSystemStatusEvents } from "./events";
 
-export enum DeconState {
-    Enter = 0x1,
-    Closed = 0x2,
-    Exit = 0x4,
-    HeadingUp = 0x8,
-}
+export const DeconState = {
+    Enter: 0x1,
+    Closed: 0x2,
+    Exit: 0x4,
+    HeadingUp: 0x8
+};
 
 export interface DeconSystemData {
     timer: number;
     state: number;
 }
 
-export type DeconSystemEvents = BaseSystemStatusEvents & {};
+export interface DeconSystemEvents extends BaseSystemStatusEvents {}
 
+/**
+ * Represents a system responsible for the decontamination doors.
+ *
+ * See {@link DeconSystemEvents} for events to listen to.
+ */
 export class DeconSystem extends SystemStatus<DeconSystemData, DeconSystemEvents> {
     static systemType = SystemType.Decontamination as const;
     systemType = SystemType.Decontamination as const;
 
+    /**
+     * How long before decontamination doors open.
+     */
     timer: number;
+
+    /**
+     * The state of the decontamination system, to be calculated with {@link DeconState}
+     */
     state: number;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer | DeconSystemData) {

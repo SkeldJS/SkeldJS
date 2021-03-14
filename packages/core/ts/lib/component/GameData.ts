@@ -26,18 +26,39 @@ export interface GameDataData {
     players: Map<number, PlayerGameData>;
 }
 
-export type GameDataEvents = NetworkableEvents & {
+export interface GameDataEvents extends NetworkableEvents {
+    /**
+     * Emitted when a player is added to the game data.
+     */
     "gamedata.addplayer": {
+        /**
+         * The data of the player that was added.
+         */
         playerData: PlayerGameData;
     };
+    /**
+     * Emitted when a player is removed from the game data.
+     */
     "gamedata.removeplayer": {
+        /**
+         * The data of the player that was removed.
+         */
         playerData: PlayerGameData;
     };
+    /**
+     * Emitted when a player has their tasks set.
+     */
     "gamedata.settasks": {
+        /**
+         * The data of the player that had their tasks set.
+         */
         playerData: PlayerGameData;
+        /**
+         * The IDs of the player's tasks.
+         */
         taskids: number[];
     };
-};
+}
 
 export type PlayerIDResolvable =
     | number
@@ -46,6 +67,11 @@ export type PlayerIDResolvable =
     | PlayerGameData
     | PlayerVoteState;
 
+/**
+ * Represents a room object containing data about players.
+ *
+ * See {@link GameDataEvents} for events to listen to.
+ */
 export class GameData extends Networkable<GameDataData, GameDataEvents> {
     static type = SpawnID.GameData as const;
     type = SpawnID.GameData as const;
@@ -53,6 +79,9 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     static classname = "GameData" as const;
     classname = "GameData" as const;
 
+    /**
+     * The players in the game data.
+     */
     players: Map<number, PlayerGameData>;
 
     constructor(
@@ -151,6 +180,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Make the player data dirty and update on the next FixedUpdate.
+     * @param resolvable The player to make dirty.
+     */
     update(resolvable: PlayerIDResolvable) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -159,6 +192,15 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Change the name of a player (Will not update on clients, use {@link PlayerControl.setName}).
+     * @param resolvable The player to change the name of.
+     * @param name The name to change to.
+     * @example
+	 *```typescript
+     * room.gamedata.setName(player, "weakeyes");
+     * ```
+	 */
     setName(resolvable: PlayerIDResolvable, name: string) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -168,6 +210,15 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Change the colour of a player (Will not update on clients, use {@link PlayerControl.setColor}).
+     * @param resolvable The player to change the colour of.
+     * @param color The colour to change to.
+     * @example
+	 *```typescript
+     * room.gamedata.setColor(player, ColorID.Blue);
+     * ```
+	 */
     setColor(resolvable: PlayerIDResolvable, color: ColorID) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -177,6 +228,15 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Change the hat of a player.
+     * @param resolvable The player to change the hat of.
+     * @param hat The hat to change to.
+     * @example
+	 *```typescript
+     * room.gamedata.setHat(player, HatID.TopHat);
+     * ```
+	 */
     setHat(resolvable: PlayerIDResolvable, hat: HatID) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -186,6 +246,15 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Change the skin of a player.
+     * @param resolvable The player to change the skin of.
+     * @param skin The skin to change to.
+     * @example
+	 *```typescript
+     * room.gamedata.setSkin(player, SkinID.Mechanic);
+     * ```
+	 */
     setSkin(resolvable: PlayerIDResolvable, skin: SkinID) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -195,6 +264,15 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Change the pet of a player.
+     * @param resolvable The player to change the pet of.
+     * @param skin The pet to change to.
+     * @example
+	 *```typescript
+     * room.gamedata.setPet(player, PetID.MiniCrewmate);
+     * ```
+	 */
     setPet(resolvable: PlayerIDResolvable, pet: PetID) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -220,6 +298,20 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Set the tasks of a player.
+     * @param resolvable The player to set the tasks of.
+     * @param taskIds The tasks to set.
+     * @example
+	 *```typescript
+     * room.gamedata.setTasks(player, [
+     *   TheSkeldTask.ReactorUnlockManifolds,
+     *   TheSkeldTask.ElectricDownloadData,
+     *   TheSkeldTask.ShieldsPrimeShields,
+     *   TheSkeldTask.NavigationDownloadData
+     * ]);
+     * ```
+	 */
     setTasks(resolvable: PlayerIDResolvable, taskIds: number[]) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -236,6 +328,18 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Mark a player's task as complete.
+     * @param resolvable The player of the tasks to mark complete.
+     * @param taskIdx The index of the player's tasks to mark complete.
+     * @example
+	 *```typescript
+     * // Complete all of a player's tasks.
+     * for (let i = 0; i < player.data.tasks.length; i++) {
+     *   room.gamedata.completeTask(player, i);
+     * }
+     * ```
+	 */
     completeTask(resolvable: PlayerIDResolvable, taskIdx: number) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -248,6 +352,16 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Add a player to player data.
+     * @param playerId The player ID of the player to add.
+     * @example
+	 *```typescript
+     * // Get an available player ID and add it to the gamedata.
+     * const playerId = room.getAvailablePlayerID();
+     * room.gamedata.add(playerId);
+     * ```
+	 */
     add(playerId: number) {
         this.players.set(playerId, {
             playerId,
@@ -267,8 +381,13 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         });
 
         this.update(playerId);
+        return this.players.get(playerId);
     }
 
+    /**
+     * Remove player data from the game data.
+     * @param resolvable The player to remove.
+     */
     remove(resolvable: PlayerIDResolvable) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -285,6 +404,11 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
+    /**
+     * Parse player data from a data buffer.
+     * @param reader The reader to read from.
+     * @returns The player data as a player data object.
+     */
     static readPlayerData(reader: HazelBuffer): PlayerGameData {
         const data: Partial<PlayerGameData> = {};
         data.playerId = reader.uint8();

@@ -2,9 +2,11 @@ import assert from "assert";
 
 import { EventContext, EventEmitter } from "./EventEmitter";
 
-type TestEvents = {
-    "hello.123": { alphabet: number };
-};
+interface TestEvents {
+    "hello.123": {
+        alphabet: number
+    };
+}
 
 describe("EventEmitter", () => {
     describe("EventEmitter#emit", () => {

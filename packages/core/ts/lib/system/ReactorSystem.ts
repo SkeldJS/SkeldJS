@@ -12,13 +12,26 @@ export interface ReactorSystemData {
     completed: Set<number>;
 }
 
-export type ReactorSystemEvents = BaseSystemStatusEvents & {};
+export interface ReactorSystemEvents extends BaseSystemStatusEvents {}
+
+/**
+ * Represents a system responsible for handling reactor consoles.
+ *
+ * See {@link ReactorSystemEvents} for events to listen to.
+ */
 
 export class ReactorSystem extends SystemStatus<ReactorSystemData, ReactorSystemEvents> {
     static systemType = SystemType.Reactor as const;
     systemType = SystemType.Reactor as const;
 
+    /**
+     * The timer before the reactor explodes.
+     */
     timer: number;
+
+    /**
+     * The completed consoles.
+     */
     completed: Set<number>;
 
     constructor(ship: BaseShipStatus, data?: HazelBuffer | ReactorSystemData) {
