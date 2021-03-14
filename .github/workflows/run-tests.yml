@@ -24,7 +24,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: npm install -g yarn
-    - run: yarn build:ci
+    - run: yarn build-all:ci
     - run: yarn lint
     - run: yarn coverage
 
