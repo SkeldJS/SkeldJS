@@ -71,7 +71,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="core.hostableevents.html" class="tsd-signature-type">HostableEvents</a>
+						<span class="tsd-signature-type">HostableEvents</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SkeldjsClientEvents</span>
@@ -115,7 +115,7 @@
 					<div class="tsd-signature tsd-kind-icon">client.disconnect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>reason<span class="tsd-signature-symbol">: </span><a href="../enums/constant.disconnectreason.html" class="tsd-signature-type">DisconnectReason</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/client/ts/lib/client.ts#L65">client/ts/lib/client.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b14151d/packages/client/ts/lib/client.ts#L65">client/ts/lib/client.ts:65</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -151,7 +151,7 @@
 					<div class="tsd-signature tsd-kind-icon">client.packet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>packet<span class="tsd-signature-symbol">: </span><a href="../modules/protocol.html#clientboundpacket" class="tsd-signature-type">ClientboundPacket</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f39bbae/packages/client/ts/lib/client.ts#L78">client/ts/lib/client.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b14151d/packages/client/ts/lib/client.ts#L78">client/ts/lib/client.ts:78</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -176,50 +176,100 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 					<a name="component_despawn" class="tsd-anchor"></a>
 					<h3>component.despawn</h3>
-					<div class="tsd-signature tsd-kind-icon">component.despawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
+					<div class="tsd-signature tsd-kind-icon">component.despawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>component<span class="tsd-signature-symbol">: </span><a href="../modules/core.html#anynetworkable" class="tsd-signature-type">AnyNetworkable</a><span class="tsd-signature-symbol">; </span>player<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#component_despawn">component.despawn</a></p>
-						<p>Overrides <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#component_despawn">component.despawn</a></p>
+						<p>Overrides NetworkableEvents.&quot;component.despawn&quot;</p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Networkable.d.ts:8</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:70</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a component is despawned.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>component<span class="tsd-signature-symbol">: </span><a href="../modules/core.html#anynetworkable" class="tsd-signature-type">AnyNetworkable</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The component that was spawned.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> player<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PlayerData</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The player owner of the component, if applicable.</p>
+									</div>
+								</div>
+							</li>
 						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
 					<a name="component_spawn" class="tsd-anchor"></a>
 					<h3>component.spawn</h3>
-					<div class="tsd-signature tsd-kind-icon">component.spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
+					<div class="tsd-signature tsd-kind-icon">component.spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>component<span class="tsd-signature-symbol">: </span><a href="../modules/core.html#anynetworkable" class="tsd-signature-type">AnyNetworkable</a><span class="tsd-signature-symbol">; </span>player<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#component_spawn">component.spawn</a></p>
-						<p>Overrides <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#component_spawn">component.spawn</a></p>
+						<p>Overrides NetworkableEvents.&quot;component.spawn&quot;</p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Networkable.d.ts:7</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:57</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a component is spawned.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>component<span class="tsd-signature-symbol">: </span><a href="../modules/core.html#anynetworkable" class="tsd-signature-type">AnyNetworkable</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The component that was spawned.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> player<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PlayerData</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The player owner of the component, if applicable.</p>
+									</div>
+								</div>
+							</li>
 						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="game_end" class="tsd-anchor"></a>
 					<h3>game.end</h3>
-					<div class="tsd-signature tsd-kind-icon">game.end<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
+					<div class="tsd-signature tsd-kind-icon">game.end<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>reason<span class="tsd-signature-symbol">: </span><a href="../enums/constant.gameendreason.html" class="tsd-signature-type">GameEndReason</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#game_end">game.end</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:22</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:33</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a game is ended.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>reason<span class="tsd-signature-symbol">: </span><a href="../enums/constant.gameendreason.html" class="tsd-signature-type">GameEndReason</a></h5>
+							</li>
 						</ul>
 					</div>
 				</section>
@@ -230,9 +280,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#game_start">game.start</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:21</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:29</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a game is started.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -246,14 +301,24 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#gamedata_addplayer">gamedata.addplayer</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/GameData.d.ts:14</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/GameData.d.ts:17</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a player is added to the game data.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>player<wbr>Data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerGameData</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The data of the player that was added.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -265,14 +330,24 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#gamedata_removeplayer">gamedata.removeplayer</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/GameData.d.ts:17</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/GameData.d.ts:26</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a player is removed from the game data.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>player<wbr>Data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerGameData</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The data of the player that was removed.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -284,17 +359,32 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#gamedata_settasks">gamedata.settasks</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/GameData.d.ts:20</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/GameData.d.ts:35</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a player has their tasks set.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>player<wbr>Data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerGameData</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The data of the player that had their tasks set.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5>taskids<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The IDs of the player&#39;s tasks.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -306,9 +396,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#meetinghud_close">meetinghud.close</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/MeetingHud.d.ts:26</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/MeetingHud.d.ts:61</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when the meeting hud is closed.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -322,17 +417,32 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#meetinghud_votecast">meetinghud.votecast</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/MeetingHud.d.ts:14</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/MeetingHud.d.ts:22</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a player casts a vote.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>suspect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"skip"</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The suspect that the player voted for.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5>voter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The player that cast the vote.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -344,14 +454,24 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#meetinghud_voteclear">meetinghud.voteclear</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/MeetingHud.d.ts:18</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/MeetingHud.d.ts:35</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a player&#39;s vote is cleared.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The player that had their vote cleared.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -363,20 +483,40 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#meetinghud_votingcomplete">meetinghud.votingcomplete</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/MeetingHud.d.ts:21</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/component/MeetingHud.d.ts:44</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when voting is completed.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>ejected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The player that got voted out.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5>tie<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Whether or not the votes ended in a tie.</p>
+									</div>
+								</div>
 							</li>
 							<li class="tsd-parameter">
 								<h5>vote<wbr>States<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerVoteState</span><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The vote states of each player in the meeting.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -388,14 +528,24 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#room_fixedupdate">room.fixedupdate</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:23</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:39</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a fixed update is called.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>stream<span class="tsd-signature-symbol">: </span><a href="../modules/protocol.html#gamedatamessage" class="tsd-signature-type">GameDataMessage</a><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The gamedata stream that will be broadcasted at the end of the fixed update.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
@@ -407,14 +557,24 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="client.skeldjsclientevents.html">SkeldjsClientEvents</a>.<a href="client.skeldjsclientevents.html#room_setpublic">room.setpublic</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:26</li>
+							<li>Defined in client/node_modules/@skeldjs/core/js/lib/Hostable.d.ts:48</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when the publicity of the room is modified.</p>
+						</div>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
 								<h5>public<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Whether or not the room is public.</p>
+									</div>
+								</div>
 							</li>
 						</ul>
 					</div>
