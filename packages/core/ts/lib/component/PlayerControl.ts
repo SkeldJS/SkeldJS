@@ -374,7 +374,7 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
     }
 
     private _murderPlayer(netid: number) {
-        const resolved = this.room.getPlayerByNetID(netid);
+        const resolved = this.room.getPlayerByNetId(netid);
 
         if (resolved) {
             this.emit("player.murder", { victim: resolved });

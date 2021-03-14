@@ -18,7 +18,7 @@ import { Heritable } from "../Heritable";
 
 export interface MeetingHudData {
     dirtyBit: number;
-    players: Map<number, PlayerVoteState>;
+    states: Map<number, PlayerVoteState>;
 }
 
 /**

@@ -171,7 +171,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         version: string | number,
         options: ClientConfig = { debug: DebugLevel.None, allowHost: true }
     ) {
-        super();
+        super({ doFixedUpdate: true });
 
         this.options = options;
 

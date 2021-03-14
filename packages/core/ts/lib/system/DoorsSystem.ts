@@ -19,7 +19,7 @@ export interface DoorsSystemEvents extends PropagatedEvents<
         /**
          * The system that the doors belong to.
          */
-        system: DoorsSystem
+        system: DoorsSystem;
     }
 > {}
 
@@ -50,6 +50,13 @@ export class DoorsSystem extends SystemStatus<DoorsSystemData, DoorsSystemEvents
     Deserialize(reader: HazelBuffer, spawn: boolean) {
         const num_cooldown = reader.upacked();
 
+        for (let i = 0; i < this.doors.length; i++) {
+            const door = this.doors[i];
+            if (typeof door === "boolean") {
+                this.doors[i] = new Door(this, i, door);
+            }
+        }
+
         for (let i = 0; i < num_cooldown; i++) {
             const doorId = reader.uint8();
             const cooldown = reader.float();
@@ -65,6 +72,13 @@ export class DoorsSystem extends SystemStatus<DoorsSystemData, DoorsSystemEvents
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelBuffer, spawn: boolean) {
         writer.upacked(this.cooldowns.size);
+
+        for (let i = 0; i < this.doors.length; i++) {
+            const door = this.doors[i];
+            if (typeof door === "boolean") {
+                this.doors[i] = new Door(this, i, door);
+            }
+        }
 
         for (const [doorId, cooldown] of this.cooldowns) {
             writer.uint8(doorId);

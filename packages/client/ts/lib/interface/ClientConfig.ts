@@ -1,3 +1,5 @@
+import { HostableOptions } from "@skeldjs/core";
+
 export enum DebugLevel {
     None = 0,
     Everything = 1,
@@ -10,7 +12,7 @@ export enum DebugLevel {
     Objects = DebugLevel.Spawn | DebugLevel.Despawn | DebugLevel.Data,
 }
 
-export interface ClientConfig {
+export interface ClientConfig extends HostableOptions {
     debug?: DebugLevel;
     /**
      * Whether or not to allow host actions to take place.

@@ -142,7 +142,7 @@ export class BaseShipStatus extends Networkable<ShipStatusData, ShipStatusEvents
         switch (message.rpcid) {
             case RpcTag.RepairSystem:
                 const system = this.systems[message.systemid] as SystemStatus;
-                const player = this.room.getPlayerByNetID(message.repairerid);
+                const player = this.room.getPlayerByNetId(message.repairerid);
 
                 if (system && player) {
                     system.HandleRepair(player, message.value);
