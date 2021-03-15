@@ -86,7 +86,7 @@ export class EventEmitter<Events extends EventData> {
     getListeners<EventName extends keyof Events>(
         event: EventName
     ): Set<Listener<Events, EventName>> {
-        const listeners = this.getListeners(event);
+        const listeners = this.listeners.get(event);
         if (!listeners) {
             this.listeners.set(event, new Set());
             return this.getListeners(event);
