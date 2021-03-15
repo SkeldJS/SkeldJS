@@ -2,6 +2,8 @@ import assert from "assert";
 
 import { EventContext, EventEmitter } from "./EventEmitter";
 
+
+const sleep = ms => new Promise<void>(resolve => setTimeout(() => resolve(), ms));
 interface TestEvents {
     "hello.123": {
         alphabet: number
@@ -20,7 +22,7 @@ describe("EventEmitter", () => {
             });
 
             await emitter.emit("hello.123", { alphabet: 5 });
-            assert(didreceive);
+            assert.ok(didreceive);
         });
 
         it("Should detect when events are cancelled by listeners.", async () => {
@@ -39,8 +41,8 @@ describe("EventEmitter", () => {
             const went_through = await emitter.emit("hello.123", {
                 alphabet: 5,
             });
-            assert(!went_through);
-            assert(!didreceive);
+            assert.ok(!went_through);
+            assert.ok(!didreceive);
         });
     });
 
@@ -74,8 +76,28 @@ describe("EventEmitter", () => {
         });
     });
 
+    describe("EventEmitter#wait", () => {
+        it("Should wait until an event is called.", async () => {
+            const emitter = new EventEmitter<TestEvents>();
+            const listeners = emitter.getListeners("hello.123");
+
+            (async () => {
+                await sleep(50);
+                await emitter.emit("hello.123", { alphabet: 6 });
+            })();
+
+            const date = Date.now();
+            const ev = await emitter.wait("hello.123");
+
+            assert.strictEqual(ev.data.alphabet, 6);
+
+            assert.ok(Date.now() - date > 40);
+            assert.strictEqual(listeners.size, 0);
+        });
+    });
+
     describe("EventEmitter#off", () => {
-        it("Should remove a listener.", () => {
+        it("Should remove a single listener for an event.", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
@@ -91,7 +113,7 @@ describe("EventEmitter", () => {
     });
 
     describe("EventEmitter#getListeners", () => {
-        it("Get listeners for an event.", () => {
+        it("Should get all listeners for an event.", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
@@ -101,6 +123,48 @@ describe("EventEmitter", () => {
 
             emitter.on("hello.123", response);
             assert.strictEqual(listeners.size, 1);
+        });
+    });
+
+    describe("EventEmitter#removeListeners", () => {
+        it("Should remove all listeners from an event.", async () => {
+            let didreceive = false;
+            const emitter = new EventEmitter<TestEvents>();
+            const listeners = emitter.getListeners("hello.123");
+
+            emitter.on("hello.123", async ev => {
+                assert.strictEqual(ev.data.alphabet, 5);
+                didreceive = true;
+            });
+
+            assert.strictEqual(listeners.size, 1);
+
+            await emitter.emit("hello.123", { alphabet: 5 });
+            assert.ok(didreceive);
+
+            emitter.removeListeners("hello.123");
+            assert.strictEqual(listeners.size, 0);
+        });
+    });
+
+    describe("EventEmitter#removeAllListeners", () => {
+        it("Should remove all listeners from all events.", async () => {
+            let didreceive = false;
+            const emitter = new EventEmitter<TestEvents>();
+            const listeners = emitter.getListeners("hello.123");
+
+            emitter.on("hello.123", async ev => {
+                assert.strictEqual(ev.data.alphabet, 5);
+                didreceive = true;
+            });
+
+            assert.strictEqual(listeners.size, 1);
+
+            await emitter.emit("hello.123", { alphabet: 5 });
+            assert.ok(didreceive);
+
+            emitter.removeAllListeners();
+            assert.strictEqual(listeners.size, 0);
         });
     });
 });

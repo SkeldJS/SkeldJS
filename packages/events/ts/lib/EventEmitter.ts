@@ -86,7 +86,7 @@ export class EventEmitter<Events extends EventData> {
     getListeners<EventName extends keyof Events>(
         event: EventName
     ): Set<Listener<Events, EventName>> {
-        const listeners = this.listeners.get(event);
+        const listeners = this.getListeners(event);
         if (!listeners) {
             this.listeners.set(event, new Set());
             return this.getListeners(event);
@@ -94,14 +94,16 @@ export class EventEmitter<Events extends EventData> {
         return listeners;
     }
 
-    protected removeListeners<EventName extends keyof Events>(
+    removeListeners<EventName extends keyof Events>(
         event: EventName
     ) {
-        const listeners = this.listeners.get(event);
+        const listeners = this.getListeners(event);
         listeners.clear();
     }
 
-    protected removeAllListeners() {
-        this.listeners.clear();
+    removeAllListeners() {
+        for (const [ eventName ] of this.listeners) {
+            this.removeListeners(eventName);
+        }
     }
 }
