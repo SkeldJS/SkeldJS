@@ -17,7 +17,7 @@ export function clampValue(val: number, min: number, max: number) {
     return val;
 }
 
-export function lerpValue(val: number, min: number = -40, max: number = 40) {
+export function lerpValue(val: number, min: number = -50, max: number = 50) {
     if (!isFinite(min)) return max;
     if (!isFinite(max)) return min;
 
@@ -26,7 +26,7 @@ export function lerpValue(val: number, min: number = -40, max: number = 40) {
     return min + (max - min) * clamped;
 }
 
-export function unlerpValue(val: number, min: number = -40, max: number = 40) {
+export function unlerpValue(val: number, min: number = -50, max: number = 50) {
     return (val - min) / (max - min);
 }
 

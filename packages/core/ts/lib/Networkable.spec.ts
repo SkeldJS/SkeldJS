@@ -1,3 +1,5 @@
+import { MessageTag, RpcTag } from "@skeldjs/constant";
+import { HazelBuffer } from "@skeldjs/util";
 import assert from "assert";
 import { Heritable } from "./Heritable";
 import { Hostable } from "./Hostable";
@@ -16,11 +18,24 @@ describe("Networkable", () => {
             assert.strictEqual(component.ownerid, -2);
         });
 
-        it("Should also accept a data argument to pass in information about the component.", () => {
+        it("Should also accept a data argument as an object to pass in information about the component.", () => {
             const room = new Hostable;
             const component = new TestComponent(room, 1, -2, {
                 dataParam: 5
             });
+
+            assert.strictEqual(component.room, room);
+            assert.strictEqual(component.netid, 1);
+            assert.strictEqual(component.ownerid, -2);
+            assert.strictEqual(component.dataParam, 5);
+        });
+
+        it("Should also accept a data argument as a buffer to pass in information about the component.", () => {
+            const room = new Hostable;
+
+            const buffer = HazelBuffer.from("05", "hex");
+
+            const component = new TestComponent(room, 1, -2, buffer);
 
             assert.strictEqual(component.room, room);
             assert.strictEqual(component.netid, 1);
@@ -55,6 +70,68 @@ describe("Networkable", () => {
             const component = new Networkable(room, 1, -2);
 
             assert.strictEqual(component.owner, room);
+        });
+    });
+
+    describe("Networkable#Deserialize", () => {
+        it("Should do nothing.", () => {
+            const room = new Hostable;
+            const component = new Networkable(room, 1, -2);
+
+            const reader = HazelBuffer.alloc(0);
+
+            assert.doesNotThrow(() => {
+                component.Deserialize(reader);
+            });
+        });
+    });
+
+    describe("Networkable#Serialize", () => {
+        it("Should do nothing.", () => {
+            const room = new Hostable;
+            const component = new Networkable(room, 1, -2);
+
+            const writer = HazelBuffer.alloc(0);
+
+            assert.ok(!component.Serialize(writer));
+        });
+    });
+
+    describe("Networkable#Preserialize", () => {
+        it("Should do nothing.", () => {
+            const room = new Hostable;
+            const component = new Networkable(room, 1, -2);
+
+            assert.doesNotThrow(() => {
+                component.PreSerialize();
+            });
+        });
+    });
+
+    describe("Networkable#HandleRPC", () => {
+        it("Should do nothing.", () => {
+            const room = new Hostable;
+            const component = new Networkable(room, 1, -2);
+
+            assert.doesNotThrow(() => {
+                component.HandleRpc({
+                    tag: MessageTag.RPC,
+                    netid: component.netid,
+                    rpcid: RpcTag.PlayAnimation,
+                    task: 0
+                });
+            });
+        });
+    });
+
+    describe("Networkable#FixedUpdate", () => {
+        it("Should do nothing.", () => {
+            const room = new Hostable;
+            const component = new Networkable(room, 1, -2);
+
+            assert.doesNotThrow(() => {
+                component.FixedUpdate(0);
+            });
         });
     });
 

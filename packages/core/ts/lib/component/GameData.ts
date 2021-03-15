@@ -165,7 +165,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         this.dirtyBit = 0;
     }
 
-    HandleRPC(message: RpcMessage) {
+    HandleRpc(message: RpcMessage) {
         switch (message.rpcid) {
             case RpcTag.SetTasks:
                 this.setTasks;

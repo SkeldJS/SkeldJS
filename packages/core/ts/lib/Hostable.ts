@@ -1063,7 +1063,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                 const component = this.netobjects.get(message.netid);
 
                 if (component) {
-                    component.HandleRPC(message);
+                    component.HandleRpc(message);
                 }
                 break;
             }

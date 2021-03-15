@@ -188,7 +188,7 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
         return true;
     }
 
-    HandleRPC(message: RpcMessage) {
+    HandleRpc(message: RpcMessage) {
         switch (message.rpcid) {
             case RpcTag.CompleteTask:
                 this._completeTask(message.taskIdx);
