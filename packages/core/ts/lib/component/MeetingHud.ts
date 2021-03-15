@@ -145,7 +145,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         return true;
     }
 
-    HandleRPC(message: RpcMessage) {
+    HandleRpc(message: RpcMessage) {
         switch (message.rpcid) {
             case RpcTag.Close:
                 this._close();

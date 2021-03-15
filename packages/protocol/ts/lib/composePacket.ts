@@ -331,12 +331,7 @@ export function composePacket(
                                     writer.upacked(message.ownerid);
                                     writer.byte(message.flags);
 
-                                    writer.upacked(
-                                        typeof message.num_components ===
-                                            "undefined"
-                                            ? message.components.length
-                                            : message.num_components
-                                    );
+                                    writer.upacked(message.components.length);
                                     for (
                                         let i = 0;
                                         i < message.components.length;

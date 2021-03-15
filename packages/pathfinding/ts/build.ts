@@ -60,10 +60,10 @@ function gradientSetGridPoint(
 }
 
 (async () => {
-    const basex = -40;
-    const basey = -40;
-    const width = 80;
-    const height = 80;
+    const basex = -50;
+    const basey = -50;
+    const width = 100;
+    const height = 100;
     const density = 16;
     const gradientDropoff = 0;
     const wallGradientWeight = 2;

@@ -118,7 +118,7 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformDa
         return true;
     }
 
-    HandleRPC(message: RpcMessage) {
+    HandleRpc(message: RpcMessage) {
         switch (message.rpcid) {
             case RpcTag.SnapTo:
                 if (

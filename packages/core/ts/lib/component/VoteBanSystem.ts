@@ -78,7 +78,7 @@ export class VoteBanSystem extends Networkable<VoteBanSystemData, VoteBanSystemE
         return true;
     }
 
-    HandleRPC(message: RpcMessage) {
+    HandleRpc(message: RpcMessage) {
         switch (message.rpcid) {
             case RpcTag.AddVote:
                 this._addVote(message.votingid, message.targetid);

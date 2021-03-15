@@ -138,7 +138,7 @@ export class BaseShipStatus extends Networkable<ShipStatusData, ShipStatusEvents
         return true;
     }
 
-    HandleRPC(message: RpcMessage) {
+    HandleRpc(message: RpcMessage) {
         switch (message.rpcid) {
             case RpcTag.RepairSystem:
                 const system = this.systems[message.systemid] as SystemStatus;

@@ -1,6 +1,6 @@
-import { AlterGameTag, DistanceID, GameEndReason, LanguageID, MapID, MessageTag, SpawnID, TaskBarUpdate } from "@skeldjs/constant";
+import { AlterGameTag, DistanceID, GameEndReason, LanguageID, MapID, MessageTag, RpcTag, SpawnID, TaskBarUpdate } from "@skeldjs/constant";
 import { GameOptions } from "@skeldjs/protocol";
-import { Code2Int, sleep } from "@skeldjs/util";
+import { Code2Int, HazelBuffer, sleep } from "@skeldjs/util";
 import assert from "assert";
 import { MeetingHud, PlayerControl } from "./component";
 
@@ -278,6 +278,10 @@ describe("Hostable", () => {
         it("Should resolve a custom network transform component to a client ID.", () => {
             assert.strictEqual(room.resolvePlayerClientID(player.transform), 1013);
         });
+
+        it("Should resolve an invalid player reference to null.", () => {
+            assert.strictEqual(room.resolvePlayerClientID(undefined), null);
+        });
     });
 
     describe("Hostable#setCode", () => {
@@ -303,7 +307,7 @@ describe("Hostable", () => {
 
     describe("Hostable#setAlterGameTag", () => {
         it("Should change the privacy of the room.", () => {
-            const room = new Hostable;
+            const room = new TestHost;
 
             room.setAlterGameTag(AlterGameTag.ChangePrivacy, 0);
             assert.strictEqual(room.privacy, "private");
@@ -583,7 +587,7 @@ describe("Hostable", () => {
             const room = new Hostable;
 
             await room.startGame();
-            await room.endGame(GameEndReason.HumansByTask);
+            await room.handleEnd(GameEndReason.HumansByTask);
 
             assert.ok(!room.started);
         });
@@ -597,9 +601,20 @@ describe("Hostable", () => {
             });
 
             await room.startGame();
-            await room.endGame(GameEndReason.HumansByTask);
+            await room.handleEnd(GameEndReason.HumansByTask);
 
             assert.ok(did_receive);
+        });
+    });
+
+    describe("Hostable#handleReady", async () => {
+        it("Should handle a player readying up.", () => {
+            const room = new TestHost;
+            const player = room.handleJoin(1);
+
+            room.handleReady(player);
+
+            assert.ok(player.isReady);
         });
     });
 
@@ -679,6 +694,31 @@ describe("Hostable", () => {
             let did_receive = false;
 
             room.on("player.component.spawn", () => {
+                did_receive = true;
+            });
+
+            await room.spawnComponent(component);
+
+            assert.ok(!did_receive);
+        });
+
+        it("Should do nothing if the component is already spawned.", async () => {
+            const room = new Hostable;
+            const component = new MeetingHud(
+                room,
+                1,
+                room.id,
+                {
+                    dirtyBit: 0,
+                    states: new Map(),
+                }
+            );
+
+            await room.spawnComponent(component);
+
+            let did_receive = false;
+
+            room.on("component.spawn", () => {
                 did_receive = true;
             });
 
@@ -972,6 +1012,108 @@ describe("Hostable", () => {
 
         it("Should retrieve a player by their custom network transform component's netid.", async () => {
             assert.strictEqual(room.getPlayerByNetId(player.transform.netid), player);
+        });
+
+        it("Should return null if there is no player with the netid.", async () => {
+            assert.strictEqual(room.getPlayerByNetId(53), null);
+        });
+    });
+
+    describe("Hostable#handleGameData", async () => {
+        it("Should handle a data message for a component.", async () => {
+            const room = new Hostable;
+            const player = room.handleJoin(1013);
+            await room.spawnPrefab(SpawnID.Player, player);
+
+            await room.handleGameData({
+                tag: MessageTag.Data,
+                netid: player.control.netid,
+                data: HazelBuffer.from("05", "hex")
+            });
+
+            assert.strictEqual(player.control.playerId, 5);
+        });
+
+        it("Should handle an RPC message for a component.", async () => {
+            const room = new Hostable;
+            const player = room.handleJoin(1013);
+            await room.spawnPrefab(SpawnID.Player, player);
+
+            await room.handleGameData({
+                tag: MessageTag.RPC,
+                netid: player.control.netid,
+                rpcid: RpcTag.SetStartCounter,
+                time: 3,
+                seqId: 1
+            });
+
+            assert.strictEqual(room.counter, 3);
+        });
+
+        it("Should handle a spawn message.", async () => {
+            const room = new Hostable;
+
+            await room.handleGameData({
+                tag: MessageTag.Spawn,
+                type: SpawnID.GameData,
+                ownerid: -2,
+                flags: 0,
+                components: [
+                    {
+                        netid: 1,
+                        data: HazelBuffer.from("00", "hex")
+                    },
+                    {
+                        netid: 2,
+                        data: HazelBuffer.from("00", "hex")
+                    }
+                ]
+            });
+
+            assert.ok(room.netobjects.get(1));
+            assert.ok(room.netobjects.get(2));
+        });
+
+        it("Should handle a despawn message.", async () => {
+            const room = new Hostable;
+            const player = room.handleJoin(1013);
+            await room.spawnPrefab(SpawnID.Player, player);
+
+            const netid = player.control.netid;
+
+            await room.handleGameData({
+                tag: MessageTag.Despawn,
+                netid
+            });
+
+            assert.ok(!room.netobjects.get(netid));
+        });
+
+        it("Should handle a scene change message.", async () => {
+            const room = new TestHost;
+            room.setHost(0);
+
+            const player = room.handleJoin(1013);
+
+            await room.handleGameData({
+                tag: MessageTag.SceneChange,
+                clientid: player.id,
+                scene: "OnlineGame"
+            });
+
+            assert.ok(player.inScene);
+        });
+
+        it("Should handle a ready message.", async () => {
+            const room = new Hostable;
+            const player = room.handleJoin(1013);
+
+            await room.handleGameData({
+                tag: MessageTag.Ready,
+                clientid: player.id
+            });
+
+            assert.ok(player.isReady);
         });
     });
 });
