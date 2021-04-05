@@ -1216,6 +1216,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
             },
         },
     },
+    [MapID.AprilFoolsTheSkeld]: {},
     [MapID.Airship]: {
         [TaskType.FixWiring]: {
             name: "Fix Wiring",
@@ -1721,5 +1722,5 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                 },
             },
         },
-    },
+    }
 };

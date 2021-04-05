@@ -102,67 +102,46 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        if (spawn) {
-            this.players = new Map();
+        this.players = new Map();
 
-            const num_players = spawn ? reader.upacked() : reader.uint8();
+        const num_players = spawn ? reader.upacked() : reader.uint8();
 
-            for (let i = 0; i < num_players; i++) {
-                const data = GameData.readPlayerData(reader);
+        for (let i = 0; i < num_players; i++) {
+            const data = GameData.readPlayerData(reader);
 
-                this.players.set(data.playerId, data);
-            }
+            this.players.set(data.playerId, data);
         }
     }
 
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
-        if (spawn) {
-            writer.upacked(this.players.size);
+        let flag = false;
+        writer.upacked(this.players.size);
 
-            for (const [playerid, player] of this.players) {
-                if ((1 << playerid) & this.dirtyBit || spawn) {
-                    writer.uint8(player.playerId);
-                    writer.string(player.name);
-                    writer.upacked(player.color);
-                    writer.upacked(player.hat);
-                    writer.upacked(player.pet);
-                    writer.upacked(player.skin);
-                    writer.byte(
-                        (player.disconnected ? 1 : 0) |
-                            (player.impostor ? 2 : 0) |
-                            (player.dead ? 4 : 0)
-                    );
+        for (const [playerid, player] of this.players) {
+            if ((1 << playerid) & this.dirtyBit || spawn) {
+                writer.uint8(player.playerId);
+                writer.string(player.name);
+                writer.upacked(player.color);
+                writer.upacked(player.hat);
+                writer.upacked(player.pet);
+                writer.upacked(player.skin);
+                writer.byte(
+                    (player.disconnected ? 1 : 0) |
+                        (player.impostor ? 2 : 0) |
+                        (player.dead ? 4 : 0)
+                );
 
-                    writer.uint8(player.tasks.length);
-                    for (let i = 0; i < player.tasks.length; i++) {
-                        const task = player.tasks[i];
-                        writer.upacked(task.taskIdx);
-                        writer.bool(task.completed);
-                    }
+                writer.uint8(player.tasks.length);
+                for (let i = 0; i < player.tasks.length; i++) {
+                    const task = player.tasks[i];
+                    writer.upacked(task.taskIdx);
+                    writer.bool(task.completed);
                 }
-            }
-            return true;
-        }
-        this.dirtyBit = 0;
-        return false;
-    }
-
-    PreSerialize() {
-        if (this.dirtyBit && this.room.amhost) {
-            const players = [...this.players.values()].filter((player) => {
-                return (1 << player.playerId) & this.dirtyBit;
-            });
-
-            if (players.length) {
-                this.room.stream.push({
-                    tag: MessageTag.RPC,
-                    netid: this.netid,
-                    rpcid: RpcTag.UpdateGameData,
-                    players: players,
-                });
+                flag = true;
             }
         }
         this.dirtyBit = 0;
+        return flag;
     }
 
     HandleRpc(message: RpcMessage) {
@@ -170,12 +149,6 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
             case RpcTag.SetTasks:
                 this.setTasks;
                 break;
-            case RpcTag.UpdateGameData:
-                for (let i = 0; i < message.players.length; i++) {
-                    const data = message.players[i];
-
-                    this.players.set(data.playerId, data);
-                }
                 break;
         }
     }
