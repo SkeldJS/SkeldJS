@@ -6,9 +6,7 @@ import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 import { Hostable } from "../Hostable";
 import {
     AutoDoorsSystem,
-    DoorsSystem,
     HudOverrideSystem,
-    ReactorSystem,
     SabotageSystem,
     SecurityCameraSystem,
     SwitchSystem,

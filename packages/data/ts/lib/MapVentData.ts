@@ -321,6 +321,7 @@ export const MapVentData: Record<MapID, Record<number, VentDataModel>> = {
             network: [PolusVent.Admin],
         },
     },
+    [MapID.AprilFoolsTheSkeld]: {},
     [MapID.Airship]: {
         [AirshipVent.Vault]: {
             id: AirshipVent.Vault,
