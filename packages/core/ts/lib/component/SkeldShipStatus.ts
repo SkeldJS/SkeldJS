@@ -19,16 +19,16 @@ import { Hostable } from "../Hostable";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
 /**
- * Represents a room object for the April Fools' version of the The Skeld map.
+ * Represents a room object for the The Skeld map.
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class AprilShipStatus extends InnerShipStatus {
-    static type = SpawnID.AprilShipStatus as const;
-    type = SpawnID.AprilShipStatus as const;
+export class SkeldShipStatus extends InnerShipStatus {
+    static type = SpawnID.ShipStatus as const;
+    type = SpawnID.ShipStatus as const;
 
-    static classname = "AprilShipStatus" as const;
-    classname = "AprilShipStatus" as const;
+    static classname = "ShipStatus" as const;
+    classname = "ShipStatus" as const;
 
     systems: {
         [SystemType.Reactor]: ReactorSystem;
@@ -59,7 +59,7 @@ export class AprilShipStatus extends InnerShipStatus {
             [SystemType.Electrical]: new SwitchSystem(this, {
                 expected: [false, false, false, false, false],
                 actual: [false, false, false, false, false],
-                brightness: 100,
+                brightness: 255,
             }),
             [SystemType.O2]: new LifeSuppSystem(this, {
                 timer: 10000,
@@ -83,22 +83,22 @@ export class AprilShipStatus extends InnerShipStatus {
             }),
         };
 
-        const autodoor = this.systems[SystemType.Doors];
-        autodoor.doors = [
-            new AutoOpenDoor(autodoor, 0, true),
-            new AutoOpenDoor(autodoor, 1, true),
-            new AutoOpenDoor(autodoor, 2, true),
-            new AutoOpenDoor(autodoor, 3, true),
-            new AutoOpenDoor(autodoor, 4, true),
-            new AutoOpenDoor(autodoor, 5, true),
-            new AutoOpenDoor(autodoor, 6, true),
-            new AutoOpenDoor(autodoor, 7, true),
-            new AutoOpenDoor(autodoor, 8, true),
-            new AutoOpenDoor(autodoor, 9, true),
-            new AutoOpenDoor(autodoor, 10, true),
-            new AutoOpenDoor(autodoor, 11, true),
-            new AutoOpenDoor(autodoor, 12, true),
-            new AutoOpenDoor(autodoor, 13, true),
+        const autodoorsystem = this.systems[SystemType.Doors];
+        autodoorsystem.doors = [
+            new AutoOpenDoor(autodoorsystem, 0, true),
+            new AutoOpenDoor(autodoorsystem, 1, true),
+            new AutoOpenDoor(autodoorsystem, 2, true),
+            new AutoOpenDoor(autodoorsystem, 3, true),
+            new AutoOpenDoor(autodoorsystem, 4, true),
+            new AutoOpenDoor(autodoorsystem, 5, true),
+            new AutoOpenDoor(autodoorsystem, 6, true),
+            new AutoOpenDoor(autodoorsystem, 7, true),
+            new AutoOpenDoor(autodoorsystem, 8, true),
+            new AutoOpenDoor(autodoorsystem, 9, true),
+            new AutoOpenDoor(autodoorsystem, 10, true),
+            new AutoOpenDoor(autodoorsystem, 11, true),
+            new AutoOpenDoor(autodoorsystem, 12, true),
+            new AutoOpenDoor(autodoorsystem, 13, true),
         ];
     }
 }

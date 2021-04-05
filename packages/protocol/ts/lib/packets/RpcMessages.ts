@@ -1,11 +1,4 @@
-import {
-    ColorID,
-    HatID,
-    MessageTag,
-    RpcTag,
-    SkinID,
-    PlayerGameData,
-} from "@skeldjs/constant";
+import { ColorID, HatID, MessageTag, RpcTag, SkinID } from "@skeldjs/constant";
 
 import { Vector2 } from "@skeldjs/util";
 
@@ -177,9 +170,14 @@ export interface SetTasksRpc extends BaseRpcMessage {
     taskids: number[];
 }
 
-export interface UpdateGameDataRpc extends BaseRpcMessage {
-    rpcid: RpcTag.UpdateGameData;
-    players: PlayerGameData[];
+export interface ClimbLadderRpc extends BaseRpcMessage {
+    rpcid: RpcTag.ClimbLadder;
+    ladderId: number;
+    seqId: number;
+}
+
+export interface UsePlatformRpc extends BaseRpcMessage {
+    rpcid: RpcTag.UsePlatform;
 }
 
 export type RpcMessage =
@@ -213,4 +211,5 @@ export type RpcMessage =
     | CloseDoorsOfTypeRpc
     | RepairSystemRpc
     | SetTasksRpc
-    | UpdateGameDataRpc;
+    | ClimbLadderRpc
+    | UsePlatformRpc;

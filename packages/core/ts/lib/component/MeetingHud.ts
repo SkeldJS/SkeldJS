@@ -249,7 +249,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
      * @param voting The player who is voting.
      * @param suspect The player to vote for.
      * @example
-	 *```typescript
+     *```typescript
      * // Make everyone vote a certain player.
      * for ([ clientid, player ] of room.players) {
      *   if (player !== suspect) {
@@ -257,7 +257,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
      *   }
      * }
      * ```
-	 */
+     */
     async castVote(
         voting: PlayerDataResolvable,
         suspect: PlayerDataResolvable | "skip"

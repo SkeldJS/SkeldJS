@@ -8,7 +8,7 @@ type EventData = Record<string, any>;
 
 type Listener<Events extends EventData, EventName extends keyof Events> = (
     ev: EventContext<Events[EventName]>
-) => void|Promise<void>;
+) => void | Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
     private readonly listeners: Map<keyof Events, Set<Listener<Events, any>>>;
@@ -29,7 +29,7 @@ export class EventEmitter<Events extends EventData> {
                 cancel() {
                     this.cancelled = true;
                 },
-                data
+                data,
             };
 
             for (const listener of listeners) {
@@ -57,7 +57,7 @@ export class EventEmitter<Events extends EventData> {
         event: EventName,
         listener: Listener<Events, EventName>
     ) {
-        const removeListener = this.on(event, async ev => {
+        const removeListener = this.on(event, async (ev) => {
             removeListener();
             await listener(ev);
         });
@@ -68,7 +68,7 @@ export class EventEmitter<Events extends EventData> {
         event: EventName
     ): Promise<EventContext<Events[EventName]>> {
         return new Promise((resolve) => {
-            const removeListener = this.on(event, async ev => {
+            const removeListener = this.on(event, async (ev) => {
                 removeListener();
                 resolve(ev);
             });
@@ -94,15 +94,13 @@ export class EventEmitter<Events extends EventData> {
         return listeners;
     }
 
-    removeListeners<EventName extends keyof Events>(
-        event: EventName
-    ) {
+    removeListeners<EventName extends keyof Events>(event: EventName) {
         const listeners = this.getListeners(event);
         listeners.clear();
     }
 
     removeAllListeners() {
-        for (const [ eventName ] of this.listeners) {
+        for (const [eventName] of this.listeners) {
             this.removeListeners(eventName);
         }
     }

@@ -9,6 +9,7 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
+    "@skeldjs/dtls": "^0.0.1",
     "@skeldjs/constant": "^2.5.2",
     "@skeldjs/core": "^2.6.1",
     "@skeldjs/data": "^2.6.0",

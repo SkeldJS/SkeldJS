@@ -1,4 +1,10 @@
-import { MapID, TheSkeldVent, MiraHQVent, PolusVent } from "@skeldjs/constant";
+import {
+    MapID,
+    TheSkeldVent,
+    MiraHQVent,
+    PolusVent,
+    AirshipVent,
+} from "@skeldjs/constant";
 import { Vector2 } from "@skeldjs/util";
 
 interface VentDataModel {
@@ -315,5 +321,102 @@ export const MapVentData: Record<MapID, Record<number, VentDataModel>> = {
             network: [PolusVent.Admin],
         },
     },
-    [MapID.Airship]: {},
+    [MapID.Airship]: {
+        [AirshipVent.Vault]: {
+            id: AirshipVent.Vault,
+            position: {
+                x: -12.6322,
+                y: 8.4735,
+            },
+            network: [AirshipVent.Cockpit],
+        },
+        [AirshipVent.Cockpit]: {
+            id: AirshipVent.Cockpit,
+            position: {
+                x: -22.099,
+                y: -1.512,
+            },
+            network: [AirshipVent.Vault, AirshipVent.ViewingDeck],
+        },
+        [AirshipVent.ViewingDeck]: {
+            id: AirshipVent.ViewingDeck,
+            position: {
+                x: -15.659,
+                y: -11.6991,
+            },
+            network: [AirshipVent.Cockpit],
+        },
+        [AirshipVent.Engine]: {
+            id: AirshipVent.Engine,
+            position: {
+                x: 0.203,
+                y: -2.5361,
+            },
+            network: [AirshipVent.Kitchen, AirshipVent.LowerMainHall],
+        },
+        [AirshipVent.Kitchen]: {
+            id: AirshipVent.Kitchen,
+            position: {
+                x: -2.6019,
+                y: -9.338,
+            },
+            network: [AirshipVent.Engine, AirshipVent.LowerMainHall],
+        },
+        [AirshipVent.UpperMainHall]: {
+            id: AirshipVent.UpperMainHall,
+            position: {
+                x: 7.021,
+                y: -3.730999,
+            },
+            network: [AirshipVent.RightGapRoom, AirshipVent.LeftGapRoom],
+        },
+        [AirshipVent.LowerMainHall]: {
+            id: AirshipVent.LowerMainHall,
+            position: {
+                x: 9.814,
+                y: 3.206,
+            },
+            network: [AirshipVent.Engine, AirshipVent.Kitchen],
+        },
+        [AirshipVent.RightGapRoom]: {
+            id: AirshipVent.RightGapRoom,
+            position: {
+                x: 12.663,
+                y: 5.922,
+            },
+            network: [AirshipVent.UpperMainHall, AirshipVent.LeftGapRoom],
+        },
+        [AirshipVent.LeftGapRoom]: {
+            id: AirshipVent.LeftGapRoom,
+            position: {
+                x: 3.605,
+                y: 6.923,
+            },
+            network: [AirshipVent.UpperMainHall, AirshipVent.RightGapRoom],
+        },
+        [AirshipVent.Showers]: {
+            id: AirshipVent.Showers,
+            position: {
+                x: 23.9869,
+                y: -1.386,
+            },
+            network: [AirshipVent.Records, AirshipVent.CargoBay],
+        },
+        [AirshipVent.Records]: {
+            id: AirshipVent.Records,
+            position: {
+                x: 23.2799,
+                y: 8.259998,
+            },
+            network: [AirshipVent.Showers, AirshipVent.CargoBay],
+        },
+        [AirshipVent.CargoBay]: {
+            id: AirshipVent.CargoBay,
+            position: {
+                x: 30.4409,
+                y: -3.577,
+            },
+            network: [AirshipVent.Showers, AirshipVent.Records],
+        },
+    },
 };

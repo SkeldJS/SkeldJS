@@ -15,7 +15,7 @@ export interface DoorEvents {
 }
 
 /**
- * Represents a manual door for the {@link DoorsSystem}.
+ * Represents a manual door for the {@link DoorsSystem} or {@link ElectricalDoorsSystem}.
  *
  * See {@link DoorEvents} for events to listen to.
  */

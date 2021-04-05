@@ -1,4 +1,3 @@
-
 import { PropagatedEvents } from "@skeldjs/events";
 
 import { PlayerData } from "../PlayerData";
@@ -28,7 +27,7 @@ export interface BaseSystemStatusEvents {
         /**
          * The player that sabotaged the system, only known the current client is the host of the room.
          */
-        player?: PlayerData
+        player?: PlayerData;
     };
     /**
      * Emitted when a system is repaired.
@@ -37,7 +36,7 @@ export interface BaseSystemStatusEvents {
         /**
          * The player that repaired the system, only known the current client is the host of the room.
          */
-        player?: PlayerData
+        player?: PlayerData;
     };
 }
 

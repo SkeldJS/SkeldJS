@@ -3,7 +3,7 @@ import { MessageTag, RpcTag, SystemType } from "@skeldjs/constant";
 
 import { EventEmitter } from "@skeldjs/events";
 
-import { BaseShipStatus } from "../component";
+import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";
@@ -37,7 +37,7 @@ export class SystemStatus<
         return false;
     }
 
-    constructor(protected ship: BaseShipStatus, data?: HazelBuffer | DataT) {
+    constructor(protected ship: InnerShipStatus, data?: HazelBuffer | DataT) {
         super();
 
         if (data) {

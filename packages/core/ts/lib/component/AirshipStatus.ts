@@ -1,10 +1,11 @@
 import { HazelBuffer } from "@skeldjs/util";
 import { SpawnID, SystemType } from "@skeldjs/constant";
 
-import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus";
+import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
 import { Hostable } from "../Hostable";
 import {
+    AutoDoorsSystem,
     DoorsSystem,
     HudOverrideSystem,
     ReactorSystem,
@@ -12,13 +13,15 @@ import {
     SecurityCameraSystem,
     SwitchSystem,
 } from "../system";
+import { ElectricalDoorsSystem } from "../system/ElectricalDoorsSystem";
+import { MovingPlatformSide, MovingPlatformSystem } from "../system/MovingPlatformSystem";
 
 /**
  * Represents a room object for the Airship map.
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class Airship extends BaseShipStatus {
+export class AirshipStatus extends InnerShipStatus {
     static type = SpawnID.Airship as const;
     type = SpawnID.Airship as const;
 
@@ -26,12 +29,13 @@ export class Airship extends BaseShipStatus {
     classname = "Airship" as const;
 
     systems: {
-        [SystemType.Reactor]: ReactorSystem;
         [SystemType.Electrical]: SwitchSystem;
         [SystemType.Security]: SecurityCameraSystem;
         [SystemType.Communications]: HudOverrideSystem;
-        [SystemType.Doors]: DoorsSystem;
         [SystemType.Sabotage]: SabotageSystem;
+        [SystemType.GapRoom]: MovingPlatformSystem;
+        [SystemType.Decontamination]: ElectricalDoorsSystem;
+        [SystemType.Decontamination2]: AutoDoorsSystem
     };
 
     constructor(
@@ -45,10 +49,6 @@ export class Airship extends BaseShipStatus {
 
     Setup() {
         this.systems = {
-            [SystemType.Reactor]: new ReactorSystem(this, {
-                timer: 10000,
-                completed: new Set(),
-            }),
             [SystemType.Electrical]: new SwitchSystem(this, {
                 expected: [false, false, false, false, false],
                 actual: [false, false, false, false, false],
@@ -60,26 +60,21 @@ export class Airship extends BaseShipStatus {
             [SystemType.Communications]: new HudOverrideSystem(this, {
                 sabotaged: false,
             }),
-            [SystemType.Doors]: new DoorsSystem(this, {
-                cooldowns: new Map(),
-                doors: [
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                ],
+            [SystemType.Decontamination]: new ElectricalDoorsSystem(this, {
+                cooldowns: new Map,
+                doors: [],
+            }),
+            [SystemType.Decontamination2]: new AutoDoorsSystem(this, {
+                dirtyBit: 0,
+                doors: [],
             }),
             [SystemType.Sabotage]: new SabotageSystem(this, {
                 cooldown: 0,
+            }),
+            [SystemType.GapRoom]: new MovingPlatformSystem(this, {
+                target: null,
+                side: MovingPlatformSide.Left,
+                useId: 0,
             }),
         };
     }

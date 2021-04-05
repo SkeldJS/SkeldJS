@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
-import { BaseShipStatus } from "../component";
+import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { BaseSystemStatusEvents } from "./events";
@@ -18,7 +18,10 @@ export interface SabotageSystemEvents extends BaseSystemStatusEvents {}
  *
  * See {@link SabotageSystemEvents} for events to listen to.
  */
-export class SabotageSystem extends SystemStatus<SabotageSystemData, SabotageSystemEvents> {
+export class SabotageSystem extends SystemStatus<
+    SabotageSystemData,
+    SabotageSystemEvents
+> {
     static systemType = SystemType.Sabotage as const;
     systemType = SystemType.Sabotage as const;
 
@@ -27,7 +30,10 @@ export class SabotageSystem extends SystemStatus<SabotageSystemData, SabotageSys
      */
     cooldown: number;
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer | SabotageSystemData) {
+    constructor(
+        ship: InnerShipStatus,
+        data?: HazelBuffer | SabotageSystemData
+    ) {
         super(ship, data);
     }
 

@@ -12,6 +12,7 @@ import {
     TaskBarUpdate,
     MapID,
     SpawnID,
+    QuickChatMode,
 } from "@skeldjs/constant";
 
 import { EventContext } from "@skeldjs/events";
@@ -58,6 +59,29 @@ const lookupDns = util.promisify(dns.lookup);
 type PacketFilter = (packet: ClientboundPacket) => boolean;
 type PayloadFilter = (payload: PayloadMessageClientbound) => boolean;
 
+const ServerCertificate = `
+-----BEGIN CERTIFICATE-----
+MIIDbTCCAlWgAwIBAgIUf8xD1G/d5NK1MTjQAYGqd1AmBvcwDQYJKoZIhvcNAQEL
+BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
+GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAgFw0yMTAyMDIxNzE4MDFaGA8yMjk0
+MTExODE3MTgwMVowRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUx
+ITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDCCASIwDQYJKoZIhvcN
+AQEBBQADggEPADCCAQoCggEBAL7GFDbZdXwPYXeHWRi2GfAXkaLCgxuSADfa1pI2
+vJkvgMTK1miSt3jNSg/o6VsjSOSL461nYmGCF6Ho3fMhnefOhKaaWu0VxF0GR1bd
+e836YWzhWINQRwmoVD/Wx1NUjLRlTa8g/W3eE5NZFkWI70VOPRJpR9SqjNHwtPbm
+Ki41PVgJIc3m/7cKOEMrMYNYoc6E9ehwLdJLQ5olJXnMoGjHo2d59hC8KW2V1dY9
+sacNPUjbFZRWeQ0eJ7kbn8m3a5EuF34VEC7DFcP4NCWWI7HO5/KYE+mUNn0qxgua
+r32qFnoaKZr9dXWRWJSm2XecBgqQmeF/90gdbohNNHGC/iMCAwEAAaNTMFEwHQYD
+VR0OBBYEFAJAdUS5AZE3U3SPQoG06Ahq3wBbMB8GA1UdIwQYMBaAFAJAdUS5AZE3
+U3SPQoG06Ahq3wBbMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEB
+ALUoaAEuJf4kQ1bYVA2ax2QipkUM8PL9zoNiDjUw6ZlwMFi++XCQm8XDap45aaeZ
+MnXGBqIBWElezoH6BNSbdGwci/ZhxXHG/qdHm7zfCTNaLBe2+sZkGic1x6bZPFtK
+ZUjGy7LmxsXOxqGMgPhAV4JbN1+LTmOkOutfHiXKe4Z1zu09mOo9sWfGCkbIyERX
+QQILBYSIkg3hU4R4xMOjvxcDrOZja6fSNyi2sgidTfe5OCKC2ovU7OmsQqzb7mFv
+e+7kpIUp6AZNc49n6GWtGeOoL7JUAqMOIO+R++YQN7/dgaGDPuu0PpmgI2gPLNW1
+ZwHJ755zQQRX528xg9vfykY=
+-----END CERTIFICATE-----` as const;
+
 export interface SkeldjsClientEvents extends HostableEvents {
     /**
      * Emitted when the client gets disconnected.
@@ -93,6 +117,8 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      * The options for the client.
      */
     options: ClientConfig;
+
+    auth: any;
 
     /**
      * The datagram socket for the client.
@@ -163,10 +189,10 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      * @param version The version of the client.
      * @param options Additional client options.
      * @example
-	 *```typescript
+     *```typescript
      * const client = new SkeldjsClient("2021.3.5.0");
      * ```
-	 */
+     */
     constructor(
         version: string | number,
         options: ClientConfig = { debug: DebugLevel.None, allowHost: true }
@@ -262,7 +288,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                         case PayloadTag.JoinGame:
                             if (payload.error === false) {
                                 if (this.me && this.code === payload.code) {
-                                    this.handleJoin(payload.clientid);
+                                    await this.handleJoin(payload.clientid);
                                     this.setHost(payload.hostid);
                                 }
                             }
@@ -301,9 +327,9 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                             this.clientid = payload.clientid;
                             this.setCode(payload.code);
                             this.setHost(payload.hostid);
-                            this.handleJoin(payload.clientid);
+                            await this.handleJoin(payload.clientid);
                             for (let i = 0; i < payload.clients.length; i++) {
-                                this.handleJoin(payload.clients[i]);
+                                await this.handleJoin(payload.clients[i]);
                             }
                             break;
                         case PayloadTag.AlterGame:
@@ -327,22 +353,37 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      * Connect to a region or IP. Optionally identify with a username (can be done later with the {@link SkeldjsClient.identify} method).
      * @param host The hostname to connect to.
      * @param username The username to identify with
+     * @param token The authorisation token. Currently unavailable, working on account system.
+     * @param port The port to connect to.
+     * @param pem The public certificate of the server.
      * @example
-	 *```typescript
+     *```typescript
      * // Connect to an official Among Us region.
-     * await connect("NA", "weakeyes");
+     * await connect("NA", "weakeyes", 432432);
      *
      * // Connect to a locally hosted private server.
-     * await connect("127.0.0.1", "weakeyes");
+     * await connect("127.0.0.1", "weakeyes", 3423432);
      * ```
-	 */
-    async connect(host: "NA"|"EU"|"AS", username?: string);
-    async connect(host: string, username?: string, port?: number);
-    async connect(host: string, username?: string, port: number = 22023) {
+     */
+    async connect(host: "NA" | "EU" | "AS", username?: string, token?: number, port?: number, pem?: string);
+    async connect(host: string, username?: string, token?: number, port?: number, pem?: string);
+    async connect(
+        host: string,
+        username?: string,
+        token?: number,
+        port: number = 22023,
+        pem = ServerCertificate
+    ) {
         await this.disconnect();
 
         if (host in MatchmakingServers) {
-            return await this.connect(MatchmakingServers[host][0], username, 22023);
+            return await this.connect(
+                MatchmakingServers[host][0],
+                username,
+                token,
+                22023,
+                pem
+            );
         }
 
         const ip = await lookupDns(host);
@@ -354,9 +395,39 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this.connected = true;
 
         this.socket.on("message", this.onMessage.bind(this));
+/*
+        const certificate = Buffer.from(pem.trim());
+
+        this.auth = dtls.connect({
+            type: "udp4",
+            remotePort: 22025,
+            remoteAddress: ip.address,
+            cipherSuites: ["TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"],
+            extendedMasterSecret: false,
+        });
+
+        this.auth.on("error", () => {
+            console.log("error");
+        });
+
+        this.auth.on("connect", () => {
+            const writer = HazelBuffer.alloc(6);
+            writer
+                .uint8(1)
+                .uint16LE(6)
+                .int32(this.version)
+                .uint8(Platform.Itch)
+                .string("");
+
+            this.auth.write(writer.buffer);
+        });
+
+        this.auth.on("data", (message) => {
+            console.log("Got a message!!", message);
+        });*/
 
         if (typeof username === "string") {
-            await this.identify(username);
+            await this.identify(username, token);
         }
     }
 
@@ -392,7 +463,10 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
                 this.sent_disconnect = true;
 
-                await Promise.race([this.wait("client.disconnect"), sleep(6000)]);
+                await Promise.race([
+                    this.wait("client.disconnect"),
+                    sleep(6000),
+                ]);
             } else if (this.sent_disconnect) {
                 this.emit("client.disconnect", {
                     reason,
@@ -408,16 +482,17 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      * Identify with the connected server. (Can be done before in the {@link SkeldjsClient.connect} method)
      * @param username The username to identify with.
      * @example
-	 *```typescript
+     *```typescript
      * await client.identify("weakeyes");
      * ```
-	 */
-    async identify(username: string) {
+     */
+    async identify(username: string, token: number) {
         await this.send({
             op: Opcode.Hello,
             hazelver: 0,
             clientver: this.version,
-            username: username,
+            username,
+            token
         });
 
         this.identified = true;
@@ -449,7 +524,9 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 }
             }
 
-            function onDisconnect(ev: EventContext<{ message: string, reason: number }>) {
+            function onDisconnect(
+                ev: EventContext<{ message: string; reason: number }>
+            ) {
                 clearListeners();
                 reject(new Error(`${ev.data.reason} - ${ev.data.message}`));
             }
@@ -634,7 +711,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      *   await client.spawnSelf();
      * }, 5000)
      * ```
-	 */
+     */
     async spawnSelf() {
         if (!this.me || this.me.inScene) {
             return;
@@ -670,10 +747,10 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      * @param doSpawn Whether or not to spawn the player. If false, the client will be unaware of any existing objects in the game until {@link SkeldjsClient.spawnSelf} is called.
      * @returns The code of the room joined.
      * @example
-	 *```typescript
+     *```typescript
      * await client.joinGame("ABCDEF");
      * ```
-	 */
+     */
     async joinGame(code: RoomID, doSpawn: boolean = true): Promise<RoomID> {
         if (typeof code === "undefined") {
             throw new Error("No code provided.");
@@ -743,7 +820,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      * @param doJoin Whether or not to join the game after created.
      * @returns The game code of the room.
      * @example
-	 *```typescript
+     *```typescript
      * // Create a game on The Skeld with an English chat with 2 impostors.
      * await client.createGame({
      *   map: MapID.TheSkeld,
@@ -751,14 +828,15 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      *   impostors: 2
      * });
      * ```
-	 */
+     */
     async createGame(
         host_settings: Partial<GameOptions> = {},
-        doJoin: boolean = true
+        doJoin: boolean = true,
+        chatMode: QuickChatMode = QuickChatMode.FreeChat
     ): Promise<RoomID> {
         const settings = {
             ...SkeldjsClient.defaultGameOptions,
-            ...host_settings
+            ...host_settings,
         } as GameOptions;
 
         await this.send({
@@ -767,6 +845,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 {
                     tag: PayloadTag.HostGame,
                     settings,
+                    chatMode,
                 },
             ],
         });
@@ -827,16 +906,27 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      * const code = await game.join();
      * ```
 	 */
-    async findGames(maps: number|MapID[] = 0x7 /* all maps */, impostors = 0 /* any impostors */, language = LanguageID.All): Promise<GameListing[]> {
+    async findGames(
+        maps: number | MapID[] = 0x7 /* all maps */,
+        impostors = 0 /* any impostors */,
+        language = LanguageID.All
+    ): Promise<GameListing[]> {
         if (Array.isArray(maps)) {
-            return await this.findGames(maps.reduce((acc, cur) => acc | (1 << cur), 0) /* convert to bitfield */, impostors, language);
+            return await this.findGames(
+                maps.reduce(
+                    (acc, cur) => acc | (1 << cur),
+                    0
+                ) /* convert to bitfield */,
+                impostors,
+                language
+            );
         }
 
         const options = {
             ...SkeldjsClient.defaultGameOptions,
             map: maps,
             impostors: 0,
-            language: LanguageID.English
+            language: LanguageID.English,
         } as GameOptions;
 
         await this.send({
@@ -851,20 +941,23 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
         const payload = (await this.waitPayload([
             (payload) => payload.tag === PayloadTag.GetGameListV2,
-        ])) as
-            | GetGameListV2PayloadClientbound;
+        ])) as GetGameListV2PayloadClientbound;
 
-        const games = payload.games.map(game => new GameListing(this,
-            game.ip,
-            game.port,
-            game.code,
-            game.name,
-            game.players,
-            game.age,
-            game.map,
-            game.impostors,
-            game.max_players
-        ));
+        const games = payload.games.map(
+            (game) =>
+                new GameListing(
+                    this,
+                    game.ip,
+                    game.port,
+                    game.code,
+                    game.name,
+                    game.players,
+                    game.age,
+                    game.map,
+                    game.impostors,
+                    game.max_players
+                )
+        );
 
         return games;
     }
@@ -891,6 +984,6 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         confirmEjects: true,
         visualTasks: true,
         anonymousVotes: false,
-        taskbarUpdates: TaskBarUpdate.Always
+        taskbarUpdates: TaskBarUpdate.Always,
     };
 }

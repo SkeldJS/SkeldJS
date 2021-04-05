@@ -10,7 +10,7 @@ import { alphabet, TestComponent, TestEvents } from "./tests.spec";
 describe("Networkable", () => {
     describe("Networkable#ctr", () => {
         it("Should instantiate a component with a room, netid, ownerid.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             assert.strictEqual(component.room, room);
@@ -19,9 +19,9 @@ describe("Networkable", () => {
         });
 
         it("Should also accept a data argument as an object to pass in information about the component.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new TestComponent(room, 1, -2, {
-                dataParam: 5
+                dataParam: 5,
             });
 
             assert.strictEqual(component.room, room);
@@ -31,7 +31,7 @@ describe("Networkable", () => {
         });
 
         it("Should also accept a data argument as a buffer to pass in information about the component.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const buffer = HazelBuffer.from("05", "hex");
 
@@ -46,13 +46,13 @@ describe("Networkable", () => {
 
     describe("Networkable#emit", () => {
         it("Should emit an event that propagates through its owner.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const object = new Heritable<TestEvents>(room, 1);
             room.objects.set(1, object);
             const component = new TestComponent(room, 1, 1);
 
             let did_receive = false;
-            object.on("test.event", ev => {
+            object.on("test.event", (ev) => {
                 if (ev.data.alphabet === alphabet) {
                     did_receive = true;
                 }
@@ -66,7 +66,7 @@ describe("Networkable", () => {
 
     describe("Networkable#owner", () => {
         it("Should return the owner object of the networkable from the room it belongs to.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             assert.strictEqual(component.owner, room);
@@ -75,7 +75,7 @@ describe("Networkable", () => {
 
     describe("Networkable#Deserialize", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             const reader = HazelBuffer.alloc(0);
@@ -88,7 +88,7 @@ describe("Networkable", () => {
 
     describe("Networkable#Serialize", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             const writer = HazelBuffer.alloc(0);
@@ -99,7 +99,7 @@ describe("Networkable", () => {
 
     describe("Networkable#Preserialize", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             assert.doesNotThrow(() => {
@@ -110,7 +110,7 @@ describe("Networkable", () => {
 
     describe("Networkable#HandleRPC", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             assert.doesNotThrow(() => {
@@ -118,7 +118,7 @@ describe("Networkable", () => {
                     tag: MessageTag.RPC,
                     netid: component.netid,
                     rpcid: RpcTag.PlayAnimation,
-                    task: 0
+                    task: 0,
                 });
             });
         });
@@ -126,7 +126,7 @@ describe("Networkable", () => {
 
     describe("Networkable#FixedUpdate", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             assert.doesNotThrow(() => {
@@ -137,7 +137,7 @@ describe("Networkable", () => {
 
     describe("Networkable#spawn", () => {
         it("Should spawn itself in the room that it belongs to.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             await component.spawn();
@@ -149,7 +149,7 @@ describe("Networkable", () => {
 
     describe("Networkable#despawn", () => {
         it("Should despawn itself in the room that it belongs to.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
             await component.spawn();

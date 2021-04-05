@@ -1,4 +1,3 @@
-
 import dgram from "dgram";
 import { ServerConfig } from "./interface/ServerConfig";
 
@@ -34,8 +33,7 @@ const default_config = (): ServerConfig => ({
     host: "0.0.0.0",
 });
 
-type BaseSkeldjsServerEvents =
-    PropagatedEvents<RoomEvents, { room: Room }> &
+type BaseSkeldjsServerEvents = PropagatedEvents<RoomEvents, { room: Room }> &
     PropagatedEvents<RemoteClientEvents, { remote: RemoteClient }>;
 
 export interface SkeldjsServerEvents extends BaseSkeldjsServerEvents {
@@ -46,11 +44,11 @@ export interface SkeldjsServerEvents extends BaseSkeldjsServerEvents {
         /**
          * The remote client that sent the packet.
          */
-        client: RemoteClient,
+        client: RemoteClient;
         /**
          * The packet that was received.
          */
-        packet: ServerboundPacket
+        packet: ServerboundPacket;
     };
     /**
      * Emitted when a remote client is disconnected.
@@ -59,15 +57,15 @@ export interface SkeldjsServerEvents extends BaseSkeldjsServerEvents {
         /**
          * The remote client that was disconected.
          */
-        client: RemoteClient,
+        client: RemoteClient;
         /**
          * The reason for why the remote client was disconnected.
          */
-        reason: DisconnectReason,
+        reason: DisconnectReason;
         /**
          * The message for why the remote client was disconncted if the reason is custom.
          */
-        message?: string
+        message?: string;
     };
 }
 
@@ -153,7 +151,12 @@ export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
                 this.off("disconnect", onDisconnect);
             };
 
-            function onPacket(ev: EventContext<{ client: RemoteClient, packet: ServerboundPacket }>) {
+            function onPacket(
+                ev: EventContext<{
+                    client: RemoteClient;
+                    packet: ServerboundPacket;
+                }>
+            ) {
                 if (ev.data.client !== from) return;
 
                 if (Array.isArray(filter)) {

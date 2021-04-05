@@ -1,15 +1,15 @@
 import {
-    Airship,
+    AirshipStatus,
     AprilShipStatus,
     CustomNetworkTransform,
     GameData,
-    Headquarters,
+    MiraShipStatus,
     LobbyBehaviour,
     MeetingHud,
-    PlanetMap,
+    PolusShipStatus,
     PlayerControl,
     PlayerPhysics,
-    ShipStatus,
+    SkeldShipStatus,
     VoteBanSystem,
 } from "./component";
 
@@ -27,13 +27,13 @@ export const SpawnPrefabs: {
         data?: HazelBuffer | any
     ): Networkable;
 }[][] = [
-    [ShipStatus],
+    [SkeldShipStatus],
     [MeetingHud],
     [LobbyBehaviour],
     [GameData, VoteBanSystem],
     [PlayerControl, PlayerPhysics, CustomNetworkTransform],
-    [Headquarters],
-    [PlanetMap],
+    [MiraShipStatus],
+    [PolusShipStatus],
     [AprilShipStatus],
-    [Airship],
+    [AirshipStatus],
 ];

@@ -7,6 +7,7 @@ import { MessageTag, RpcTag, SpawnID } from "@skeldjs/constant";
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
 import { Hostable } from "../Hostable";
+import { NetworkUtils } from "../utils/net";
 
 export interface CustomNetworkTransformData {
     seqId: number;
@@ -44,7 +45,10 @@ export interface CustomNetworkTransformEvents extends NetworkableEvents {
  *
  * See {@link CustomNetworkTransformEvents} for events to listen to.
  */
-export class CustomNetworkTransform extends Networkable<CustomNetworkTransformData, CustomNetworkTransformEvents> {
+export class CustomNetworkTransform extends Networkable<
+    CustomNetworkTransformData,
+    CustomNetworkTransformEvents
+> {
     static type = SpawnID.Player as const;
     type = SpawnID.Player as const;
 
@@ -88,7 +92,7 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformDa
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
         const newSeqId = reader.uint16();
 
-        if (!CustomNetworkTransform.seqIdGreaterThan(newSeqId, this.seqId)) {
+        if (!NetworkUtils.seqIdGreaterThan(newSeqId, this.seqId)) {
             return;
         }
 
@@ -122,7 +126,7 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformDa
         switch (message.rpcid) {
             case RpcTag.SnapTo:
                 if (
-                    CustomNetworkTransform.seqIdGreaterThan(
+                    NetworkUtils.seqIdGreaterThan(
                         message.seqId,
                         this.seqId
                     )
@@ -146,13 +150,13 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformDa
      * @param position The position to move towards.
      * @param velocity The velocity to display moving at.
      * @example
-	 *```typescript
+     *```typescript
      * // Follow the host
      * host.transform.on("player.move", ev => {
      *   player.transform.move(ev.data.position);
      * });
      * ```
-	 */
+     */
     async move(position: Vector2, velocity: Vector2 = { x: 0, y: 0 }) {
         this.seqId += 1;
 
@@ -194,13 +198,13 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformDa
      * Instantly snap to a position (no lerping).
      * @param position The position to snap to.
      * @example
-	 *```typescript
+     *```typescript
      * // Instantly teleport to wherever the host moves.
      * host.transform.on("player.move", ev => {
      *   player.transform.snapTo(ev.data.position);
      * });
      * ```
-	 */
+     */
     async snapTo(position: Vector2) {
         this.seqId += 1;
 
@@ -227,28 +231,5 @@ export class CustomNetworkTransform extends Networkable<CustomNetworkTransformDa
                 y: this.position.y,
             },
         });
-    }
-
-    static threshold = 2 ** 15 - 1;
-
-    /**
-     * Check whether a given 16 bit sequence ID is greater than another.
-     * @param newSid The new sequence ID.
-     * @param oldSid The older sequence ID.
-     */
-    static seqIdGreaterThan(newSid: number, oldSid: number) {
-        if (typeof oldSid !== "number") return true;
-
-        let margin = oldSid - CustomNetworkTransform.threshold;
-
-        if (margin > 2 ** 16 - 1) {
-            margin -= 2 ** 16;
-        }
-
-        if (oldSid < margin) {
-            return newSid > oldSid && newSid <= margin;
-        }
-
-        return newSid > oldSid || newSid <= margin;
     }
 }

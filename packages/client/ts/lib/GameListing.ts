@@ -5,7 +5,6 @@ import { SkeldjsClient } from "./client";
  * Represents a game listing when searching for games.
  */
 export class GameListing {
-
     /**
      * @param client The client that instantiated this object.
      * @param ip The IP of the server that the room is hosted on.

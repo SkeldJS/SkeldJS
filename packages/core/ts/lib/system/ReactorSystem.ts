@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
-import { BaseShipStatus } from "../component";
+import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { BaseSystemStatusEvents } from "./events";
@@ -20,7 +20,10 @@ export interface ReactorSystemEvents extends BaseSystemStatusEvents {}
  * See {@link ReactorSystemEvents} for events to listen to.
  */
 
-export class ReactorSystem extends SystemStatus<ReactorSystemData, ReactorSystemEvents> {
+export class ReactorSystem extends SystemStatus<
+    ReactorSystemData,
+    ReactorSystemEvents
+> {
     static systemType = SystemType.Reactor as const;
     systemType = SystemType.Reactor as const;
 
@@ -34,7 +37,7 @@ export class ReactorSystem extends SystemStatus<ReactorSystemData, ReactorSystem
      */
     completed: Set<number>;
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer | ReactorSystemData) {
+    constructor(ship: InnerShipStatus, data?: HazelBuffer | ReactorSystemData) {
         super(ship, data);
     }
 

@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
-import { BaseShipStatus } from "../component";
+import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { BaseSystemStatusEvents } from "./events";
@@ -13,13 +13,15 @@ export interface HudOverrideSystemData {
 
 export interface HudOverrideSystemEvents extends BaseSystemStatusEvents {}
 
-
 /**
  * Represents a system responsible for handling communication sabotages on The Skeld and Polus.
  *
  * See {@link HudOverrideSystemEvents} for events to listen to.
  */
-export class HudOverrideSystem extends SystemStatus<HudOverrideSystemData, HudOverrideSystemEvents> {
+export class HudOverrideSystem extends SystemStatus<
+    HudOverrideSystemData,
+    HudOverrideSystemEvents
+> {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
@@ -33,7 +35,7 @@ export class HudOverrideSystem extends SystemStatus<HudOverrideSystemData, HudOv
     }
 
     constructor(
-        ship: BaseShipStatus,
+        ship: InnerShipStatus,
         data?: HazelBuffer | HudOverrideSystemData
     ) {
         super(ship, data);
