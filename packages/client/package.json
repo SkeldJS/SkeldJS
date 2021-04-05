@@ -12,7 +12,6 @@
     "@skeldjs/constant": "^2.6.2",
     "@skeldjs/core": "^2.6.2",
     "@skeldjs/data": "^2.6.2",
-    "@skeldjs/dtls": "^2.6.2",
     "@skeldjs/events": "^2.6.2",
     "@skeldjs/protocol": "^2.6.2",
     "@skeldjs/util": "^2.6.2"
