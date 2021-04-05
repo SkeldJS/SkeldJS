@@ -7,7 +7,7 @@ import * as skeldjs from "..";
     await client.connect("EU", "weakeyes");
 
     console.log("Joining game..");
-    await client.joinGame("LOMUVF");
+    await client.joinGame("COTSBF");
 
     console.log("Joined game.");
 })();
