@@ -1,6 +1,6 @@
 import { TMPNode } from "./builder";
 
-export function toHTML(elem: TMPNode|TMPNode[]) {
+export function toHTML(elem: TMPNode | TMPNode[]) {
     if (typeof elem === "string") {
         return "<span>" + elem + "</span>";
     }
@@ -15,7 +15,7 @@ export function toHTML(elem: TMPNode|TMPNode[]) {
     }
 
     if (elem.tagName === "doc") {
-        out += "<div style=\"width:100%;height:100%;\">";
+        out += '<div style="width:100%;height:100%;">';
         out += toHTML(elem.children);
         out += "</div>";
     } else if (elem.tagName === "align") {
@@ -23,7 +23,9 @@ export function toHTML(elem: TMPNode|TMPNode[]) {
         out += toHTML(elem.children);
         out += "</div>";
     } else if (elem.tagName === "alpha") {
-        out += `<div style="display:inline-block;opacity:${parseInt(elem.attributes.alpha as string, 16) / 255};">`;
+        out += `<div style="display:inline-block;opacity:${
+            parseInt(elem.attributes.alpha as string, 16) / 255
+        };">`;
         out += toHTML(elem.children);
         out += "</div>";
     } else if (elem.tagName === "color") {

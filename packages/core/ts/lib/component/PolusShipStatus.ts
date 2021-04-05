@@ -1,7 +1,7 @@
 import { SpawnID, SystemType } from "@skeldjs/constant";
 import { HazelBuffer } from "@skeldjs/util";
 
-import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus";
+import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
 import { Hostable } from "../Hostable";
 
@@ -15,13 +15,14 @@ import {
     DoorsSystem,
     SecurityCameraSystem,
 } from "../system";
+import { Door } from "../misc/Door";
 
 /**
  * Represents a room object for the Polus map.
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class PlanetMap extends BaseShipStatus {
+export class PolusShipStatus extends InnerShipStatus {
     static type = SpawnID.PlanetMap as const;
     type = SpawnID.PlanetMap as const;
 
@@ -66,20 +67,7 @@ export class PlanetMap extends BaseShipStatus {
                 sabotaged: false,
             }),
             [SystemType.Doors]: new DoorsSystem(this, {
-                doors: [
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true
-                ],
+                doors: [],
                 cooldowns: new Map(),
             }),
             [SystemType.Sabotage]: new SabotageSystem(this, {
@@ -98,5 +86,21 @@ export class PlanetMap extends BaseShipStatus {
                 completed: new Set(),
             }),
         };
+
+        const doorsystem = this.systems[SystemType.Doors];
+        doorsystem.doors = [
+            new Door(doorsystem, 0, true),
+            new Door(doorsystem, 1, true),
+            new Door(doorsystem, 2, true),
+            new Door(doorsystem, 3, true),
+            new Door(doorsystem, 4, true),
+            new Door(doorsystem, 5, true),
+            new Door(doorsystem, 6, true),
+            new Door(doorsystem, 7, true),
+            new Door(doorsystem, 8, true),
+            new Door(doorsystem, 9, true),
+            new Door(doorsystem, 10, true),
+            new Door(doorsystem, 11, true),
+        ];
     }
 }

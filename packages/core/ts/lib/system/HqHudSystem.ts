@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
-import { BaseShipStatus } from "../component";
+import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { BaseSystemStatusEvents } from "./events";
@@ -33,7 +33,7 @@ export interface HqHudSystemEvents extends BaseSystemStatusEvents {
         /**
          * The ID of the console that was opened.
          */
-        consoleId: number
+        consoleId: number;
     };
     /**
      * Emitted when a Mira HQ communication console is closed.
@@ -46,7 +46,7 @@ export interface HqHudSystemEvents extends BaseSystemStatusEvents {
         /**
          * The ID of the console that was closed.
          */
-        consoleId: number
+        consoleId: number;
     };
     /**
      * Emitted when a Mira HQ communication console is complete.
@@ -59,7 +59,7 @@ export interface HqHudSystemEvents extends BaseSystemStatusEvents {
         /**
          * The ID of the console that was completed.
          */
-        consoleId: number
+        consoleId: number;
     };
 }
 
@@ -75,7 +75,10 @@ export enum HqHudSystemRepairTag {
  *
  * See {@link HqHudSystemEvents} for events to listen to.
  */
-export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents> {
+export class HqHudSystem extends SystemStatus<
+    HqHudSystemData,
+    HqHudSystemEvents
+> {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
@@ -98,7 +101,7 @@ export class HqHudSystem extends SystemStatus<HqHudSystemData, HqHudSystemEvents
         return this.completed.size < 2;
     }
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer | HqHudSystemData) {
+    constructor(ship: InnerShipStatus, data?: HazelBuffer | HqHudSystemData) {
         super(ship, data);
     }
 

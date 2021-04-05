@@ -15,19 +15,17 @@ type NetworkableConstructor<T> = {
     classname: string;
 };
 
-interface HeritableEvents extends PropagatedEvents<
-    NetworkableEvents,
-    { component: Networkable }
-> {}
+interface HeritableEvents
+    extends PropagatedEvents<NetworkableEvents, { component: Networkable }> {}
 
 /**
  * Represents a basic identifiable entity with components.
  *
  * See {@link HeritableEvents} for events to listen to.
  */
-export class Heritable<
-    T extends Record<string, any> = {}
-> extends EventEmitter<T & HeritableEvents> {
+export class Heritable<T extends Record<string, any> = {}> extends EventEmitter<
+    T & HeritableEvents
+> {
     /**
      * The room that this object belongs to.
      */
@@ -68,11 +66,14 @@ export class Heritable<
      * @param component The component class to get.
      */
     getComponent<T>(
-        component: NetworkableConstructor<T> | NetworkableConstructor<T>[] | number
+        component:
+            | NetworkableConstructor<T>
+            | NetworkableConstructor<T>[]
+            | number
     ): T {
         if (typeof component == "number") {
             return (this.components.find(
-                com => com && com.netid === component
+                (com) => com && com.netid === component
             ) as unknown) as T;
         }
 
@@ -82,7 +83,7 @@ export class Heritable<
             if (Array.isArray(component)) {
                 if (
                     c &&
-                    component.some(com => c.classname === com.classname)
+                    component.some((com) => c.classname === com.classname)
                 ) {
                     return (c as unknown) as T;
                 }

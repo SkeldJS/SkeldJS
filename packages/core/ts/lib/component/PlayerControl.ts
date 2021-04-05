@@ -11,11 +11,16 @@ import {
     HatID,
     ChatNoteType,
     TaskState,
+    SystemType,
 } from "@skeldjs/constant";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
+import {
+    MovingPlatformSide,
+    MovingPlatformSystem,
+} from "../system/MovingPlatformSystem";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -138,7 +143,10 @@ export interface PlayerControlEvents extends NetworkableEvents {
  *
  * See {@link PlayerControlEvents} for events to listen to.
  */
-export class PlayerControl extends Networkable<PlayerControlData, PlayerControlEvents> {
+export class PlayerControl extends Networkable<
+    PlayerControlData,
+    PlayerControlEvents
+> {
     static type = SpawnID.Player as const;
     type = SpawnID.Player as const;
 
@@ -284,6 +292,9 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
             case RpcTag.SetStartCounter:
                 this._setStartCounter(message.time);
                 break;
+            case RpcTag.UsePlatform:
+                this._usePlatform();
+                break;
         }
     }
 
@@ -291,13 +302,13 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Ask the host to check a name and modify it if required, e.g. appending numbers to the end).
      * @param name The name to check.
      * @example
-	 *```typescript
+     *```typescript
      * // Set your name when you spawn.
      * client.me.on("player.spawn", ev => {
      *   player.control.checkName("weakeyes");
      * });
      * ```
-	 */
+     */
     async checkName(name: string) {
         await this.room.broadcast(
             [
@@ -317,13 +328,13 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Ask the host to check a colour and change it if required, e.g. changing it if it's taken.
      * @param color The colour to check.
      * @example
-	 *```typescript
+     *```typescript
      * // Set your colour when you spawn.
      * client.me.on("player.spawn", ev => {
      *   player.control.checkColour(ColorID.Blue);
      * });
      * ```
-	 */
+     */
     async checkColor(color: ColorID) {
         await this.room.broadcast(
             [
@@ -355,13 +366,13 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Mark a task as complete.
      * @param taskIdx The index of the player's tasks to mark complete.
      * @example
-	 *```typescript
+     *```typescript
      * // Complete all of a player's tasks.
      * for (let i = 0; i < player.data.tasks.length; i++) {
      *   player.control.completeTask(i);
      * }
      * ```
-	 */
+     */
     completeTask(taskIdx: number) {
         this._completeTask(taskIdx);
 
@@ -385,12 +396,12 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Murder a player as the Impostor.
      * @param victim The victim to murder.
      * @example
-	 *```typescript
+     *```typescript
      * if (client.me.data.impostor) {
      *   client.me.murder(player)
      * }
      * ```
-	 */
+     */
     murder(victim: PlayerDataResolvable) {
         const res_victim = this.room.resolvePlayer(victim);
 
@@ -416,13 +427,13 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Force set the name of the player.
      * @param name The name to set.
      * @example
-	 *```typescript
+     *```typescript
      * // Set your name when you spawn.
      * client.me.on("player.spawn", ev => {
      *   player.control.setName("weakeyes");
      * });
      * ```
-	 */
+     */
     setName(name: string) {
         this._setName(name);
 
@@ -448,13 +459,13 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Force set the colour of the player.
      * @param color The colour to set.
      * @example
-	 *```typescript
+     *```typescript
      * // Set your colour when you spawn.
      * client.me.on("player.spawn", ev => {
      *   player.control.setColor(ColorID.Blue);
      * });
      * ```
-	 */
+     */
     setColor(color: ColorID) {
         this._setColor(color);
 
@@ -480,10 +491,10 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Set the hat of the player.
      * @param hat The hat to set.
      * @example
-	 *```typescript
+     *```typescript
      * player.control.setHat(HatID.Fez);
      * ```
-	 */
+     */
     setHat(hat: HatID) {
         this._setHat(hat);
 
@@ -507,10 +518,10 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Set the skin of the player.
      * @param skin The skin to set.
      * @example
-	 *```typescript
+     *```typescript
      * player.control.setSkin(SkinID.Miner);
      * ```
-	 */
+     */
     setSkin(skin: SkinID) {
         this._setSkin(skin);
 
@@ -534,10 +545,10 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Set the pet of the player.
      * @param pet The pet to set.
      * @example
-	 *```typescript
+     *```typescript
      * player.control.setPet(PetID.Robot);
      * ```
-	 */
+     */
     setPet(pet: PetID) {
         this._setPet(pet);
 
@@ -558,10 +569,10 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * @see {TMPElement}
      * @param message The message to send.
      * @example
-	 *```typescript
+     *```typescript
      * player.control.chat("Hello!");
      * ```
-	 */
+     */
     chat(message: string) {
         this._chat(message);
 
@@ -577,10 +588,10 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Send a chat note, currently only used for the "X voted for" message in chat.
      * @param type The type of chat note to send.
      * @example
-	 *```typescript
+     *```typescript
      * player.control.sendChatNote(ChatNoteType.DidVote);
      * ```
-	 */
+     */
     sendChatNote(type: ChatNoteType) {
         this.room.stream.push({
             tag: MessageTag.RPC,
@@ -601,13 +612,13 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Sync or update room settings with every client.
      * @param update_settings The settings to sync or update (Can be partial).
      * @example
-	 *```typescript
+     *```typescript
      * player.control.syncSettings({
      *   crewmateVision: 1.25,
      *   votingTime: 60
      * });
      * ```
-	 */
+     */
     syncSettings(update_settings: Partial<GameOptions> = this.room.settings) {
         const settings = {
             ...this.room.settings,
@@ -634,13 +645,13 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * Set the "Game starting in X" counter.
      * @param counter The counter to set to.
      * @example
-	 *```typescript
+     *```typescript
      * for (let i = 5; i > 0; i--) {
      *   player.control.setStartCounter(i);
      *   await sleep(1000);
      * }
      * ```
-	 */
+     */
     setStartCounter(counter: number) {
         this._setStartCounter(counter);
 
@@ -705,14 +716,23 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * @param body Either the body to report or whether it was an emergency.
      * @see {PlayerControl.reportDeadBody} If the player is not the host.
      * @example
-	 *```typescript
-     * // Report a dead body.
-     * client.me.control.startMeeting(player);
-     *
-     * // Call an emergency meeting.
-     * client.me.control.startMeeting("emergency");
+     * ```typescript
+     * // Start an emergency meeting.
+     * if (client.amhost) {
+     *   client.me.control.startMeeting("emergency");
+     * } else {
+     *   client.me.control.reportDeadBody("emergency");
+     * }
      * ```
-	 */
+     * ```typescript
+     * // Start an meeting reporting another player.
+     * if (client.amhost) {
+     *   client.me.control.startMeeting(player);
+     * } else {
+     *   client.me.control.reportDeadBody(player);
+     * }
+     * ```
+     */
     startMeeting(body: PlayerDataResolvable | "emergency") {
         const resolved =
             body === "emergency" ? null : this.room.resolvePlayer(body);
@@ -732,14 +752,23 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
      * @param body Either the body to report or whether it was an emergency.
      * @see {PlayerControl.startMeeting} If the player is the host and this can happen immediately.
      * @example
-	 *```typescript
-     * // Report a dead body.
-     * client.me.control.startMeeting(player);
-     *
-     * // Call an emergency meeting.
-     * client.me.control.startMeeting("emergency");
+     * ```typescript
+     * // Start an emergency meeting.
+     * if (client.amhost) {
+     *   client.me.control.startMeeting("emergency");
+     * } else {
+     *   client.me.control.reportDeadBody("emergency");
+     * }
      * ```
-	 */
+     * ```typescript
+     * // Start an meeting reporting another player.
+     * if (client.amhost) {
+     *   client.me.control.startMeeting(player);
+     * } else {
+     *   client.me.control.reportDeadBody(player);
+     * }
+     * ```
+     */
     reportDeadBody(body: PlayerDataResolvable | "emergency") {
         const resolved =
             body === "emergency" ? null : this.room.resolvePlayer(body);
@@ -758,5 +787,31 @@ export class PlayerControl extends Networkable<PlayerControlData, PlayerControlE
                 this.room.host
             );
         }
+    }
+
+    private _usePlatform() {
+        const airship = this.room.shipstatus;
+
+        if (airship.type === SpawnID.Airship) {
+            const movingPlatform = airship.systems[
+                SystemType.GapRoom
+            ] as MovingPlatformSystem;
+
+            if (movingPlatform) {
+                movingPlatform.setTarget(
+                    this.owner,
+                    movingPlatform.side === MovingPlatformSide.Left
+                        ? MovingPlatformSide.Right
+                        : MovingPlatformSide.Left
+                );
+            }
+        }
+    }
+
+    /**
+     * Use the moving platform on the map. Currently only available for Airship.
+     */
+    usePlatform() {
+        this._usePlatform();
     }
 }

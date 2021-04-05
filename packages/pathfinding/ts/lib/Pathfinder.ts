@@ -57,7 +57,7 @@ interface SkeldjsPathfinderEvents {
          * The position the engine intends to move to.
          */
         position: Vector2;
-    }
+    };
     /**
      * Emitted when the engine recalculates a path.
      */
@@ -273,10 +273,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         this.go(coords.position);
     }
 
-    private _handleMove(ev: EventContext<{
-        component: CustomNetworkTransform;
-        position: Vector2;
-    }>) {
+    private _handleMove(
+        ev: EventContext<{
+            component: CustomNetworkTransform;
+            position: Vector2;
+        }>
+    ) {
         if (ev.data.component.owner === this.following) {
             this.destination = {
                 x: ev.data.position.x,

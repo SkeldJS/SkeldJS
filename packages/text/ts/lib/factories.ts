@@ -3,7 +3,7 @@ import { TMPElement, TMPNode } from "./builder";
 export enum Align {
     Left = "left",
     Center = "center",
-    Right = "right"
+    Right = "right",
 }
 
 const hex = (h: number) => h.toString(16).padStart(2, "0");
@@ -33,19 +33,22 @@ export function align(align: Align, ...content: TMPNode[]) {
 /**
  * Create an alpha modulator element.
  */
-export function alpha(alpha: string|number, ...content: TMPNode[]) {
+export function alpha(alpha: string | number, ...content: TMPNode[]) {
     return new TMPElement("alpha", { alpha }, content);
 }
 
 /**
  * Create a colour element.
  */
-export function color(color: string|[number, number, number, number], ...content: TMPNode[]) {
+export function color(
+    color: string | [number, number, number, number],
+    ...content: TMPNode[]
+) {
     if (typeof color === "string") {
         return new TMPElement("color", { color }, content);
     }
 
-    const [ r, g, b, a ] = color;
+    const [r, g, b, a] = color;
     return this.color(hex(r) + hex(g) + hex(b) + hex(a), ...content);
 }
 
@@ -70,7 +73,7 @@ export { italics as i };
 /**
  * Create a spacing element.
  */
-export function spacing(spacing: string|number, ...content: TMPNode[]) {
+export function spacing(spacing: string | number, ...content: TMPNode[]) {
     return new TMPElement("cspace", { cspace: spacing }, content);
 }
 
@@ -86,21 +89,21 @@ export function font(face: string, ...content: TMPNode[]) {
 /**
  * Create an indentation element.
  */
-export function indent(indent: string|number, ...content: TMPNode[]) {
+export function indent(indent: string | number, ...content: TMPNode[]) {
     return new TMPElement("indent", { indent }, content);
 }
 
 /**
  * Create a line height element.
  */
-export function lnheight(height: string|number, ...content: TMPNode[]) {
-    return new TMPElement("line-height", { "lineheight": height }, content);
+export function lnheight(height: string | number, ...content: TMPNode[]) {
+    return new TMPElement("line-height", { lineheight: height }, content);
 }
 
 /**
  * Create a line indent element.
  */
-export function lnindent(indent: string|number, ...content: TMPNode[]) {
+export function lnindent(indent: string | number, ...content: TMPNode[]) {
     return new TMPElement("line-indent", { "line-indent": indent }, content);
 }
 
@@ -135,19 +138,22 @@ export function smallcaps(...content: TMPNode[]) {
 /**
  * Create a margin element.
  */
-export function margin(margin: string|number, ...content: TMPNode[]) {
+export function margin(margin: string | number, ...content: TMPNode[]) {
     return new TMPElement("margin", { margin }, content);
 }
 
 /**
  * Create a highlight element.
  */
-export function highlight(color: string|[number, number, number, number], ...content: TMPNode[]) {
+export function highlight(
+    color: string | [number, number, number, number],
+    ...content: TMPNode[]
+) {
     if (typeof color === "string") {
         return new TMPElement("mark", { mark: color }, content);
     }
 
-    const [ r, g, b, a ] = color;
+    const [r, g, b, a] = color;
     return highlight(hex(r) + hex(g) + hex(b) + hex(a), ...content);
 }
 
@@ -156,7 +162,7 @@ export { highlight as mark };
 /**
  * Create a monospace element.
  */
-export function monospace(spacing: string|number, ...content: TMPNode[]) {
+export function monospace(spacing: string | number, ...content: TMPNode[]) {
     return new TMPElement("mspace", { mspace: spacing }, content);
 }
 
@@ -179,21 +185,21 @@ export function nextpage() {
 /**
  * Create a position element.
  */
-export function pos(x: string|number, ...content: TMPNode[]) {
+export function pos(x: string | number, ...content: TMPNode[]) {
     return new TMPElement("pos", { pos: x }, content);
 }
 
 /**
  * Create a font size element.
  */
-export function size(size: string|number, ...content: TMPNode[]) {
+export function size(size: string | number, ...content: TMPNode[]) {
     return new TMPElement("size", { size }, content);
 }
 
 /**
  * Create a space element.
  */
-export function space(space: string|number) {
+export function space(space: string | number) {
     return new TMPElement("space", { space });
 }
 
@@ -204,7 +210,7 @@ export function strikethrough(...content: TMPNode[]) {
     return new TMPElement("s", {}, content);
 }
 
-export { strikethrough as strike, strikethrough as st, strikethrough as s};
+export { strikethrough as strike, strikethrough as st, strikethrough as s };
 
 /**
  * Create an underline element.
@@ -236,13 +242,13 @@ export { superscript as sup };
 /**
  * Create a vertical offset element.
  */
-export function voffset(offset: string|number, ...content: TMPNode[]) {
+export function voffset(offset: string | number, ...content: TMPNode[]) {
     return new TMPElement("voffset", { voffset: offset }, content);
 }
 
 /**
  * Create a width element.
  */
-export function width(width: string|number, ...content: TMPNode[]) {
+export function width(width: string | number, ...content: TMPNode[]) {
     return new TMPElement("width", { width }, content);
 }

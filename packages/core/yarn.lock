@@ -2,41 +2,7 @@
 # yarn lockfile v1
 
 
-"@skeldjs/constant@^2.3.13":
-  version "2.3.13"
-  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.13.tgz#ec551838f8ceb3fa2170732e8c38d1c42fa91be1"
-  integrity sha512-c0DLvejN0oPnB9Y6PcAg/DbogYjGoGNcxQBF7NcHax44sdyzia8dNgW2sKH6ev9iAHmfaFxzP3Xtf7DgUVT/RQ==
-  dependencies:
-    "@skeldjs/util" "^2.3.13"
-
-"@skeldjs/data@^2.3.13":
-  version "2.3.13"
-  resolved "https://registry.yarnpkg.com/@skeldjs/data/-/data-2.3.13.tgz#800cbce81bf84cafc8857dcc5a6391551d34a908"
-  integrity sha512-BbBdcpO21sJII4JuDxcSFXqSuMzLzXCErPZHxXyuaEzm3XLd3NjH2CgSyZDBVFjCDH7XEpvG0OT/4vEHO1zPdw==
-  dependencies:
-    "@skeldjs/constant" "^2.3.13"
-    "@skeldjs/util" "^2.3.13"
-
-"@skeldjs/protocol@^2.3.13":
-  version "2.3.13"
-  resolved "https://registry.yarnpkg.com/@skeldjs/protocol/-/protocol-2.3.13.tgz#0067393b60cdbcf88078db73ee3d2e07883eeb2e"
-  integrity sha512-k4hm9TSlhYFAG7cCNxw7Uzucy6oglv3HbDP5J+EW2AB80WWSWCl3O8/gxP90xh7unGnH38wEpqFlgoImCIHIVQ==
-  dependencies:
-    "@skeldjs/constant" "^2.3.13"
-    "@skeldjs/types" "^2.2.7"
-    "@skeldjs/util" "^2.3.13"
-
 "@skeldjs/types@^2.2.7":
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.2.7.tgz#2070a2d3205099240df9e23edc1a483a698b06d2"
-  integrity sha512-SNS3DiU2eoKMbU1fyZvQ57kngv+sCI7ziBmEVeRLTzK+10gN9Z9tuD1dHY+rlHhFnbttaJq7NVCyzkdDbvrjyQ==
-
-"@skeldjs/util@^2.3.13":
-  version "2.3.13"
-  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.3.13.tgz#a80769e2a3bc579f7d3e58a26b87df50ed069193"
-  integrity sha512-uXayEctVetO42XDxqUOEhD9BTvl/pv6stWmLUfSyHFBhDrLuQB4bqYjiKLmi20YEWmYbkZD3rJl3k1yRJJFJhA==
-
-emittery@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/emittery/-/emittery-0.8.1.tgz#bb23cc86d03b30aa75a7f734819dee2e1ba70860"
-  integrity sha512-uDfvUjVrfGJJhymx/kz6prltenw1u7WrCg1oa94zYY8xxVpLLUu045LAT0dhDZdXG58/EpPL/5kA180fQ/qudg==
+  "integrity" "sha512-SNS3DiU2eoKMbU1fyZvQ57kngv+sCI7ziBmEVeRLTzK+10gN9Z9tuD1dHY+rlHhFnbttaJq7NVCyzkdDbvrjyQ=="
+  "resolved" "https://registry.npmjs.org/@skeldjs/types/-/types-2.2.7.tgz"
+  "version" "2.2.7"

@@ -1,7 +1,7 @@
 import { HazelBuffer } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
-import { BaseShipStatus } from "../component";
+import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { BaseSystemStatusEvents } from "./events";
@@ -27,7 +27,10 @@ export type SwitchSystemEvents = BaseSystemStatusEvents & {
  *
  * See {@link SwitchSystemEvents} for events to listen to.
  */
-export class SwitchSystem extends SystemStatus<SwitchSystemData, SwitchSystemEvents> {
+export class SwitchSystem extends SystemStatus<
+    SwitchSystemData,
+    SwitchSystemEvents
+> {
     static systemType = SystemType.Electrical as const;
     systemType = SystemType.Electrical as const;
 
@@ -50,7 +53,7 @@ export class SwitchSystem extends SystemStatus<SwitchSystemData, SwitchSystemEve
         return this.expected.some((val, i) => this.actual[i] !== val);
     }
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer | SwitchSystemData) {
+    constructor(ship: InnerShipStatus, data?: HazelBuffer | SwitchSystemData) {
         super(ship, data);
     }
 
@@ -93,13 +96,13 @@ export class SwitchSystem extends SystemStatus<SwitchSystemData, SwitchSystemEve
      * @param num The ID of the switch to flip.
      * @param value Whether the switch is flipped.
      * @example
-	 *```typescript
+     *```typescript
      * // Randomise each switch.
      * for (let i = 0; i < 5; i++) {
      *   electrical.setSwitch(i, Math.random() > 0.5);
      * }
      * ```
-	 */
+     */
     setSwitch(num: number, value: boolean) {
         if (this.actual[num] === value) return;
 
@@ -110,13 +113,13 @@ export class SwitchSystem extends SystemStatus<SwitchSystemData, SwitchSystemEve
      * Invert the position of a switch.
      * @param num The ID of the switch to invert.
      * @example
-	 *```typescript
+     *```typescript
      * // Invert the position of each switch.
      * for (let i = 0; i < 5; i++) {
      *   electrical.flip(i);
      * }
      * ```
-	 */
+     */
     flip(num: number) {
         this.repair(this.ship.room.me, num);
     }
@@ -126,11 +129,11 @@ export class SwitchSystem extends SystemStatus<SwitchSystemData, SwitchSystemEve
      * @param byte The byte to read from.
      * @returns An array of the value of each switch.
      * @example
-	 *```typescript
+     *```typescript
      * console.log(readSwitches(0x5));
      * // [ true, false, true, false, false ]
      * ```
-	 */
+     */
     static readSwitches(byte: number) {
         const vals: SwitchSetup = [false, false, false, false, false];
 
@@ -148,11 +151,11 @@ export class SwitchSystem extends SystemStatus<SwitchSystemData, SwitchSystemEve
      * @param switches An array of the value of each switch.
      * @returns The byte representation of the switches.
      * @example
-	 *```typescript
+     *```typescript
      * console.log(writeSwitches([ false, true, false, false, true ]));
      * // 0x12 (18)
      * ```
-	 */
+     */
     static writeSwitches(switches: SwitchSetup) {
         return (
             ~~switches[0] |

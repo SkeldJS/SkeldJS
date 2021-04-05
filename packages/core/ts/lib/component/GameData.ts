@@ -197,10 +197,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * @param resolvable The player to change the name of.
      * @param name The name to change to.
      * @example
-	 *```typescript
+     *```typescript
      * room.gamedata.setName(player, "weakeyes");
      * ```
-	 */
+     */
     setName(resolvable: PlayerIDResolvable, name: string) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -215,10 +215,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * @param resolvable The player to change the colour of.
      * @param color The colour to change to.
      * @example
-	 *```typescript
+     *```typescript
      * room.gamedata.setColor(player, ColorID.Blue);
      * ```
-	 */
+     */
     setColor(resolvable: PlayerIDResolvable, color: ColorID) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -233,10 +233,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * @param resolvable The player to change the hat of.
      * @param hat The hat to change to.
      * @example
-	 *```typescript
+     *```typescript
      * room.gamedata.setHat(player, HatID.TopHat);
      * ```
-	 */
+     */
     setHat(resolvable: PlayerIDResolvable, hat: HatID) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -251,10 +251,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * @param resolvable The player to change the skin of.
      * @param skin The skin to change to.
      * @example
-	 *```typescript
+     *```typescript
      * room.gamedata.setSkin(player, SkinID.Mechanic);
      * ```
-	 */
+     */
     setSkin(resolvable: PlayerIDResolvable, skin: SkinID) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -269,10 +269,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * @param resolvable The player to change the pet of.
      * @param skin The pet to change to.
      * @example
-	 *```typescript
+     *```typescript
      * room.gamedata.setPet(player, PetID.MiniCrewmate);
      * ```
-	 */
+     */
     setPet(resolvable: PlayerIDResolvable, pet: PetID) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -303,7 +303,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * @param resolvable The player to set the tasks of.
      * @param taskIds The tasks to set.
      * @example
-	 *```typescript
+     *```typescript
      * room.gamedata.setTasks(player, [
      *   TheSkeldTask.ReactorUnlockManifolds,
      *   TheSkeldTask.ElectricDownloadData,
@@ -311,7 +311,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      *   TheSkeldTask.NavigationDownloadData
      * ]);
      * ```
-	 */
+     */
     setTasks(resolvable: PlayerIDResolvable, taskIds: number[]) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -333,13 +333,13 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * @param resolvable The player of the tasks to mark complete.
      * @param taskIdx The index of the player's tasks to mark complete.
      * @example
-	 *```typescript
+     *```typescript
      * // Complete all of a player's tasks.
      * for (let i = 0; i < player.data.tasks.length; i++) {
      *   room.gamedata.completeTask(player, i);
      * }
      * ```
-	 */
+     */
     completeTask(resolvable: PlayerIDResolvable, taskIdx: number) {
         const player = this.resolvePlayerData(resolvable);
 
@@ -356,12 +356,12 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * Add a player to player data.
      * @param playerId The player ID of the player to add.
      * @example
-	 *```typescript
+     *```typescript
      * // Get an available player ID and add it to the gamedata.
      * const playerId = room.getAvailablePlayerID();
      * room.gamedata.add(playerId);
      * ```
-	 */
+     */
     add(playerId: number) {
         this.players.set(playerId, {
             playerId,

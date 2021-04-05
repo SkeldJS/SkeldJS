@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
-import { BaseShipStatus } from "../component";
+import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { BaseSystemStatusEvents } from "./events";
@@ -24,7 +24,7 @@ export interface LifeSuppSystemEvents extends BaseSystemStatusEvents {
         /**
          * The ID of the console that was completed.
          */
-        consoleId: number
+        consoleId: number;
     };
     /**
      * Emitted when the O2 consoles are cleared.
@@ -37,7 +37,10 @@ export interface LifeSuppSystemEvents extends BaseSystemStatusEvents {
  *
  * See {@link LifeSuppSystemEvents} for events to listen to.
  */
-export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSystemEvents> {
+export class LifeSuppSystem extends SystemStatus<
+    LifeSuppSystemData,
+    LifeSuppSystemEvents
+> {
     static systemType = SystemType.O2 as const;
     systemType = SystemType.O2 as const;
 
@@ -53,7 +56,10 @@ export class LifeSuppSystem extends SystemStatus<LifeSuppSystemData, LifeSuppSys
      */
     completed: Set<number>;
 
-    constructor(ship: BaseShipStatus, data?: HazelBuffer | LifeSuppSystemData) {
+    constructor(
+        ship: InnerShipStatus,
+        data?: HazelBuffer | LifeSuppSystemData
+    ) {
         super(ship, data);
 
         this.completed ||= new Set();

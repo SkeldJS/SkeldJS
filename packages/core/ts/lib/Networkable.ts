@@ -24,7 +24,7 @@ export interface NetworkableEvents {
  */
 export class Networkable<
     DataT = any,
-    T extends Record<string, any> = {},
+    T extends Record<string, any> = {}
 > extends EventEmitter<T & NetworkableEvents> {
     static type: SpawnID;
     /**

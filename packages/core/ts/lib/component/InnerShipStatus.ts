@@ -4,20 +4,7 @@ import { RpcTag, SpawnID, SystemType } from "@skeldjs/constant";
 
 import { RpcMessage } from "@skeldjs/protocol";
 
-import {
-    DeconSystem,
-    HudOverrideSystem,
-    LifeSuppSystem,
-    MedScanSystem,
-    SecurityCameraSystem,
-    HqHudSystem,
-    AutoDoorsSystem,
-    DoorsSystem,
-    SabotageSystem,
-    SwitchSystem,
-    ReactorSystem,
-    SystemStatus,
-} from "../system";
+import { SystemStatus } from "../system";
 
 import { SystemStatusEvents } from "../system/events";
 
@@ -25,19 +12,7 @@ import { Networkable } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
-type AllSystems = Partial<{
-    [SystemType.Reactor]: ReactorSystem;
-    [SystemType.Electrical]: SwitchSystem;
-    [SystemType.O2]: LifeSuppSystem;
-    [SystemType.MedBay]: MedScanSystem;
-    [SystemType.Security]: SecurityCameraSystem;
-    [SystemType.Communications]: HudOverrideSystem | HqHudSystem;
-    [SystemType.Doors]: AutoDoorsSystem | DoorsSystem;
-    [SystemType.Sabotage]: SabotageSystem;
-    [SystemType.Decontamination]: DeconSystem;
-    [SystemType.Decontamination2]: DeconSystem;
-    [SystemType.Laboratory]: ReactorSystem;
-}>;
+type AllSystems = Partial<Record<SystemType, SystemStatus>>;
 
 export interface ShipStatusData {
     systems: AllSystems;
@@ -51,15 +26,18 @@ export type ShipStatusType =
     | SpawnID.PlanetMap
     | SpawnID.AprilShipStatus
     | SpawnID.Airship;
-export type ShipStatusClassname =
 
+export type ShipStatusClassname =
     | "ShipStatus"
     | "Headquarters"
     | "PlanetMap"
     | "AprilShipStatus"
     | "Airship";
 
-export class BaseShipStatus extends Networkable<ShipStatusData, ShipStatusEvents> {
+export class InnerShipStatus extends Networkable<
+    ShipStatusData,
+    ShipStatusEvents
+> {
     static type: ShipStatusType;
     type: ShipStatusType;
 
@@ -85,55 +63,32 @@ export class BaseShipStatus extends Networkable<ShipStatusData, ShipStatusEvents
     Setup() {}
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        if (!this.systems)
-            this.Setup();
-        if (spawn) {
-            for (let i = 0; i < 32; i++) {
-                const system = this.systems[i] as SystemStatus;
+        if (!this.systems) this.Setup();
 
-                if (system) {
-                    system.Deserialize(reader, spawn);
-                }
-            }
-        } else {
-            const mask = reader.upacked();
+        while (reader.left) {
+            const [tag, mreader] = reader.message();
+            const system = this.systems[tag] as SystemStatus;
 
-            for (let i = 0; i < 32; i++) {
-                const system = this.systems[i] as SystemStatus;
-
-                if (system && mask & (1 << i)) {
-                    system.Deserialize(reader, spawn);
-                }
+            if (system) {
+                system.Deserialize(mreader, spawn);
             }
         }
     }
 
     /* eslint-disable-next-line */
     Serialize(writer: HazelBuffer, spawn: boolean = false) {
-        if (!this.systems)
-            this.Setup();
+        if (!this.systems) this.Setup();
         const systems = Object.values(this.systems);
-        if (spawn) {
-            for (let i = 0; i < systems.length; i++) {
-                const system = systems[i];
+        for (let i = 0; i < systems.length; i++) {
+            const system = systems[i];
 
+            if (system.dirty) {
+                writer.message(i);
                 system.Serialize(writer, spawn);
+                writer.end();
             }
-        } else {
-            let mask = this.dirtyBit;
-            const writer2 = HazelBuffer.alloc(0);
-            for (let i = 0; i < systems.length; i++) {
-                const system = systems[i];
-
-                if (this.dirtyBit & (1 << system.systemType)) {
-                    mask |= 1 << system.systemType;
-                    system.Serialize(writer2, spawn);
-                    system.dirty = false;
-                }
-            }
-            writer.upacked(mask);
-            writer.buf(writer2);
         }
+
         this.dirtyBit = 0;
         return true;
     }
@@ -152,8 +107,7 @@ export class BaseShipStatus extends Networkable<ShipStatusData, ShipStatusEvents
     }
 
     FixedUpdate(delta: number) {
-        if (!this.systems)
-            this.Setup();
+        if (!this.systems) this.Setup();
 
         const systems = Object.values(this.systems);
         for (let i = 0; i < systems.length; i++) {

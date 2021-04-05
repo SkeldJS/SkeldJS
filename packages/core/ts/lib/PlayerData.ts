@@ -14,8 +14,7 @@ import {
 import { Heritable } from "./Heritable";
 import { Hostable } from "./Hostable";
 
-type BasePlayerDataEvents =
-    PlayerControlEvents &
+type BasePlayerDataEvents = PlayerControlEvents &
     PlayerPhysicsEvents &
     CustomNetworkTransformEvents;
 

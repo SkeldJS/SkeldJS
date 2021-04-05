@@ -10,7 +10,6 @@
   "license": "GPL-3.0-only",
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "dependencies": {
-    "@skeldjs/constant": "^2.5.2",
-    "@skeldjs/util": "^2.5.2"
+    "@skeldjs/constant": "^2.5.2"
   }
 }

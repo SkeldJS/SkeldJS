@@ -2,7 +2,7 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
-import { BaseShipStatus } from "../component";
+import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { BaseSystemStatusEvents } from "./events";
@@ -37,7 +37,10 @@ export interface SecurityCameraSystemEvents extends BaseSystemStatusEvents {
  *
  * See {@link SecurityCameraSystemEvents} for events to listen to.
  */
-export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemData, SecurityCameraSystemEvents> {
+export class SecurityCameraSystem extends SystemStatus<
+    SecurityCameraSystemData,
+    SecurityCameraSystemEvents
+> {
     static systemType = SystemType.Security as const;
     systemType = SystemType.Security as const;
 
@@ -47,7 +50,7 @@ export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemData,
     players: Set<PlayerData>;
 
     constructor(
-        ship: BaseShipStatus,
+        ship: InnerShipStatus,
         data?: HazelBuffer | SecurityCameraSystemData
     ) {
         super(ship, data);
@@ -104,10 +107,10 @@ export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemData,
      * Add a player to the security cameras.
      * @param player The player to add.
      * @example
-	 *```typescript
+     *```typescript
      * security.addPlayer(client.me);
      * ```
-	 */
+     */
     addPlayer(player: PlayerData) {
         this.repair(player, 1);
     }
@@ -116,10 +119,10 @@ export class SecurityCameraSystem extends SystemStatus<SecurityCameraSystemData,
      * Remove a player from the security cameras.
      * @param player The player to remove.
      * @example
-	 *```typescript
+     *```typescript
      * security.removePlayer(client.me);
      * ```
-	 */
+     */
     removePlayer(player: PlayerData) {
         this.repair(player, 0);
     }

@@ -1,4 +1,14 @@
-import { AlterGameTag, DistanceID, GameEndReason, LanguageID, MapID, MessageTag, RpcTag, SpawnID, TaskBarUpdate } from "@skeldjs/constant";
+import {
+    AlterGameTag,
+    DistanceID,
+    GameEndReason,
+    LanguageID,
+    MapID,
+    MessageTag,
+    RpcTag,
+    SpawnID,
+    TaskBarUpdate,
+} from "@skeldjs/constant";
 import { GameOptions } from "@skeldjs/protocol";
 import { Code2Int, HazelBuffer, sleep } from "@skeldjs/util";
 import assert from "assert";
@@ -35,13 +45,13 @@ const defaultSettings = {
     confirmEjects: true,
     visualTasks: true,
     anonymousVotes: false,
-    taskbarUpdates: TaskBarUpdate.Always
+    taskbarUpdates: TaskBarUpdate.Always,
 } as GameOptions;
 
 describe("Hostable", () => {
     describe("Hostable#ctr", () => {
         it("Should instantiate an empty room with a fixed update cycle.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             assert.strictEqual(room.hostid, null);
 
@@ -58,7 +68,7 @@ describe("Hostable", () => {
 
     describe("Hostable#incr_netid", () => {
         it("Should increment the global netid counter every time it is read.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             assert.strictEqual(room.incr_netid, 1);
             assert.strictEqual(room.incr_netid, 2);
@@ -69,17 +79,17 @@ describe("Hostable", () => {
 
     describe("Hostable#me", () => {
         it("Should be null as there is no client.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             assert.strictEqual(room.me, null);
         });
     });
 
     describe("Hostable#host", () => {
-        it("Should get the host of the room.", () => {
-            const room = new Hostable;
+        it("Should get the host of the room.", async () => {
+            const room = new Hostable();
 
-            const player = room.handleJoin(1013);
+            const player = await room.handleJoin(1013);
             room.setHost(1013);
 
             assert.strictEqual(room.hostid, 1013);
@@ -89,7 +99,7 @@ describe("Hostable", () => {
 
     describe("Hostable#started", () => {
         it("Should be true if a game in currently playing.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             await room.startGame();
 
@@ -99,7 +109,7 @@ describe("Hostable", () => {
 
     describe("Hostable#destoyed", () => {
         it("Should be true if the room has been destroyed.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             room.destroy();
 
@@ -109,7 +119,7 @@ describe("Hostable", () => {
 
     describe("Hostable#amhost", () => {
         it("Should be false as there is no client.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             assert.ok(!room.amhost);
         });
@@ -117,7 +127,7 @@ describe("Hostable", () => {
 
     describe("Hostable#shipstatus", () => {
         it("Should retrieve any ShipStatus object in the room.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.ShipStatus, -2);
             const ship = object.components[0];
@@ -128,7 +138,7 @@ describe("Hostable", () => {
 
     describe("Hostable#meetinghud", () => {
         it("Should retrieve the current meeting hud object in the room.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.MeetingHud, -2);
             const meetinghud = object.components[0];
@@ -139,7 +149,7 @@ describe("Hostable", () => {
 
     describe("Hostable#lobbybehaviour", () => {
         it("Should retrieve the current lobby behaviour object in the room.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.LobbyBehaviour, -2);
             const lobbybehaviour = object.components[0];
@@ -150,7 +160,7 @@ describe("Hostable", () => {
 
     describe("Hostable#gamedata", () => {
         it("Should retrieve the current gamedata object in the room.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.GameData, -2);
             const gamedata = object.components[0];
@@ -161,7 +171,7 @@ describe("Hostable", () => {
 
     describe("Hostable#votebansystem", () => {
         it("Should retrieve the current vote ban system object in the room.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.GameData, -2);
             const votebansystem = object.components[1];
@@ -172,16 +182,19 @@ describe("Hostable", () => {
 
     describe("Hostable#FixedUpdate", () => {
         it("Should flush the message stream.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
-            room.stream.push({
-                tag: MessageTag.Despawn,
-                netid: 5
-            }, {
-                tag: MessageTag.SceneChange,
-                clientid: 1013,
-                scene: "OnlineGame"
-            });
+            room.stream.push(
+                {
+                    tag: MessageTag.Despawn,
+                    netid: 5,
+                },
+                {
+                    tag: MessageTag.SceneChange,
+                    clientid: 1013,
+                    scene: "OnlineGame",
+                }
+            );
 
             assert.strictEqual(room.stream.length, 2);
 
@@ -192,9 +205,9 @@ describe("Hostable", () => {
     });
 
     describe("Hostable#resolvePlayer", async () => {
-        const room = new Hostable;
+        const room = new Hostable();
 
-        const player = room.handleJoin(1013);
+        const player = await room.handleJoin(1013);
         await room.spawnPrefab(SpawnID.Player, player);
 
         it("Should resolve a client ID to a player data object.", () => {
@@ -223,14 +236,17 @@ describe("Hostable", () => {
     });
 
     describe("Hostable#resolvePlayerId", async () => {
-        const room = new Hostable;
+        const room = new Hostable();
 
-        const player = room.handleJoin(1013);
+        const player = await room.handleJoin(1013);
         await room.spawnPrefab(SpawnID.GameData, -2);
         await room.spawnPrefab(SpawnID.Player, player);
 
         it("Should resolve a player ID to a player ID.", () => {
-            assert.strictEqual(room.resolvePlayerId(player.playerId), player.playerId);
+            assert.strictEqual(
+                room.resolvePlayerId(player.playerId),
+                player.playerId
+            );
         });
 
         it("Should resolve a player data object to a player ID.", () => {
@@ -238,12 +254,18 @@ describe("Hostable", () => {
         });
 
         it("Should resolve a player control component to a player ID.", () => {
-            assert.strictEqual(room.resolvePlayerId(player.control), player.playerId);
+            assert.strictEqual(
+                room.resolvePlayerId(player.control),
+                player.playerId
+            );
         });
 
         it("Should resolve player game data to a player ID.", () => {
             const playerData = room.gamedata.players.get(player.playerId);
-            assert.strictEqual(room.resolvePlayerId(playerData), player.playerId);
+            assert.strictEqual(
+                room.resolvePlayerId(playerData),
+                player.playerId
+            );
         });
 
         it("Should resolve a player vote state to a player ID.", () => {
@@ -254,9 +276,9 @@ describe("Hostable", () => {
     });
 
     describe("Hostable#resolvePlayerClientID", async () => {
-        const room = new Hostable;
+        const room = new Hostable();
 
-        const player = room.handleJoin(1013);
+        const player = await room.handleJoin(1013);
         await room.spawnPrefab(SpawnID.Player, player);
 
         it("Should resolve a client ID to a client ID.", () => {
@@ -268,15 +290,24 @@ describe("Hostable", () => {
         });
 
         it("Should resolve a player control component to a client ID.", () => {
-            assert.strictEqual(room.resolvePlayerClientID(player.control), 1013);
+            assert.strictEqual(
+                room.resolvePlayerClientID(player.control),
+                1013
+            );
         });
 
         it("Should resolve a player physics component to a client ID.", () => {
-            assert.strictEqual(room.resolvePlayerClientID(player.physics), 1013);
+            assert.strictEqual(
+                room.resolvePlayerClientID(player.physics),
+                1013
+            );
         });
 
         it("Should resolve a custom network transform component to a client ID.", () => {
-            assert.strictEqual(room.resolvePlayerClientID(player.transform), 1013);
+            assert.strictEqual(
+                room.resolvePlayerClientID(player.transform),
+                1013
+            );
         });
 
         it("Should resolve an invalid player reference to null.", () => {
@@ -286,7 +317,7 @@ describe("Hostable", () => {
 
     describe("Hostable#setCode", () => {
         it("Should change the access code of the room.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             room.setCode("ABCDEF");
             assert.strictEqual(room.code, Code2Int("ABCDEF"));
@@ -307,7 +338,7 @@ describe("Hostable", () => {
 
     describe("Hostable#setAlterGameTag", () => {
         it("Should change the privacy of the room.", () => {
-            const room = new TestHost;
+            const room = new TestHost();
 
             room.setAlterGameTag(AlterGameTag.ChangePrivacy, 0);
             assert.strictEqual(room.privacy, "private");
@@ -322,7 +353,7 @@ describe("Hostable", () => {
 
     describe("Hostable#setPublic", () => {
         it("Should change the privacy of the room.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             room.setPublic(true);
             assert.strictEqual(room.privacy, "public");
@@ -334,7 +365,7 @@ describe("Hostable", () => {
 
     describe("Hostable#setSettings", () => {
         it("Should change the settings of the room.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             room.setSettings(defaultSettings);
 
@@ -342,14 +373,14 @@ describe("Hostable", () => {
         });
 
         it("Should change the settings of the room relative to the current settings (as a partial settings object).", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             room.setSettings(defaultSettings);
 
             const settings = {
                 emergencyCooldown: 31,
                 confirmEjects: false,
-                visualTasks: false
+                visualTasks: false,
             } as GameOptions;
 
             room.setSettings(settings);
@@ -376,16 +407,16 @@ describe("Hostable", () => {
                 confirmEjects: false,
                 visualTasks: false,
                 anonymousVotes: false,
-                taskbarUpdates: TaskBarUpdate.Always
+                taskbarUpdates: TaskBarUpdate.Always,
             });
         });
     });
 
     describe("Hostable#setHost", () => {
-        it("Should change the current host of the room.", () => {
-            const room = new Hostable;
+        it("Should change the current host of the room.", async () => {
+            const room = new Hostable();
 
-            const player = room.handleJoin(1013);
+            const player = await room.handleJoin(1013);
             room.setHost(1013);
 
             assert.strictEqual(room.hostid, 1013);
@@ -395,10 +426,10 @@ describe("Hostable", () => {
         it("Should emit a set host event if the host is different.", async () => {
             const room = new Hostable();
 
-            const player = room.handleJoin(1013);
+            const player = await room.handleJoin(1013);
 
             let did_call = false;
-            room.on("player.sethost", ev => {
+            room.on("player.sethost", (ev) => {
                 if (ev.data.player.id === 1013) {
                     did_call = true;
                 }
@@ -412,7 +443,7 @@ describe("Hostable", () => {
         });
 
         it("Should spawn necessary objects if they are not already spawned.", () => {
-            const room = new TestHost;
+            const room = new TestHost();
 
             assert.ok(!room.lobbybehaviour);
             assert.ok(!room.gamedata);
@@ -425,10 +456,10 @@ describe("Hostable", () => {
     });
 
     describe("Hostable#handleJoin", () => {
-        it("Should add a player to the game.", () => {
-            const room = new Hostable;
-            room.handleJoin(1013);
-            room.handleJoin(1023);
+        it("Should add a player to the game.", async () => {
+            const room = new Hostable();
+            await room.handleJoin(1013);
+            await room.handleJoin(1023);
 
             assert.deepStrictEqual([...room.players.keys()], [1013, 1023]);
 
@@ -440,13 +471,13 @@ describe("Hostable", () => {
             const room = new Hostable();
 
             let did_call = false;
-            room.on("player.join", ev => {
+            room.on("player.join", (ev) => {
                 if (ev.data.player.id === 1013) {
                     did_call = true;
                 }
             });
 
-            room.handleJoin(1013);
+            await room.handleJoin(1013);
 
             assert.ok(did_call);
         });
@@ -454,9 +485,9 @@ describe("Hostable", () => {
 
     describe("Hostable#handleLeave", () => {
         it("Should remove a player from the game.", async () => {
-            const room = new Hostable;
-            room.handleJoin(1013);
-            room.handleJoin(1023);
+            const room = new Hostable();
+            await room.handleJoin(1013);
+            await room.handleJoin(1023);
 
             await room.handleLeave(1013);
 
@@ -467,10 +498,10 @@ describe("Hostable", () => {
         it("Should emit a player leave event.", async () => {
             const room = new Hostable();
 
-            const player = room.handleJoin(1013);
+            const player = await room.handleJoin(1013);
 
             let did_call = false;
-            room.on("player.leave", ev => {
+            room.on("player.leave", (ev) => {
                 if (ev.data.player.id === 1013) {
                     did_call = true;
                 }
@@ -482,8 +513,8 @@ describe("Hostable", () => {
         });
 
         it("Should remove the player from gamedata records.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
             await room.spawnPrefab(SpawnID.GameData, room);
             await room.spawnPrefab(SpawnID.Player, player);
 
@@ -495,9 +526,9 @@ describe("Hostable", () => {
         });
 
         it("Should remove the player from votebansystem records.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
-            room.handleJoin(1023);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
+            await room.handleJoin(1023);
             await room.spawnPrefab(SpawnID.GameData, room);
             await room.spawnPrefab(SpawnID.Player, player);
 
@@ -510,22 +541,22 @@ describe("Hostable", () => {
         });
 
         it("Should despawn all of the player's components.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
             await room.spawnPrefab(SpawnID.Player, player);
 
             assert.strictEqual(player.components.length, 3);
-            assert.ok(player.components.every(component => component));
+            assert.ok(player.components.every((component) => component));
 
             await room.handleLeave(player);
 
-            assert.ok(player.components.every(component => !component));
+            assert.ok(player.components.every((component) => !component));
         });
     });
 
     describe("Hostable#handleStart", () => {
         it("Should mark the game as started.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             await room.startGame();
 
@@ -533,7 +564,7 @@ describe("Hostable", () => {
         });
 
         it("Should emit a game started event.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
             let did_receive = false;
 
             room.on("game.start", () => {
@@ -546,9 +577,9 @@ describe("Hostable", () => {
         });
 
         it("Should wait for all players to be readied up.", async () => {
-            const room = new TestHost;
-            room.handleJoin(1013);
-            room.handleJoin(1023);
+            const room = new TestHost();
+            await room.handleJoin(1013);
+            await room.handleJoin(1023);
 
             room.startGame();
 
@@ -556,7 +587,7 @@ describe("Hostable", () => {
 
             assert.ok(!room.started);
 
-            for (const [ , player ] of room.players) {
+            for (const [, player] of room.players) {
                 await player.ready();
             }
 
@@ -564,8 +595,8 @@ describe("Hostable", () => {
         });
 
         it("Should despawn the lobby behaviour and spawn the map.", async () => {
-            const room = new TestHost;
-            const player = room.handleJoin(1);
+            const room = new TestHost();
+            const player = await room.handleJoin(1);
             await room.spawnPrefab(SpawnID.Player, player);
             await room.setHost(1);
             room.setSettings(defaultSettings);
@@ -582,9 +613,9 @@ describe("Hostable", () => {
         });
     });
 
-    describe("Hostable#handleEnd", async () => {
+    describe("Hostable#handleEnd", () => {
         it("Should mark the game as not started.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             await room.startGame();
             await room.handleEnd(GameEndReason.HumansByTask);
@@ -593,7 +624,7 @@ describe("Hostable", () => {
         });
 
         it("Should emit a game ended event.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
             let did_receive = false;
 
             room.on("game.end", () => {
@@ -607,10 +638,10 @@ describe("Hostable", () => {
         });
     });
 
-    describe("Hostable#handleReady", async () => {
-        it("Should handle a player readying up.", () => {
-            const room = new TestHost;
-            const player = room.handleJoin(1);
+    describe("Hostable#handleReady", () => {
+        it("Should handle a player readying up.", async () => {
+            const room = new TestHost();
+            const player = await room.handleJoin(1);
 
             room.handleReady(player);
 
@@ -618,18 +649,13 @@ describe("Hostable", () => {
         });
     });
 
-    describe("Hostable#spawnComponent", async () => {
-        it("Should add a component to the map of net objects and push to the owner's components.", async  () => {
-            const room = new Hostable;
-            const component = new MeetingHud(
-                room,
-                1,
-                room.id,
-                {
-                    dirtyBit: 0,
-                    states: new Map(),
-                }
-            );
+    describe("Hostable#spawnComponent", () => {
+        it("Should add a component to the map of net objects and push to the owner's components.", async () => {
+            const room = new Hostable();
+            const component = new MeetingHud(room, 1, room.id, {
+                dirtyBit: 0,
+                states: new Map(),
+            });
 
             assert.ok(!room.netobjects.has(1));
             assert.strictEqual(room.components.length, 0);
@@ -641,16 +667,11 @@ describe("Hostable", () => {
         });
 
         it("Should emit a component spawn event.", async () => {
-            const room = new Hostable;
-            const component = new MeetingHud(
-                room,
-                1,
-                room.id,
-                {
-                    dirtyBit: 0,
-                    states: new Map(),
-                }
-            );
+            const room = new Hostable();
+            const component = new MeetingHud(room, 1, room.id, {
+                dirtyBit: 0,
+                states: new Map(),
+            });
             let did_receive = false;
 
             room.on("component.spawn", () => {
@@ -663,11 +684,11 @@ describe("Hostable", () => {
         });
 
         it("Should emit a player component spawn event if the owner of the component is a player.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
             const component = new PlayerControl(room, 1, player.id, {
                 isNew: false,
-                playerId: 1
+                playerId: 1,
             });
             let did_receive = false;
 
@@ -681,16 +702,11 @@ describe("Hostable", () => {
         });
 
         it("Should not emit a player component spawn event if the owner of the component is not a player.", async () => {
-            const room = new Hostable;
-            const component = new MeetingHud(
-                room,
-                1,
-                room.id,
-                {
-                    dirtyBit: 0,
-                    states: new Map(),
-                }
-            );
+            const room = new Hostable();
+            const component = new MeetingHud(room, 1, room.id, {
+                dirtyBit: 0,
+                states: new Map(),
+            });
             let did_receive = false;
 
             room.on("player.component.spawn", () => {
@@ -703,16 +719,11 @@ describe("Hostable", () => {
         });
 
         it("Should do nothing if the component is already spawned.", async () => {
-            const room = new Hostable;
-            const component = new MeetingHud(
-                room,
-                1,
-                room.id,
-                {
-                    dirtyBit: 0,
-                    states: new Map(),
-                }
-            );
+            const room = new Hostable();
+            const component = new MeetingHud(room, 1, room.id, {
+                dirtyBit: 0,
+                states: new Map(),
+            });
 
             await room.spawnComponent(component);
 
@@ -730,16 +741,11 @@ describe("Hostable", () => {
 
     describe("Hostable#despawnComponent", () => {
         it("Should remove the component from the map of net objects and remove from the owner's components.", async () => {
-            const room = new Hostable;
-            const component = new MeetingHud(
-                room,
-                1,
-                room.id,
-                {
-                    dirtyBit: 0,
-                    states: new Map(),
-                }
-            );
+            const room = new Hostable();
+            const component = new MeetingHud(room, 1, room.id, {
+                dirtyBit: 0,
+                states: new Map(),
+            });
 
             await room.spawnComponent(component);
 
@@ -753,16 +759,11 @@ describe("Hostable", () => {
         });
 
         it("Should emit a component despawn event.", async () => {
-            const room = new Hostable;
-            const component = new MeetingHud(
-                room,
-                1,
-                room.id,
-                {
-                    dirtyBit: 0,
-                    states: new Map(),
-                }
-            );
+            const room = new Hostable();
+            const component = new MeetingHud(room, 1, room.id, {
+                dirtyBit: 0,
+                states: new Map(),
+            });
             await room.spawnComponent(component);
             let did_receive = false;
 
@@ -776,11 +777,11 @@ describe("Hostable", () => {
         });
 
         it("Should emit a player component spawn event if the owner of the component was a player.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
             const component = new PlayerControl(room, 1, player.id, {
                 isNew: false,
-                playerId: 1
+                playerId: 1,
             });
             await room.spawnComponent(component);
             let did_receive = false;
@@ -795,16 +796,11 @@ describe("Hostable", () => {
         });
 
         it("Should not emit a player component spawn event if the owner of the component was not a player.", async () => {
-            const room = new Hostable;
-            const component = new MeetingHud(
-                room,
-                1,
-                room.id,
-                {
-                    dirtyBit: 0,
-                    states: new Map(),
-                }
-            );
+            const room = new Hostable();
+            const component = new MeetingHud(room, 1, room.id, {
+                dirtyBit: 0,
+                states: new Map(),
+            });
             await room.spawnComponent(component);
             let did_receive = false;
 
@@ -820,11 +816,11 @@ describe("Hostable", () => {
 
     describe("Hostable#getAvailablePlayerID", () => {
         it("Should return the next player ID not taken by a player.", async () => {
-            const room = new Hostable;
-            const player1 = room.handleJoin(1013);
-            const player2 = room.handleJoin(1014);
-            const player3 = room.handleJoin(1015);
-            const player4 = room.handleJoin(1016);
+            const room = new Hostable();
+            const player1 = await room.handleJoin(1013);
+            const player2 = await room.handleJoin(1014);
+            const player3 = await room.handleJoin(1015);
+            const player4 = await room.handleJoin(1016);
 
             await room.spawnPrefab(SpawnID.Player, player1);
             await room.spawnPrefab(SpawnID.Player, player2);
@@ -839,7 +835,7 @@ describe("Hostable", () => {
 
     describe("Hostable#spawnPrefab", () => {
         it("Should instantiate a map object for The Skeld.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.ShipStatus, room);
 
@@ -854,7 +850,7 @@ describe("Hostable", () => {
         });
 
         it("Should instantiate a meeting hud object.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.MeetingHud, room);
 
@@ -869,7 +865,7 @@ describe("Hostable", () => {
         });
 
         it("Should instantiate a map object for the dropship lobby.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.LobbyBehaviour, room);
 
@@ -878,13 +874,16 @@ describe("Hostable", () => {
             assert.strictEqual(object.flags, 0);
             assert.strictEqual(object.components.length, 1);
 
-            assert.strictEqual(object.components[0].classname, "LobbyBehaviour");
+            assert.strictEqual(
+                object.components[0].classname,
+                "LobbyBehaviour"
+            );
 
             assert.ok(room.netobjects.has(object.components[0].netid));
         });
 
         it("Should instantiate a game data object.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.GameData, room);
 
@@ -901,9 +900,9 @@ describe("Hostable", () => {
         });
 
         it("Should instantiate a player object.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
-            room.handleJoin(1013);
+            await room.handleJoin(1013);
             const object = await room.spawnPrefab(SpawnID.Player, 1013);
 
             assert.strictEqual(object.type, SpawnID.Player);
@@ -913,7 +912,10 @@ describe("Hostable", () => {
 
             assert.strictEqual(object.components[0].classname, "PlayerControl");
             assert.strictEqual(object.components[1].classname, "PlayerPhysics");
-            assert.strictEqual(object.components[2].classname, "CustomNetworkTransform");
+            assert.strictEqual(
+                object.components[2].classname,
+                "CustomNetworkTransform"
+            );
 
             assert.ok(room.netobjects.has(object.components[0].netid));
             assert.ok(room.netobjects.has(object.components[1].netid));
@@ -921,7 +923,7 @@ describe("Hostable", () => {
         });
 
         it("Should instantiate a map object for Mira HQ.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.Headquarters, room);
 
@@ -936,7 +938,7 @@ describe("Hostable", () => {
         });
 
         it("Should instantiate a map object for Polus.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.PlanetMap, room);
 
@@ -951,22 +953,28 @@ describe("Hostable", () => {
         });
 
         it("Should instantiate a map object for the april fools' version of The Skeld.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnID.AprilShipStatus, room);
+            const object = await room.spawnPrefab(
+                SpawnID.AprilShipStatus,
+                room
+            );
 
             assert.strictEqual(object.type, SpawnID.AprilShipStatus);
             assert.strictEqual(object.ownerid, -2);
             assert.strictEqual(object.flags, 0);
             assert.strictEqual(object.components.length, 1);
 
-            assert.strictEqual(object.components[0].classname, "AprilShipStatus");
+            assert.strictEqual(
+                object.components[0].classname,
+                "AprilShipStatus"
+            );
 
             assert.ok(room.netobjects.has(object.components[0].netid));
         });
 
         it("Should instantiate a map object for Airship.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             const object = await room.spawnPrefab(SpawnID.Airship, room);
 
@@ -983,35 +991,44 @@ describe("Hostable", () => {
 
     describe("Hostable#getPlayerByPlayerId", () => {
         it("Should retrieve a player by their player ID.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
             await room.spawnPrefab(SpawnID.Player, player);
 
             assert.strictEqual(room.getPlayerByPlayerId(0), player);
         });
 
         it("Should return null if no player has the player ID in question.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             assert.strictEqual(room.getPlayerByPlayerId(0), null);
         });
     });
 
     describe("Hostable#getPlayerByNetID", async () => {
-        const room = new Hostable;
-        const player = room.handleJoin(1013);
+        const room = new Hostable();
+        const player = await room.handleJoin(1013);
         await room.spawnPrefab(SpawnID.Player, player);
 
         it("Should retrieve a player by their player control component's netid.", async () => {
-            assert.strictEqual(room.getPlayerByNetId(player.control.netid), player);
+            assert.strictEqual(
+                room.getPlayerByNetId(player.control.netid),
+                player
+            );
         });
 
         it("Should retrieve a player by their player physics component's netid.", async () => {
-            assert.strictEqual(room.getPlayerByNetId(player.physics.netid), player);
+            assert.strictEqual(
+                room.getPlayerByNetId(player.physics.netid),
+                player
+            );
         });
 
         it("Should retrieve a player by their custom network transform component's netid.", async () => {
-            assert.strictEqual(room.getPlayerByNetId(player.transform.netid), player);
+            assert.strictEqual(
+                room.getPlayerByNetId(player.transform.netid),
+                player
+            );
         });
 
         it("Should return null if there is no player with the netid.", async () => {
@@ -1021,22 +1038,22 @@ describe("Hostable", () => {
 
     describe("Hostable#handleGameData", async () => {
         it("Should handle a data message for a component.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
             await room.spawnPrefab(SpawnID.Player, player);
 
             await room.handleGameData({
                 tag: MessageTag.Data,
                 netid: player.control.netid,
-                data: HazelBuffer.from("05", "hex")
+                data: HazelBuffer.from("05", "hex"),
             });
 
             assert.strictEqual(player.control.playerId, 5);
         });
 
         it("Should handle an RPC message for a component.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
             await room.spawnPrefab(SpawnID.Player, player);
 
             await room.handleGameData({
@@ -1044,14 +1061,14 @@ describe("Hostable", () => {
                 netid: player.control.netid,
                 rpcid: RpcTag.SetStartCounter,
                 time: 3,
-                seqId: 1
+                seqId: 1,
             });
 
             assert.strictEqual(room.counter, 3);
         });
 
         it("Should handle a spawn message.", async () => {
-            const room = new Hostable;
+            const room = new Hostable();
 
             await room.handleGameData({
                 tag: MessageTag.Spawn,
@@ -1061,13 +1078,13 @@ describe("Hostable", () => {
                 components: [
                     {
                         netid: 1,
-                        data: HazelBuffer.from("00", "hex")
+                        data: HazelBuffer.from("00", "hex"),
                     },
                     {
                         netid: 2,
-                        data: HazelBuffer.from("00", "hex")
-                    }
-                ]
+                        data: HazelBuffer.from("00", "hex"),
+                    },
+                ],
             });
 
             assert.ok(room.netobjects.get(1));
@@ -1075,42 +1092,42 @@ describe("Hostable", () => {
         });
 
         it("Should handle a despawn message.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
             await room.spawnPrefab(SpawnID.Player, player);
 
             const netid = player.control.netid;
 
             await room.handleGameData({
                 tag: MessageTag.Despawn,
-                netid
+                netid,
             });
 
             assert.ok(!room.netobjects.get(netid));
         });
 
         it("Should handle a scene change message.", async () => {
-            const room = new TestHost;
+            const room = new TestHost();
             room.setHost(0);
 
-            const player = room.handleJoin(1013);
+            const player = await room.handleJoin(1013);
 
             await room.handleGameData({
                 tag: MessageTag.SceneChange,
                 clientid: player.id,
-                scene: "OnlineGame"
+                scene: "OnlineGame",
             });
 
             assert.ok(player.inScene);
         });
 
         it("Should handle a ready message.", async () => {
-            const room = new Hostable;
-            const player = room.handleJoin(1013);
+            const room = new Hostable();
+            const player = await room.handleJoin(1013);
 
             await room.handleGameData({
                 tag: MessageTag.Ready,
-                clientid: player.id
+                clientid: player.id,
             });
 
             assert.ok(player.isReady);

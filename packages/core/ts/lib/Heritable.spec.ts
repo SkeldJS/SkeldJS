@@ -3,16 +3,12 @@ import assert from "assert";
 import { Heritable } from "./Heritable";
 import { Hostable } from "./Hostable";
 
-import {
-    TestComponent,
-    TestEvents,
-    alphabet
-} from "./tests.spec";
+import { TestComponent, TestEvents, alphabet } from "./tests.spec";
 
 describe("Heritable", () => {
     describe("Heritable#ctr", () => {
         it("Should create an identifiable heritable object belonging to a room.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const heritable = new Heritable(room, 1013);
 
             assert.strictEqual(heritable.id, 1013);
@@ -29,20 +25,20 @@ describe("Heritable", () => {
             const room = new Hostable<TestEvents>();
             const heritable = new Heritable<TestEvents>(room, 1013);
 
-            heritable.on("test.event", async ev => {
+            heritable.on("test.event", async (ev) => {
                 if (ev.data.alphabet === alphabet) {
                     was_called1 = true;
                 }
             });
 
-            room.on("test.event", async ev => {
+            room.on("test.event", async (ev) => {
                 if (ev.data.alphabet === alphabet) {
                     was_called2 = true;
                 }
             });
 
             await heritable.emit("test.event", {
-                alphabet
+                alphabet,
             });
 
             assert.ok(was_called1);
@@ -52,18 +48,21 @@ describe("Heritable", () => {
 
     describe("Heritable#getComponent", () => {
         it("Should get a component of the object by the class of the component.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const heritable = new Heritable(room, 1013);
             const component = new TestComponent(room, 1, 1013);
 
             room.objects.set(heritable.id, heritable);
             room.spawnComponent(component);
 
-            assert.strictEqual(heritable.getComponent(TestComponent), component);
+            assert.strictEqual(
+                heritable.getComponent(TestComponent),
+                component
+            );
         });
 
         it("Should get a component of the object by the net ID of the component.", () => {
-            const room = new Hostable;
+            const room = new Hostable();
             const heritable = new Heritable(room, 1013);
             const component = new TestComponent(room, 1, 1013);
 

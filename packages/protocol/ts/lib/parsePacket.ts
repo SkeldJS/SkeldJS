@@ -4,9 +4,6 @@ import {
     MessageTag,
     RpcTag,
     DisconnectReason,
-    PlayerDataFlags,
-    PlayerGameData,
-    TaskState,
 } from "@skeldjs/constant";
 
 import { HazelBuffer, readVector2 } from "@skeldjs/util";
@@ -62,6 +59,334 @@ export function parseOptions(reader: HazelBuffer) {
     return options as GameOptions;
 }
 
+export function parseGameData(
+    tag: number,
+    reader: HazelBuffer
+): GameDataMessage {
+    const message: Partial<GameDataMessage> = {};
+    message.tag = tag;
+
+    switch (message.tag) {
+        case MessageTag.Data:
+            message.netid = reader.upacked();
+            const data_sz = reader.left;
+            message.data = reader.buf(data_sz);
+            break;
+        case MessageTag.RPC:
+            message.netid = reader.upacked();
+            message.rpcid = reader.uint8();
+
+            switch (message.rpcid) {
+                case RpcTag.PlayAnimation:
+                    message.task = reader.uint8();
+                    break;
+                case RpcTag.CompleteTask:
+                    message.taskIdx = reader.upacked();
+                    break;
+                case RpcTag.SyncSettings:
+                    message.settings = parseOptions(reader);
+                    break;
+                case RpcTag.SetInfected:
+                    const num_infected = reader.upacked();
+                    message.impostors = [];
+                    for (let i = 0; i < num_infected; i++) {
+                        message.impostors.push(reader.uint8());
+                    }
+                    break;
+                case RpcTag.Exiled:
+                    break;
+                case RpcTag.CheckName:
+                    message.name = reader.string();
+                    break;
+                case RpcTag.SetName:
+                    message.name = reader.string();
+                    break;
+                case RpcTag.CheckColor:
+                    message.color = reader.uint8();
+                    break;
+                case RpcTag.SetColor:
+                    message.color = reader.uint8();
+                    break;
+                case RpcTag.SetHat:
+                    message.hat = reader.upacked();
+                    break;
+                case RpcTag.SetSkin:
+                    message.skin = reader.upacked();
+                    break;
+                case RpcTag.ReportDeadBody:
+                    message.bodyid = reader.uint8();
+                    break;
+                case RpcTag.MurderPlayer:
+                    message.victimid = reader.upacked();
+                    break;
+                case RpcTag.SendChat:
+                    message.message = reader.string();
+                    break;
+                case RpcTag.StartMeeting:
+                    message.bodyid = reader.uint8();
+                    break;
+                case RpcTag.SetScanner:
+                    message.scanning = reader.bool();
+                    message.count = reader.uint8();
+                    break;
+                case RpcTag.SendChatNote:
+                    message.playerid = reader.uint8();
+                    message.type = reader.uint8();
+                    break;
+                case RpcTag.SetPet:
+                    message.pet = reader.upacked();
+                    break;
+                case RpcTag.SetStartCounter:
+                    message.seqId = reader.upacked();
+                    message.time = reader.int8();
+                    break;
+                case RpcTag.EnterVent:
+                    message.ventid = reader.upacked();
+                    break;
+                case RpcTag.ExitVent:
+                    message.ventid = reader.upacked();
+                    break;
+                case RpcTag.SnapTo:
+                    message.position = readVector2(reader);
+                    message.seqId = reader.uint16();
+                    break;
+                case RpcTag.Close:
+                    break;
+                case RpcTag.VotingComplete:
+                    const num_states = reader.upacked();
+                    message.states = [];
+                    for (let i = 0; i < num_states; i++) {
+                        message.states.push(reader.byte());
+                    }
+                    message.exiled = reader.uint8();
+                    message.tie = reader.bool();
+                    break;
+                case RpcTag.CastVote:
+                    message.votingid = reader.uint8();
+                    message.suspectid = reader.uint8();
+                    break;
+                case RpcTag.ClearVote:
+                    break;
+                case RpcTag.AddVote:
+                    message.votingid = reader.uint32();
+                    message.targetid = reader.uint32();
+                    break;
+                case RpcTag.CloseDoorsOfType:
+                    message.systemid = reader.uint8();
+                    break;
+                case RpcTag.RepairSystem:
+                    message.systemid = reader.uint8();
+                    message.repairerid = reader.upacked();
+                    message.value = reader.uint8();
+                    break;
+                case RpcTag.SetTasks:
+                    message.playerid = reader.uint8();
+                    const num_tasks = reader.upacked();
+                    message.taskids = [];
+                    for (let i = 0; i < num_tasks; i++) {
+                        message.taskids.push(reader.upacked());
+                    }
+                    break;
+            }
+            break;
+        case MessageTag.Spawn:
+            message.type = reader.upacked();
+            message.ownerid = reader.packed();
+            message.flags = reader.byte();
+
+            const num_components = reader.upacked();
+            message.components = [];
+            for (let i = 0; i < num_components; i++) {
+                const component: Partial<ComponentData> = {};
+                component.netid = reader.upacked();
+                component.data = reader.message()[1];
+
+                message.components.push(component as ComponentData);
+            }
+            break;
+        case MessageTag.Despawn:
+            message.netid = reader.upacked();
+            break;
+        case MessageTag.SceneChange:
+            message.clientid = reader.upacked();
+            message.scene = reader.string();
+            break;
+        case MessageTag.Ready:
+            message.clientid = reader.upacked();
+            break;
+        case MessageTag.ChangeSettings:
+            break;
+    }
+
+    return message as GameDataMessage;
+}
+
+export function parsePayload(bound: "client"|"server", tag: number, reader: HazelBuffer): PayloadMessage {
+    const payload: Partial<PayloadMessage> = {};
+    payload.tag = tag;
+    payload.bound = bound;
+
+    switch (payload.tag) {
+        case PayloadTag.HostGame:
+            if (payload.bound === "client") {
+                payload.code = reader.int32();
+            } else {
+                payload.settings = parseOptions(reader);
+            }
+            break;
+        case PayloadTag.JoinGame:
+            if (payload.bound === "client") {
+                payload.error = !!DisconnectReason[
+                    reader.buffer.readInt32LE(reader.cursor)
+                ];
+                console.log(reader.buffer.readInt32LE(reader.cursor));
+                if (payload.error) {
+                    payload.reason = reader.uint32();
+                } else if (payload.error === false) {
+                    payload.code = reader.int32();
+                    payload.clientid = reader.uint32();
+                    payload.hostid = reader.uint32();
+                }
+            } else {
+                payload.code = reader.int32();
+            }
+            break;
+        case PayloadTag.StartGame:
+            payload.code = reader.int32();
+            break;
+        case PayloadTag.RemoveGame:
+            payload.reason = reader.uint8();
+            break;
+        case PayloadTag.RemovePlayer:
+            payload.code = reader.int32();
+
+            if (payload.bound === "client") {
+                payload.clientid = reader.uint32();
+                payload.hostid = reader.uint32();
+            } else {
+                payload.clientid = reader.upacked();
+            }
+            break;
+        case PayloadTag.GameData:
+        case PayloadTag.GameDataTo:
+            payload.code = reader.int32();
+
+            if (payload.tag === PayloadTag.GameDataTo) {
+                payload.recipientid = reader.upacked();
+            }
+
+            payload.messages = [];
+            while (reader.left) {
+                const [mtag, mreader] = reader.message();
+                payload.messages.push(parseGameData(mtag, mreader));
+            }
+            break;
+        case PayloadTag.JoinedGame:
+            payload.code = reader.int32();
+            payload.clientid = reader.uint32();
+            payload.hostid = reader.uint32();
+
+            const num_clients = reader.upacked();
+            payload.clients = [];
+            for (let i = 0; i < num_clients; i++) {
+                payload.clients.push(reader.upacked());
+            }
+            break;
+        case PayloadTag.EndGame:
+            payload.code = reader.int32();
+            payload.reason = reader.uint8();
+            payload.show_ad = reader.bool();
+            break;
+        case PayloadTag.GetGameList:
+            break;
+        case PayloadTag.AlterGame:
+            payload.code = reader.int32();
+            payload.alter_tag = reader.uint8();
+            payload.value = reader.uint8();
+            break;
+        case PayloadTag.KickPlayer:
+            payload.code = reader.int32();
+            payload.clientid = reader.upacked();
+            payload.banned = reader.bool();
+
+            if (reader.left > 0) {
+                payload.reason = reader.uint8();
+            }
+            break;
+        case PayloadTag.WaitForHost:
+            payload.code = reader.int32();
+            payload.clientid = reader.upacked();
+            break;
+        case PayloadTag.Redirect:
+            payload.ip = reader.ip();
+            payload.port = reader.uint16();
+            break;
+        case PayloadTag.MasterServerList:
+            reader.jump(1);
+
+            const num_servers = reader.upacked();
+            payload.servers = [];
+            for (let i = 0; i < num_servers; i++) {
+                const [, sreader] = reader.message();
+
+                const server: Partial<MasterServer> = {};
+                server.name = sreader.string();
+                server.ip = sreader.ip();
+                server.port = sreader.uint16();
+                server.players = sreader.upacked();
+
+                payload.servers.push(server as MasterServer);
+            }
+            break;
+        case PayloadTag.GetGameListV2:
+            if (payload.bound === "server") {
+                reader.upacked();
+                payload.options = parseOptions(reader);
+            } else {
+                while (reader.left > 0) {
+                    const [ltag, lreader] = reader.message();
+
+                    switch (ltag) {
+                        case 0:
+                            payload.games = [];
+
+                            while (lreader.left > 0) {
+                                const game: Partial<GetGameListV2GameListing> = {};
+
+                                const [, greader] = lreader.message();
+                                game.ip = greader.ip();
+                                game.port = greader.uint16();
+                                game.code = greader.int32();
+                                game.name = greader.string();
+                                game.players = greader.uint8();
+                                game.age = greader.upacked();
+                                game.map = greader.uint8();
+                                game.impostors = greader.uint8();
+                                game.max_players = greader.uint8();
+
+                                payload.games.push(
+                                    game as GetGameListV2GameListing
+                                );
+                            }
+                            break;
+                        case 1:
+                            payload.counts = {
+                                theskeld: 0,
+                                mirahq: 0,
+                                polus: 0,
+                            };
+                            payload.counts.theskeld = lreader.uint32();
+                            payload.counts.mirahq = lreader.uint32();
+                            payload.counts.polus = lreader.uint32();
+                            break;
+                    }
+                }
+                break;
+            }
+    }
+    return payload as PayloadMessage;
+}
+
 export function parsePacket(
     buffer: Buffer | HazelBuffer,
     bound?: "client"
@@ -93,406 +418,8 @@ export function parsePacket(
         case Opcode.Unreliable:
             packet.payloads = [];
             while (reader.left > 0) {
-                const payload: Partial<PayloadMessage> = {};
-
-                const [ptag, preader] = reader.message();
-                payload.tag = ptag;
-                payload.bound = packet.bound;
-
-                switch (payload.tag) {
-                    case PayloadTag.HostGame:
-                        if (payload.bound === "client") {
-                            payload.code = preader.int32();
-                        } else {
-                            payload.settings = parseOptions(preader);
-                        }
-                        break;
-                    case PayloadTag.JoinGame:
-                        if (payload.bound === "client") {
-                            payload.error = !!DisconnectReason[
-                                preader.buffer.readInt32LE(preader.cursor)
-                            ];
-                            if (payload.error) {
-                                payload.reason = preader.uint32();
-                            } else if (payload.error === false) {
-                                payload.code = preader.int32();
-                                payload.clientid = preader.uint32();
-                                payload.hostid = preader.uint32();
-                            }
-                        } else {
-                            payload.code = preader.int32();
-                            payload.mapOwnership = preader.byte();
-                        }
-                        break;
-                    case PayloadTag.StartGame:
-                        payload.code = preader.int32();
-                        break;
-                    case PayloadTag.RemoveGame:
-                        payload.reason = preader.uint8();
-                        break;
-                    case PayloadTag.RemovePlayer:
-                        payload.code = preader.int32();
-
-                        if (payload.bound === "client") {
-                            payload.clientid = preader.uint32();
-                            payload.hostid = preader.uint32();
-                        } else {
-                            payload.clientid = preader.upacked();
-                        }
-                        break;
-                    case PayloadTag.GameData:
-                    case PayloadTag.GameDataTo:
-                        payload.code = preader.int32();
-
-                        if (payload.tag === PayloadTag.GameDataTo) {
-                            payload.recipientid = preader.upacked();
-                        }
-
-                        payload.messages = [];
-                        while (preader.left) {
-                            const message: Partial<GameDataMessage> = {};
-
-                            const [mtag, mreader] = preader.message();
-                            message.tag = mtag;
-
-                            switch (message.tag) {
-                                case MessageTag.Data:
-                                    message.netid = mreader.upacked();
-                                    const data_sz = mreader.left;
-                                    message.data = mreader.buf(data_sz);
-                                    break;
-                                case MessageTag.RPC:
-                                    message.netid = mreader.upacked();
-                                    message.rpcid = mreader.uint8();
-
-                                    switch (message.rpcid) {
-                                        case RpcTag.PlayAnimation:
-                                            message.task = mreader.uint8();
-                                            break;
-                                        case RpcTag.CompleteTask:
-                                            message.taskIdx = mreader.upacked();
-                                            break;
-                                        case RpcTag.SyncSettings:
-                                            message.settings = parseOptions(
-                                                mreader
-                                            );
-                                            break;
-                                        case RpcTag.SetInfected:
-                                            const num_infected = mreader.upacked();
-                                            message.impostors = [];
-                                            for (
-                                                let i = 0;
-                                                i < num_infected;
-                                                i++
-                                            ) {
-                                                message.impostors.push(
-                                                    mreader.uint8()
-                                                );
-                                            }
-                                            break;
-                                        case RpcTag.Exiled:
-                                            break;
-                                        case RpcTag.CheckName:
-                                            message.name = mreader.string();
-                                            break;
-                                        case RpcTag.SetName:
-                                            message.name = mreader.string();
-                                            break;
-                                        case RpcTag.CheckColor:
-                                            message.color = mreader.uint8();
-                                            break;
-                                        case RpcTag.SetColor:
-                                            message.color = mreader.uint8();
-                                            break;
-                                        case RpcTag.SetHat:
-                                            message.hat = mreader.upacked();
-                                            break;
-                                        case RpcTag.SetSkin:
-                                            message.skin = mreader.upacked();
-                                            break;
-                                        case RpcTag.ReportDeadBody:
-                                            message.bodyid = mreader.uint8();
-                                            break;
-                                        case RpcTag.MurderPlayer:
-                                            message.victimid = mreader.upacked();
-                                            break;
-                                        case RpcTag.SendChat:
-                                            message.message = mreader.string();
-                                            break;
-                                        case RpcTag.StartMeeting:
-                                            message.bodyid = mreader.uint8();
-                                            break;
-                                        case RpcTag.SetScanner:
-                                            message.scanning = mreader.bool();
-                                            message.count = mreader.uint8();
-                                            break;
-                                        case RpcTag.SendChatNote:
-                                            message.playerid = mreader.uint8();
-                                            message.type = mreader.uint8();
-                                            break;
-                                        case RpcTag.SetPet:
-                                            message.pet = mreader.upacked();
-                                            break;
-                                        case RpcTag.SetStartCounter:
-                                            message.seqId = mreader.upacked();
-                                            message.time = mreader.int8();
-                                            break;
-                                        case RpcTag.EnterVent:
-                                            message.ventid = mreader.upacked();
-                                            break;
-                                        case RpcTag.ExitVent:
-                                            message.ventid = mreader.upacked();
-                                            break;
-                                        case RpcTag.SnapTo:
-                                            message.position = readVector2(
-                                                mreader
-                                            );
-                                            message.seqId = mreader.uint16();
-                                            break;
-                                        case RpcTag.Close:
-                                            break;
-                                        case RpcTag.VotingComplete:
-                                            const num_states = mreader.upacked();
-                                            message.states = [];
-                                            for (
-                                                let i = 0;
-                                                i < num_states;
-                                                i++
-                                            ) {
-                                                message.states.push(
-                                                    mreader.byte()
-                                                );
-                                            }
-                                            message.exiled = mreader.uint8();
-                                            message.tie = mreader.bool();
-                                            break;
-                                        case RpcTag.CastVote:
-                                            message.votingid = mreader.uint8();
-                                            message.suspectid = mreader.uint8();
-                                            break;
-                                        case RpcTag.ClearVote:
-                                            break;
-                                        case RpcTag.AddVote:
-                                            message.votingid = mreader.uint32();
-                                            message.targetid = mreader.uint32();
-                                            break;
-                                        case RpcTag.CloseDoorsOfType:
-                                            message.systemid = mreader.uint8();
-                                            break;
-                                        case RpcTag.RepairSystem:
-                                            message.systemid = mreader.uint8();
-                                            message.repairerid = mreader.upacked();
-                                            message.value = mreader.uint8();
-                                            break;
-                                        case RpcTag.SetTasks:
-                                            message.playerid = mreader.uint8();
-                                            const num_tasks = mreader.upacked();
-                                            message.taskids = [];
-                                            for (
-                                                let i = 0;
-                                                i < num_tasks;
-                                                i++
-                                            ) {
-                                                message.taskids.push(
-                                                    mreader.upacked()
-                                                );
-                                            }
-                                            break;
-                                        case RpcTag.UpdateGameData:
-                                            message.players = [];
-
-                                            while (mreader.left > 0) {
-                                                const player: Partial<PlayerGameData> = {};
-                                                const [
-                                                    playerId,
-                                                    preader,
-                                                ] = mreader.message();
-
-                                                player.playerId = playerId;
-                                                player.name = preader.string();
-                                                player.color = preader.uint8();
-                                                player.hat = preader.upacked();
-                                                player.pet = preader.upacked();
-                                                player.skin = preader.upacked();
-                                                const flags = preader.byte();
-                                                player.disconnected =
-                                                    (flags &
-                                                        PlayerDataFlags.IsDisconnected) >
-                                                    0;
-                                                player.impostor =
-                                                    (flags &
-                                                        PlayerDataFlags.IsImpostor) >
-                                                    0;
-                                                player.dead =
-                                                    (flags &
-                                                        PlayerDataFlags.IsDead) >
-                                                    0;
-                                                const num_tasks = preader.uint8();
-                                                player.tasks = [];
-                                                for (
-                                                    let i = 0;
-                                                    i < num_tasks;
-                                                    i++
-                                                ) {
-                                                    const task: Partial<TaskState> = {};
-
-                                                    task.taskIdx = preader.upacked();
-                                                    task.completed = preader.bool();
-
-                                                    player.tasks.push(
-                                                        task as TaskState
-                                                    );
-                                                }
-
-                                                message.players.push(
-                                                    player as PlayerGameData
-                                                );
-                                            }
-                                            break;
-                                    }
-                                    break;
-                                case MessageTag.Spawn:
-                                    message.type = mreader.upacked();
-                                    message.ownerid = mreader.packed();
-                                    message.flags = mreader.byte();
-
-                                    const num_components = mreader.upacked();
-                                    message.components = [];
-                                    for (let i = 0; i < num_components; i++) {
-                                        const component: Partial<ComponentData> = {};
-                                        component.netid = mreader.upacked();
-                                        component.data = mreader.message()[1];
-
-                                        message.components.push(
-                                            component as ComponentData
-                                        );
-                                    }
-                                    break;
-                                case MessageTag.Despawn:
-                                    message.netid = mreader.upacked();
-                                    break;
-                                case MessageTag.SceneChange:
-                                    message.clientid = mreader.upacked();
-                                    message.scene = mreader.string();
-                                    break;
-                                case MessageTag.Ready:
-                                    message.clientid = mreader.upacked();
-                                    break;
-                                case MessageTag.ChangeSettings:
-                                    break;
-                            }
-
-                            payload.messages.push(message as GameDataMessage);
-                        }
-                        break;
-                    case PayloadTag.JoinedGame:
-                        payload.code = preader.int32();
-                        payload.clientid = preader.uint32();
-                        payload.hostid = preader.uint32();
-
-                        const num_clients = preader.upacked();
-                        payload.clients = [];
-                        for (let i = 0; i < num_clients; i++) {
-                            payload.clients.push(preader.upacked());
-                        }
-                        break;
-                    case PayloadTag.EndGame:
-                        payload.code = preader.int32();
-                        payload.reason = preader.uint8();
-                        payload.show_ad = preader.bool();
-                        break;
-                    case PayloadTag.GetGameList:
-                        break;
-                    case PayloadTag.AlterGame:
-                        payload.code = preader.int32();
-                        payload.alter_tag = preader.uint8();
-                        payload.value = preader.uint8();
-                        break;
-                    case PayloadTag.KickPlayer:
-                        payload.code = preader.int32();
-                        payload.clientid = preader.upacked();
-                        payload.banned = preader.bool();
-
-                        if (preader.left > 0) {
-                            payload.reason = preader.uint8();
-                        }
-                        break;
-                    case PayloadTag.WaitForHost:
-                        payload.code = preader.int32();
-                        payload.clientid = preader.upacked();
-                        break;
-                    case PayloadTag.Redirect:
-                        payload.ip = preader.ip();
-                        payload.port = preader.uint16();
-                        break;
-                    case PayloadTag.MasterServerList:
-                        preader.jump(1);
-
-                        const num_servers = preader.upacked();
-                        payload.servers = [];
-                        for (let i = 0; i < num_servers; i++) {
-                            const [, sreader] = preader.message();
-
-                            const server: Partial<MasterServer> = {};
-                            server.name = sreader.string();
-                            server.ip = sreader.ip();
-                            server.port = sreader.uint16();
-                            server.players = sreader.upacked();
-
-                            payload.servers.push(server as MasterServer);
-                        }
-                        break;
-                    case PayloadTag.GetGameListV2:
-                        if (payload.bound === "server") {
-                            preader.upacked();
-                            payload.options = parseOptions(preader);
-                        } else {
-                            while (preader.left > 0) {
-                                const [ltag, lreader] = preader.message();
-
-                                switch (ltag) {
-                                    case 0:
-                                        payload.games = [];
-
-                                        while (lreader.left > 0) {
-                                            const game: Partial<GetGameListV2GameListing> = {};
-
-                                            const [
-                                                ,
-                                                greader,
-                                            ] = lreader.message();
-                                            game.ip = greader.ip();
-                                            game.port = greader.uint16();
-                                            game.code = greader.int32();
-                                            game.name = greader.string();
-                                            game.players = greader.uint8();
-                                            game.age = greader.upacked();
-                                            game.map = greader.uint8();
-                                            game.impostors = greader.uint8();
-                                            game.max_players = greader.uint8();
-
-                                            payload.games.push(
-                                                game as GetGameListV2GameListing
-                                            );
-                                        }
-                                        break;
-                                    case 1:
-                                        payload.counts = {
-                                            theskeld: 0,
-                                            mirahq: 0,
-                                            polus: 0,
-                                        };
-                                        payload.counts.theskeld = lreader.uint32();
-                                        payload.counts.mirahq = lreader.uint32();
-                                        payload.counts.polus = lreader.uint32();
-                                        break;
-                                }
-                            }
-                            break;
-                        }
-                }
-
-                packet.payloads.push(payload as any); // Dumb type errors with the clientbound/serverbound.
+                const [ ptag, preader ] = reader.message();
+                packet.payloads.push(parsePayload(packet.bound, ptag, preader) as any); // Dumb type errors with the clientbound/serverbound.
             }
             break;
         case Opcode.Hello:
@@ -500,6 +427,7 @@ export function parsePacket(
             packet.hazelver = reader.uint8();
             packet.clientver = reader.int32();
             packet.username = reader.string();
+            packet.token = reader.uint32();
             break;
         case Opcode.Disconnect:
             if (reader.left > 0) {

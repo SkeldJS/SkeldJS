@@ -16,7 +16,10 @@ export interface LobbyBehaviourEvents extends NetworkableEvents {}
  *
  * See {@link LobbyBehaviourEvents} for events to listen to.
  */
-export class LobbyBehaviour extends Networkable<LobbyBehaviourData, LobbyBehaviourEvents> {
+export class LobbyBehaviour extends Networkable<
+    LobbyBehaviourData,
+    LobbyBehaviourEvents
+> {
     static type = SpawnID.LobbyBehaviour as const;
     type = SpawnID.LobbyBehaviour as const;
 

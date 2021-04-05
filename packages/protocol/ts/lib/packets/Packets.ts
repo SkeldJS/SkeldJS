@@ -59,6 +59,7 @@ export interface HelloPacket extends BasePacket {
     hazelver: number;
     clientver: number;
     username: string;
+    token: number;
 }
 
 export interface DisconnectPacket extends BasePacket {

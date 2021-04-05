@@ -2,19 +2,7 @@
 # yarn lockfile v1
 
 
-"@skeldjs/constant@^2.3.7":
-  version "2.3.7"
-  resolved "https://registry.yarnpkg.com/@skeldjs/constant/-/constant-2.3.7.tgz#8d216ab0e12dab36b89214f124c92e60195d00fe"
-  integrity sha512-p9hqhbEjcbOvD0wYrDXMGFE2IPjz9XnO1ezv7CaqdG53+xN899b3PHyfh+Zb+IhQo+FJ5jxR40vHTOn15jrZmw==
-  dependencies:
-    "@skeldjs/util" "^2.3.4"
-
 "@skeldjs/types@^2.2.7":
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/@skeldjs/types/-/types-2.2.7.tgz#2070a2d3205099240df9e23edc1a483a698b06d2"
-  integrity sha512-SNS3DiU2eoKMbU1fyZvQ57kngv+sCI7ziBmEVeRLTzK+10gN9Z9tuD1dHY+rlHhFnbttaJq7NVCyzkdDbvrjyQ==
-
-"@skeldjs/util@^2.3.4":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@skeldjs/util/-/util-2.3.4.tgz#eef30b108fe175654c423a78930e1bc48f7fbbef"
-  integrity sha512-XaOaZSNqWPchpDdcCshnhs+iSKKUz5BPthf2Z49jFDHoThAnGhAFl9ABDGKSjMrdltyxFie27hr1uJ0imSJDEA==
+  "integrity" "sha512-SNS3DiU2eoKMbU1fyZvQ57kngv+sCI7ziBmEVeRLTzK+10gN9Z9tuD1dHY+rlHhFnbttaJq7NVCyzkdDbvrjyQ=="
+  "resolved" "https://registry.npmjs.org/@skeldjs/types/-/types-2.2.7.tgz"
+  "version" "2.2.7"

@@ -19,22 +19,22 @@ import {
 import { EventEmitter, PropagatedEvents } from "@skeldjs/events";
 
 import {
-    Airship,
+    AirshipStatus,
     AprilShipStatus,
-    BaseShipStatus,
+    InnerShipStatus,
     CustomNetworkTransform,
     GameData,
     GameDataEvents,
-    Headquarters,
+    MiraShipStatus,
     LobbyBehaviour,
     LobbyBehaviourEvents,
     MeetingHud,
     MeetingHudEvents,
-    PlanetMap,
+    PolusShipStatus,
     PlayerControl,
     PlayerIDResolvable,
     PlayerPhysics,
-    ShipStatus,
+    SkeldShipStatus,
     ShipStatusEvents,
     VoteBanSystem,
     VoteBanSystemEvents,
@@ -65,19 +65,18 @@ export interface SpawnObject {
 }
 
 export type AnyNetworkable =
-    | Airship
+    | AirshipStatus
     | AprilShipStatus
     | CustomNetworkTransform
     | GameData
-    | Headquarters
+    | MiraShipStatus
     | LobbyBehaviour
     | MeetingHud
-    | PlanetMap
+    | PolusShipStatus
     | PlayerControl
     | PlayerPhysics
-    | ShipStatus
+    | SkeldShipStatus
     | VoteBanSystem;
-
 
 export type BaseHostableEvents = PropagatedEvents<
     PlayerDataEvents,
@@ -85,7 +84,7 @@ export type BaseHostableEvents = PropagatedEvents<
         /**
          * The player that emitted this event.
          */
-        player?: PlayerData
+        player?: PlayerData;
     }
 > &
     ShipStatusEvents &
@@ -93,8 +92,7 @@ export type BaseHostableEvents = PropagatedEvents<
     LobbyBehaviourEvents &
     MeetingHudEvents &
     VoteBanSystemEvents;
-export interface HostableEvents extends BaseHostableEvents
-{
+export interface HostableEvents extends BaseHostableEvents {
     /**
      * Emitted when a game is started.
      */
@@ -187,7 +185,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
     /**
      * The ID of the host of the room.
      */
-    hostid: number
+    hostid: number;
 
     private _incr_netid: number;
 
@@ -232,7 +230,11 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         this._incr_netid = 0;
         this._destroyed = false;
         this._started = false;
-        if (options.doFixedUpdate) this._interval = setInterval(this.FixedUpdate.bind(this), Hostable.FixedUpdateInterval);
+        if (options.doFixedUpdate)
+            this._interval = setInterval(
+                this.FixedUpdate.bind(this),
+                Hostable.FixedUpdateInterval
+            );
     }
 
     destroy() {
@@ -290,8 +292,18 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      */
     get shipstatus() {
         return this.getComponent<
-            ShipStatus | Headquarters | PlanetMap | AprilShipStatus | Airship
-        >([ShipStatus, Headquarters, PlanetMap, AprilShipStatus, Airship]);
+            | SkeldShipStatus
+            | MiraShipStatus
+            | PolusShipStatus
+            | AprilShipStatus
+            | AirshipStatus
+        >([
+            SkeldShipStatus,
+            MiraShipStatus,
+            PolusShipStatus,
+            AprilShipStatus,
+            AirshipStatus,
+        ]);
     }
 
     /**
@@ -375,11 +387,11 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * @param player The identifier to resolve to a player.
      * @returns The resolved player.
      * @example
-	 *```typescript
+     *```typescript
      * // Resolve a player by their clientid.
      * const player = room.resolvePlayer(11013);
      * ```
-	 */
+     */
     resolvePlayer(player: PlayerDataResolvable) {
         return this.players.get(this.resolvePlayerClientID(player));
     }
@@ -425,10 +437,10 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
     /**
      * Set the code of the room.
      * @example
-	 *```typescript
+     *```typescript
      * room.setCode("ABCDEF");
      * ```
-	 */
+     */
     setCode(code: RoomID) {
         if (typeof code === "string") {
             return this.setCode(Code2Int(code));
@@ -451,10 +463,10 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * @param tag The tag to change.
      * @param value The new value of the tag.
      * @example
-	 *```typescript
+     *```typescript
      * room.setAlterGameTag(AlterGameTag.ChangePrivacy, 1); // 0 for private, 1 for public.
      * ```
-	 */
+     */
     async setAlterGameTag(tag: AlterGameTag, value: number) {
         this._setAlterGameTag(tag, value);
 
@@ -474,10 +486,10 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * Set the publicity of the game.
      * @param is_public Whether or not the game should be made public.
      * @example
-	 *```typescript
+     *```typescript
      * room.setPublic(false);
      * ```
-	 */
+     */
     async setPublic(is_public = true) {
         await this.setAlterGameTag(
             AlterGameTag.ChangePrivacy,
@@ -489,13 +501,13 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * Change the settings of the room. If the host, it will broadcast these changes.
      * @param settings The settings to set to (Can be partial).
      * @example
-	 *```typescript
+     *```typescript
      * room.syncSettings({
      *   crewmateVision: 0.5,
      *   votingTime: 120
      * });
      * ```
-	 */
+     */
     setSettings(settings: Partial<GameOptions>) {
         this.settings = {
             ...this.settings,
@@ -535,22 +547,22 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         }
     }
 
-    private _addPlayer(player: PlayerData) {
-        player.emit("player.join", {});
+    private async _addPlayer(player: PlayerData) {
+        await player.emit("player.join", {});
     }
 
     /**
      * Handle when a client joins the game.
      * @param clientid The ID of the client that joined the game.
      */
-    handleJoin(clientid: number) {
+    async handleJoin(clientid: number) {
         if (this.objects.has(clientid)) return null;
 
         const player: PlayerData = new PlayerData(this, clientid);
         this.players.set(clientid, player);
         this.objects.set(clientid, player);
 
-        this._addPlayer(player);
+        await this._addPlayer(player);
 
         return player;
     }
@@ -579,8 +591,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         for (let i = 0; i < player.components.length; i++) {
             const component = player.components[i];
 
-            if (component)
-                await this.despawnComponent(component);
+            if (component) await this.despawnComponent(component);
         }
 
         this.players.delete(player.id);
@@ -610,20 +621,22 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     },
                 ]),
                 Promise.race([
-                    Promise.all([...this.players.values()].map(player => {
-                        if (player.isReady) {
-                            return Promise.resolve();
-                        }
+                    Promise.all(
+                        [...this.players.values()].map((player) => {
+                            if (player.isReady) {
+                                return Promise.resolve();
+                            }
 
-                        return new Promise<void>(resolve => {
-                            player.once("player.ready", () => {
-                                resolve();
+                            return new Promise<void>((resolve) => {
+                                player.once("player.ready", () => {
+                                    resolve();
+                                });
                             });
-                        });
-                    })),
-                    sleep(3000)
+                        })
+                    ),
+                    sleep(3000),
                 ]),
-                this.me?.ready()
+                this.me?.ready(),
             ]);
 
             const removes = [];
@@ -639,18 +652,19 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     [],
                     true,
                     null,
-                    removes.map(clientid => {
+                    removes.map((clientid) => {
                         return {
                             tag: PayloadTag.RemovePlayer,
                             code: this.code,
                             reason: DisconnectReason.Error,
-                            clientid
+                            clientid,
                         };
                     })
                 );
             }
 
-            if (this.lobbybehaviour) await this.despawnComponent(this.lobbybehaviour);
+            if (this.lobbybehaviour)
+                await this.despawnComponent(this.lobbybehaviour);
 
             const ship_prefabs = [
                 SpawnID.ShipStatus,
@@ -664,7 +678,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                 ship_prefabs[this.settings?.map] || 0,
                 -2
             );
-            const shipstatus = object.components[0] as BaseShipStatus;
+            const shipstatus = object.components[0] as InnerShipStatus;
             shipstatus.selectInfected();
             shipstatus.begin();
         } else {
@@ -737,7 +751,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * Spawn a component (Not broadcasted to all clients, see {@link Hostable.spawnPrefab}).
      * @param component The component being spawned.
      * @example
-	 *```typescript
+     *```typescript
      * const meetinghud = new MeetingHud(
      *   this,
      *   this.incr_netid,
@@ -750,7 +764,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      *
      * this.spawnComponent(meetinghud);
      * ```
-	 */
+     */
     async spawnComponent(component: Networkable) {
         if (this.netobjects.get(component.netid)) {
             return;
@@ -783,10 +797,10 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * Despawn a component.
      * @param component The component being despawned.
      * @example
-	 *```typescript
+     *```typescript
      * room.despawnComponent(room.meetinghud);
      * ```
-	 */
+     */
     async despawnComponent(component: Networkable) {
         await this._despawnComponent(component);
 
@@ -800,14 +814,14 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * Get an available player ID.
      * @returns The player ID that was found.
      * @example
-	 *```typescript
+     *```typescript
      * // Get an available player ID and add it to the gamedata.
      * const playerId = room.getAvailablePlayerID();
      * room.gamedata.add(playerId);
      * ```
-	 */
+     */
     getAvailablePlayerID() {
-        for (let i = 0;; i++) {
+        for (let i = 0; ; i++) {
             if (!this.getPlayerByPlayerId(i)) {
                 return i;
             }
@@ -820,11 +834,14 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * @param owner The owner or ID of the owner of the object to spawn.
      * @returns The object that was spawned.
      * @example
-	 *```typescript
+     *```typescript
      * room.spawnPrefab(SpawnID.Player, client.me);
      * ```
-	 */
-    async spawnPrefab(type: SpawnID, owner: Heritable | number): Promise<SpawnObject> {
+     */
+    async spawnPrefab(
+        type: SpawnID,
+        owner: Heritable | number
+    ): Promise<SpawnObject> {
         const ownerid = typeof owner === "number" ? owner : owner.id;
 
         const object: Partial<SpawnObject> = {
@@ -836,7 +853,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
 
         switch (type) {
             case SpawnID.ShipStatus: {
-                const shipstatus = new ShipStatus(
+                const shipstatus = new SkeldShipStatus(
                     this,
                     this.incr_netid,
                     ownerid
@@ -880,7 +897,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     players: new Map(),
                 });
 
-                for (const [ , player ] of this.players) {
+                for (const [, player] of this.players) {
                     if (player.playerId) gamedata.add(player.playerId);
                 }
 
@@ -950,7 +967,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                 object.components.push(transform);
                 break;
             case SpawnID.Headquarters:
-                const headquarters = new Headquarters(
+                const headquarters = new MiraShipStatus(
                     this,
                     this.incr_netid,
                     ownerid
@@ -961,7 +978,11 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                 object.components.push(headquarters);
                 break;
             case SpawnID.PlanetMap:
-                const planetmap = new PlanetMap(this, this.incr_netid, ownerid);
+                const planetmap = new PolusShipStatus(
+                    this,
+                    this.incr_netid,
+                    ownerid
+                );
 
                 await this.spawnComponent(planetmap);
 
@@ -979,7 +1000,11 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                 object.components.push(aprilshipstatus);
                 break;
             case SpawnID.Airship:
-                const airship = new Airship(this, this.incr_netid, ownerid);
+                const airship = new AirshipStatus(
+                    this,
+                    this.incr_netid,
+                    ownerid
+                );
 
                 await this.spawnComponent(airship);
 

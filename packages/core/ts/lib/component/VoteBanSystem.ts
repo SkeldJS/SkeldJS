@@ -19,7 +19,10 @@ export interface VoteBanSystemEvents extends NetworkableEvents {}
  *
  * See {@link VoteBanSystemEvents} for events to listen to.
  */
-export class VoteBanSystem extends Networkable<VoteBanSystemData, VoteBanSystemEvents> {
+export class VoteBanSystem extends Networkable<
+    VoteBanSystemData,
+    VoteBanSystemEvents
+> {
     static type = SpawnID.GameData;
     type = SpawnID.GameData;
 
@@ -118,10 +121,10 @@ export class VoteBanSystem extends Networkable<VoteBanSystemData, VoteBanSystemE
      * @param voter The player to count the vote as.
      * @param target The player to vote to be kicked.
      * @example
-	 *```typescript
+     *```typescript
      * room.votebansystem.addVote(client.me, player);
      * ```
-	 */
+     */
     addVote(voter: PlayerDataResolvable, target: PlayerDataResolvable) {
         const voterid = this.room.resolvePlayerClientID(voter);
         const targetid = this.room.resolvePlayerClientID(target);

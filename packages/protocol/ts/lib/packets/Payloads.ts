@@ -4,6 +4,7 @@ import {
     GameEndReason,
     MapID,
     PayloadTag,
+    QuickChatMode,
 } from "@skeldjs/constant";
 
 import { GameOptions } from "../misc/GameOptions";
@@ -26,6 +27,7 @@ export interface HostGamePayloadServerbound {
     tag: PayloadTag.HostGame;
     bound?: "server";
     settings: GameOptions;
+    chatMode: QuickChatMode;
 }
 
 export type HostGamePayload =

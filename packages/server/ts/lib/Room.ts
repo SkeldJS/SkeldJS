@@ -4,7 +4,7 @@ import {
     Opcode,
     PayloadTag,
     PlayerData,
-    PlayerDataResolvable
+    PlayerDataResolvable,
 } from "@skeldjs/core";
 
 import {
@@ -77,9 +77,11 @@ export class Room extends Hostable<RoomEvents> {
     }
 
     async destroy() {
-        await this.broadcast(null, true, null, [{
-            tag: PayloadTag.RemoveGame
-        }]);
+        await this.broadcast(null, true, null, [
+            {
+                tag: PayloadTag.RemoveGame,
+            },
+        ]);
         this.remotes.clear();
         this.players.clear();
         this.objects.clear();
@@ -116,13 +118,21 @@ export class Room extends Hostable<RoomEvents> {
                     error: false,
                     code: this.code,
                     clientid: SpecialID.Nil,
-                    hostid: SpecialID.SaaH ? (this.started ? SpecialID.SaaH : remote.clientid) : this.hostid,
+                    hostid: SpecialID.SaaH
+                        ? this.started
+                            ? SpecialID.SaaH
+                            : remote.clientid
+                        : this.hostid,
                 },
                 {
                     tag: PayloadTag.RemovePlayer,
                     code: this.code,
                     clientid: SpecialID.Nil,
-                    hostid: SpecialID.SaaH ? (this.started ? SpecialID.SaaH : remote.clientid) : this.hostid,
+                    hostid: SpecialID.SaaH
+                        ? this.started
+                            ? SpecialID.SaaH
+                            : remote.clientid
+                        : this.hostid,
                     reason: 0,
                 }
             );

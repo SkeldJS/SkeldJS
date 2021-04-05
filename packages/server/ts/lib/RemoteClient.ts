@@ -46,7 +46,7 @@ export interface RemoteClientEvents {
          * The room that the remote client joined.
          */
         found: Room;
-    }
+    };
 }
 
 /**
@@ -121,7 +121,7 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
 
         this.server.emit(event, {
             remote: this,
-            ...data
+            ...data,
         });
 
         return super.emit(event, data);

@@ -2,11 +2,11 @@ import assert from "assert";
 
 import { EventContext, EventEmitter } from "./EventEmitter";
 
-
-const sleep = ms => new Promise<void>(resolve => setTimeout(() => resolve(), ms));
+const sleep = (ms) =>
+    new Promise<void>((resolve) => setTimeout(() => resolve(), ms));
 interface TestEvents {
     "hello.123": {
-        alphabet: number
+        alphabet: number;
     };
 }
 
@@ -16,7 +16,7 @@ describe("EventEmitter", () => {
             let didreceive = false;
             const emitter = new EventEmitter<TestEvents>();
 
-            emitter.on("hello.123", async ev => {
+            emitter.on("hello.123", async (ev) => {
                 assert.strictEqual(ev.data.alphabet, 5);
                 didreceive = true;
             });
@@ -29,7 +29,7 @@ describe("EventEmitter", () => {
             let didreceive = false;
             const emitter = new EventEmitter<TestEvents>();
 
-            emitter.on("hello.123", async ev => {
+            emitter.on("hello.123", async (ev) => {
                 assert.strictEqual(ev.data.alphabet, 5);
                 ev.cancel();
             });
@@ -51,7 +51,7 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            const off = emitter.on("hello.123", async ev => {
+            const off = emitter.on("hello.123", async (ev) => {
                 assert.strictEqual(ev.data.alphabet, 5);
             });
 
@@ -66,7 +66,7 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            emitter.once("hello.123", async ev => {
+            emitter.once("hello.123", async (ev) => {
                 assert.strictEqual(ev.data.alphabet, 6);
             });
 
@@ -132,7 +132,7 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            emitter.on("hello.123", async ev => {
+            emitter.on("hello.123", async (ev) => {
                 assert.strictEqual(ev.data.alphabet, 5);
                 didreceive = true;
             });
@@ -153,7 +153,7 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            emitter.on("hello.123", async ev => {
+            emitter.on("hello.123", async (ev) => {
                 assert.strictEqual(ev.data.alphabet, 5);
                 didreceive = true;
             });

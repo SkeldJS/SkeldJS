@@ -2,42 +2,40 @@ import { HazelBuffer } from "@skeldjs/util";
 
 import { SpawnID, SystemType } from "@skeldjs/constant";
 
-import { ShipStatusData, BaseShipStatus } from "./BaseShipStatus";
-
-import {
-    HudOverrideSystem,
-    LifeSuppSystem,
-    MedScanSystem,
-    SecurityCameraSystem,
-    AutoDoorsSystem,
-    SabotageSystem,
-    SwitchSystem,
-    ReactorSystem,
-} from "../system";
+import { InnerShipStatus, ShipStatusData } from "./InnerShipStatus";
 
 import { Hostable } from "../Hostable";
 
+import {
+    DeconSystem,
+    HqHudSystem,
+    LifeSuppSystem,
+    MedScanSystem,
+    ReactorSystem,
+    SabotageSystem,
+    SwitchSystem,
+} from "../system";
+
 /**
- * Represents a room object for the The Skeld map.
+ * Represents a room object for the Mira HQ map.
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class ShipStatus extends BaseShipStatus {
-    static type = SpawnID.ShipStatus as const;
-    type = SpawnID.ShipStatus as const;
+export class MiraShipStatus extends InnerShipStatus {
+    static type = SpawnID.Headquarters as const;
+    type = SpawnID.Headquarters as const;
 
-    static classname = "ShipStatus" as const;
-    classname = "ShipStatus" as const;
+    static classname = "Headquarters" as const;
+    classname = "Headquarters" as const;
 
     systems: {
         [SystemType.Reactor]: ReactorSystem;
         [SystemType.Electrical]: SwitchSystem;
         [SystemType.O2]: LifeSuppSystem;
         [SystemType.MedBay]: MedScanSystem;
-        [SystemType.Security]: SecurityCameraSystem;
-        [SystemType.Communications]: HudOverrideSystem;
-        [SystemType.Doors]: AutoDoorsSystem;
+        [SystemType.Communications]: HqHudSystem;
         [SystemType.Sabotage]: SabotageSystem;
+        [SystemType.Decontamination]: DeconSystem;
     };
 
     constructor(
@@ -49,6 +47,10 @@ export class ShipStatus extends BaseShipStatus {
         super(room, netid, ownerid, data);
     }
 
+    get owner() {
+        return super.owner as Hostable;
+    }
+
     Setup() {
         this.systems = {
             [SystemType.Reactor]: new ReactorSystem(this, {
@@ -58,7 +60,7 @@ export class ShipStatus extends BaseShipStatus {
             [SystemType.Electrical]: new SwitchSystem(this, {
                 expected: [false, false, false, false, false],
                 actual: [false, false, false, false, false],
-                brightness: 255,
+                brightness: 100,
             }),
             [SystemType.O2]: new LifeSuppSystem(this, {
                 timer: 10000,
@@ -67,32 +69,16 @@ export class ShipStatus extends BaseShipStatus {
             [SystemType.MedBay]: new MedScanSystem(this, {
                 queue: [],
             }),
-            [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set(),
-            }),
-            [SystemType.Communications]: new HudOverrideSystem(this, {
-                sabotaged: false,
-            }),
-            [SystemType.Doors]: new AutoDoorsSystem(this, {
-                dirtyBit: 0,
-                doors: [
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                    true,
-                ],
+            [SystemType.Communications]: new HqHudSystem(this, {
+                active: [],
+                completed: new Set([0, 1]),
             }),
             [SystemType.Sabotage]: new SabotageSystem(this, {
                 cooldown: 0,
+            }),
+            [SystemType.Decontamination]: new DeconSystem(this, {
+                timer: 10000,
+                state: 0,
             }),
         };
     }

@@ -5,12 +5,12 @@ export enum TokenType {
     EndTag,
     Close,
     Word,
-    Equals
+    Equals,
 }
 
 export enum PartType {
     Tag,
-    Text
+    Text,
 }
 
 export interface ParseToken {
@@ -27,9 +27,9 @@ export interface TagParsePart extends BaseParsePart {
     type: PartType.Tag;
     value: {
         tagName: TMPTag;
-        attributes: TagPartAttribute[],
+        attributes: TagPartAttribute[];
         children: ParsePart[];
-    }
+    };
 }
 
 export interface TextParsePart extends BaseParsePart {
@@ -45,7 +45,10 @@ export interface TagPartAttribute {
 }
 
 function transformer(tokens: ParseToken[]): ParsePart[];
-function transformer(tokens: ParseToken[], tagName: string): [ number, ParsePart[] ];
+function transformer(
+    tokens: ParseToken[],
+    tagName: string
+): [number, ParsePart[]];
 function transformer(tokens: ParseToken[], tagName?: string) {
     const parts: ParsePart[] = [];
     for (let i = 0; i < tokens.length; i++) {
@@ -53,18 +56,22 @@ function transformer(tokens: ParseToken[], tagName?: string) {
         const next = tokens[i + 1];
         const part: ParsePart = {
             type: null,
-            value: null
+            value: null,
         };
 
-        if (token.type === TokenType.EndTag)
-            continue;
+        if (token.type === TokenType.EndTag) continue;
 
         if (token.type === TokenType.Word) {
             part.type = PartType.Text;
             part.value = token.value;
         } else if (token.type === TokenType.BeginTag) {
-            if (next && next.type === TokenType.Close && tokens[i + 2] && tokens[i + 2].value === tagName) {
-                return [ ++i, parts ];
+            if (
+                next &&
+                next.type === TokenType.Close &&
+                tokens[i + 2] &&
+                tokens[i + 2].value === tagName
+            ) {
+                return [++i, parts];
             }
 
             const attributes = [];
@@ -84,7 +91,7 @@ function transformer(tokens: ParseToken[], tagName?: string) {
                     } else {
                         attributes.push({
                             key: token.value,
-                            value: null
+                            value: null,
                         });
                     }
                 }
@@ -93,9 +100,12 @@ function transformer(tokens: ParseToken[], tagName?: string) {
             part.value = {
                 tagName: attributes[0].key,
                 attributes: attributes,
-                children: []
+                children: [],
             };
-            const [ j, child_parts ] = transformer(tokens.slice(i), part.value.tagName) as [ number, ParsePart[] ];
+            const [j, child_parts] = transformer(
+                tokens.slice(i),
+                part.value.tagName
+            ) as [number, ParsePart[]];
             i += j + 2;
             part.value.children = child_parts;
         }
@@ -106,9 +116,9 @@ function transformer(tokens: ParseToken[], tagName?: string) {
     return parts;
 }
 
-function construct(part: ParsePart|ParsePart[]) {
+function construct(part: ParsePart | ParsePart[]) {
     if (Array.isArray(part)) {
-        const doc = new DocElement;
+        const doc = new DocElement();
         for (let i = 0; i < part.length; i++) {
             doc.children.push(construct(part[i]));
         }
@@ -144,7 +154,7 @@ export function parseTMP(content: string) {
         const last = tokens[tokens.length - 1];
 
         if (in_quote) {
-            if (char === "\"") {
+            if (char === '"') {
                 if (!escaping) {
                     in_quote = false;
                     continue;
@@ -165,11 +175,11 @@ export function parseTMP(content: string) {
             } else if (char === ">") {
                 in_tag = false;
                 tokens.push({ type: TokenType.EndTag, value: ">" });
-            }  else if (char === "/") {
+            } else if (char === "/") {
                 tokens.push({ type: TokenType.Close, value: "/" });
             } else if (char === "=") {
                 tokens.push({ type: TokenType.Equals, value: "=" });
-            } else if (char === "\"") {
+            } else if (char === '"') {
                 tokens.push({ type: TokenType.Word, value: "" });
                 in_quote = true;
             } else if (/ |\w|\d|[#-]/.test(char)) {
@@ -188,7 +198,7 @@ export function parseTMP(content: string) {
         }
     }
 
-    tokens = tokens.filter(token => token); // Remove whitespace
+    tokens = tokens.filter((token) => token); // Remove whitespace
 
     return construct(transformer(tokens));
 }
