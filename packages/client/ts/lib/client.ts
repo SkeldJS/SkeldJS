@@ -177,6 +177,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
      */
     clientid: number;
 
+    private token: number;
     private settings_cache: GameOptions;
 
     /**
@@ -497,6 +498,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
         this.identified = true;
         this.username = username;
+        this.token = token;
     }
 
     waitPacket(
@@ -767,7 +769,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         if (this.me && this.code !== code) {
             const username = this.username;
             await this.disconnect();
-            await this.connect(this.ip, username, this.port);
+            await this.connect(this.ip, username, this.token, this.port);
         }
 
         await this.send({
@@ -802,7 +804,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
             case PayloadTag.Redirect:
                 const username = this.username;
                 await this.disconnect();
-                await this.connect(payload.ip, username, payload.port);
+                await this.connect(payload.ip, username, this.token, payload.port);
 
                 return await this.joinGame(code, doSpawn);
             case PayloadTag.JoinedGame:
@@ -872,7 +874,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 const username = this.username;
 
                 await this.disconnect();
-                await this.connect(payload.ip, username, payload.port);
+                await this.connect(payload.ip, username, this.token, payload.port);
 
                 return await this.createGame(host_settings, doJoin);
             case PayloadTag.HostGame:
