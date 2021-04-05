@@ -7,7 +7,12 @@ import * as skeldjs from "..";
     await client.connect("EU", "weakeyes", 3988070537);
 
     console.log("Joining game..");
-    await client.joinGame("FZZJVF");
+    await client.joinGame("VVGJZF", false);
+
+    client.on("component.spawn", ev => {
+        console.log(ev.data.component.classname);
+    });
+    await client.spawnSelf();
 
     console.log("Joined game.");
 })();

@@ -110,12 +110,14 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
             for (let i = 0; i < num_players; i++) {
                 const playerId = reader.uint8();
                 const data = GameData.readPlayerData(reader);
+                data.playerId = playerId;
                 this.players.set(playerId, data);
             }
         } else {
             while (reader.left) {
                 const [ playerId, preader ] = reader.message();
                 const data = GameData.readPlayerData(preader);
+                data.playerId = playerId;
                 this.players.set(playerId, data);
             }
         }
