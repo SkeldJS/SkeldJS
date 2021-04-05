@@ -290,7 +290,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                             if (payload.error === false) {
                                 if (this.me && this.code === payload.code) {
                                     await this.handleJoin(payload.clientid);
-                                    this.setHost(payload.hostid);
+                                    await this.setHost(payload.hostid);
                                 }
                             }
                             break;
@@ -306,8 +306,8 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                             break;
                         case PayloadTag.RemovePlayer:
                             if (this.me && this.code === payload.code) {
-                                this.handleLeave(payload.clientid);
-                                this.setHost(payload.hostid);
+                                await this.handleLeave(payload.clientid);
+                                await this.setHost(payload.hostid);
                             }
                             break;
                         case PayloadTag.GameData:
@@ -320,14 +320,14 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                                 ) {
                                     const message = payload.messages[i];
 
-                                    this.handleGameData(message);
+                                    await this.handleGameData(message);
                                 }
                             }
                             break;
                         case PayloadTag.JoinedGame:
                             this.clientid = payload.clientid;
-                            this.setCode(payload.code);
-                            this.setHost(payload.hostid);
+                            await this.setCode(payload.code);
+                            await this.setHost(payload.hostid);
                             await this.handleJoin(payload.clientid);
                             for (let i = 0; i < payload.clients.length; i++) {
                                 await this.handleJoin(payload.clients[i]);
