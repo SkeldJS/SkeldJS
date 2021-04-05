@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>UpdateGameDataRpc | SkeldJS</title>
+	<title>MovingPlatformSide | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,91 +54,52 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/protocol.html">protocol</a>
+					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="protocol.updategamedatarpc.html">UpdateGameDataRpc</a>
+					<a href="core.movingplatformside.html">MovingPlatformSide</a>
 				</li>
 			</ul>
-			<h1>Interface UpdateGameDataRpc</h1>
+			<h1>Enumeration MovingPlatformSide</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<a href="protocol.baserpcmessage.html" class="tsd-signature-type">BaseRpcMessage</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">UpdateGameDataRpc</span>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="protocol.updategamedatarpc.html#netid" class="tsd-kind-icon">netid</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="protocol.updategamedatarpc.html#players" class="tsd-kind-icon">players</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite"><a href="protocol.updategamedatarpc.html#rpcid" class="tsd-kind-icon">rpcid</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="protocol.updategamedatarpc.html#tag" class="tsd-kind-icon">tag</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="core.movingplatformside.html#left" class="tsd-kind-icon">Left</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="core.movingplatformside.html#right" class="tsd-kind-icon">Right</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-					<a name="netid" class="tsd-anchor"></a>
-					<h3>netid</h3>
-					<div class="tsd-signature tsd-kind-icon">netid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="left" class="tsd-anchor"></a>
+					<h3>Left</h3>
+					<div class="tsd-signature tsd-kind-icon">Left<span class="tsd-signature-symbol">:</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="protocol.baserpcmessage.html">BaseRpcMessage</a>.<a href="protocol.baserpcmessage.html#netid">netid</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/protocol/ts/lib/packets/RpcMessages.ts#L19">protocol/ts/lib/packets/RpcMessages.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/system/MovingPlatformSystem.ts#L19">core/ts/lib/system/MovingPlatformSystem.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="players" class="tsd-anchor"></a>
-					<h3>players</h3>
-					<div class="tsd-signature tsd-kind-icon">players<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerGameData</span><span class="tsd-signature-symbol">[]</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="right" class="tsd-anchor"></a>
+					<h3>Right</h3>
+					<div class="tsd-signature tsd-kind-icon">Right<span class="tsd-signature-symbol">:</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/protocol/ts/lib/packets/RpcMessages.ts#L182">protocol/ts/lib/packets/RpcMessages.ts:182</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-					<a name="rpcid" class="tsd-anchor"></a>
-					<h3>rpcid</h3>
-					<div class="tsd-signature tsd-kind-icon">rpcid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">UpdateGameData</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides <a href="protocol.baserpcmessage.html">BaseRpcMessage</a>.<a href="protocol.baserpcmessage.html#rpcid">rpcid</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/protocol/ts/lib/packets/RpcMessages.ts#L181">protocol/ts/lib/packets/RpcMessages.ts:181</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
-					<a name="tag" class="tsd-anchor"></a>
-					<h3>tag</h3>
-					<div class="tsd-signature tsd-kind-icon">tag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RPC</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="protocol.baserpcmessage.html">BaseRpcMessage</a>.<a href="protocol.baserpcmessage.html#tag">tag</a></p>
-						<p>Overrides <a href="protocol.basegamedatamessage.html">BaseGameDataMessage</a>.<a href="protocol.basegamedatamessage.html#tag">tag</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/protocol/ts/lib/packets/RpcMessages.ts#L17">protocol/ts/lib/packets/RpcMessages.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/system/MovingPlatformSystem.ts#L18">core/ts/lib/system/MovingPlatformSystem.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -156,7 +117,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html">constant</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/core.html">core</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -168,7 +129,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html">pathfinding</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html">protocol</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -196,9 +157,26 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html" class="tsd-kind-icon">constant</a>
 					</li>
-					<li class=" tsd-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
 						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
+						<ul>
+							<li class="current tsd-kind-enum tsd-parent-kind-module">
+								<a href="core.movingplatformside.html" class="tsd-kind-icon">Moving<wbr>Platform<wbr>Side</a>
+								<ul>
+									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+										<a href="core.movingplatformside.html#left" class="tsd-kind-icon">Left</a>
+									</li>
+									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+										<a href="core.movingplatformside.html#right" class="tsd-kind-icon">Right</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/data.html" class="tsd-kind-icon">data</a>
 					</li>
@@ -208,32 +186,9 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
-						<ul>
-							<li class="current tsd-kind-interface tsd-parent-kind-module">
-								<a href="protocol.updategamedatarpc.html" class="tsd-kind-icon">Update<wbr>Game<wbr>Data<wbr>Rpc</a>
-								<ul>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
-										<a href="protocol.updategamedatarpc.html#netid" class="tsd-kind-icon">netid</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="protocol.updategamedatarpc.html#players" class="tsd-kind-icon">players</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite">
-										<a href="protocol.updategamedatarpc.html#rpcid" class="tsd-kind-icon">rpcid</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
-										<a href="protocol.updategamedatarpc.html#tag" class="tsd-kind-icon">tag</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/server.html" class="tsd-kind-icon">server</a>
 					</li>
@@ -267,15 +222,14 @@
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>

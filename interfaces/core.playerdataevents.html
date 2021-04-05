@@ -90,6 +90,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="core.playerdataevents.html#component_despawn" class="tsd-kind-icon">component.despawn</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="core.playerdataevents.html#component_spawn" class="tsd-kind-icon">component.spawn</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.playerdataevents.html#player_chat" class="tsd-kind-icon">player.chat</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.playerdataevents.html#player_climbladder" class="tsd-kind-icon">player.climbladder</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.playerdataevents.html#player_completetask" class="tsd-kind-icon">player.completetask</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.playerdataevents.html#player_component_despawn" class="tsd-kind-icon">player.component.despawn</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.playerdataevents.html#player_component_spawn" class="tsd-kind-icon">player.component.spawn</a></li>
@@ -128,7 +129,7 @@
 						<p>Inherited from <a href="core.networkableevents.html">NetworkableEvents</a>.<a href="core.networkableevents.html#component_despawn">component.despawn</a></p>
 						<p>Overrides <a href="core.networkableevents.html">NetworkableEvents</a>.<a href="core.networkableevents.html#component_despawn">component.despawn</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/Networkable.ts#L17">core/ts/lib/Networkable.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/Networkable.ts#L17">core/ts/lib/Networkable.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -150,7 +151,7 @@
 						<p>Inherited from <a href="core.networkableevents.html">NetworkableEvents</a>.<a href="core.networkableevents.html#component_spawn">component.spawn</a></p>
 						<p>Overrides <a href="core.networkableevents.html">NetworkableEvents</a>.<a href="core.networkableevents.html#component_spawn">component.spawn</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/Networkable.ts#L13">core/ts/lib/Networkable.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/Networkable.ts#L13">core/ts/lib/Networkable.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -171,7 +172,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_chat">player.chat</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L128">core/ts/lib/component/PlayerControl.ts:128</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L133">core/ts/lib/component/PlayerControl.ts:133</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -194,13 +195,42 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="player_climbladder" class="tsd-anchor"></a>
+					<h3>player.climbladder</h3>
+					<div class="tsd-signature tsd-kind-icon">player.climbladder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>ladderId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_climbladder">player.climbladder</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerPhysics.ts#L36">core/ts/lib/component/PlayerPhysics.ts:36</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Emitted when a player uses a ladder.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>ladder<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The ID of the ladder that the player climbed.</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_completetask" class="tsd-anchor"></a>
 					<h3>player.completetask</h3>
 					<div class="tsd-signature tsd-kind-icon">player.completetask<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>task<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TaskState</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_completetask">player.completetask</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L29">core/ts/lib/component/PlayerControl.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L34">core/ts/lib/component/PlayerControl.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -228,7 +258,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.component.despawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>component<span class="tsd-signature-symbol">: </span><a href="../classes/core.playercontrol.html" class="tsd-signature-type">PlayerControl</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.playerphysics.html" class="tsd-signature-type">PlayerPhysics</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.customnetworktransform.html" class="tsd-signature-type">CustomNetworkTransform</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/PlayerData.ts#L59">core/ts/lib/PlayerData.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/PlayerData.ts#L58">core/ts/lib/PlayerData.ts:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -256,7 +286,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.component.spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>component<span class="tsd-signature-symbol">: </span><a href="../classes/core.playercontrol.html" class="tsd-signature-type">PlayerControl</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.playerphysics.html" class="tsd-signature-type">PlayerPhysics</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.customnetworktransform.html" class="tsd-signature-type">CustomNetworkTransform</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/PlayerData.ts#L50">core/ts/lib/PlayerData.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/PlayerData.ts#L49">core/ts/lib/PlayerData.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -285,7 +315,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_entervent">player.entervent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerPhysics.ts#L16">core/ts/lib/component/PlayerPhysics.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerPhysics.ts#L18">core/ts/lib/component/PlayerPhysics.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -314,7 +344,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_exitvent">player.exitvent</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerPhysics.ts#L25">core/ts/lib/component/PlayerPhysics.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerPhysics.ts#L27">core/ts/lib/component/PlayerPhysics.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -342,7 +372,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.join<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/PlayerData.ts#L30">core/ts/lib/PlayerData.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/PlayerData.ts#L29">core/ts/lib/PlayerData.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -362,7 +392,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.leave<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/PlayerData.ts#L34">core/ts/lib/PlayerData.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/PlayerData.ts#L33">core/ts/lib/PlayerData.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -383,7 +413,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_meeting">player.meeting</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L119">core/ts/lib/component/PlayerControl.ts:119</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L124">core/ts/lib/component/PlayerControl.ts:124</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -412,7 +442,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_move">player.move</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/CustomNetworkTransform.ts#L21">core/ts/lib/component/CustomNetworkTransform.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/CustomNetworkTransform.ts#L22">core/ts/lib/component/CustomNetworkTransform.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -449,7 +479,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_murder">player.murder</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L110">core/ts/lib/component/PlayerControl.ts:110</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L115">core/ts/lib/component/PlayerControl.ts:115</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -477,7 +507,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.ready<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/PlayerData.ts#L26">core/ts/lib/PlayerData.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/PlayerData.ts#L25">core/ts/lib/PlayerData.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -497,7 +527,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.scenechange<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/PlayerData.ts#L42">core/ts/lib/PlayerData.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/PlayerData.ts#L41">core/ts/lib/PlayerData.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -518,7 +548,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setcolor">player.setcolor</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L47">core/ts/lib/component/PlayerControl.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L52">core/ts/lib/component/PlayerControl.ts:52</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -547,7 +577,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_sethat">player.sethat</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L56">core/ts/lib/component/PlayerControl.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L61">core/ts/lib/component/PlayerControl.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -575,7 +605,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.sethost<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/PlayerData.ts#L38">core/ts/lib/PlayerData.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/PlayerData.ts#L37">core/ts/lib/PlayerData.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -596,7 +626,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setimpostors">player.setimpostors</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L101">core/ts/lib/component/PlayerControl.ts:101</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L106">core/ts/lib/component/PlayerControl.ts:106</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -625,7 +655,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setname">player.setname</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L38">core/ts/lib/component/PlayerControl.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L43">core/ts/lib/component/PlayerControl.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -654,7 +684,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setpet">player.setpet</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L74">core/ts/lib/component/PlayerControl.ts:74</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L79">core/ts/lib/component/PlayerControl.ts:79</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -683,7 +713,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setskin">player.setskin</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L65">core/ts/lib/component/PlayerControl.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L70">core/ts/lib/component/PlayerControl.ts:70</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -712,7 +742,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setstartcounter">player.setstartcounter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L92">core/ts/lib/component/PlayerControl.ts:92</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L97">core/ts/lib/component/PlayerControl.ts:97</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -741,7 +771,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_snapto">player.snapto</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/CustomNetworkTransform.ts#L34">core/ts/lib/component/CustomNetworkTransform.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/CustomNetworkTransform.ts#L35">core/ts/lib/component/CustomNetworkTransform.ts:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -769,7 +799,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/PlayerData.ts#L46">core/ts/lib/PlayerData.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/PlayerData.ts#L45">core/ts/lib/PlayerData.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -790,7 +820,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_syncsettings">player.syncsettings</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4bf11c7/packages/core/ts/lib/component/PlayerControl.ts#L83">core/ts/lib/component/PlayerControl.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f89f459/packages/core/ts/lib/component/PlayerControl.ts#L88">core/ts/lib/component/PlayerControl.ts:88</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -882,6 +912,9 @@
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a href="core.playerdataevents.html#player_chat" class="tsd-kind-icon">player.chat</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a href="core.playerdataevents.html#player_climbladder" class="tsd-kind-icon">player.climbladder</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a href="core.playerdataevents.html#player_completetask" class="tsd-kind-icon">player.completetask</a>
