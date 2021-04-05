@@ -102,14 +102,22 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        this.players = new Map();
+        if (spawn) {
+            this.players = new Map();
 
-        const num_players = spawn ? reader.upacked() : reader.uint8();
+            const num_players = reader.upacked();
 
-        for (let i = 0; i < num_players; i++) {
-            const data = GameData.readPlayerData(reader);
-
-            this.players.set(data.playerId, data);
+            for (let i = 0; i < num_players; i++) {
+                const playerId = reader.uint8();
+                const data = GameData.readPlayerData(reader);
+                this.players.set(playerId, data);
+            }
+        } else {
+            while (reader.left) {
+                const [ playerId, preader ] = reader.message();
+                const data = GameData.readPlayerData(preader);
+                this.players.set(playerId, data);
+            }
         }
     }
 
@@ -384,7 +392,6 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      */
     static readPlayerData(reader: HazelBuffer): PlayerGameData {
         const data: Partial<PlayerGameData> = {};
-        data.playerId = reader.uint8();
         data.name = reader.string();
         data.color = reader.upacked();
         data.hat = reader.upacked();
