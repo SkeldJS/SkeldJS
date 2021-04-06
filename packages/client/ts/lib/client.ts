@@ -248,8 +248,6 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
     }
 
     async handlePacket(packet: ClientboundPacket) {
-        this.emit("client.packet", { packet });
-
         switch (packet.op) {
             case Opcode.Reliable:
             case Opcode.Hello:
@@ -343,6 +341,8 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 }
                 break;
         }
+
+        await this.emit("client.packet", { packet });
     }
 
     async onMessage(message: Buffer) {
