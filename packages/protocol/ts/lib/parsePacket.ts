@@ -239,7 +239,6 @@ export function parsePayload(bound: "client"|"server", tag: number, reader: Haze
                 payload.error = !!DisconnectReason[
                     reader.buffer.readInt32LE(reader.cursor)
                 ];
-                console.log(reader.buffer.readInt32LE(reader.cursor));
                 if (payload.error) {
                     payload.reason = reader.uint32();
                 } else if (payload.error === false) {
