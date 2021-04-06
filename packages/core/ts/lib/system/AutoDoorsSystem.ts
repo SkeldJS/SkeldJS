@@ -66,7 +66,8 @@ export class AutoDoorsSystem extends SystemStatus<
             for (let i = 0; i < MapDoors[MapID.TheSkeld]; i++) {
                 if (mask & (1 << i)) {
                     const door = this.doors[i];
-                    door.open = open;
+                    const open = reader.bool();
+                    door.isOpen = open;
                 }
             }
         }
