@@ -98,7 +98,7 @@ export class PlayerPhysics extends Networkable<
 
     private _enterVent(ventid: number) {
         this.vent = ventid;
-        this.emit("player.entervent", ventid);
+        this.emit("player.entervent", { ventid });
     }
 
     /**
@@ -122,7 +122,7 @@ export class PlayerPhysics extends Networkable<
 
     private _exitVent(ventid: number) {
         this.vent = null;
-        this.emit("player.exitvent", ventid);
+        this.emit("player.exitvent", { ventid });
     }
 
     /**

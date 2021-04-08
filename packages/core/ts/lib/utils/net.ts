@@ -7,9 +7,8 @@ export class NetworkUtils {
      static seqIdGreaterThan(newSid: number, oldSid: number, bytes = 2) {
         if (typeof oldSid !== "number") return true;
 
-        const threshold = 2 ** (bytes * 8);
-
-        const num = oldSid + threshold / 2;
+        const threshold = 2 ** ((bytes * 8) - 1);
+        const num = oldSid + threshold;
 
         if (oldSid < num) {
             return newSid > oldSid && newSid <= num;
