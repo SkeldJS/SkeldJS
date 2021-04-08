@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/tasks",
-  "version": "2.6.9",
+  "version": "2.6.10",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -9,6 +9,6 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/core": "^2.6.9"
+    "@skeldjs/core": "^2.6.10"
   }
 }

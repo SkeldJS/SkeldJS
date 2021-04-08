@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/pathfinding",
-  "version": "2.6.9",
+  "version": "2.6.10",
   "main": "js/index.js",
   "license": "GPL-3.0-only",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@skeldjs/constant": "^2.6.3",
-    "@skeldjs/core": "^2.6.9",
+    "@skeldjs/core": "^2.6.10",
     "@skeldjs/data": "^2.6.3",
     "@skeldjs/events": "^2.6.3",
     "@skeldjs/util": "^2.6.3",
