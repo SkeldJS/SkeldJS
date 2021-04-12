@@ -43,7 +43,6 @@ import { Hostable, HostableEvents, PlayerData, RoomID } from "@skeldjs/core";
 import {
     Code2Int,
     HazelBuffer,
-    sleep,
     unary,
     EncodeVersion,
     createMissingBitfield,
@@ -434,6 +433,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
     private _reset() {
         if (this.socket) {
+            this.socket.close();
             this.socket.removeAllListeners();
         }
 
@@ -461,21 +461,13 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                     message,
                     show_reason: true,
                 });
-
                 this.sent_disconnect = true;
-
-                await Promise.race([
-                    this.wait("client.disconnect"),
-                    sleep(6000),
-                ]);
-            } else if (this.sent_disconnect) {
-                this.emit("client.disconnect", {
-                    reason,
-                    message: message || DisconnectMessages[reason],
-                });
-
-                this._reset();
             }
+            this.emit("client.disconnect", {
+                reason,
+                message: message || DisconnectMessages[reason],
+            });
+            this._reset();
         }
     }
 
