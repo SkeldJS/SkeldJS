@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/core",
-  "version": "2.6.10",
+  "version": "2.6.11",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@skeldjs/constant": "^2.6.3",
-    "@skeldjs/data": "^2.6.3",
+    "@skeldjs/data": "^2.6.11",
     "@skeldjs/events": "^2.6.3",
     "@skeldjs/protocol": "^2.6.9",
     "@skeldjs/types": "^2.2.7",
