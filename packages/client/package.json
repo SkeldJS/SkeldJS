@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/client",
-  "version": "2.6.10",
+  "version": "2.6.11",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -10,8 +10,8 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "@skeldjs/constant": "^2.6.3",
-    "@skeldjs/core": "^2.6.10",
-    "@skeldjs/data": "^2.6.3",
+    "@skeldjs/core": "^2.6.11",
+    "@skeldjs/data": "^2.6.11",
     "@skeldjs/events": "^2.6.3",
     "@skeldjs/protocol": "^2.6.9",
     "@skeldjs/util": "^2.6.3"
