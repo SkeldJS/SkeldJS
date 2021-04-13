@@ -38,6 +38,18 @@ export type TMPTag =
 
 export type TMPNode = TMPElement | string;
 export type TMPRGBA = [number, number, number, number];
+
+function formatAttrVal(val: string|number) {
+    if (typeof val === "number")
+        return val;
+
+    if (val.includes(" ")) {
+        return "\"" + val + "\"";
+    }
+
+    return val;
+}
+
 export class TMPElement {
     static SINGLES: TMPTag[] = ["page", "space"];
 
@@ -124,13 +136,12 @@ export class TMPElement {
         if (tag_attr) {
             const attrs = entries
                 .filter(([key]) => key !== this.tagName)
-                .map(([key, val]) => key + '="' + val + '"');
+                .map(([key, val]) => key + "=" + formatAttrVal(val));
 
             return (
                 this.tagName +
-                '="' +
-                tag_attr[1] +
-                '"' +
+                "=" +
+                formatAttrVal(tag_attr[1]) +
                 (attrs.length ? attrs.join(" ") : "")
             );
         } else {
@@ -138,7 +149,7 @@ export class TMPElement {
                 this.tagName +
                 (entries.length
                     ? entries
-                          .map(([key, val]) => key + '="' + val + '"')
+                          .map(([key, val]) => key + "=" + formatAttrVal(val))
                           .join(" ")
                     : "")
             );
@@ -178,8 +189,8 @@ export class TMPElement {
      * const formatted = tb().text("text element like a boss");
      * ```
      */
-    text(node: TMPNode) {
-        this.children.push(f.text(node));
+    text(node: TMPNode, parse = false) {
+        this.children.push(f.text(node, parse));
         return this;
     }
 

@@ -827,7 +827,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         host_settings: Partial<GameOptions> = {},
         doJoin: boolean = true,
         chatMode: QuickChatMode = QuickChatMode.FreeChat
-    ): Promise<RoomID> {
+    ): Promise<number> {
         const settings = {
             ...SkeldjsClient.defaultGameOptions,
             ...host_settings,

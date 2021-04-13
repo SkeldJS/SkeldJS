@@ -11,9 +11,9 @@ const hex = (h: number) => h.toString(16).padStart(2, "0");
 /**
  * Create a text element.
  */
-export function text(node: TMPNode) {
+export function text(node: TMPNode, parse = false) {
     if (typeof node === "string") {
-        if (node.includes("<")) {
+        if (node.includes("<") && !parse) {
             return new TMPElement("noparse", {}, node);
         } else {
             return node;
