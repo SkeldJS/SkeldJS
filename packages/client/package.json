@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/client",
-  "version": "2.6.11",
+  "version": "2.6.12",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -9,7 +9,7 @@
   },
   "license": "GPL-3.0-only",
   "devDependencies": {
-    "@skeldjs/text": "^2.6.3",
+    "@skeldjs/text": "^2.6.12",
     "gif-frames": "^1.0.1",
     "image-pixels": "^2.2.2"
   },
