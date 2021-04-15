@@ -18,7 +18,6 @@ The repository holds several key programs for automating development with Among 
 as well as a central `@skeldjs/skeldjs` package that contains an abstracted client API, with Redis support and multiple server nodes.
 
 The repository also hosts utility packages for the packages listed above, that you can use individually.
-* **State** - A very small state manager to wrap the **Core** module that bases the client package.
 * **Core** - An impartial core internal API for Among Us structures and game objects that are shared across all main projects.
 * **Protocol** - Protocol interfaces with full parsing and composing.
 * **Constant** - Enums & bitfields in Among Us.
@@ -112,14 +111,12 @@ yarn add @skeldjs/tasks
 
 ### To install utility packages
 ```
-npm install --save @skeldjs/state
 npm install --save @skeldjs/core
 npm install --save @skeldjs/protocol
 npm install --save @skeldjs/constant
 npm install --save @skeldjs/data
 npm install --save @skeldjs/util
 or
-yarn add @skeldjs/state
 yarn add @skeldjs/core
 yarn add @skeldjs/protocol
 yarn add @skeldjs/constant
