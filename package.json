@@ -43,11 +43,9 @@
   "dependenciesMeta": {
     "highlight.js": {
       "built": false
-    }
-  },
-  "peerDependenciesMeta": {
+    },
     "onigasm": {
-      "optional": true
+      "unplugged": false
     }
   },
   "husky": {

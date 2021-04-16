@@ -4529,7 +4529,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["onigasm", [
         ["npm:2.2.5", {
-          "packageLocation": "./.yarn/unplugged/onigasm-npm-2.2.5-55c6d729c4/node_modules/onigasm/",
+          "packageLocation": "./.yarn/cache/onigasm-npm-2.2.5-55c6d729c4-97aedde610.zip/node_modules/onigasm/",
           "packageDependencies": [
             ["onigasm", "npm:2.2.5"],
             ["lru-cache", "npm:5.1.1"]

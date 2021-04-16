@@ -4576,6 +4576,8 @@ resolve@^1.1.6:
   dependenciesMeta:
     highlight.js:
       built: false
+    onigasm:
+      unplugged: false
   languageName: unknown
   linkType: soft
 
