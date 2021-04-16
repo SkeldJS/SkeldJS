@@ -9,7 +9,9 @@ import {
 import {
     PayloadMessageClientbound,
     ClientboundPacket,
-    parsePacket
+    parsePacket,
+    ServerboundPacket,
+    PayloadMessageServerbound
 } from "@skeldjs/protocol";
 
 export interface SkeldjsStateManagerEvents extends HostableEvents {
@@ -49,7 +51,7 @@ export class SkeldjsStateManager<T extends Record<string, any> = {}> extends Hos
         return false;
     }
 
-    async handlePayload(payload: PayloadMessageClientbound) {
+    async handleInboundPayload(payload: PayloadMessageClientbound) {
         if (await this.emit("payload", { payload })) {
             switch (payload.tag) {
                 case PayloadTag.HostGame:
@@ -113,7 +115,7 @@ export class SkeldjsStateManager<T extends Record<string, any> = {}> extends Hos
         }
     }
 
-    async handlePacket(packet: ClientboundPacket) {
+    async handleInboundPacket(packet: ClientboundPacket) {
         if (await this.emit("packet", { packet })) {
             if (
                 packet.op === Opcode.Unreliable ||
@@ -121,15 +123,61 @@ export class SkeldjsStateManager<T extends Record<string, any> = {}> extends Hos
             ) {
                 for (let i = 0; i < packet.payloads.length; i++) {
                     const payload = packet.payloads[i];
-                    await this.handlePayload(payload);
+                    await this.handleInboundPayload(payload);
                 }
             }
         }
     }
 
-    async handleMessage(message: Buffer) {
+    async handleInboundMessage(message: Buffer) {
         const packet = parsePacket(message, "client");
-        await this.handlePacket(packet);
+        await this.handleInboundPacket(packet);
+    }
+
+    async handleOutboundPayload(payload: PayloadMessageServerbound) {
+        if (await this.emit("payload", { payload })) {
+            switch (payload.tag) {
+                case PayloadTag.GameData:
+                case PayloadTag.GameDataTo:
+                    if (this.me && this.code === payload.code) {
+                        for (
+                            let i = 0;
+                            i < payload.messages.length;
+                            i++
+                        ) {
+                            const message = payload.messages[i];
+
+                            await this.handleGameData(message);
+                        }
+                    }
+                    break;
+                case PayloadTag.AlterGame:
+                    this._setAlterGameTag(
+                        payload.alter_tag,
+                        payload.value
+                    );
+                    break;
+            }
+        }
+    }
+
+    async handleOutboundPacket(packet: ServerboundPacket) {
+        if (await this.emit("packet", { packet })) {
+            if (
+                packet.op === Opcode.Unreliable ||
+                packet.op === Opcode.Reliable
+            ) {
+                for (let i = 0; i < packet.payloads.length; i++) {
+                    const payload = packet.payloads[i];
+                    await this.handleOutboundPayload(payload);
+                }
+            }
+        }
+    }
+
+    async handleOutboundMessage(message: Buffer) {
+        const packet = parsePacket(message, "server");
+        await this.handleOutboundPacket(packet);
     }
 
     protected _reset() {

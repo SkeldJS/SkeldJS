@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/server",
-  "version": "2.6.11",
+  "version": "2.7.0",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -8,12 +8,12 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/constant": "^2.6.3",
-    "@skeldjs/core": "^2.6.11",
-    "@skeldjs/events": "^2.6.3",
-    "@skeldjs/protocol": "^2.6.9",
-    "@skeldjs/state": "^2.3.13",
-    "@skeldjs/util": "^2.6.3"
+    "@skeldjs/constant": "^2.7.0",
+    "@skeldjs/core": "^2.7.0",
+    "@skeldjs/events": "^2.7.0",
+    "@skeldjs/protocol": "^2.7.0",
+    "@skeldjs/state": "^2.7.0",
+    "@skeldjs/util": "^2.7.0"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

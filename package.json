@@ -1,6 +1,6 @@
 {
   "name": "skeldjs",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "license": "GPL-3.0-only",
   "private": true,
@@ -11,7 +11,10 @@
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
     "build-all": "yarn workspaces foreach -ptv run build",
-    "publish-all": "lerna publish",
+    "update:patch": "yarn workspaces foreach version patch",
+    "update:minor": "yarn workspaces foreach version minor",
+    "update:major": "yarn workspaces foreach version major",
+    "publish": "yarn workspaces foreach --no-private npm publish",
     "postinstall": "husky install",
     "docs": "typedoc"
   },
