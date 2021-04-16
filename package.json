@@ -5,12 +5,12 @@
   "license": "GPL-3.0-only",
   "private": true,
   "scripts": {
-    "lint": "eslint packages/**/*.ts",
+    "lint": "eslint \"packages/**/*.ts\"",
     "lint-staged": "lint-staged",
-    "fix": "prettier --write packages/**/*.ts",
+    "fix": "prettier --write \"packages/**/*.ts\"",
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
-    "build-all": "yarn workspaces foreach -p run build",
+    "build-all": "yarn workspaces foreach -ptv run build",
     "publish-all": "lerna publish",
     "postinstall": "husky install",
     "docs": "typedoc"
@@ -22,7 +22,6 @@
     "@types/mocha": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
-    "cross-env": "^7.0.2",
     "eslint": "^7.16.0",
     "husky": "^5.0.6",
     "lerna": "^3.22.1",

@@ -4,8 +4,14 @@
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
-    "prepublishOnly": "npm run build"
+    "prepack": "yarn build"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.3"
   },
   "license": "GPL-3.0-only",
-  "gitHead": "a08b2fe1f52693c6379029a1c5cb37d092a892ff"
+  "gitHead": "a08b2fe1f52693c6379029a1c5cb37d092a892ff",
+  "files": [
+    "js"
+  ]
 }
