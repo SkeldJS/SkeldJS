@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/util",
-  "version": "2.8.0",
+  "version": "2.7.2",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",

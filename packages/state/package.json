@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/state",
-  "version": "2.8.0",
+  "version": "2.7.2",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -8,8 +8,8 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/core": "^2.8.0",
-    "@skeldjs/protocol": "^2.8.0"
+    "@skeldjs/core": "^2.7.2",
+    "@skeldjs/protocol": "^2.7.2"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",
