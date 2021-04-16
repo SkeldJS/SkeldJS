@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -51,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">SkeldJS</a>
 				</li>
 				<li>
 					<a href="../modules/server.html">server</a>
@@ -79,7 +80,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">&gt;</span>
+						<span class="tsd-signature-type">EventEmitter</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SkeldjsServer</span>
@@ -139,23 +140,23 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Skeldjs<wbr>Server<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.serverconfig.html" class="tsd-signature-type">ServerConfig</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="server.skeldjsserver.html" class="tsd-signature-type">SkeldjsServer</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Skeldjs<wbr>Server<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ServerConfig</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="server.skeldjsserver.html" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsServer</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides EventEmitter.__constructor</p>
+								<p>Overrides EventEmitter&lt;SkeldjsServerEvents&gt;.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L98">server/ts/lib/server.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L98">server/ts/lib/server.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> config: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.serverconfig.html" class="tsd-signature-type">ServerConfig</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> config: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ServerConfig</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="server.skeldjsserver.html" class="tsd-signature-type">SkeldjsServer</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="server.skeldjsserver.html" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsServer</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -165,10 +166,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="config" class="tsd-anchor"></a>
 					<h3>config</h3>
-					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/server.serverconfig.html" class="tsd-signature-type">ServerConfig</a></div>
+					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ServerConfig</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L81">server/ts/lib/server.ts:81</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L81">server/ts/lib/server.ts:81</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -180,10 +181,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="remotes" class="tsd-anchor"></a>
 					<h3>remotes</h3>
-					<div class="tsd-signature tsd-kind-icon">remotes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">remotes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L91">server/ts/lib/server.ts:91</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L91">server/ts/lib/server.ts:91</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -195,10 +196,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="rooms" class="tsd-anchor"></a>
 					<h3>rooms</h3>
-					<div class="tsd-signature tsd-kind-icon">rooms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="server.room.html" class="tsd-signature-type">Room</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">rooms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="server.room.html" class="tsd-signature-type" data-tsd-kind="Class">Room</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L96">server/ts/lib/server.ts:96</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L96">server/ts/lib/server.ts:96</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -213,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">socket<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Socket</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L86">server/ts/lib/server.ts:86</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L86">server/ts/lib/server.ts:86</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -229,20 +230,20 @@
 					<a name="emit" class="tsd-anchor"></a>
 					<h3>emit</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">emit&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SkeldjsServerEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">emit&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, data<span class="tsd-signature-symbol">: </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="pathfinding.skeldjspathfinder.html">SkeldjsPathfinder</a>.<a href="pathfinding.skeldjspathfinder.html#emit">emit</a></p>
+								<p>Inherited from EventEmitter.emit</p>
 								<ul>
-									<li>Defined in client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:11</li>
+									<li>Defined in events/js/lib/EventEmitter.d.ts:11</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;player.ready&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethost&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.meeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.entervent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.exitvent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.climbladder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.snapto&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switches.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.fixedupdate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.setpublic&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.removeplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.settasks&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votecast&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.voteclear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votingcomplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;packet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.connected&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.joinroom&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.destroy&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;disconnect&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -251,7 +252,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>data: <span class="tsd-signature-type">SkeldjsServerEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span></h5>
+									<h5>data: <a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -268,7 +269,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L302">server/ts/lib/server.ts:302</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L302">server/ts/lib/server.ts:302</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -279,20 +280,20 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#getlisteners">getListeners</a></p>
+								<p>Inherited from EventEmitter.getListeners</p>
 								<ul>
-									<li>Defined in client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:16</li>
+									<li>Defined in events/js/lib/EventEmitter.d.ts:16</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;player.ready&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethost&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.meeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.entervent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.exitvent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.climbladder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.snapto&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switches.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.fixedupdate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.setpublic&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.removeplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.settasks&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votecast&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.voteclear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votingcomplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;packet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.connected&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.joinroom&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.destroy&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;disconnect&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -301,7 +302,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -309,13 +310,13 @@
 					<a name="getorcreateclient" class="tsd-anchor"></a>
 					<h3>get<wbr>OrCreate<wbr>Client</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>Client<span class="tsd-signature-symbol">(</span>remote<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RemoteInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>Client<span class="tsd-signature-symbol">(</span>remote<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RemoteInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L131">server/ts/lib/server.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L131">server/ts/lib/server.ts:131</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -324,7 +325,7 @@
 									<h5>remote: <span class="tsd-signature-type">RemoteInfo</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -332,13 +333,13 @@
 					<a name="handlehostgame" class="tsd-anchor"></a>
 					<h3>handle<wbr>Host<wbr>Game</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Host<wbr>Game<span class="tsd-signature-symbol">(</span>payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HostGamePayloadServerbound</span>, client<span class="tsd-signature-symbol">: </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Host<wbr>Game<span class="tsd-signature-symbol">(</span>payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HostGamePayloadServerbound</span>, client<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L308">server/ts/lib/server.ts:308</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L308">server/ts/lib/server.ts:308</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -347,7 +348,7 @@
 									<h5>payload: <span class="tsd-signature-type">HostGamePayloadServerbound</span></h5>
 								</li>
 								<li>
-									<h5>client: <a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a></h5>
+									<h5>client: <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -358,13 +359,13 @@
 					<a name="handlejoingame" class="tsd-anchor"></a>
 					<h3>handle<wbr>Join<wbr>Game</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Join<wbr>Game<span class="tsd-signature-symbol">(</span>payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JoinGamePayloadServerbound</span>, client<span class="tsd-signature-symbol">: </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Join<wbr>Game<span class="tsd-signature-symbol">(</span>payload<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JoinGamePayloadServerbound</span>, client<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L326">server/ts/lib/server.ts:326</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L326">server/ts/lib/server.ts:326</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -373,7 +374,7 @@
 									<h5>payload: <span class="tsd-signature-type">JoinGamePayloadServerbound</span></h5>
 								</li>
 								<li>
-									<h5>client: <a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a></h5>
+									<h5>client: <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -390,7 +391,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L121">server/ts/lib/server.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L121">server/ts/lib/server.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -401,20 +402,20 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#off">off</a></p>
+								<p>Inherited from EventEmitter.off</p>
 								<ul>
-									<li>Defined in client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:15</li>
+									<li>Defined in events/js/lib/EventEmitter.d.ts:15</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;player.ready&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethost&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.meeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.entervent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.exitvent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.climbladder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.snapto&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switches.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.fixedupdate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.setpublic&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.removeplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.settasks&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votecast&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.voteclear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votingcomplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;packet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.connected&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.joinroom&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.destroy&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;disconnect&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -423,7 +424,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -434,20 +435,20 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#on">on</a></p>
+								<p>Inherited from EventEmitter.on</p>
 								<ul>
-									<li>Defined in client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:12</li>
+									<li>Defined in events/js/lib/EventEmitter.d.ts:12</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;player.ready&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethost&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.meeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.entervent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.exitvent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.climbladder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.snapto&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switches.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.fixedupdate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.setpublic&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.removeplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.settasks&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votecast&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.voteclear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votingcomplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;packet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.connected&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.joinroom&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.destroy&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;disconnect&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -456,7 +457,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -485,7 +486,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L391">server/ts/lib/server.ts:391</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L391">server/ts/lib/server.ts:391</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -505,20 +506,20 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#once">once</a></p>
+								<p>Inherited from EventEmitter.once</p>
 								<ul>
-									<li>Defined in client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:13</li>
+									<li>Defined in events/js/lib/EventEmitter.d.ts:13</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;player.ready&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethost&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.meeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.entervent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.exitvent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.climbladder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.snapto&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switches.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.fixedupdate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.setpublic&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.removeplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.settasks&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votecast&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.voteclear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votingcomplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;packet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.connected&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.joinroom&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.destroy&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;disconnect&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -527,7 +528,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -555,9 +556,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#removealllisteners">removeAllListeners</a></p>
+								<p>Inherited from EventEmitter.removeAllListeners</p>
 								<ul>
-									<li>Defined in client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:18</li>
+									<li>Defined in events/js/lib/EventEmitter.d.ts:18</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -573,15 +574,15 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#removelisteners">removeListeners</a></p>
+								<p>Inherited from EventEmitter.removeListeners</p>
 								<ul>
-									<li>Defined in client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:17</li>
+									<li>Defined in events/js/lib/EventEmitter.d.ts:17</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;player.ready&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethost&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.meeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.entervent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.exitvent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.climbladder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.snapto&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switches.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.fixedupdate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.setpublic&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.removeplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.settasks&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votecast&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.voteclear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votingcomplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;packet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.connected&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.joinroom&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.destroy&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;disconnect&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -598,22 +599,22 @@
 					<a name="send" class="tsd-anchor"></a>
 					<h3>send</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a>, packet<span class="tsd-signature-symbol">: </span><a href="../modules/protocol.html#clientboundpacket" class="tsd-signature-type">ClientboundPacket</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a>, packet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ClientboundPacket</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L237">server/ts/lib/server.ts:237</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L237">server/ts/lib/server.ts:237</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>client: <a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a></h5>
+									<h5>client: <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></h5>
 								</li>
 								<li>
-									<h5>packet: <a href="../modules/protocol.html#clientboundpacket" class="tsd-signature-type">ClientboundPacket</a></h5>
+									<h5>packet: <span class="tsd-signature-type">ClientboundPacket</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -624,25 +625,25 @@
 					<a name="sendpayload" class="tsd-anchor"></a>
 					<h3>send<wbr>Payload</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">send<wbr>Payload<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a>, reliable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, <span class="tsd-signature-symbol">...</span>payloads<span class="tsd-signature-symbol">: </span><a href="../modules/protocol.html#payloadmessageclientbound" class="tsd-signature-type">PayloadMessageClientbound</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Payload<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a>, reliable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, <span class="tsd-signature-symbol">...</span>payloads<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PayloadMessageClientbound</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L291">server/ts/lib/server.ts:291</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L291">server/ts/lib/server.ts:291</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>client: <a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a></h5>
+									<h5>client: <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></h5>
 								</li>
 								<li>
 									<h5>reliable: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>payloads: <a href="../modules/protocol.html#payloadmessageclientbound" class="tsd-signature-type">PayloadMessageClientbound</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>payloads: <span class="tsd-signature-type">PayloadMessageClientbound</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -653,20 +654,20 @@
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsServerEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventContext</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="client.skeldjsclient.html">SkeldjsClient</a>.<a href="client.skeldjsclient.html#wait">wait</a></p>
+								<p>Inherited from EventEmitter.wait</p>
 								<ul>
-									<li>Defined in client/node_modules/@skeldjs/events/js/lib/EventEmitter.d.ts:14</li>
+									<li>Defined in events/js/lib/EventEmitter.d.ts:14</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type">SkeldjsServerEvents</a></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;player.ready&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethost&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.meeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.entervent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.exitvent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.climbladder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.snapto&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switches.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;game.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.fixedupdate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.setpublic&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.removeplayer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;gamedata.settasks&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votecast&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.voteclear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.votingcomplete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;meetinghud.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;packet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.connected&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;remote.joinroom&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.destroy&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;disconnect&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -675,7 +676,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/events.html#eventcontext" class="tsd-signature-type">EventContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsServerEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventContext</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/server.skeldjsserverevents.html" class="tsd-signature-type" data-tsd-kind="Interface">SkeldjsServerEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -683,25 +684,25 @@
 					<a name="waitpacket" class="tsd-anchor"></a>
 					<h3>wait<wbr>Packet</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">wait<wbr>Packet<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PacketFilter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PacketFilter</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/protocol.html#serverboundpacket" class="tsd-signature-type">ServerboundPacket</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait<wbr>Packet<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PacketFilter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PacketFilter</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ServerboundPacket</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L144">server/ts/lib/server.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L144">server/ts/lib/server.ts:144</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>from: <a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a></h5>
+									<h5>from: <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></h5>
 								</li>
 								<li>
 									<h5>filter: <span class="tsd-signature-type">PacketFilter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PacketFilter</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/protocol.html#serverboundpacket" class="tsd-signature-type">ServerboundPacket</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ServerboundPacket</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -709,25 +710,25 @@
 					<a name="waitpayload" class="tsd-anchor"></a>
 					<h3>wait<wbr>Payload</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">wait<wbr>Payload<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PayloadFilter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PayloadFilter</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/protocol.html#payloadmessage" class="tsd-signature-type">PayloadMessage</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait<wbr>Payload<span class="tsd-signature-symbol">(</span>from<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PayloadFilter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PayloadFilter</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PayloadMessage</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/server/ts/lib/server.ts#L189">server/ts/lib/server.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/server/ts/lib/server.ts#L189">server/ts/lib/server.ts:189</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>from: <a href="server.remoteclient.html" class="tsd-signature-type">RemoteClient</a></h5>
+									<h5>from: <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></h5>
 								</li>
 								<li>
 									<h5>filter: <span class="tsd-signature-type">PayloadFilter</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PayloadFilter</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../modules/protocol.html#payloadmessage" class="tsd-signature-type">PayloadMessage</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PayloadMessage</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -736,8 +737,8 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -765,6 +766,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/skeldjs.html">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/state.html">state</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html">tasks</a>
@@ -911,6 +915,9 @@
 						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -929,7 +936,6 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>

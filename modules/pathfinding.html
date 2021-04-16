@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -51,13 +52,13 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">SkeldJS</a>
 				</li>
 				<li>
 					<a href="pathfinding.html">pathfinding</a>
 				</li>
 			</ul>
-			<h1>Package pathfinding</h1>
+			<h1>Module pathfinding</h1>
 		</div>
 	</div>
 </header>
@@ -77,41 +78,45 @@
 					<a href="#go-to-a-location-or-player" id="go-to-a-location-or-player" style="color: inherit; text-decoration: none;">
 						<h3>Go to a location or player</h3>
 					</a>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> pathfinder = <span class="hljs-keyword">new</span> SkeldjsPathfinder(client);
+					<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">pathfinder</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SkeldjsPathfinder</span><span style="color: #000000">(</span><span style="color: #001080">client</span><span style="color: #000000">);</span>
 
-pathfinder.go({ <span class="hljs-attr">x</span>: <span class="hljs-number">5</span>, <span class="hljs-attr">y</span>: <span class="hljs-number">5</span> });
-<span class="hljs-comment">// or</span>
-pathfinder.go(player);</code></pre>
+<span style="color: #001080">pathfinder</span><span style="color: #000000">.</span><span style="color: #795E26">go</span><span style="color: #000000">({ </span><span style="color: #001080">x:</span><span style="color: #000000"> </span><span style="color: #098658">5</span><span style="color: #000000">, </span><span style="color: #001080">y:</span><span style="color: #000000"> </span><span style="color: #098658">5</span><span style="color: #000000"> });</span>
+<span style="color: #008000">// or</span>
+<span style="color: #001080">pathfinder</span><span style="color: #000000">.</span><span style="color: #795E26">go</span><span style="color: #000000">(</span><span style="color: #001080">player</span><span style="color: #000000">);</span>
+</code></pre>
 					<p>x</p>
 					<a href="#go-to-a-vent-and-enter-it" id="go-to-a-vent-and-enter-it" style="color: inherit; text-decoration: none;">
 						<h3>Go to a vent and enter it</h3>
 					</a>
-					<pre><code class="language-ts">pathfinder.vent(TheSkeldVent.Cafeteria);
-<span class="hljs-keyword">await</span> pathfinder.wait(<span class="hljs-string">&quot;pathfinding.end&quot;</span>);
+					<pre><code class="language-ts"><span style="color: #001080">pathfinder</span><span style="color: #000000">.</span><span style="color: #795E26">vent</span><span style="color: #000000">(</span><span style="color: #001080">TheSkeldVent</span><span style="color: #000000">.</span><span style="color: #001080">Cafeteria</span><span style="color: #000000">);</span>
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">pathfinder</span><span style="color: #000000">.</span><span style="color: #795E26">wait</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;pathfinding.end&quot;</span><span style="color: #000000">);</span>
 
-client.me.physics.entervent(TheSkeldVent.Cafeteria);</code></pre>
+<span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #001080">me</span><span style="color: #000000">.</span><span style="color: #001080">physics</span><span style="color: #000000">.</span><span style="color: #795E26">entervent</span><span style="color: #000000">(</span><span style="color: #001080">TheSkeldVent</span><span style="color: #000000">.</span><span style="color: #001080">Cafeteria</span><span style="color: #000000">);</span>
+</code></pre>
 					<a href="#follow-a-player" id="follow-a-player" style="color: inherit; text-decoration: none;">
 						<h3>Follow a player</h3>
 					</a>
-					<pre><code class="language-ts">pathfinder.follow(player);</code></pre>
+					<pre><code class="language-ts"><span style="color: #001080">pathfinder</span><span style="color: #000000">.</span><span style="color: #795E26">follow</span><span style="color: #000000">(</span><span style="color: #001080">player</span><span style="color: #000000">);</span>
+</code></pre>
 					<a href="#advanced-usage" id="advanced-usage" style="color: inherit; text-decoration: none;">
 						<h2>Advanced Usage</h2>
 					</a>
 					<a href="#follow-a-player-but-stop-when-you-get-too-close" id="follow-a-player-but-stop-when-you-get-too-close" style="color: inherit; text-decoration: none;">
 						<h3>Follow a player but stop when you get too close</h3>
 					</a>
-					<pre><code class="language-ts">pathfinder.follow(player);
+					<pre><code class="language-ts"><span style="color: #001080">pathfinder</span><span style="color: #000000">.</span><span style="color: #795E26">follow</span><span style="color: #000000">(</span><span style="color: #001080">player</span><span style="color: #000000">);</span>
 
-pathfinder.on(<span class="hljs-string">&quot;engine.move&quot;</span>, <span class="hljs-function"><span class="hljs-params">ev</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> position = ev.data.position;
-    <span class="hljs-keyword">const</span> player_pos = player.transform.position;
+<span style="color: #001080">pathfinder</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;engine.move&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">position</span><span style="color: #000000"> = </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">position</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">player_pos</span><span style="color: #000000"> = </span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">transform</span><span style="color: #000000">.</span><span style="color: #001080">position</span><span style="color: #000000">;</span>
 
-    <span class="hljs-keyword">const</span> dist = <span class="hljs-built_in">Math</span>.hypot(position.x - player_pos.x, position.y - player_pos.y);
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">dist</span><span style="color: #000000"> = </span><span style="color: #267F99">Math</span><span style="color: #000000">.</span><span style="color: #795E26">hypot</span><span style="color: #000000">(</span><span style="color: #001080">position</span><span style="color: #000000">.</span><span style="color: #001080">x</span><span style="color: #000000"> - </span><span style="color: #001080">player_pos</span><span style="color: #000000">.</span><span style="color: #001080">x</span><span style="color: #000000">, </span><span style="color: #001080">position</span><span style="color: #000000">.</span><span style="color: #001080">y</span><span style="color: #000000"> - </span><span style="color: #001080">player_pos</span><span style="color: #000000">.</span><span style="color: #001080">y</span><span style="color: #000000">);</span>
 
-    <span class="hljs-keyword">if</span> (dist &lt; <span class="hljs-number">1</span>) {
-        ev.cancel();
-    }
-});</code></pre>
+<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">dist</span><span style="color: #000000"> &lt; </span><span style="color: #098658">1</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #795E26">cancel</span><span style="color: #000000">();</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">});</span>
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -147,28 +152,28 @@ pathfinder.on(<span class="hljs-string">&quot;engine.move&quot;</span>, <span cl
 					<a name="getshortestpath" class="tsd-anchor"></a>
 					<h3>get<wbr>Shortest<wbr>Path</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Shortest<wbr>Path<span class="tsd-signature-symbol">(</span>grid<span class="tsd-signature-symbol">: </span><a href="../classes/pathfinding.grid.html" class="tsd-signature-type">Grid</a>, start<span class="tsd-signature-symbol">: </span><a href="../classes/pathfinding.node.html" class="tsd-signature-type">Node</a>, end<span class="tsd-signature-symbol">: </span><a href="../classes/pathfinding.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/pathfinding.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Shortest<wbr>Path<span class="tsd-signature-symbol">(</span>grid<span class="tsd-signature-symbol">: </span><a href="../classes/pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a>, start<span class="tsd-signature-symbol">: </span><a href="../classes/pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a>, end<span class="tsd-signature-symbol">: </span><a href="../classes/pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/engine.ts#L8">pathfinding/ts/lib/engine.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/engine.ts#L8">pathfinding/ts/lib/engine.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>grid: <a href="../classes/pathfinding.grid.html" class="tsd-signature-type">Grid</a></h5>
+									<h5>grid: <a href="../classes/pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></h5>
 								</li>
 								<li>
-									<h5>start: <a href="../classes/pathfinding.node.html" class="tsd-signature-type">Node</a></h5>
+									<h5>start: <a href="../classes/pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></h5>
 								</li>
 								<li>
-									<h5>end: <a href="../classes/pathfinding.node.html" class="tsd-signature-type">Node</a></h5>
+									<h5>end: <a href="../classes/pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/pathfinding.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../classes/pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -177,8 +182,8 @@ pathfinder.on(<span class="hljs-string">&quot;engine.move&quot;</span>, <span cl
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="client.html">client</a>
@@ -206,6 +211,9 @@ pathfinder.on(<span class="hljs-string">&quot;engine.move&quot;</span>, <span cl
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="skeldjs.html">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="state.html">state</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="tasks.html">tasks</a>
@@ -269,6 +277,9 @@ pathfinder.on(<span class="hljs-string">&quot;engine.move&quot;</span>, <span cl
 						<a href="skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -287,7 +298,6 @@ pathfinder.on(<span class="hljs-string">&quot;engine.move&quot;</span>, <span cl
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>

@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -51,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">SkeldJS</a>
 				</li>
 				<li>
 					<a href="../modules/pathfinding.html">pathfinding</a>
@@ -129,19 +130,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Grid<span class="tsd-signature-symbol">(</span>nodes<span class="tsd-signature-symbol">: </span><a href="pathfinding.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span>, basex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, density<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.grid.html" class="tsd-signature-type">Grid</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Grid<span class="tsd-signature-symbol">(</span>nodes<span class="tsd-signature-symbol">: </span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span>, basex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, density<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L70">pathfinding/ts/lib/util/Grid.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L70">pathfinding/ts/lib/util/Grid.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>nodes: <a href="pathfinding.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>nodes: <a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
 									<h5>basex: <span class="tsd-signature-type">number</span></h5>
@@ -159,7 +160,7 @@
 									<h5>density: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pathfinding.grid.html" class="tsd-signature-type">Grid</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -171,9 +172,6 @@
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> basex</h3>
 					<div class="tsd-signature tsd-kind-icon">basex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L74">pathfinding/ts/lib/util/Grid.ts:74</a></li>
-						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
@@ -181,9 +179,6 @@
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> basey</h3>
 					<div class="tsd-signature tsd-kind-icon">basey<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L75">pathfinding/ts/lib/util/Grid.ts:75</a></li>
-						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
@@ -191,18 +186,15 @@
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> density</h3>
 					<div class="tsd-signature tsd-kind-icon">density<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L78">pathfinding/ts/lib/util/Grid.ts:78</a></li>
-						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="dirty" class="tsd-anchor"></a>
 					<h3>dirty</h3>
-					<div class="tsd-signature tsd-kind-icon">dirty<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><a href="pathfinding.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">dirty<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L7">pathfinding/ts/lib/util/Grid.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L7">pathfinding/ts/lib/util/Grid.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -211,18 +203,15 @@
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> height</h3>
 					<div class="tsd-signature tsd-kind-icon">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L77">pathfinding/ts/lib/util/Grid.ts:77</a></li>
-						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="nodes" class="tsd-anchor"></a>
 					<h3>nodes</h3>
-					<div class="tsd-signature tsd-kind-icon">nodes<span class="tsd-signature-symbol">:</span> <a href="pathfinding.node.html" class="tsd-signature-type">Node</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">nodes<span class="tsd-signature-symbol">:</span> <a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L6">pathfinding/ts/lib/util/Grid.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L6">pathfinding/ts/lib/util/Grid.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +221,7 @@
 					<div class="tsd-signature tsd-kind-icon">pathid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L8">pathfinding/ts/lib/util/Grid.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L8">pathfinding/ts/lib/util/Grid.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -241,9 +230,6 @@
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> width</h3>
 					<div class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L76">pathfinding/ts/lib/util/Grid.ts:76</a></li>
-						</ul>
 					</aside>
 				</section>
 			</section>
@@ -259,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L89">pathfinding/ts/lib/util/Grid.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L89">pathfinding/ts/lib/util/Grid.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -276,7 +262,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L85">pathfinding/ts/lib/util/Grid.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L85">pathfinding/ts/lib/util/Grid.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -296,7 +282,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L100">pathfinding/ts/lib/util/Grid.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L100">pathfinding/ts/lib/util/Grid.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -324,13 +310,13 @@
 					<a name="at" class="tsd-anchor"></a>
 					<h3>at</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">at<span class="tsd-signature-symbol">(</span>i<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.node.html" class="tsd-signature-type">Node</a></li>
+						<li class="tsd-signature tsd-kind-icon">at<span class="tsd-signature-symbol">(</span>i<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L107">pathfinding/ts/lib/util/Grid.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L107">pathfinding/ts/lib/util/Grid.ts:107</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -339,7 +325,7 @@
 									<h5>i: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pathfinding.node.html" class="tsd-signature-type">Node</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -353,7 +339,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L139">pathfinding/ts/lib/util/Grid.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L139">pathfinding/ts/lib/util/Grid.ts:139</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Buffer</span></h4>
@@ -364,13 +350,13 @@
 					<a name="get" class="tsd-anchor"></a>
 					<h3>get</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.node.html" class="tsd-signature-type">Node</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L114">pathfinding/ts/lib/util/Grid.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L114">pathfinding/ts/lib/util/Grid.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -382,7 +368,7 @@
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pathfinding.node.html" class="tsd-signature-type">Node</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -390,13 +376,13 @@
 					<a name="nearest" class="tsd-anchor"></a>
 					<h3>nearest</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">nearest<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.node.html" class="tsd-signature-type">Node</a></li>
+						<li class="tsd-signature tsd-kind-icon">nearest<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L93">pathfinding/ts/lib/util/Grid.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L93">pathfinding/ts/lib/util/Grid.ts:93</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -408,7 +394,7 @@
 									<h5>y: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pathfinding.node.html" class="tsd-signature-type">Node</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -422,7 +408,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L130">pathfinding/ts/lib/util/Grid.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L130">pathfinding/ts/lib/util/Grid.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -439,7 +425,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L118">pathfinding/ts/lib/util/Grid.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L118">pathfinding/ts/lib/util/Grid.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -465,7 +451,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L124">pathfinding/ts/lib/util/Grid.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L124">pathfinding/ts/lib/util/Grid.ts:124</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -485,13 +471,13 @@
 					<a name="create" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> create</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>basex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, density<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.grid.html" class="tsd-signature-type">Grid</a></li>
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>basex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, basey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, density<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L51">pathfinding/ts/lib/util/Grid.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L51">pathfinding/ts/lib/util/Grid.ts:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -512,7 +498,7 @@
 									<h5>density: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pathfinding.grid.html" class="tsd-signature-type">Grid</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -520,13 +506,13 @@
 					<a name="frombuffer" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Buffer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">from<wbr>Buffer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.grid.html" class="tsd-signature-type">Grid</a></li>
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Buffer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/pathfinding/ts/lib/util/Grid.ts#L10">pathfinding/ts/lib/util/Grid.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/pathfinding/ts/lib/util/Grid.ts#L10">pathfinding/ts/lib/util/Grid.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -535,7 +521,7 @@
 									<h5>buffer: <span class="tsd-signature-type">Buffer</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="pathfinding.grid.html" class="tsd-signature-type">Grid</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -544,8 +530,8 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -573,6 +559,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/skeldjs.html">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/state.html">state</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html">tasks</a>
@@ -701,6 +690,9 @@
 						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -719,7 +711,6 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>

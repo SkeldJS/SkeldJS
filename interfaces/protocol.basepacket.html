@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -51,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">SkeldJS</a>
 				</li>
 				<li>
 					<a href="../modules/protocol.html">protocol</a>
@@ -72,29 +73,6 @@
 				<ul class="tsd-hierarchy">
 					<li>
 						<span class="target">BasePacket</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="protocol.basenormalpacket.html" class="tsd-signature-type">BaseNormalPacket</a>
-							</li>
-							<li>
-								<a href="protocol.reliablepacketclientbound.html" class="tsd-signature-type">ReliablePacketClientbound</a>
-							</li>
-							<li>
-								<a href="protocol.reliablepacketserverbound.html" class="tsd-signature-type">ReliablePacketServerbound</a>
-							</li>
-							<li>
-								<a href="protocol.hellopacket.html" class="tsd-signature-type">HelloPacket</a>
-							</li>
-							<li>
-								<a href="protocol.disconnectpacket.html" class="tsd-signature-type">DisconnectPacket</a>
-							</li>
-							<li>
-								<a href="protocol.acknowledgementpacket.html" class="tsd-signature-type">AcknowledgementPacket</a>
-							</li>
-							<li>
-								<a href="protocol.pingpacket.html" class="tsd-signature-type">PingPacket</a>
-							</li>
-						</ul>
 					</li>
 				</ul>
 			</section>
@@ -117,20 +95,20 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="bound" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> bound</h3>
-					<div class="tsd-signature tsd-kind-icon">bound<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"server"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"client"</span></div>
+					<div class="tsd-signature tsd-kind-icon">bound<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;server&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;client&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/protocol/ts/lib/packets/Packets.ts#L11">protocol/ts/lib/packets/Packets.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/protocol/ts/lib/packets/Packets.ts#L11">protocol/ts/lib/packets/Packets.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="op" class="tsd-anchor"></a>
 					<h3>op</h3>
-					<div class="tsd-signature tsd-kind-icon">op<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.opcode.html" class="tsd-signature-type">Opcode</a></div>
+					<div class="tsd-signature tsd-kind-icon">op<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Opcode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/protocol/ts/lib/packets/Packets.ts#L10">protocol/ts/lib/packets/Packets.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/protocol/ts/lib/packets/Packets.ts#L10">protocol/ts/lib/packets/Packets.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -139,8 +117,8 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -168,6 +146,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/skeldjs.html">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/state.html">state</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html">tasks</a>
@@ -227,6 +208,9 @@
 						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -245,7 +229,6 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>

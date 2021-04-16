@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -51,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">SkeldJS</a>
 				</li>
 				<li>
 					<a href="../modules/client.html">client</a>
@@ -71,7 +72,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">HostableOptions</span>
+						<a href="client.hostableoptions.html" class="tsd-signature-type" data-tsd-kind="Interface">HostableOptions</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">ClientConfig</span>
@@ -103,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">allow<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/client/ts/lib/interface/ClientConfig.ts#L20">client/ts/lib/interface/ClientConfig.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/client/ts/lib/interface/ClientConfig.ts#L20">client/ts/lib/interface/ClientConfig.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -115,10 +116,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="debug" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> debug</h3>
-					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <a href="../enums/client.debuglevel.html" class="tsd-signature-type">DebugLevel</a></div>
+					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <a href="../enums/client.debuglevel.html" class="tsd-signature-type" data-tsd-kind="Enumeration">DebugLevel</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/client/ts/lib/interface/ClientConfig.ts#L16">client/ts/lib/interface/ClientConfig.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/client/ts/lib/interface/ClientConfig.ts#L16">client/ts/lib/interface/ClientConfig.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -127,9 +128,9 @@
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> do<wbr>Fixed<wbr>Update</h3>
 					<div class="tsd-signature tsd-kind-icon">do<wbr>Fixed<wbr>Update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="client.clientconfig.html">ClientConfig</a>.<a href="client.clientconfig.html#dofixedupdate">doFixedUpdate</a></p>
+						<p>Inherited from <a href="client.hostableoptions.html">HostableOptions</a>.<a href="client.hostableoptions.html#dofixedupdate">doFixedUpdate</a></p>
 						<ul>
-							<li>Defined in client/node_modules/@skeldjs/core/js/lib/misc/HostableOptions.d.ts:6</li>
+							<li>Defined in core/js/lib/misc/HostableOptions.d.ts:6</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -148,8 +149,8 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class="current tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -179,6 +180,9 @@
 						<a href="../modules/skeldjs.html">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/state.html">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -196,15 +200,6 @@
 					<li class="current tsd-kind-module">
 						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
 						<ul>
-							<li class=" tsd-kind-enum tsd-parent-kind-module">
-								<a href="../enums/client.debuglevel.html" class="tsd-kind-icon">Debug<wbr>Level</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.gamelisting.html" class="tsd-kind-icon">Game<wbr>Listing</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.skeldjsclient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
-							</li>
 							<li class="current tsd-kind-interface tsd-parent-kind-module">
 								<a href="client.clientconfig.html" class="tsd-kind-icon">Client<wbr>Config</a>
 								<ul>
@@ -218,9 +213,6 @@
 										<a href="client.clientconfig.html#dofixedupdate" class="tsd-kind-icon">do<wbr>Fixed<wbr>Update</a>
 									</li>
 								</ul>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="client.skeldjsclientevents.html" class="tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events</a>
 							</li>
 						</ul>
 					</li>
@@ -251,6 +243,9 @@
 						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -269,7 +264,6 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>

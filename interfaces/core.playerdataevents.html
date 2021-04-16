@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -51,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">SkeldJS</a>
 				</li>
 				<li>
 					<a href="../modules/core.html">core</a>
@@ -87,8 +88,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="core.playerdataevents.html#component_despawn" class="tsd-kind-icon">component.despawn</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited"><a href="core.playerdataevents.html#component_spawn" class="tsd-kind-icon">component.spawn</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.playerdataevents.html#component_despawn" class="tsd-kind-icon">component.despawn</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.playerdataevents.html#component_spawn" class="tsd-kind-icon">component.spawn</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.playerdataevents.html#player_chat" class="tsd-kind-icon">player.chat</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.playerdataevents.html#player_climbladder" class="tsd-kind-icon">player.climbladder</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="core.playerdataevents.html#player_completetask" class="tsd-kind-icon">player.completetask</a></li>
@@ -121,15 +122,14 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="component_despawn" class="tsd-anchor"></a>
 					<h3>component.despawn</h3>
 					<div class="tsd-signature tsd-kind-icon">component.despawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.networkableevents.html">NetworkableEvents</a>.<a href="core.networkableevents.html#component_despawn">component.despawn</a></p>
-						<p>Overrides <a href="core.networkableevents.html">NetworkableEvents</a>.<a href="core.networkableevents.html#component_despawn">component.despawn</a></p>
+						<p>Inherited from BasePlayerDataEvents.component.despawn</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/Networkable.ts#L17">core/ts/lib/Networkable.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/Networkable.ts#L13">core/ts/lib/Networkable.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -143,15 +143,14 @@
 						</ul>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="component_spawn" class="tsd-anchor"></a>
 					<h3>component.spawn</h3>
 					<div class="tsd-signature tsd-kind-icon">component.spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.networkableevents.html">NetworkableEvents</a>.<a href="core.networkableevents.html#component_spawn">component.spawn</a></p>
-						<p>Overrides <a href="core.networkableevents.html">NetworkableEvents</a>.<a href="core.networkableevents.html#component_spawn">component.spawn</a></p>
+						<p>Inherited from BasePlayerDataEvents.component.spawn</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/Networkable.ts#L13">core/ts/lib/Networkable.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/Networkable.ts#L9">core/ts/lib/Networkable.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -170,9 +169,9 @@
 					<h3>player.chat</h3>
 					<div class="tsd-signature tsd-kind-icon">player.chat<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_chat">player.chat</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.chat</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L133">core/ts/lib/component/PlayerControl.ts:133</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L129">core/ts/lib/component/PlayerControl.ts:129</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -199,9 +198,9 @@
 					<h3>player.climbladder</h3>
 					<div class="tsd-signature tsd-kind-icon">player.climbladder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>ladderId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_climbladder">player.climbladder</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.climbladder</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerPhysics.ts#L36">core/ts/lib/component/PlayerPhysics.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerPhysics.ts#L32">core/ts/lib/component/PlayerPhysics.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -228,9 +227,9 @@
 					<h3>player.completetask</h3>
 					<div class="tsd-signature tsd-kind-icon">player.completetask<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>task<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TaskState</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_completetask">player.completetask</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.completetask</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L34">core/ts/lib/component/PlayerControl.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L30">core/ts/lib/component/PlayerControl.ts:30</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -255,10 +254,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="player_component_despawn" class="tsd-anchor"></a>
 					<h3>player.component.despawn</h3>
-					<div class="tsd-signature tsd-kind-icon">player.component.despawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>component<span class="tsd-signature-symbol">: </span><a href="../classes/core.playercontrol.html" class="tsd-signature-type">PlayerControl</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.playerphysics.html" class="tsd-signature-type">PlayerPhysics</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.customnetworktransform.html" class="tsd-signature-type">CustomNetworkTransform</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.component.despawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerControl</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerPhysics</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CustomNetworkTransform</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/PlayerData.ts#L58">core/ts/lib/PlayerData.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/PlayerData.ts#L54">core/ts/lib/PlayerData.ts:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -270,7 +269,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>component<span class="tsd-signature-symbol">: </span><a href="../classes/core.playercontrol.html" class="tsd-signature-type">PlayerControl</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.playerphysics.html" class="tsd-signature-type">PlayerPhysics</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.customnetworktransform.html" class="tsd-signature-type">CustomNetworkTransform</a></h5>
+								<h5>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerControl</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerPhysics</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CustomNetworkTransform</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The component that despawned.</p>
@@ -283,10 +282,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="player_component_spawn" class="tsd-anchor"></a>
 					<h3>player.component.spawn</h3>
-					<div class="tsd-signature tsd-kind-icon">player.component.spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>component<span class="tsd-signature-symbol">: </span><a href="../classes/core.playercontrol.html" class="tsd-signature-type">PlayerControl</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.playerphysics.html" class="tsd-signature-type">PlayerPhysics</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.customnetworktransform.html" class="tsd-signature-type">CustomNetworkTransform</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.component.spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerControl</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerPhysics</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CustomNetworkTransform</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/PlayerData.ts#L49">core/ts/lib/PlayerData.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/PlayerData.ts#L45">core/ts/lib/PlayerData.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -298,7 +297,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>component<span class="tsd-signature-symbol">: </span><a href="../classes/core.playercontrol.html" class="tsd-signature-type">PlayerControl</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.playerphysics.html" class="tsd-signature-type">PlayerPhysics</a><span class="tsd-signature-symbol"> | </span><a href="../classes/core.customnetworktransform.html" class="tsd-signature-type">CustomNetworkTransform</a></h5>
+								<h5>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerControl</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerPhysics</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CustomNetworkTransform</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The component that spawned.</p>
@@ -313,9 +312,9 @@
 					<h3>player.entervent</h3>
 					<div class="tsd-signature tsd-kind-icon">player.entervent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>ventid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_entervent">player.entervent</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.entervent</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerPhysics.ts#L18">core/ts/lib/component/PlayerPhysics.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerPhysics.ts#L14">core/ts/lib/component/PlayerPhysics.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -342,9 +341,9 @@
 					<h3>player.exitvent</h3>
 					<div class="tsd-signature tsd-kind-icon">player.exitvent<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>ventid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_exitvent">player.exitvent</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.exitvent</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerPhysics.ts#L27">core/ts/lib/component/PlayerPhysics.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerPhysics.ts#L23">core/ts/lib/component/PlayerPhysics.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -372,7 +371,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.join<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/PlayerData.ts#L29">core/ts/lib/PlayerData.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/PlayerData.ts#L25">core/ts/lib/PlayerData.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -392,7 +391,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.leave<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/PlayerData.ts#L33">core/ts/lib/PlayerData.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/PlayerData.ts#L29">core/ts/lib/PlayerData.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -409,11 +408,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_meeting" class="tsd-anchor"></a>
 					<h3>player.meeting</h3>
-					<div class="tsd-signature tsd-kind-icon">player.meeting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>body<span class="tsd-signature-symbol">: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.meeting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>body<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerData</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_meeting">player.meeting</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.meeting</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L124">core/ts/lib/component/PlayerControl.ts:124</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L120">core/ts/lib/component/PlayerControl.ts:120</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -425,7 +424,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>body<span class="tsd-signature-symbol">: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+								<h5>body<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerData</a></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The body that was reported, or null if an emergency meeting was called.</p>
@@ -440,9 +439,9 @@
 					<h3>player.move</h3>
 					<div class="tsd-signature tsd-kind-icon">player.move<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector2</span><span class="tsd-signature-symbol">; </span>velocity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector2</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_move">player.move</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.move</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/CustomNetworkTransform.ts#L22">core/ts/lib/component/CustomNetworkTransform.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/CustomNetworkTransform.ts#L18">core/ts/lib/component/CustomNetworkTransform.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -475,11 +474,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_murder" class="tsd-anchor"></a>
 					<h3>player.murder</h3>
-					<div class="tsd-signature tsd-kind-icon">player.murder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>victim<span class="tsd-signature-symbol">: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.murder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>victim<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerData</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_murder">player.murder</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.murder</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L115">core/ts/lib/component/PlayerControl.ts:115</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L111">core/ts/lib/component/PlayerControl.ts:111</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -491,7 +490,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>victim<span class="tsd-signature-symbol">: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a></h5>
+								<h5>victim<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerData</a></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The victim that the player murdered.</p>
@@ -507,7 +506,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.ready<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/PlayerData.ts#L25">core/ts/lib/PlayerData.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/PlayerData.ts#L21">core/ts/lib/PlayerData.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -527,7 +526,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.scenechange<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/PlayerData.ts#L41">core/ts/lib/PlayerData.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/PlayerData.ts#L37">core/ts/lib/PlayerData.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -544,11 +543,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_setcolor" class="tsd-anchor"></a>
 					<h3>player.setcolor</h3>
-					<div class="tsd-signature tsd-kind-icon">player.setcolor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>color<span class="tsd-signature-symbol">: </span><a href="../enums/constant.colorid.html" class="tsd-signature-type">ColorID</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.setcolor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ColorID</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setcolor">player.setcolor</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.setcolor</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L52">core/ts/lib/component/PlayerControl.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L48">core/ts/lib/component/PlayerControl.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -560,7 +559,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>color<span class="tsd-signature-symbol">: </span><a href="../enums/constant.colorid.html" class="tsd-signature-type">ColorID</a></h5>
+								<h5>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ColorID</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The colour of the player.</p>
@@ -573,11 +572,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_sethat" class="tsd-anchor"></a>
 					<h3>player.sethat</h3>
-					<div class="tsd-signature tsd-kind-icon">player.sethat<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>hat<span class="tsd-signature-symbol">: </span><a href="../enums/constant.hatid.html" class="tsd-signature-type">HatID</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.sethat<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>hat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HatID</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_sethat">player.sethat</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.sethat</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L61">core/ts/lib/component/PlayerControl.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L57">core/ts/lib/component/PlayerControl.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -589,7 +588,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>hat<span class="tsd-signature-symbol">: </span><a href="../enums/constant.hatid.html" class="tsd-signature-type">HatID</a></h5>
+								<h5>hat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HatID</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The hat of the player.</p>
@@ -605,7 +604,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.sethost<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/PlayerData.ts#L37">core/ts/lib/PlayerData.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/PlayerData.ts#L33">core/ts/lib/PlayerData.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -622,11 +621,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_setimpostors" class="tsd-anchor"></a>
 					<h3>player.setimpostors</h3>
-					<div class="tsd-signature tsd-kind-icon">player.setimpostors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>impostors<span class="tsd-signature-symbol">: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.setimpostors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>impostors<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerData</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setimpostors">player.setimpostors</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.setimpostors</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L106">core/ts/lib/component/PlayerControl.ts:106</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L102">core/ts/lib/component/PlayerControl.ts:102</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -638,7 +637,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>impostors<span class="tsd-signature-symbol">: </span><a href="../classes/core.playerdata.html" class="tsd-signature-type">PlayerData</a><span class="tsd-signature-symbol">[]</span></h5>
+								<h5>impostors<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerData</a><span class="tsd-signature-symbol">[]</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The impostors that were set.</p>
@@ -653,9 +652,9 @@
 					<h3>player.setname</h3>
 					<div class="tsd-signature tsd-kind-icon">player.setname<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setname">player.setname</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.setname</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L43">core/ts/lib/component/PlayerControl.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L39">core/ts/lib/component/PlayerControl.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -680,11 +679,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_setpet" class="tsd-anchor"></a>
 					<h3>player.setpet</h3>
-					<div class="tsd-signature tsd-kind-icon">player.setpet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>pet<span class="tsd-signature-symbol">: </span><a href="../enums/constant.petid.html" class="tsd-signature-type">PetID</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.setpet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>pet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PetID</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setpet">player.setpet</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.setpet</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L79">core/ts/lib/component/PlayerControl.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L75">core/ts/lib/component/PlayerControl.ts:75</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -696,7 +695,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>pet<span class="tsd-signature-symbol">: </span><a href="../enums/constant.petid.html" class="tsd-signature-type">PetID</a></h5>
+								<h5>pet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PetID</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The pet of the player.</p>
@@ -709,11 +708,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_setskin" class="tsd-anchor"></a>
 					<h3>player.setskin</h3>
-					<div class="tsd-signature tsd-kind-icon">player.setskin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>skin<span class="tsd-signature-symbol">: </span><a href="../enums/constant.skinid.html" class="tsd-signature-type">SkinID</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.setskin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>skin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SkinID</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setskin">player.setskin</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.setskin</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L70">core/ts/lib/component/PlayerControl.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L66">core/ts/lib/component/PlayerControl.ts:66</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -725,7 +724,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>skin<span class="tsd-signature-symbol">: </span><a href="../enums/constant.skinid.html" class="tsd-signature-type">SkinID</a></h5>
+								<h5>skin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SkinID</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The skin of the player.</p>
@@ -740,9 +739,9 @@
 					<h3>player.setstartcounter</h3>
 					<div class="tsd-signature tsd-kind-icon">player.setstartcounter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>counter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_setstartcounter">player.setstartcounter</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.setstartcounter</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L97">core/ts/lib/component/PlayerControl.ts:97</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L93">core/ts/lib/component/PlayerControl.ts:93</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -769,9 +768,9 @@
 					<h3>player.snapto</h3>
 					<div class="tsd-signature tsd-kind-icon">player.snapto<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector2</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_snapto">player.snapto</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.snapto</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/CustomNetworkTransform.ts#L35">core/ts/lib/component/CustomNetworkTransform.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/CustomNetworkTransform.ts#L31">core/ts/lib/component/CustomNetworkTransform.ts:31</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -799,7 +798,7 @@
 					<div class="tsd-signature tsd-kind-icon">player.spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{}</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/PlayerData.ts#L45">core/ts/lib/PlayerData.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/PlayerData.ts#L41">core/ts/lib/PlayerData.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -816,11 +815,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="player_syncsettings" class="tsd-anchor"></a>
 					<h3>player.syncsettings</h3>
-					<div class="tsd-signature tsd-kind-icon">player.syncsettings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>settings<span class="tsd-signature-symbol">: </span><a href="../modules/protocol.html#gameoptions" class="tsd-signature-type">GameOptions</a><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">player.syncsettings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>settings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameOptions</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="core.playerdataevents.html">PlayerDataEvents</a>.<a href="core.playerdataevents.html#player_syncsettings">player.syncsettings</a></p>
+						<p>Inherited from BasePlayerDataEvents.player.syncsettings</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/core/ts/lib/component/PlayerControl.ts#L88">core/ts/lib/component/PlayerControl.ts:88</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/core/ts/lib/component/PlayerControl.ts#L84">core/ts/lib/component/PlayerControl.ts:84</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -832,7 +831,7 @@
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>settings<span class="tsd-signature-symbol">: </span><a href="../modules/protocol.html#gameoptions" class="tsd-signature-type">GameOptions</a></h5>
+								<h5>settings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameOptions</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>The settings that were synced or updated.</p>
@@ -847,8 +846,8 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -878,6 +877,9 @@
 						<a href="../modules/skeldjs.html">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/state.html">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -904,10 +906,10 @@
 							<li class="current tsd-kind-interface tsd-parent-kind-module">
 								<a href="core.playerdataevents.html" class="tsd-kind-icon">Player<wbr>Data<wbr>Events</a>
 								<ul>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a href="core.playerdataevents.html#component_despawn" class="tsd-kind-icon">component.despawn</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-overwrite tsd-is-inherited">
+									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a href="core.playerdataevents.html#component_spawn" class="tsd-kind-icon">component.spawn</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -1010,6 +1012,9 @@
 						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -1028,7 +1033,6 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>

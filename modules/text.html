@@ -7,6 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
@@ -51,13 +52,13 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../globals.html">Globals</a>
+					<a href="../modules.html">SkeldJS</a>
 				</li>
 				<li>
 					<a href="text.html">text</a>
 				</li>
 			</ul>
-			<h1>Package text</h1>
+			<h1>Module text</h1>
 		</div>
 	</div>
 </header>
@@ -77,63 +78,68 @@
 					<a href="#creating-a-basic-document" id="creating-a-basic-document" style="color: inherit; text-decoration: none;">
 						<h3>Creating a basic document</h3>
 					</a>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> formatted = tb()
-    .bold(
-        color(<span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;Hello&quot;</span>)
-    );
+					<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">formatted</span><span style="color: #000000"> = </span><span style="color: #795E26">tb</span><span style="color: #000000">()</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">bold</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #795E26">color</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;red&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;Hello&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">    );</span>
 
-<span class="hljs-built_in">console</span>.log(formatted.toString()); <span class="hljs-comment">// &lt;b&gt;&lt;color=&quot;red&quot;&gt;Hello&lt;/color&gt;&lt;/b&gt;</span></code></pre>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">formatted</span><span style="color: #000000">.</span><span style="color: #795E26">toString</span><span style="color: #000000">()); </span><span style="color: #008000">// &lt;b&gt;&lt;color=&quot;red&quot;&gt;Hello&lt;/color&gt;&lt;/b&gt;</span>
+</code></pre>
 					<p>or you can define a boilerplate for the document, where the children of the elements in the <code>tb</code> function are not considered.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> formatted = tb(bold(), color(<span class="hljs-string">&quot;red&quot;</span>))
-    .text(<span class="hljs-string">&quot;Hello&quot;</span>);
+					<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">formatted</span><span style="color: #000000"> = </span><span style="color: #795E26">tb</span><span style="color: #000000">(</span><span style="color: #795E26">bold</span><span style="color: #000000">(), </span><span style="color: #795E26">color</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;red&quot;</span><span style="color: #000000">))</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">text</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Hello&quot;</span><span style="color: #000000">);</span>
 
-<span class="hljs-built_in">console</span>.log(formatted.toString()); <span class="hljs-comment">// &lt;b&gt;&lt;color=&quot;red&quot;&gt;Hello&lt;/color&gt;&lt;/b&gt;</span></code></pre>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">formatted</span><span style="color: #000000">.</span><span style="color: #795E26">toString</span><span style="color: #000000">()); </span><span style="color: #008000">// &lt;b&gt;&lt;color=&quot;red&quot;&gt;Hello&lt;/color&gt;&lt;/b&gt;</span>
+</code></pre>
 					<p>You can also create elements standalone.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> formatted = bold(<span class="hljs-string">&quot;Hello&quot;</span>);
+					<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">formatted</span><span style="color: #000000"> = </span><span style="color: #795E26">bold</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Hello&quot;</span><span style="color: #000000">);</span>
 
-<span class="hljs-built_in">console</span>.log(formatted.toString()); <span class="hljs-comment">// &lt;b&gt;Hello&lt;/b&gt;</span></code></pre>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">formatted</span><span style="color: #000000">.</span><span style="color: #795E26">toString</span><span style="color: #000000">()); </span><span style="color: #008000">// &lt;b&gt;Hello&lt;/b&gt;</span>
+</code></pre>
 					<a href="#parse-richtext" id="parse-richtext" style="color: inherit; text-decoration: none;">
 						<h3>Parse RichText</h3>
 					</a>
 					<p>The package also provides a way to parse the Rich Text format.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> parsed = parseTMP(<span class="hljs-string">&quot;&lt;b&gt;&lt;color=red&gt;Hello&lt;/color&gt;&lt;/b&gt;&quot;</span>);
+					<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">parsed</span><span style="color: #000000"> = </span><span style="color: #795E26">parseTMP</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;b&gt;&lt;color=red&gt;Hello&lt;/color&gt;&lt;/b&gt;&quot;</span><span style="color: #000000">);</span>
 
-<span class="hljs-built_in">console</span>.log(parsed);
-<span class="hljs-comment">/*
-TMPElement {
-  tagName: &#x27;doc&#x27;,
-  attributes: {},
-  children: [
-    TMPElement {
-      tagName: &#x27;b&#x27;,
-      attributes: {},
-      children: [
-        TMPElement {
-          tagName: &#x27;color&#x27;,
-          attributes: { color: &#x27;red&#x27; },
-          children: [ &#x27;Hello&#x27; ]
-        }
-      ]
-    }
-  ]
-}
-*/</span></code></pre>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">parsed</span><span style="color: #000000">);</span>
+<span style="color: #008000">/*</span>
+<span style="color: #008000">TMPElement {</span>
+<span style="color: #008000">  tagName: &#039;doc&#039;,</span>
+<span style="color: #008000">  attributes: {},</span>
+<span style="color: #008000">  children: [</span>
+<span style="color: #008000">    TMPElement {</span>
+<span style="color: #008000">      tagName: &#039;b&#039;,</span>
+<span style="color: #008000">      attributes: {},</span>
+<span style="color: #008000">      children: [</span>
+<span style="color: #008000">        TMPElement {</span>
+<span style="color: #008000">          tagName: &#039;color&#039;,</span>
+<span style="color: #008000">          attributes: { color: &#039;red&#039; },</span>
+<span style="color: #008000">          children: [ &#039;Hello&#039; ]</span>
+<span style="color: #008000">        }</span>
+<span style="color: #008000">      ]</span>
+<span style="color: #008000">    }</span>
+<span style="color: #008000">  ]</span>
+<span style="color: #008000">}</span>
+<span style="color: #008000">*/</span>
+</code></pre>
 					<a href="#generate-html" id="generate-html" style="color: inherit; text-decoration: none;">
 						<h3>Generate HTML</h3>
 					</a>
 					<p>It also provides a way to convert roughly to HTML where possible.</p>
-					<pre><code class="language-ts"><span class="hljs-keyword">const</span> parsed = parseTMP(<span class="hljs-string">&quot;&lt;b&gt;&lt;color=red&gt;Hello&lt;/color&gt;&lt;/b&gt;&quot;</span>);
+					<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">parsed</span><span style="color: #000000"> = </span><span style="color: #795E26">parseTMP</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;b&gt;&lt;color=red&gt;Hello&lt;/color&gt;&lt;/b&gt;&quot;</span><span style="color: #000000">);</span>
 
-<span class="hljs-built_in">console</span>.log(toHTML(parsed));
-<span class="hljs-comment">/*
-&lt;div style=&quot;width:100%;height:100%;&quot;&gt;
-    &lt;b&gt;
-        &lt;div style=&quot;display:inline-block;color:red&quot;&gt;
-            &lt;span&gt;Hello&lt;/span&gt;
-        &lt;/div&gt;
-    &lt;/b&gt;
-&lt;/div&gt;
-*/</span></code></pre>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #795E26">toHTML</span><span style="color: #000000">(</span><span style="color: #001080">parsed</span><span style="color: #000000">));</span>
+<span style="color: #008000">/*</span>
+<span style="color: #008000">&lt;div style=&quot;width:100%;height:100%;&quot;&gt;</span>
+<span style="color: #008000">    &lt;b&gt;</span>
+<span style="color: #008000">        &lt;div style=&quot;display:inline-block;color:red&quot;&gt;</span>
+<span style="color: #008000">            &lt;span&gt;Hello&lt;/span&gt;</span>
+<span style="color: #008000">        &lt;/div&gt;</span>
+<span style="color: #008000">    &lt;/b&gt;</span>
+<span style="color: #008000">&lt;/div&gt;</span>
+<span style="color: #008000">*/</span>
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -180,10 +186,13 @@ TMPElement {
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#align-1" class="tsd-kind-icon">align</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#alpha" class="tsd-kind-icon">alpha</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#b" class="tsd-kind-icon">b</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#bold" class="tsd-kind-icon">bold</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#color" class="tsd-kind-icon">color</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#cspace" class="tsd-kind-icon">cspace</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#font" class="tsd-kind-icon">font</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#highlight" class="tsd-kind-icon">highlight</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#i" class="tsd-kind-icon">i</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#indent" class="tsd-kind-icon">indent</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#italics" class="tsd-kind-icon">italics</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#link" class="tsd-kind-icon">link</a></li>
@@ -191,6 +200,8 @@ TMPElement {
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#lnindent" class="tsd-kind-icon">lnindent</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#lowercase" class="tsd-kind-icon">lowercase</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#margin" class="tsd-kind-icon">margin</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#mark" class="tsd-kind-icon">mark</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#mono" class="tsd-kind-icon">mono</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#monospace" class="tsd-kind-icon">monospace</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#nbspace" class="tsd-kind-icon">nbspace</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#nextpage" class="tsd-kind-icon">nextpage</a></li>
@@ -200,12 +211,17 @@ TMPElement {
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#smallcaps" class="tsd-kind-icon">smallcaps</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#space" class="tsd-kind-icon">space</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#spacing" class="tsd-kind-icon">spacing</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#st" class="tsd-kind-icon">st</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#strike" class="tsd-kind-icon">strike</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#strikethrough" class="tsd-kind-icon">strikethrough</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#sub" class="tsd-kind-icon">sub</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#subscript" class="tsd-kind-icon">subscript</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#sup" class="tsd-kind-icon">sup</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#superscript" class="tsd-kind-icon">superscript</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#tb" class="tsd-kind-icon">tb</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#text-1" class="tsd-kind-icon">text</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#tohtml" class="tsd-kind-icon">toHTML</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#u" class="tsd-kind-icon">u</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#underline" class="tsd-kind-icon">underline</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#uppercase" class="tsd-kind-icon">uppercase</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="text.html#voffset" class="tsd-kind-icon">voffset</a></li>
@@ -220,30 +236,30 @@ TMPElement {
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="parsepart" class="tsd-anchor"></a>
 					<h3>Parse<wbr>Part</h3>
-					<div class="tsd-signature tsd-kind-icon">Parse<wbr>Part<span class="tsd-signature-symbol">:</span> <a href="../interfaces/text.tagparsepart.html" class="tsd-signature-type">TagParsePart</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/text.textparsepart.html" class="tsd-signature-type">TextParsePart</a></div>
+					<div class="tsd-signature tsd-kind-icon">Parse<wbr>Part<span class="tsd-signature-symbol">:</span> <a href="../interfaces/text.tagparsepart.html" class="tsd-signature-type" data-tsd-kind="Interface">TagParsePart</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/text.textparsepart.html" class="tsd-signature-type" data-tsd-kind="Interface">TextParsePart</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/parser.ts#L40">text/ts/lib/parser.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/parser.ts#L40">text/ts/lib/parser.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="tmpcolorname" class="tsd-anchor"></a>
 					<h3>TMPColor<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">TMPColor<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"black"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"blue"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"green"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"orange"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"purple"</span></div>
+					<div class="tsd-signature tsd-kind-icon">TMPColor<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;black&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;blue&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;green&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;orange&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;purple&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/builder.ts#L3">text/ts/lib/builder.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/builder.ts#L3">text/ts/lib/builder.ts:3</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="tmpnode" class="tsd-anchor"></a>
 					<h3>TMPNode</h3>
-					<div class="tsd-signature tsd-kind-icon">TMPNode<span class="tsd-signature-symbol">:</span> <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">TMPNode<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/builder.ts#L39">text/ts/lib/builder.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/builder.ts#L39">text/ts/lib/builder.ts:39</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -253,17 +269,17 @@ TMPElement {
 					<div class="tsd-signature tsd-kind-icon">TMPRGBA<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/builder.ts#L40">text/ts/lib/builder.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/builder.ts#L40">text/ts/lib/builder.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="tmptag" class="tsd-anchor"></a>
 					<h3>TMPTag</h3>
-					<div class="tsd-signature tsd-kind-icon">TMPTag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"doc"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"align"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"alpha"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"color"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"b"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"i"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"cspace"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"font"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"indent"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"line-height"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"line-indent"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"link"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"lowercase"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"uppercase"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"smallcaps"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"margin"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"mark"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"mspace"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"noparse"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"nobr"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"page"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"pos"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"size"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"space"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sprite"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"s"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"u"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"style"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sub"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"sup"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"voffset"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"width"</span></div>
+					<div class="tsd-signature tsd-kind-icon">TMPTag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;doc&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;align&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;alpha&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;color&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;b&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;i&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;cspace&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;font&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;indent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;line-height&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;line-indent&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;link&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;lowercase&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;uppercase&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;smallcaps&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;margin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;mark&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;mspace&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;noparse&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;nobr&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;page&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pos&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;size&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;space&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sprite&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;s&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;u&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;style&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sub&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sup&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;voffset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;width&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/builder.ts#L5">text/ts/lib/builder.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/builder.ts#L5">text/ts/lib/builder.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -274,13 +290,13 @@ TMPElement {
 					<a name="align-1" class="tsd-anchor"></a>
 					<h3>align</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">align<span class="tsd-signature-symbol">(</span>align<span class="tsd-signature-symbol">: </span><a href="../enums/text.align.html" class="tsd-signature-type">Align</a>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">align<span class="tsd-signature-symbol">(</span>align<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Align</a>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L29">text/ts/lib/factories.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L29">text/ts/lib/factories.ts:29</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -291,13 +307,13 @@ TMPElement {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>align: <a href="../enums/text.align.html" class="tsd-signature-type">Align</a></h5>
+									<h5>align: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Align</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -305,13 +321,13 @@ TMPElement {
 					<a name="alpha" class="tsd-anchor"></a>
 					<h3>alpha</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">alpha<span class="tsd-signature-symbol">(</span>alpha<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">alpha<span class="tsd-signature-symbol">(</span>alpha<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L36">text/ts/lib/factories.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L36">text/ts/lib/factories.ts:36</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -325,24 +341,24 @@ TMPElement {
 									<h5>alpha: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="bold" class="tsd-anchor"></a>
-					<h3>bold</h3>
+					<a name="b" class="tsd-anchor"></a>
+					<h3>b</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">bold<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">b<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L58">text/ts/lib/factories.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L58">text/ts/lib/factories.ts:58</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -353,10 +369,38 @@ TMPElement {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="bold" class="tsd-anchor"></a>
+					<h3>bold</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">bold<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L58">text/ts/lib/factories.ts:58</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a bold element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -364,13 +408,13 @@ TMPElement {
 					<a name="color" class="tsd-anchor"></a>
 					<h3>color</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L43">text/ts/lib/factories.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L43">text/ts/lib/factories.ts:43</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -384,7 +428,7 @@ TMPElement {
 									<h5>color: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -392,511 +436,16 @@ TMPElement {
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="font" class="tsd-anchor"></a>
-					<h3>font</h3>
+					<a name="cspace" class="tsd-anchor"></a>
+					<h3>cspace</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">font<span class="tsd-signature-symbol">(</span>face<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">cspace<span class="tsd-signature-symbol">(</span>spacing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L85">text/ts/lib/factories.ts:85</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a font element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>face: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="highlight" class="tsd-anchor"></a>
-					<h3>highlight</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">highlight<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L148">text/ts/lib/factories.ts:148</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a highlight element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>color: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="indent" class="tsd-anchor"></a>
-					<h3>indent</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">indent<span class="tsd-signature-symbol">(</span>indent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L92">text/ts/lib/factories.ts:92</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create an indentation element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>indent: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="italics" class="tsd-anchor"></a>
-					<h3>italics</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">italics<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L67">text/ts/lib/factories.ts:67</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create an italics element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="link" class="tsd-anchor"></a>
-					<h3>link</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">link<span class="tsd-signature-symbol">(</span>resource<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L113">text/ts/lib/factories.ts:113</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a link element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>resource: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="lnheight" class="tsd-anchor"></a>
-					<h3>lnheight</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">lnheight<span class="tsd-signature-symbol">(</span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L99">text/ts/lib/factories.ts:99</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a line height element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>height: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="lnindent" class="tsd-anchor"></a>
-					<h3>lnindent</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">lnindent<span class="tsd-signature-symbol">(</span>indent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L106">text/ts/lib/factories.ts:106</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a line indent element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>indent: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="lowercase" class="tsd-anchor"></a>
-					<h3>lowercase</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">lowercase<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L120">text/ts/lib/factories.ts:120</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a lowercase element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="margin" class="tsd-anchor"></a>
-					<h3>margin</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">margin<span class="tsd-signature-symbol">(</span>margin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L141">text/ts/lib/factories.ts:141</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a margin element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>margin: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="monospace" class="tsd-anchor"></a>
-					<h3>monospace</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">monospace<span class="tsd-signature-symbol">(</span>spacing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L165">text/ts/lib/factories.ts:165</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a monospace element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>spacing: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="nbspace" class="tsd-anchor"></a>
-					<h3>nbspace</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">nbspace<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L174">text/ts/lib/factories.ts:174</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a non-breaking space element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="nextpage" class="tsd-anchor"></a>
-					<h3>nextpage</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">nextpage<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L181">text/ts/lib/factories.ts:181</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a page break element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="parsetmp" class="tsd-anchor"></a>
-					<h3>parseTMP</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">parseTMP<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/parser.ts#L146">text/ts/lib/parser.ts:146</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>content: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="pos" class="tsd-anchor"></a>
-					<h3>pos</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">pos<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L188">text/ts/lib/factories.ts:188</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a position element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>x: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="size" class="tsd-anchor"></a>
-					<h3>size</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L195">text/ts/lib/factories.ts:195</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a font size element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>size: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="smallcaps" class="tsd-anchor"></a>
-					<h3>smallcaps</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">smallcaps<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L134">text/ts/lib/factories.ts:134</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a smallcaps element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="space" class="tsd-anchor"></a>
-					<h3>space</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">space<span class="tsd-signature-symbol">(</span>space<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L202">text/ts/lib/factories.ts:202</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Create a space element.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>space: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="spacing" class="tsd-anchor"></a>
-					<h3>spacing</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">spacing<span class="tsd-signature-symbol">(</span>spacing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L76">text/ts/lib/factories.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L76">text/ts/lib/factories.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -910,24 +459,640 @@ TMPElement {
 									<h5>spacing: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="strikethrough" class="tsd-anchor"></a>
-					<h3>strikethrough</h3>
+					<a name="font" class="tsd-anchor"></a>
+					<h3>font</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">strikethrough<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">font<span class="tsd-signature-symbol">(</span>face<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L209">text/ts/lib/factories.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L85">text/ts/lib/factories.ts:85</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a font element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>face: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="highlight" class="tsd-anchor"></a>
+					<h3>highlight</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">highlight<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L148">text/ts/lib/factories.ts:148</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a highlight element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>color: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="i" class="tsd-anchor"></a>
+					<h3>i</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">i<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L67">text/ts/lib/factories.ts:67</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create an italics element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="indent" class="tsd-anchor"></a>
+					<h3>indent</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">indent<span class="tsd-signature-symbol">(</span>indent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L92">text/ts/lib/factories.ts:92</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create an indentation element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>indent: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="italics" class="tsd-anchor"></a>
+					<h3>italics</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">italics<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L67">text/ts/lib/factories.ts:67</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create an italics element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="link" class="tsd-anchor"></a>
+					<h3>link</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">link<span class="tsd-signature-symbol">(</span>resource<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L113">text/ts/lib/factories.ts:113</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a link element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resource: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="lnheight" class="tsd-anchor"></a>
+					<h3>lnheight</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">lnheight<span class="tsd-signature-symbol">(</span>height<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L99">text/ts/lib/factories.ts:99</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a line height element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>height: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="lnindent" class="tsd-anchor"></a>
+					<h3>lnindent</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">lnindent<span class="tsd-signature-symbol">(</span>indent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L106">text/ts/lib/factories.ts:106</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a line indent element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>indent: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="lowercase" class="tsd-anchor"></a>
+					<h3>lowercase</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">lowercase<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L120">text/ts/lib/factories.ts:120</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a lowercase element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="margin" class="tsd-anchor"></a>
+					<h3>margin</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">margin<span class="tsd-signature-symbol">(</span>margin<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L141">text/ts/lib/factories.ts:141</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a margin element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>margin: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="mark" class="tsd-anchor"></a>
+					<h3>mark</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">mark<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L148">text/ts/lib/factories.ts:148</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a highlight element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>color: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="mono" class="tsd-anchor"></a>
+					<h3>mono</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">mono<span class="tsd-signature-symbol">(</span>spacing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L165">text/ts/lib/factories.ts:165</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a monospace element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>spacing: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="monospace" class="tsd-anchor"></a>
+					<h3>monospace</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">monospace<span class="tsd-signature-symbol">(</span>spacing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L165">text/ts/lib/factories.ts:165</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a monospace element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>spacing: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="nbspace" class="tsd-anchor"></a>
+					<h3>nbspace</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">nbspace<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L174">text/ts/lib/factories.ts:174</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a non-breaking space element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="nextpage" class="tsd-anchor"></a>
+					<h3>nextpage</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">nextpage<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L181">text/ts/lib/factories.ts:181</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a page break element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="parsetmp" class="tsd-anchor"></a>
+					<h3>parseTMP</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">parseTMP<span class="tsd-signature-symbol">(</span>content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/parser.ts#L146">text/ts/lib/parser.ts:146</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>content: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="pos" class="tsd-anchor"></a>
+					<h3>pos</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">pos<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L188">text/ts/lib/factories.ts:188</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a position element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>x: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="size" class="tsd-anchor"></a>
+					<h3>size</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">size<span class="tsd-signature-symbol">(</span>size<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L195">text/ts/lib/factories.ts:195</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a font size element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>size: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="smallcaps" class="tsd-anchor"></a>
+					<h3>smallcaps</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">smallcaps<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L134">text/ts/lib/factories.ts:134</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a smallcaps element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="space" class="tsd-anchor"></a>
+					<h3>space</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">space<span class="tsd-signature-symbol">(</span>space<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L202">text/ts/lib/factories.ts:202</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a space element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>space: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="spacing" class="tsd-anchor"></a>
+					<h3>spacing</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">spacing<span class="tsd-signature-symbol">(</span>spacing<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L76">text/ts/lib/factories.ts:76</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a spacing element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>spacing: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="st" class="tsd-anchor"></a>
+					<h3>st</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">st<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L209">text/ts/lib/factories.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -938,24 +1103,80 @@ TMPElement {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="subscript" class="tsd-anchor"></a>
-					<h3>subscript</h3>
+					<a name="strike" class="tsd-anchor"></a>
+					<h3>strike</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">subscript<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">strike<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L227">text/ts/lib/factories.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L209">text/ts/lib/factories.ts:209</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a strikethrough element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="strikethrough" class="tsd-anchor"></a>
+					<h3>strikethrough</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">strikethrough<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L209">text/ts/lib/factories.ts:209</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a strikethrough element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="sub" class="tsd-anchor"></a>
+					<h3>sub</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">sub<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L227">text/ts/lib/factories.ts:227</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -966,24 +1187,52 @@ TMPElement {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="superscript" class="tsd-anchor"></a>
-					<h3>superscript</h3>
+					<a name="subscript" class="tsd-anchor"></a>
+					<h3>subscript</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">superscript<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">subscript<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L236">text/ts/lib/factories.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L227">text/ts/lib/factories.ts:227</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a subscript element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="sup" class="tsd-anchor"></a>
+					<h3>sup</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">sup<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L236">text/ts/lib/factories.ts:236</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -994,10 +1243,38 @@ TMPElement {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="superscript" class="tsd-anchor"></a>
+					<h3>superscript</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">superscript<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L236">text/ts/lib/factories.ts:236</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a superscript element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1005,22 +1282,22 @@ TMPElement {
 					<a name="tb" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> tb</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">tb<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>nodes<span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.docelement.html" class="tsd-signature-type">DocElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">tb<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>nodes<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">DocElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/builder.ts#L615">text/ts/lib/builder.ts:615</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/builder.ts#L626">text/ts/lib/builder.ts:626</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>nodes: <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>nodes: <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.docelement.html" class="tsd-signature-type">DocElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">DocElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1028,13 +1305,13 @@ TMPElement {
 					<a name="text-1" class="tsd-anchor"></a>
 					<h3>text</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a></li>
+						<li class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">(</span>node<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a>, parse<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L14">text/ts/lib/factories.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L14">text/ts/lib/factories.ts:14</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1045,10 +1322,13 @@ TMPElement {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>node: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a></h5>
+									<h5>node: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a></h5>
+								</li>
+								<li>
+									<h5>parse: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1056,19 +1336,19 @@ TMPElement {
 					<a name="tohtml" class="tsd-anchor"></a>
 					<h3>toHTML</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">toHTML<span class="tsd-signature-symbol">(</span>elem<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol"> | </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">toHTML<span class="tsd-signature-symbol">(</span>elem<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/html.ts#L3">text/ts/lib/html.ts:3</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/html.ts#L3">text/ts/lib/html.ts:3</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>elem: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol"> | </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>elem: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -1076,16 +1356,16 @@ TMPElement {
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="underline" class="tsd-anchor"></a>
-					<h3>underline</h3>
+					<a name="u" class="tsd-anchor"></a>
+					<h3>u</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">underline<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">u<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L218">text/ts/lib/factories.ts:218</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L218">text/ts/lib/factories.ts:218</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1096,10 +1376,38 @@ TMPElement {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="underline" class="tsd-anchor"></a>
+					<h3>underline</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">underline<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L218">text/ts/lib/factories.ts:218</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create an underline element.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1107,13 +1415,13 @@ TMPElement {
 					<a name="uppercase" class="tsd-anchor"></a>
 					<h3>uppercase</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">uppercase<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">uppercase<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L127">text/ts/lib/factories.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L127">text/ts/lib/factories.ts:127</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1124,10 +1432,10 @@ TMPElement {
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1135,13 +1443,13 @@ TMPElement {
 					<a name="voffset" class="tsd-anchor"></a>
 					<h3>voffset</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">voffset<span class="tsd-signature-symbol">(</span>offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">voffset<span class="tsd-signature-symbol">(</span>offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L245">text/ts/lib/factories.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L245">text/ts/lib/factories.ts:245</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1155,10 +1463,10 @@ TMPElement {
 									<h5>offset: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1166,13 +1474,13 @@ TMPElement {
 					<a name="width" class="tsd-anchor"></a>
 					<h3>width</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">(</span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">width<span class="tsd-signature-symbol">(</span>width<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, <span class="tsd-signature-symbol">...</span>content<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/f3845ad/packages/text/ts/lib/factories.ts#L252">text/ts/lib/factories.ts:252</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/417cc71/packages/text/ts/lib/factories.ts#L252">text/ts/lib/factories.ts:252</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1186,10 +1494,10 @@ TMPElement {
 									<h5>width: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="text.html#tmpnode" class="tsd-signature-type">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>content: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">TMPNode</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/text.tmpelement.html" class="tsd-signature-type">TMPElement</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TMPElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -1198,8 +1506,8 @@ TMPElement {
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="../globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="client.html">client</a>
@@ -1227,6 +1535,9 @@ TMPElement {
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="skeldjs.html">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="state.html">state</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="tasks.html">tasks</a>
@@ -1267,6 +1578,9 @@ TMPElement {
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="skeldjs.html" class="tsd-kind-icon">skeldjs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="state.html" class="tsd-kind-icon">state</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="tasks.html" class="tsd-kind-icon">tasks</a>
@@ -1328,16 +1642,25 @@ TMPElement {
 								<a href="text.html#alpha" class="tsd-kind-icon">alpha</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#b" class="tsd-kind-icon">b</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#bold" class="tsd-kind-icon">bold</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#color" class="tsd-kind-icon">color</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#cspace" class="tsd-kind-icon">cspace</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#font" class="tsd-kind-icon">font</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#highlight" class="tsd-kind-icon">highlight</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#i" class="tsd-kind-icon">i</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#indent" class="tsd-kind-icon">indent</a>
@@ -1359,6 +1682,12 @@ TMPElement {
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#margin" class="tsd-kind-icon">margin</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#mark" class="tsd-kind-icon">mark</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#mono" class="tsd-kind-icon">mono</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#monospace" class="tsd-kind-icon">monospace</a>
@@ -1388,10 +1717,22 @@ TMPElement {
 								<a href="text.html#spacing" class="tsd-kind-icon">spacing</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#st" class="tsd-kind-icon">st</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#strike" class="tsd-kind-icon">strike</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#strikethrough" class="tsd-kind-icon">strikethrough</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#sub" class="tsd-kind-icon">sub</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#subscript" class="tsd-kind-icon">subscript</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#sup" class="tsd-kind-icon">sup</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#superscript" class="tsd-kind-icon">superscript</a>
@@ -1404,6 +1745,9 @@ TMPElement {
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#tohtml" class="tsd-kind-icon">toHTML</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="text.html#u" class="tsd-kind-icon">u</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="text.html#underline" class="tsd-kind-icon">underline</a>
@@ -1434,7 +1778,6 @@ TMPElement {
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
