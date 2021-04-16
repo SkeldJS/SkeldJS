@@ -106,7 +106,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mocha", "npm:8.2.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.11.0"],
             ["@typescript-eslint/parser", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.11.0"],
-            ["cross-env", "npm:7.0.3"],
             ["eslint", "npm:7.16.0"],
             ["husky", "npm:5.0.6"],
             ["lerna", "npm:3.22.1"],
@@ -1644,8 +1643,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/state", "workspace:packages/state"],
             ["@skeldjs/text", "workspace:packages/text"],
             ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/node", "npm:14.14.16"],
             ["gif-frames", "npm:1.0.1"],
-            ["image-pixels", "npm:2.2.2"]
+            ["image-pixels", "npm:2.2.2"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1655,7 +1656,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/constant/",
           "packageDependencies": [
             ["@skeldjs/constant", "workspace:packages/constant"],
-            ["@skeldjs/util", "workspace:packages/util"]
+            ["@skeldjs/util", "workspace:packages/util"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1670,7 +1672,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/events", "workspace:packages/events"],
             ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/types", "npm:2.2.7"],
-            ["@skeldjs/util", "workspace:packages/util"]
+            ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/mocha", "npm:8.2.0"],
+            ["@types/node", "npm:14.14.16"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1680,7 +1685,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/data/",
           "packageDependencies": [
             ["@skeldjs/data", "workspace:packages/data"],
-            ["@skeldjs/constant", "workspace:packages/constant"]
+            ["@skeldjs/constant", "workspace:packages/constant"],
+            ["@skeldjs/util", "workspace:packages/util"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1689,7 +1696,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["workspace:packages/events", {
           "packageLocation": "./packages/events/",
           "packageDependencies": [
-            ["@skeldjs/events", "workspace:packages/events"]
+            ["@skeldjs/events", "workspace:packages/events"],
+            ["@types/mocha", "npm:8.2.0"],
+            ["@types/node", "npm:14.14.16"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1705,7 +1715,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/events", "workspace:packages/events"],
             ["@skeldjs/util", "workspace:packages/util"],
             ["@types/heap", "npm:0.2.28"],
-            ["heap", "npm:0.2.6"]
+            ["@types/mocha", "npm:8.2.0"],
+            ["@types/node", "npm:14.14.16"],
+            ["heap", "npm:0.2.6"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1717,7 +1730,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/types", "npm:2.2.7"],
-            ["@skeldjs/util", "workspace:packages/util"]
+            ["@skeldjs/util", "workspace:packages/util"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1727,11 +1741,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/server/",
           "packageDependencies": [
             ["@skeldjs/server", "workspace:packages/server"],
+            ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/core", "workspace:packages/core"],
             ["@skeldjs/events", "workspace:packages/events"],
             ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/state", "workspace:packages/state"],
-            ["@skeldjs/util", "workspace:packages/util"]
+            ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/mocha", "npm:8.2.0"],
+            ["@types/node", "npm:14.14.16"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1743,7 +1761,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/skeldjs", "workspace:packages/skeldjs"],
             ["@skeldjs/server", "workspace:packages/server"],
             ["@skeldjs/util", "workspace:packages/util"],
-            ["tedis", "npm:0.1.12"]
+            ["@types/node", "npm:14.14.16"],
+            ["tedis", "npm:0.1.12"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1754,7 +1774,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@skeldjs/state", "workspace:packages/state"],
             ["@skeldjs/core", "workspace:packages/core"],
-            ["@skeldjs/protocol", "workspace:packages/protocol"]
+            ["@skeldjs/protocol", "workspace:packages/protocol"],
+            ["@types/mocha", "npm:8.2.0"],
+            ["@types/node", "npm:14.14.16"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1764,7 +1787,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/tasks/",
           "packageDependencies": [
             ["@skeldjs/tasks", "workspace:packages/tasks"],
-            ["@skeldjs/core", "workspace:packages/core"]
+            ["@skeldjs/core", "workspace:packages/core"],
+            ["@types/node", "npm:14.14.16"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1773,7 +1798,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["workspace:packages/text", {
           "packageLocation": "./packages/text/",
           "packageDependencies": [
-            ["@skeldjs/text", "workspace:packages/text"]
+            ["@skeldjs/text", "workspace:packages/text"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -1791,7 +1817,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         ["workspace:packages/util", {
           "packageLocation": "./packages/util/",
           "packageDependencies": [
-            ["@skeldjs/util", "workspace:packages/util"]
+            ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/mocha", "npm:8.2.0"],
+            ["@types/node", "npm:14.14.16"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
         }]
@@ -3620,16 +3649,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/create-require-npm-1.1.1-839884ca2e-a9a1503d43.zip/node_modules/create-require/",
           "packageDependencies": [
             ["create-require", "npm:1.1.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["cross-env", [
-        ["npm:7.0.3", {
-          "packageLocation": "./.yarn/cache/cross-env-npm-7.0.3-96d81820f4-26f2f3ea2a.zip/node_modules/cross-env/",
-          "packageDependencies": [
-            ["cross-env", "npm:7.0.3"],
-            ["cross-spawn", "npm:7.0.3"]
           ],
           "linkType": "HARD",
         }]
@@ -9820,7 +9839,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mocha", "npm:8.2.0"],
             ["@typescript-eslint/eslint-plugin", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.11.0"],
             ["@typescript-eslint/parser", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.11.0"],
-            ["cross-env", "npm:7.0.3"],
             ["eslint", "npm:7.16.0"],
             ["husky", "npm:5.0.6"],
             ["lerna", "npm:3.22.1"],
