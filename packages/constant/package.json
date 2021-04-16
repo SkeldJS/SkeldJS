@@ -4,11 +4,17 @@
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
-    "prepublishOnly": "npm run build"
+    "prepack": "yarn build"
   },
   "license": "GPL-3.0-only",
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "dependencies": {
     "@skeldjs/util": "^2.6.3"
-  }
+  },
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  },
+  "files": [
+    "js"
+  ]
 }
