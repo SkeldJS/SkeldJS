@@ -18,7 +18,6 @@ The repository holds several key programs for automating development with Among 
 as well as a central `@skeldjs/skeldjs` package that contains an abstracted client API, with Redis support and multiple server nodes.
 
 The repository also hosts utility packages for the packages listed above, that you can use individually.
-* **State** - A very small state manager to wrap the **Core** module that bases the client package.
 * **Core** - An impartial core internal API for Among Us structures and game objects that are shared across all main projects.
 * **Protocol** - Protocol interfaces with full parsing and composing.
 * **Constant** - Enums & bitfields in Among Us.
@@ -26,7 +25,7 @@ The repository also hosts utility packages for the packages listed above, that y
 * **Util** - Basic utility functions.
 
 As well as the main and utility packages, the project also contains several packages to be used as additions or addons to the client package. These are installed separately from the client although are helpful in automating client development.
-* **Pathfinding** - A* pathfinding implementation to get around the map, abstracted to be a seamless addition to the  client package.
+* **Pathfinding** - A* pathfinding implementation to get around the map, abstracted to be a seamless addition to the client package.
 * **Task Manager** - A tool used for managing task completion in the correct order.
 
 You can view auto-updating documentation for all packages hosted at github pages at https://skeldjs.github.io/SkeldJS.
@@ -36,7 +35,7 @@ You can view auto-updating documentation for all packages hosted at github pages
 ### Prerequisites
 * [Node.js >=15](https://nodejs.org)
 * [NPM](https://npmjs.org) (Installs with nodejs)
-* [Yarn](https://yarnpkg.com) (Can be installed with `npm install -g yarn` in a command prompt once `npm` has installed.)
+* [Yarn](https://yarnpkg.com) (Can be installed with `npm install -g yarn` in a command prompt once `npm` has been installed.)
 * [Git](https://git-scm.org) (Optional)
 * A command prompt
 
@@ -64,7 +63,7 @@ You can view auto-updating documentation for all packages hosted at github pages
 5. Install packages for the repository with `yarn install`
 
 ### Configure and start
-To configure the server, open `config.json` in in any text editor.
+To configure the server, open `config.json` in any text editor.
 
 Insert plugins in the `plugins` directory.
 
@@ -112,14 +111,12 @@ yarn add @skeldjs/tasks
 
 ### To install utility packages
 ```
-npm install --save @skeldjs/state
 npm install --save @skeldjs/core
 npm install --save @skeldjs/protocol
 npm install --save @skeldjs/constant
 npm install --save @skeldjs/data
 npm install --save @skeldjs/util
 or
-yarn add @skeldjs/state
 yarn add @skeldjs/core
 yarn add @skeldjs/protocol
 yarn add @skeldjs/constant
@@ -133,7 +130,7 @@ yarn add @skeldjs/util
 The following resources have been extremely useful in developing this project, and I suggest that you give the repositories a star where applicable.
 * https://sus.wiki Easily the most useful resource to me, a wiki covering the entire among us protocol and basic flows.
 * https://wireshark.org Tool for capturing individual game packets.
-  * https://github.com/cybershard/wireshark-amongus Plugin for wireshark for quickly filtering and deserialising among us packets, extremely useful for quickly debugging issues.
+  * https://github.com/cybershard/wireshark-amongus Plugin for wireshark for quickly filtering and deserializing among us packets, extremely useful for quickly debugging issues.
 * https://github.com/alexis-evelyn/Among-Us-Protocol/wiki The first wiki I found that got me interested.
 
 This repository is held under the GPL-V3 license, meaning I am not responsible for any consequences that may come from using the packages in SkeldJS.
