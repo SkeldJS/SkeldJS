@@ -2,3 +2,5 @@ node_modules
 plugins
 js
 **/*.js
+.yarn
+.pnp.*
