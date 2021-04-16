@@ -1388,8 +1388,10 @@ __metadata:
     "@skeldjs/state": ^2.3.13
     "@skeldjs/text": ^2.6.12
     "@skeldjs/util": ^2.6.3
+    "@types/node": ^14.14.16
     gif-frames: ^1.0.1
     image-pixels: ^2.2.2
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1398,6 +1400,7 @@ __metadata:
   resolution: "@skeldjs/constant@workspace:packages/constant"
   dependencies:
     "@skeldjs/util": ^2.6.3
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1411,6 +1414,9 @@ __metadata:
     "@skeldjs/protocol": ^2.6.9
     "@skeldjs/types": ^2.2.7
     "@skeldjs/util": ^2.6.3
+    "@types/mocha": ^8.2.0
+    "@types/node": ^14.14.16
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1419,12 +1425,18 @@ __metadata:
   resolution: "@skeldjs/data@workspace:packages/data"
   dependencies:
     "@skeldjs/constant": ^2.6.3
+    "@skeldjs/util": ^2.6.3
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
 "@skeldjs/events@^2.6.3, @skeldjs/events@workspace:packages/events":
   version: 0.0.0-use.local
   resolution: "@skeldjs/events@workspace:packages/events"
+  dependencies:
+    "@types/mocha": ^8.2.0
+    "@types/node": ^14.14.16
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1438,7 +1450,10 @@ __metadata:
     "@skeldjs/events": ^2.6.3
     "@skeldjs/util": ^2.6.3
     "@types/heap": ^0.2.28
+    "@types/mocha": ^8.2.0
+    "@types/node": ^14.14.16
     heap: ^0.2.6
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1449,6 +1464,7 @@ __metadata:
     "@skeldjs/constant": ^2.6.3
     "@skeldjs/types": ^2.2.7
     "@skeldjs/util": ^2.6.3
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1456,11 +1472,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/server@workspace:packages/server"
   dependencies:
+    "@skeldjs/constant": ^2.6.3
     "@skeldjs/core": ^2.6.11
     "@skeldjs/events": ^2.6.3
     "@skeldjs/protocol": ^2.6.9
     "@skeldjs/state": ^2.3.13
     "@skeldjs/util": ^2.6.3
+    "@types/mocha": ^8.2.0
+    "@types/node": ^14.14.16
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1470,7 +1490,9 @@ __metadata:
   dependencies:
     "@skeldjs/server": ^2.6.11
     "@skeldjs/util": ^2.6.3
+    "@types/node": ^14.14.16
     tedis: ^0.1.12
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1480,6 +1502,9 @@ __metadata:
   dependencies:
     "@skeldjs/core": ^2.6.11
     "@skeldjs/protocol": ^2.6.9
+    "@types/mocha": ^8.2.0
+    "@types/node": ^14.14.16
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1488,12 +1513,16 @@ __metadata:
   resolution: "@skeldjs/tasks@workspace:packages/tasks"
   dependencies:
     "@skeldjs/core": ^2.6.11
+    "@types/node": ^14.14.16
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
 "@skeldjs/text@^2.6.12, @skeldjs/text@workspace:packages/text":
   version: 0.0.0-use.local
   resolution: "@skeldjs/text@workspace:packages/text"
+  dependencies:
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1507,6 +1536,10 @@ __metadata:
 "@skeldjs/util@^2.6.3, @skeldjs/util@workspace:packages/util":
   version: 0.0.0-use.local
   resolution: "@skeldjs/util@workspace:packages/util"
+  dependencies:
+    "@types/mocha": ^8.2.0
+    "@types/node": ^14.14.16
+    typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
@@ -1614,7 +1647,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8":
+"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^14.14.16":
   version: 14.14.16
   resolution: "@types/node@npm:14.14.16"
   checksum: 160eff18a1ec82ac111d3e47c488f377c31d05938dafaa2541565b355849f7cf1964195ee14c68855c13fae59f742fafc928634e741c68ff54589912302f84d0
@@ -3060,18 +3093,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-env@npm:^7.0.2":
-  version: 7.0.3
-  resolution: "cross-env@npm:7.0.3"
-  dependencies:
-    cross-spawn: ^7.0.1
-  bin:
-    cross-env: src/bin/cross-env.js
-    cross-env-shell: src/bin/cross-env-shell.js
-  checksum: 26f2f3ea2ab32617f57effb70d329c2070d2f5630adc800985d8b30b56e8bf7f5f439dd3a0358b79cee6f930afc23cf8e23515f17ccfb30092c6b62c6b630a79
-  languageName: node
-  linkType: hard
-
 "cross-spawn@npm:^6.0.0":
   version: 6.0.5
   resolution: "cross-spawn@npm:6.0.5"
@@ -3085,7 +3106,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1, cross-spawn@npm:^7.0.2":
+"cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
   dependencies:
@@ -8688,7 +8709,6 @@ fsevents@~2.1.2:
     "@types/mocha": ^8.2.0
     "@typescript-eslint/eslint-plugin": ^4.11.0
     "@typescript-eslint/parser": ^4.11.0
-    cross-env: ^7.0.2
     eslint: ^7.16.0
     husky: ^5.0.6
     lerna: ^3.22.1

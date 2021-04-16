@@ -26,9 +26,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: npm install -g yarn
     - run: yarn install
-    - run: yarn build-all:ci
+    - run: yarn build-all
     - run: yarn docs
 
     - name: GH Pages deploy
