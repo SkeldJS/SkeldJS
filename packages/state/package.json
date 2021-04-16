@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/state",
-  "version": "2.6.11",
+  "version": "2.7.0",
   "main": "js/index.js",
   "private": true,
   "scripts": {
@@ -9,8 +9,8 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/core": "^2.6.11",
-    "@skeldjs/protocol": "^2.6.9"
+    "@skeldjs/core": "^2.7.0",
+    "@skeldjs/protocol": "^2.7.0"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

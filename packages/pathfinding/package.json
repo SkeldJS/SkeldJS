@@ -1,18 +1,19 @@
 {
   "name": "@skeldjs/pathfinding",
-  "version": "2.6.11",
+  "version": "2.7.0",
   "main": "js/index.js",
   "license": "GPL-3.0-only",
   "scripts": {
     "build": "tsc -p ./ && node js/build.js",
-    "prepack": "yarn build"
+    "prepack": "yarn build",
+    "postinstall": "node js/build.js"
   },
   "dependencies": {
-    "@skeldjs/constant": "^2.6.3",
-    "@skeldjs/core": "^2.6.11",
-    "@skeldjs/data": "^2.6.11",
-    "@skeldjs/events": "^2.6.3",
-    "@skeldjs/util": "^2.6.3",
+    "@skeldjs/constant": "^2.7.0",
+    "@skeldjs/core": "^2.7.0",
+    "@skeldjs/data": "^2.7.0",
+    "@skeldjs/events": "^2.7.0",
+    "@skeldjs/util": "^2.7.0",
     "heap": "^0.2.6"
   },
   "devDependencies": {
@@ -23,6 +24,7 @@
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [
-    "js"
+    "js",
+    "data/colliders"
   ]
 }
