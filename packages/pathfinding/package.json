@@ -4,9 +4,9 @@
   "main": "js/index.js",
   "license": "GPL-3.0-only",
   "scripts": {
-    "build": "tsc -p ./ && node build.js",
+    "build": "tsc -p ./ && node js/build.js",
     "prepack": "yarn build",
-    "postinstall": "node build.js"
+    "postinstall": "yarn build"
   },
   "dependencies": {
     "@skeldjs/constant": "^2.7.2",
