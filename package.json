@@ -10,8 +10,7 @@
     "fix": "prettier --write packages/**/*.ts",
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
-    "build-all:ci": "lerna run build:ci",
-    "build-all": "lerna run build --parallel",
+    "build-all": "yarn workspaces foreach -p run build",
     "publish-all": "lerna publish",
     "postinstall": "husky install",
     "docs": "typedoc"

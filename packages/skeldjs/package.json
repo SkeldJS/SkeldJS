@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "build": "tsc -p ./",
-    "build:ci": "yarn install && tsc -p ./",
     "prepublishOnly": "npm run build"
   },
   "license": "GPL-3.0-only",
