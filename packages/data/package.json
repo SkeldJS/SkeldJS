@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/data",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "main": "js/index.js",
   "scripts": {
     "build": "tsc -p ./",
@@ -9,8 +9,8 @@
   "license": "GPL-3.0-only",
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "dependencies": {
-    "@skeldjs/constant": "^2.7.1",
-    "@skeldjs/util": "^2.7.1"
+    "@skeldjs/constant": "^2.8.0",
+    "@skeldjs/util": "^2.8.0"
   },
   "devDependencies": {
     "typescript": "^4.1.3"
