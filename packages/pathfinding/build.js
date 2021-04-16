@@ -1,8 +1,6 @@
-import { Vector2 } from "@skeldjs/util";
-
-import fs from "fs/promises";
-import path from "path";
-import readline from "readline";
+const fs = require("fs/promises");
+const path = require("path");
+const readline = require("readline");
 
 function gradientSetGridPointImpl(
     grid,
