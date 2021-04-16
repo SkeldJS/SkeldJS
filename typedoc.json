@@ -1,11 +1,16 @@
 {
-    "name": "SkeldJS",
-    "inputFiles": [],
-    "readme": "./README.md",
-    "out": "docs",
-    "mode": "modules",
-    "exclude": ["example/**/*.ts", "plugins/**/*.ts", "**/*.spec.ts"],
-    "external-modulemap": ".*packages\/([^\/]+)",
-    "excludePrivate": true,
-    "excludeNotExported": true
+  "name": "SkeldJS",
+  "readme": "./README.md",
+  "entryPoints": ["./packages"],
+  "out": "docs",
+  "exclude": ["example/**/*.ts", "plugins/**/*.ts", "**/*.spec.ts", "**/*.js", "**/*.d.ts"],
+  "plugin": [
+    "typedoc-plugin-yarn",
+    "typedoc-plugin-no-inherit",
+    "typedoc-plugin-remove-references",
+    "@strictsoftware/typedoc-plugin-monorepo"
+  ],
+  "external-modulemap": ".*packages\/([^\/]+)",
+  "excludePrivate": true,
+  "excludeProtected": true
 }
