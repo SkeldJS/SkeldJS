@@ -1,6 +1,6 @@
 import gifFrames from "gif-frames";
-import fs from "fs";
 import imgpix from "image-pixels";
+import fs from "fs";
 
 import { Int2Code, sleep } from "@skeldjs/util";
 import * as text from "@skeldjs/text";

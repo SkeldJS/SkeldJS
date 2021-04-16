@@ -53,7 +53,7 @@ export class SystemStatus<
         Object.assign(this, data);
     }
 
-    async emit(...args: any[]) {
+    async emit(...args: any[]): Promise<boolean> {
         const event = args[0];
         const data = args[1];
 

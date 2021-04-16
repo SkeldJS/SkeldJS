@@ -115,7 +115,7 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
         this.stream = [];
     }
 
-    async emit(...args: any[]) {
+    async emit(...args: any[]): Promise<boolean> {
         const event = args[0] as keyof RemoteClientEvents;
         const data = args[1] as any;
 

@@ -50,7 +50,7 @@ export class Heritable<T extends Record<string, any> = {}> extends EventEmitter<
         this.components = [];
     }
 
-    async emit(...args: any[]) {
+    async emit(...args: any[]): Promise<boolean> {
         const event = args[0] as string;
         const data = args[1] as any;
 

@@ -52,7 +52,7 @@ describe("Networkable", () => {
             const component = new TestComponent(room, 1, 1);
 
             let did_receive = false;
-            object.on("test.event", (ev) => {
+            object.on("test.event", ev => {
                 if (ev.data.alphabet === alphabet) {
                     did_receive = true;
                 }

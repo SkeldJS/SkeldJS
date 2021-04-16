@@ -9,6 +9,7 @@ export enum DisconnectReason {
     Custom,
     InvalidName,
     Hacking,
+    NotAuthorized,
     Destroy = 16,
     Error,
     IncorrectGame,

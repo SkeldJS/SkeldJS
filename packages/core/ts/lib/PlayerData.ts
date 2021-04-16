@@ -101,7 +101,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
         });
     }
 
-    async emit(...args: any[]) {
+    async emit(...args: any[]): Promise<boolean> {
         const event = args[0];
         const data = args[1];
 

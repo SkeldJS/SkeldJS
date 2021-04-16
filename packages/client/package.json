@@ -19,6 +19,7 @@
     "@skeldjs/data": "^2.6.11",
     "@skeldjs/events": "^2.6.3",
     "@skeldjs/protocol": "^2.6.9",
+    "@skeldjs/state": "^2.3.13",
     "@skeldjs/util": "^2.6.3"
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32"
