@@ -31,14 +31,16 @@ import {
     GameDataMessage,
     GameOptions,
     composePacket,
-    parsePacket,
     GameDataToPayload,
     GameDataPayload,
     PayloadMessageServerbound,
     GetGameListV2PayloadClientbound,
 } from "@skeldjs/protocol";
 
-import { Hostable, HostableEvents, PlayerData, RoomID } from "@skeldjs/core";
+import {
+    PlayerData,
+    RoomID
+} from "@skeldjs/core";
 
 import {
     Code2Int,
@@ -49,6 +51,8 @@ import {
     getMissing,
     SentPacket,
 } from "@skeldjs/util";
+
+import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 
 import { ClientConfig, DebugLevel } from "./interface/ClientConfig";
 import { GameListing } from "./GameListing";
@@ -81,7 +85,7 @@ e+7kpIUp6AZNc49n6GWtGeOoL7JUAqMOIO+R++YQN7/dgaGDPuu0PpmgI2gPLNW1
 ZwHJ755zQQRX528xg9vfykY=
 -----END CERTIFICATE-----` as const;
 
-export interface SkeldjsClientEvents extends HostableEvents {
+export interface SkeldjsClientEvents extends SkeldjsStateManagerEvents {
     /**
      * Emitted when the client gets disconnected.
      */
@@ -111,7 +115,7 @@ export interface SkeldjsClientEvents extends HostableEvents {
  *
  * See {@link SkeldjsClientEvents} for events to listen to.
  */
-export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
+export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * The options for the client.
      */
@@ -263,90 +267,17 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
                 const sent = this.packets_sent.find(
                     (s) => s.nonce === packet.nonce
                 );
-                if (sent) sent.ackd = true;
+                if (sent)
+                    sent.ackd = true;
 
                 const missing = getMissing(
                     this.packets_recv,
                     packet.missingPackets
                 );
+
                 missing.forEach(this.ack.bind(this));
                 break;
         }
-
-        switch (packet.op) {
-            case Opcode.Unreliable:
-            case Opcode.Reliable:
-                for (let i = 0; i < packet.payloads.length; i++) {
-                    const payload = packet.payloads[i];
-
-                    switch (payload.tag) {
-                        case PayloadTag.HostGame:
-                            this.setCode(payload.code);
-                            break;
-                        case PayloadTag.JoinGame:
-                            if (payload.error === false) {
-                                if (this.me && this.code === payload.code) {
-                                    await this.handleJoin(payload.clientid);
-                                    await this.setHost(payload.hostid);
-                                }
-                            }
-                            break;
-                        case PayloadTag.StartGame:
-                            if (this.me && this.code === payload.code) {
-                                await this.handleStart();
-                            }
-                            break;
-                        case PayloadTag.EndGame:
-                            if (this.me && this.code === payload.code) {
-                                await this.handleEnd(payload.reason);
-                            }
-                            break;
-                        case PayloadTag.RemovePlayer:
-                            if (this.me && this.code === payload.code) {
-                                await this.handleLeave(payload.clientid);
-                                await this.setHost(payload.hostid);
-                            }
-                            break;
-                        case PayloadTag.GameData:
-                        case PayloadTag.GameDataTo:
-                            if (this.me && this.code === payload.code) {
-                                for (
-                                    let i = 0;
-                                    i < payload.messages.length;
-                                    i++
-                                ) {
-                                    const message = payload.messages[i];
-
-                                    await this.handleGameData(message);
-                                }
-                            }
-                            break;
-                        case PayloadTag.JoinedGame:
-                            this.clientid = payload.clientid;
-                            await this.setCode(payload.code);
-                            await this.setHost(payload.hostid);
-                            await this.handleJoin(payload.clientid);
-                            for (let i = 0; i < payload.clients.length; i++) {
-                                await this.handleJoin(payload.clients[i]);
-                            }
-                            break;
-                        case PayloadTag.AlterGame:
-                            this._setAlterGameTag(
-                                payload.alter_tag,
-                                payload.value
-                            );
-                            break;
-                    }
-                }
-                break;
-        }
-
-        await this.emit("client.packet", { packet });
-    }
-
-    async onMessage(message: Buffer) {
-        const packet = parsePacket(message, "client");
-        this.handlePacket(packet);
     }
 
     /**
@@ -394,7 +325,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         this.socket = dgram.createSocket("udp4");
         this.connected = true;
 
-        this.socket.on("message", this.onMessage.bind(this));
+        this.socket.on("message", this.handleMessage.bind(this));
 /*
         const certificate = Buffer.from(pem.trim());
 
@@ -431,7 +362,7 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
         }
     }
 
-    private _reset() {
+    protected _reset() {
         if (this.socket) {
             this.socket.close();
             this.socket.removeAllListeners();
@@ -447,6 +378,8 @@ export class SkeldjsClient extends Hostable<SkeldjsClientEvents> {
 
         this.packets_sent = [];
         this.packets_recv = [];
+
+        super._reset();
     }
 
     /**

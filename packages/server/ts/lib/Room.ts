@@ -51,7 +51,7 @@ export class Room extends Hostable<RoomEvents> {
         });
     }
 
-    async emit(...args: any[]) {
+    async emit(...args: any[]): Promise<boolean> {
         const event = args[0];
         const data = args[1];
 

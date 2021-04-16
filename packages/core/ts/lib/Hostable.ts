@@ -242,7 +242,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         this._destroyed = true;
     }
 
-    async emit(...args: any[]) {
+    async emit(...args: any[]): Promise<boolean> {
         const event = args[0];
         const data = args[1];
 

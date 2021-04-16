@@ -32,7 +32,7 @@ export class Door extends EventEmitter<DoorEvents> {
         this._isOpen = isOpen;
     }
 
-    async emit(...args: any) {
+    async emit(...args: any): Promise<boolean> {
         const event = args[0];
         const data = args[1];
 

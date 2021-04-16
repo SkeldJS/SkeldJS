@@ -429,7 +429,7 @@ describe("Hostable", () => {
             const player = await room.handleJoin(1013);
 
             let did_call = false;
-            room.on("player.sethost", (ev) => {
+            room.on("player.sethost", ev => {
                 if (ev.data.player.id === 1013) {
                     did_call = true;
                 }
@@ -471,7 +471,7 @@ describe("Hostable", () => {
             const room = new Hostable();
 
             let did_call = false;
-            room.on("player.join", (ev) => {
+            room.on("player.join", ev => {
                 if (ev.data.player.id === 1013) {
                     did_call = true;
                 }
@@ -501,7 +501,7 @@ describe("Hostable", () => {
             const player = await room.handleJoin(1013);
 
             let did_call = false;
-            room.on("player.leave", (ev) => {
+            room.on("player.leave", ev => {
                 if (ev.data.player.id === 1013) {
                     did_call = true;
                 }
