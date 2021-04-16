@@ -325,7 +325,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this.socket = dgram.createSocket("udp4");
         this.connected = true;
 
-        this.socket.on("message", this.handleMessage.bind(this));
+        this.socket.on("message", this.handleInboundMessage.bind(this));
 /*
         const certificate = Buffer.from(pem.trim());
 
