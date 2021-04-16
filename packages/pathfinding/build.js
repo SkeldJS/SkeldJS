@@ -4,21 +4,18 @@ import fs from "fs/promises";
 import path from "path";
 import readline from "readline";
 
-import { Grid } from "./lib/util/Grid";
-import { Node } from "./lib/util/Node";
-
 function gradientSetGridPointImpl(
-    grid: Grid,
-    original: Node,
-    dropoff: number,
-    radius: number
+    grid,
+    original,
+    dropoff,
+    radius
 ) {
     if (!original.blocked) return;
 
     (function recursiveSetNeighbors(
-        node: Node,
-        amount: number,
-        radius: number
+        node,
+        amount,
+        radius
     ) {
         for (const neighbor of node.neighbors) {
             if (!neighbor.blocked) {
@@ -45,11 +42,11 @@ function gradientSetGridPointImpl(
 }
 
 function gradientSetGridPoint(
-    grid: Grid,
-    x: number,
-    y: number,
-    dropoff: number,
-    radius: number
+    grid,
+    x,
+    y,
+    dropoff,
+    radius
 ) {
     const node = grid.get(x, y);
 
@@ -100,7 +97,7 @@ function gradientSetGridPoint(
 
                     return { x, y };
                 });
-            }) as Vector2[][];
+            });
 
             const total_lines = lines.reduce(
                 (cur, ln) => cur + (ln.length - 1),
