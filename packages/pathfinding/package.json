@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -p ./ && node js/build.js",
     "prepack": "yarn build",
-    "postinstall": "yarn build"
+    "postinstall": "node js/build.js"
   },
   "dependencies": {
     "@skeldjs/constant": "^2.7.2",
