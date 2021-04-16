@@ -1,19 +1,24 @@
-const fs = require("fs/promises");
-const path = require("path");
-const readline = require("readline");
+import { Vector2 } from "@skeldjs/util";
+
+import fs from "fs/promises";
+import path from "path";
+import readline from "readline";
+
+import { Grid } from "./lib/util/Grid";
+import { Node } from "./lib/util/Node";
 
 function gradientSetGridPointImpl(
-    grid,
-    original,
-    dropoff,
-    radius
+    grid: Grid,
+    original: Node,
+    dropoff: number,
+    radius: number
 ) {
     if (!original.blocked) return;
 
     (function recursiveSetNeighbors(
-        node,
-        amount,
-        radius
+        node: Node,
+        amount: number,
+        radius: number
     ) {
         for (const neighbor of node.neighbors) {
             if (!neighbor.blocked) {
@@ -40,11 +45,11 @@ function gradientSetGridPointImpl(
 }
 
 function gradientSetGridPoint(
-    grid,
-    x,
-    y,
-    dropoff,
-    radius
+    grid: Grid,
+    x: number,
+    y: number,
+    dropoff: number,
+    radius: number
 ) {
     const node = grid.get(x, y);
 
@@ -55,10 +60,10 @@ function gradientSetGridPoint(
 }
 
 (async () => {
-    const basex = -50;
-    const basey = -50;
-    const width = 100;
-    const height = 100;
+    const basex = -40;
+    const basey = -40;
+    const width = 80;
+    const height = 80;
     const density = 16;
     const gradientDropoff = 0;
     const wallGradientWeight = 2;
@@ -95,7 +100,7 @@ function gradientSetGridPoint(
 
                     return { x, y };
                 });
-            });
+            }) as Vector2[][];
 
             const total_lines = lines.reduce(
                 (cur, ln) => cur + (ln.length - 1),
