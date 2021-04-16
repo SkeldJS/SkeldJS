@@ -45,6 +45,11 @@
       "built": false
     }
   },
+  "peerDependenciesMeta": {
+    "onigasm": {
+      "optional": true
+    }
+  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn lint-staged && yarn test"
