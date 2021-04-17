@@ -395,6 +395,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@skeldjs/lan@workspace:packages/lan":
+  version: 0.0.0-use.local
+  resolution: "@skeldjs/lan@workspace:packages/lan"
+  languageName: unknown
+  linkType: soft
+
 "@skeldjs/pathfinding@workspace:packages/pathfinding":
   version: 0.0.0-use.local
   resolution: "@skeldjs/pathfinding@workspace:packages/pathfinding"
@@ -4568,7 +4574,7 @@ resolve@^1.1.6:
     prettier: ^2.2.1
     ts-mocha: ^8.0.0
     ts-node: ^9.1.1
-    typedoc: 0.20.35
+    typedoc: ^0.20.35
     typedoc-plugin-no-inherit: ^1.2.0
     typedoc-plugin-remove-references: ^0.0.5
     typedoc-plugin-yarn: "portal:./typedoc-plugin-yarn"
@@ -5186,7 +5192,7 @@ resolve@^1.1.6:
   languageName: node
   linkType: soft
 
-"typedoc@npm:0.20.35":
+"typedoc@npm:^0.20.35":
   version: 0.20.35
   resolution: "typedoc@npm:0.20.35"
   dependencies:

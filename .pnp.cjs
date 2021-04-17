@@ -43,6 +43,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/events"
       },
       {
+        "name": "@skeldjs/lan",
+        "reference": "workspace:packages/lan"
+      },
+      {
         "name": "@skeldjs/pathfinding",
         "reference": "workspace:packages/pathfinding"
       },
@@ -83,6 +87,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@skeldjs/core", ["workspace:packages/core"]],
       ["@skeldjs/data", ["workspace:packages/data"]],
       ["@skeldjs/events", ["workspace:packages/events"]],
+      ["@skeldjs/lan", ["workspace:packages/lan"]],
       ["@skeldjs/pathfinding", ["workspace:packages/pathfinding"]],
       ["@skeldjs/protocol", ["workspace:packages/protocol"]],
       ["@skeldjs/server", ["workspace:packages/server"]],
@@ -567,6 +572,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mocha", "npm:8.2.0"],
             ["@types/node", "npm:14.14.16"],
             ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@skeldjs/lan", [
+        ["workspace:packages/lan", {
+          "packageLocation": "./packages/lan/",
+          "packageDependencies": [
+            ["@skeldjs/lan", "workspace:packages/lan"]
           ],
           "linkType": "SOFT",
         }]
