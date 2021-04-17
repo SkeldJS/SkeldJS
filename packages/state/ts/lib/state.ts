@@ -60,31 +60,31 @@ export class SkeldjsStateManager<T extends Record<string, any> = {}> extends Hos
                     break;
                 case PayloadTag.JoinGame:
                     if (payload.error === false) {
-                        if (this.me && this.code === payload.code) {
+                        if (this.code === payload.code) {
                             await this.handleJoin(payload.clientid);
                             await this.setHost(payload.hostid);
                         }
                     }
                     break;
                 case PayloadTag.StartGame:
-                    if (this.me && this.code === payload.code) {
+                    if (this.code === payload.code) {
                         await this.handleStart();
                     }
                     break;
                 case PayloadTag.EndGame:
-                    if (this.me && this.code === payload.code) {
+                    if (this.code === payload.code) {
                         await this.handleEnd(payload.reason);
                     }
                     break;
                 case PayloadTag.RemovePlayer:
-                    if (this.me && this.code === payload.code) {
+                    if (this.code === payload.code) {
                         await this.handleLeave(payload.clientid);
                         await this.setHost(payload.hostid);
                     }
                     break;
                 case PayloadTag.GameData:
                 case PayloadTag.GameDataTo:
-                    if (this.me && this.code === payload.code) {
+                    if (this.code === payload.code) {
                         for (
                             let i = 0;
                             i < payload.messages.length;
@@ -139,7 +139,7 @@ export class SkeldjsStateManager<T extends Record<string, any> = {}> extends Hos
             switch (payload.tag) {
                 case PayloadTag.GameData:
                 case PayloadTag.GameDataTo:
-                    if (this.me && this.code === payload.code) {
+                    if (this.code === payload.code) {
                         for (
                             let i = 0;
                             i < payload.messages.length;
