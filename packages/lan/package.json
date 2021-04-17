@@ -1,0 +1,14 @@
+{
+  "name": "@skeldjs/lan",
+  "version": "2.7.2",
+  "main": "js/index.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "prepack": "yarn build"
+  },
+  "license": "GPL-3.0-only",
+  "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
+  "files": [
+    "js"
+  ]
+}
