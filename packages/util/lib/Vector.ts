@@ -1,4 +1,6 @@
 import { HazelBuffer } from "./HazelBuffer";
+import { HazelReader } from "./HazelReader";
+import { HazelWriter } from "./HazelWriter";
 
 export interface Vector2 {
     x: number;
@@ -30,7 +32,7 @@ export function unlerpValue(val: number, min: number = -50, max: number = 50) {
     return (val - min) / (max - min);
 }
 
-export function writeVector2(writer: HazelBuffer, vector: Vector2) {
+export function writeVector2(writer: HazelWriter, vector: Vector2) {
     const x = unlerpValue(vector.x) * 65535;
     const y = unlerpValue(vector.y) * 65535;
 
@@ -38,7 +40,7 @@ export function writeVector2(writer: HazelBuffer, vector: Vector2) {
     writer.uint16(y);
 }
 
-export function readVector2(reader: HazelBuffer): Vector2 {
+export function readVector2(reader: HazelReader): Vector2 {
     const x = reader.uint16();
     const y = reader.uint16();
 

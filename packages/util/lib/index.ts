@@ -1,5 +1,7 @@
 export * from "./Codes";
 export * from "./HazelBuffer";
+export * from "./HazelReader";
+export * from "./HazelWriter";
 export * from "./ritoa";
 export * from "./SentPacket";
 export * from "./sleep";

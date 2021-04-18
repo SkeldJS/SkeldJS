@@ -1,7 +1,7 @@
 {
   "name": "@skeldjs/skeldjs",
-  "version": "2.7.2",
-  "main": "js/index.js",
+  "version": "2.7.3",
+  "main": "dist/index.js",
   "private": true,
   "scripts": {
     "build": "tsc -p ./",
@@ -19,6 +19,6 @@
     "typescript": "^4.1.3"
   },
   "files": [
-    "js"
+    "dist"
   ]
 }

@@ -1,7 +1,7 @@
 {
     "extends": "../../tsconfig.json",
-    "exclude": ["js", "data"],
+    "exclude": ["dist", "data"],
     "compilerOptions": {
-        "outDir": "./js"
+        "outDir": "./dist"
     }
 }
