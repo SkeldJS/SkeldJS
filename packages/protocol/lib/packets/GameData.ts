@@ -1,5 +1,4 @@
 import { MessageTag } from "@skeldjs/constant";
-
 import { HazelBuffer } from "@skeldjs/util";
 
 import { BaseHazelMessage } from "./Packets";

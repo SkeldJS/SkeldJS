@@ -2,7 +2,7 @@
     "$schema": "https://json.schemastore.org/mocharc",
     "diff": true,
     "extension": ["spec.ts"],
-    "spec": "packages/*/ts/lib/**/*.spec.ts",
+    "spec": "packages/**/*.spec.ts",
     "package": "./package.json",
     "reporter": "spec",
     "recursive": true,
