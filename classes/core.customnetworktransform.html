@@ -80,7 +80,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">Networkable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformData</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol">&gt;</span>
+						<span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformData</a><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">CustomNetworkTransform</span>
@@ -119,7 +119,7 @@
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="core.customnetworktransform.html#owner" class="tsd-kind-icon">owner</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.customnetworktransform.html#owner" class="tsd-kind-icon">owner</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -153,20 +153,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Custom<wbr>Network<wbr>Transform<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">Hostable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span>, netid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ownerid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, data<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">HazelBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CustomNetworkTransformData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CustomNetworkTransform</span></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Custom<wbr>Network<wbr>Transform<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, netid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ownerid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, data<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelBuffer</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">CustomNetworkTransform</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides Networkable.constructor</p>
+								<p>Overrides Networkable&lt;CustomNetworkTransformData,CustomNetworkTransformEvents&gt;.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L76">core/ts/lib/component/CustomNetworkTransform.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L75">core/lib/component/CustomNetworkTransform.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <a href="" class="tsd-signature-type" data-tsd-kind="Class">Hostable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>netid: <span class="tsd-signature-type">number</span></h5>
@@ -175,10 +175,10 @@
 									<h5>ownerid: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <span class="tsd-signature-type">HazelBuffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CustomNetworkTransformData</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelBuffer</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformData</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">CustomNetworkTransform</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">CustomNetworkTransform</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -192,14 +192,9 @@
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.classname</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L56">core/ts/lib/component/CustomNetworkTransform.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L55">core/lib/component/CustomNetworkTransform.ts:55</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The class name of this component.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="dirtybit" class="tsd-anchor"></a>
@@ -208,7 +203,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.dirtyBit</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L59">core/ts/lib/Networkable.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L58">core/lib/Networkable.ts:58</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -224,7 +219,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.netid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L49">core/ts/lib/Networkable.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L48">core/lib/Networkable.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -239,7 +234,7 @@
 					<div class="tsd-signature tsd-kind-icon">old<wbr>Seq<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L61">core/ts/lib/component/CustomNetworkTransform.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L60">core/lib/component/CustomNetworkTransform.ts:60</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -255,7 +250,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.ownerid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L54">core/ts/lib/Networkable.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L53">core/lib/Networkable.ts:53</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -267,10 +262,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="position" class="tsd-anchor"></a>
 					<h3>position</h3>
-					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Vector2</span></div>
+					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L71">core/ts/lib/component/CustomNetworkTransform.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L70">core/lib/component/CustomNetworkTransform.ts:70</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -282,11 +277,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="room" class="tsd-anchor"></a>
 					<h3>room</h3>
-					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">Hostable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.room</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L44">core/ts/lib/Networkable.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L43">core/lib/Networkable.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -301,7 +296,7 @@
 					<div class="tsd-signature tsd-kind-icon">seq<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L66">core/ts/lib/component/CustomNetworkTransform.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L65">core/lib/component/CustomNetworkTransform.ts:65</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -313,26 +308,21 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="type" class="tsd-anchor"></a>
 					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/client.spawnid.html#player" class="tsd-signature-type" data-tsd-kind="Enumeration member">Player</a><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.spawntype.html#player" class="tsd-signature-type" data-tsd-kind="Enumeration member">Player</a><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L53">core/ts/lib/component/CustomNetworkTransform.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L52">core/lib/component/CustomNetworkTransform.ts:52</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The type of object that this component belongs to.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="velocity" class="tsd-anchor"></a>
 					<h3>velocity</h3>
-					<div class="tsd-signature tsd-kind-icon">velocity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Vector2</span></div>
+					<div class="tsd-signature tsd-kind-icon">velocity<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L76">core/ts/lib/component/CustomNetworkTransform.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L75">core/lib/component/CustomNetworkTransform.ts:75</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -348,38 +338,38 @@
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.classname</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L55">core/ts/lib/component/CustomNetworkTransform.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L54">core/lib/component/CustomNetworkTransform.ts:54</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="type-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/client.spawnid.html#player" class="tsd-signature-type" data-tsd-kind="Enumeration member">Player</a><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.spawntype.html#player" class="tsd-signature-type" data-tsd-kind="Enumeration member">Player</a><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L52">core/ts/lib/component/CustomNetworkTransform.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L51">core/lib/component/CustomNetworkTransform.ts:51</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="owner" class="tsd-anchor"></a>
 					<h3>owner</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> owner<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerData</a></li>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> owner<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L87">core/ts/lib/component/CustomNetworkTransform.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L86">core/lib/component/CustomNetworkTransform.ts:86</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerData</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerData</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -390,20 +380,20 @@
 					<a name="deserialize" class="tsd-anchor"></a>
 					<h3>Deserialize</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">Deserialize<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HazelBuffer</span>, spawn<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">Deserialize<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a>, spawn<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides Networkable.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L92">core/ts/lib/component/CustomNetworkTransform.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L91">core/lib/component/CustomNetworkTransform.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>reader: <span class="tsd-signature-type">HazelBuffer</span></h5>
+									<h5>reader: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a></h5>
 								</li>
 								<li>
 									<h5>spawn: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
@@ -424,7 +414,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.FixedUpdate</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L115">core/ts/lib/Networkable.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L114">core/lib/Networkable.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -441,20 +431,23 @@
 					<a name="handlerpc" class="tsd-anchor"></a>
 					<h3>Handle<wbr>Rpc</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">Handle<wbr>Rpc<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RpcMessage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">Handle<wbr>Rpc<span class="tsd-signature-symbol">(</span>callid<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">RpcMessageTag</a>, reader<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides Networkable.HandleRpc</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L125">core/ts/lib/component/CustomNetworkTransform.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L124">core/lib/component/CustomNetworkTransform.ts:124</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>message: <span class="tsd-signature-type">RpcMessage</span></h5>
+									<h5>callid: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">RpcMessageTag</a></h5>
+								</li>
+								<li>
+									<h5>reader: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -472,7 +465,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.PreSerialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L111">core/ts/lib/Networkable.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L110">core/lib/Networkable.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -483,20 +476,20 @@
 					<a name="serialize" class="tsd-anchor"></a>
 					<h3>Serialize</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">Serialize<span class="tsd-signature-symbol">(</span>writer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HazelBuffer</span>, spawn<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">Serialize<span class="tsd-signature-symbol">(</span>writer<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a>, spawn<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides Networkable.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L117">core/ts/lib/component/CustomNetworkTransform.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L116">core/lib/component/CustomNetworkTransform.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>writer: <span class="tsd-signature-type">HazelBuffer</span></h5>
+									<h5>writer: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a></h5>
 								</li>
 								<li>
 									<h5>spawn: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
@@ -517,7 +510,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.despawn</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L127">core/ts/lib/Networkable.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L126">core/lib/Networkable.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -540,7 +533,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L86">core/ts/lib/Networkable.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L85">core/lib/Networkable.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -557,14 +550,14 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.getListeners</p>
 								<ul>
-									<li>Defined in events/js/lib/EventEmitter.d.ts:16</li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L82">events/lib/EventEmitter.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -579,7 +572,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -587,13 +580,13 @@
 					<a name="move" class="tsd-anchor"></a>
 					<h3>move</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">move<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector2</span>, velocity<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Vector2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">move<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a>, velocity<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L160">core/ts/lib/component/CustomNetworkTransform.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L157">core/lib/component/CustomNetworkTransform.ts:157</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -613,13 +606,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>position: <span class="tsd-signature-type">Vector2</span></h5>
+									<h5>position: <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The position to move towards.</p>
 									</div>
 								</li>
 								<li>
-									<h5>velocity: <span class="tsd-signature-type">Vector2</span><span class="tsd-signature-symbol"> = ...</span></h5>
+									<h5>velocity: <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a><span class="tsd-signature-symbol"> = ...</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The velocity to display moving at.</p>
 									</div>
@@ -633,14 +626,14 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.off</p>
 								<ul>
-									<li>Defined in events/js/lib/EventEmitter.d.ts:15</li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L74">events/lib/EventEmitter.ts:74</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -655,7 +648,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -666,14 +659,14 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.on</p>
 								<ul>
-									<li>Defined in events/js/lib/EventEmitter.d.ts:12</li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L43">events/lib/EventEmitter.ts:43</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -688,7 +681,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -711,14 +704,14 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.once</p>
 								<ul>
-									<li>Defined in events/js/lib/EventEmitter.d.ts:13</li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L53">events/lib/EventEmitter.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -733,7 +726,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -763,7 +756,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.removeAllListeners</p>
 								<ul>
-									<li>Defined in events/js/lib/EventEmitter.d.ts:18</li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L98">events/lib/EventEmitter.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -781,7 +774,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.removeListeners</p>
 								<ul>
-									<li>Defined in events/js/lib/EventEmitter.d.ts:17</li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L93">events/lib/EventEmitter.ts:93</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -804,13 +797,13 @@
 					<a name="snapto" class="tsd-anchor"></a>
 					<h3>snap<wbr>To</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">snap<wbr>To<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Vector2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">snap<wbr>To<span class="tsd-signature-symbol">(</span>position<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/component/CustomNetworkTransform.ts#L208">core/ts/lib/component/CustomNetworkTransform.ts:208</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/component/CustomNetworkTransform.ts#L199">core/lib/component/CustomNetworkTransform.ts:199</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -830,7 +823,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>position: <span class="tsd-signature-type">Vector2</span></h5>
+									<h5>position: <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The position to snap to.</p>
 									</div>
@@ -844,14 +837,14 @@
 					<a name="spawn" class="tsd-anchor"></a>
 					<h3>spawn</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">spawn<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">spawn<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.spawn</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0f8478e/packages/core/ts/lib/Networkable.ts#L120">core/ts/lib/Networkable.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/core/lib/Networkable.ts#L119">core/lib/Networkable.ts:119</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -859,7 +852,7 @@
 									<p>Spawn this component if does not exist in the room it belongs in.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -867,14 +860,14 @@
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventContext</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.wait</p>
 								<ul>
-									<li>Defined in events/js/lib/EventEmitter.d.ts:14</li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -889,7 +882,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventContext</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CustomNetworkTransformEvents</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">EventContext</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">CustomNetworkTransformEvents</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -933,9 +926,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/state.html">state</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/tasks.html">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/text.html">text</a>
@@ -1000,7 +990,7 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="core.customnetworktransform.html#type-1" class="tsd-kind-icon">type</a>
 									</li>
-									<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 										<a href="core.customnetworktransform.html#owner" class="tsd-kind-icon">owner</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
@@ -1083,9 +1073,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/tasks.html" class="tsd-kind-icon">tasks</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/text.html" class="tsd-kind-icon">text</a>
