@@ -14,10 +14,11 @@
   "license": "GPL-3.0-only",
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "dependencies": {
-    "@skeldjs/constant": "workspace:packages/*",
-    "@skeldjs/util": "workspace:packages/*"
+    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^14.14.41",
     "typescript": "^4.1.3"
   },
   "files": [

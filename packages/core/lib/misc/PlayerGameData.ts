@@ -52,12 +52,36 @@ export class PlayerGameData {
         return (this.flags & PlayerDataFlags.IsDisconnected) > 0;
     }
 
+    set disconnected(value: boolean) {
+        if (value) {
+            this.flags |= PlayerDataFlags.IsDisconnected;
+        } else {
+            this.flags &= ~PlayerDataFlags.IsDisconnected;
+        }
+    }
+
     get impostor() {
         return (this.flags & PlayerDataFlags.IsImpostor) > 0;
     }
 
+    set impostor(value: boolean) {
+        if (value) {
+            this.flags |= PlayerDataFlags.IsImpostor;
+        } else {
+            this.flags &= ~PlayerDataFlags.IsImpostor;
+        }
+    }
+
     get dead() {
         return (this.flags & PlayerDataFlags.IsDead) > 0;
+    }
+
+    set dead(value: boolean) {
+        if (value) {
+            this.flags |= PlayerDataFlags.IsDead;
+        } else {
+            this.flags &= ~PlayerDataFlags.IsDead;
+        }
     }
 
     Deserialize(reader: HazelReader) {

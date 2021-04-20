@@ -13,12 +13,12 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/constant": "workspace:packages/*",
-    "@skeldjs/core": "workspace:packages/*",
-    "@skeldjs/events": "workspace:packages/*",
-    "@skeldjs/protocol": "workspace:packages/*",
-    "@skeldjs/state": "workspace:packages/*",
-    "@skeldjs/util": "workspace:packages/*"
+    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/core": "workspace:*",
+    "@skeldjs/events": "workspace:*",
+    "@skeldjs/protocol": "workspace:*",
+    "@skeldjs/state": "workspace:*",
+    "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

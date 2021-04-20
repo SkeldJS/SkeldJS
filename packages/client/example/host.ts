@@ -1,5 +1,4 @@
 import { Int2Code } from "@skeldjs/util";
-import { Color, QuickChatMode } from "../dist";
 import * as skeldjs from "../index";
 
 const regcode = process.argv[2];
@@ -20,10 +19,10 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
             maxPlayers: 10,
             map: skeldjs.GameMap.TheSkeld,
             numImpostors: 2,
-        }, true, QuickChatMode.QuickChat);
+        }, true, skeldjs.QuickChatMode.QuickChat);
 
         await client.me.control.setName("weakeyes");
-        await client.me.control.setColor(Color.Red);
+        await client.me.control.setColor(skeldjs.Color.Red);
 
         console.log(
             "Created game @ " +

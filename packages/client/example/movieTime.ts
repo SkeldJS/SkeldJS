@@ -114,9 +114,9 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
 
         console.log("Creating game..");
         const code = await client.createGame({
-            players: 10,
-            map: skeldjs.MapID.TheSkeld,
-            impostors: 2,
+            maxPlayers: 10,
+            map: skeldjs.GameMap.TheSkeld,
+            numImpostors: 2,
         });
 
         console.log(

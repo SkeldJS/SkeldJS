@@ -1,7 +1,10 @@
 {
   "name": "skeldjs",
   "description": "A JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.",
-  "keywords": ["amongus", "among us"],
+  "keywords": [
+    "amongus",
+    "among us"
+  ],
   "homepage": "https://skeldjs.github.io/SkeldJS",
   "bugs": "https://github.com/SkeldJS/SkeldJS/issues",
   "repository": {

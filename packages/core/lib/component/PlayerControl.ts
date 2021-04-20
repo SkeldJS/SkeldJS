@@ -3,7 +3,6 @@ import { AllGameOptions, GameOptions, RpcMessage } from "@skeldjs/protocol";
 
 import {
     ChatNoteType,
-    TaskState,
     SystemType,
     Color,
     Hat,
@@ -13,13 +12,16 @@ import {
     RpcMessageTag,
 } from "@skeldjs/constant";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { PlayerData } from "../PlayerData";
-import { PlayerDataResolvable, Hostable } from "../Hostable";
 import {
     MovingPlatformSide,
     MovingPlatformSystem,
-} from "../system/MovingPlatformSystem";
+} from "../system";
+
+import { Networkable, NetworkableEvents } from "../Networkable";
+import { PlayerDataResolvable, Hostable } from "../Hostable";
+import { PlayerData } from "../PlayerData";
+
+import { TaskState } from "../misc/PlayerGameData";
 
 export interface PlayerControlData {
     isNew: boolean;
