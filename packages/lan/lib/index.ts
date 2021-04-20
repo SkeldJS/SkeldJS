@@ -1,5 +1,3 @@
-
-
 export class LanDiscovery {
     constructor() {
         void 0;

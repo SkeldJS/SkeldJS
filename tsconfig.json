@@ -1,22 +1,17 @@
 {
-    "version": "4.0.5",
-    "compilerOptions": {
-        "target": "ES2020",
-        "module": "CommonJS",
-        "noImplicitAny": false,
-        "removeComments": false,
-        "noLib": false,
-        "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "outDir": "./dist",
-        "esModuleInterop": true,
-        "moduleResolution": "Node",
-        "declaration": true,
-        "sourceMap": true
-    },
-    "filesGlob": [
-        "./**/*.ts",
-        "!./**/node_modules",
-        "!./**/*.spec.ts"
-    ]
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "noImplicitAny": false,
+    "removeComments": false,
+    "noLib": false,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "declaration": true,
+    "sourceMap": true
+  },
+  "exclude": ["**/dist", "**/*.d.ts"]
 }

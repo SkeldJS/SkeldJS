@@ -1,18 +1,20 @@
-import { HazelBuffer } from "@skeldjs/util";
-import { SpawnID, SystemType } from "@skeldjs/constant";
+import { HazelReader } from "@skeldjs/util";
+import { SpawnType, SystemType } from "@skeldjs/constant";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
 import { Hostable } from "../Hostable";
+
 import {
     AutoDoorsSystem,
     HudOverrideSystem,
     SabotageSystem,
     SecurityCameraSystem,
     SwitchSystem,
+    ElectricalDoorsSystem,
+    MovingPlatformSide,
+    MovingPlatformSystem,
 } from "../system";
-import { ElectricalDoorsSystem } from "../system/ElectricalDoorsSystem";
-import { MovingPlatformSide, MovingPlatformSystem } from "../system/MovingPlatformSystem";
 
 /**
  * Represents a room object for the Airship map.
@@ -20,8 +22,8 @@ import { MovingPlatformSide, MovingPlatformSystem } from "../system/MovingPlatfo
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class AirshipStatus extends InnerShipStatus {
-    static type = SpawnID.Airship as const;
-    type = SpawnID.Airship as const;
+    static type = SpawnType.Airship as const;
+    type = SpawnType.Airship as const;
 
     static classname = "Airship" as const;
     classname = "Airship" as const;
@@ -33,14 +35,14 @@ export class AirshipStatus extends InnerShipStatus {
         [SystemType.Sabotage]: SabotageSystem;
         [SystemType.GapRoom]: MovingPlatformSystem;
         [SystemType.Decontamination]: ElectricalDoorsSystem;
-        [SystemType.Decontamination2]: AutoDoorsSystem
+        [SystemType.Decontamination2]: AutoDoorsSystem;
     };
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | ShipStatusData
+        data?: HazelReader | ShipStatusData
     ) {
         super(room, netid, ownerid, data);
     }
@@ -59,7 +61,7 @@ export class AirshipStatus extends InnerShipStatus {
                 sabotaged: false,
             }),
             [SystemType.Decontamination]: new ElectricalDoorsSystem(this, {
-                cooldowns: new Map,
+                cooldowns: new Map(),
                 doors: [],
             }),
             [SystemType.Decontamination2]: new AutoDoorsSystem(this, {

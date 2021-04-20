@@ -1,11 +1,11 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelBuffer, HazelReader, HazelWriter } from "@skeldjs/util";
+import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
+import { RpcMessage } from "@skeldjs/protocol";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
 import { Hostable } from "../Hostable";
 
-import { MessageTag, RpcTag, SpawnID } from "@skeldjs/constant";
-import { RpcMessage } from "@skeldjs/protocol";
 import { NetworkUtils } from "../utils/net";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
@@ -50,8 +50,8 @@ export class PlayerPhysics extends Networkable<
     PlayerPhysicsData,
     PlayerPhysicsEvents
 > {
-    static type = SpawnID.Player as const;
-    type = SpawnID.Player as const;
+    static type = SpawnType.Player as const;
+    type = SpawnType.Player as const;
 
     static classname = "PlayerPhysics" as const;
     classname = "PlayerPhysics" as const;
@@ -64,7 +64,7 @@ export class PlayerPhysics extends Networkable<
     private ladderClimbSeqId: number;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
         data?: HazelBuffer | PlayerPhysicsData
@@ -76,21 +76,29 @@ export class PlayerPhysics extends Networkable<
         return super.owner as PlayerData;
     }
 
-    HandleRpc(message: RpcMessage) {
-        switch (message.rpcid) {
-            case RpcTag.EnterVent:
-                this._enterVent(message.ventid);
+    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+        switch (callid) {
+            case RpcMessageTag.EnterVent:
+                const ventid = reader.upacked();
+                this._enterVent(ventid);
                 break;
-            case RpcTag.ExitVent:
-                this._exitVent(message.ventid);
+            case RpcMessageTag.ExitVent: {
+                const ventid = reader.upacked();
+                this._exitVent(ventid);
                 break;
-            case RpcTag.ClimbLadder:
-                const seqId = message.seqId;
+            }
+            case RpcMessageTag.ClimbLadder:
+                const ladderId = reader.uint8();
+                const seqId = reader.uint8();
                 if (
-                    NetworkUtils.seqIdGreaterThan(seqId, this.ladderClimbSeqId, 1)
+                    NetworkUtils.seqIdGreaterThan(
+                        seqId,
+                        this.ladderClimbSeqId,
+                        1
+                    )
                 ) {
                     this.ladderClimbSeqId = seqId;
-                    this._climbLadder(message.ladderId);
+                    this._climbLadder(ladderId);
                 }
                 break;
         }
@@ -112,12 +120,12 @@ export class PlayerPhysics extends Networkable<
     enterVent(ventid: number) {
         this._enterVent(ventid);
 
-        this.room.stream.push({
-            tag: MessageTag.RPC,
-            rpcid: RpcTag.EnterVent,
-            netid: this.netid,
-            ventid,
-        });
+        const writer = HazelWriter.alloc(1);
+        writer.upacked(ventid);
+
+        this.room.stream.push(
+            new RpcMessage(this.netid, RpcMessageTag.EnterVent, writer.buffer)
+        );
     }
 
     private _exitVent(ventid: number) {
@@ -136,12 +144,12 @@ export class PlayerPhysics extends Networkable<
     exitVent(ventid: number) {
         this._exitVent(ventid);
 
-        this.room.stream.push({
-            tag: MessageTag.RPC,
-            rpcid: RpcTag.ExitVent,
-            netid: this.netid,
-            ventid,
-        });
+        const writer = HazelWriter.alloc(1);
+        writer.upacked(ventid);
+
+        this.room.stream.push(
+            new RpcMessage(this.netid, RpcMessageTag.ExitVent, writer.buffer)
+        );
     }
 
     private _climbLadder(ladderId: number) {
@@ -154,12 +162,12 @@ export class PlayerPhysics extends Networkable<
         this.ladderClimbSeqId++;
         if (this.ladderClimbSeqId > 255) this.ladderClimbSeqId = 0;
 
-        this.room.stream.push({
-            tag: MessageTag.RPC,
-            rpcid: RpcTag.ClimbLadder,
-            netid: this.netid,
-            seqId: this.ladderClimbSeqId,
-            ladderId,
-        });
+        const writer = HazelWriter.alloc(2);
+        writer.uint8(ladderId);
+        writer.uint8(this.ladderClimbSeqId);
+
+        this.room.stream.push(
+            new RpcMessage(this.netid, RpcMessageTag.ClimbLadder, writer.buffer)
+        );
     }
 }

@@ -1,5 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
-
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus } from "../component";
@@ -36,7 +35,7 @@ export class HudOverrideSystem extends SystemStatus<
 
     constructor(
         ship: InnerShipStatus,
-        data?: HazelBuffer | HudOverrideSystemData
+        data?: HazelReader | HudOverrideSystemData
     ) {
         super(ship, data);
     }
@@ -46,7 +45,7 @@ export class HudOverrideSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         const before = this.sabotaged;
         this._sabotaged = reader.bool();
 
@@ -55,7 +54,7 @@ export class HudOverrideSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         writer.bool(this.sabotaged);
     }
 

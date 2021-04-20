@@ -7,7 +7,7 @@ import { Hostable } from "../Hostable";
  */
 export class PlayerVoteState {
     constructor(
-        private room: Hostable,
+        private room: Hostable<any>,
         public playerId: number,
         public state: number
     ) {}

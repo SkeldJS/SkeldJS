@@ -25,13 +25,13 @@ describe("Heritable", () => {
             const room = new Hostable<TestEvents>();
             const heritable = new Heritable<TestEvents>(room, 1013);
 
-            heritable.on("test.event", async ev => {
+            heritable.on("test.event", async (ev) => {
                 if (ev.data.alphabet === alphabet) {
                     was_called1 = true;
                 }
             });
 
-            room.on("test.event", async ev => {
+            room.on("test.event", async (ev) => {
                 if (ev.data.alphabet === alphabet) {
                     was_called2 = true;
                 }

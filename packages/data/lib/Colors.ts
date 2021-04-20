@@ -1,51 +1,51 @@
-import { ColorID } from "@skeldjs/constant";
+import { Color } from "@skeldjs/constant";
 
 export const ColorCodes = {
-    [ColorID.Red]: {
+    [Color.Red]: {
         hex: "#c61111",
         rgb: [198, 17, 17],
     },
-    [ColorID.Blue]: {
+    [Color.Blue]: {
         hex: "#132ed2",
         rgb: [19, 46, 210],
     },
-    [ColorID.DarkGreen]: {
+    [Color.Green]: {
         hex: "#11802d",
         rgb: [17, 128, 45],
     },
-    [ColorID.Pink]: {
+    [Color.Pink]: {
         hex: "#ee54bb",
         rgb: [238, 84, 187],
     },
-    [ColorID.Orange]: {
+    [Color.Orange]: {
         hex: "#f07d0d",
         rgb: [240, 125, 13],
     },
-    [ColorID.Yellow]: {
+    [Color.Yellow]: {
         hex: "#f6f657",
         rgb: [246, 246, 87],
     },
-    [ColorID.Black]: {
+    [Color.Grey]: {
         hex: "#3f474e",
         rgb: [63, 71, 78],
     },
-    [ColorID.White]: {
+    [Color.White]: {
         hex: "#d7e1f1",
         rgb: [215, 225, 241],
     },
-    [ColorID.Purple]: {
+    [Color.Purple]: {
         hex: "#6b2fbc",
         rgb: [107, 47, 188],
     },
-    [ColorID.Brown]: {
+    [Color.Brown]: {
         hex: "#71491e",
         rgb: [113, 73, 30],
     },
-    [ColorID.Cyan]: {
+    [Color.Cyan]: {
         hex: "#38ffdd",
         rgb: [113, 73, 30],
     },
-    [ColorID.Lime]: {
+    [Color.LightGreen]: {
         hex: "#50f039",
         rgb: [80, 240, 57],
     },

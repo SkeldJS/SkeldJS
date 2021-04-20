@@ -21,11 +21,11 @@ import { HazelBuffer } from "@skeldjs/util";
 
 export const SpawnPrefabs: {
     new (
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
         data?: HazelBuffer | any
-    ): Networkable;
+    ): Networkable<any, any>;
 }[][] = [
     [SkeldShipStatus],
     [MeetingHud],

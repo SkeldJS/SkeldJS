@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus } from "../component";
@@ -29,12 +29,12 @@ export class MedScanSystem extends SystemStatus<
      */
     queue: PlayerData[];
 
-    constructor(ship: InnerShipStatus, data?: HazelBuffer | MedScanSystemData) {
+    constructor(ship: InnerShipStatus, data?: HazelReader | MedScanSystemData) {
         super(ship, data);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         const num_players = reader.upacked();
 
         this.queue = [];
@@ -44,7 +44,7 @@ export class MedScanSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         writer.upacked(this.queue.length);
 
         for (let i = 0; i < this.queue.length; i++) {

@@ -1,18 +1,14 @@
-import { RpcMessage } from "@skeldjs/protocol";
-
 import {
-    ColorID,
-    HatID,
-    MessageTag,
-    PetID,
-    RpcTag,
-    SkinID,
-    SpawnID,
-    PlayerDataFlags,
-    PlayerGameData,
+    Color,
+    Hat,
+    Pet,
+    RpcMessageTag,
+    Skin,
+    SpawnType,
 } from "@skeldjs/constant";
 
-import { HazelBuffer } from "@skeldjs/util";
+import { RpcMessage } from "@skeldjs/protocol";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
@@ -20,6 +16,7 @@ import { PlayerData } from "../PlayerData";
 
 import { PlayerControl } from "./PlayerControl";
 import { PlayerVoteState } from "../misc/PlayerVoteState";
+import { PlayerGameData, TaskState } from "../misc/PlayerGameData";
 
 export interface GameDataData {
     dirtyBit: number;
@@ -73,8 +70,8 @@ export type PlayerIDResolvable =
  * See {@link GameDataEvents} for events to listen to.
  */
 export class GameData extends Networkable<GameDataData, GameDataEvents> {
-    static type = SpawnID.GameData as const;
-    type = SpawnID.GameData as const;
+    static type = SpawnType.GameData as const;
+    type = SpawnType.GameData as const;
 
     static classname = "GameData" as const;
     classname = "GameData" as const;
@@ -85,10 +82,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     players: Map<number, PlayerGameData>;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | GameDataData
+        data?: HazelReader | GameDataData
     ) {
         super(room, netid, ownerid, data);
     }
@@ -97,55 +94,64 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         return super.owner as Hostable;
     }
 
+/*
+    private getOrCreate(playerId: number) {
+        const data = this.players.get(playerId);
+
+        if (data)
+            return data;
+
+        const new_data = new PlayerGameData(playerId);
+        this.players.set(playerId, new_data);
+        return new_data;
+    }
+*/
+
     resolvePlayerData(resolvable: PlayerIDResolvable) {
         return this.players.get(this.room.resolvePlayerId(resolvable));
     }
 
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
+    Deserialize(reader: HazelReader, spawn: boolean = false) {
         if (spawn) {
-            this.players = new Map();
+            this.players = new Map;
 
             const num_players = reader.upacked();
 
             for (let i = 0; i < num_players; i++) {
                 const playerId = reader.uint8();
-                const data = GameData.readPlayerData(reader);
-                data.playerId = playerId;
-                this.players.set(playerId, data);
+                const player = PlayerGameData.Deserialize(reader, playerId);
+
+                this.players.set(player.playerId, player);
             }
         } else {
             while (reader.left) {
                 const [ playerId, preader ] = reader.message();
-                const data = GameData.readPlayerData(preader);
-                data.playerId = playerId;
-                this.players.set(playerId, data);
+
+                const player = this.players.get(playerId);
+
+                if (player) {
+                    player.Deserialize(preader);
+                }
             }
         }
     }
 
-    Serialize(writer: HazelBuffer, spawn: boolean = false) {
+    Serialize(writer: HazelWriter, spawn: boolean = false) {
         let flag = false;
-        writer.upacked(this.players.size);
+
+        if (spawn) {
+            writer.upacked(this.players.size);
+        }
 
         for (const [playerid, player] of this.players) {
             if ((1 << playerid) & this.dirtyBit || spawn) {
-                writer.uint8(player.playerId);
-                writer.string(player.name);
-                writer.upacked(player.color);
-                writer.upacked(player.hat);
-                writer.upacked(player.pet);
-                writer.upacked(player.skin);
-                writer.byte(
-                    (player.disconnected ? 1 : 0) |
-                        (player.impostor ? 2 : 0) |
-                        (player.dead ? 4 : 0)
-                );
-
-                writer.uint8(player.tasks.length);
-                for (let i = 0; i < player.tasks.length; i++) {
-                    const task = player.tasks[i];
-                    writer.upacked(task.taskIdx);
-                    writer.bool(task.completed);
+                if (spawn) {
+                    writer.uint8(player.playerId);
+                    writer.write(player);
+                } else {
+                    writer.begin(player.playerId);
+                    writer.write(player);
+                    writer.end();
                 }
                 flag = true;
             }
@@ -154,11 +160,11 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         return flag;
     }
 
-    HandleRpc(message: RpcMessage) {
-        switch (message.rpcid) {
-            case RpcTag.SetTasks:
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+        switch (callid) {
+            case RpcMessageTag.SetTasks:
                 this.setTasks;
-                break;
                 break;
         }
     }
@@ -202,7 +208,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * room.gamedata.setColor(player, ColorID.Blue);
      * ```
      */
-    setColor(resolvable: PlayerIDResolvable, color: ColorID) {
+    setColor(resolvable: PlayerIDResolvable, color: Color) {
         const player = this.resolvePlayerData(resolvable);
 
         if (player) {
@@ -220,7 +226,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * room.gamedata.setHat(player, HatID.TopHat);
      * ```
      */
-    setHat(resolvable: PlayerIDResolvable, hat: HatID) {
+    setHat(resolvable: PlayerIDResolvable, hat: Hat) {
         const player = this.resolvePlayerData(resolvable);
 
         if (player) {
@@ -238,7 +244,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * room.gamedata.setSkin(player, SkinID.Mechanic);
      * ```
      */
-    setSkin(resolvable: PlayerIDResolvable, skin: SkinID) {
+    setSkin(resolvable: PlayerIDResolvable, skin: Skin) {
         const player = this.resolvePlayerData(resolvable);
 
         if (player) {
@@ -256,7 +262,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * room.gamedata.setPet(player, PetID.MiniCrewmate);
      * ```
      */
-    setPet(resolvable: PlayerIDResolvable, pet: PetID) {
+    setPet(resolvable: PlayerIDResolvable, pet: Pet) {
         const player = this.resolvePlayerData(resolvable);
 
         if (player) {
@@ -269,10 +275,9 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         const player = this.players.get(playerId);
 
         if (player) {
-            player.tasks = taskIds.map((id, i) => ({
-                completed: false,
-                taskIdx: i,
-            }));
+            player.tasks = taskIds.map((id, i) =>
+                new TaskState(i, false)
+            );
 
             this.emit("gamedata.settasks", {
                 playerData: player,
@@ -300,13 +305,18 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
 
         if (player) {
             this._setTasks(player.playerId, taskIds);
-            this.room.stream.push({
-                tag: MessageTag.RPC,
-                rpcid: RpcTag.SetTasks,
-                netid: this.netid,
-                playerid: player.playerId,
-                taskids: taskIds,
-            });
+
+            const writer = HazelWriter.alloc(2);
+            writer.uint8(player.playerId);
+            writer.list(true, taskIds, (taskId) => writer.uint8(taskId));
+
+            this.room.stream.push(
+                new RpcMessage(
+                    this.netid,
+                    RpcMessageTag.SetTasks,
+                    writer.buffer
+                )
+            );
             this.update(player);
         }
     }
@@ -346,18 +356,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
      * ```
      */
     add(playerId: number) {
-        this.players.set(playerId, {
-            playerId,
-            name: "",
-            color: 0,
-            hat: 0,
-            pet: 0,
-            skin: 0,
-            disconnected: false,
-            impostor: false,
-            dead: false,
-            tasks: [],
-        });
+        this.players.set(playerId, new PlayerGameData(playerId));
 
         this.emit("gamedata.addplayer", {
             playerData: this.players.get(playerId),
@@ -385,35 +384,5 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
 
             this.players.delete(player.playerId);
         }
-    }
-
-    /**
-     * Parse player data from a data buffer.
-     * @param reader The reader to read from.
-     * @returns The player data as a player data object.
-     */
-    static readPlayerData(reader: HazelBuffer): PlayerGameData {
-        const data: Partial<PlayerGameData> = {};
-        data.name = reader.string();
-        data.color = reader.upacked();
-        data.hat = reader.upacked();
-        data.pet = reader.upacked();
-        data.skin = reader.upacked();
-
-        const flags = reader.byte();
-        data.disconnected = (flags & PlayerDataFlags.IsDisconnected) > 0;
-        data.impostor = (flags & PlayerDataFlags.IsImpostor) > 0;
-        data.dead = (flags & PlayerDataFlags.IsDead) > 0;
-
-        data.tasks = [];
-        const num_tasks = reader.uint8();
-        for (let i = 0; i < num_tasks; i++) {
-            const taskIdx = reader.upacked();
-            const completed = reader.bool();
-
-            data.tasks.push({ taskIdx, completed });
-        }
-
-        return data as PlayerGameData;
     }
 }

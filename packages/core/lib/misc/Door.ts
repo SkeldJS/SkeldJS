@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { EventEmitter } from "@skeldjs/events";
 
 import { SystemStatus } from "../system";
@@ -45,12 +45,12 @@ export class Door extends EventEmitter<DoorEvents> {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         this.isOpen = reader.bool(); // Use setter to emit events.
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         writer.bool(this._isOpen);
     }
 

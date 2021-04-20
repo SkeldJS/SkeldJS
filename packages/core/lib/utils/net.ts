@@ -4,10 +4,10 @@ export class NetworkUtils {
      * @param newSid The new sequence ID.
      * @param oldSid The older sequence ID.
      */
-     static seqIdGreaterThan(newSid: number, oldSid: number, bytes = 2) {
+    static seqIdGreaterThan(newSid: number, oldSid: number, bytes = 2) {
         if (typeof oldSid !== "number") return true;
 
-        const threshold = 2 ** ((bytes * 8) - 1);
+        const threshold = 2 ** (bytes * 8 - 1);
         const num = oldSid + threshold;
 
         if (oldSid < num) {

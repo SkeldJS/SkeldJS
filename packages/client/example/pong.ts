@@ -21,7 +21,7 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
         const code = await client.createGame({
             players: 10,
             map: skeldjs.MapID.Airship,
-            impostors: 2
+            impostors: 2,
         });
 
         const boardWidth = 35;
@@ -71,10 +71,17 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
                 }
             }
 
-            paddle1 = Math.max(0, Math.min(paddle1, boardHeight - paddleHeight));
-            paddle2 = Math.max(0, Math.min(paddle2, boardHeight - paddleHeight));
+            paddle1 = Math.max(
+                0,
+                Math.min(paddle1, boardHeight - paddleHeight)
+            );
+            paddle2 = Math.max(
+                0,
+                Math.min(paddle2, boardHeight - paddleHeight)
+            );
 
-            return new Array(boardHeight).fill(0)
+            return new Array(boardHeight)
+                .fill(0)
                 .map((_, line) => {
                     let ln = "";
                     if (line < paddle1 + paddleHeight && line >= paddle1) {
@@ -103,14 +110,14 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
         }
 
         setInterval(() => {
-            client.me.control.setName(tb()
-                .text("Pong Moment\r\n")
-                .align(text.Align.Left, tb()
-                    .size("35%", tb()
-                        .text(reRender(), true)
+            client.me.control.setName(
+                tb()
+                    .text("Pong Moment\r\n")
+                    .align(
+                        text.Align.Left,
+                        tb().size("35%", tb().text(reRender(), true))
                     )
-                )
-                .toString()
+                    .toString()
             );
         }, 50);
 
@@ -124,6 +131,8 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
             })();
         });
 
-        console.log("Created game @ " + Int2Code(code) + " on " + regcode + " servers.");
+        console.log(
+            "Created game @ " + Int2Code(code) + " on " + regcode + " servers."
+        );
     })();
 }

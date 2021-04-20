@@ -1,5 +1,5 @@
-import { HazelBuffer } from "@skeldjs/util";
-import { MessageTag, RpcTag, SystemType } from "@skeldjs/constant";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
@@ -7,6 +7,7 @@ import { BaseSystemStatusEvents } from "./events";
 import { PlayerData } from "../PlayerData";
 import { PlayerDataResolvable } from "../Hostable";
 import { NetworkUtils } from "../utils/net";
+import { RpcMessage } from "@skeldjs/protocol";
 
 export interface MovingPlatformSystemData {
     useId: number;
@@ -54,13 +55,13 @@ export class MovingPlatformSystem extends SystemStatus<
 
     constructor(
         ship: InnerShipStatus,
-        data?: HazelBuffer | MovingPlatformSystemData
+        data?: HazelReader | MovingPlatformSystemData
     ) {
         super(ship, data);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         if (spawn) {
             this.useId = reader.uint8();
             const targetId = reader.uint8();
@@ -86,7 +87,7 @@ export class MovingPlatformSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         this.useId++;
         if (this.useId > 255) this.useId = 0;
 
@@ -107,11 +108,13 @@ export class MovingPlatformSystem extends SystemStatus<
         if (this.target === resolved) return;
 
         if (resolved) {
-            this.ship.room.stream.push({
-                tag: MessageTag.RPC,
-                netid: resolved.control.netid,
-                rpcid: RpcTag.UsePlatform,
-            });
+            this.ship.room.stream.push(
+                new RpcMessage(
+                    resolved.control.netid,
+                    RpcMessageTag.UsePlatform,
+                    Buffer.alloc(0)
+                )
+            );
         }
 
         this._setTarget(resolved, side);

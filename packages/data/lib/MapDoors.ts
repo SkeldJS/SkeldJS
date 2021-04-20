@@ -1,8 +1,8 @@
-import { MapID } from "@skeldjs/constant";
+import { GameMap } from "@skeldjs/constant";
 
 export const MapDoors = {
-    [MapID.TheSkeld]: 13,
-    [MapID.MiraHQ]: 0,
-    [MapID.Polus]: 12,
-    [MapID.Airship]: 6,
+    [GameMap.TheSkeld]: 13,
+    [GameMap.MiraHQ]: 0,
+    [GameMap.Polus]: 12,
+    [GameMap.Airship]: 6,
 };

@@ -1,19 +1,25 @@
 {
   "name": "@skeldjs/pathfinding",
   "version": "2.7.3",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./index.ts",
+  "publishConfig": {
+    "types": "dist/index.d.ts"
+  },
   "license": "GPL-3.0-only",
   "scripts": {
-    "build": "tsc -p ./ && node js/build.js",
+    "build": "tsc -p ./ && node dist/build.js",
+    "watch": "tsc -w -p ./",
     "prepack": "yarn build",
-    "postinstall": "node js/build.js"
+    "postinstall": "node dist/build.js"
   },
   "dependencies": {
-    "@skeldjs/constant": "^2.7.2",
-    "@skeldjs/core": "^2.7.2",
-    "@skeldjs/data": "^2.7.2",
-    "@skeldjs/events": "^2.7.2",
-    "@skeldjs/util": "^2.7.2",
+    "@skeldjs/constant": "workspace:packages/*",
+    "@skeldjs/core": "workspace:packages/*",
+    "@skeldjs/data": "workspace:packages/*",
+    "@skeldjs/events": "workspace:packages/*",
+    "@skeldjs/protocol": "workspace:packages/*",
+    "@skeldjs/util": "workspace:packages/*",
     "heap": "^0.2.6"
   },
   "devDependencies": {

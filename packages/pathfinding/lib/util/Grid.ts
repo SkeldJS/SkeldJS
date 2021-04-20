@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { Node } from "./Node";
 
@@ -8,7 +8,7 @@ export class Grid {
     pathid: number;
 
     static fromBuffer(buffer: Buffer) {
-        const reader = new HazelBuffer(buffer);
+        const reader = HazelReader.from(buffer);
 
         const basex = reader.int16();
         const basey = reader.int16();
@@ -140,7 +140,7 @@ export class Grid {
         const actual_width = this.width * this.density;
         const actual_height = this.height * this.density;
 
-        const writer = HazelBuffer.alloc(actual_width * actual_height);
+        const writer = HazelWriter.alloc(actual_width * actual_height);
 
         writer.int16(this.basex);
         writer.int16(this.basey);

@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -42,18 +42,18 @@ export class DeconSystem extends SystemStatus<
      */
     state: number;
 
-    constructor(ship: InnerShipStatus, data?: HazelBuffer | DeconSystemData) {
+    constructor(ship: InnerShipStatus, data?: HazelReader | DeconSystemData) {
         super(ship, data);
     }
 
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         if (!spawn) {
             this.timer = reader.byte();
             this.state = reader.byte();
         }
     }
 
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         if (!spawn) {
             writer.byte(this.timer);
             writer.byte(this.state);

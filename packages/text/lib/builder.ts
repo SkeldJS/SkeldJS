@@ -39,12 +39,11 @@ export type TMPTag =
 export type TMPNode = TMPElement | string;
 export type TMPRGBA = [number, number, number, number];
 
-function formatAttrVal(val: string|number) {
-    if (typeof val === "number")
-        return val;
+function formatAttrVal(val: string | number) {
+    if (typeof val === "number") return val;
 
     if (val.includes(" ")) {
-        return "\"" + val + "\"";
+        return '"' + val + '"';
     }
 
     return val;

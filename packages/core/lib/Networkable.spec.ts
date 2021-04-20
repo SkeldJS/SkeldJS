@@ -1,6 +1,7 @@
-import { MessageTag, RpcTag } from "@skeldjs/constant";
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
+
 import assert from "assert";
+
 import { Heritable } from "./Heritable";
 import { Hostable } from "./Hostable";
 
@@ -33,8 +34,7 @@ describe("Networkable", () => {
         it("Should also accept a data argument as a buffer to pass in information about the component.", () => {
             const room = new Hostable();
 
-            const buffer = HazelBuffer.from("05", "hex");
-
+            const buffer = HazelReader.from("05", "hex");
             const component = new TestComponent(room, 1, -2, buffer);
 
             assert.strictEqual(component.room, room);
@@ -52,7 +52,7 @@ describe("Networkable", () => {
             const component = new TestComponent(room, 1, 1);
 
             let did_receive = false;
-            object.on("test.event", ev => {
+            object.on("test.event", (ev) => {
                 if (ev.data.alphabet === alphabet) {
                     did_receive = true;
                 }
@@ -78,7 +78,7 @@ describe("Networkable", () => {
             const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
-            const reader = HazelBuffer.alloc(0);
+            const reader = HazelWriter.alloc(0);
 
             assert.doesNotThrow(() => {
                 component.Deserialize(reader);
@@ -91,7 +91,7 @@ describe("Networkable", () => {
             const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
-            const writer = HazelBuffer.alloc(0);
+            const writer = HazelWriter.alloc(0);
 
             assert.ok(!component.Serialize(writer));
         });
@@ -104,22 +104,6 @@ describe("Networkable", () => {
 
             assert.doesNotThrow(() => {
                 component.PreSerialize();
-            });
-        });
-    });
-
-    describe("Networkable#HandleRPC", () => {
-        it("Should do nothing.", () => {
-            const room = new Hostable();
-            const component = new Networkable(room, 1, -2);
-
-            assert.doesNotThrow(() => {
-                component.HandleRpc({
-                    tag: MessageTag.RPC,
-                    netid: component.netid,
-                    rpcid: RpcTag.PlayAnimation,
-                    task: 0,
-                });
             });
         });
     });

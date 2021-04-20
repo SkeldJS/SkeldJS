@@ -29,14 +29,12 @@ export class EventEmitter<Events extends EventData> {
                 cancel() {
                     this.cancelled = true;
                 },
-                data
+                data,
             };
 
-            for (const listener of listeners)
-                await listener(ctx);
+            for (const listener of listeners) await listener(ctx);
 
-            if (ctx.cancelled)
-                return false;
+            if (ctx.cancelled) return false;
         }
 
         return true;
@@ -56,7 +54,7 @@ export class EventEmitter<Events extends EventData> {
         event: EventName,
         listener: Listener<Events, EventName>
     ) {
-        const removeListener = this.on(event, async ev => {
+        const removeListener = this.on(event, async (ev) => {
             removeListener();
             await listener(ev);
         });
@@ -67,8 +65,7 @@ export class EventEmitter<Events extends EventData> {
         event: EventName
     ): Promise<EventContext<Events[EventName]>> {
         return new Promise((resolve) => {
-            const removeListener = this.on(event, async ev => {
-                removeListener();
+            this.once(event, async (ev) => {
                 resolve(ev);
             });
         });

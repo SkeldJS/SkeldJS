@@ -1,10 +1,13 @@
-import { SpawnID } from "@skeldjs/constant";
+import { SpawnType } from "@skeldjs/constant";
+
 import assert from "assert";
+
 import {
     CustomNetworkTransform,
     PlayerControl,
     PlayerPhysics,
 } from "./component";
+
 import { Hostable } from "./Hostable";
 
 import { PlayerData } from "./PlayerData";
@@ -25,7 +28,7 @@ describe("PlayerData", () => {
             const room = new Hostable();
             const player = new PlayerData(room, 1013);
             room.objects.set(1013, player);
-            const object = await room.spawnPrefab(SpawnID.Player, player);
+            const object = await room.spawnPrefab(SpawnType.Player, player);
 
             assert.strictEqual(object.components[0], player.control);
         });
@@ -36,7 +39,7 @@ describe("PlayerData", () => {
             const room = new Hostable();
             const player = new PlayerData(room, 1013);
             room.objects.set(1013, player);
-            const object = await room.spawnPrefab(SpawnID.Player, player);
+            const object = await room.spawnPrefab(SpawnType.Player, player);
 
             assert.strictEqual(object.components[1], player.physics);
         });
@@ -47,7 +50,7 @@ describe("PlayerData", () => {
             const room = new Hostable();
             const player = new PlayerData(room, 1013);
             room.objects.set(1013, player);
-            const object = await room.spawnPrefab(SpawnID.Player, player);
+            const object = await room.spawnPrefab(SpawnType.Player, player);
 
             assert.strictEqual(object.components[2], player.transform);
         });
@@ -57,9 +60,11 @@ describe("PlayerData", () => {
         it("Should retrieve the player's game data (name, colour, hat, etc.).", async () => {
             const room = new Hostable();
             const player = await room.handleJoin(1013);
-            await room.spawnPrefab(SpawnID.GameData, -2);
-            await room.spawnPrefab(SpawnID.Player, player);
+            await room.spawnPrefab(SpawnType.GameData, -2);
+            await room.spawnPrefab(SpawnType.Player, player);
 
+
+            console.log(player.playerId, room.gamedata.players);
             assert.ok(room.gamedata.players.get(player.playerId));
             assert.strictEqual(
                 player.data,
@@ -72,7 +77,7 @@ describe("PlayerData", () => {
         it("Should retrieve the player's player ID.", async () => {
             const room = new Hostable();
             const player = await room.handleJoin(1013);
-            await room.spawnPrefab(SpawnID.Player, player);
+            await room.spawnPrefab(SpawnType.Player, player);
 
             assert.strictEqual(player.playerId, 0);
         });

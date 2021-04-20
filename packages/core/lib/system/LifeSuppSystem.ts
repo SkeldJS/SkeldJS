@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { SystemType } from "@skeldjs/constant";
 
@@ -58,7 +58,7 @@ export class LifeSuppSystem extends SystemStatus<
 
     constructor(
         ship: InnerShipStatus,
-        data?: HazelBuffer | LifeSuppSystemData
+        data?: HazelReader | LifeSuppSystemData
     ) {
         super(ship, data);
 
@@ -70,7 +70,7 @@ export class LifeSuppSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         const timer = this.timer;
         this.timer = reader.float();
 
@@ -92,7 +92,7 @@ export class LifeSuppSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         writer.float(this.timer);
 
         const completed = [...this.completed];

@@ -9,7 +9,9 @@ export class HazelBuffer {
 
     protected static checkInteger(val: number, bounds?: IntegerBoundary) {
         if (typeof val !== "number") {
-            throw new TypeError("Expected an integer, instead got " + typeof val + ".");
+            throw new TypeError(
+                "Expected an integer, instead got " + typeof val + "."
+            );
         }
 
         if (!Number.isInteger(val)) {
@@ -18,7 +20,15 @@ export class HazelBuffer {
 
         if (bounds) {
             if (val < bounds.min || val > bounds.max) {
-                throw new RangeError("Expected value to be within " + bounds.min + " and " + bounds.max + ", got " + val + ".");
+                throw new RangeError(
+                    "Expected value to be within " +
+                        bounds.min +
+                        " and " +
+                        bounds.max +
+                        ", got " +
+                        val +
+                        "."
+                );
             }
         }
     }
