@@ -1,5 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
-
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus } from "../component";
@@ -51,13 +50,13 @@ export class SecurityCameraSystem extends SystemStatus<
 
     constructor(
         ship: InnerShipStatus,
-        data?: HazelBuffer | SecurityCameraSystemData
+        data?: HazelReader | SecurityCameraSystemData
     ) {
         super(ship, data);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         const num_players = reader.upacked();
 
         const before = new Set([...this.players]);
@@ -76,7 +75,7 @@ export class SecurityCameraSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         const players = [...this.players];
         writer.upacked(players.length);
         for (let i = 0; i < players.length; i++) {

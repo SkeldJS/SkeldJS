@@ -20,15 +20,15 @@ describe("HazelWriter", () => {
 
         it("Should throw if the input is not an integer.", () => {
             assert.throws(() => {
-                HazelWriter.alloc("invalid" as unknown as number);
+                HazelWriter.alloc(("invalid" as unknown) as number);
             });
 
             assert.throws(() => {
-                HazelWriter.alloc(true as unknown as number);
+                HazelWriter.alloc((true as unknown) as number);
             });
 
             assert.throws(() => {
-                HazelWriter.alloc({} as unknown as number);
+                HazelWriter.alloc(({} as unknown) as number);
             });
 
             assert.throws(() => {
@@ -148,15 +148,15 @@ describe("HazelWriter", () => {
             const writer = HazelWriter.alloc(0);
 
             assert.throws(() => {
-                writer.expand("hello" as unknown as number);
+                writer.expand(("hello" as unknown) as number);
             });
 
             assert.throws(() => {
-                writer.expand({} as unknown as number);
+                writer.expand(({} as unknown) as number);
             });
 
             assert.throws(() => {
-                writer.expand(true as unknown as number);
+                writer.expand((true as unknown) as number);
             });
         });
 
@@ -206,15 +206,15 @@ describe("HazelWriter", () => {
             const writer = HazelWriter.alloc(1);
 
             assert.throws(() => {
-                writer.uint8(true as unknown as number);
+                writer.uint8((true as unknown) as number);
             });
 
             assert.throws(() => {
-                writer.uint8({} as unknown as number);
+                writer.uint8(({} as unknown) as number);
             });
 
             assert.throws(() => {
-                writer.uint8("hello" as unknown as number);
+                writer.uint8(("hello" as unknown) as number);
             });
         });
 

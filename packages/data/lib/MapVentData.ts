@@ -1,5 +1,5 @@
 import {
-    MapID,
+    GameMap,
     TheSkeldVent,
     MiraHQVent,
     PolusVent,
@@ -14,8 +14,8 @@ interface VentDataModel {
 }
 
 /** https://github.com/codyphobe/among-us-protocol/blob/master/07_miscellaneous/04_map_specific_ids_for_vents_and_tasks.md#the-skeld */
-export const MapVentData: Record<MapID, Record<number, VentDataModel>> = {
-    [MapID.TheSkeld]: {
+export const MapVentData: Record<GameMap, Record<number, VentDataModel>> = {
+    [GameMap.TheSkeld]: {
         [TheSkeldVent.Admin]: {
             id: TheSkeldVent.Admin,
             position: {
@@ -129,7 +129,7 @@ export const MapVentData: Record<MapID, Record<number, VentDataModel>> = {
             network: [TheSkeldVent.Shields],
         },
     },
-    [MapID.MiraHQ]: {
+    [GameMap.MiraHQ]: {
         [MiraHQVent.Balcony]: {
             id: MiraHQVent.Balcony,
             position: {
@@ -223,7 +223,7 @@ export const MapVentData: Record<MapID, Record<number, VentDataModel>> = {
             network: [MiraHQVent.Reactor],
         },
     },
-    [MapID.Polus]: {
+    [GameMap.Polus]: {
         [PolusVent.Security]: {
             id: PolusVent.Security,
             position: {
@@ -321,8 +321,8 @@ export const MapVentData: Record<MapID, Record<number, VentDataModel>> = {
             network: [PolusVent.Admin],
         },
     },
-    [MapID.AprilFoolsTheSkeld]: {},
-    [MapID.Airship]: {
+    [GameMap.AprilFoolsTheSkeld]: {},
+    [GameMap.Airship]: {
         [AirshipVent.Vault]: {
             id: AirshipVent.Vault,
             position: {

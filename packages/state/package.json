@@ -1,15 +1,21 @@
 {
   "name": "@skeldjs/state",
   "version": "2.7.3",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./index.ts",
+  "publishConfig": {
+    "types": "dist/index.d.ts"
+  },
   "scripts": {
     "build": "tsc -p ./",
+    "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/core": "^2.7.2",
-    "@skeldjs/protocol": "^2.7.2"
+    "@skeldjs/core": "workspace:packages/*",
+    "@skeldjs/protocol": "workspace:packages/*",
+    "@skeldjs/util": "workspace:packages/*"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

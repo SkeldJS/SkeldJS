@@ -1,5 +1,5 @@
-import { HazelBuffer } from "@skeldjs/util";
-import { MessageTag, RpcTag, SystemType } from "@skeldjs/constant";
+import { HazelBuffer, HazelWriter } from "@skeldjs/util";
+import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 
 import { EventEmitter } from "@skeldjs/events";
 
@@ -7,6 +7,7 @@ import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";
+import { RpcMessage } from "@skeldjs/protocol";
 
 export class SystemStatus<
     DataT = any,
@@ -81,16 +82,18 @@ export class SystemStatus<
             this.HandleSabotage(player);
             this.emit("system.sabotage", { player });
         } else {
+            const writer = HazelWriter.alloc(3);
+            writer.uint8(SystemType.Sabotage);
+            writer.upacked(player.control.netid);
+            writer.uint8(this.systemType);
+
             this.ship.room.broadcast(
                 [
-                    {
-                        tag: MessageTag.RPC,
-                        netid: this.ship.netid,
-                        rpcid: RpcTag.RepairSystem,
-                        systemid: SystemType.Sabotage,
-                        repairerid: player.control.netid,
-                        value: this.systemType,
-                    },
+                    new RpcMessage(
+                        this.ship.netid,
+                        RpcMessageTag.RepairSystem,
+                        writer.buffer
+                    ),
                 ],
                 true,
                 this.ship.room.host
@@ -102,16 +105,18 @@ export class SystemStatus<
         if (this.ship.room.amhost) {
             this.HandleRepair(player, amount);
         } else {
+            const writer = HazelWriter.alloc(3);
+            writer.uint8(this.systemType);
+            writer.upacked(player.control.netid);
+            writer.uint8(amount);
+
             this.ship.room.broadcast(
                 [
-                    {
-                        tag: MessageTag.RPC,
-                        netid: this.ship.netid,
-                        rpcid: RpcTag.RepairSystem,
-                        systemid: this.systemType,
-                        repairerid: player.control.netid,
-                        value: amount,
-                    },
+                    new RpcMessage(
+                        this.ship.netid,
+                        RpcMessageTag.RepairSystem,
+                        writer.buffer
+                    ),
                 ],
                 true,
                 this.ship.room.host

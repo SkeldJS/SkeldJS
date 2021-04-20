@@ -1,7 +1,22 @@
 import { SIZES } from "./bounds";
 import { HazelBuffer } from "./HazelBuffer";
+import { lerpValue } from "./Vector";
 
 type ListReader<T> = (reader: HazelReader) => T;
+
+type Deserializable<T extends any[] = any[]> = {
+    Deserialize(reader: HazelReader, ...args: T): any;
+};
+type GetSerializable<T extends Deserializable> = T extends {
+    Deserialize(reader: HazelReader, ...args: any[]): infer X;
+}
+    ? X
+    : never;
+type GetDeserializeArgs<T extends Deserializable> = T extends Deserializable<
+    infer K
+>
+    ? K
+    : never;
 
 export class HazelReader extends HazelBuffer {
     /**
@@ -39,7 +54,10 @@ export class HazelReader extends HazelBuffer {
      * ```
      */
     static from(bytes: number[], encoding: BufferEncoding): HazelReader;
-    static from(bytes: string|number[]|Buffer, encoding: BufferEncoding = "utf8") {
+    static from(
+        bytes: string | number[] | Buffer,
+        encoding: BufferEncoding = "utf8"
+    ) {
         if (typeof bytes === "string") {
             const buffer = Buffer.from(bytes, encoding);
             return new HazelReader(buffer);
@@ -105,6 +123,33 @@ export class HazelReader extends HazelBuffer {
     }
 
     /**
+     * Read a deserializable object from the reader.
+     * @param deserializable The object class to read.
+     * @returns The deserialized data.
+     */
+    read<K extends Deserializable>(
+        deserializable: K,
+        ...args: GetDeserializeArgs<K>
+    ): GetSerializable<K> {
+        return deserializable.Deserialize(this, ...args);
+    }
+
+    /**
+     * Read a list of deserializable objects from the reader.
+     * @param deserializable The object class to read.
+     * @returns An array of deserialized objects.
+     */
+    lread<K extends Deserializable>(
+        length: number,
+        deserializable: K,
+        ...args: GetDeserializeArgs<K>
+    ): GetSerializable<K>[] {
+        return this.list(length, (reader) =>
+            deserializable.Deserialize(reader, ...args)
+        );
+    }
+
+    /**
      * Read a single ascii character.
      * @returns The character that was read.
      * @example
@@ -157,9 +202,9 @@ export class HazelReader extends HazelBuffer {
      * ```
      */
     uint16(be = false) {
-        const val = be ?
-            this._buffer.readUInt16BE(this._cursor) :
-            this._buffer.readUInt16LE(this._cursor);
+        const val = be
+            ? this._buffer.readUInt16BE(this._cursor)
+            : this._buffer.readUInt16LE(this._cursor);
         this._cursor += SIZES.uint16;
         return val;
     }
@@ -175,9 +220,9 @@ export class HazelReader extends HazelBuffer {
      * ```
      */
     int16(be = false) {
-        const val = be ?
-            this._buffer.readInt16BE(this._cursor) :
-            this._buffer.readInt16LE(this._cursor);
+        const val = be
+            ? this._buffer.readInt16BE(this._cursor)
+            : this._buffer.readInt16LE(this._cursor);
         this._cursor += SIZES.int16;
         return val;
     }
@@ -193,9 +238,9 @@ export class HazelReader extends HazelBuffer {
      * ```
      */
     uint32(be = false) {
-        const val = be ?
-            this._buffer.readUInt32BE(this._cursor) :
-            this._buffer.readUInt32LE(this._cursor);
+        const val = be
+            ? this._buffer.readUInt32BE(this._cursor)
+            : this._buffer.readUInt32LE(this._cursor);
         this._cursor += SIZES.uint32;
         return val;
     }
@@ -211,9 +256,9 @@ export class HazelReader extends HazelBuffer {
      * ```
      */
     int32(be = false) {
-        const val = be ?
-            this._buffer.readInt32BE(this._cursor) :
-            this._buffer.readInt32LE(this._cursor);
+        const val = be
+            ? this._buffer.readInt32BE(this._cursor)
+            : this._buffer.readInt32LE(this._cursor);
         this._cursor += SIZES.int32;
         return val;
     }
@@ -229,9 +274,9 @@ export class HazelReader extends HazelBuffer {
      * ```
      */
     float(be = false) {
-        const val = be ?
-            this._buffer.readFloatBE(this._cursor) :
-            this._buffer.readFloatLE(this._cursor);
+        const val = be
+            ? this._buffer.readFloatBE(this._cursor)
+            : this._buffer.readFloatLE(this._cursor);
         this._cursor += SIZES.float;
         return val;
     }
@@ -295,7 +340,9 @@ export class HazelReader extends HazelBuffer {
      */
     string(): string {
         const length = this.upacked();
-        const str = this.buffer.slice(this._cursor, this._cursor + length).toString("utf8");
+        const str = this.buffer
+            .slice(this._cursor, this._cursor + length)
+            .toString("utf8");
 
         this._cursor += length;
         return str;
@@ -313,11 +360,11 @@ export class HazelReader extends HazelBuffer {
      * console.log(tag, mreader.size); // => 1 5
      * ```
      */
-    message(): [ number, HazelReader ] {
+    message(): [number, HazelReader] {
         const length = this.uint16();
         const tag = this.uint8();
         const message = this.bytes(length);
-        return [ tag, message ];
+        return [tag, message];
     }
 
     /**
@@ -344,7 +391,7 @@ export class HazelReader extends HazelBuffer {
      * @param fn The function accepting a single reader to use for reading data.
      * @example
      * ```typescript
-     * const reader = HazelReader.from([5, 6, 7, 8];
+     * const reader = HazelReader.from([5, 6, 7, 8]);
      *
      * const items = reader.list(reader => reader.uint8());
      *
@@ -353,19 +400,37 @@ export class HazelReader extends HazelBuffer {
      */
     list<T>(length: number, fn: ListReader<T>): T[];
     list<T>(fn: ListReader<T>): T[];
-    list<T>(length: ListReader<T>|number, fn?: ListReader<T>) {
+    list<T>(length: ListReader<T> | number, fn?: ListReader<T>) {
         if (typeof length === "number") {
             if (!fn) {
-                throw new TypeError("Expected a function for list reader, instead got " + typeof fn + ".");
+                throw new TypeError(
+                    "Expected a function for list reader, instead got " +
+                        typeof fn +
+                        "."
+                );
             }
 
             const items: T[] = [];
             for (let i = 0; i < length; i++) {
                 items.push(fn(this));
             }
-            return;
+            return items;
         }
 
         return this.list(this.upacked(), length);
+    }
+
+    /**
+     * Read a vector position.
+     * @returns The vector that was read.
+     */
+    vector() {
+        const x = this.uint16();
+        const y = this.uint16();
+
+        return {
+            x: lerpValue(x / 65535),
+            y: lerpValue(y / 65535),
+        };
     }
 }

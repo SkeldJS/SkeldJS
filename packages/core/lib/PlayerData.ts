@@ -1,5 +1,4 @@
-import { MessageTag } from "@skeldjs/constant";
-import { GameDataMessage } from "@skeldjs/protocol";
+import { BaseGameDataMessage, ReadyMessage } from "@skeldjs/protocol";
 import { EventEmitter } from "@skeldjs/events";
 
 import {
@@ -87,12 +86,15 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
     /**
      * The message stream to be sent on fixed update.
      */
-    stream: GameDataMessage[];
+    stream: BaseGameDataMessage[];
 
-    constructor(room: Hostable, clientid: number) {
+    constructor(room: Hostable<any>, clientid: number) {
         super(room, clientid);
 
         this.stream = [];
+        this.isReady = false;
+        this.inScene = false;
+        this.left = false;
 
         this.on("component.spawn", () => {
             if (this.spawned) {
@@ -138,6 +140,8 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
      * The player's game data.
      */
     get data() {
+        if (this.playerId === undefined) return undefined;
+
         return this.room.gamedata?.players?.get(this.playerId);
     }
 
@@ -177,12 +181,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
         await this.emit("player.ready", {});
 
         if (this.isme && !this.ishost) {
-            await this.room.broadcast([
-                {
-                    tag: MessageTag.Ready,
-                    clientid: this.id,
-                },
-            ]);
+            await this.room.broadcast([new ReadyMessage(this.id)]);
         }
     }
 }

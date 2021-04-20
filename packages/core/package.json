@@ -1,18 +1,23 @@
 {
   "name": "@skeldjs/core",
   "version": "2.7.3",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./index.ts",
+  "publishConfig": {
+    "types": "dist/index.d.ts"
+  },
   "scripts": {
     "build": "tsc -p ./",
+    "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
   "dependencies": {
-    "@skeldjs/constant": "^2.7.2",
-    "@skeldjs/data": "^2.7.2",
-    "@skeldjs/events": "^2.7.2",
-    "@skeldjs/protocol": "^2.7.2",
-    "@skeldjs/types": "^2.2.7",
-    "@skeldjs/util": "^2.7.2"
+    "@skeldjs/constant": "workspace:packages/*",
+    "@skeldjs/data": "workspace:packages/*",
+    "@skeldjs/events": "workspace:packages/*",
+    "@skeldjs/protocol": "workspace:packages/*",
+    "@skeldjs/types": "workspace:packages/*",
+    "@skeldjs/util": "workspace:packages/*"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

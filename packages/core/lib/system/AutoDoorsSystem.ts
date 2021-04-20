@@ -1,5 +1,5 @@
-import { HazelBuffer } from "@skeldjs/util";
-import { SystemType, MapID } from "@skeldjs/constant";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { SystemType, GameMap } from "@skeldjs/constant";
 import { MapDoors } from "@skeldjs/data";
 
 import { InnerShipStatus } from "../component";
@@ -41,7 +41,7 @@ export class AutoDoorsSystem extends SystemStatus<
 
     constructor(
         ship: InnerShipStatus,
-        data?: HazelBuffer | AutoDoorsSystemData
+        data?: HazelReader | AutoDoorsSystemData
     ) {
         super(ship, data);
     }
@@ -54,16 +54,16 @@ export class AutoDoorsSystem extends SystemStatus<
         super.dirty = val;
     }
 
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         if (spawn) {
-            for (let i = 0; i < MapDoors[MapID.TheSkeld]; i++) {
+            for (let i = 0; i < MapDoors[GameMap.TheSkeld]; i++) {
                 const open = reader.bool();
                 this.doors.push(new AutoOpenDoor(this, i, open));
             }
         } else {
             const mask = reader.upacked();
 
-            for (let i = 0; i < MapDoors[MapID.TheSkeld]; i++) {
+            for (let i = 0; i < MapDoors[GameMap.TheSkeld]; i++) {
                 if (mask & (1 << i)) {
                     const door = this.doors[i];
                     const open = reader.bool();
@@ -73,7 +73,7 @@ export class AutoDoorsSystem extends SystemStatus<
         }
     }
 
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         if (spawn) {
             for (let i = 0; i < this.doors.length; i++) {
                 this.doors[i].Serialize(writer, spawn);

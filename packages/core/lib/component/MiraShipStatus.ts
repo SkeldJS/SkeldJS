@@ -1,9 +1,7 @@
-import { HazelBuffer } from "@skeldjs/util";
-
-import { SpawnID, SystemType } from "@skeldjs/constant";
+import { HazelReader } from "@skeldjs/util";
+import { SpawnType, SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus, ShipStatusData } from "./InnerShipStatus";
-
 import { Hostable } from "../Hostable";
 
 import {
@@ -22,8 +20,8 @@ import {
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class MiraShipStatus extends InnerShipStatus {
-    static type = SpawnID.Headquarters as const;
-    type = SpawnID.Headquarters as const;
+    static type = SpawnType.Headquarters as const;
+    type = SpawnType.Headquarters as const;
 
     static classname = "Headquarters" as const;
     classname = "Headquarters" as const;
@@ -39,10 +37,10 @@ export class MiraShipStatus extends InnerShipStatus {
     };
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | ShipStatusData
+        data?: HazelReader | ShipStatusData
     ) {
         super(room, netid, ownerid, data);
     }

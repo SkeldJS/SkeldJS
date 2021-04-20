@@ -1,8 +1,5 @@
-import { HazelBuffer } from "@skeldjs/util";
-
-import { RpcTag, SpawnID, SystemType } from "@skeldjs/constant";
-
-import { RpcMessage } from "@skeldjs/protocol";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 
 import { SystemStatus } from "../system";
 
@@ -12,7 +9,7 @@ import { Networkable } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
-type AllSystems = Partial<Record<SystemType, SystemStatus>>;
+type AllSystems = Partial<Record<SystemType, SystemStatus<any, any>>>;
 
 export interface ShipStatusData {
     systems: AllSystems;
@@ -21,11 +18,11 @@ export interface ShipStatusData {
 export interface ShipStatusEvents extends SystemStatusEvents {}
 
 export type ShipStatusType =
-    | SpawnID.ShipStatus
-    | SpawnID.Headquarters
-    | SpawnID.PlanetMap
-    | SpawnID.AprilShipStatus
-    | SpawnID.Airship;
+    | SpawnType.ShipStatus
+    | SpawnType.Headquarters
+    | SpawnType.PlanetMap
+    | SpawnType.AprilShipStatus
+    | SpawnType.Airship;
 
 export type ShipStatusClassname =
     | "ShipStatus"
@@ -47,10 +44,10 @@ export class InnerShipStatus extends Networkable<
     systems: AllSystems;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | ShipStatusData
+        data?: HazelReader | ShipStatusData
     ) {
         super(room, netid, ownerid, data);
     }
@@ -62,7 +59,7 @@ export class InnerShipStatus extends Networkable<
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     Setup() {}
 
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
+    Deserialize(reader: HazelReader, spawn: boolean = false) {
         if (!this.systems) this.Setup();
 
         while (reader.left) {
@@ -76,14 +73,14 @@ export class InnerShipStatus extends Networkable<
     }
 
     /* eslint-disable-next-line */
-    Serialize(writer: HazelBuffer, spawn: boolean = false) {
+    Serialize(writer: HazelWriter, spawn: boolean = false) {
         if (!this.systems) this.Setup();
         const systems = Object.values(this.systems);
         for (let i = 0; i < systems.length; i++) {
             const system = systems[i];
 
             if (system.dirty) {
-                writer.message(i);
+                writer.begin(i);
                 system.Serialize(writer, spawn);
                 writer.end();
             }
@@ -93,14 +90,18 @@ export class InnerShipStatus extends Networkable<
         return true;
     }
 
-    HandleRpc(message: RpcMessage) {
-        switch (message.rpcid) {
-            case RpcTag.RepairSystem:
-                const system = this.systems[message.systemid] as SystemStatus;
-                const player = this.room.getPlayerByNetId(message.repairerid);
+    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+        switch (callid) {
+            case RpcMessageTag.RepairSystem:
+                const systemid = reader.uint8();
+                const pcnetid = reader.upacked();
+                const amount = reader.uint8();
+
+                const system = this.systems[systemid] as SystemStatus;
+                const player = this.room.getPlayerByNetId(pcnetid);
 
                 if (system && player) {
-                    system.HandleRepair(player, message.value);
+                    system.HandleRepair(player, amount);
                 }
                 break;
         }
@@ -125,7 +126,11 @@ export class InnerShipStatus extends Networkable<
         const max = available.length < 7 ? 1 : available.length < 9 ? 2 : 3;
         const impostors: PlayerData[] = [];
 
-        for (let i = 0; i < Math.min(this.room.settings.impostors, max); i++) {
+        for (
+            let i = 0;
+            i < Math.min(this.room.settings.numImpostors, max);
+            i++
+        ) {
             const random = ~~(available.length - 1);
             impostors.push(available[random]);
             available.splice(random, 1);

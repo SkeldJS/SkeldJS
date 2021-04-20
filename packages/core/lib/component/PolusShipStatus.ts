@@ -1,5 +1,5 @@
-import { SpawnID, SystemType } from "@skeldjs/constant";
-import { HazelBuffer } from "@skeldjs/util";
+import { SpawnType, SystemType } from "@skeldjs/constant";
+import { HazelReader } from "@skeldjs/util";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
@@ -23,8 +23,8 @@ import { Door } from "../misc/Door";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class PolusShipStatus extends InnerShipStatus {
-    static type = SpawnID.PlanetMap as const;
-    type = SpawnID.PlanetMap as const;
+    static type = SpawnType.PlanetMap as const;
+    type = SpawnType.PlanetMap as const;
 
     static classname = "PlanetMap" as const;
     classname = "PlanetMap" as const;
@@ -42,10 +42,10 @@ export class PolusShipStatus extends InnerShipStatus {
     };
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | ShipStatusData
+        data?: HazelReader | ShipStatusData
     ) {
         super(room, netid, ownerid, data);
     }

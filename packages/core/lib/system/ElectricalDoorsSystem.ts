@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus } from "../component";
@@ -36,13 +36,13 @@ export class ElectricalDoorsSystem extends SystemStatus<
 
     constructor(
         ship: InnerShipStatus,
-        data?: HazelBuffer | ElectricalDoorsSystemData
+        data?: HazelReader | ElectricalDoorsSystemData
     ) {
         super(ship, data);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         const dirtyBit = reader.uint32();
         for (let i = 0; i < this.doors.length; i++) {
             this.doors[i].isOpen = (dirtyBit & (1 << i)) > 0;
@@ -50,7 +50,7 @@ export class ElectricalDoorsSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         let dirtyBit = 0;
         for (let i = 0; i < this.doors.length; i++) {
             dirtyBit |= ((this.doors[i].isOpen as unknown) as number) << i;

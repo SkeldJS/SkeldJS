@@ -1,46 +1,92 @@
-import {
-    Hostable,
-    HostableEvents,
-    HostableOptions,
-    Opcode,
-    PayloadTag
-} from "@skeldjs/core";
+import { Hostable, HostableEvents, HostableOptions } from "@skeldjs/core";
 
 import {
-    PayloadMessageClientbound,
-    ClientboundPacket,
-    parsePacket,
-    ServerboundPacket,
-    PayloadMessageServerbound
+    HostGameMessage,
+    JoinGameMessage,
+    RemovePlayerMessage,
+    StartGameMessage,
+    GameDataToMessage,
+    JoinedGameMessage,
+    AlterGameMessage,
+    MessageDirection,
+    GameOptions,
 } from "@skeldjs/protocol";
 
-export interface SkeldjsStateManagerEvents extends HostableEvents {
-    /**
-     * Emitted before a packet is processed.
-     */
-    "packet": {
-        /**
-         * The packet that is going to be processed.
-         */
-        packet: ClientboundPacket;
-    };
+import { HazelReader } from "@skeldjs/util";
 
-    /**
-     * Emitted before a payload is processed.
-     */
-    "payload": {
-        /**
-         * The payload that is going to be processed.
-         */
-        payload: PayloadMessageClientbound;
-    }
-}
+export interface SkeldjsStateManagerEvents extends HostableEvents {}
 
-export class SkeldjsStateManager<T extends Record<string, any> = {}> extends Hostable<T> {
+export class SkeldjsStateManager<
+    T extends Record<string, any> = {}
+> extends Hostable<T> {
     clientid: number;
 
     constructor(options: HostableOptions = {}) {
         super({ doFixedUpdate: false, ...options });
+
+        this.decoder.on(HostGameMessage, (message, direction) => {
+            if (direction === MessageDirection.Clientbound) {
+                this.setCode(message.code);
+            }
+        });
+
+        this.decoder.on(JoinGameMessage, async (message, direction) => {
+            if (
+                direction === MessageDirection.Clientbound &&
+                message.code === this.code
+            ) {
+                await this.handleJoin(message.clientid);
+                await this.setHost(message.hostid);
+            }
+        });
+
+        this.decoder.on(StartGameMessage, async (message, direction) => {
+            if (
+                direction === MessageDirection.Clientbound &&
+                message.code === this.code
+            ) {
+                await this.handleStart();
+            }
+        });
+
+        this.decoder.on(RemovePlayerMessage, async (message, direction) => {
+            if (
+                direction === MessageDirection.Clientbound &&
+                message.code === this.code
+            ) {
+                await this.handleLeave(message.clientid);
+                await this.setHost(message.hostid);
+            }
+        });
+
+        this.decoder.on(GameDataToMessage, async (message, direction, sender) => {
+            if (
+                direction === MessageDirection.Clientbound &&
+                message.code === this.code
+            ) {
+                for (const child of message._children) {
+                    this.decoder.emit(child, direction, sender);
+                }
+            }
+        });
+
+        this.decoder.on(JoinedGameMessage, async (message, direction) => {
+            if (direction === MessageDirection.Clientbound) {
+                this.clientid = message.clientid;
+                await this.setCode(message.code);
+                await this.setHost(message.hostid);
+                await this.handleJoin(message.clientid);
+                for (let i = 0; i < message.others.length; i++) {
+                    await this.handleJoin(message.others[i]);
+                }
+            }
+        });
+
+        this.decoder.on(AlterGameMessage, async (message) => {
+            if (message.code === this.code) {
+                this._setAlterGameTag(message.alter_tag, message.value);
+            }
+        });
     }
 
     get me() {
@@ -51,143 +97,25 @@ export class SkeldjsStateManager<T extends Record<string, any> = {}> extends Hos
         return false;
     }
 
-    async handleInboundPayload(payload: PayloadMessageClientbound) {
-        if (await this.emit("payload", { payload })) {
-            switch (payload.tag) {
-                case PayloadTag.HostGame:
-                    console.log(payload.code);
-                    this.setCode(payload.code);
-                    break;
-                case PayloadTag.JoinGame:
-                    if (payload.error === false) {
-                        if (this.me && this.code === payload.code) {
-                            await this.handleJoin(payload.clientid);
-                            await this.setHost(payload.hostid);
-                        }
-                    }
-                    break;
-                case PayloadTag.StartGame:
-                    if (this.me && this.code === payload.code) {
-                        await this.handleStart();
-                    }
-                    break;
-                case PayloadTag.EndGame:
-                    if (this.me && this.code === payload.code) {
-                        await this.handleEnd(payload.reason);
-                    }
-                    break;
-                case PayloadTag.RemovePlayer:
-                    if (this.me && this.code === payload.code) {
-                        await this.handleLeave(payload.clientid);
-                        await this.setHost(payload.hostid);
-                    }
-                    break;
-                case PayloadTag.GameData:
-                case PayloadTag.GameDataTo:
-                    if (this.me && this.code === payload.code) {
-                        for (
-                            let i = 0;
-                            i < payload.messages.length;
-                            i++
-                        ) {
-                            const message = payload.messages[i];
-
-                            await this.handleGameData(message);
-                        }
-                    }
-                    break;
-                case PayloadTag.JoinedGame:
-                    this.clientid = payload.clientid;
-                    await this.setCode(payload.code);
-                    await this.setHost(payload.hostid);
-                    await this.handleJoin(payload.clientid);
-                    for (let i = 0; i < payload.clients.length; i++) {
-                        await this.handleJoin(payload.clients[i]);
-                    }
-                    break;
-                case PayloadTag.AlterGame:
-                    this._setAlterGameTag(
-                        payload.alter_tag,
-                        payload.value
-                    );
-                    break;
-            }
-        }
-    }
-
-    async handleInboundPacket(packet: ClientboundPacket) {
-        if (await this.emit("packet", { packet })) {
-            if (
-                packet.op === Opcode.Unreliable ||
-                packet.op === Opcode.Reliable
-            ) {
-                for (let i = 0; i < packet.payloads.length; i++) {
-                    const payload = packet.payloads[i];
-                    await this.handleInboundPayload(payload);
-                }
-            }
-        }
-    }
-
     async handleInboundMessage(message: Buffer) {
-        const packet = parsePacket(message, "client");
-        await this.handleInboundPacket(packet);
-    }
-
-    async handleOutboundPayload(payload: PayloadMessageServerbound) {
-        if (await this.emit("payload", { payload })) {
-            switch (payload.tag) {
-                case PayloadTag.GameData:
-                case PayloadTag.GameDataTo:
-                    if (this.me && this.code === payload.code) {
-                        for (
-                            let i = 0;
-                            i < payload.messages.length;
-                            i++
-                        ) {
-                            const message = payload.messages[i];
-
-                            await this.handleGameData(message);
-                        }
-                    }
-                    break;
-                case PayloadTag.AlterGame:
-                    this._setAlterGameTag(
-                        payload.alter_tag,
-                        payload.value
-                    );
-                    break;
-            }
-        }
-    }
-
-    async handleOutboundPacket(packet: ServerboundPacket) {
-        if (await this.emit("packet", { packet })) {
-            if (
-                packet.op === Opcode.Unreliable ||
-                packet.op === Opcode.Reliable
-            ) {
-                for (let i = 0; i < packet.payloads.length; i++) {
-                    const payload = packet.payloads[i];
-                    await this.handleOutboundPayload(payload);
-                }
-            }
-        }
+        const reader = HazelReader.from(message);
+        this.decoder.write(reader, MessageDirection.Clientbound, null);
     }
 
     async handleOutboundMessage(message: Buffer) {
-        const packet = parsePacket(message, "server");
-        await this.handleOutboundPacket(packet);
+        const reader = HazelReader.from(message);
+        this.decoder.write(reader, MessageDirection.Serverbound, null);
     }
 
     protected _reset() {
         this.objects.clear();
+        this.objects.set(-2, this);
         this.players.clear();
         this.netobjects.clear();
         this.stream = [];
         this.code = 0;
         this.hostid = 0;
-        this.settings = null;
+        this.settings = new GameOptions;
         this.counter = -1;
         this.privacy = "private";
     }

@@ -594,6 +594,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/core", "workspace:packages/core"],
             ["@skeldjs/data", "workspace:packages/data"],
             ["@skeldjs/events", "workspace:packages/events"],
+            ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/util", "workspace:packages/util"],
             ["@types/heap", "npm:0.2.28"],
             ["@types/mocha", "npm:8.2.0"],
@@ -612,6 +613,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/types", "npm:2.2.7"],
             ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/node", "npm:14.14.41"],
             ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
@@ -656,6 +658,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/state", "workspace:packages/state"],
             ["@skeldjs/core", "workspace:packages/core"],
             ["@skeldjs/protocol", "workspace:packages/protocol"],
+            ["@skeldjs/util", "workspace:packages/util"],
             ["@types/mocha", "npm:8.2.0"],
             ["@types/node", "npm:14.14.16"],
             ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]

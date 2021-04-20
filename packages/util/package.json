@@ -1,9 +1,14 @@
 {
   "name": "@skeldjs/util",
   "version": "2.7.3",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./index.ts",
+  "publishConfig": {
+    "types": "dist/index.d.ts"
+  },
   "scripts": {
     "build": "tsc -p ./",
+    "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
   "devDependencies": {

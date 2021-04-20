@@ -1,8 +1,7 @@
-import { Vector2, readVector2, writeVector2, HazelBuffer } from "@skeldjs/util";
+import { Vector2, HazelBuffer, HazelReader, HazelWriter } from "@skeldjs/util";
 
-import { RpcMessage } from "@skeldjs/protocol";
-
-import { MessageTag, RpcTag, SpawnID } from "@skeldjs/constant";
+import { DataMessage, RpcMessage } from "@skeldjs/protocol";
+import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
@@ -49,8 +48,8 @@ export class CustomNetworkTransform extends Networkable<
     CustomNetworkTransformData,
     CustomNetworkTransformEvents
 > {
-    static type = SpawnID.Player as const;
-    type = SpawnID.Player as const;
+    static type = SpawnType.Player as const;
+    type = SpawnType.Player as const;
 
     static classname = "CustomNetworkTransform" as const;
     classname = "CustomNetworkTransform" as const;
@@ -76,7 +75,7 @@ export class CustomNetworkTransform extends Networkable<
     velocity: Vector2;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
         data?: HazelBuffer | CustomNetworkTransformData
@@ -89,7 +88,7 @@ export class CustomNetworkTransform extends Networkable<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
+    Deserialize(reader: HazelReader, spawn: boolean = false) {
         const newSeqId = reader.uint16();
 
         if (!NetworkUtils.seqIdGreaterThan(newSeqId, this.seqId)) {
@@ -98,8 +97,8 @@ export class CustomNetworkTransform extends Networkable<
 
         this.seqId = newSeqId;
 
-        this.position = readVector2(reader);
-        this.velocity = readVector2(reader);
+        this.position = reader.vector();
+        this.velocity = reader.vector();
 
         this.emit("player.move", {
             position: {
@@ -114,25 +113,23 @@ export class CustomNetworkTransform extends Networkable<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean = false) {
+    Serialize(writer: HazelWriter, spawn: boolean = false) {
         writer.uint16(this.seqId);
-        writeVector2(writer, this.position);
-        writeVector2(writer, this.velocity);
+        writer.vector(this.position);
+        writer.vector(this.velocity);
         this.dirtyBit = 0;
         return true;
     }
 
-    HandleRpc(message: RpcMessage) {
-        switch (message.rpcid) {
-            case RpcTag.SnapTo:
-                if (
-                    NetworkUtils.seqIdGreaterThan(
-                        message.seqId,
-                        this.seqId
-                    )
-                ) {
-                    this.seqId = message.seqId;
-                    this.position = message.position;
+    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+        switch (callid) {
+            case RpcMessageTag.SnapTo:
+                const seqId = reader.uint16();
+                const position = reader.vector();
+
+                if (NetworkUtils.seqIdGreaterThan(seqId, this.seqId)) {
+                    this.seqId = seqId;
+                    this.position = position;
                     this.velocity = { x: 0, y: 0 };
                     this.emit("player.snapto", {
                         position: {
@@ -168,17 +165,11 @@ export class CustomNetworkTransform extends Networkable<
         this.velocity = velocity;
 
         this.dirtyBit = 1;
-        const writer = HazelBuffer.alloc(10);
+        const writer = HazelWriter.alloc(10);
         this.Serialize(writer, false);
 
         await this.room.broadcast(
-            [
-                {
-                    tag: MessageTag.Data,
-                    netid: this.netid,
-                    data: writer,
-                },
-            ],
+            [new DataMessage(this.netid, writer.buffer)],
             false
         );
 
@@ -213,17 +204,14 @@ export class CustomNetworkTransform extends Networkable<
         }
 
         this.position = position;
+        this.dirtyBit = 0;
 
-        const data = HazelBuffer.alloc(10);
-        this.Serialize(data);
+        const writer = HazelWriter.alloc(4);
+        writer.vector(this.position);
 
-        await this.room.stream.push({
-            tag: MessageTag.RPC,
-            rpcid: RpcTag.SnapTo,
-            netid: this.netid,
-            seqId: this.seqId,
-            position,
-        });
+        await this.room.stream.push(
+            new RpcMessage(this.netid, RpcMessageTag.SnapTo, writer.buffer)
+        );
 
         this.emit("player.snapto", {
             position: {

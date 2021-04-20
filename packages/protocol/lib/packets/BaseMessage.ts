@@ -1,24 +1,26 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { PacketDecoder } from "../PacketDecoder";
-
-export enum MessageDirection {
-    Clientbound,
-    Serverbound
-}
+import { MessageDirection, PacketDecoder } from "../PacketDecoder";
 
 export class BaseMessage {
+    static type: string;
     static tag: number;
+
+    readonly type: string;
     readonly tag: number;
 
-    constructor(tag: number) {
-        this.tag = tag;
-    }
-
-    static Deserialize(direction: MessageDirection, reader: HazelReader, decoder: PacketDecoder) {
+    static Deserialize(
+        reader: HazelReader,
+        direction: MessageDirection,
+        decoder: PacketDecoder
+    ) {
         void reader, direction, decoder;
     }
 
-    Serialize(direction: MessageDirection, writer: HazelWriter, decoder: PacketDecoder) {
+    Serialize(
+        writer: HazelWriter,
+        direction: MessageDirection,
+        decoder: PacketDecoder
+    ) {
         void writer, direction, decoder;
     }
 }

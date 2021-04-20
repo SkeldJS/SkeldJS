@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus } from "../component";
@@ -38,12 +38,12 @@ export class DoorsSystem extends SystemStatus<
      */
     doors: Door[];
 
-    constructor(ship: InnerShipStatus, data?: HazelBuffer | DoorsSystemData) {
+    constructor(ship: InnerShipStatus, data?: HazelReader | DoorsSystemData) {
         super(ship, data);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         const num_cooldown = reader.upacked();
 
         for (let i = 0; i < num_cooldown; i++) {
@@ -59,7 +59,7 @@ export class DoorsSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         writer.upacked(this.cooldowns.size);
 
         for (const [doorId, cooldown] of this.cooldowns) {

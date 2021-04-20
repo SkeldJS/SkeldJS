@@ -9,7 +9,7 @@ import * as skeldjs from "..";
 const tb = text.tb;
 
 function write(filename: string, image: any): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         const stream = fs.createWriteStream(filename);
         image.pipe(stream);
 
@@ -19,11 +19,10 @@ function write(filename: string, image: any): Promise<void> {
     });
 }
 
-type RGBA = [ number, number, number, number ];
+type RGBA = [number, number, number, number];
 
 function hexb(byte: number) {
-    if (!byte)
-        return "00";
+    if (!byte) return "00";
 
     return byte.toString(16).padStart(2, "0");
 }
@@ -33,16 +32,18 @@ function hex(rgba: RGBA) {
 }
 
 function same(a: RGBA, b: RGBA) {
-    if (!a || !b)
-        return false;
+    if (!a || !b) return false;
 
-    return a[0] === b[0]
-        && a[1] === b[1]
-        && a[2] === b[2]
-        && a[3] === b[3];
+    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
 }
 
-function createTextImage(data: number[], width: number, height: number, resx: number, resy: number) {
+function createTextImage(
+    data: number[],
+    width: number,
+    height: number,
+    resx: number,
+    resy: number
+) {
     const res: RGBA[][] = [];
 
     for (let y = 0; y < resy; y++) {
@@ -50,31 +51,33 @@ function createTextImage(data: number[], width: number, height: number, resx: nu
         for (let x = 0; x < resx; x++) {
             const acx = x * (width / resx);
             const acy = y * (height / resy);
-            const pos = ((acy * height) + acx) * 4;
+            const pos = (acy * height + acx) * 4;
 
-            ln.push([ data[pos], data[pos + 1], data[pos + 2], data[pos + 3] ]);
+            ln.push([data[pos], data[pos + 1], data[pos + 2], data[pos + 3]]);
         }
         res.push(ln);
     }
 
     let last: RGBA = null;
-    return res.map(ln => {
-        let out = "";
-        for (let i = 0; i < ln.length; i++) {
-            const px = ln[i];
+    return res
+        .map((ln) => {
+            let out = "";
+            for (let i = 0; i < ln.length; i++) {
+                const px = ln[i];
 
-            if (same(px, last)) {
-                out += "OO";
-            } else {
-                if (i > 0) {
-                    out += "</mark>";
+                if (same(px, last)) {
+                    out += "OO";
+                } else {
+                    if (i > 0) {
+                        out += "</mark>";
+                    }
+                    out += "<mark=#" + hex(px) + ">OO";
                 }
-                out += "<mark=#" + hex(px) + ">OO";
+                last = px;
             }
-            last = px;
-        }
-        return out;
-    }).join("\r\n");
+            return out;
+        })
+        .join("\r\n");
 }
 
 const regcode = process.argv[2];
@@ -84,12 +87,17 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
     );
 } else {
     (async () => {
-        const frames = await gifFrames({ url: fs.readFileSync(process.argv[3]), frames: "all" });
+        const frames = await gifFrames({
+            url: fs.readFileSync(process.argv[3]),
+            frames: "all",
+        });
         const files = [];
 
         try {
             fs.mkdirSync("./frames");
-        } catch (e) { void e; }
+        } catch (e) {
+            void e;
+        }
 
         for (let i = 0; i < frames.length; i++) {
             const frame = frames[i];
@@ -108,10 +116,16 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
         const code = await client.createGame({
             players: 10,
             map: skeldjs.MapID.TheSkeld,
-            impostors: 2
+            impostors: 2,
         });
 
-        console.log("Created game @ " + Int2Code(code as number) + " on " + regcode + " servers.");
+        console.log(
+            "Created game @ " +
+                Int2Code(code as number) +
+                " on " +
+                regcode +
+                " servers."
+        );
 
         const resx = parseInt(process.argv[4]);
         const resy = parseInt(process.argv[5]);
@@ -122,15 +136,21 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
             for (const filename of files) {
                 const { data, width, height } = await imgpix(filename);
 
-                const txt = await createTextImage(data, width, height, resx, resy);
-                client.me.control.setName(tb()
-                    .text("weakeyes\r\n")
-                    .align(text.Align.Left, tb()
-                        .size("35%", tb()
-                            .text(txt, true)
+                const txt = await createTextImage(
+                    data,
+                    width,
+                    height,
+                    resx,
+                    resy
+                );
+                client.me.control.setName(
+                    tb()
+                        .text("weakeyes\r\n")
+                        .align(
+                            text.Align.Left,
+                            tb().size("35%", tb().text(txt, true))
                         )
-                    )
-                    .toString()
+                        .toString()
                 );
                 await sleep(50);
             }

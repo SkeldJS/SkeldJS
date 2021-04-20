@@ -1,8 +1,22 @@
 {
   "name": "skeldjs",
-  "version": "1.2.1",
-  "main": "index.js",
+  "description": "A JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.",
+  "keywords": ["amongus", "among us"],
+  "homepage": "https://skeldjs.github.io/SkeldJS",
+  "bugs": "https://github.com/SkeldJS/SkeldJS/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SkeldJS/SkeldJS.git"
+  },
   "license": "GPL-3.0-only",
+  "author": {
+    "name": "Edward Smale",
+    "email": "essmale2005@gmail.com",
+    "url": "https://weakeyes.dev"
+  },
+  "engines": {
+    "node": ">=14.x"
+  },
   "private": true,
   "scripts": {
     "lint": "eslint \"packages/**/*.ts\"",

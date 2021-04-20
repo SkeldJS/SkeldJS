@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus } from "../component";
@@ -53,12 +53,12 @@ export class SwitchSystem extends SystemStatus<
         return this.expected.some((val, i) => this.actual[i] !== val);
     }
 
-    constructor(ship: InnerShipStatus, data?: HazelBuffer | SwitchSystemData) {
+    constructor(ship: InnerShipStatus, data?: HazelReader | SwitchSystemData) {
         super(ship, data);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {
+    Deserialize(reader: HazelReader, spawn: boolean) {
         const before = this.sabotaged;
         this.expected = SwitchSystem.readSwitches(reader.byte());
         this.actual = SwitchSystem.readSwitches(reader.byte());
@@ -72,7 +72,7 @@ export class SwitchSystem extends SystemStatus<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean) {
+    Serialize(writer: HazelWriter, spawn: boolean) {
         writer.byte(SwitchSystem.writeSwitches(this.expected));
         writer.byte(SwitchSystem.writeSwitches(this.actual));
         writer.uint8(this.brightness);

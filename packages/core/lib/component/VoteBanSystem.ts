@@ -1,12 +1,10 @@
-import { HazelBuffer } from "@skeldjs/util";
-
-import { MessageTag, PayloadTag, RpcTag, SpawnID } from "@skeldjs/constant";
-
-import { RpcMessage } from "@skeldjs/protocol";
+import { HazelBuffer, HazelReader, HazelWriter } from "@skeldjs/util";
+import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { Heritable } from "../Heritable";
+import { KickPlayerMessage, RpcMessage } from "@skeldjs/protocol";
 
 export interface VoteBanSystemData {
     clients: Map<number, [number, number, number]>;
@@ -23,8 +21,8 @@ export class VoteBanSystem extends Networkable<
     VoteBanSystemData,
     VoteBanSystemEvents
 > {
-    static type = SpawnID.GameData;
-    type = SpawnID.GameData;
+    static type = SpawnType.GameData;
+    type = SpawnType.GameData;
 
     static classname = "VoteBanSystem" as const;
     classname = "VoteBanSystem" as const;
@@ -35,7 +33,7 @@ export class VoteBanSystem extends Networkable<
     voted: Map<number, [number, number, number]>;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
         data?: HazelBuffer | VoteBanSystemData
@@ -50,7 +48,7 @@ export class VoteBanSystem extends Networkable<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
+    Deserialize(reader: HazelReader, spawn: boolean = false) {
         const num_players = reader.upacked();
 
         for (let i = 0; i < num_players; i++) {
@@ -68,7 +66,7 @@ export class VoteBanSystem extends Networkable<
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelBuffer, spawn: boolean = false) {
+    Serialize(writer: HazelWriter, spawn: boolean = false) {
         writer.upacked(this.voted.size);
 
         for (const [clientid, voters] of this.voted) {
@@ -81,10 +79,12 @@ export class VoteBanSystem extends Networkable<
         return true;
     }
 
-    HandleRpc(message: RpcMessage) {
-        switch (message.rpcid) {
-            case RpcTag.AddVote:
-                this._addVote(message.votingid, message.targetid);
+    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+        switch (callid) {
+            case RpcMessageTag.AddVote:
+                const votingid = reader.uint32();
+                const targetid = reader.uint32();
+                this._addVote(votingid, targetid);
                 break;
         }
     }
@@ -101,13 +101,12 @@ export class VoteBanSystem extends Networkable<
 
             if (this.room.amhost && voted.every((v) => typeof v === "number")) {
                 this.room.broadcast([], true, null, [
-                    {
-                        tag: PayloadTag.KickPlayer,
-                        code: this.room.code,
-                        clientid: targetid,
-                        banned: false,
-                        reason: 0,
-                    },
+                    new KickPlayerMessage(
+                        this.room.code,
+                        targetid,
+                        false,
+                        DisconnectReason.None
+                    ),
                 ]);
             }
         } else {
@@ -131,12 +130,12 @@ export class VoteBanSystem extends Networkable<
 
         this._addVote(voterid, targetid);
 
-        this.room.stream.push({
-            tag: MessageTag.RPC,
-            rpcid: RpcTag.AddVote,
-            netid: this.netid,
-            votingid: voterid,
-            targetid: targetid,
-        });
+        const writer = HazelWriter.alloc(8);
+        writer.uint32(voterid);
+        writer.uint32(targetid);
+
+        this.room.stream.push(
+            new RpcMessage(this.netid, RpcMessageTag.AddVote, writer.buffer)
+        );
     }
 }

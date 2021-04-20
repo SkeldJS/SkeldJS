@@ -1,8 +1,16 @@
 import { BOUNDS, SIZES } from "./bounds";
 import { HazelBuffer } from "./HazelBuffer";
+import { unlerpValue, Vector2 } from "./Vector";
 
-type Serializable<T extends any[] = any[]> = { Serialize(writer: HazelWriter, ...args: T): void };
-type GetSerializeArgs<T extends Serializable> = T extends Serializable<infer K> ? K : never;
+type ListWriter<T> = (item: T, i: number, writer: HazelWriter) => any;
+
+type Serializable<T extends any[] = any[]> = {
+    PreSerialize?(): void;
+    Serialize(writer: HazelWriter, ...args: T): void;
+};
+type GetSerializeArgs<T extends Serializable> = T extends Serializable<infer K>
+    ? K
+    : never;
 
 export class HazelWriter extends HazelBuffer {
     /**
@@ -226,13 +234,45 @@ export class HazelWriter extends HazelBuffer {
      * @returns The writer.
      * @example
      * ```typescript
-     * const writer = HazelWriter.alloc(4);
+     * const writer = HazelWriter.alloc(0);
      *
      * writer.write(player.control);
      * ```
      */
-    write<K extends Serializable>(serializable: K, ...args: GetSerializeArgs<K>) {
+    write<K extends Serializable>(
+        serializable: K,
+        ...args: GetSerializeArgs<K>
+    ) {
+        if (serializable.PreSerialize) {
+            serializable.PreSerialize();
+        }
+
         serializable.Serialize(this, ...args);
+    }
+
+    /**
+     * Write a list of serializable objects to the writer.
+     * @param serializable The objects to write.
+     * @returns The writer.
+     * @example
+     * ```typescript
+     * const writer = HazelWriter.alloc(0);
+     *
+     * writer.write(players.map(player => player.control));
+     * ```
+     */
+    lwrite<K extends Serializable>(
+        length: boolean,
+        serializable: K[],
+        ...args: GetSerializeArgs<K>
+    ) {
+        if (length) {
+            this.upacked(serializable.length);
+        }
+
+        for (const object of serializable) {
+            this.write(object, ...args);
+        }
     }
 
     /**
@@ -326,7 +366,7 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     int32(val: number, be = false) {
-        HazelBuffer.checkInteger(val, BOUNDS.uint32);
+        HazelBuffer.checkInteger(val, BOUNDS.int32);
 
         this.expand(SIZES.int32);
         if (be) {
@@ -427,7 +467,7 @@ export class HazelWriter extends HazelBuffer {
      */
     string(val: string) {
         this.upacked(val.length);
-        this.bytes(Buffer.from(val, "utf8"));
+        this.bytes(val);
     }
 
     /**
@@ -439,7 +479,7 @@ export class HazelWriter extends HazelBuffer {
      * writer.bytes("Hello");
      * ```
      */
-    bytes(bytes: string|number[]|Buffer|HazelBuffer): this {
+    bytes(bytes: string | number[] | Buffer | HazelBuffer): this {
         if (Buffer.isBuffer(bytes)) {
             this.expand(bytes.byteLength);
             bytes.copy(this.buffer, this._cursor);
@@ -498,8 +538,49 @@ export class HazelWriter extends HazelBuffer {
 
         const cursor = this._cursor;
         this.goto(pos);
-        this.uint16(length - 1);
+        this.uint16(length - 3);
         this.goto(cursor);
         return this;
+    }
+
+    /**
+     * Write an object list from the buffer.
+     * @param length The length of the list.
+     * @param fn The function accepting a single reader to use for reading data.
+     * @returns The writer.
+     * @example
+     * ```typescript
+     * const nums = [5, 6, 7, 8];
+     * const reader = HazelReader.alloc(0);
+     *
+     * const items = reader.list(nums, (item, writer) => writer.uint8(item));
+     *
+     * console.log(items); // => [5, 6, 7, 8];
+     * ```
+     */
+    list<T>(length: boolean, arr: T[], fn?: ListWriter<T>) {
+        if (length) {
+            this.upacked(arr.length);
+        }
+
+        for (let i = 0; i < arr.length; i++) {
+            const obj = arr[i];
+            fn(obj, i, this);
+        }
+
+        return this;
+    }
+
+    /**
+     * Write a vector position into 2 16 bit integers.
+     * @param position The position to write.
+     * @returns The writer.
+     */
+    vector(position: Vector2) {
+        const x = unlerpValue(position.x) * 65535;
+        const y = unlerpValue(position.y) * 65535;
+
+        this.uint16(~~x);
+        this.uint16(~~y);
     }
 }

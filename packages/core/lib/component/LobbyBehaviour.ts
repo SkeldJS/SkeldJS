@@ -1,6 +1,6 @@
 import { HazelBuffer } from "@skeldjs/util";
 
-import { SpawnID } from "@skeldjs/constant";
+import { SpawnType } from "@skeldjs/constant";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
@@ -20,14 +20,14 @@ export class LobbyBehaviour extends Networkable<
     LobbyBehaviourData,
     LobbyBehaviourEvents
 > {
-    static type = SpawnID.LobbyBehaviour as const;
-    type = SpawnID.LobbyBehaviour as const;
+    static type = SpawnType.LobbyBehaviour as const;
+    type = SpawnType.LobbyBehaviour as const;
 
     static classname = "LobbyBehaviour" as const;
     classname = "LobbyBehaviour" as const;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
         data?: HazelBuffer | LobbyBehaviourData

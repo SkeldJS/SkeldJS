@@ -1,6 +1,5 @@
-import { HazelBuffer } from "@skeldjs/util";
-
-import { SpawnID, SystemType } from "@skeldjs/constant";
+import { HazelReader } from "@skeldjs/util";
+import { SpawnType, SystemType } from "@skeldjs/constant";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
@@ -24,8 +23,8 @@ import { AutoOpenDoor } from "../misc/AutoOpenDoor";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class SkeldShipStatus extends InnerShipStatus {
-    static type = SpawnID.ShipStatus as const;
-    type = SpawnID.ShipStatus as const;
+    static type = SpawnType.ShipStatus as const;
+    type = SpawnType.ShipStatus as const;
 
     static classname = "ShipStatus" as const;
     classname = "ShipStatus" as const;
@@ -42,10 +41,10 @@ export class SkeldShipStatus extends InnerShipStatus {
     };
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | ShipStatusData
+        data?: HazelReader | ShipStatusData
     ) {
         super(room, netid, ownerid, data);
     }

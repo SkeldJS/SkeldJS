@@ -1,4 +1,3 @@
-export * from "./GameData";
-export * from "./Packets";
-export * from "./Payloads";
-export * from "./RpcMessages";
+export * from "./game";
+export * from "./option";
+export * from "./root";

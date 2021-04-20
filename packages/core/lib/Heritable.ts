@@ -2,15 +2,15 @@ import { EventEmitter } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "./Networkable";
 import { Hostable } from "./Hostable";
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader } from "@skeldjs/util";
 import { PropagatedEvents } from "@skeldjs/events";
 
 type NetworkableConstructor<T> = {
     new (
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | any
+        data?: HazelReader | any
     ): T;
     classname: string;
 };
@@ -29,7 +29,7 @@ export class Heritable<T extends Record<string, any> = {}> extends EventEmitter<
     /**
      * The room that this object belongs to.
      */
-    room: Hostable;
+    room: Hostable<any>;
 
     /**
      * The ID of the object.
@@ -39,9 +39,9 @@ export class Heritable<T extends Record<string, any> = {}> extends EventEmitter<
     /**
      * The components for this object.
      */
-    components: Networkable[];
+    components: (Networkable | null)[];
 
-    constructor(room: Hostable, id: number) {
+    constructor(room: Hostable<any>, id: number) {
         super();
 
         this.id = id;
@@ -70,7 +70,7 @@ export class Heritable<T extends Record<string, any> = {}> extends EventEmitter<
             | NetworkableConstructor<T>
             | NetworkableConstructor<T>[]
             | number
-    ): T {
+    ): T | null {
         if (typeof component == "number") {
             return (this.components.find(
                 (com) => com && com.netid === component

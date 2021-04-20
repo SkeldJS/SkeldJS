@@ -1,6 +1,5 @@
-import { HazelBuffer } from "@skeldjs/util";
-import { RpcMessage } from "@skeldjs/protocol";
-import { SpawnID } from "@skeldjs/constant";
+import { HazelBuffer, HazelReader } from "@skeldjs/util";
+import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import { EventEmitter } from "@skeldjs/events";
 
@@ -26,11 +25,11 @@ export class Networkable<
     DataT = any,
     T extends Record<string, any> = {}
 > extends EventEmitter<T & NetworkableEvents> {
-    static type: SpawnID;
+    static type: SpawnType;
     /**
      * The type of object that this component belongs to.
      */
-    type: SpawnID;
+    type: SpawnType;
 
     static classname: string;
     /**
@@ -59,7 +58,7 @@ export class Networkable<
     dirtyBit: number = 0;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         netid: number,
         ownerid: number,
         data?: HazelBuffer | DataT
@@ -110,21 +109,21 @@ export class Networkable<
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     PreSerialize() {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    HandleRpc(message: RpcMessage) {}
+    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     FixedUpdate(delta: number) {}
 
     /**
      * Spawn this component if does not exist in the room it belongs in.
      */
-    async spawn() {
+    async spawn(): Promise<void> {
         return await this.room.spawnComponent(this);
     }
 
     /**
      * Despawns the component from the room it belongs in.
      */
-    async despawn() {
+    async despawn(): Promise<void> {
         return await this.room.despawnComponent(this);
     }
 }

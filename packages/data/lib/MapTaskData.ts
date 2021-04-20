@@ -1,7 +1,7 @@
 import {
     TaskLength,
     TaskType,
-    MapID,
+    GameMap,
     AirshipTask,
     TheSkeldTask,
     MiraHQTask,
@@ -25,8 +25,8 @@ interface TaskDataModel {
     consoles: Record<number, ConsoleDataModel>;
 }
 
-export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
-    [MapID.TheSkeld]: {
+export const MapTaskData: Record<GameMap, Record<number, TaskDataModel>> = {
+    [GameMap.TheSkeld]: {
         [TaskType.SwipeCard]: {
             name: "Swipe Card",
             type: TaskType.SwipeCard,
@@ -39,9 +39,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.FixWiring]: {
             name: "Fix Wiring",
@@ -55,9 +55,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ClearAsteroids]: {
             name: "Clear Asteroids",
@@ -71,9 +71,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.AlignEngineOutput]: {
             name: "Align Engine Output",
@@ -87,9 +87,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.SubmitScan]: {
             name: "Submit Scan",
@@ -103,9 +103,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.InspectSample]: {
             name: "Inspect Sample",
@@ -119,9 +119,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.FuelEngines]: {
             name: "Fuel Engines",
@@ -135,9 +135,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.StartReactor]: {
             name: "Start Reactor",
@@ -151,9 +151,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.EmptyChute]: {
             name: "Empty Chute",
@@ -167,9 +167,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.EmptyGarbage]: {
             name: "Empty Garbage",
@@ -183,9 +183,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.UploadData]: {
             name: "Download Data",
@@ -199,7 +199,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.ElectricalDownloadData,
@@ -207,7 +207,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.WeaponsDownloadData,
@@ -215,7 +215,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.CafeteriaDownloadData,
@@ -223,7 +223,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.NavigationDownloadData,
@@ -231,9 +231,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.CalibrateDistributor]: {
             name: "Calibrate Distributor",
@@ -247,9 +247,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ChartCourse]: {
             name: "Chart Course",
@@ -263,9 +263,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.CleanO2Filter]: {
             name: "Clean O2 Filter",
@@ -279,9 +279,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.UnlockManifolds]: {
             name: "Unlock Manifolds",
@@ -295,9 +295,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.StabilizeSteering]: {
             name: "Stabilize Steering",
@@ -311,9 +311,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.PrimeShields]: {
             name: "Prime Shields",
@@ -327,9 +327,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.DivertPower]: {
             name: "Divert Power to Shields",
@@ -343,7 +343,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.ElectricalDivertPowerToWeapons,
@@ -351,7 +351,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.ElectricalDivertPowerToCommunications,
@@ -359,7 +359,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.ElectricalDivertPowerToUpperEngine,
@@ -367,7 +367,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.ElectricalDivertPowerToO2,
@@ -375,7 +375,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.ElectricalDivertPowerToNavigation,
@@ -383,7 +383,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.ElectricalDivertPowerToLowerEngine,
@@ -391,7 +391,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: TheSkeldTask.ElectricalDivertPowerToSecurity,
@@ -399,12 +399,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
-        }
+                    },
+                },
+            ],
+        },
     },
-    [MapID.MiraHQ]: {
+    [GameMap.MiraHQ]: {
         [TaskType.FixWiring]: {
             name: "Fix Wiring",
             type: TaskType.FixWiring,
@@ -417,9 +417,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.EnterIdCode]: {
             name: "Enter ID Code",
@@ -433,9 +433,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.SubmitScan]: {
             name: "Submit Scan",
@@ -449,9 +449,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ClearAsteroids]: {
             name: "Clear Asteroids",
@@ -465,9 +465,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.DivertPower]: {
             name: "Divert Power to Admin",
@@ -481,7 +481,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: MiraHQTask.ElectricalDivertPowerToCafeteria,
@@ -489,7 +489,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: MiraHQTask.ElectricalDivertPowerToCommunications,
@@ -497,7 +497,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: MiraHQTask.ElectricalDivertPowerToLaunchpad,
@@ -505,7 +505,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: MiraHQTask.ElectricalDivertPowerToMedBay,
@@ -513,7 +513,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: MiraHQTask.ElectricalDivertPowerToOffice,
@@ -521,7 +521,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: MiraHQTask.ElectricalDivertPowerToGreenhouse,
@@ -529,7 +529,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: MiraHQTask.ElectricalDivertPowerToLaboratory,
@@ -537,9 +537,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.WaterPlants]: {
             name: "Water Plants",
@@ -553,9 +553,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.StartReactor]: {
             name: "Start Reactor",
@@ -569,9 +569,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ChartCourse]: {
             name: "Chart Course",
@@ -585,9 +585,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.CleanO2Filter]: {
             name: "Clean O2 Filter",
@@ -601,9 +601,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.FuelEngines]: {
             name: "Fuel Engines",
@@ -617,9 +617,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.AssembleArtifact]: {
             name: "Assemble Artifact",
@@ -633,9 +633,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.SortSamples]: {
             name: "Sort Samples",
@@ -649,9 +649,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.PrimeShields]: {
             name: "Prime Shields",
@@ -665,9 +665,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.EmptyGarbage]: {
             name: "Empty Garbage",
@@ -681,9 +681,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.MeasureWeather]: {
             name: "Measure Weather",
@@ -697,9 +697,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.BuyBeverage]: {
             name: "Buy Beverage",
@@ -713,9 +713,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ProcessData]: {
             name: "Process Data",
@@ -729,9 +729,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.RunDiagnostics]: {
             name: "Run Diagnostics",
@@ -745,9 +745,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.UnlockManifolds]: {
             name: "Unlock Manifolds",
@@ -761,12 +761,12 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
-        }
+                    },
+                },
+            ],
+        },
     },
-    [MapID.Polus]: {
+    [GameMap.Polus]: {
         [TaskType.SwipeCard]: {
             name: "Swipe Card",
             type: TaskType.SwipeCard,
@@ -779,9 +779,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.InsertKeys]: {
             name: "Insert Keys",
@@ -795,9 +795,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ScanBoardingPass]: {
             name: "Scan Boarding Pass",
@@ -811,9 +811,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.FixWiring]: {
             name: "Fix Wiring",
@@ -827,9 +827,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.UploadData]: {
             name: "Download Data",
@@ -843,7 +843,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.OfficeDownloadData,
@@ -851,7 +851,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.ElectricalDownloadData,
@@ -859,7 +859,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.SpecimenRoomDownloadData,
@@ -867,7 +867,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.O2DownloadData,
@@ -875,9 +875,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.StartReactor]: {
             name: "Start Reactor",
@@ -891,9 +891,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.FuelEngines]: {
             name: "Fuel Engines",
@@ -907,9 +907,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.OpenWaterways]: {
             name: "Open Waterways",
@@ -923,9 +923,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.InspectSample]: {
             name: "Inspect Sample",
@@ -939,9 +939,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ReplaceWaterJug]: {
             name: "Replace Water Jug",
@@ -955,9 +955,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ActivateWeatherNodes]: {
             name: "Fix Weather Node Node_GI",
@@ -971,7 +971,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.OutsideFixWeatherNodeNODE_IRO,
@@ -979,7 +979,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.OutsideFixWeatherNodeNODE_PD,
@@ -987,7 +987,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.OutsideFixWeatherNodeNODE_TB,
@@ -995,7 +995,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.OutsideFixWeatherNodeNODE_CA,
@@ -1003,7 +1003,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.OutsideFixWeatherNodeNODE_MLG,
@@ -1011,9 +1011,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.RebootWifi]: {
             name: "Reboot WiFi",
@@ -1027,9 +1027,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.MonitorO2]: {
             name: "Monitor Tree",
@@ -1043,9 +1043,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.UnlockManifolds]: {
             name: "Unlock Manifolds",
@@ -1059,9 +1059,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.StoreArtifacts]: {
             name: "Store Artifacts",
@@ -1075,9 +1075,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.FillCanisters]: {
             name: "Fill Canisters",
@@ -1091,9 +1091,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.EmptyGarbage]: {
             name: "Empty Garbage",
@@ -1107,9 +1107,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ChartCourse]: {
             name: "Chart Course",
@@ -1123,9 +1123,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.SubmitScan]: {
             name: "Submit Scan",
@@ -1139,9 +1139,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ClearAsteroids]: {
             name: "Clear Asteroids",
@@ -1155,9 +1155,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.AlignTelescope]: {
             name: "Align Telescope",
@@ -1171,9 +1171,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.RepairDrill]: {
             name: "Repair Drill",
@@ -1187,9 +1187,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.RecordTemperature]: {
             name: "Record Temperature",
@@ -1203,7 +1203,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: PolusTask.OutsideRecordTemperature,
@@ -1211,13 +1211,13 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
-        }
+                    },
+                },
+            ],
+        },
     },
-    [MapID.AprilFoolsTheSkeld]: {},
-    [MapID.Airship]: {
+    [GameMap.AprilFoolsTheSkeld]: {},
+    [GameMap.Airship]: {
         [TaskType.FixWiring]: {
             name: "Fix Wiring",
             type: TaskType.FixWiring,
@@ -1230,9 +1230,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.EnterIdCode]: {
             name: "Enter ID Code",
@@ -1246,9 +1246,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.ResetBreakers]: {
             name: "Reset Breakers",
@@ -1262,9 +1262,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.UploadData]: {
             name: "Download Data",
@@ -1278,7 +1278,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.BrigDownloadData,
@@ -1286,7 +1286,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.CargoBayDownloadData,
@@ -1294,7 +1294,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.GapRoomDownloadData,
@@ -1302,7 +1302,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.RecordsDownloadData,
@@ -1310,7 +1310,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.ArmoryDownloadData,
@@ -1318,7 +1318,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.CockpitDownloadData,
@@ -1326,7 +1326,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.CommunicationsDownloadData,
@@ -1334,7 +1334,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.MedicalDownloadData,
@@ -1342,7 +1342,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.ViewingDeckDownloadData,
@@ -1350,9 +1350,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.UnlockSafe]: {
             name: "Unlock Safe",
@@ -1366,9 +1366,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.StartFans]: {
             name: "Start Fans",
@@ -1382,9 +1382,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.EmptyGarbage]: {
             name: "Empty Garbage",
@@ -1398,7 +1398,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.MedicalEmptyGarbage,
@@ -1406,7 +1406,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.KitchenEmptyGarbage,
@@ -1414,9 +1414,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.DevelopPhotos]: {
             name: "Develop Photos",
@@ -1430,9 +1430,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.FuelEngines]: {
             name: "Fuel Engines",
@@ -1446,9 +1446,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.RewindTapes]: {
             name: "Rewind Tapes",
@@ -1462,9 +1462,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.PolishRuby]: {
             name: "Polish Ruby",
@@ -1478,9 +1478,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.CalibrateDistributor]: {
             name: "Calibrate Distributor",
@@ -1494,9 +1494,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.StabilizeSteering]: {
             name: "Stabilize Steering",
@@ -1510,9 +1510,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.DivertPower]: {
             name: "Divert Power to Armory",
@@ -1526,7 +1526,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.ElectricalDivertPowerToCockpit,
@@ -1534,7 +1534,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.ElectricalDivertPowerToGapRoom,
@@ -1542,7 +1542,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.ElectricalDivertPowerToMainHall,
@@ -1550,7 +1550,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.ElectricalDivertPowerToMeetingRoom,
@@ -1558,7 +1558,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.ElectricalDivertPowerToShowers,
@@ -1566,7 +1566,7 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
+                    },
                 },
                 {
                     id: AirshipTask.ElectricalDivertPowerToEngine,
@@ -1574,9 +1574,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.PickUpTowels]: {
             name: "Pick Up Towels",
@@ -1590,9 +1590,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.CleanToilet]: {
             name: "Clean Toilet",
@@ -1606,9 +1606,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.DressMannequin]: {
             name: "Dress Mannequin",
@@ -1622,9 +1622,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.SortRecords]: {
             name: "Sort Records",
@@ -1638,9 +1638,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.PutAwayPistols]: {
             name: "Put Away Pistols",
@@ -1654,9 +1654,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.PutAwayRifles]: {
             name: "Put Away Rifles",
@@ -1670,9 +1670,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.Decontaminate]: {
             name: "Decontaminate",
@@ -1686,9 +1686,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.MakeBurger]: {
             name: "Make Burger",
@@ -1702,9 +1702,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         },
         [TaskType.FixShower]: {
             name: "Fix Shower",
@@ -1718,9 +1718,9 @@ export const MapTaskData: Record<MapID, Record<number, TaskDataModel>> = {
                     position: {
                         x: 0,
                         y: 0,
-                    }
-                }
-            ]
-        }
-    }
+                    },
+                },
+            ],
+        },
+    },
 };

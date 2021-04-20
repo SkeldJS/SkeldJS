@@ -1,4 +1,4 @@
-import { HazelBuffer } from "@skeldjs/util";
+import { HazelReader } from "@skeldjs/util";
 import { Networkable } from "./Networkable";
 
 export const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -16,8 +16,8 @@ export class TestComponent extends Networkable<
     static classname = "TestComponent" as const;
     classname = "TestComponent" as const;
 
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {
-        void spawn;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    Deserialize(reader: HazelReader, spawn: boolean = false) {
         this.dataParam = reader.uint8();
     }
 
