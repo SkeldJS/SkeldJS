@@ -14,7 +14,7 @@
   "license": "GPL-3.0-only",
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "dependencies": {
-    "@skeldjs/util": "workspace:packages/*"
+    "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^4.1.3"

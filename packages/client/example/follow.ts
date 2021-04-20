@@ -1,4 +1,3 @@
-import { Color } from "../dist";
 import * as skeldjs from "../index";
 
 (async () => {
@@ -10,7 +9,7 @@ import * as skeldjs from "../index";
     await client.joinGame(process.argv[3]);
     console.log("Joined game.");
 
-    await client.me.control.checkColor(Color.Blue);
+    await client.me.control.checkColor(skeldjs.Color.Blue);
     await client.me.control.checkName("weakeyes");
 
     client.host.on("player.move", ev => {

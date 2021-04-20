@@ -543,7 +543,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/data", "workspace:packages/data"],
             ["@skeldjs/events", "workspace:packages/events"],
             ["@skeldjs/protocol", "workspace:packages/protocol"],
-            ["@skeldjs/types", "npm:2.2.7"],
             ["@skeldjs/util", "workspace:packages/util"],
             ["@types/mocha", "npm:8.2.0"],
             ["@types/node", "npm:14.14.16"],
@@ -559,6 +558,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/data", "workspace:packages/data"],
             ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/node", "npm:14.14.41"],
             ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
@@ -611,7 +611,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/constant", "workspace:packages/constant"],
-            ["@skeldjs/types", "npm:2.2.7"],
             ["@skeldjs/util", "workspace:packages/util"],
             ["@types/node", "npm:14.14.41"],
             ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
@@ -686,15 +685,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.1.3#~builtin<compat/typescript>::version=4.1.3&hash=34ad7d"]
           ],
           "linkType": "SOFT",
-        }]
-      ]],
-      ["@skeldjs/types", [
-        ["npm:2.2.7", {
-          "packageLocation": "./.yarn/cache/@skeldjs-types-npm-2.2.7-6f4855c6b2-36b8bdffe9.zip/node_modules/@skeldjs/types/",
-          "packageDependencies": [
-            ["@skeldjs/types", "npm:2.2.7"]
-          ],
-          "linkType": "HARD",
         }]
       ]],
       ["@skeldjs/util", [

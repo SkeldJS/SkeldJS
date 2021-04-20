@@ -13,20 +13,20 @@
   },
   "license": "GPL-3.0-only",
   "devDependencies": {
-    "@skeldjs/text": "workspace:packages/*",
+    "@skeldjs/text": "workspace:*",
     "@types/node": "^14.14.16",
     "gif-frames": "^1.0.1",
     "image-pixels": "^2.2.2",
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "@skeldjs/constant": "workspace:packages/*",
-    "@skeldjs/core": "workspace:packages/*",
-    "@skeldjs/data": "workspace:packages/*",
-    "@skeldjs/events": "workspace:packages/*",
-    "@skeldjs/protocol": "workspace:packages/*",
-    "@skeldjs/state": "workspace:packages/*",
-    "@skeldjs/util": "workspace:packages/*"
+    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/core": "workspace:*",
+    "@skeldjs/data": "workspace:*",
+    "@skeldjs/events": "workspace:*",
+    "@skeldjs/protocol": "workspace:*",
+    "@skeldjs/state": "workspace:*",
+    "@skeldjs/util": "workspace:*"
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [

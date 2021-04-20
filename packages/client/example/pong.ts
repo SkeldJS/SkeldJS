@@ -19,9 +19,9 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
 
         console.log("Creating game..");
         const code = await client.createGame({
-            players: 10,
-            map: skeldjs.MapID.Airship,
-            impostors: 2,
+            maxPlayers: 10,
+            map: skeldjs.GameMap.Airship,
+            numImpostors: 2,
         });
 
         const boardWidth = 35;
@@ -121,7 +121,7 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
             );
         }, 50);
 
-        client.me.control.setColor(skeldjs.ColorID.Purple);
+        client.me.control.setColor(skeldjs.Color.Purple);
 
         client.on("player.join", () => {
             console.log("player joined.");

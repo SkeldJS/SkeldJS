@@ -14,12 +14,12 @@
     "postinstall": "node dist/build.js"
   },
   "dependencies": {
-    "@skeldjs/constant": "workspace:packages/*",
-    "@skeldjs/core": "workspace:packages/*",
-    "@skeldjs/data": "workspace:packages/*",
-    "@skeldjs/events": "workspace:packages/*",
-    "@skeldjs/protocol": "workspace:packages/*",
-    "@skeldjs/util": "workspace:packages/*",
+    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/core": "workspace:*",
+    "@skeldjs/data": "workspace:*",
+    "@skeldjs/events": "workspace:*",
+    "@skeldjs/protocol": "workspace:*",
+    "@skeldjs/util": "workspace:*",
     "heap": "^0.2.6"
   },
   "devDependencies": {

@@ -13,9 +13,9 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/core": "workspace:packages/*",
-    "@skeldjs/protocol": "workspace:packages/*",
-    "@skeldjs/util": "workspace:packages/*"
+    "@skeldjs/core": "workspace:*",
+    "@skeldjs/protocol": "workspace:*",
+    "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",
