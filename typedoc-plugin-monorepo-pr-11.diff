@@ -1,0 +1,13 @@
+diff --git a/dist/toc-modules-plugin.js b/dist/toc-modules-plugin.js
+index 551a0f3..15c4d5b 100644
+--- a/dist/toc-modules-plugin.js
++++ b/dist/toc-modules-plugin.js
+@@ -46,7 +46,7 @@ export class TocModulesPlugin extends RendererComponent {
+             let model = page.model;
+             const trail = [];
+             while (model !== page.project) {
+-                const isModule = model.kindOf(models_1.ReflectionKind.SomeModule);
++                const isModule = model.kindOf && model.kindOf(models_1.ReflectionKind.SomeModule);
+                 trail.unshift(model);
+                 if (model.parent) {
+                     model = model.parent;
