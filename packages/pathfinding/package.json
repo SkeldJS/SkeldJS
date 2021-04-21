@@ -8,10 +8,10 @@
   },
   "license": "GPL-3.0-only",
   "scripts": {
-    "build": "tsc -p ./ && node dist/build.js",
+    "build": "tsc -p ./",
     "watch": "tsc -w -p ./",
-    "prepack": "yarn build",
-    "postinstall": "node dist/build.js"
+    "prepack": "yarn build && yarn build:colliders",
+    "build:colliders": "node dist/build.js"
   },
   "dependencies": {
     "@skeldjs/constant": "workspace:*",
