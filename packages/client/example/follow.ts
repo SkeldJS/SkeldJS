@@ -1,7 +1,7 @@
 import * as skeldjs from "../index";
 
 (async () => {
-    const client = new skeldjs.SkeldjsClient("2021.3.25.0");
+    const client = new skeldjs.SkeldjsClient("2021.4.2.0");
 
     console.log("Connecting..");
     await client.connect("127.0.0.1", "weakeyes", parseInt(process.argv[2]));
@@ -14,5 +14,9 @@ import * as skeldjs from "../index";
 
     client.host.on("player.move", ev => {
         client.me.transform.snapTo(ev.data.position);
+    });
+
+    client.on("player.move", ev => {
+        console.log(ev.data.player);
     });
 })();
