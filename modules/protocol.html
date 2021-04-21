@@ -7,7 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
-	<script async src="../assets/js/search.js" id="search-script"></script>
+	<link rel="stylesheet" href="../assets/css/pages.css">
 </head>
 <body>
 <header>
@@ -41,6 +41,8 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -52,7 +54,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../modules.html">SkeldJS</a>
+					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
 					<a href="protocol.html">protocol</a>
@@ -73,6 +75,23 @@
 					<p>This package contains important information about the Among Us network protocol, as well as tools to deserialise and serialise packets. While you can install it on its own with <code>npm install --save @skeldjs/protocol</code> or <code>yarn add @skeldjs/protocol</code>, it is one package of a bigger project, <a href="https://github.com/skeldjs/SkeldJS">skeldjs</a>.</p>
 					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS/modules/protocol.html">https://skeldjs.github.io/SkeldJS/modules/protocol.html</a></p>
 					<p>You can also view more detailed information about the protocol at <a href="https://github.com/codyphobe/among-us-protocol">https://github.com/codyphobe/among-us-protocol</a></p>
+					<a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
+						<h2>Basic Usage</h2>
+					</a>
+					<p>It&#39;s recommended to keep a constant stream of packets going through the decoder, rather than picking out or sending one or two.</p>
+					<p>Parsing a packet in-place using the <code>parse</code> method is discouraged, as it does not provide sufficient intellisense for the messages.</p>
+					<a href="#listen-for-a-join-game-packet-going-through-the-decoder" id="listen-for-a-join-game-packet-going-through-the-decoder" style="color: inherit; text-decoration: none;">
+						<h3>Listen for a join game packet going through the decoder.</h3>
+					</a>
+					<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">decoder</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #001080">PacketDecoder</span><span style="color: #000000">;</span>
+
+<span style="color: #001080">decoder</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #001080">JoinedGameMessage</span><span style="color: #000000">, </span><span style="color: #001080">message</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Joined game&quot;</span><span style="color: #000000">, </span><span style="color: #795E26">Int2Code</span><span style="color: #000000">(</span><span style="color: #001080">message</span><span style="color: #000000">.</span><span style="color: #001080">code</span><span style="color: #000000">) + </span><span style="color: #A31515">&quot;!&quot;</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">buffer</span><span style="color: #000000"> = </span><span style="color: #001080">Buffer</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;0100020d0007a7317c8801000000010000000006000aa7317c880100&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;hex&quot;</span><span style="color: #000000">);</span>
+<span style="color: #001080">decoder</span><span style="color: #000000">.</span><span style="color: #795E26">write</span><span style="color: #000000">(</span><span style="color: #001080">buffer</span><span style="color: #000000">); </span><span style="color: #008000">// Joined game PKMKNP!</span>
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -154,7 +173,7 @@
 					<div class="tsd-signature tsd-kind-icon">Game<wbr>Counts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">GameMap</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/protocol/lib/packets/root/GetGameListMessage.ts#L13">protocol/lib/packets/root/GetGameListMessage.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/packets/root/GetGameListMessage.ts#L13">protocol/lib/packets/root/GetGameListMessage.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,7 +183,7 @@
 					<div class="tsd-signature tsd-kind-icon">Get<wbr>Serialized&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">X</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">never</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/protocol/lib/PacketDecoder.ts#L58">protocol/lib/PacketDecoder.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L58">protocol/lib/PacketDecoder.ts:58</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -180,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">Missing<wbr>Packets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/protocol/lib/packets/option/AcknowledgePacket.ts#L6">protocol/lib/packets/option/AcknowledgePacket.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/packets/option/AcknowledgePacket.ts#L6">protocol/lib/packets/option/AcknowledgePacket.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,6 +208,24 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Getting <wbr>Started</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Getting Started/Basic Client Example.html">Basic <wbr>Client <wbr>Example</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Information</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Events.html">Events</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
 					</li>
@@ -446,5 +483,6 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.json"><' + '/script>');</script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
-	<script async src="../assets/js/search.js" id="search-script"></script>
+	<link rel="stylesheet" href="../assets/css/pages.css">
 </head>
 <body>
 <header>
@@ -41,6 +41,8 @@
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
 							<input type="checkbox" id="tsd-filter-externals" checked />
 							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -52,7 +54,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../modules.html">SkeldJS</a>
+					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
 					<a href="../modules/server.html">server</a>
@@ -143,7 +145,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L102">server/lib/server.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L102">server/lib/server.ts:102</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -165,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ServerConfig</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L80">server/lib/server.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L80">server/lib/server.ts:80</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -180,7 +182,7 @@
 					<div class="tsd-signature tsd-kind-icon">decoder<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L100">server/lib/server.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L100">server/lib/server.ts:100</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -195,7 +197,7 @@
 					<div class="tsd-signature tsd-kind-icon">remotes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L90">server/lib/server.ts:90</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L90">server/lib/server.ts:90</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -210,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">rooms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="server.room.html" class="tsd-signature-type" data-tsd-kind="Class">Room</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L95">server/lib/server.ts:95</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L95">server/lib/server.ts:95</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -225,7 +227,7 @@
 					<div class="tsd-signature tsd-kind-icon">socket<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Socket</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L85">server/lib/server.ts:85</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L85">server/lib/server.ts:85</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -248,7 +250,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L20">events/lib/EventEmitter.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/events/lib/EventEmitter.ts#L20">events/lib/EventEmitter.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -280,7 +282,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L402">server/lib/server.ts:402</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L402">server/lib/server.ts:402</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -298,7 +300,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.getListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L82">events/lib/EventEmitter.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/events/lib/EventEmitter.ts#L81">events/lib/EventEmitter.ts:81</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -327,7 +329,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L306">server/lib/server.ts:306</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L306">server/lib/server.ts:306</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -350,7 +352,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L296">server/lib/server.ts:296</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L296">server/lib/server.ts:296</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -368,7 +370,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.off</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L74">events/lib/EventEmitter.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/events/lib/EventEmitter.ts#L73">events/lib/EventEmitter.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -401,7 +403,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L43">events/lib/EventEmitter.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/events/lib/EventEmitter.ts#L42">events/lib/EventEmitter.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -445,7 +447,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L408">server/lib/server.ts:408</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L408">server/lib/server.ts:408</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -472,7 +474,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L53">events/lib/EventEmitter.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/events/lib/EventEmitter.ts#L52">events/lib/EventEmitter.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -517,7 +519,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.removeAllListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L98">events/lib/EventEmitter.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/events/lib/EventEmitter.ts#L97">events/lib/EventEmitter.ts:97</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -535,7 +537,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.removeListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L93">events/lib/EventEmitter.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/events/lib/EventEmitter.ts#L92">events/lib/EventEmitter.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -564,7 +566,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/server/lib/server.ts#L342">server/lib/server.ts:342</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/server/lib/server.ts#L342">server/lib/server.ts:342</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -596,7 +598,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3962602/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/events/lib/EventEmitter.ts#L63">events/lib/EventEmitter.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -620,6 +622,24 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Getting <wbr>Started</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Getting Started/Basic Client Example.html">Basic <wbr>Client <wbr>Example</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Information</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Events.html">Events</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
 					</li>
@@ -840,5 +860,6 @@
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.json"><' + '/script>');</script>
 </body>
 </html>
