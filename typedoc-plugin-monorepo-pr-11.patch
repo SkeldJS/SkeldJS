@@ -1,0 +1,22 @@
+From 75b5e5271d53b7921ff2fcd34d31507f14cfcbc2 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Zofia=20Go=CC=81ralewska?= <zgoralewska@gmail.com>
+Date: Tue, 30 Mar 2021 12:45:53 +0200
+Subject: [PATCH] fix: add model.kindOf check
+
+---
+ toc-modules-plugin.ts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/.yarn/unplugged/@strictsoftware-typedoc-plugin-monorepo-virtual-c58f8390b5/node_modules/@strictsoftware/typedoc-plugin-monorepo/dist/toc-modules-plugin.js b/.yarn/unplugged/@strictsoftware-typedoc-plugin-monorepo-virtual-c58f8390b5/node_modules/@strictsoftware/typedoc-plugin-monorepo/dist/toc-modules-plugin.js
+index 551a0f3..15c4d5b 100644
+--- a/.yarn/unplugged/@strictsoftware-typedoc-plugin-monorepo-virtual-c58f8390b5/node_modules/@strictsoftware/typedoc-plugin-monorepo/dist/toc-modules-plugin.js
++++ b/.yarn/unplugged/@strictsoftware-typedoc-plugin-monorepo-virtual-c58f8390b5/node_modules/@strictsoftware/typedoc-plugin-monorepo/dist/toc-modules-plugin.js
+@@ -37,7 +37,7 @@ export class TocModulesPlugin extends RendererComponent {
+     const trail: Reflection[] = [];
+
+     while (model !== page.project) {
+-      const isModule = model.kindOf(ReflectionKind.SomeModule);
++      const isModule = model.kindOf && model.kindOf(ReflectionKind.SomeModule);
+
+       trail.unshift(model);
+

@@ -1,13 +1,22 @@
 {
+  "$schema": "https://typedoc.org/schema.json",
   "name": "SkeldJS",
   "readme": "./README.md",
   "entryPoints": ["./packages"],
   "out": "docs",
-  "exclude": ["example/**/*.ts", "plugins/**/*.ts", "**/*.spec.ts", "**/*.js", "**/*.d.ts"],
+  "theme": "pages-plugin",
+  "exclude": [
+    "example/**/*.ts",
+    "plugins/**/*.ts",
+    "**/*.spec.ts",
+    "**/*.js",
+    "**/*.d.ts"
+  ],
   "plugin": [
     "typedoc-plugin-yarn",
     "typedoc-plugin-no-inherit",
     "typedoc-plugin-remove-references",
+    "typedoc-plugin-pages",
     "@strictsoftware/typedoc-plugin-monorepo"
   ],
   "external-modulemap": ".*packages\/([^\/]+)",
