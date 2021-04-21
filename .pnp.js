@@ -77,10 +77,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@skeldjs/util",
         "reference": "workspace:packages/util"
-      },
-      {
-        "name": "@strictsoftware/typedoc-plugin-monorepo",
-        "reference": "workspace:typedoc-plugin-monorepo"
       }
     ],
     "enableTopLevelFallback": true,
@@ -100,7 +96,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@skeldjs/tasks", ["workspace:packages/tasks"]],
       ["@skeldjs/text", ["workspace:packages/text"]],
       ["@skeldjs/util", ["workspace:packages/util"]],
-      ["@strictsoftware/typedoc-plugin-monorepo", ["workspace:typedoc-plugin-monorepo"]],
       ["skeldjs", ["workspace:."]]
     ],
     "fallbackPool": [
@@ -113,7 +108,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["@istanbuljs/nyc-config-typescript", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.0.1"],
-            ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#portal:./typedoc-plugin-monorepo::locator=skeldjs%40workspace%3A."],
+            ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=33276a&locator=skeldjs%40workspace%3A."],
             ["@types/expect", "npm:24.3.0"],
             ["@types/lunr", "npm:2.3.3"],
             ["@types/mocha", "npm:8.2.0"],
@@ -131,7 +126,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:9.1.1"],
             ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.20.35"],
             ["typedoc-plugin-no-inherit", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.2.0"],
-            ["typedoc-plugin-pages", "npm:1.1.0"],
+            ["typedoc-plugin-pages", "patch:typedoc-plugin-pages@npm%3A1.1.0#./typedoc-plugin-pages-pr-41.diff::version=1.1.0&hash=d09168&locator=skeldjs%40workspace%3A."],
             ["typedoc-plugin-remove-references", "npm:0.0.5"],
             ["typedoc-plugin-yarn", "portal:./typedoc-plugin-yarn::locator=skeldjs%40workspace%3A."],
             ["typescript", "patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=a45b0e"]
@@ -710,39 +705,26 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@strictsoftware/typedoc-plugin-monorepo", [
-        ["portal:./typedoc-plugin-monorepo::locator=skeldjs%40workspace%3A.", {
-          "packageLocation": "./typedoc-plugin-monorepo/",
+        ["patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=33276a&locator=skeldjs%40workspace%3A.", {
+          "packageLocation": "./.yarn/cache/@strictsoftware-typedoc-plugin-monorepo-patch-3fe8f253fa-a5e2f0e1da.zip/node_modules/@strictsoftware/typedoc-plugin-monorepo/",
           "packageDependencies": [
-            ["@strictsoftware/typedoc-plugin-monorepo", "portal:./typedoc-plugin-monorepo::locator=skeldjs%40workspace%3A."]
+            ["@strictsoftware/typedoc-plugin-monorepo", "patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=33276a&locator=skeldjs%40workspace%3A."]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#portal:./typedoc-plugin-monorepo::locator=skeldjs%40workspace%3A.", {
-          "packageLocation": "./.yarn/$$virtual/@strictsoftware-typedoc-plugin-monorepo-virtual-cf3952dbc0/1/typedoc-plugin-monorepo/",
+        ["virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=33276a&locator=skeldjs%40workspace%3A.", {
+          "packageLocation": "./.yarn/$$virtual/@strictsoftware-typedoc-plugin-monorepo-virtual-072afc8b61/0/cache/@strictsoftware-typedoc-plugin-monorepo-patch-3fe8f253fa-a5e2f0e1da.zip/node_modules/@strictsoftware/typedoc-plugin-monorepo/",
           "packageDependencies": [
-            ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#portal:./typedoc-plugin-monorepo::locator=skeldjs%40workspace%3A."],
-            ["@types/node", "npm:14.14.41"],
+            ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=33276a&locator=skeldjs%40workspace%3A."],
             ["@types/typedoc", null],
             ["find-up", "npm:5.0.0"],
-            ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.20.35"],
-            ["typescript", "patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=a45b0e"]
+            ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.20.35"]
           ],
           "packagePeers": [
             "@types/typedoc",
             "typedoc"
           ],
-          "linkType": "SOFT",
-        }],
-        ["workspace:typedoc-plugin-monorepo", {
-          "packageLocation": "./typedoc-plugin-monorepo/",
-          "packageDependencies": [
-            ["@strictsoftware/typedoc-plugin-monorepo", "workspace:typedoc-plugin-monorepo"],
-            ["@types/node", "npm:14.14.41"],
-            ["find-up", "npm:5.0.0"],
-            ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.20.35"],
-            ["typescript", "patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=a45b0e"]
-          ],
-          "linkType": "SOFT",
+          "linkType": "HARD",
         }]
       ]],
       ["@tootallnate/once", [
@@ -5400,7 +5382,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["skeldjs", "workspace:."],
             ["@istanbuljs/nyc-config-typescript", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.0.1"],
-            ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#portal:./typedoc-plugin-monorepo::locator=skeldjs%40workspace%3A."],
+            ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=33276a&locator=skeldjs%40workspace%3A."],
             ["@types/expect", "npm:24.3.0"],
             ["@types/lunr", "npm:2.3.3"],
             ["@types/mocha", "npm:8.2.0"],
@@ -5418,7 +5400,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:9.1.1"],
             ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.20.35"],
             ["typedoc-plugin-no-inherit", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.2.0"],
-            ["typedoc-plugin-pages", "npm:1.1.0"],
+            ["typedoc-plugin-pages", "patch:typedoc-plugin-pages@npm%3A1.1.0#./typedoc-plugin-pages-pr-41.diff::version=1.1.0&hash=d09168&locator=skeldjs%40workspace%3A."],
             ["typedoc-plugin-remove-references", "npm:0.0.5"],
             ["typedoc-plugin-yarn", "portal:./typedoc-plugin-yarn::locator=skeldjs%40workspace%3A."],
             ["typescript", "patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=a45b0e"]
@@ -6133,7 +6115,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["typedoc-default-themes", [
         ["npm:0.10.2", {
-          "packageLocation": "./.yarn/unplugged/typedoc-default-themes-npm-0.10.2-d6f2cbca01/node_modules/typedoc-default-themes/",
+          "packageLocation": "./.yarn/cache/typedoc-default-themes-npm-0.10.2-d6f2cbca01-8766471937.zip/node_modules/typedoc-default-themes/",
           "packageDependencies": [
             ["typedoc-default-themes", "npm:0.10.2"],
             ["lunr", "npm:2.3.9"]
@@ -6141,14 +6123,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }],
         ["npm:0.12.10", {
-          "packageLocation": "./.yarn/unplugged/typedoc-default-themes-npm-0.12.10-9e0c526e14/node_modules/typedoc-default-themes/",
+          "packageLocation": "./.yarn/cache/typedoc-default-themes-npm-0.12.10-9e0c526e14-3a420c405b.zip/node_modules/typedoc-default-themes/",
           "packageDependencies": [
             ["typedoc-default-themes", "npm:0.12.10"]
           ],
           "linkType": "HARD",
         }],
         ["npm:0.8.0-0", {
-          "packageLocation": "./.yarn/unplugged/typedoc-default-themes-npm-0.8.0-0-40e8482b19/node_modules/typedoc-default-themes/",
+          "packageLocation": "./.yarn/cache/typedoc-default-themes-npm-0.8.0-0-40e8482b19-3c6cba207e.zip/node_modules/typedoc-default-themes/",
           "packageDependencies": [
             ["typedoc-default-themes", "npm:0.8.0-0"],
             ["backbone", "npm:1.4.0"],
@@ -6182,10 +6164,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["typedoc-plugin-pages", [
-        ["npm:1.1.0", {
-          "packageLocation": "./.yarn/unplugged/typedoc-plugin-pages-npm-1.1.0-2671e8fbbb/node_modules/typedoc-plugin-pages/",
+        ["patch:typedoc-plugin-pages@npm%3A1.1.0#./typedoc-plugin-pages-pr-41.diff::version=1.1.0&hash=d09168&locator=skeldjs%40workspace%3A.", {
+          "packageLocation": "./.yarn/cache/typedoc-plugin-pages-patch-d61d0aedcf-dc8cd4d9ee.zip/node_modules/typedoc-plugin-pages/",
           "packageDependencies": [
-            ["typedoc-plugin-pages", "npm:1.1.0"],
+            ["typedoc-plugin-pages", "patch:typedoc-plugin-pages@npm%3A1.1.0#./typedoc-plugin-pages-pr-41.diff::version=1.1.0&hash=d09168&locator=skeldjs%40workspace%3A."],
             ["compare-versions", "npm:3.6.0"],
             ["typedoc-default-themes", "npm:0.10.2"]
           ],

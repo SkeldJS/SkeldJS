@@ -27,8 +27,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - run: yarn
-    - run: yarn fix-typedoc-pages
     - run: yarn build-all
     - run: yarn docs
 
