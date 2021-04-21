@@ -22,16 +22,15 @@ export class EventEmitter<Events extends EventData> {
         data: Events[EventName]
     ) {
         const listeners = this.getListeners(event);
+        const ctx: EventContext<Events[EventName]> = {
+            cancelled: false,
+            cancel() {
+                this.cancelled = true;
+            },
+            data,
+        };
 
         if (listeners.size) {
-            const ctx: EventContext<Events[EventName]> = {
-                cancelled: false,
-                cancel() {
-                    this.cancelled = true;
-                },
-                data,
-            };
-
             for (const listener of listeners) await listener(ctx);
 
             if (ctx.cancelled) return false;

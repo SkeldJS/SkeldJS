@@ -1,3 +1,6 @@
 [submodule "packages/dtls"]
 	path = packages/dtls
 	url = https://github.com/skeldjs/dtls
+[submodule "typedoc-plugin-monorepo"]
+	path = typedoc-plugin-monorepo
+	url = https://github.com/SkeldJS/typedoc-plugin-monorepo

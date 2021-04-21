@@ -11,7 +11,8 @@
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "experimentalDecorators": true
   },
   "exclude": ["**/dist", "**/*.d.ts"]
 }

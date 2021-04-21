@@ -1,13 +1,26 @@
 {
   "groups": [
-      {
-          "title": "Getting Started",
-          "pages": [
-              {
-                  "title": "Events",
-                  "source": "./spec/events.md"
-              }
-          ]
-      }
+    {
+      "title": "Getting Started",
+      "pages": [
+        {
+          "title": "Basic Client Example",
+          "source": "./pages/Basic Client Example.md"
+        }
+      ]
+    },
+    {
+      "title": "Information",
+      "pages": [
+        {
+          "title": "Events",
+          "source": "./pages/Events.md"
+        },
+        {
+          "title": "Official Anti-Cheat",
+          "source": "./pages/Official Anti-Cheat.md"
+        }
+      ]
+    }
   ]
 }

@@ -27,18 +27,18 @@
     "fix": "prettier --write \"packages/**/*.ts/\"",
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
-    "build-all": "yarn workspaces foreach -ptv run build",
-    "update:patch": "yarn workspaces foreach version patch",
-    "update:minor": "yarn workspaces foreach version minor",
-    "update:major": "yarn workspaces foreach version major",
+    "build-all": "yarn workspaces foreach -ptv --exclude \"@strictsoftware/typedoc-plugin-monorepo\" run build",
+    "update:patch": "yarn workspaces foreach --exclude \"@strictsoftware/typedoc-plugin-monorepo\" version patch",
+    "update:minor": "yarn workspaces foreach --exclude \"@strictsoftware/typedoc-plugin-monorepo\" version minor",
+    "update:major": "yarn workspaces foreach --exclude \"@strictsoftware/typedoc-plugin-monorepo\" version major",
     "publish-all": "yarn workspaces foreach --no-private npm publish --access public",
     "postinstall": "husky install",
     "docs": "typedoc",
-    "fix-typedoc-pages": "git am typedoc-plugin-monorepo-pr-11.patch && cp ./.yarn/unplugged/typedoc-default-themes-npm-0.12.10-9e0c526e14/node_modules/typedoc-default-themes/bin/default/partials/type.hbs ./.yarn/unplugged/typedoc-plugin-pages-npm-1.1.0-2671e8fbbb/node_modules/typedoc-plugin-pages/dist/theme/v2/partials/type.hbs"
+    "fix-typedoc-pages": "cp ./.yarn/unplugged/typedoc-default-themes-npm-0.12.10-9e0c526e14/node_modules/typedoc-default-themes/bin/default/partials/type.hbs ./.yarn/unplugged/typedoc-plugin-pages-npm-1.1.0-2671e8fbbb/node_modules/typedoc-plugin-pages/dist/theme/v2/partials/type.hbs"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@strictsoftware/typedoc-plugin-monorepo": "^0.4.1",
+    "@strictsoftware/typedoc-plugin-monorepo": "portal:./typedoc-plugin-monorepo",
     "@types/expect": "^24.3.0",
     "@types/lunr": "^2",
     "@types/mocha": "^8.2.0",
@@ -62,9 +62,6 @@
     "typescript": "^4.1.3"
   },
   "dependenciesMeta": {
-    "@strictsoftware/typedoc-plugin-monorepo": {
-      "unplugged": true
-    },
     "highlight.js": {
       "built": false
     },
@@ -88,6 +85,6 @@
   },
   "workspaces": [
     "packages/*",
-    "typedoc-plugin-pages"
+    "typedoc-plugin-monorepo"
   ]
 }
