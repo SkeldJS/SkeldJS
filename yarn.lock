@@ -572,6 +572,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lunr@npm:^2":
+  version: 2.3.3
+  resolution: "@types/lunr@npm:2.3.3"
+  checksum: d1ea99e58f926e660a4a22d56da5ffe1bf6c9ee76ee348b0b019e559d8c1d6b087a9084846db7c3c440f64b10e5683bb00c401b8d138ed135f93b1df38e31eb0
+  languageName: node
+  linkType: hard
+
 "@types/minimatch@npm:3.0.3":
   version: 3.0.3
   resolution: "@types/minimatch@npm:3.0.3"
@@ -1330,6 +1337,13 @@ __metadata:
   version: 1.0.1
   resolution: "commondir@npm:1.0.1"
   checksum: 59715f2fc456a73f68826285718503340b9f0dd89bfffc42749906c5cf3d4277ef11ef1cca0350d0e79204f00f1f6d83851ececc9095dc88512a697ac0b9bdcb
+  languageName: node
+  linkType: hard
+
+"compare-versions@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "compare-versions@npm:3.6.0"
+  checksum: 7492a50cdaa2c27f5254eee7c4b38856e1c164991bab3d98d7fd067fe4b570d47123ecb92523b78338be86aa221668fd3868bfe8caa5587dc3ebbe1a03d52b5d
   languageName: node
   linkType: hard
 
@@ -4557,6 +4571,7 @@ resolve@^1.1.6:
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@strictsoftware/typedoc-plugin-monorepo": ^0.4.1
     "@types/expect": ^24.3.0
+    "@types/lunr": ^2
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.41
     "@typescript-eslint/eslint-plugin": ^4.11.0
@@ -4564,6 +4579,7 @@ resolve@^1.1.6:
     eslint: ^7.16.0
     husky: ^5.0.6
     lint-staged: ^10.5.3
+    lunr: ^2.3.9
     mocha: ^8.2.1
     nyc: ^15.1.0
     prettier: ^2.2.1
@@ -4571,14 +4587,21 @@ resolve@^1.1.6:
     ts-node: ^9.1.1
     typedoc: ^0.20.35
     typedoc-plugin-no-inherit: ^1.2.0
+    typedoc-plugin-pages: ^1.1.0
     typedoc-plugin-remove-references: ^0.0.5
     typedoc-plugin-yarn: "portal:./typedoc-plugin-yarn"
     typescript: ^4.1.3
   dependenciesMeta:
+    "@strictsoftware/typedoc-plugin-monorepo":
+      unplugged: true
     highlight.js:
       built: false
     onigasm:
       unplugged: false
+    typedoc-default-themes:
+      unplugged: true
+    typedoc-plugin-pages:
+      unplugged: true
   languageName: unknown
   linkType: soft
 
@@ -5155,6 +5178,15 @@ resolve@^1.1.6:
   languageName: node
   linkType: hard
 
+"typedoc-default-themes@npm:^0.10.1":
+  version: 0.10.2
+  resolution: "typedoc-default-themes@npm:0.10.2"
+  dependencies:
+    lunr: ^2.3.8
+  checksum: 9e4b18f7dafe6542ef5d81c8774946a3988f29225cc696b2690ce0b71d35fc7e6463df167d5dc8d5dfadd2e9b38a60ecab8ce9d0476d316e12b22f656514b510
+  languageName: node
+  linkType: hard
+
 "typedoc-default-themes@npm:^0.12.9":
   version: 0.12.10
   resolution: "typedoc-default-themes@npm:0.12.10"
@@ -5168,6 +5200,16 @@ resolve@^1.1.6:
   peerDependencies:
     typedoc: ">=0.16.0"
   checksum: e934c730eddd12e6e2c930eee9c05fe4222418eeca531010a2696120496a8ed770b54c2c60c850f5058eaa0e0e1397f2327063621a7b9a05d8bcb86c79c6eaee
+  languageName: node
+  linkType: hard
+
+"typedoc-plugin-pages@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "typedoc-plugin-pages@npm:1.1.0"
+  dependencies:
+    compare-versions: ^3.6.0
+    typedoc-default-themes: ^0.10.1
+  checksum: 2a22560f7def64c0e9b6aedf4daac53cc487fc7d7a5d96e5604e4e34ad0d1b0ab0ffec78e0eb562398adbaeb9f9a285ca3b2aa739a1379ab3e2951fd750e9e8d
   languageName: node
   linkType: hard
 

@@ -82,9 +82,12 @@ export class PacketDecoder {
         this.reset();
     }
 
+    /**
+     * Reset the packet decoder, removing all custom packets and removing listeners.
+     */
     reset() {
-        this.listeners = new Map();
-        this.types = new Map();
+        this.listeners = new Map;
+        this.types = new Map;
 
         this.register(
             AcknowledgePacket,
@@ -135,6 +138,10 @@ export class PacketDecoder {
         return this.getClasses(type);
     }
 
+    /**
+     * Register a message or several messages to the packet decoder.
+     * @param messageClasses The packet or packets to register.
+     */
     register(...messageClasses: Deserializable[]) {
         for (const messageClass of messageClasses) {
             const classes = this.getClasses(messageClass.type);
@@ -143,17 +150,23 @@ export class PacketDecoder {
         }
     }
 
-    emitDecoded(option: Serializable, direction: MessageDirection, sender: any) {
-        this.emit(option, direction, sender);
+    /**
+     * Emit a decoded message to all listeners, also emits the message's children recursively.
+     * @param message The message to emit.
+     * @param direction The direction that the message was sent.
+     * @param sender Additional metadata for the message, e.g. the sender.
+     */
+    emitDecoded(message: Serializable, direction: MessageDirection, sender: any) {
+        this.emit(message, direction, sender);
 
-        if (!option.children) return;
+        if (!message.children) return;
 
-        for (const child of option.children) {
+        for (const child of message.children) {
             this.emitDecoded(child, direction, sender);
         }
     }
 
-    emit(message: Serializable, direction: MessageDirection, sender: any) {
+    private emit(message: Serializable, direction: MessageDirection, sender: any) {
         const classes = this.types.get(message.type);
 
         if (classes) {
@@ -166,6 +179,11 @@ export class PacketDecoder {
         }
     }
 
+    /**
+     * Get all listeners for a packet.
+     * @param messageClass The packet to get listeners for.
+     * @returns All listeners for the packet.
+     */
     getListeners<T extends Deserializable>(
         messageClass: Deserializable
     ): Set<(message: GetSerialized<T>, direction: MessageDirection, sender: any) => void> {
@@ -179,6 +197,12 @@ export class PacketDecoder {
         return this.getListeners(messageClass);
     }
 
+    /**
+     * Listen to a message being sent through the decoder.
+     * @param messageClass The message to listen for.
+     * @param listener The callback for when the message is decoded.
+     * @returns A function to remove the listener.
+     */
     on<T extends Deserializable>(
         messageClass: T,
         listener: (
@@ -194,6 +218,11 @@ export class PacketDecoder {
         return this.off.bind(this, messageClass, listener);
     }
 
+    /**
+     * Remove a listener from a message.
+     * @param messageClass The message to listen for.
+     * @param listener The listener to remove.
+     */
     off<T extends Deserializable>(
         messageClass: T,
         listener: (
@@ -207,6 +236,12 @@ export class PacketDecoder {
         listeners.delete(listener);
     }
 
+    /**
+     * Listen to a message being sent through the decoder once.
+     * @param messageClass The message to listen for.
+     * @param listener The callback for when the message is decoded.
+     * @returns A function to remove the listener.
+     */
     once<T extends Deserializable>(
         messageClass: T,
         listener: (
@@ -223,16 +258,27 @@ export class PacketDecoder {
         return removeListener;
     }
 
+    /**
+     * Asynchronously wait for a message to be decoded.
+     * @param messageClass The message to listen for.
+     * @returns A promise containing the message, direciton and sender metadata for the message.
+     */
     wait<T extends Deserializable>(
         messageClass: T
-    ): Promise<{ message: GetSerialized<T>; direction: MessageDirection }> {
+    ): Promise<{ message: GetSerialized<T>; direction: MessageDirection, sender: any }> {
         return new Promise((resolve) => {
-            this.once(messageClass, (message, direction) => {
-                resolve({ message, direction });
+            this.once(messageClass, (message, direction, sender) => {
+                resolve({ message, direction, sender });
             });
         });
     }
 
+    /**
+     * Asynchronously wait for a specific message to be decoded.
+     * @param messageClass The message to listen for.
+     * @param filter A filter for the message to wait for.
+     * @returns A function to remove the listener.
+     */
     waitf<T extends Deserializable>(
         messageClass: T,
         filter: (
@@ -265,30 +311,44 @@ export class PacketDecoder {
         const optionMessageClass = optionMessages.get(sendOption);
 
         if (optionMessageClass) {
-            const option = optionMessageClass.Deserialize(
+            const message = optionMessageClass.Deserialize(
                 reader,
                 direction,
                 this
             );
 
-            return option;
+            return message;
         }
 
         return null;
     }
 
+    /**
+     * Write a buffer or reader to the decoder.
+     * @param reader The buffer or reader to decode.
+     * @param direction The direction that the packet was sent.
+     * @param sender Additional metadata for the sender.
+     */
     write(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound,
         sender: any
     ) {
-        const option = this._parse(reader, direction);
+        const message = this._parse(reader, direction);
 
-        if (option) {
-            this.emitDecoded(option, direction, sender);
+        if (message) {
+            this.emitDecoded(message, direction, sender);
         }
+
+        return message;
     }
 
+    /**
+     * Parse a buffer or reader in place, without emitting the resultant message.
+     * @param reader The buffer or reader to parse.
+     * @param direction The direction that the packet was sent.
+     * @returns The parsed message.
+     */
     parse(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound

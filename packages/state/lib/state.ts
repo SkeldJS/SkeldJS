@@ -65,7 +65,7 @@ export class SkeldjsStateManager<
                 message.code === this.code
             ) {
                 for (const child of message._children) {
-                    this.decoder.emit(child, direction, sender);
+                    this.decoder.emitDecoded(child, direction, sender);
                 }
             }
         });

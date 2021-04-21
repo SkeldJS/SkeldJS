@@ -37,7 +37,10 @@ pathfinder.on("engine.move", ev => {
     const position = ev.data.position;
     const player_pos = player.transform.position;
 
-    const dist = Math.hypot(position.x - player_pos.x, position.y - player_pos.y);
+    const dist = Math.hypot(
+        position.x - player_pos.x,
+        position.y - player_pos.y
+    );
 
     if (dist < 1) {
         ev.cancel();

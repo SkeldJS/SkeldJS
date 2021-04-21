@@ -1,0 +1,13 @@
+{
+  "groups": [
+      {
+          "title": "Getting Started",
+          "pages": [
+              {
+                  "title": "Events",
+                  "source": "./spec/events.md"
+              }
+          ]
+      }
+  ]
+}
