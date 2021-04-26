@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Events | SkeldJS</title>
+	<title>Client Authentication | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../../assets/css/main.css">
@@ -60,10 +60,10 @@
 					<a href="Client Authentication.html">Information</a>
 				</li>
 				<li>
-					<a href="Events.html">Events</a>
+					<a href="Client Authentication.html">Client Authentication</a>
 				</li>
 			</ul>
-			<h1>Events</h1>
+			<h1>Client Authentication</h1>
 		</div>
 	</div>
 </header>
@@ -71,52 +71,64 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#how-to-use-events-in-skeldjs" id="how-to-use-events-in-skeldjs" style="color: inherit; text-decoration: none;">
-					<h2>How to use Events in SkeldJS</h2>
+				<p>As a temporary solution to the account system/Airship update breaking the SkeldJS client, a <a href="https://npmjs.com/package/@skeldjs/get-auth-token">package is available</a> to make the process easier if you need to use the client on official servers.</p>
+				<p>Otherwise, I am working on a fork of <a href="https://github.com/nodertc/dtls">nodertc/dtls</a> that should hopefully be ready soon enough, and will be abstracted away in the client.</p>
+				<p>The package is a small wrapper for the <a href="https://github.com/auproximity/GetAuthToken">GetAuthToken</a> C# program, and requires you to install that.</p>
+				<a href="#installing-getauthtoken" id="installing-getauthtoken" style="color: inherit; text-decoration: none;">
+					<h2>Installing GetAuthToken</h2>
 				</a>
-				<p>Events in SkeldJS are emitted by individual objects and components, but propagate throughout the tree, meaning you can attach listeners to the client to listen to events from all objects, and know where they are coming from.</p>
-				<p>For example, you can attach a listener to a specific player to know when their name has been updated.</p>
-				<pre><code class="language-ts"><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;player.setname&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">id</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;set their name to&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">);</span>
+				<a href="#add-as-a-submodule-or-clone-the-repository" id="add-as-a-submodule-or-clone-the-repository" style="color: inherit; text-decoration: none;">
+					<h3>Add as a submodule or clone the repository</h3>
+				</a>
+				<p>If you are working in a git repository, you should add the GetAuthToken program as a git submodule, using <code>git submodule add https://github.com/auproximity/GetAuthToken.git</code> else, you should clone the repository using <code>git clone https://github.com/auproximity/GetAuthToken.git</code></p>
+				<a href="#build" id="build" style="color: inherit; text-decoration: none;">
+					<h3>Build</h3>
+				</a>
+				<p>Next, you need to build GetAuthToken. Move into the repository with <code>cd GetAuthToken/hazeltest</code> and run the included bash script with <code>./build.sh</code>. Make sure you have the <a href="https://dotnet.microsoft.com/download">.NET SDK</a> installed</p>
+				<a href="#installing-skeldjsget-auth-token" id="installing-skeldjsget-auth-token" style="color: inherit; text-decoration: none;">
+					<h2>Installing @skeldjs/get-auth-token</h2>
+				</a>
+				<a href="#install-with-npm-or-yarn" id="install-with-npm-or-yarn" style="color: inherit; text-decoration: none;">
+					<h3>Install with npm or yarn</h3>
+				</a>
+				<p>You can install get-auth-token with <code>npm install --save @skeldjs/get-auth-token</code> or <code>yarn add @skeldjs/get-auth-token</code>.</p>
+				<a href="#setting-up" id="setting-up" style="color: inherit; text-decoration: none;">
+					<h3>Setting up</h3>
+				</a>
+				<p>Setup is relatively simple, and the following code snippet should be enough.</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">authTokenHook</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@skeldjs/get-auth-token&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #795E26">authTokenHook</span><span style="color: #000000">(</span><span style="color: #001080">client</span><span style="color: #000000">, {</span>
+<span style="color: #000000">    </span><span style="color: #001080">exe_path:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">cert_path:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;&quot;</span>
 <span style="color: #000000">});</span>
 </code></pre>
-				<p>Or, you can attach a listener to the client to know when any player has their name updated.</p>
-				<pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;player.setname&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">id</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;set their name to&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">);</span>
-<span style="color: #000000">});</span>
-</code></pre>
-				<p>Notice how the player is attached to the data of the event, so you know where the event came from and act accordingly.</p>
-				<p>For a list of events that you can listen to globally and what data they provide, see <a href="/interfaces/client.skeldjsclientevents">SkeldjsClientEvents</a>. You can see a list of events for each object in their class description in the docs.</p>
-				<a href="#advanced-usage" id="advanced-usage" style="color: inherit; text-decoration: none;">
-					<h2>Advanced Usage</h2>
+				<p>The function to setup hooking takes in two options, the path to the output directory from building the GetAuthToken directory and the path to a public server certificate. The one used for official servers is below.</p>
+				<p>This will automatically run the program and get an authentication token before connecting.</p>
+				<a href="#official-servers-cert" id="official-servers-cert" style="color: inherit; text-decoration: none;">
+					<h3>Official Servers Cert</h3>
 				</a>
-				<a href="#not-currently-a-feature-follow-11" id="not-currently-a-feature-follow-11" style="color: inherit; text-decoration: none;">
-					<h3>Not currently a feature, follow <a href="https://github.com/SkeldJS/SkeldJS/issues/11">#11</a>.</h3>
-				</a>
-				<p>Events can be cancelled to prevent something from happening.</p>
-				<a href="#cancelling" id="cancelling" style="color: inherit; text-decoration: none;">
-					<h3>Cancelling</h3>
-				</a>
-				<p>For example, you might want to prevent a system from being sabotaged.</p>
-				<pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;system.sabotage&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">system</span><span style="color: #000000">.</span><span style="color: #001080">systemType</span><span style="color: #000000"> === </span><span style="color: #001080">SystemType</span><span style="color: #000000">.</span><span style="color: #0070C1">O2</span><span style="color: #000000">) {</span>
-<span style="color: #000000">        </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #795E26">cancel</span><span style="color: #000000">();</span>
-<span style="color: #000000">    }</span>
-<span style="color: #000000">})</span>
-</code></pre>
-				<a href="#hooking" id="hooking" style="color: inherit; text-decoration: none;">
-					<h3>Hooking</h3>
-				</a>
-				<p>Data inside events can also be modified as a way to &quot;hook&quot; into a procedure.</p>
-				<p>For example, you could change the name of a player before it&#39;s set.</p>
-				<pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;player.checkname&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000"> = </span><span style="color: #A31515">&quot;chimpanzee&quot;</span><span style="color: #000000">;</span>
-<span style="color: #000000">});</span>
-</code></pre>
-				<p>Due to limitations in the Among us protocol, not every event can be &quot;hooked&quot; in any meaningful way. For example, modifying the data in the <code>player.setname</code> event won&#39;t have any effect on the player&#39;s name in question. So instead, you would have to change their name manually if you wanted to updated it.</p>
-				<pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;player.setname&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">control</span><span style="color: #000000">.</span><span style="color: #795E26">setName</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;chimpanzee&quot;</span><span style="color: #000000">);</span>
-<span style="color: #000000">});</span>
+				<pre><code><span style="color: #000000">-----</span><span style="color: #0070C1">BEGIN</span><span style="color: #000000"> </span><span style="color: #0070C1">CERTIFICATE</span><span style="color: #000000">-----</span>
+<span style="color: #001080">MIIDbTCCAlWgAwIBAgIUf8xD1G</span><span style="color: #000000">/</span><span style="color: #001080">d5NK1MTjQAYGqd1AmBvcwDQYJKoZIhvcNAQEL</span>
+<span style="color: #001080">BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM</span>
+<span style="color: #001080">GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAgFw0yMTAyMDIxNzE4MDFaGA8yMjk0</span>
+<span style="color: #001080">MTExODE3MTgwMVowRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUx</span>
+<span style="color: #001080">ITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDCCASIwDQYJKoZIhvcN</span>
+<span style="color: #001080">AQEBBQADggEPADCCAQoCggEBAL7GFDbZdXwPYXeHWRi2GfAXkaLCgxuSADfa1pI2</span>
+<span style="color: #001080">vJkvgMTK1miSt3jNSg</span><span style="color: #000000">/</span><span style="color: #001080">o6VsjSOSL461nYmGCF6Ho3fMhnefOhKaaWu0VxF0GR1bd</span>
+<span style="color: #001080">e836YWzhWINQRwmoVD</span><span style="color: #000000">/</span><span style="color: #001080">Wx1NUjLRlTa8g</span><span style="color: #000000">/</span><span style="color: #001080">W3eE5NZFkWI70VOPRJpR9SqjNHwtPbm</span>
+<span style="color: #001080">Ki41PVgJIc3m</span><span style="color: #000000">/7</span><span style="color: #001080">cKOEMrMYNYoc6E9ehwLdJLQ5olJXnMoGjHo2d59hC8KW2V1dY9</span>
+<span style="color: #001080">sacNPUjbFZRWeQ0eJ7kbn8m3a5EuF34VEC7DFcP4NCWWI7HO5</span><span style="color: #000000">/</span><span style="color: #0070C1">KYE</span><span style="color: #000000">+</span><span style="color: #001080">mUNn0qxgua</span>
+<span style="color: #001080">r32qFnoaKZr9dXWRWJSm2XecBgqQmeF</span><span style="color: #000000">/90</span><span style="color: #001080">gdbohNNHGC</span><span style="color: #000000">/</span><span style="color: #001080">iMCAwEAAaNTMFEwHQYD</span>
+<span style="color: #001080">VR0OBBYEFAJAdUS5AZE3U3SPQoG06Ahq3wBbMB8GA1UdIwQYMBaAFAJAdUS5AZE3</span>
+<span style="color: #001080">U3SPQoG06Ahq3wBbMA8GA1UdEwEB</span><span style="color: #000000">/</span><span style="color: #001080">wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEB</span>
+<span style="color: #001080">ALUoaAEuJf4kQ1bYVA2ax2QipkUM8PL9zoNiDjUw6ZlwMFi</span><span style="color: #000000">++</span><span style="color: #001080">XCQm8XDap45aaeZ</span>
+<span style="color: #001080">MnXGBqIBWElezoH6BNSbdGwci</span><span style="color: #000000">/</span><span style="color: #001080">ZhxXHG</span><span style="color: #000000">/</span><span style="color: #001080">qdHm7zfCTNaLBe2</span><span style="color: #000000">+</span><span style="color: #001080">sZkGic1x6bZPFtK</span>
+<span style="color: #001080">ZUjGy7LmxsXOxqGMgPhAV4JbN1</span><span style="color: #000000">+</span><span style="color: #001080">LTmOkOutfHiXKe4Z1zu09mOo9sWfGCkbIyERX</span>
+<span style="color: #001080">QQILBYSIkg3hU4R4xMOjvxcDrOZja6fSNyi2sgidTfe5OCKC2ovU7OmsQqzb7mFv</span>
+<span style="color: #001080">e</span><span style="color: #000000">+7</span><span style="color: #001080">kpIUp6AZNc49n6GWtGeOoL7JUAqMOIO</span><span style="color: #000000">+</span><span style="color: #0070C1">R</span><span style="color: #000000">++</span><span style="color: #0070C1">YQN7</span><span style="color: #000000">/</span><span style="color: #001080">dgaGDPuu0PpmgI2gPLNW1</span>
+<span style="color: #001080">ZwHJ755zQQRX528xg9vfykY</span><span style="color: #000000">=</span>
+<span style="color: #000000">-----</span><span style="color: #0070C1">END</span><span style="color: #000000"> </span><span style="color: #0070C1">CERTIFICATE</span><span style="color: #000000">-----</span>
 </code></pre>
 			</div>
 		</div>
@@ -132,10 +144,10 @@
 					<li class="label pp-nav pp-group">
 						<span>Information</span>
 					</li>
-					<li class=" pp-nav pp-page">
+					<li class="current pp-nav pp-page">
 						<a href="Client Authentication.html">Client <wbr>Authentication</a>
 					</li>
-					<li class="current pp-nav pp-page">
+					<li class=" pp-nav pp-page">
 						<a href="Events.html">Events</a>
 					</li>
 					<li class=" pp-nav pp-page">

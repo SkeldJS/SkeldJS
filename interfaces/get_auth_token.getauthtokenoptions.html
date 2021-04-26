@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>VoteBanSystemData | SkeldJS</title>
+	<title>GetAuthTokenOptions | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/core.html">core</a>
+					<a href="../modules/get_auth_token.html">get-auth-token</a>
 				</li>
 				<li>
-					<a href="core.votebansystemdata.html">VoteBanSystemData</a>
+					<a href="get_auth_token.getauthtokenoptions.html">GetAuthTokenOptions</a>
 				</li>
 			</ul>
-			<h1>Interface VoteBanSystemData</h1>
+			<h1>Interface GetAuthTokenOptions</h1>
 		</div>
 	</div>
 </header>
@@ -74,7 +74,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">VoteBanSystemData</span>
+						<span class="target">GetAuthTokenOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -85,7 +85,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="core.votebansystemdata.html#clients" class="tsd-kind-icon">clients</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="get_auth_token.getauthtokenoptions.html#cert_path" class="tsd-kind-icon">cert_<wbr>path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="get_auth_token.getauthtokenoptions.html#exe_path" class="tsd-kind-icon">exe_<wbr>path</a></li>
 							</ul>
 						</section>
 					</div>
@@ -94,14 +95,34 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="clients" class="tsd-anchor"></a>
-					<h3>clients</h3>
-					<div class="tsd-signature tsd-kind-icon">clients<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="cert_path" class="tsd-anchor"></a>
+					<h3>cert_<wbr>path</h3>
+					<div class="tsd-signature tsd-kind-icon">cert_<wbr>path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/364360e/packages/core/lib/component/VoteBanSystem.ts#L10">core/lib/component/VoteBanSystem.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/364360e/packages/get-auth-token/lib/getauthtoken.ts#L15">get-auth-token/lib/getauthtoken.ts:15</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The path to the certificate to use.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="exe_path" class="tsd-anchor"></a>
+					<h3>exe_<wbr>path</h3>
+					<div class="tsd-signature tsd-kind-icon">exe_<wbr>path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/364360e/packages/get-auth-token/lib/getauthtoken.ts#L11">get-auth-token/lib/getauthtoken.ts:11</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The path to the GetAuthToken executable.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -138,7 +159,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html">constant</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/core.html">core</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -147,7 +168,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/events.html">events</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -184,32 +205,41 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html" class="tsd-kind-icon">constant</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
-						<ul>
-							<li class="current tsd-kind-interface tsd-parent-kind-module">
-								<a href="core.votebansystemdata.html" class="tsd-kind-icon">Vote<wbr>Ban<wbr>System<wbr>Data</a>
-								<ul>
-									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="core.votebansystemdata.html#clients" class="tsd-kind-icon">clients</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/data.html" class="tsd-kind-icon">data</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
 					</li>
-					<li class=" tsd-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
 						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
+						<ul>
+							<li class="current tsd-kind-interface tsd-parent-kind-module">
+								<a href="get_auth_token.getauthtokenoptions.html" class="tsd-kind-icon">Get<wbr>Auth<wbr>Token<wbr>Options</a>
+								<ul>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="get_auth_token.getauthtokenoptions.html#cert_path" class="tsd-kind-icon">cert_<wbr>path</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="get_auth_token.getauthtokenoptions.html#exe_path" class="tsd-kind-icon">exe_<wbr>path</a>
+									</li>
+								</ul>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="../modules/get_auth_token.html#authtokenhook" class="tsd-kind-icon">auth<wbr>Token<wbr>Hook</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="../modules/get_auth_token.html#getauthtoken" class="tsd-kind-icon">get<wbr>Auth<wbr>Token</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>
 					</li>

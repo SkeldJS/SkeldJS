@@ -140,7 +140,7 @@
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">games</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">findGames</span><span style="color: #000000">();</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">game</span><span style="color: #000000"> = </span><span style="color: #001080">games</span><span style="color: #000000">[</span><span style="color: #267F99">Math</span><span style="color: #000000">.</span><span style="color: #795E26">floor</span><span style="color: #000000">(</span><span style="color: #267F99">Math</span><span style="color: #000000">.</span><span style="color: #795E26">random</span><span style="color: #000000">() * </span><span style="color: #001080">games</span><span style="color: #000000">.</span><span style="color: #001080">length</span><span style="color: #000000">)];</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">code</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">game</span><span style="color: #000000">.</span><span style="color: #795E26">join</span><span style="color: #000000">();</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">code</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">joinGame</span><span style="color: #000000">(</span><span style="color: #001080">game</span><span style="color: #000000">.</span><span style="color: #001080">code</span><span style="color: #000000">);</span>
 
 <span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Joined &quot;</span><span style="color: #000000"> + </span><span style="color: #001080">game</span><span style="color: #000000">);</span>
 </code></pre>
@@ -187,6 +187,9 @@
 						<span>Information</span>
 					</li>
 					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Client Authentication.html">Client <wbr>Authentication</a>
+					</li>
+					<li class=" pp-nav pp-page">
 						<a href="../pages/Information/Events.html">Events</a>
 					</li>
 					<li class=" pp-nav pp-page">
@@ -212,6 +215,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="events.html">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="get_auth_token.html">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="lan.html">lan</a>
@@ -276,6 +282,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="events.html" class="tsd-kind-icon">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="lan.html" class="tsd-kind-icon">lan</a>
