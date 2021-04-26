@@ -95,6 +95,23 @@ export interface SkeldjsClientEvents extends SkeldjsStateManagerEvents {
          */
         message: string;
     };
+    /**
+     * Emitted when a client connects to among us servers.
+     */
+    "client.connect": {
+        /**
+         * The IP of the server that the client is connecting to.
+         */
+        ip: string;
+        /**
+         * The port of the server that the client is connecting to.
+         */
+        port: number;
+    };
+    /**
+     * Emitted when the client joins a game.
+     */
+    "client.join": {}
 }
 
 /**
@@ -167,7 +184,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     clientid: number;
 
-    private token: number;
+    token: number;
     private settings_cache: GameOptions;
 
     /**
@@ -203,21 +220,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.stream = [];
 
-        this.decoder.on(ReliablePacket, message => {
-            this.packets_recv.unshift(message.nonce);
-            this.packets_recv.splice(8);
-
-            this.ack(message.nonce);
-        });
-
-        this.decoder.on(HelloPacket, message => {
-            this.packets_recv.unshift(message.nonce);
-            this.packets_recv.splice(8);
-
-            this.ack(message.nonce);
-        });
-
-        this.decoder.on(PingPacket, message => {
+        this.decoder.on([ ReliablePacket, HelloPacket, PingPacket], message => {
             this.packets_recv.unshift(message.nonce);
             this.packets_recv.splice(8);
 
@@ -235,7 +238,9 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             if (sent) sent.ackd = true;
 
             for (const missing of message.missingPackets) {
-                this.ack(this.packets_recv[missing]);
+                if (missing < this.packets_recv.length) {
+                    this.ack(this.packets_recv[missing]);
+                }
             }
         });
     }
@@ -322,44 +327,20 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.ip = ip.address;
         this.port = port;
+        this.token = token;
 
         this.socket = dgram.createSocket("udp4");
         this.connected = true;
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
-        /*
-        const certificate = Buffer.from(pem.trim());
 
-        this.auth = dtls.connect({
-            type: "udp4",
-            remotePort: 22025,
-            remoteAddress: ip.address,
-            cipherSuites: ["TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"],
-            extendedMasterSecret: false,
+        await this.emit("client.connect", {
+            ip: this.ip,
+            port: this.port
         });
-
-        this.auth.on("error", () => {
-            console.log("error");
-        });
-
-        this.auth.on("connect", () => {
-            const writer = HazelBuffer.alloc(6);
-            writer
-                .uint8(1)
-                .uint16LE(6)
-                .int32(this.version)
-                .uint8(Platform.Itch)
-                .string("");
-
-            this.auth.write(writer.buffer);
-        });
-
-        this.auth.on("data", (message) => {
-            console.log("Got a message!!", message);
-        });*/
 
         if (typeof username === "string") {
-            await this.identify(username, token);
+            await this.identify(username, this.token);
         }
     }
 
@@ -640,7 +621,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 message => message.error !== undefined
             ),
             this.decoder.wait(RedirectMessage),
-            this.decoder.wait(JoinedGameMessage)
+            this.decoder.wait(JoinedGameMessage),
+            this.decoder.wait(DisconnectPacket)
         ]);
 
         switch (message.tag) {
@@ -669,6 +651,15 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 }
 
                 return this.code;
+            case SendOption.Disconnect:
+                throw new Error(
+                    "Join error: Failed to join game, code: " +
+                        message.reason +
+                        " (Message: " +
+                        DisconnectMessages[message.reason] +
+                        ")"
+                );
+                break;
         }
     }
 

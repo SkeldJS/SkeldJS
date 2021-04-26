@@ -1,5 +1,5 @@
 {
-  "name": "@skeldjs/server",
+  "name": "@skeldjs/get-auth-token",
   "version": "2.6.13",
   "main": "./dist/index.js",
   "types": "./index.ts",
@@ -11,22 +11,18 @@
     "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
-  "license": "GPL-3.0-only",
-  "dependencies": {
-    "@skeldjs/constant": "workspace:*",
-    "@skeldjs/core": "workspace:*",
-    "@skeldjs/events": "workspace:*",
-    "@skeldjs/protocol": "workspace:*",
-    "@skeldjs/state": "workspace:*",
-    "@skeldjs/util": "workspace:*"
-  },
   "devDependencies": {
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.16",
     "typescript": "^4.1.3"
   },
+  "license": "GPL-3.0-only",
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "@skeldjs/client": "workspace:*",
+    "@skeldjs/util": "workspace:*"
+  }
 }

@@ -112,9 +112,9 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
-        if (spawn) {
-            this.players = new Map;
+        if (!this.players) this.players = new Map;
 
+        if (spawn) {
             const num_players = reader.upacked();
 
             for (let i = 0; i < num_players; i++) {

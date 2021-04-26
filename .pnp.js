@@ -43,6 +43,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/events"
       },
       {
+        "name": "@skeldjs/get-auth-token",
+        "reference": "workspace:packages/get-auth-token"
+      },
+      {
         "name": "@skeldjs/lan",
         "reference": "workspace:packages/lan"
       },
@@ -87,6 +91,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@skeldjs/core", ["workspace:packages/core"]],
       ["@skeldjs/data", ["workspace:packages/data"]],
       ["@skeldjs/events", ["workspace:packages/events"]],
+      ["@skeldjs/get-auth-token", ["workspace:packages/get-auth-token"]],
       ["@skeldjs/lan", ["workspace:packages/lan"]],
       ["@skeldjs/pathfinding", ["workspace:packages/pathfinding"]],
       ["@skeldjs/protocol", ["workspace:packages/protocol"]],
@@ -575,6 +580,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/events/",
           "packageDependencies": [
             ["@skeldjs/events", "workspace:packages/events"],
+            ["@types/mocha", "npm:8.2.0"],
+            ["@types/node", "npm:14.14.16"],
+            ["typescript", "patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@skeldjs/get-auth-token", [
+        ["workspace:packages/get-auth-token", {
+          "packageLocation": "./packages/get-auth-token/",
+          "packageDependencies": [
+            ["@skeldjs/get-auth-token", "workspace:packages/get-auth-token"],
+            ["@skeldjs/client", "workspace:packages/client"],
+            ["@skeldjs/util", "workspace:packages/util"],
             ["@types/mocha", "npm:8.2.0"],
             ["@types/node", "npm:14.14.16"],
             ["typescript", "patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=a45b0e"]

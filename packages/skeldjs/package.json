@@ -15,8 +15,8 @@
   "license": "GPL-3.0-only",
   "gitHead": "a08b2fe1f52693c6379029a1c5cb37d092a892ff",
   "dependencies": {
-    "@skeldjs/server": "workspace:^2.6.13",
-    "@skeldjs/util": "workspace:^2.6.13",
+    "@skeldjs/server": "workspace:*",
+    "@skeldjs/util": "workspace:*",
     "tedis": "^0.1.12"
   },
   "devDependencies": {
