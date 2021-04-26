@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/core",
-  "version": "2.7.3",
+  "version": "2.6.13",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -12,11 +12,11 @@
     "prepack": "yarn build"
   },
   "dependencies": {
-    "@skeldjs/constant": "workspace:*",
-    "@skeldjs/data": "workspace:*",
-    "@skeldjs/events": "workspace:*",
-    "@skeldjs/protocol": "workspace:*",
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/constant": "workspace:^2.6.13",
+    "@skeldjs/data": "workspace:^2.6.13",
+    "@skeldjs/events": "workspace:^2.6.13",
+    "@skeldjs/protocol": "workspace:^2.6.13",
+    "@skeldjs/util": "workspace:^2.6.13"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

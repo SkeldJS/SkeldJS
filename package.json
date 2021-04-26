@@ -27,11 +27,11 @@
     "fix": "prettier --write \"packages/**/*.ts/\"",
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
-    "build-all": "yarn workspaces foreach -ptv --exclude \"@strictsoftware/typedoc-plugin-monorepo\" run build",
-    "update:patch": "yarn workspaces foreach --exclude \"@strictsoftware/typedoc-plugin-monorepo\" version patch",
-    "update:minor": "yarn workspaces foreach --exclude \"@strictsoftware/typedoc-plugin-monorepo\" version minor",
-    "update:major": "yarn workspaces foreach --exclude \"@strictsoftware/typedoc-plugin-monorepo\" version major",
-    "publish-all": "yarn workspaces foreach --no-private npm publish --access public",
+    "build-all": "yarn workspaces foreach -ptv run build",
+    "update:patch": "yarn release-tool version patch",
+    "update:minor": "yarn release-tool version minor",
+    "update:major": "yarn release-tool version major",
+    "publish-all": "yarn release-tool publish",
     "postinstall": "husky install",
     "docs": "typedoc"
   },
@@ -54,6 +54,7 @@
     "ts-mocha": "^8.0.0",
     "ts-node": "^9.1.1",
     "typedoc": "^0.20.35",
+    "typedoc-plugin-external-module-map": "^1.2.1",
     "typedoc-plugin-no-inherit": "^1.2.0",
     "typedoc-plugin-pages": "patch:typedoc-plugin-pages@^1.1.0#./typedoc-plugin-pages-pr-41.diff",
     "typedoc-plugin-remove-references": "^0.0.5",
@@ -78,5 +79,6 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "version": "2.6.13"
 }

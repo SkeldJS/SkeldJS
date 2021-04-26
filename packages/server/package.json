@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/server",
-  "version": "2.7.3",
+  "version": "2.6.13",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -13,12 +13,12 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/constant": "workspace:*",
-    "@skeldjs/core": "workspace:*",
-    "@skeldjs/events": "workspace:*",
-    "@skeldjs/protocol": "workspace:*",
-    "@skeldjs/state": "workspace:*",
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/constant": "workspace:^2.6.13",
+    "@skeldjs/core": "workspace:^2.6.13",
+    "@skeldjs/events": "workspace:^2.6.13",
+    "@skeldjs/protocol": "workspace:^2.6.13",
+    "@skeldjs/state": "workspace:^2.6.13",
+    "@skeldjs/util": "workspace:^2.6.13"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.0",

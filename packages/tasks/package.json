@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/tasks",
-  "version": "2.7.3",
+  "version": "2.6.13",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -13,7 +13,7 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "@skeldjs/core": "workspace:*"
+    "@skeldjs/core": "workspace:^2.6.13"
   },
   "devDependencies": {
     "@types/node": "^14.14.16",

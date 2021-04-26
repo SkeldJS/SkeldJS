@@ -335,14 +335,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/client@workspace:packages/client"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/core": "workspace:*"
-    "@skeldjs/data": "workspace:*"
-    "@skeldjs/events": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/state": "workspace:*"
+    "@skeldjs/constant": "workspace:^2.6.13"
+    "@skeldjs/core": "workspace:^2.6.13"
+    "@skeldjs/data": "workspace:^2.6.13"
+    "@skeldjs/events": "workspace:^2.6.13"
+    "@skeldjs/protocol": "workspace:^2.6.13"
+    "@skeldjs/state": "workspace:^2.6.13"
     "@skeldjs/text": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/util": "workspace:^2.6.13"
     "@types/node": ^14.14.16
     gif-frames: ^1.0.1
     image-pixels: ^2.2.2
@@ -350,42 +350,42 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@skeldjs/constant@workspace:*, @skeldjs/constant@workspace:packages/constant":
+"@skeldjs/constant@workspace:^2.6.13, @skeldjs/constant@workspace:packages/constant":
   version: 0.0.0-use.local
   resolution: "@skeldjs/constant@workspace:packages/constant"
   dependencies:
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/util": "workspace:^2.6.13"
     typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
-"@skeldjs/core@workspace:*, @skeldjs/core@workspace:packages/core":
+"@skeldjs/core@workspace:^2.6.13, @skeldjs/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@skeldjs/core@workspace:packages/core"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/data": "workspace:*"
-    "@skeldjs/events": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/constant": "workspace:^2.6.13"
+    "@skeldjs/data": "workspace:^2.6.13"
+    "@skeldjs/events": "workspace:^2.6.13"
+    "@skeldjs/protocol": "workspace:^2.6.13"
+    "@skeldjs/util": "workspace:^2.6.13"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
     typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
-"@skeldjs/data@workspace:*, @skeldjs/data@workspace:packages/data":
+"@skeldjs/data@workspace:^2.6.13, @skeldjs/data@workspace:packages/data":
   version: 0.0.0-use.local
   resolution: "@skeldjs/data@workspace:packages/data"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/constant": "workspace:^2.6.13"
+    "@skeldjs/util": "workspace:^2.6.13"
     "@types/node": ^14.14.41
     typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
-"@skeldjs/events@workspace:*, @skeldjs/events@workspace:packages/events":
+"@skeldjs/events@workspace:^2.6.13, @skeldjs/events@workspace:packages/events":
   version: 0.0.0-use.local
   resolution: "@skeldjs/events@workspace:packages/events"
   dependencies:
@@ -405,12 +405,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/pathfinding@workspace:packages/pathfinding"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/core": "workspace:*"
-    "@skeldjs/data": "workspace:*"
-    "@skeldjs/events": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/constant": "workspace:^2.6.13"
+    "@skeldjs/core": "workspace:^2.6.13"
+    "@skeldjs/data": "workspace:^2.6.13"
+    "@skeldjs/events": "workspace:^2.6.13"
+    "@skeldjs/protocol": "workspace:^2.6.13"
+    "@skeldjs/util": "workspace:^2.6.13"
     "@types/heap": ^0.2.28
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
@@ -419,27 +419,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@skeldjs/protocol@workspace:*, @skeldjs/protocol@workspace:packages/protocol":
+"@skeldjs/protocol@workspace:^2.6.13, @skeldjs/protocol@workspace:packages/protocol":
   version: 0.0.0-use.local
   resolution: "@skeldjs/protocol@workspace:packages/protocol"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/constant": "workspace:^2.6.13"
+    "@skeldjs/util": "workspace:^2.6.13"
     "@types/node": ^14.14.41
     typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
-"@skeldjs/server@workspace:*, @skeldjs/server@workspace:packages/server":
+"@skeldjs/server@workspace:^2.6.13, @skeldjs/server@workspace:packages/server":
   version: 0.0.0-use.local
   resolution: "@skeldjs/server@workspace:packages/server"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/core": "workspace:*"
-    "@skeldjs/events": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/state": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/constant": "workspace:^2.6.13"
+    "@skeldjs/core": "workspace:^2.6.13"
+    "@skeldjs/events": "workspace:^2.6.13"
+    "@skeldjs/protocol": "workspace:^2.6.13"
+    "@skeldjs/state": "workspace:^2.6.13"
+    "@skeldjs/util": "workspace:^2.6.13"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
     typescript: ^4.1.3
@@ -450,21 +450,21 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/skeldjs@workspace:packages/skeldjs"
   dependencies:
-    "@skeldjs/server": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/server": "workspace:^2.6.13"
+    "@skeldjs/util": "workspace:^2.6.13"
     "@types/node": ^14.14.16
     tedis: ^0.1.12
     typescript: ^4.1.3
   languageName: unknown
   linkType: soft
 
-"@skeldjs/state@workspace:*, @skeldjs/state@workspace:packages/state":
+"@skeldjs/state@workspace:^2.6.13, @skeldjs/state@workspace:packages/state":
   version: 0.0.0-use.local
   resolution: "@skeldjs/state@workspace:packages/state"
   dependencies:
-    "@skeldjs/core": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/core": "workspace:^2.6.13"
+    "@skeldjs/protocol": "workspace:^2.6.13"
+    "@skeldjs/util": "workspace:^2.6.13"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
     typescript: ^4.1.3
@@ -475,7 +475,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/tasks@workspace:packages/tasks"
   dependencies:
-    "@skeldjs/core": "workspace:*"
+    "@skeldjs/core": "workspace:^2.6.13"
     "@types/node": ^14.14.16
     typescript: ^4.1.3
   languageName: unknown
@@ -489,7 +489,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@skeldjs/util@workspace:*, @skeldjs/util@workspace:packages/util":
+"@skeldjs/util@workspace:^2.6.13, @skeldjs/util@workspace:packages/util":
   version: 0.0.0-use.local
   resolution: "@skeldjs/util@workspace:packages/util"
   dependencies:
@@ -4597,6 +4597,7 @@ resolve@^1.1.6:
     ts-mocha: ^8.0.0
     ts-node: ^9.1.1
     typedoc: ^0.20.35
+    typedoc-plugin-external-module-map: ^1.2.1
     typedoc-plugin-no-inherit: ^1.2.0
     typedoc-plugin-pages: "patch:typedoc-plugin-pages@^1.1.0#./typedoc-plugin-pages-pr-41.diff"
     typedoc-plugin-remove-references: ^0.0.5
@@ -5196,6 +5197,15 @@ resolve@^1.1.6:
   version: 0.12.10
   resolution: "typedoc-default-themes@npm:0.12.10"
   checksum: 3a420c405b00122c20018762ce145186219f26651a051216b1d4dafa1b3756a7e47290bf27898d3e2769af3a0da44591e3c93268c2a6503fcf28eb8b0f32980b
+  languageName: node
+  linkType: hard
+
+"typedoc-plugin-external-module-map@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "typedoc-plugin-external-module-map@npm:1.2.1"
+  peerDependencies:
+    typedoc: ">=0.14 <1.0"
+  checksum: 09605d1bde104dc75826c4fb4bc3b99d5b4d340ba4ecb52fc3fdd26e87390b21dd309b2d37d52b17937943bdc3cb20a0ad344d97348c4950ec3ec3ea87bd7315
   languageName: node
   linkType: hard
 

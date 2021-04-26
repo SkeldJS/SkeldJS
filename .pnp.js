@@ -125,6 +125,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-mocha", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:8.0.0"],
             ["ts-node", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:9.1.1"],
             ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.20.35"],
+            ["typedoc-plugin-external-module-map", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.2.1"],
             ["typedoc-plugin-no-inherit", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.2.0"],
             ["typedoc-plugin-pages", "patch:typedoc-plugin-pages@npm%3A1.1.0#./typedoc-plugin-pages-pr-41.diff::version=1.1.0&hash=d09168&locator=skeldjs%40workspace%3A."],
             ["typedoc-plugin-remove-references", "npm:0.0.5"],
@@ -5399,6 +5400,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-mocha", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:8.0.0"],
             ["ts-node", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:9.1.1"],
             ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.20.35"],
+            ["typedoc-plugin-external-module-map", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.2.1"],
             ["typedoc-plugin-no-inherit", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.2.0"],
             ["typedoc-plugin-pages", "patch:typedoc-plugin-pages@npm%3A1.1.0#./typedoc-plugin-pages-pr-41.diff::version=1.1.0&hash=d09168&locator=skeldjs%40workspace%3A."],
             ["typedoc-plugin-remove-references", "npm:0.0.5"],
@@ -6137,6 +6139,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jquery", "npm:3.6.0"],
             ["lunr", "npm:2.3.9"],
             ["underscore", "npm:1.13.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["typedoc-plugin-external-module-map", [
+        ["npm:1.2.1", {
+          "packageLocation": "./.yarn/cache/typedoc-plugin-external-module-map-npm-1.2.1-1e7d8f51ce-09605d1bde.zip/node_modules/typedoc-plugin-external-module-map/",
+          "packageDependencies": [
+            ["typedoc-plugin-external-module-map", "npm:1.2.1"]
+          ],
+          "linkType": "SOFT",
+        }],
+        ["virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.2.1", {
+          "packageLocation": "./.yarn/$$virtual/typedoc-plugin-external-module-map-virtual-8e020c4753/0/cache/typedoc-plugin-external-module-map-npm-1.2.1-1e7d8f51ce-09605d1bde.zip/node_modules/typedoc-plugin-external-module-map/",
+          "packageDependencies": [
+            ["typedoc-plugin-external-module-map", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.2.1"],
+            ["@types/typedoc", null],
+            ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.20.35"]
+          ],
+          "packagePeers": [
+            "@types/typedoc",
+            "typedoc"
           ],
           "linkType": "HARD",
         }]

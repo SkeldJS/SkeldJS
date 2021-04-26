@@ -19,7 +19,7 @@
     "typedoc-plugin-pages",
     "@strictsoftware/typedoc-plugin-monorepo"
   ],
-  "external-modulemap": ".*packages\/([^\/]+)",
+  "external-modulemap": ".*packages\/([^\/]+)\/.*",
   "excludePrivate": true,
   "excludeProtected": true
 }

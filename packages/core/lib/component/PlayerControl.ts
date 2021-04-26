@@ -600,7 +600,7 @@ export class PlayerControl extends Networkable<
 
     /**
      * Type a message into the chat. Can be in {@link http://digitalnativestudios.com/textmeshpro/docs/rich-text TextMesh Pro} format.
-     * @see {TMPElement}
+     * See {@link TMPElement}
      * @param message The message to send.
      * @example
      *```typescript
@@ -735,7 +735,7 @@ export class PlayerControl extends Networkable<
     /**
      * Set the impostors of the game.
      * @param players The players to set as the impostors.
-     * @see {BaseShipStatus.selectInfected} for an example.
+     * See {@link InnerShipStatus.selectInfected} for an example.
      */
     setInfected(players: PlayerDataResolvable[]) {
         const resolved = players
@@ -762,7 +762,7 @@ export class PlayerControl extends Networkable<
     /**
      * Immediately tart a meeting either for a reported body or for an emergency.
      * @param body Either the body to report or whether it was an emergency.
-     * @see {PlayerControl.reportDeadBody} If the player is not the host.
+     * See {@link PlayerControl.reportDeadBody} If the player is not the host.
      * @example
      * ```typescript
      * // Start an emergency meeting.
@@ -802,7 +802,7 @@ export class PlayerControl extends Networkable<
     /**
      * Ask the host to start a meeting either for a reported body or for an emergency.
      * @param body Either the body to report or whether it was an emergency.
-     * @see {PlayerControl.startMeeting} If the player is the host and this can happen immediately.
+     * See {@link PlayerControl.startMeeting} If the player is the host and this can happen immediately.
      * @example
      * ```typescript
      * // Start an emergency meeting.
