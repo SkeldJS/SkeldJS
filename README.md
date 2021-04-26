@@ -8,7 +8,7 @@
 [![Build](https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22)
 [![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://skeldjs.github.io/SkeldJS)
 
-## Read [here](https://skeldjs.github.io/pages/Information/Client%20Authentication) if you are using or plan to use the @skeldjs/client package.
+## Read [here](https://skeldjs.github.io/SkeldJS/pages/Information/Client%20Authentication) if you are using or plan to use the @skeldjs/client package.
 
 SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.
 
