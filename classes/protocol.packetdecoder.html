@@ -63,13 +63,21 @@
 					<a href="protocol.packetdecoder.html">PacketDecoder</a>
 				</li>
 			</ul>
-			<h1>Class PacketDecoder</h1>
+			<h1>Class PacketDecoder&lt;SenderType&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>SenderType</h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -85,7 +93,7 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="protocol.packetdecoder.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter"><a href="protocol.packetdecoder.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -116,20 +124,26 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Packet<wbr>Decoder<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Packet<wbr>Decoder&lt;SenderType&gt;<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L79">protocol/lib/PacketDecoder.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L79">protocol/lib/PacketDecoder.ts:79</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a></h4>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>SenderType</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -139,10 +153,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="listeners" class="tsd-anchor"></a>
 					<h3>listeners</h3>
-					<div class="tsd-signature tsd-kind-icon">listeners<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Deserializable</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Serializable</a>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">listeners<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Deserializable</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Serializable</a>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L78">protocol/lib/PacketDecoder.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L78">protocol/lib/PacketDecoder.ts:78</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -152,7 +166,7 @@
 					<div class="tsd-signature tsd-kind-icon">types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Deserializable</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L79">protocol/lib/PacketDecoder.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L79">protocol/lib/PacketDecoder.ts:79</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -163,13 +177,13 @@
 					<a name="emitdecoded" class="tsd-anchor"></a>
 					<h3>emit<wbr>Decoded</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">emit<wbr>Decoded<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Serializable</a>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">emit<wbr>Decoded<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Serializable</a>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L159">protocol/lib/PacketDecoder.ts:159</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L159">protocol/lib/PacketDecoder.ts:159</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,7 +206,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>sender: <span class="tsd-signature-type">any</span></h5>
+									<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Additional metadata for the message, e.g. the sender.</p>
 									</div>
@@ -206,13 +220,13 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Deserializable</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Deserializable</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L187">protocol/lib/PacketDecoder.ts:187</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L187">protocol/lib/PacketDecoder.ts:187</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -235,7 +249,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>All listeners for the packet.</p>
 						</li>
 					</ul>
@@ -244,13 +258,14 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">off&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L226">protocol/lib/PacketDecoder.ts:226</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L256">protocol/lib/PacketDecoder.ts:256</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -273,14 +288,14 @@
 									</div>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The listener to remove.</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
@@ -293,7 +308,7 @@
 															<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
 														</li>
 														<li>
-															<h5>sender: <span class="tsd-signature-type">any</span></h5>
+															<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -303,7 +318,65 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L269">protocol/lib/PacketDecoder.ts:269</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove a listener from several messages being listened to.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Deserializable</a><span class="tsd-signature-symbol">[]</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>messageClass: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The message to listen for.</p>
+									</div>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The listener to remove.</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>message: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+														<li>
+															<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
+														</li>
+														<li>
+															<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -311,18 +384,78 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">on&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L206">protocol/lib/PacketDecoder.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L206">protocol/lib/PacketDecoder.ts:206</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Listen to a message being sent through the decoder.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Deserializable</a><span class="tsd-signature-symbol">[]</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>messageClass: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The message to listen for.</p>
+									</div>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback for when the message is decoded.</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>message: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+														<li>
+															<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
+														</li>
+														<li>
+															<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<p>A function to remove the listener.</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L220">protocol/lib/PacketDecoder.ts:220</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Listen to any of several messages being sent through the decoder.</p>
 								</div>
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -336,18 +469,18 @@
 								<li>
 									<h5>messageClass: <span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The message to listen for.</p>
+										<p>The messages to listen for.</p>
 									</div>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The callback for when the message is decoded.</p>
+										<p>The callback for when one of the messages is decoded.</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
@@ -360,7 +493,7 @@
 															<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
 														</li>
 														<li>
-															<h5>sender: <span class="tsd-signature-type">any</span></h5>
+															<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -379,13 +512,14 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">once&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L245">protocol/lib/PacketDecoder.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L304">protocol/lib/PacketDecoder.ts:304</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -408,14 +542,14 @@
 									</div>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The callback for when the message is decoded.</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
@@ -428,7 +562,66 @@
 															<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
 														</li>
 														<li>
-															<h5>sender: <span class="tsd-signature-type">any</span></h5>
+															<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<p>A function to remove the listener.</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L318">protocol/lib/PacketDecoder.ts:318</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Listen to any of several messages being sent through the decoder once.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Deserializable</a><span class="tsd-signature-symbol">[]</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>messageClass: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The messages to listen for.</p>
+									</div>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback for when one of the messages is decoded.</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>message: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+														</li>
+														<li>
+															<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
+														</li>
+														<li>
+															<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -453,7 +646,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L352">protocol/lib/PacketDecoder.ts:352</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L433">protocol/lib/PacketDecoder.ts:433</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -491,7 +684,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L145">protocol/lib/PacketDecoder.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L145">protocol/lib/PacketDecoder.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -522,7 +715,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L88">protocol/lib/PacketDecoder.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L88">protocol/lib/PacketDecoder.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -538,13 +731,13 @@
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">wait&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L266">protocol/lib/PacketDecoder.ts:266</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L347">protocol/lib/PacketDecoder.ts:347</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -567,7 +760,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>A promise containing the message, direciton and sender metadata for the message.</p>
 						</li>
 					</ul>
@@ -576,13 +769,13 @@
 					<a name="waitf" class="tsd-anchor"></a>
 					<h3>waitf</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">waitf&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">waitf&lt;T&gt;<span class="tsd-signature-symbol">(</span>messageClass<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L282">protocol/lib/PacketDecoder.ts:282</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L363">protocol/lib/PacketDecoder.ts:363</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -605,14 +798,14 @@
 									</div>
 								</li>
 								<li>
-									<h5>filter: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5>filter: <span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>A filter for the message to wait for.</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
@@ -625,7 +818,7 @@
 															<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
 														</li>
 														<li>
-															<h5>sender: <span class="tsd-signature-type">any</span></h5>
+															<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -635,7 +828,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a><span class="tsd-signature-symbol">; </span>message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">GetSerialized</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>A function to remove the listener.</p>
 						</li>
 					</ul>
@@ -644,13 +837,13 @@
 					<a name="write" class="tsd-anchor"></a>
 					<h3>write</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a>, direction<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">write<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a>, direction<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, sender<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SenderType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a7cb777/packages/protocol/lib/PacketDecoder.ts#L332">protocol/lib/PacketDecoder.ts:332</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/70d2a21/packages/protocol/lib/PacketDecoder.ts#L413">protocol/lib/PacketDecoder.ts:413</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -673,7 +866,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>sender: <span class="tsd-signature-type">any</span></h5>
+									<h5>sender: <span class="tsd-signature-type">SenderType</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Additional metadata for the sender.</p>
 									</div>
@@ -778,10 +971,10 @@
 					<li class="current tsd-kind-module">
 						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
 						<ul>
-							<li class="current tsd-kind-class tsd-parent-kind-module">
+							<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 								<a href="protocol.packetdecoder.html" class="tsd-kind-icon">Packet<wbr>Decoder</a>
 								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class">
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
 										<a href="protocol.packetdecoder.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -863,7 +1056,6 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
