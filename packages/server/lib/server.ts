@@ -282,7 +282,9 @@ export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
             );
             if (sent) sent.ackd = true;
 
-            message.missingPackets.forEach((nonce, i) => client.packets_recv[i] !== undefined && client.ack(client.packets_recv[i]));
+            for (const missing of message.missingPackets) {
+                client.ack(client.packets_recv[missing]);
+            }
         });
 
     }

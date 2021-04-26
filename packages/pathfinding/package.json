@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/pathfinding",
-  "version": "2.7.3",
+  "version": "2.6.13",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -14,12 +14,12 @@
     "build:colliders": "node dist/build.js"
   },
   "dependencies": {
-    "@skeldjs/constant": "workspace:*",
-    "@skeldjs/core": "workspace:*",
-    "@skeldjs/data": "workspace:*",
-    "@skeldjs/events": "workspace:*",
-    "@skeldjs/protocol": "workspace:*",
-    "@skeldjs/util": "workspace:*",
+    "@skeldjs/constant": "workspace:^2.6.13",
+    "@skeldjs/core": "workspace:^2.6.13",
+    "@skeldjs/data": "workspace:^2.6.13",
+    "@skeldjs/events": "workspace:^2.6.13",
+    "@skeldjs/protocol": "workspace:^2.6.13",
+    "@skeldjs/util": "workspace:^2.6.13",
     "heap": "^0.2.6"
   },
   "devDependencies": {

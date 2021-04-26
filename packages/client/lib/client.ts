@@ -234,11 +234,9 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             );
             if (sent) sent.ackd = true;
 
-            message.missingPackets.forEach((p, i) => {
-                if (i < this.packets_recv.length) {
-                    this.ack(this.packets_recv[i]);
-                }
-            });
+            for (const missing of message.missingPackets) {
+                this.ack(this.packets_recv[missing]);
+            }
         });
     }
 
@@ -266,7 +264,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         await this.send(
             new AcknowledgePacket(
                 nonce,
-                this.packets_sent.map(packet => packet.ackd)
+                this.packets_sent.filter(packet => packet.ackd).map((_, i) => i)
             )
         );
     }

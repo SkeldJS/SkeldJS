@@ -3,7 +3,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { BaseRootPacket } from "./BaseRootPacket";
 
-export type MissingPackets = boolean[];
+export type MissingPackets = number[];
 
 export class AcknowledgePacket extends BaseRootPacket {
     static tag = SendOption.Acknowledge as const;
@@ -22,7 +22,9 @@ export class AcknowledgePacket extends BaseRootPacket {
 
         const arr: MissingPackets = [];
         for (let i = 0; i < 8; i++) {
-            arr.push((missing & (1 << i)) === 0);
+            if ((missing & (1 << i)) === 0) {
+                arr.push(i);
+            }
         }
 
         return new AcknowledgePacket(nonce, arr);
