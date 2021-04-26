@@ -13,6 +13,10 @@
       "title": "Information",
       "pages": [
         {
+          "title": "Client Authentication",
+          "source": "./pages/Client Authentication.md"
+        },
+        {
           "title": "Events",
           "source": "./pages/Events.md"
         },

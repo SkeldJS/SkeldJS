@@ -66,7 +66,7 @@ await client.connect("EU", "weakeyes");
 const games = await client.findGames();
 const game = games[Math.floor(Math.random() * games.length)];
 
-const code = await game.join();
+const code = await client.joinGame(game.code);
 
 console.log("Joined " + game);
 ```

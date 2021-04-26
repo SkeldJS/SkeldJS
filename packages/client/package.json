@@ -20,13 +20,13 @@
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "@skeldjs/constant": "workspace:^2.6.13",
-    "@skeldjs/core": "workspace:^2.6.13",
-    "@skeldjs/data": "workspace:^2.6.13",
-    "@skeldjs/events": "workspace:^2.6.13",
-    "@skeldjs/protocol": "workspace:^2.6.13",
-    "@skeldjs/state": "workspace:^2.6.13",
-    "@skeldjs/util": "workspace:^2.6.13"
+    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/core": "workspace:*",
+    "@skeldjs/data": "workspace:*",
+    "@skeldjs/events": "workspace:*",
+    "@skeldjs/protocol": "workspace:*",
+    "@skeldjs/state": "workspace:*",
+    "@skeldjs/util": "workspace:*"
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [

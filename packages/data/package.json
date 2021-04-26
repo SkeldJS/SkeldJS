@@ -14,8 +14,8 @@
   "license": "GPL-3.0-only",
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "dependencies": {
-    "@skeldjs/constant": "workspace:^2.6.13",
-    "@skeldjs/util": "workspace:^2.6.13"
+    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^14.14.41",
