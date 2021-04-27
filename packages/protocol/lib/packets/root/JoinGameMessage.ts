@@ -18,7 +18,11 @@ export class JoinGameMessage extends BaseRootMessage {
     constructor(code: string | number);
     constructor(error: DisconnectReason, message?: string);
     constructor(code: string | number, clientid: number, hostid: number);
-    constructor(code: string | number, clientid?: number|string, hostid?: number) {
+    constructor(
+        code: string | number,
+        clientid?: number | string,
+        hostid?: number
+    ) {
         super();
 
         if (typeof code === "number") {
@@ -52,9 +56,10 @@ export class JoinGameMessage extends BaseRootMessage {
                 return new JoinGameMessage(code, clientid, hostid);
             }
 
-            const message = code === DisconnectReason.Custom && reader.left
-                ? reader.string()
-                : undefined;
+            const message =
+                code === DisconnectReason.Custom && reader.left
+                    ? reader.string()
+                    : undefined;
 
             return new JoinGameMessage(code, message);
         } else {
@@ -72,7 +77,10 @@ export class JoinGameMessage extends BaseRootMessage {
                 writer.int32(this.hostid);
             } else {
                 writer.int32(this.error);
-                if (this.error === DisconnectReason.Custom && typeof this.message === "string") {
+                if (
+                    this.error === DisconnectReason.Custom &&
+                    typeof this.message === "string"
+                ) {
                     writer.string(this.message);
                 }
             }

@@ -1,17 +1,8 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import {
-    Color,
-    Hat,
-    Pet,
-    PlayerDataFlags,
-    Skin
-} from "@skeldjs/constant";
+import { Color, Hat, Pet, PlayerDataFlags, Skin } from "@skeldjs/constant";
 
 export class TaskState {
-    constructor(
-        public taskidx: number,
-        public completed: boolean
-    ) {}
+    constructor(public taskidx: number, public completed: boolean) {}
 
     static Deserialize(reader: HazelReader) {
         const task = new TaskState(0, false);

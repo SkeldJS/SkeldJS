@@ -1,13 +1,20 @@
 import { HazelReader } from "@skeldjs/util";
+import { BasicEvent } from "@skeldjs/events";
 import { Networkable } from "./Networkable";
 
 export const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-export interface TestEvents {
-    "test.event": {
-        alphabet: string;
-    };
+export class BasicTestEvent extends BasicEvent {
+    alphabet: string;
+
+    constructor(alphabet: string) {
+        super();
+
+        this.alphabet = alphabet;
+    }
 }
+
+export type TestEvents = [TestEvent];
 
 export class TestComponent extends Networkable<
     { dataParam: number },

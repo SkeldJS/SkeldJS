@@ -1,0 +1,13 @@
+import { LobbyBehaviour } from "../../component";
+import { Hostable } from "../../Hostable";
+import { RoomEvent } from "../RoomEvent";
+
+export class LobbyBehaviourEvent extends RoomEvent {
+    lobbybehaviour: LobbyBehaviour;
+
+    constructor(room: Hostable, lobbybehaviour: LobbyBehaviour) {
+        super(room);
+
+        this.lobbybehaviour = lobbybehaviour;
+    }
+}

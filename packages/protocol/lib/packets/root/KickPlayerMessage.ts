@@ -35,9 +35,7 @@ export class KickPlayerMessage extends BaseRootMessage {
         const code = reader.int32();
         const clientid = reader.packed();
         const banned = reader.bool();
-        const reason = reader.left
-            ? reader.uint8()
-            : DisconnectReason.None;
+        const reason = reader.left ? reader.uint8() : DisconnectReason.None;
 
         return new KickPlayerMessage(code, clientid, banned, reason);
     }

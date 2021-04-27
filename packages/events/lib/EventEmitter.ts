@@ -1,13 +1,30 @@
-export type EventContext<T> = {
-    cancelled: boolean;
-    cancel: () => void;
-    data: T;
+import { BasicEvent } from "./BasicEvent";
+
+export type Eventable = {
+    eventName: string;
 };
 
-type EventData = Record<string, any>;
+export type ExtractEventName<Event extends Eventable> = Event extends {
+    eventName: infer X;
+}
+    ? X
+    : never;
+
+export type ExtractEventType<
+    Events extends Eventable[],
+    EventName extends keyof Events
+> = Extract<Events[number], { eventName: EventName }>;
+
+export type ExtractEventTypes<Events extends Eventable[]> = {
+    [K in ExtractEventName<Events[number]>]: K extends keyof Events
+        ? ExtractEventType<Events, K>
+        : never;
+};
+
+type EventData = BasicEvent[];
 
 type Listener<Events extends EventData, EventName extends keyof Events> = (
-    ev: EventContext<Events[EventName]>
+    ev: ExtractEventType<Events, EventName>
 ) => void | Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
@@ -19,24 +36,15 @@ export class EventEmitter<Events extends EventData> {
 
     async emit<EventName extends keyof Events>(
         event: EventName,
-        data: Events[EventName]
+        data: ExtractEventType<Events, EventName>
     ) {
         const listeners = this.getListeners(event);
-        const ctx: EventContext<Events[EventName]> = {
-            cancelled: false,
-            cancel() {
-                this.cancelled = true;
-            },
-            data,
-        };
 
         if (listeners.size) {
-            for (const listener of listeners) await listener(ctx);
-
-            if (ctx.cancelled) return false;
+            for (const listener of listeners) await listener(data);
         }
 
-        return true;
+        return data;
     }
 
     on<EventName extends keyof Events>(
@@ -62,7 +70,7 @@ export class EventEmitter<Events extends EventData> {
 
     wait<EventName extends keyof Events>(
         event: EventName
-    ): Promise<EventContext<Events[EventName]>> {
+    ): Promise<ExtractEventType<Events, EventName>> {
         return new Promise((resolve) => {
             this.once(event, async (ev) => {
                 resolve(ev);
