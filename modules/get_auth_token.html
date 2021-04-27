@@ -73,7 +73,19 @@
 						<h2>@skeldjs/get-auth-token</h2>
 					</a>
 					<p>A simple node.js adaptor for the <a href="https://github.com/auproximity/GetAuthToken">GetAuthToken</a> program.</p>
-					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS/modules/get-auth-token.html">https://skeldjs.github.io/SkeldJS/modules/get-auth-token.html</a></p>
+					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS/modules/get_auth_token.html">https://skeldjs.github.io/SkeldJS/modules/get_auth_token.html</a></p>
+					<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+						<h2>Example</h2>
+					</a>
+					<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">authTokenHook</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@skeldjs/get-auth-token&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">client</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SkeldjsClient</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2021.4.2.0&quot;</span><span style="color: #000000">);</span>
+
+<span style="color: #795E26">authTokenHook</span><span style="color: #000000">(</span><span style="color: #001080">client</span><span style="color: #000000">, {</span>
+<span style="color: #000000">    </span><span style="color: #001080">exe_path:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;GetAuthToken.exe&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">cert_path:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;PubsCert.pem&quot;</span>
+<span style="color: #000000">});</span>
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -108,7 +120,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/052f7df/packages/get-auth-token/lib/getauthtoken.ts#L67">get-auth-token/lib/getauthtoken.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/get-auth-token/lib/getauthtoken.ts#L67">get-auth-token/lib/getauthtoken.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -145,7 +157,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/052f7df/packages/get-auth-token/lib/getauthtoken.ts#L25">get-auth-token/lib/getauthtoken.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/get-auth-token/lib/getauthtoken.ts#L25">get-auth-token/lib/getauthtoken.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
