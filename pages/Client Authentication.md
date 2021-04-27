@@ -7,7 +7,7 @@ The package is a small wrapper for the [GetAuthToken](https://github.com/auproxi
 ## Installing GetAuthToken
 
 ### Add as a submodule or clone the repository
-If you are working in a git repository, you should add the GetAuthToken program as a git submodule, using `git submodule add https://github.com/auproximity/GetAuthToken.git` else, you should clone the repository using `git clone https://github.com/auproximity/GetAuthToken.git`
+If you are working in a git repository, you should add the GetAuthToken program as a git submodule, using `git submodule add https://github.com/auproximity/GetAuthToken.git` else, you should clone the repository using `git clone https://github.com/auproximity/GetAuthToken.git --recurse-submodules`
 
 ### Build
 Next, you need to build GetAuthToken. Move into the repository with `cd GetAuthToken/hazeltest` and run the included bash script with `./build.sh`. Make sure you have the [.NET SDK](https://dotnet.microsoft.com/download) installed

@@ -1,4 +1,4 @@
-import { Vector2, HazelBuffer, HazelReader, HazelWriter } from "@skeldjs/util";
+import { Vector2, HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { DataMessage, RpcMessage } from "@skeldjs/protocol";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
@@ -78,7 +78,7 @@ export class CustomNetworkTransform extends Networkable<
         room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | CustomNetworkTransformData
+        data?: HazelReader | CustomNetworkTransformData
     ) {
         super(room, netid, ownerid, data);
     }

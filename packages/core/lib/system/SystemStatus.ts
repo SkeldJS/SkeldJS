@@ -1,4 +1,4 @@
-import { HazelBuffer, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 
 import { EventEmitter } from "@skeldjs/events";
@@ -38,12 +38,12 @@ export class SystemStatus<
         return false;
     }
 
-    constructor(protected ship: InnerShipStatus, data?: HazelBuffer | DataT) {
+    constructor(protected ship: InnerShipStatus, data?: HazelReader | DataT) {
         super();
 
         if (data) {
-            if (data instanceof HazelBuffer) {
-                this.Deserialize(data as HazelBuffer, true);
+            if (data instanceof HazelReader) {
+                this.Deserialize(data, true);
             } else {
                 this.patch(data);
             }
@@ -67,9 +67,9 @@ export class SystemStatus<
     }
 
     /* eslint-disable-next-line */
-    Deserialize(reader: HazelBuffer, spawn: boolean) {}
+    Deserialize(reader: HazelReader, spawn: boolean) {}
     /* eslint-disable-next-line */
-    Serialize(writer: HazelBuffer, spawn: boolean) {}
+    Serialize(writer: HazelWriter, spawn: boolean) {}
     /* eslint-disable-next-line */
     HandleRepair(player: PlayerData, amount: number) {}
     /* eslint-disable-next-line */

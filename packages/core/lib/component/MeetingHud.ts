@@ -1,4 +1,4 @@
-import { HazelBuffer, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import {
     ChatNoteType,
@@ -91,7 +91,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | MeetingHudData
+        data?: HazelReader | MeetingHudData
     ) {
         super(room, netid, ownerid, data);
     }
