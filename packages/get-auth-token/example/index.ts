@@ -5,8 +5,10 @@ import { authTokenHook } from "../index";
     const client = new SkeldjsClient("2021.4.2.0");
 
     authTokenHook(client, {
-        exe_path: "C:\\Users\\Edward\\Projects\\2021\\April\\auproximity\\GetAuthToken\\hazeltest\\GetAuthToken\\bin\\Release\\net50\\win-x64\\GetAuthToken.exe",
-        cert_path: "C:\\Users\\Edward\\Projects\\2021\\April\\auproximity\\PubsCert.pem"
+        exe_path:
+            "C:\\Users\\Edward\\Projects\\2021\\April\\auproximity\\GetAuthToken\\hazeltest\\GetAuthToken\\bin\\Release\\net50\\win-x64\\GetAuthToken.exe",
+        cert_path:
+            "C:\\Users\\Edward\\Projects\\2021\\April\\auproximity\\PubsCert.pem",
     });
 
     console.log("Connecting..");

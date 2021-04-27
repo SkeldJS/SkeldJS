@@ -2,14 +2,9 @@ import dgram from "dgram";
 
 import { EventEmitter } from "@skeldjs/events";
 
-import {
-    EncodeVersion,
-    unary
-} from "@skeldjs/util";
+import { EncodeVersion, unary } from "@skeldjs/util";
 
-import {
-    DisconnectReason
-} from "@skeldjs/constant";
+import { DisconnectReason } from "@skeldjs/constant";
 
 import {
     AcknowledgePacket,
@@ -165,7 +160,10 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
 
     async ack(nonce: number) {
         await this.send(
-            new AcknowledgePacket(nonce, this.packets_sent.filter(p => p.ackd).map((_, i) => i))
+            new AcknowledgePacket(
+                nonce,
+                this.packets_sent.filter((p) => p.ackd).map((_, i) => i)
+            )
         );
     }
 
@@ -182,7 +180,7 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
                                 ? remote.clientid
                                 : this.room.hostid,
                             DisconnectReason.None
-                        )
+                        ),
                     ])
                 );
             }
@@ -190,13 +188,9 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
         }
 
         if (reason === -1) {
-            this.send(
-                new DisconnectPacket(DisconnectReason.None)
-            );
+            this.send(new DisconnectPacket(DisconnectReason.None));
         } else {
-            this.send(
-                new DisconnectPacket(reason, message, true)
-            );
+            this.send(new DisconnectPacket(reason, message, true));
         }
         this.disconnected = true;
     }
@@ -204,7 +198,7 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
     async joinError(reason: DisconnectReason, message?: string) {
         this.send(
             new ReliablePacket(this.nonce, [
-                new JoinGameMessage(reason, message)
+                new JoinGameMessage(reason, message),
             ])
         );
     }

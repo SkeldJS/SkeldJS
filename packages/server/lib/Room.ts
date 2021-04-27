@@ -9,7 +9,13 @@ import {
 import {
     BaseGameDataMessage,
     BaseRootMessage,
-    GameDataMessage, GameDataToMessage, JoinGameMessage, ReliablePacket, RemoveGameMessage, RemovePlayerMessage, UnreliablePacket
+    GameDataMessage,
+    GameDataToMessage,
+    JoinGameMessage,
+    ReliablePacket,
+    RemoveGameMessage,
+    RemovePlayerMessage,
+    UnreliablePacket,
 } from "@skeldjs/protocol";
 
 import { EventEmitter } from "@skeldjs/events";
@@ -75,9 +81,7 @@ export class Room extends Hostable<RoomEvents> {
     }
 
     async destroy() {
-        await this.broadcast(null, true, null, [
-            new RemoveGameMessage
-        ]);
+        await this.broadcast(null, true, null, [new RemoveGameMessage()]);
         this.remotes.clear();
         this.players.clear();
         this.objects.clear();
@@ -116,7 +120,7 @@ export class Room extends Hostable<RoomEvents> {
                             ? this.started
                                 ? SpecialID.SaaH
                                 : remote.clientid
-                            : this.hostid,
+                            : this.hostid
                     ),
                     new RemovePlayerMessage(
                         this.code,
@@ -127,7 +131,7 @@ export class Room extends Hostable<RoomEvents> {
                                 : remote.clientid
                             : this.hostid,
                         DisconnectReason.None
-                    )
+                    ),
                 ])
             );
         }
@@ -145,11 +149,11 @@ export class Room extends Hostable<RoomEvents> {
                 const children = [
                     ...(messages?.length
                         ? [
-                            new GameDataToMessage(
-                                this.code,
-                                recipient.id,
-                                messages
-                            )
+                              new GameDataToMessage(
+                                  this.code,
+                                  recipient.id,
+                                  messages
+                              ),
                           ]
                         : []),
                     ...payloads,
@@ -157,28 +161,23 @@ export class Room extends Hostable<RoomEvents> {
 
                 await remote.send(
                     reliable
-                    ? new ReliablePacket(remote.nonce, children)
-                    : new UnreliablePacket(children)
+                        ? new ReliablePacket(remote.nonce, children)
+                        : new UnreliablePacket(children)
                 );
             }
         } else {
             for (const [, remote] of this.remotes) {
                 const children = [
                     ...(messages?.length
-                        ? [
-                            new GameDataMessage(
-                                this.code,
-                                messages
-                            )
-                          ]
+                        ? [new GameDataMessage(this.code, messages)]
                         : []),
                     ...payloads,
                 ];
 
                 await remote.send(
                     reliable
-                    ? new ReliablePacket(remote.nonce, children)
-                    : new UnreliablePacket(children)
+                        ? new ReliablePacket(remote.nonce, children)
+                        : new UnreliablePacket(children)
                 );
             }
         }

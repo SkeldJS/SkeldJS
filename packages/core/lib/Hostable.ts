@@ -236,7 +236,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         this.counter = -1;
         this.privacy = "private";
 
-        this.settings = new GameOptions;
+        this.settings = new GameOptions();
 
         this.objects = new Map();
         this.players = new Map();
@@ -1176,9 +1176,9 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
     private _getExistingObjectSpawn() {
         const messages: SpawnMessage[] = [];
 
-        for (const [ , netobj ] of this.netobjects) {
+        for (const [, netobj] of this.netobjects) {
             let message = messages.find(
-                msg =>
+                (msg) =>
                     msg.spawnType === netobj.type &&
                     msg.ownerid === netobj.ownerid
             );
@@ -1200,10 +1200,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
             writer.write(netobj, true);
 
             message.components.push(
-                new ComponentSpawnData(
-                    netobj.netid,
-                    writer.buffer
-                )
+                new ComponentSpawnData(netobj.netid, writer.buffer)
             );
         }
 

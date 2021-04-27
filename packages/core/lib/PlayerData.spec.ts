@@ -63,7 +63,6 @@ describe("PlayerData", () => {
             await room.spawnPrefab(SpawnType.GameData, -2);
             await room.spawnPrefab(SpawnType.Player, player);
 
-
             assert.ok(room.gamedata.players.get(player.playerId));
             assert.strictEqual(
                 player.data,

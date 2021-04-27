@@ -75,7 +75,16 @@ export interface Deserializable {
 }
 
 export class PacketDecoder<SenderType = any> {
-    listeners: Map<Deserializable, Set<(message: Serializable, direction: MessageDirection, sender: SenderType) => void>>;
+    listeners: Map<
+        Deserializable,
+        Set<
+            (
+                message: Serializable,
+                direction: MessageDirection,
+                sender: SenderType
+            ) => void
+        >
+    >;
     types: Map<string, Map<number, Deserializable>>;
 
     constructor() {
@@ -86,8 +95,8 @@ export class PacketDecoder<SenderType = any> {
      * Reset the packet decoder, removing all custom packets and removing listeners.
      */
     reset() {
-        this.listeners = new Map;
-        this.types = new Map;
+        this.listeners = new Map();
+        this.types = new Map();
 
         this.register(
             AcknowledgePacket,
@@ -156,7 +165,11 @@ export class PacketDecoder<SenderType = any> {
      * @param direction The direction that the message was sent.
      * @param sender Additional metadata for the message, e.g. the sender.
      */
-    emitDecoded(message: Serializable, direction: MessageDirection, sender: SenderType) {
+    emitDecoded(
+        message: Serializable,
+        direction: MessageDirection,
+        sender: SenderType
+    ) {
         this.emit(message, direction, sender);
 
         if (!message.children) return;
@@ -166,7 +179,11 @@ export class PacketDecoder<SenderType = any> {
         }
     }
 
-    private emit(message: Serializable, direction: MessageDirection, sender: SenderType) {
+    private emit(
+        message: Serializable,
+        direction: MessageDirection,
+        sender: SenderType
+    ) {
         const classes = this.types.get(message.type);
 
         if (classes) {
@@ -186,11 +203,16 @@ export class PacketDecoder<SenderType = any> {
      */
     getListeners<T extends Deserializable>(
         messageClass: Deserializable
-    ): Set<(message: GetSerialized<T>, direction: MessageDirection, sender: SenderType) => void> {
+    ): Set<
+        (
+            message: GetSerialized<T>,
+            direction: MessageDirection,
+            sender: SenderType
+        ) => void
+    > {
         const listeners = this.listeners.get(messageClass);
 
-        if (listeners)
-            return listeners;
+        if (listeners) return listeners;
 
         this.listeners.set(messageClass, new Set());
 
@@ -331,10 +353,13 @@ export class PacketDecoder<SenderType = any> {
             sender: SenderType
         ) => void
     ) {
-        const removeListener = this.on(messageClass, (message, direction, sender) => {
-            removeListener();
-            listener(message, direction, sender);
-        });
+        const removeListener = this.on(
+            messageClass,
+            (message, direction, sender) => {
+                removeListener();
+                listener(message, direction, sender);
+            }
+        );
 
         return removeListener;
     }
@@ -346,7 +371,11 @@ export class PacketDecoder<SenderType = any> {
      */
     wait<T extends Deserializable>(
         messageClass: T
-    ): Promise<{ message: GetSerialized<T>; direction: MessageDirection, sender: SenderType }> {
+    ): Promise<{
+        message: GetSerialized<T>;
+        direction: MessageDirection;
+        sender: SenderType;
+    }> {
         return new Promise((resolve) => {
             this.once(messageClass, (message, direction, sender) => {
                 resolve({ message, direction, sender });
@@ -367,14 +396,21 @@ export class PacketDecoder<SenderType = any> {
             direction: MessageDirection,
             sender: SenderType
         ) => boolean
-    ): Promise<{ message: GetSerialized<T>; direction: MessageDirection, sender: SenderType }> {
+    ): Promise<{
+        message: GetSerialized<T>;
+        direction: MessageDirection;
+        sender: SenderType;
+    }> {
         return new Promise((resolve) => {
-            const removeListener = this.on(messageClass, (message, direction, sender) => {
-                if (filter(message, direction, sender)) {
-                    removeListener();
-                    resolve({ message, direction, sender });
+            const removeListener = this.on(
+                messageClass,
+                (message, direction, sender) => {
+                    if (filter(message, direction, sender)) {
+                        removeListener();
+                        resolve({ message, direction, sender });
+                    }
                 }
-            });
+            );
         });
     }
 

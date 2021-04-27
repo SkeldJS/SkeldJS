@@ -22,19 +22,24 @@ export interface GetAuthTokenOptions {
  * @param ip The IP of the server to get a token from.
  * @param port The port of the server to get a token from.
  */
-export function getAuthToken(exe_path: string, cert_path: string, ip: string, port: number): Promise<number> {
+export function getAuthToken(
+    exe_path: string,
+    cert_path: string,
+    ip: string,
+    port: number
+): Promise<number> {
     return new Promise((resolve, reject) => {
         const tokenRegExp = /TOKEN:(\d+):TOKEN/;
 
         const args = [
             path.resolve(process.cwd(), cert_path),
             ip,
-            port.toString()
+            port.toString(),
         ];
 
         const proc = child_process.spawn(exe_path, args);
 
-        proc.stdout.on("data", chunk => {
+        proc.stdout.on("data", (chunk) => {
             const out = chunk.toString("utf8");
             const matched = tokenRegExp.exec(out.toString("utf8"));
 
@@ -47,7 +52,7 @@ export function getAuthToken(exe_path: string, cert_path: string, ip: string, po
             }
         });
 
-        proc.on("error", err => {
+        proc.on("error", (err) => {
             proc.kill("SIGINT");
             reject(err);
         });
@@ -64,11 +69,19 @@ export function getAuthToken(exe_path: string, cert_path: string, ip: string, po
  * @param client The client to hook.
  * @param options Options for get auth token.
  */
-export function authTokenHook(client: SkeldjsClient, options: GetAuthTokenOptions) {
-    client.on("client.connect", async ev => {
+export function authTokenHook(
+    client: SkeldjsClient,
+    options: GetAuthTokenOptions
+) {
+    client.on("client.connect", async (ev) => {
         const { ip, port } = ev.data;
         try {
-            client.token = await getAuthToken(options.exe_path, options.cert_path, ip, port + 2 /* Auth port is normal port + 2 */);
+            client.token = await getAuthToken(
+                options.exe_path,
+                options.cert_path,
+                ip,
+                port + 2 /* Auth port is normal port + 2 */
+            );
         } catch (e) {
             client.token = 0;
         }

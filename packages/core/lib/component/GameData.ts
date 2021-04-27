@@ -94,7 +94,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         return super.owner as Hostable;
     }
 
-/*
+    /*
     private getOrCreate(playerId: number) {
         const data = this.players.get(playerId);
 
@@ -112,7 +112,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
-        if (!this.players) this.players = new Map;
+        if (!this.players) this.players = new Map();
 
         if (spawn) {
             const num_players = reader.upacked();
@@ -125,7 +125,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
             }
         } else {
             while (reader.left) {
-                const [ playerId, preader ] = reader.message();
+                const [playerId, preader] = reader.message();
 
                 const player = this.players.get(playerId);
 
@@ -275,9 +275,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         const player = this.players.get(playerId);
 
         if (player) {
-            player.tasks = taskIds.map((id, i) =>
-                new TaskState(i, false)
-            );
+            player.tasks = taskIds.map((id, i) => new TaskState(i, false));
 
             this.emit("gamedata.settasks", {
                 playerData: player,

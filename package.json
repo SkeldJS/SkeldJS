@@ -22,9 +22,9 @@
   },
   "private": true,
   "scripts": {
-    "lint": "eslint \"packages/**/*.ts/\"",
+    "lint": "eslint \"packages/**/*.ts\"",
     "lint-staged": "lint-staged",
-    "fix": "prettier --write \"packages/**/*.ts/\"",
+    "fix": "prettier --write \"packages/**/*.ts\"",
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
     "build-all": "yarn workspaces foreach -ptv run build",
@@ -80,5 +80,5 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "2.6.14"
+  "version": "2.6.15"
 }

@@ -12,10 +12,7 @@ import {
     RpcMessageTag,
 } from "@skeldjs/constant";
 
-import {
-    MovingPlatformSide,
-    MovingPlatformSystem,
-} from "../system";
+import { MovingPlatformSide, MovingPlatformSystem } from "../system";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";

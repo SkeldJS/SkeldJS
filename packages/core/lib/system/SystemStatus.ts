@@ -2,12 +2,12 @@ import { HazelBuffer, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 
 import { EventEmitter } from "@skeldjs/events";
+import { RpcMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";
-import { RpcMessage } from "@skeldjs/protocol";
 
 export class SystemStatus<
     DataT = any,
