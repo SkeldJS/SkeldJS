@@ -78,7 +78,7 @@ describe("Networkable", () => {
             const room = new Hostable();
             const component = new Networkable(room, 1, -2);
 
-            const reader = HazelWriter.alloc(0);
+            const reader = HazelReader.from(Buffer.alloc(0));
 
             assert.doesNotThrow(() => {
                 component.Deserialize(reader);

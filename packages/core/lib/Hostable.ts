@@ -286,9 +286,10 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     const component = new SpawnPrefabs[message.spawnType][i](
                         this,
                         spawn_component.netid,
-                        message.ownerid,
-                        spawn_component.data
+                        message.ownerid
                     );
+                    const reader = HazelReader.from(spawn_component.data);
+                    component.Deserialize(reader, true);
 
                     if (this.netobjects.get(component.netid)) continue;
 
@@ -507,6 +508,10 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
      * @returns The resolved player ID.
      */
     resolvePlayerId(player: PlayerIDResolvable) {
+        if (typeof player === "undefined") {
+            return null;
+        }
+
         if (typeof player === "number") {
             return player;
         }

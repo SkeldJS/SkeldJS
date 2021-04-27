@@ -1,4 +1,4 @@
-import { HazelBuffer, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
@@ -36,7 +36,7 @@ export class VoteBanSystem extends Networkable<
         room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | VoteBanSystemData
+        data?: HazelReader | VoteBanSystemData
     ) {
         super(room, netid, ownerid, data);
 
@@ -99,7 +99,7 @@ export class VoteBanSystem extends Networkable<
                 this.dirtyBit = 1;
             }
 
-            if (this.room.amhost && voted.every((v) => typeof v === "number")) {
+            if (this.room.amhost && voted.every((v) => v !== null)) {
                 this.room.broadcast([], true, null, [
                     new KickPlayerMessage(
                         this.room.code,

@@ -1,4 +1,4 @@
-import { HazelBuffer, HazelReader } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import { EventEmitter } from "@skeldjs/events";
@@ -61,7 +61,7 @@ export class Networkable<
         room: Hostable<any>,
         netid: number,
         ownerid: number,
-        data?: HazelBuffer | DataT
+        data?: HazelReader | DataT
     ) {
         super();
 
@@ -70,7 +70,7 @@ export class Networkable<
         this.ownerid = ownerid;
 
         if (data) {
-            if (data instanceof HazelBuffer) {
+            if (data instanceof HazelReader) {
                 this.Deserialize(data, true);
             } else {
                 this.patch(data);
@@ -101,9 +101,9 @@ export class Networkable<
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    Deserialize(reader: HazelBuffer, spawn: boolean = false) {}
+    Deserialize(reader: HazelReader, spawn: boolean = false) {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    Serialize(writer: HazelBuffer, spawn: boolean = false): boolean {
+    Serialize(writer: HazelWriter, spawn: boolean = false): boolean {
         return false;
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
