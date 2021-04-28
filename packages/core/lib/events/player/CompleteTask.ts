@@ -10,7 +10,7 @@ export class PlayerCompleteTaskEvent extends PlayerEvent {
 
     task: TaskState;
 
-    constructor(room: Hostable, player: PlayerData, task: TaskState) {
+    constructor(room: Hostable<any>, player: PlayerData, task: TaskState) {
         super(room, player);
 
         this.task = task;

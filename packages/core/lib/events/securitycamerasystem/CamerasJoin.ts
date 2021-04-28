@@ -10,7 +10,7 @@ export class SecurityCameraJoinEvent extends SecurityCameraSystemEvent {
     player: PlayerData;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         system: SecurityCameraSystem,
         player: PlayerData
     ) {

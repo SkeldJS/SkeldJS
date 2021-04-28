@@ -13,7 +13,7 @@ export class MeetingHudVoteCastEvent extends MeetingHudEvent {
     suspect?: PlayerData;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         meetinghud: MeetingHud,
         voter: PlayerData,
         suspect?: PlayerData

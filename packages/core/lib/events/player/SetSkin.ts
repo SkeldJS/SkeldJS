@@ -10,7 +10,7 @@ export class PlayerSetSkinEvent extends PlayerEvent {
 
     skin: Skin;
 
-    constructor(room: Hostable, player: PlayerData, skin: Skin) {
+    constructor(room: Hostable<any>, player: PlayerData, skin: Skin) {
         super(room, player);
 
         this.skin = skin;

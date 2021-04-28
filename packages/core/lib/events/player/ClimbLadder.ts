@@ -8,7 +8,7 @@ export class PlayerClimbLadderEvent extends PlayerEvent {
 
     ladderid: number;
 
-    constructor(room: Hostable, player: PlayerData, ladderid: number) {
+    constructor(room: Hostable<any>, player: PlayerData, ladderid: number) {
         super(room, player);
 
         this.ladderid = ladderid;

@@ -5,32 +5,27 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { BaseSystemStatusEvents } from "./events";
+
+import {
+    O2ConsoleClearEvent,
+    O2ConsoleCompleteEvent,
+    SystemRepairEvent,
+    SystemSabotageEvent,
+} from "../events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 export interface LifeSuppSystemData {
     timer: number;
     completed: Set<number>;
 }
 
-export interface LifeSuppSystemEvents extends BaseSystemStatusEvents {
-    /**
-     * Emitted when an O2 console is completed.
-     */
-    "o2.consoles.complete": {
-        /**
-         * The player that completed the console, only known if the current client is the host.
-         */
-        player?: PlayerData;
-        /**
-         * The ID of the console that was completed.
-         */
-        consoleId: number;
-    };
-    /**
-     * Emitted when the O2 consoles are cleared.
-     */
-    "o2.consoles.clear": {};
-}
+export type LifeSuppSystemEvents =
+    SystemStatusEvents &
+ExtractEventTypes<[
+    O2ConsoleClearEvent,
+    O2ConsoleCompleteEvent
+]>;
 
 /**
  * Represents a system responsible for handling oxygen consoles.
@@ -75,9 +70,9 @@ export class LifeSuppSystem extends SystemStatus<
         this.timer = reader.float();
 
         if (timer === 10000 && this.timer < 10000) {
-            this.emit("system.sabotage", {});
+            this.emit(new SystemSabotageEvent(this.ship?.room, this));
         } else if (timer < 10000 && this.timer === 10000) {
-            this.emit("system.repair", {});
+            this.emit(new SystemRepairEvent(this.ship?.room, this));
         }
 
         const num_consoles = reader.upacked();
@@ -109,14 +104,21 @@ export class LifeSuppSystem extends SystemStatus<
     private _clearConsoles() {
         this.completed.clear();
         this.dirty = true;
-        this.emit("o2.consoles.clear", {});
+        this.emit(new O2ConsoleClearEvent(this.ship?.room, this));
     }
 
-    private _completeConsole(consoleId: number, player?: PlayerData) {
-        if (!this.completed.has(consoleId)) {
-            this.completed.add(consoleId);
+    private _completeConsole(consoleid: number, player?: PlayerData) {
+        if (!this.completed.has(consoleid)) {
+            this.completed.add(consoleid);
             this.dirty = true;
-            this.emit("o2.consoles.complete", { player, consoleId });
+            this.emit(
+                new O2ConsoleCompleteEvent(
+                    this.ship?.room,
+                    this,
+                    consoleid,
+                    player
+                )
+            );
         }
     }
 
@@ -131,7 +133,7 @@ export class LifeSuppSystem extends SystemStatus<
     private _fix(player: PlayerData) {
         this.timer = 10000;
         this.dirty = true;
-        this.emit("system.repair", { player });
+        this.emit(new SystemRepairEvent(this.ship?.room, this, player));
         this._clearConsoles();
     }
 

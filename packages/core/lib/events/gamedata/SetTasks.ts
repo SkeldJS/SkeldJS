@@ -1,6 +1,6 @@
 import { GameData } from "../../component";
 import { Hostable } from "../../Hostable";
-import { PlayerGameData, TaskState } from "../../misc/PlayerGameData";
+import { PlayerGameData } from "../../misc/PlayerGameData";
 import { GameDataEvent } from "./GameDataEvent";
 
 export class GameDataSetTasksEvent extends GameDataEvent {
@@ -8,13 +8,13 @@ export class GameDataSetTasksEvent extends GameDataEvent {
     eventName = "gamedata.settasks" as const;
 
     player: PlayerGameData;
-    tasks: TaskState[];
+    tasks: number[];
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         gamedata: GameData,
         player: PlayerGameData,
-        tasks: TaskState[]
+        tasks: number[]
     ) {
         super(room, gamedata);
 

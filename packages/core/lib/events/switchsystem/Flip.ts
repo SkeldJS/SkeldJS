@@ -4,12 +4,15 @@ import { SwitchSystem } from "../../system";
 import { SwitchSystemEvent } from "./SwitchSystemEvent";
 
 export class SwitchFlipEvent extends SwitchSystemEvent {
+    static eventName = "electrical.switch.flip" as const;
+    eventName = "electrical.switch.flip" as const;
+
     num: number;
     value: boolean;
     player?: PlayerData;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         system: SwitchSystem,
         num: number,
         value: boolean,

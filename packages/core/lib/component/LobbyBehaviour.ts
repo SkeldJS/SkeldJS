@@ -1,6 +1,6 @@
 import { HazelBuffer } from "@skeldjs/util";
-
 import { SpawnType } from "@skeldjs/constant";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
@@ -9,7 +9,7 @@ import { Heritable } from "../Heritable";
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface LobbyBehaviourData {}
 
-export interface LobbyBehaviourEvents extends NetworkableEvents {}
+export type LobbyBehaviourEvents = NetworkableEvents & ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for the Lobby map.

@@ -7,68 +7,34 @@ import {
     VoteState,
 } from "@skeldjs/constant";
 
+import { RpcMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
+
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { PlayerVoteState } from "../misc/PlayerVoteState";
-import { PlayerData } from "../PlayerData";
 import { Heritable } from "../Heritable";
-import { RpcMessage } from "@skeldjs/protocol";
+
+import {
+    MeetingHudMeetingCloseEvent,
+    MeetingHudVoteCastEvent,
+    MeetingHudVoteClearEvent,
+    MeetingHudVotingCompleteEvent,
+} from "../events/meetinghud";
 
 export interface MeetingHudData {
     dirtyBit: number;
     states: Map<number, PlayerVoteState>;
 }
 
-/**
- * Represents a room object that holds voting states.
- *
- * See {@link MeetingHudEvents} for events to listen to.
- */
-export interface MeetingHudEvents extends NetworkableEvents {
-    /**
-     * Emitted when a player casts a vote.
-     */
-    "meetinghud.votecast": {
-        /**
-         * The player that cast the vote.
-         */
-        voter: PlayerData;
-        /**
-         * The suspect that the player voted for.
-         */
-        suspect: PlayerData | "skip";
-    };
-    /**
-     * Emitted when a player's vote is cleared.
-     */
-    "meetinghud.voteclear": {
-        /**
-         * The player that had their vote cleared.
-         */
-        player: PlayerData;
-    };
-    /**
-     * Emitted when voting is completed.
-     */
-    "meetinghud.votingcomplete": {
-        /**
-         * Whether or not the votes ended in a tie.
-         */
-        tie: boolean;
-        /**
-         * The player that got voted out.
-         */
-        ejected: PlayerData;
-        /**
-         * The vote states of each player in the meeting.
-         */
-        voteStates: PlayerVoteState[];
-    };
-    /**
-     * Emitted when the meeting hud is closed.
-     */
-    "meetinghud.close": {};
-}
+export type MeetingHudEvents =
+    NetworkableEvents &
+ExtractEventTypes<[
+    MeetingHudVoteCastEvent,
+    MeetingHudVoteClearEvent,
+    MeetingHudVotingCompleteEvent,
+    MeetingHudMeetingCloseEvent
+]>;
 
 export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     static type = SpawnType.MeetingHud as const;
@@ -168,7 +134,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     }
 
     private _close() {
-        this.emit("meetighud.close", {});
+        this.emit(new MeetingHudMeetingCloseEvent(this.room, this));
     }
 
     /**
@@ -198,25 +164,32 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
                 this.room.host.control.sendChatNote(ChatNoteType.DidVote);
             }
 
-            this.emit("meetinghud.votecast", {
-                voter: voting,
-                suspect: resolved_suspect || "skip",
-            });
+            this.emit(
+                new MeetingHudVoteCastEvent(
+                    this.room,
+                    this,
+                    this.room.getPlayerByPlayerId(votingid),
+                    this.room.getPlayerByPlayerId(suspectid)
+                )
+            );
         }
     }
 
     private _clearVote(voterid: number) {
         const voting = this.states.get(voterid);
-        const resolved = this.room.getPlayerByPlayerId(voterid);
 
         if (voting) {
             voting.state ^= 0xf;
             voting.state ^= VoteState.DidVote;
             this.dirtyBit |= 1 << voterid;
 
-            this.emit("meetinghud.voteclear", {
-                player: resolved,
-            });
+            this.emit(
+                new MeetingHudVoteClearEvent(
+                    this.room,
+                    this,
+                    this.room.getPlayerByPlayerId(voterid)
+                )
+            );
         }
     }
 
@@ -301,10 +274,14 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
             ])
         );
 
-        this.emit("meetinghud.votingcomplete", {
-            tie,
-            ejected: resolved,
-            voteStates: votes,
-        });
+        this.emit(
+            new MeetingHudVotingCompleteEvent(
+                this.room,
+                this,
+                tie,
+                resolved,
+                votes
+            )
+        );
     }
 }

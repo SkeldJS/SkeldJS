@@ -10,7 +10,7 @@ export class PlayerSetPetEvent extends PlayerEvent {
 
     pet: Pet;
 
-    constructor(room: Hostable, player: PlayerData, pet: Pet) {
+    constructor(room: Hostable<any>, player: PlayerData, pet: Pet) {
         super(room, player);
 
         this.pet = pet;

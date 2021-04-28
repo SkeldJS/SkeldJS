@@ -1,7 +1,7 @@
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
 import { SecurityCameraSystem } from "../../system";
-import { SecurityCameraSystemEvent } from "./SecuritySystemEvent";
+import { SecurityCameraSystemEvent } from "./SecurityCameraSystemEvent";
 
 export class SecurityCameraLeaveEvent extends SecurityCameraSystemEvent {
     static eventName = "security.cameras.leave" as const;
@@ -10,7 +10,7 @@ export class SecurityCameraLeaveEvent extends SecurityCameraSystemEvent {
     player: PlayerData;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         system: SecurityCameraSystem,
         player: PlayerData
     ) {

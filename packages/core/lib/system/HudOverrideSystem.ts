@@ -4,13 +4,17 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { BaseSystemStatusEvents } from "./events";
+import { SystemRepairEvent, SystemSabotageEvent } from "../events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 export interface HudOverrideSystemData {
     sabotaged: boolean;
 }
 
-export interface HudOverrideSystemEvents extends BaseSystemStatusEvents {}
+export type HudOverrideSystemEvents =
+    SystemStatusEvents &
+    ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling communication sabotages on The Skeld and Polus.
@@ -49,8 +53,10 @@ export class HudOverrideSystem extends SystemStatus<
         const before = this.sabotaged;
         this._sabotaged = reader.bool();
 
-        if (!before && this._sabotaged) this.emit("system.sabotage", {});
-        if (before && !this._sabotaged) this.emit("system.repair", {});
+        if (!before && this._sabotaged)
+            this.emit(new SystemSabotageEvent(this.ship?.room, this));
+        if (before && !this._sabotaged)
+            this.emit(new SystemRepairEvent(this.ship?.room, this));
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -63,14 +69,14 @@ export class HudOverrideSystem extends SystemStatus<
     }
 
     HandleSabotage() {
-        this.emit("system.sabotage", {});
+        this.emit(new SystemSabotageEvent(this.ship?.room, this));
         this._sabotaged = true;
         this.dirty = true;
     }
 
     HandleRepair(player: PlayerData, amount: number) {
         if (amount === 0) {
-            this.emit("system.repair", {});
+            this.emit(new SystemRepairEvent(this.ship?.room, this));
             this._sabotaged = false;
             this.dirty = true;
         }

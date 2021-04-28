@@ -10,7 +10,7 @@ export class PlayerSnapToEvent extends PlayerEvent {
 
     position: Vector2;
 
-    constructor(room: Hostable, player: PlayerData, position: Vector2) {
+    constructor(room: Hostable<any>, player: PlayerData, position: Vector2) {
         super(room, player);
 
         this.position = position;

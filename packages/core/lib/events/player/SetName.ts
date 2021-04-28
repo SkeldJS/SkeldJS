@@ -8,7 +8,7 @@ export class PlayerSetNameEvent extends PlayerEvent {
 
     name: string;
 
-    constructor(room: Hostable, player: PlayerData, name: string) {
+    constructor(room: Hostable<any>, player: PlayerData, name: string) {
         super(room, player);
 
         this.name = name;

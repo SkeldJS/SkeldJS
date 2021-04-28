@@ -5,7 +5,7 @@ import { RoomEvent } from "../RoomEvent";
 export class MeetingHudEvent extends RoomEvent {
     meetinghud: MeetingHud;
 
-    constructor(room: Hostable, meetinghud: MeetingHud) {
+    constructor(room: Hostable<any>, meetinghud: MeetingHud) {
         super(room);
 
         this.meetinghud = meetinghud;

@@ -4,18 +4,18 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { Door, DoorEvents } from "../misc/Door";
-import { BaseSystemStatusEvents } from "./events";
+import { SystemStatusEvents } from "./events";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 export interface ElectricalDoorsSystemData {
     cooldowns: Map<number, number>;
     doors: boolean[];
 }
 
-export type BaseElectricalDoorsSystemEvents = BaseSystemStatusEvents &
-    DoorEvents;
-
-export interface ElectricalDoorsSystemEvents
-    extends BaseElectricalDoorsSystemEvents {}
+export type ElectricalDoorsSystemEvents =
+    SystemStatusEvents &
+    DoorEvents &
+    ExtractEventTypes<[]>;
 
 /**
  * Represents a system for doors that must be manually opened.

@@ -13,7 +13,7 @@ export class MeetingHudVotingCompleteEvent extends MeetingHudEvent {
     voteStates: Map<number, PlayerVoteState>;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         meetinghud: MeetingHud,
         tie: boolean,
         ejected: PlayerData,

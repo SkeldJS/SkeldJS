@@ -11,10 +11,10 @@ export class O2ConsoleCompleteEvent extends O2SystemEvent {
     player?: PlayerData;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         system: LifeSuppSystem,
         consoleid: number,
-        player: PlayerData
+        player?: PlayerData
     ) {
         super(room, system);
 

@@ -8,11 +8,12 @@ import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";
+import { SystemSabotageEvent } from "../events";
 
 export class SystemStatus<
     DataT = any,
-    T extends Record<string, any> = {}
-> extends EventEmitter<T & SystemStatusEvents> {
+    T extends SystemStatusEvents = SystemStatusEvents
+> extends EventEmitter<T> {
     static systemType: SystemType;
     systemType: SystemType;
 
@@ -38,7 +39,7 @@ export class SystemStatus<
         return false;
     }
 
-    constructor(protected ship: InnerShipStatus, data?: HazelBuffer | DataT) {
+    constructor(readonly ship: InnerShipStatus, data?: HazelBuffer | DataT) {
         super();
 
         if (data) {
@@ -54,16 +55,20 @@ export class SystemStatus<
         Object.assign(this, data);
     }
 
-    async emit(...args: any[]): Promise<boolean> {
-        const event = args[0];
-        const data = args[1];
+    async emit<EventName extends keyof SystemStatusEvents>(
+        event: SystemStatusEvents[EventName]
+    );
+    async emit<EventName extends keyof T>(
+        event: T[EventName]
+    );
+    async emit<EventName extends keyof T>(
+        event: T[EventName]
+    ) {
+        if (this.ship) {
+            this.ship.emit(event as any);
+        }
 
-        this.ship.emit(event, {
-            ...data,
-            system: this,
-        });
-
-        return super.emit(event, data);
+        return super.emit(event);
     }
 
     /* eslint-disable-next-line */
@@ -80,7 +85,9 @@ export class SystemStatus<
     sabotage(player: PlayerData) {
         if (this.ship.room.amhost) {
             this.HandleSabotage(player);
-            this.emit("system.sabotage", { player });
+            this.emit(
+                new SystemSabotageEvent(this.ship?.room, this, player)
+            );
         } else {
             const writer = HazelWriter.alloc(3);
             writer.uint8(SystemType.Sabotage);

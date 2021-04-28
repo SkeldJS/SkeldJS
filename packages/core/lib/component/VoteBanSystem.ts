@@ -5,12 +5,13 @@ import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { Heritable } from "../Heritable";
 import { KickPlayerMessage, RpcMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 export interface VoteBanSystemData {
     clients: Map<number, [number, number, number]>;
 }
 
-export interface VoteBanSystemEvents extends NetworkableEvents {}
+export type VoteBanSystemEvents = NetworkableEvents & ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for handling vote kicks.

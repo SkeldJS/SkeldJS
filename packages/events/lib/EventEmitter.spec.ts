@@ -1,14 +1,25 @@
 import assert from "assert";
+import { CancelableEvent } from "./CancelableEvent";
 
-import { EventContext, EventEmitter } from "./EventEmitter";
+import { EventEmitter, ExtractEventTypes } from "./EventEmitter";
 
 const sleep = (ms) =>
     new Promise<void>((resolve) => setTimeout(() => resolve(), ms));
-interface TestEvents {
-    "hello.123": {
-        alphabet: number;
-    };
+
+class TestEvent extends CancelableEvent {
+    static eventName = "hello.123" as const;
+    eventName = "hello.123" as const;
+
+    alphabet: number;
+
+    constructor(alphabet: number) {
+        super();
+
+        this.alphabet = alphabet;
+    }
 }
+
+type TestEvents = ExtractEventTypes<[TestEvent]>;
 
 describe("EventEmitter", () => {
     describe("EventEmitter#emit", () => {
@@ -17,11 +28,11 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
 
             emitter.on("hello.123", async (ev) => {
-                assert.strictEqual(ev.data.alphabet, 5);
+                assert.strictEqual(ev.alphabet, 5);
                 didreceive = true;
             });
 
-            await emitter.emit("hello.123", { alphabet: 5 });
+            await emitter.emit(new TestEvent(5));
             assert.ok(didreceive);
         });
 
@@ -30,19 +41,17 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
 
             emitter.on("hello.123", async (ev) => {
-                assert.strictEqual(ev.data.alphabet, 5);
+                assert.strictEqual(ev.alphabet, 5);
                 ev.cancel();
             });
 
             emitter.on("hello.123", async (ev) => {
-                if (ev.cancelled) return;
+                if (ev.canceled) return;
 
                 didreceive = true;
             });
 
-            const went_through = await emitter.emit("hello.123", {
-                alphabet: 5,
-            });
+            const went_through = await emitter.emit(new TestEvent(5));
             assert.ok(!went_through);
             assert.ok(!didreceive);
         });
@@ -54,7 +63,7 @@ describe("EventEmitter", () => {
             const listeners = emitter.getListeners("hello.123");
 
             const off = emitter.on("hello.123", async (ev) => {
-                assert.strictEqual(ev.data.alphabet, 5);
+                assert.strictEqual(ev.alphabet, 5);
             });
 
             assert.strictEqual(listeners.size, 1);
@@ -69,11 +78,11 @@ describe("EventEmitter", () => {
             const listeners = emitter.getListeners("hello.123");
 
             emitter.once("hello.123", async (ev) => {
-                assert.strictEqual(ev.data.alphabet, 6);
+                assert.strictEqual(ev.alphabet, 6);
             });
 
             assert.strictEqual(listeners.size, 1);
-            emitter.emit("hello.123", { alphabet: 6 });
+            emitter.emit(new TestEvent(6));
             assert.strictEqual(listeners.size, 0);
         });
     });
@@ -85,13 +94,13 @@ describe("EventEmitter", () => {
 
             (async () => {
                 await sleep(100);
-                await emitter.emit("hello.123", { alphabet: 6 });
+                await emitter.emit(new TestEvent(6));
             })();
 
             const date = Date.now();
             const ev = await emitter.wait("hello.123");
 
-            assert.strictEqual(ev.data.alphabet, 6);
+            assert.strictEqual(ev.alphabet, 6);
 
             assert.ok(Date.now() - date > 40);
             assert.strictEqual(listeners.size, 0);
@@ -103,8 +112,8 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            async function response(ev: EventContext<{ alphabet: number }>) {
-                assert.strictEqual(ev.data.alphabet, 5);
+            async function response(ev: TestEvent) {
+                assert.strictEqual(ev.alphabet, 5);
             }
 
             emitter.on("hello.123", response);
@@ -119,8 +128,8 @@ describe("EventEmitter", () => {
             const emitter = new EventEmitter<TestEvents>();
             const listeners = emitter.getListeners("hello.123");
 
-            async function response(ev: EventContext<{ alphabet: number }>) {
-                assert.strictEqual(ev.data.alphabet, 5);
+            async function response(ev: TestEvent) {
+                assert.strictEqual(ev.alphabet, 5);
             }
 
             emitter.on("hello.123", response);
@@ -135,13 +144,13 @@ describe("EventEmitter", () => {
             const listeners = emitter.getListeners("hello.123");
 
             emitter.on("hello.123", async (ev) => {
-                assert.strictEqual(ev.data.alphabet, 5);
+                assert.strictEqual(ev.alphabet, 5);
                 didreceive = true;
             });
 
             assert.strictEqual(listeners.size, 1);
 
-            await emitter.emit("hello.123", { alphabet: 5 });
+            await emitter.emit(new TestEvent(5));
             assert.ok(didreceive);
 
             emitter.removeListeners("hello.123");
@@ -156,13 +165,13 @@ describe("EventEmitter", () => {
             const listeners = emitter.getListeners("hello.123");
 
             emitter.on("hello.123", async (ev) => {
-                assert.strictEqual(ev.data.alphabet, 5);
+                assert.strictEqual(ev.alphabet, 5);
                 didreceive = true;
             });
 
             assert.strictEqual(listeners.size, 1);
 
-            await emitter.emit("hello.123", { alphabet: 5 });
+            await emitter.emit(new TestEvent(5));
             assert.ok(didreceive);
 
             emitter.removeAllListeners();

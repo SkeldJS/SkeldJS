@@ -5,7 +5,7 @@ import { RoomEvent } from "../RoomEvent";
 export class VoteBanSystemEvent extends RoomEvent {
     votebansystem: VoteBanSystem;
 
-    constructor(room: Hostable, votebansystem: VoteBanSystem) {
+    constructor(room: Hostable<any>, votebansystem: VoteBanSystem) {
         super(room);
 
         this.votebansystem = votebansystem;

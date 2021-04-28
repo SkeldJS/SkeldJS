@@ -4,14 +4,17 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { BaseSystemStatusEvents } from "./events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 export interface ReactorSystemData {
     timer: number;
     completed: Set<number>;
 }
 
-export interface ReactorSystemEvents extends BaseSystemStatusEvents {}
+export type ReactorSystemEvents =
+    SystemStatusEvents &
+    ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling reactor consoles.

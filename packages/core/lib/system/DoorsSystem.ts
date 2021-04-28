@@ -1,20 +1,22 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { Door, DoorEvents } from "../misc/Door";
-import { BaseSystemStatusEvents } from "./events";
+import { SystemStatusEvents } from "./events";
 
 export interface DoorsSystemData {
     cooldowns: Map<number, number>;
     doors: boolean[];
 }
 
-export type BaseDoorsSystemEvents = BaseSystemStatusEvents & DoorEvents;
-
-export interface DoorsSystemEvents extends BaseDoorsSystemEvents {}
+export type DoorsSystemEvents =
+    SystemStatusEvents &
+    DoorEvents &
+    ExtractEventTypes<[]>;
 
 /**
  * Represents a system for doors that must be manually opened.

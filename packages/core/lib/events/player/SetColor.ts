@@ -10,7 +10,7 @@ export class PlayerSetColorEvent extends PlayerEvent {
 
     color: Color;
 
-    constructor(room: Hostable, player: PlayerData, color: Color) {
+    constructor(room: Hostable<any>, player: PlayerData, color: Color) {
         super(room, player);
 
         this.color = color;

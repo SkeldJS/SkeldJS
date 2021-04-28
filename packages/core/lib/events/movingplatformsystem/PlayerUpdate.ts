@@ -11,7 +11,7 @@ export class MovingPlatformPlayerUpdateEvent extends MovingPlatformSystemEvent {
     side: MovingPlatformSide;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         system: MovingPlatformSystem,
         player: PlayerData,
         side: MovingPlatformSide

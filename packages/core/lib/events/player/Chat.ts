@@ -8,7 +8,7 @@ export class PlayerChatEvent extends PlayerEvent {
 
     message: string;
 
-    constructor(room: Hostable, player: PlayerData, message: string) {
+    constructor(room: Hostable<any>, player: PlayerData, message: string) {
         super(room, player);
 
         this.message = message;

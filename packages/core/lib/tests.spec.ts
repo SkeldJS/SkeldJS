@@ -1,10 +1,13 @@
 import { HazelReader } from "@skeldjs/util";
-import { BasicEvent } from "@skeldjs/events";
-import { Networkable } from "./Networkable";
+import { BasicEvent, ExtractEventTypes } from "@skeldjs/events";
+import { Networkable, NetworkableEvents } from "./Networkable";
 
 export const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-export class BasicTestEvent extends BasicEvent {
+export class TestEvent extends BasicEvent {
+    static eventName = "test.event" as const;
+    eventName = "test.event" as const;
+
     alphabet: string;
 
     constructor(alphabet: string) {
@@ -14,7 +17,7 @@ export class BasicTestEvent extends BasicEvent {
     }
 }
 
-export type TestEvents = [TestEvent];
+export type TestEvents = NetworkableEvents & ExtractEventTypes<[TestEvent]>;
 
 export class TestComponent extends Networkable<
     { dataParam: number },
