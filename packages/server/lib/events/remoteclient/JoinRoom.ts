@@ -3,18 +3,28 @@ import { Room } from "../../Room";
 import { SkeldjsServer } from "../../server";
 import { RemoteClientEvent } from "./RemoteClientEvent";
 
+/**
+ * Emitted when a remote client looks for a game by a game code.
+ */
 export class RemoteClientJoinRoomEvent extends RemoteClientEvent {
     static eventName = "remote.joinroom" as const;
     eventName = "remote.joinroom" as const;
 
+    /**
+     * The code that the remote client inputted.
+     */
     code: number;
-    found: Room;
+
+    /**
+     * The room that was found, if any.
+     */
+    found?: Room;
 
     constructor(
         server: SkeldjsServer,
         remote: RemoteClient,
         code: number,
-        found: Room
+        found?: Room
     ) {
         super(server, remote);
 

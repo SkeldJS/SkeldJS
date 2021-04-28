@@ -3,6 +3,9 @@ import { SkeldjsServer } from "../../server";
 import { ServerEvent } from "../ServerEvent";
 
 export class RoomEvent extends ServerEvent {
+    /**
+     * The room in question.
+     */
     room: Room;
 
     constructor(
