@@ -18,19 +18,19 @@ import {
     UnreliablePacket,
 } from "@skeldjs/protocol";
 
-import { EventEmitter } from "@skeldjs/events";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SpecialID } from "./constants/IDs";
 import { RoomConfig } from "./interface/RoomConfig";
 import { RemoteClient } from "./RemoteClient";
 import { SkeldjsServer } from "./server";
+import { RoomDestroyEvent } from "./events";
 
-export interface RoomEvents extends HostableEvents {
-    /**
-     * Emitted when the room is destroyed.
-     */
-    "room.destroy": {};
-}
+export type RoomEvents =
+    HostableEvents &
+ExtractEventTypes<[
+    RoomDestroyEvent
+]>;
 
 /**
  * Represents a room on the server.
@@ -48,23 +48,19 @@ export class Room extends Hostable<RoomEvents> {
 
         this.remotes = new Map();
 
-        this.on("game.start", () => {
+        this.on("room.game.start", () => {
             if (this.amhost) {
                 this.setHost(SpecialID.SaaH);
             }
         });
     }
 
-    async emit(...args: any[]): Promise<boolean> {
-        const event = args[0];
-        const data = args[1];
+    async emit<Event extends RoomEvents[keyof RoomEvents]>(
+        event: Event
+    ) {
+        this.server.emit(event);
 
-        this.server.emit(event, {
-            ...data,
-            room: this,
-        });
-
-        return EventEmitter.prototype.emit.call(this, event, data);
+        return super.emit(event);
     }
 
     get me() {

@@ -13,10 +13,10 @@ import * as skeldjs from "../index";
     await client.me.control.checkName("weakeyes");
 
     client.host.on("player.move", (ev) => {
-        client.me.transform.snapTo(ev.data.position);
+        client.me.transform.snapTo(ev.position);
     });
 
     client.on("player.move", (ev) => {
-        console.log(ev.data.player);
+        console.log(ev.player);
     });
 })();

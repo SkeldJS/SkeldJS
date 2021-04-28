@@ -55,14 +55,14 @@ export class SystemStatus<
         Object.assign(this, data);
     }
 
-    async emit<EventName extends keyof SystemStatusEvents>(
-        event: SystemStatusEvents[EventName]
+    async emit<Event extends SystemStatusEvents[keyof SystemStatusEvents]>(
+        event: Event
     );
-    async emit<EventName extends keyof T>(
-        event: T[EventName]
+    async emit<Event extends T[keyof T]>(
+        event: Event
     );
-    async emit<EventName extends keyof T>(
-        event: T[EventName]
+    async emit<Event extends T[keyof T]>(
+        event: Event
     ) {
         if (this.ship) {
             this.ship.emit(event as any);

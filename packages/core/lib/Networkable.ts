@@ -81,14 +81,14 @@ export class Networkable<
         Object.assign(this, data);
     }
 
-    async emit<EventName extends keyof NetworkableEvents>(
-        event: NetworkableEvents[EventName]
+    async emit<Event extends NetworkableEvents[keyof NetworkableEvents]>(
+        event: Event
     );
-    async emit<EventName extends keyof T>(
-        event: T[EventName]
+    async emit<Event extends T[keyof T]>(
+        event: Event
     );
-    async emit<EventName extends keyof T>(
-        event: T[EventName]
+    async emit<Event extends T[keyof T]>(
+        event: Event
     ) {
         if (this.owner) {
             this.owner.emit(event);

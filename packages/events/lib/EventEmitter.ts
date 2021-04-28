@@ -20,24 +20,23 @@ export type ExtractEventTypes<Events extends Eventable[]> = {
 export type EventData = Record<string|number|symbol, Eventable>;
 
 type Listener<
-    Events extends EventData,
-    EventName extends keyof Events
-> = (ev: Events[EventName]) => void | Promise<void>;
+    Event extends Eventable
+> = (ev: Event) => void | Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
     private readonly listeners: Map<
         keyof Events,
-        Set<Listener<Events, keyof Events>>
+        Set<Listener<Events[keyof Events]>>
     >;
 
     constructor() {
         this.listeners = new Map();
     }
 
-    async emit<EventName extends keyof Events>(
-        event: Events[EventName]
+    async emit<Event extends Events[keyof Events]>(
+        event: Event
     ) {
-        const listeners = this.getListeners(event.eventName) as Set<Listener<Events, EventName>>;
+        const listeners = this.getListeners(event.eventName) as Set<Listener<Event>>;
 
         if (listeners.size) {
             for (const listener of listeners) await listener(event);
@@ -48,7 +47,7 @@ export class EventEmitter<Events extends EventData> {
 
     on<EventName extends keyof Events>(
         event: EventName,
-        listener: Listener<Events, EventName>
+        listener: Listener<Events[EventName]>
     ): () => void {
         const listeners = this.getListeners(event);
         listeners.add(listener);
@@ -58,7 +57,7 @@ export class EventEmitter<Events extends EventData> {
 
     once<EventName extends keyof Events>(
         event: EventName,
-        listener: Listener<Events, EventName>
+        listener: Listener<Events[EventName]>
     ) {
         const removeListener = this.on(event, async (ev) => {
             removeListener();
@@ -79,7 +78,7 @@ export class EventEmitter<Events extends EventData> {
 
     off<EventName extends keyof Events>(
         event: EventName,
-        listener: Listener<Events, EventName>
+        listener: Listener<Events[EventName]>
     ) {
         const listeners = this.getListeners(event);
         listeners.delete(listener);
@@ -87,13 +86,13 @@ export class EventEmitter<Events extends EventData> {
 
     getListeners<EventName extends keyof Events>(
         event: EventName
-    ): Set<Listener<Events, EventName>> {
+    ): Set<Listener<Events[EventName]>> {
         const listeners = this.listeners.get(event);
         if (!listeners) {
             this.listeners.set(event, new Set());
             return this.getListeners(event);
         }
-        return listeners as Set<Listener<Events, EventName>>;
+        return listeners as Set<Listener<Events[EventName]>>;
     }
 
     removeListeners<EventName extends keyof Events>(

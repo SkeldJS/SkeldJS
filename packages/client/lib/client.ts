@@ -38,13 +38,23 @@ import {
     GameListing,
 } from "@skeldjs/protocol";
 
+import {
+    Code2Int,
+    unary,
+    EncodeVersion,
+    HazelWriter
+} from "@skeldjs/util";
+
 import { PlayerData, RoomID } from "@skeldjs/core";
-
-import { Code2Int, unary, EncodeVersion, HazelWriter } from "@skeldjs/util";
-
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { ClientConfig, DebugLevel } from "./interface/ClientConfig";
+import {
+    ClientConnectEvent,
+    ClientDisconnectEvent,
+    ClientJoinEvent
+} from "./events";
 
 const lookupDns = util.promisify(dns.lookup);
 
@@ -76,38 +86,14 @@ export interface SentPacket {
     ackd: boolean;
 }
 
-export interface SkeldjsClientEvents extends SkeldjsStateManagerEvents {
-    /**
-     * Emitted when the client gets disconnected.
-     */
-    "client.disconnect": {
-        /**
-         * The reason for why the client was disconnected.
-         */
-        reason: DisconnectReason;
-        /**
-         * A message provided if the disconnect reason was custom.
-         */
-        message: string;
-    };
-    /**
-     * Emitted when a client connects to among us servers.
-     */
-    "client.connect": {
-        /**
-         * The IP of the server that the client is connecting to.
-         */
-        ip: string;
-        /**
-         * The port of the server that the client is connecting to.
-         */
-        port: number;
-    };
-    /**
-     * Emitted when the client joins a game.
-     */
-    "client.join": {};
-}
+export type SkeldjsClientEvents =
+    SkeldjsStateManagerEvents &
+ExtractEventTypes<[
+    ClientConnectEvent,
+    ClientDisconnectEvent,
+    ClientJoinEvent
+]>;
+
 
 /**
  * Represents a programmable Among Us client.
@@ -334,10 +320,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
 
-        await this.emit("client.connect", {
-            ip: this.ip,
-            port: this.port,
-        });
+        await this.emit(
+            new ClientConnectEvent(
+                this.ip,
+                this.port
+            )
+        );
 
         if (typeof username === "string") {
             await this.identify(username, this.token);
@@ -373,10 +361,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 await this.send(new DisconnectPacket(reason, message, true));
                 this.sent_disconnect = true;
             }
-            this.emit("client.disconnect", {
-                reason,
-                message: message || DisconnectMessages[reason],
-            });
+            this.emit(
+                new ClientDisconnectEvent(
+                    reason,
+                    message || DisconnectMessages[reason]
+                )
+            );
             this._reset();
         }
     }
@@ -458,21 +448,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                         if (++attempts > 8) {
                             await this.disconnect();
                             clearInterval(interval);
-                            return this.emit(
-                                "error",
-                                new Error(
-                                    "Server failed to acknowledge packet 8 times."
-                                )
-                            );
                         }
 
                         if ((await this._send(writer.buffer)) === null) {
                             await this.disconnect();
                             clearInterval(interval);
-                            this.emit(
-                                "error",
-                                new Error("Could not send message.")
-                            );
                         }
                     }
                 }, 1500);

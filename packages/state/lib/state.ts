@@ -14,10 +14,10 @@ import {
 
 import { HazelReader } from "@skeldjs/util";
 
-export interface SkeldjsStateManagerEvents extends HostableEvents {}
+export type SkeldjsStateManagerEvents = HostableEvents;
 
 export class SkeldjsStateManager<
-    T extends Record<string, any> = {}
+    T extends SkeldjsStateManagerEvents = SkeldjsStateManagerEvents
 > extends Hostable<T> {
     clientid: number;
 
