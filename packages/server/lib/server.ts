@@ -23,7 +23,7 @@ import { DisconnectReason, SendOption } from "@skeldjs/constant";
 import { V2Gen, ritoa, sleep, HazelWriter, HazelReader } from "@skeldjs/util";
 
 import { AlterGameTag } from "@skeldjs/core";
-import { EventEmitter, PropagatedEvents } from "@skeldjs/events";
+import { EventEmitter } from "@skeldjs/events";
 
 import { RemoteClient, RemoteClientEvents } from "./RemoteClient";
 
@@ -36,28 +36,9 @@ const default_config = (): ServerConfig => ({
     host: "0.0.0.0",
 });
 
-type BaseSkeldjsServerEvents = PropagatedEvents<RoomEvents, { room: Room }> &
-    PropagatedEvents<RemoteClientEvents, { remote: RemoteClient }>;
-
-export interface SkeldjsServerEvents extends BaseSkeldjsServerEvents {
-    /**
-     * Emitted when a remote client is disconnected.
-     */
-    disconnect: {
-        /**
-         * The remote client that was disconected.
-         */
-        client: RemoteClient;
-        /**
-         * The reason for why the remote client was disconnected.
-         */
-        reason: DisconnectReason;
-        /**
-         * The message for why the remote client was disconncted if the reason is custom.
-         */
-        message?: string;
-    };
-}
+type SkeldjsServerEvents =
+    RemoteClientEvents &
+    RoomEvents
 
 /**
  * Represents a programmable Among Us region server.

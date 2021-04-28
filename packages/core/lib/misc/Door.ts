@@ -30,11 +30,11 @@ export class Door extends EventEmitter<DoorEvents> {
         this._isOpen = isOpen;
     }
 
-    async emit<EventName extends keyof DoorEvents>(
-        event: DoorEvents[EventName]
+    async emit<Event extends DoorEvents[keyof DoorEvents]>(
+        event: Event
     ) {
         if (this.system) {
-            this.system.emit(event as any);
+            this.system.emit(event);
         }
 
         return super.emit(event);

@@ -74,13 +74,12 @@ export function authTokenHook(
     options: GetAuthTokenOptions
 ) {
     client.on("client.connect", async (ev) => {
-        const { ip, port } = ev.data;
         try {
             client.token = await getAuthToken(
                 options.exe_path,
                 options.cert_path,
-                ip,
-                port + 2 /* Auth port is normal port + 2 */
+                ev.ip,
+                ev.port + 2 /* Auth port is normal port + 2 */
             );
         } catch (e) {
             client.token = 0;

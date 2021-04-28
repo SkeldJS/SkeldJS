@@ -389,14 +389,14 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
         return this.getComponent(VoteBanSystem);
     }
 
-    async emit<EventName extends keyof HostableEvents>(
-        event: HostableEvents[EventName]
+    async emit<Event extends HostableEvents[keyof HostableEvents]>(
+        event: Event
     );
-    async emit<EventName extends keyof T>(
-        event: T[EventName]
+    async emit<Event extends T[keyof T]>(
+        event: Event
     );
-    async emit<EventName extends keyof T>(
-        event: T[EventName]
+    async emit<Event extends T[keyof T]>(
+        event: Event
     ) {
         return super.emit(event);
     }

@@ -46,14 +46,14 @@ export class Heritable<T extends HeritableEvents = HeritableEvents> extends Even
         this.components = [];
     }
 
-    async emit<EventName extends keyof HeritableEvents>(
-        event: HeritableEvents[EventName]
+    async emit<Event extends HeritableEvents[keyof HeritableEvents]>(
+        event: Event
     );
-    async emit<EventName extends keyof T>(
-        event: T[EventName]
+    async emit<Event extends T[keyof T]>(
+        event: Event
     );
-    async emit<EventName extends keyof T>(
-        event: T[EventName]
+    async emit<Event extends T[keyof T]>(
+        event: Event
     ) {
         if (this.room as Heritable<any> !== this) this.room.emit(event);
 

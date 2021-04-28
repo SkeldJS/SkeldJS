@@ -47,12 +47,11 @@ describe("EventEmitter", () => {
 
             emitter.on("hello.123", async (ev) => {
                 if (ev.canceled) return;
-
                 didreceive = true;
             });
 
-            const went_through = await emitter.emit(new TestEvent(5));
-            assert.ok(!went_through);
+            const ev = await emitter.emit(new TestEvent(5));
+            assert.ok(ev.canceled);
             assert.ok(!didreceive);
         });
     });
