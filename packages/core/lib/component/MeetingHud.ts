@@ -264,7 +264,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     private _completeVoting(states: number[], exiled: number, tie: boolean) {
         const resolved =
             tie || exiled === 0xff
-                ? null
+                ? undefined
                 : this.room.getPlayerByPlayerId(exiled);
 
         const votes = new Map(
@@ -279,8 +279,8 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
                 this.room,
                 this,
                 tie,
-                resolved,
-                votes
+                votes,
+                resolved
             )
         );
     }

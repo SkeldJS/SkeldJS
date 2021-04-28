@@ -3,6 +3,9 @@ import { Hostable } from "../../Hostable";
 import { RoomEvent } from "../RoomEvent";
 
 export class VoteBanSystemEvent extends RoomEvent {
+    /**
+     * The vote ban system in question.
+     */
     votebansystem: VoteBanSystem;
 
     constructor(room: Hostable<any>, votebansystem: VoteBanSystem) {

@@ -1,11 +1,14 @@
 import { Hostable } from "../../Hostable";
-import { DeconSystem } from "../../system";
+import { ElectricalDoorsSystem } from "../../system";
 import { RoomEvent } from "../RoomEvent";
 
 export class ElectricalDoorsSystemEvent extends RoomEvent {
-    system: DeconSystem;
+    /**
+     * The electrical doors system in question.
+     */
+    system: ElectricalDoorsSystem;
 
-    constructor(room: Hostable<any>, system: DeconSystem) {
+    constructor(room: Hostable<any>, system: ElectricalDoorsSystem) {
         super(room);
 
         this.system = system;

@@ -7,7 +7,7 @@ import { RpcMessage } from "@skeldjs/protocol";
 import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
-import { SystemStatusEvents } from "./events";
+import { AnySystem, SystemStatusEvents } from "./events";
 import { SystemSabotageEvent } from "../events";
 
 export class SystemStatus<
@@ -86,7 +86,7 @@ export class SystemStatus<
         if (this.ship.room.amhost) {
             this.HandleSabotage(player);
             this.emit(
-                new SystemSabotageEvent(this.ship?.room, this, player)
+                new SystemSabotageEvent(this.ship?.room, this as unknown as AnySystem, player)
             );
         } else {
             const writer = HazelWriter.alloc(3);
