@@ -4,11 +4,21 @@ import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
 import { PlayerEvent } from "./PlayerEvent";
 
+/**
+ * Emitted when a player moves.
+ */
 export class PlayerMoveEvent extends PlayerEvent {
     static eventName = "player.move" as const;
     eventName = "player.move" as const;
 
+    /**
+     * The unlerped position that the player moved to.
+     */
     position: Vector2;
+
+    /**
+     * The velocity of the player.
+     */
     velocity: Vector2;
 
     constructor(
