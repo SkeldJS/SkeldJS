@@ -8,7 +8,7 @@ export class PlayerExitVentEvent extends PlayerEvent {
 
     ventid: number;
 
-    constructor(room: Hostable, player: PlayerData, ventid: number) {
+    constructor(room: Hostable<any>, player: PlayerData, ventid: number) {
         super(room, player);
 
         this.ventid = ventid;

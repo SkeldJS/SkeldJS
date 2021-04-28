@@ -5,7 +5,7 @@ import { RoomEvent } from "../RoomEvent";
 export class ReactorSystemEvent extends RoomEvent {
     system: ReactorSystem;
 
-    constructor(room: Hostable, system: ReactorSystem) {
+    constructor(room: Hostable<any>, system: ReactorSystem) {
         super(room);
 
         this.system = system;

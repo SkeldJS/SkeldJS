@@ -12,7 +12,7 @@ export class PlayerMoveEvent extends PlayerEvent {
     velocity: Vector2;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         player: PlayerData,
         position: Vector2,
         velocity: Vector2

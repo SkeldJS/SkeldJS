@@ -8,7 +8,7 @@ export class PlayerMurderPlayerEvent extends PlayerEvent {
 
     victim: PlayerData;
 
-    constructor(room: Hostable, player: PlayerData, victim: PlayerData) {
+    constructor(room: Hostable<any>, player: PlayerData, victim: PlayerData) {
         super(room, player);
 
         this.victim = victim;

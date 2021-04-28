@@ -9,7 +9,7 @@ export class MeetingHudVoteClearEvent extends MeetingHudEvent {
 
     player: PlayerData;
 
-    constructor(room: Hostable, meetinghud: MeetingHud, player: PlayerData) {
+    constructor(room: Hostable<any>, meetinghud: MeetingHud, player: PlayerData) {
         super(room, meetinghud);
 
         this.player = player;

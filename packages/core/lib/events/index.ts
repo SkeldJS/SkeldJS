@@ -9,11 +9,14 @@ export * from "./lifesupplysystem";
 export * from "./lobbybehaviour";
 export * from "./medscansystem";
 export * from "./movingplatformsystem";
+export * from "./networkable";
 export * from "./player";
 export * from "./reactorsystem";
+export * from "./room";
 export * from "./sabotagesystem";
 export * from "./securitycamerasystem";
 export * from "./switchsystem";
+export * from "./system";
 export * from "./votebansystem";
 
 export * from "./RoomEvent";

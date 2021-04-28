@@ -11,6 +11,7 @@ import {
     SpawnType,
     RpcMessageTag,
 } from "@skeldjs/constant";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { MovingPlatformSide, MovingPlatformSystem } from "../system";
 
@@ -18,123 +19,47 @@ import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
-import { TaskState } from "../misc/PlayerGameData";
+import { PlayerCompleteTaskEvent } from "../events/player/CompleteTask";
+
+import {
+    PlayerCallMeetingEvent,
+    PlayerChatEvent,
+    PlayerCheckColorEvent,
+    PlayerCheckNameEvent,
+    PlayerMurderPlayerEvent,
+    PlayerSetColorEvent,
+    PlayerSetHatEvent,
+    PlayerSetImpostorsEvent,
+    PlayerSetNameEvent,
+    PlayerSetPetEvent,
+    PlayerSetSkinEvent,
+    PlayerSetStartCounterEvent,
+    PlayerSyncSettingsEvent,
+} from "../events";
 
 export interface PlayerControlData {
     isNew: boolean;
     playerId: number;
 }
 
-export interface PlayerControlEvents extends NetworkableEvents {
-    /**
-     * Emitted when the player completes one of their tasks.
-     */
-    "player.completetask": {
-        /**
-         * The task that the player completed.
-         */
-        task: TaskState;
-    };
-    /**
-     * Emitted when the player sets their name.
-     */
-    "player.setname": {
-        /**
-         * The name of the player.
-         */
-        name: string;
-    };
-    /**
-     * Emitted when a player sets their colour.
-     */
-    "player.setcolor": {
-        /**
-         * The colour of the player.
-         */
-        color: Color;
-    };
-    /**
-     * Emitted when a player sets their hat.
-     */
-    "player.sethat": {
-        /**
-         * The hat of the player.
-         */
-        hat: Hat;
-    };
-    /**
-     * Emitted when a player sets their skin.
-     */
-    "player.setskin": {
-        /**
-         * The skin of the player.
-         */
-        skin: Skin;
-    };
-    /**
-     * Emitted when a player sets their pet.
-     */
-    "player.setpet": {
-        /**
-         * The pet of the player.
-         */
-        pet: Pet;
-    };
-    /**
-     * Emitted when the player syncs or updates game settings.
-     */
-    "player.syncsettings": {
-        /**
-         * The settings that were synced or updated.
-         */
-        settings: GameOptions;
-    };
-    /**
-     * Emitted when the player changes the "Game starts in X" counter.
-     */
-    "player.setstartcounter": {
-        /**
-         * The current start counter.
-         */
-        counter: number;
-    };
-    /**
-     * Emitted when the player sets the impostors for the game.
-     */
-    "player.setimpostors": {
-        /**
-         * The impostors that were set.
-         */
-        impostors: PlayerData[];
-    };
-    /**
-     * Emitted when the player murders another player.
-     */
-    "player.murder": {
-        /**
-         * The victim that the player murdered.
-         */
-        victim: PlayerData;
-    };
-    /**
-     * Emitted when the player starts a meeting.
-     */
-    "player.meeting": {
-        /**
-         * The body that was reported, or null if an emergency meeting was called.
-         */
-        body: PlayerData | null;
-    };
-    /**
-     * Emitted when the player sends a message in chat.
-     */
-    "player.chat": {
-        /**
-         * The message that the player sent.
-         */
-        message: string;
-    };
-}
+export type PlayerControlEvents =
+    NetworkableEvents &
+ExtractEventTypes<[
+    PlayerCompleteTaskEvent,
+    PlayerCheckNameEvent,
+    PlayerCheckColorEvent,
+    PlayerSetNameEvent,
+    PlayerSetColorEvent,
+    PlayerSetHatEvent,
+    PlayerSetSkinEvent,
+    PlayerSetPetEvent,
+    PlayerSyncSettingsEvent,
+    PlayerSetStartCounterEvent,
+    PlayerSetImpostorsEvent,
+    PlayerMurderPlayerEvent,
+    PlayerCallMeetingEvent,
+    PlayerChatEvent
+]>;
 
 /**
  * Represents a player object for interacting with the game and other players.
@@ -172,8 +97,8 @@ export class PlayerControl extends Networkable<
         super(room, netid, ownerid, data);
     }
 
-    get owner() {
-        return super.owner as PlayerData;
+    get player() {
+        return this.owner as PlayerData;
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
@@ -373,10 +298,14 @@ export class PlayerControl extends Networkable<
         if (this.room.gamedata) {
             this.room.gamedata.completeTask(this.playerId, taskIdx);
 
-            if (this.owner.data && this.owner.data.tasks) {
-                this.emit("player.completetask", {
-                    task: this.owner.data.tasks[taskIdx],
-                });
+            if (this.player.data?.tasks) {
+                this.emit(
+                    new PlayerCompleteTaskEvent(
+                        this.room,
+                        this.player,
+                        this.player.data.tasks[taskIdx]
+                    )
+                );
             }
         }
     }
@@ -411,7 +340,9 @@ export class PlayerControl extends Networkable<
         const resolved = this.room.getPlayerByNetId(netid);
 
         if (resolved) {
-            this.emit("player.murder", { victim: resolved });
+            this.emit(
+                new PlayerMurderPlayerEvent(this.room, this.player, resolved)
+            );
         }
     }
 
@@ -446,7 +377,7 @@ export class PlayerControl extends Networkable<
         if (this.room.gamedata) {
             this.room.gamedata.setName(this.playerId, name);
 
-            this.emit("player.setname", { name });
+            this.emit(new PlayerSetNameEvent(this.room, this.player, name));
         }
     }
 
@@ -478,7 +409,7 @@ export class PlayerControl extends Networkable<
         if (this.room.gamedata) {
             this.room.gamedata.setColor(this.playerId, color);
 
-            this.emit("player.setcolor", { color });
+            this.emit(new PlayerSetColorEvent(this.room, this.player, color));
         }
     }
 
@@ -514,7 +445,7 @@ export class PlayerControl extends Networkable<
         if (this.room.gamedata) {
             this.room.gamedata.setHat(this.playerId, hat);
 
-            this.emit("player.sethat", { hat });
+            this.emit(new PlayerSetHatEvent(this.room, this.player, hat));
         }
     }
 
@@ -541,7 +472,7 @@ export class PlayerControl extends Networkable<
         if (this.room.gamedata) {
             this.room.gamedata.setSkin(this.playerId, skin);
 
-            this.emit("player.setskin", { skin });
+            this.emit(new PlayerSetSkinEvent(this.room, this.player, skin));
         }
     }
 
@@ -568,7 +499,7 @@ export class PlayerControl extends Networkable<
         if (this.room.gamedata) {
             this.room.gamedata.setPet(this.playerId, pet);
 
-            this.emit("player.setpet", { pet });
+            this.emit(new PlayerSetPetEvent(this.room, this.player, pet));
         }
     }
 
@@ -592,7 +523,7 @@ export class PlayerControl extends Networkable<
     }
 
     private _chat(message: string) {
-        this.emit("player.chat", { message });
+        this.emit(new PlayerChatEvent(this.room, this.player, message));
     }
 
     /**
@@ -640,7 +571,13 @@ export class PlayerControl extends Networkable<
     private _syncSettings(settings: Partial<AllGameOptions>) {
         this.room.settings.patch(settings);
 
-        this.emit("player.syncsettings", { settings });
+        this.emit(
+            new PlayerSyncSettingsEvent(
+                this.room,
+                this.player,
+                this.room.settings
+            )
+        );
     }
 
     /**
@@ -679,7 +616,9 @@ export class PlayerControl extends Networkable<
     private _setStartCounter(counter: number) {
         this.lastStartCounter++;
         this.room.counter = counter;
-        this.emit("player.setstartcounter", { counter });
+        this.emit(
+            new PlayerSetStartCounterEvent(this.room, this.player, counter)
+        );
     }
 
     /**
@@ -726,7 +665,9 @@ export class PlayerControl extends Networkable<
             }
         }
 
-        this.emit("player.setimpostors", { impostors });
+        this.emit(
+            new PlayerSetImpostorsEvent(this.room, this.player, impostors)
+        );
     }
 
     /**
@@ -750,10 +691,16 @@ export class PlayerControl extends Networkable<
     }
 
     private _startMeeting(bodyid: number) {
-        this.emit("player.meeting", {
-            body:
-                bodyid === 0xff ? null : this.room.getPlayerByPlayerId(bodyid),
-        });
+        this.emit(
+            new PlayerCallMeetingEvent(
+                this.room,
+                this.player,
+                bodyid === 0xff,
+                bodyid === 0xff
+                    ? undefined
+                    : this.room.getPlayerByPlayerId(bodyid)
+            )
+        );
     }
 
     /**
@@ -850,7 +797,7 @@ export class PlayerControl extends Networkable<
 
             if (movingPlatform) {
                 movingPlatform.setTarget(
-                    this.owner,
+                    this.player,
                     movingPlatform.side === MovingPlatformSide.Left
                         ? MovingPlatformSide.Right
                         : MovingPlatformSide.Left

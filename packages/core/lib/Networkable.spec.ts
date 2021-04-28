@@ -6,7 +6,7 @@ import { Heritable } from "./Heritable";
 import { Hostable } from "./Hostable";
 
 import { Networkable } from "./Networkable";
-import { alphabet, TestComponent, TestEvents } from "./tests.spec";
+import { alphabet, TestComponent, TestEvent, TestEvents } from "./tests.spec";
 
 describe("Networkable", () => {
     describe("Networkable#ctr", () => {
@@ -53,12 +53,12 @@ describe("Networkable", () => {
 
             let did_receive = false;
             object.on("test.event", (ev) => {
-                if (ev.data.alphabet === alphabet) {
+                if (ev.alphabet === alphabet) {
                     did_receive = true;
                 }
             });
 
-            await component.emit("test.event", { alphabet });
+            await component.emit(new TestEvent(alphabet));
 
             assert.ok(did_receive);
         });

@@ -4,11 +4,21 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { BaseSystemStatusEvents } from "./events";
+
+import {
+    HqHudConsoleOpenEvent,
+    HqHudConsoleResetEvent,
+    HqHudConsoleCloseEvent,
+    HqHudConsoleCompleteEvent,
+    SystemSabotageEvent,
+    SystemRepairEvent,
+} from "../events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 export interface UserConsolePair {
-    playerId: number;
-    consoleId: number;
+    playerid: number;
+    consoleid: number;
 }
 
 export interface HqHudSystemData {
@@ -16,51 +26,14 @@ export interface HqHudSystemData {
     completed: Set<number>;
 }
 
-export interface HqHudSystemEvents extends BaseSystemStatusEvents {
-    /**
-     * Emitted when the Mira HQ communiation consoles are reset.
-     */
-    "hqhud.consoles.reset": {};
-    /**
-     * Emitted when a Mira HQ communication console is opened.
-     */
-    "hqhud.consoles.open": {
-        /**
-         * The player that opened the console.
-         */
-        player: PlayerData;
-        /**
-         * The ID of the console that was opened.
-         */
-        consoleId: number;
-    };
-    /**
-     * Emitted when a Mira HQ communication console is closed.
-     */
-    "hqhud.consoles.close": {
-        /**
-         * The player that closed the console.
-         */
-        player: PlayerData;
-        /**
-         * The ID of the console that was closed.
-         */
-        consoleId: number;
-    };
-    /**
-     * Emitted when a Mira HQ communication console is complete.
-     */
-    "hqhud.consoles.complete": {
-        /**
-         * The player that completed the console, only known if the current client is the host of the room.
-         */
-        player?: PlayerData;
-        /**
-         * The ID of the console that was completed.
-         */
-        consoleId: number;
-    };
-}
+export type HqHudSystemEvents =
+    SystemStatusEvents &
+ExtractEventTypes<[
+    HqHudConsoleResetEvent,
+    HqHudConsoleOpenEvent,
+    HqHudConsoleCloseEvent,
+    HqHudConsoleCompleteEvent
+]>;
 
 export enum HqHudSystemRepairTag {
     CompleteConsole = 0x10,
@@ -106,7 +79,7 @@ export class HqHudSystem extends SystemStatus<
 
     private _getIdx(consoleId: number, playerId: number) {
         return this.active.findIndex(
-            (pair) => pair.consoleId === consoleId && pair.playerId === playerId
+            (pair) => pair.consoleid === consoleId && pair.playerid === playerId
         );
     }
 
@@ -128,10 +101,10 @@ export class HqHudSystem extends SystemStatus<
 
         for (let i = 0; i < before_active.length; i++) {
             const console = before_active[i];
-            const idx = this._getIdx(console.consoleId, console.playerId);
-            const player = this.ship.room.getPlayerByPlayerId(console.playerId);
+            const idx = this._getIdx(console.consoleid, console.playerid);
+            const player = this.ship.room.getPlayerByPlayerId(console.playerid);
             if (player && idx === -1) {
-                this._closeConsole(console.consoleId, player);
+                this._closeConsole(console.consoleid, player);
             }
         }
 
@@ -141,10 +114,10 @@ export class HqHudSystem extends SystemStatus<
             this._completeConsole(reader.uint8());
         }
         if (before_completed === 2 && num_completed === 0) {
-            this.emit("system.sabotage", {});
+            this.emit(new SystemSabotageEvent(this.ship?.room, this));
         }
         if (before_completed < 2 && num_completed === 2) {
-            this.emit("system.repair", {});
+            this.emit(new SystemRepairEvent(this.ship?.room, this));
         }
     }
 
@@ -155,8 +128,8 @@ export class HqHudSystem extends SystemStatus<
         for (let i = 0; i < this.active.length; i++) {
             const active = this.active[i];
 
-            writer.uint8(active.playerId);
-            writer.uint8(active.consoleId);
+            writer.uint8(active.playerid);
+            writer.uint8(active.consoleid);
         }
 
         const completed = [...this.completed];
@@ -174,40 +147,61 @@ export class HqHudSystem extends SystemStatus<
     private _resetConsoles() {
         this.completed.clear();
         this.dirty = true;
-        this.emit("hqhud.consoles.reset", {});
+        this.emit(new HqHudConsoleResetEvent(this.ship?.room, this));
     }
 
-    private _openConsole(consoleId: number, player: PlayerData) {
-        const idx = this._getIdx(consoleId, player.playerId);
+    private _openConsole(consoleid: number, player: PlayerData) {
+        const idx = this._getIdx(consoleid, player.playerId);
 
         if (idx === -1) {
-            this.active.push({ consoleId, playerId: player.playerId });
+            this.active.push({ consoleid, playerid: player.playerId });
             this.dirty = true;
-            this.emit("hqhud.consoles.open", { player, consoleId });
+            this.emit(
+                new HqHudConsoleOpenEvent(
+                    this.ship?.room,
+                    this,
+                    consoleid,
+                    player
+                )
+            );
         }
     }
 
-    private _closeConsole(consoleId: number, player: PlayerData) {
-        const idx = this._getIdx(consoleId, player.playerId);
+    private _closeConsole(consoleid: number, player: PlayerData) {
+        const idx = this._getIdx(consoleid, player.playerId);
 
         if (idx > -1) {
-            this.active.push({ consoleId, playerId: player.playerId });
+            this.active.push({ consoleid, playerid: player.playerId });
             this.dirty = true;
-            this.emit("hqhud.consoles.close", { player, consoleId });
+            this.emit(
+                new HqHudConsoleCloseEvent(
+                    this.ship?.room,
+                    this,
+                    consoleid,
+                    player
+                )
+            );
         }
     }
 
-    private _completeConsole(consoleId: number, player?: PlayerData) {
-        if (!this.completed.has(consoleId)) {
-            this.completed.add(consoleId);
+    private _completeConsole(consoleid: number, player?: PlayerData) {
+        if (!this.completed.has(consoleid)) {
+            this.completed.add(consoleid);
             this.dirty = true;
-            this.emit("hqhud.consoles.complete", { player, consoleId });
+            this.emit(
+                new HqHudConsoleCompleteEvent(
+                    this.ship?.room,
+                    this,
+                    consoleid,
+                    player
+                )
+            );
         }
     }
 
     private _fix() {
         this.completed.add(0).add(1);
-        this.emit("system.repair", {});
+        this.emit(new SystemRepairEvent(this.ship?.room, this));
     }
 
     /**
@@ -268,7 +262,7 @@ export class HqHudSystem extends SystemStatus<
                 this.active.splice(0);
                 this.completed.clear();
                 this.dirty = true;
-                this.emit("system.sabotage", {});
+                this.emit(new SystemSabotageEvent(this.ship?.room, this));
                 break;
         }
     }

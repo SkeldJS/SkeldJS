@@ -1,5 +1,4 @@
 import { BaseGameDataMessage, ReadyMessage } from "@skeldjs/protocol";
-import { EventEmitter } from "@skeldjs/events";
 
 import {
     CustomNetworkTransform,
@@ -10,57 +9,32 @@ import {
     PlayerPhysicsEvents,
 } from "./component";
 
-import { Heritable } from "./Heritable";
+import { Heritable, HeritableEvents } from "./Heritable";
 import { Hostable } from "./Hostable";
 
-type BasePlayerDataEvents = PlayerControlEvents &
-    PlayerPhysicsEvents &
-    CustomNetworkTransformEvents;
+import {
+    PlayerJoinEvent,
+    PlayerLeaveEvent,
+    PlayerReadyEvent,
+    PlayerSceneChangeEvent,
+    PlayerSetHostEvent,
+    PlayerSpawnEvent,
+} from "./events";
+import { ExtractEventTypes } from "@skeldjs/events";
 
-export interface PlayerDataEvents extends BasePlayerDataEvents {
-    /**
-     * Emitted when the player readies up.
-     */
-    "player.ready": {};
-    /**
-     * Emitted when the player joins the game.
-     */
-    "player.join": {};
-    /**
-     * Emitted when the player leaves the game.
-     */
-    "player.leave": {};
-    /**
-     * Emitted when the player is made the host of the game.
-     */
-    "player.sethost": {};
-    /**
-     * Emitted when the player changes scene.
-     */
-    "player.scenechange": {};
-    /**
-     * Emitted when the player is fully spawned.
-     */
-    "player.spawn": {};
-    /**
-     * Emitted when a component of the player spawns.
-     */
-    "player.component.spawn": {
-        /**
-         * The component that spawned.
-         */
-        component: PlayerControl | PlayerPhysics | CustomNetworkTransform;
-    };
-    /**
-     * Emitted when a component of the player is despawned.
-     */
-    "player.component.despawn": {
-        /**
-         * The component that despawned.
-         */
-        component: PlayerControl | PlayerPhysics | CustomNetworkTransform;
-    };
-}
+export type PlayerDataEvents =
+    HeritableEvents &
+    PlayerControlEvents &
+    PlayerPhysicsEvents &
+    CustomNetworkTransformEvents &
+ExtractEventTypes<[
+    PlayerReadyEvent,
+    PlayerJoinEvent,
+    PlayerLeaveEvent,
+    PlayerSetHostEvent,
+    PlayerSceneChangeEvent,
+    PlayerSpawnEvent
+]>;
 
 /**
  * Represents the player of a client connected to the room.
@@ -98,21 +72,9 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
 
         this.on("component.spawn", () => {
             if (this.spawned) {
-                this.emit("player.spawn", {});
+                this.emit(new PlayerSpawnEvent(this.room, this));
             }
         });
-    }
-
-    async emit(...args: any[]): Promise<boolean> {
-        const event = args[0];
-        const data = args[1];
-
-        this.room.emit(event, {
-            ...data,
-            player: this,
-        });
-
-        return EventEmitter.prototype.emit.call(this, event, data);
     }
 
     /**
@@ -178,7 +140,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
      */
     async ready() {
         this.isReady = true;
-        await this.emit("player.ready", {});
+        await this.emit(new PlayerReadyEvent(this.room, this));
 
         if (this.isme && !this.ishost) {
             await this.room.broadcast([new ReadyMessage(this.id)]);

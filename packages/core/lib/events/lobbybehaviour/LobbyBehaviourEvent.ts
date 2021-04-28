@@ -5,7 +5,7 @@ import { RoomEvent } from "../RoomEvent";
 export class LobbyBehaviourEvent extends RoomEvent {
     lobbybehaviour: LobbyBehaviour;
 
-    constructor(room: Hostable, lobbybehaviour: LobbyBehaviour) {
+    constructor(room: Hostable<any>, lobbybehaviour: LobbyBehaviour) {
         super(room);
 
         this.lobbybehaviour = lobbybehaviour;

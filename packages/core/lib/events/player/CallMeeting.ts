@@ -10,7 +10,7 @@ export class PlayerCallMeetingEvent extends PlayerEvent {
     body?: PlayerData;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         player: PlayerData,
         emergency: boolean,
         body?: PlayerData

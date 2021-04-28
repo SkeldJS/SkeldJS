@@ -1,5 +1,3 @@
-import { BasicEvent } from "./BasicEvent";
-
 export type Eventable = {
     eventName: string;
 };
@@ -12,39 +10,40 @@ export type ExtractEventName<Event extends Eventable> = Event extends {
 
 export type ExtractEventType<
     Events extends Eventable[],
-    EventName extends keyof Events
+    EventName extends ExtractEventName<Events[number]>
 > = Extract<Events[number], { eventName: EventName }>;
 
 export type ExtractEventTypes<Events extends Eventable[]> = {
-    [K in ExtractEventName<Events[number]>]: K extends keyof Events
-        ? ExtractEventType<Events, K>
-        : never;
+    [K in ExtractEventName<Events[number]>]: ExtractEventType<Events, K>
 };
 
-type EventData = BasicEvent[];
+export type EventData = Record<string|number|symbol, Eventable>;
 
-type Listener<Events extends EventData, EventName extends keyof Events> = (
-    ev: ExtractEventType<Events, EventName>
-) => void | Promise<void>;
+type Listener<
+    Events extends EventData,
+    EventName extends keyof Events
+> = (ev: Events[EventName]) => void | Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
-    private readonly listeners: Map<keyof Events, Set<Listener<Events, any>>>;
+    private readonly listeners: Map<
+        keyof Events,
+        Set<Listener<Events, keyof Events>>
+    >;
 
     constructor() {
         this.listeners = new Map();
     }
 
     async emit<EventName extends keyof Events>(
-        event: EventName,
-        data: ExtractEventType<Events, EventName>
+        event: Events[EventName]
     ) {
-        const listeners = this.getListeners(event);
+        const listeners = this.getListeners(event.eventName) as Set<Listener<Events, EventName>>;
 
         if (listeners.size) {
-            for (const listener of listeners) await listener(data);
+            for (const listener of listeners) await listener(event);
         }
 
-        return data;
+        return event;
     }
 
     on<EventName extends keyof Events>(
@@ -70,7 +69,7 @@ export class EventEmitter<Events extends EventData> {
 
     wait<EventName extends keyof Events>(
         event: EventName
-    ): Promise<ExtractEventType<Events, EventName>> {
+    ): Promise<Events[EventName]> {
         return new Promise((resolve) => {
             this.once(event, async (ev) => {
                 resolve(ev);
@@ -94,10 +93,12 @@ export class EventEmitter<Events extends EventData> {
             this.listeners.set(event, new Set());
             return this.getListeners(event);
         }
-        return listeners;
+        return listeners as Set<Listener<Events, EventName>>;
     }
 
-    removeListeners<EventName extends keyof Events>(event: EventName) {
+    removeListeners<EventName extends keyof Events>(
+        event: EventName
+    ) {
         const listeners = this.getListeners(event);
         listeners.clear();
     }

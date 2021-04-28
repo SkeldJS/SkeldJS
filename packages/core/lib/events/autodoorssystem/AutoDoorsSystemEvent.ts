@@ -5,7 +5,7 @@ import { RoomEvent } from "../RoomEvent";
 export class AutoDoorsSystemEvent extends RoomEvent {
     system: AutoDoorsSystem;
 
-    constructor(room: Hostable, system: AutoDoorsSystem) {
+    constructor(room: Hostable<any>, system: AutoDoorsSystem) {
         super(room);
 
         this.system = system;

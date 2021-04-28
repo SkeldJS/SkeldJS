@@ -3,7 +3,7 @@ import { PlayerData } from "../../PlayerData";
 import { HqHudSystem } from "../../system";
 import { HqHudSystemEvent } from "./HqHudSystemEvent";
 
-export class HqHudConsoleClose extends HqHudSystemEvent {
+export class HqHudConsoleCloseEvent extends HqHudSystemEvent {
     static eventName = "hqhud.consoles.close" as const;
     eventName = "hqhud.consoles.close" as const;
 
@@ -11,7 +11,7 @@ export class HqHudConsoleClose extends HqHudSystemEvent {
     player: PlayerData;
 
     constructor(
-        room: Hostable,
+        room: Hostable<any>,
         system: HqHudSystem,
         consoleid: number,
         player?: PlayerData

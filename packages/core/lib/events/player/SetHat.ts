@@ -10,7 +10,7 @@ export class PlayerSetHatEvent extends PlayerEvent {
 
     hat: Hat;
 
-    constructor(room: Hostable, player: PlayerData, hat: Hat) {
+    constructor(room: Hostable<any>, player: PlayerData, hat: Hat) {
         super(room, player);
 
         this.hat = hat;

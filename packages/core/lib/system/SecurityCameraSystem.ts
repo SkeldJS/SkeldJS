@@ -4,32 +4,21 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { BaseSystemStatusEvents } from "./events";
+
+import { SecurityCameraJoinEvent, SecurityCameraLeaveEvent } from "../events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 export interface SecurityCameraSystemData {
     players: Set<number>;
 }
 
-export interface SecurityCameraSystemEvents extends BaseSystemStatusEvents {
-    /**
-     * Emitted when a player joins security cameras.
-     */
-    "security.cameras.join": {
-        /**
-         * The player that joined cameras.
-         */
-        player: PlayerData;
-    };
-    /**
-     * Emitted when a player leaves security cameras.
-     */
-    "security.cameras.leave": {
-        /**
-         * The player that left cameras.
-         */
-        player: PlayerData;
-    };
-}
+export type SecurityCameraSystemEvents =
+    SystemStatusEvents &
+ExtractEventTypes<[
+    SecurityCameraJoinEvent,
+    SecurityCameraLeaveEvent
+]>;
 
 /**
  * Represents a system responsible for handling players entering and leaving security cameras.
@@ -94,12 +83,12 @@ export class SecurityCameraSystem extends SystemStatus<
 
     private _addPlayer(player: PlayerData) {
         this.players.add(player);
-        this.emit("security.cameras.join", { player });
+        this.emit(new SecurityCameraJoinEvent(this.ship?.room, this, player));
     }
 
     private _removePlayer(player: PlayerData) {
         this.players.delete(player);
-        this.emit("security.cameras.leave", { player });
+        this.emit(new SecurityCameraLeaveEvent(this.ship?.room, this, player));
     }
 
     /**

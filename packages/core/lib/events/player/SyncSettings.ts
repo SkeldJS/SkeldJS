@@ -10,7 +10,7 @@ export class PlayerSyncSettingsEvent extends PlayerEvent {
 
     options: GameOptions;
 
-    constructor(room: Hostable, player: PlayerData, options: GameOptions) {
+    constructor(room: Hostable<any>, player: PlayerData, options: GameOptions) {
         super(room, player);
 
         this.options = options;

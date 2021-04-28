@@ -8,7 +8,7 @@ export class PlayerSetStartCounterEvent extends PlayerEvent {
 
     counter: number;
 
-    constructor(room: Hostable, player: PlayerData, counter: number) {
+    constructor(room: Hostable<any>, player: PlayerData, counter: number) {
         super(room, player);
 
         this.counter = counter;
