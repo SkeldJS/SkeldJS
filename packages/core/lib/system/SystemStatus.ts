@@ -39,7 +39,7 @@ export class SystemStatus<
         return false;
     }
 
-    constructor(protected ship: InnerShipStatus, data?: HazelReader | DataT) {
+    constructor(public ship: InnerShipStatus, data?: HazelReader | DataT) {
         super();
 
         if (data) {
