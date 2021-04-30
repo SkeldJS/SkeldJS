@@ -2,11 +2,14 @@ import { Vector2, HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { DataMessage, RpcMessage } from "@skeldjs/protocol";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
 import { Hostable } from "../Hostable";
 import { NetworkUtils } from "../utils/net";
+
+import { PlayerMoveEvent, PlayerSnapToEvent } from "../events";
 
 export interface CustomNetworkTransformData {
     seqId: number;
@@ -14,30 +17,11 @@ export interface CustomNetworkTransformData {
     velocity: Vector2;
 }
 
-export interface CustomNetworkTransformEvents extends NetworkableEvents {
-    /**
-     * Emitted when the player moves.
-     */
-    "player.move": {
-        /**
-         * The position that the player is moving towards.
-         */
-        position: Vector2;
-        /**
-         * The velocity of the player.
-         */
-        velocity: Vector2;
-    };
-    /**
-     * Emitted when the player snaps to a position.
-     */
-    "player.snapto": {
-        /**
-         * The position that the player snapped to.
-         */
-        position: Vector2;
-    };
-}
+export type CustomNetworkTransformEvents =
+    NetworkableEvents &
+ExtractEventTypes<[
+    PlayerMoveEvent, PlayerSnapToEvent
+]>;
 
 /**
  * Represents player component for networking movement.
@@ -83,8 +67,8 @@ export class CustomNetworkTransform extends Networkable<
         super(room, netid, ownerid, data);
     }
 
-    get owner() {
-        return super.owner as PlayerData;
+    get player() {
+        return this.owner as PlayerData;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -100,16 +84,20 @@ export class CustomNetworkTransform extends Networkable<
         this.position = reader.vector();
         this.velocity = reader.vector();
 
-        this.emit("player.move", {
-            position: {
-                x: this.position.x,
-                y: this.position.y,
-            },
-            velocity: {
-                x: this.velocity.x,
-                y: this.velocity.y,
-            },
-        });
+        this.emit(
+            new PlayerMoveEvent(
+                this.room,
+                this.player,
+                {
+                    x: this.position.x,
+                    y: this.position.y,
+                },
+                {
+                    x: this.velocity.x,
+                    y: this.velocity.y,
+                }
+            )
+        );
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -121,7 +109,7 @@ export class CustomNetworkTransform extends Networkable<
         return true;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.SnapTo:
                 const seqId = reader.uint16();
@@ -131,12 +119,12 @@ export class CustomNetworkTransform extends Networkable<
                     this.seqId = seqId;
                     this.position = position;
                     this.velocity = { x: 0, y: 0 };
-                    this.emit("player.snapto", {
-                        position: {
+                    this.emit(
+                        new PlayerSnapToEvent(this.room, this.player, {
                             x: this.position.x,
                             y: this.position.y,
-                        },
-                    });
+                        })
+                    );
                 }
                 break;
         }
@@ -173,16 +161,20 @@ export class CustomNetworkTransform extends Networkable<
             false
         );
 
-        this.emit("player.move", {
-            position: {
-                x: this.position.x,
-                y: this.position.y,
-            },
-            velocity: {
-                x: this.velocity.x,
-                y: this.velocity.y,
-            },
-        });
+        this.emit(
+            new PlayerMoveEvent(
+                this.room,
+                this.player,
+                {
+                    x: this.position.x,
+                    y: this.position.y,
+                },
+                {
+                    x: this.velocity.x,
+                    y: this.velocity.y,
+                }
+            )
+        );
     }
 
     /**
@@ -213,11 +205,11 @@ export class CustomNetworkTransform extends Networkable<
             new RpcMessage(this.netid, RpcMessageTag.SnapTo, writer.buffer)
         );
 
-        this.emit("player.snapto", {
-            position: {
+        this.emit(
+            new PlayerSnapToEvent(this.room, this.player, {
                 x: this.position.x,
                 y: this.position.y,
-            },
-        });
+            })
+        );
     }
 }

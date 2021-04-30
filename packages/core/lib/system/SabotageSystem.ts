@@ -4,13 +4,16 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { BaseSystemStatusEvents } from "./events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 export interface SabotageSystemData {
     cooldown: number;
 }
 
-export interface SabotageSystemEvents extends BaseSystemStatusEvents {}
+export type SabotageSystemEvents =
+    SystemStatusEvents &
+    ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling system sabotages.

@@ -1,15 +1,10 @@
 import dgram from "dgram";
 
-import { EventEmitter } from "@skeldjs/events";
+import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import {
-    EncodeVersion,
-    unary
-} from "@skeldjs/util";
+import { EncodeVersion, unary } from "@skeldjs/util";
 
-import {
-    DisconnectReason
-} from "@skeldjs/constant";
+import { DisconnectReason } from "@skeldjs/constant";
 
 import {
     AcknowledgePacket,
@@ -24,39 +19,22 @@ import {
 import { SkeldjsServer } from "./server";
 import { Room } from "./Room";
 
+import {
+    RemoteClientConnectEvent,
+    RemoteClientDisconnectEvent,
+    RemoteClientJoinRoomEvent
+} from "./events";
+
 export interface SentPacket {
     nonce: number;
     ackd: boolean;
 }
 
-export interface RemoteClientEvents {
-    /**
-     * Emitted when a remote client connects to the server.
-     */
-    "remote.connected": {
-        /**
-         * The username that the remote client identified with.
-         */
-        username: string;
-        /**
-         * The version of the remote client's game client.
-         */
-        version: number;
-    };
-    /**
-     * Emitted when a remote client joins a room.
-     */
-    "remote.joinroom": {
-        /**
-         * The code of the room that the remote client joined.
-         */
-        code: number;
-        /**
-         * The room that the remote client joined.
-         */
-        found: Room;
-    };
-}
+export type RemoteClientEvents = ExtractEventTypes<[
+    RemoteClientConnectEvent,
+    RemoteClientDisconnectEvent,
+    RemoteClientJoinRoomEvent
+]>;
 
 /**
  * Represents a remotely connected client.
@@ -134,16 +112,12 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
         return this._nonce;
     }
 
-    async emit(...args: any[]): Promise<boolean> {
-        const event = args[0] as keyof RemoteClientEvents;
-        const data = args[1] as any;
+    async emit<Event extends RemoteClientEvents[keyof RemoteClientEvents]>(
+        event: Event
+    ): Promise<Event> {
+        this.server.emit(event);
 
-        this.server.emit(event, {
-            remote: this,
-            ...data,
-        });
-
-        return super.emit(event, data);
+        return super.emit(event);
     }
 
     identify(username: string, version: string | number) {
@@ -165,7 +139,10 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
 
     async ack(nonce: number) {
         await this.send(
-            new AcknowledgePacket(nonce, this.packets_sent.filter(p => p.ackd).map((_, i) => i))
+            new AcknowledgePacket(
+                nonce,
+                this.packets_sent.filter((p) => p.ackd).map((_, i) => i)
+            )
         );
     }
 
@@ -182,7 +159,7 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
                                 ? remote.clientid
                                 : this.room.hostid,
                             DisconnectReason.None
-                        )
+                        ),
                     ])
                 );
             }
@@ -190,13 +167,9 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
         }
 
         if (reason === -1) {
-            this.send(
-                new DisconnectPacket(DisconnectReason.None)
-            );
+            this.send(new DisconnectPacket(DisconnectReason.None));
         } else {
-            this.send(
-                new DisconnectPacket(reason, message, true)
-            );
+            this.send(new DisconnectPacket(reason, message, true));
         }
         this.disconnected = true;
     }
@@ -204,7 +177,7 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
     async joinError(reason: DisconnectReason, message?: string) {
         this.send(
             new ReliablePacket(this.nonce, [
-                new JoinGameMessage(reason, message)
+                new JoinGameMessage(reason, message),
             ])
         );
     }

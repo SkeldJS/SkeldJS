@@ -16,7 +16,12 @@ import {
     AllGameOptions,
 } from "@skeldjs/protocol";
 
-import { Code2Int, HazelReader, HazelWriter, sleep } from "@skeldjs/util";
+import {
+    Code2Int,
+    HazelReader,
+    HazelWriter,
+    sleep
+} from "@skeldjs/util";
 
 import {
     DisconnectReason,
@@ -26,7 +31,7 @@ import {
     SpawnFlag,
 } from "@skeldjs/constant";
 
-import { EventEmitter, PropagatedEvents } from "@skeldjs/events";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import {
     AirshipStatus,
@@ -49,12 +54,25 @@ import {
     PlayerIDResolvable,
 } from "./component";
 
-import { Heritable } from "./Heritable";
+import { Heritable, HeritableEvents } from "./Heritable";
 import { Networkable } from "./Networkable";
 import { PlayerData, PlayerDataEvents } from "./PlayerData";
 
 import { SpawnPrefabs } from "./prefabs";
 import { HostableOptions } from "./misc/HostableOptions";
+
+import {
+    NetworkableDespawnEvent,
+    NetworkableSpawnEvent,
+    PlayerJoinEvent,
+    PlayerLeaveEvent,
+    PlayerSceneChangeEvent,
+    PlayerSetHostEvent,
+    RoomFixedUpdateEvent,
+    RoomGameEndEvent,
+    RoomGameStartEvent,
+    RoomSetVisibilityEvent,
+} from "./events";
 
 export type RoomID = string | number;
 
@@ -87,85 +105,27 @@ export type AnyNetworkable =
     | SkeldShipStatus
     | VoteBanSystem;
 
-export type BaseHostableEvents = PropagatedEvents<
-    PlayerDataEvents,
-    {
-        /**
-         * The player that emitted this event.
-         */
-        player: PlayerData;
-    }
-> &
-    ShipStatusEvents &
+export type HostableEvents =
+    HeritableEvents &
+    PlayerDataEvents &
     GameDataEvents &
     LobbyBehaviourEvents &
     MeetingHudEvents &
-    VoteBanSystemEvents;
-export interface HostableEvents extends BaseHostableEvents {
-    /**
-     * Emitted when a game is started.
-     */
-    "game.start": {};
-    /**
-     * Emitted when a game is ended.
-     */
-    "game.end": {
-        reason: GameOverReason;
-    };
-    /**
-     * Emitted when a fixed update is called.
-     */
-    "room.fixedupdate": {
-        /**
-         * The gamedata stream that will be broadcasted at the end of the fixed update.
-         */
-        stream: BaseGameDataMessage[];
-    };
-    /**
-     * Emitted when the publicity of the room is modified.
-     */
-    "room.setpublic": {
-        /**
-         * Whether or not the room is public.
-         */
-        public: boolean;
-    };
-    /**
-     * Emitted when a component is spawned.
-     */
-    "component.spawn": {
-        /**
-         * The component that was spawned.
-         */
-        component: AnyNetworkable;
-        /**
-         * The player owner of the component, if applicable.
-         */
-        player: PlayerData;
-    };
-    /**
-     * Emitted when a component is despawned.
-     */
-    "component.despawn": {
-        /**
-         * The component that was spawned.
-         */
-        component: AnyNetworkable;
-        /**
-         * The player owner of the component, if applicable.
-         */
-        player: PlayerData;
-    };
-}
+    ShipStatusEvents &
+    VoteBanSystemEvents &
+ExtractEventTypes<[
+    RoomGameStartEvent,
+    RoomGameEndEvent,
+    RoomFixedUpdateEvent,
+    RoomSetVisibilityEvent
+]>;
 
 /**
  * Represents an object capable of hosting games.
  *
  * See {@link HostableEvents} for events to listen to.
  */
-export class Hostable<T extends Record<string, any> = {}> extends Heritable<
-    HostableEvents & T
-> {
+export class Hostable<T extends HostableEvents = HostableEvents> extends Heritable<T> {
     /**
      * The objects in the room.
      */
@@ -236,14 +196,14 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         this.counter = -1;
         this.privacy = "private";
 
-        this.settings = new GameOptions;
+        this.settings = new GameOptions();
 
         this.objects = new Map();
         this.players = new Map();
         this.netobjects = new Map();
         this.stream = [];
 
-        this.objects.set(-2, this);
+        this.objects.set(-2, this as Heritable<any>);
         this.room = this;
 
         this._incr_netid = 0;
@@ -268,12 +228,12 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
             }
         });
 
-        this.decoder.on(RpcMessage, (message) => {
+        this.decoder.on(RpcMessage, async (message) => {
             const component = this.netobjects.get(message.netid);
 
             if (component) {
                 const reader = HazelReader.from(message.data);
-                component.HandleRpc(message.callid, reader);
+                await component.HandleRpc(message.callid, reader);
             }
         });
 
@@ -320,13 +280,18 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                             player
                         );
 
-                        this.spawnPrefab(SpawnType.Player, player);
+                        this.spawnPrefab(SpawnType.Player, player.id);
 
                         if (this.me) {
                             this.me.control.syncSettings(this.settings);
                         }
 
-                        player.emit("player.scenechange", {});
+                        player.emit(
+                            new PlayerSceneChangeEvent(
+                                this,
+                                player
+                            )
+                        );
                     }
                 }
             }
@@ -344,13 +309,6 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
     destroy() {
         clearInterval(this._interval);
         this._destroyed = true;
-    }
-
-    async emit(...args: any[]): Promise<boolean> {
-        const event = args[0];
-        const data = args[1];
-
-        return EventEmitter.prototype.emit.call(this, event, data);
     }
 
     get incr_netid() {
@@ -438,6 +396,18 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         return this.getComponent(VoteBanSystem);
     }
 
+    async emit<Event extends HostableEvents[keyof HostableEvents]>(
+        event: Event
+    ): Promise<Event>;
+    async emit<Event extends T[keyof T]>(
+        event: Event
+    ): Promise<Event>;
+    async emit<Event extends T[keyof T]>(
+        event: Event
+    ): Promise<Event> {
+        return super.emit(event);
+    }
+
     async broadcast(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         messages: BaseGameDataMessage[],
@@ -472,9 +442,12 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
             }
         }
 
-        await this.emit("room.fixedupdate", {
-            stream: this.stream,
-        });
+        await this.emit(
+            new RoomFixedUpdateEvent(
+                this,
+                this.stream
+            )
+        );
 
         if (this.stream.length) {
             const stream = this.stream;
@@ -563,7 +536,12 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         switch (tag) {
             case AlterGameTag.ChangePrivacy:
                 this.privacy = value ? "public" : "private";
-                this.emit("setPublic", { public: this.privacy === "public" });
+                this.emit(
+                    new RoomSetVisibilityEvent(
+                        this,
+                        this.privacy
+                    )
+                );
                 break;
         }
     }
@@ -651,12 +629,22 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         }
 
         if (before !== this.hostid && this.host) {
-            await this.host.emit("player.sethost", {});
+            await this.host.emit(
+                new PlayerSetHostEvent(
+                    this,
+                    this.host
+                )
+            );
         }
     }
 
     private async _addPlayer(player: PlayerData) {
-        await player.emit("player.join", {});
+        await player.emit(
+            new PlayerJoinEvent(
+                this,
+                player
+            )
+        );
     }
 
     /**
@@ -668,7 +656,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
 
         const player: PlayerData = new PlayerData(this, clientid);
         this.players.set(clientid, player);
-        this.objects.set(clientid, player);
+        this.objects.set(clientid, player as Heritable<any>);
 
         await this._addPlayer(player);
 
@@ -676,7 +664,12 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
     }
 
     private _removePlayer(player: PlayerData) {
-        player.emit("player.leave", {});
+        player.emit(
+            new PlayerLeaveEvent(
+                this,
+                player
+            )
+        );
     }
 
     /**
@@ -713,7 +706,9 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
 
     private async _startGame() {
         this._started = true;
-        await this.emit("game.start", {});
+        await this.emit(
+            new RoomGameStartEvent(this)
+        );
     }
 
     /**
@@ -770,7 +765,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
             }
 
             if (this.lobbybehaviour)
-                await this.despawnComponent(this.lobbybehaviour);
+                await this.despawnComponent(this.lobbybehaviour as Networkable<any, any>);
 
             const ship_prefabs = [
                 SpawnType.ShipStatus,
@@ -791,7 +786,12 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
 
     private async _endGame(reason: GameOverReason) {
         this._started = false;
-        await this.emit("game.end", { reason });
+        await this.emit(
+            new RoomGameEndEvent(
+                this,
+                reason
+            )
+        );
     }
 
     /**
@@ -883,19 +883,20 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
         this.netobjects.set(component.netid, component);
         component.owner?.components.push(component);
 
-        await component.emit("component.spawn", {});
-        if (component.ownerid !== -2) {
-            await component.emit("player.component.spawn", {});
-        }
+        await component.emit(
+            new NetworkableSpawnEvent(this, component as AnyNetworkable)
+        );
     }
 
     private async _despawnComponent(component: Networkable<any>) {
         this.netobjects.delete(component.netid);
 
-        await component.emit("component.despawn", {});
-        if (component.ownerid !== -2) {
-            await component.emit("player.component.despawn", {});
-        }
+        await component.emit(
+            new NetworkableDespawnEvent(
+                this,
+                component as AnyNetworkable
+            )
+        );
         component.owner?.components.splice(
             component.owner.components.indexOf(component),
             1,
@@ -966,9 +967,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     ownerid
                 );
 
-                await this.spawnComponent(shipstatus);
-
-                object.components.push(shipstatus);
+                object.components.push(shipstatus as Networkable<any, any>);
                 break;
             }
             case SpawnType.MeetingHud:
@@ -982,9 +981,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     }
                 );
 
-                await this.spawnComponent(meetinghud);
-
-                object.components.push(meetinghud);
+                object.components.push(meetinghud as Networkable<any, any>);
                 break;
             case SpawnType.LobbyBehaviour:
                 const lobbybehaviour = new LobbyBehaviour(
@@ -994,9 +991,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     {}
                 );
 
-                await this.spawnComponent(lobbybehaviour);
-
-                object.components.push(lobbybehaviour);
+                object.components.push(lobbybehaviour as Networkable<any, any>);
                 break;
             case SpawnType.GameData:
                 const gamedata = new GameData(this, this.incr_netid, ownerid, {
@@ -1008,8 +1003,6 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     if (player.playerId) gamedata.add(player.playerId);
                 }
 
-                await this.spawnComponent(gamedata);
-
                 const votebansystem = new VoteBanSystem(
                     this,
                     this.incr_netid,
@@ -1019,10 +1012,8 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     }
                 );
 
-                await this.spawnComponent(votebansystem);
-
-                object.components.push(gamedata);
-                object.components.push(votebansystem);
+                object.components.push(gamedata as Networkable<any, any>);
+                object.components.push(votebansystem as Networkable<any, any>);
                 break;
             case SpawnType.Player:
                 const playerId = this.getAvailablePlayerID();
@@ -1039,16 +1030,12 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     }
                 );
 
-                await this.spawnComponent(control);
-
                 const physics = new PlayerPhysics(
                     this,
                     this.incr_netid,
                     ownerid,
                     {}
                 );
-
-                await this.spawnComponent(physics);
 
                 const transform = new CustomNetworkTransform(
                     this,
@@ -1067,11 +1054,9 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     }
                 );
 
-                await this.spawnComponent(transform);
-
-                object.components.push(control);
-                object.components.push(physics);
-                object.components.push(transform);
+                object.components.push(control as Networkable<any, any>);
+                object.components.push(physics as Networkable<any, any>);
+                object.components.push(transform as Networkable<any, any>);
                 break;
             case SpawnType.Headquarters:
                 const headquarters = new MiraShipStatus(
@@ -1080,9 +1065,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     ownerid
                 );
 
-                await this.spawnComponent(headquarters);
-
-                object.components.push(headquarters);
+                object.components.push(headquarters as Networkable<any, any>);
                 break;
             case SpawnType.PlanetMap:
                 const planetmap = new PolusShipStatus(
@@ -1091,9 +1074,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     ownerid
                 );
 
-                await this.spawnComponent(planetmap);
-
-                object.components.push(planetmap);
+                object.components.push(planetmap as Networkable<any, any>);
                 break;
             case SpawnType.AprilShipStatus:
                 const aprilshipstatus = new AprilShipStatus(
@@ -1102,9 +1083,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     ownerid
                 );
 
-                await this.spawnComponent(aprilshipstatus);
-
-                object.components.push(aprilshipstatus);
+                object.components.push(aprilshipstatus as Networkable<any, any>);
                 break;
             case SpawnType.Airship:
                 const airship = new AirshipStatus(
@@ -1113,10 +1092,12 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
                     ownerid
                 );
 
-                await this.spawnComponent(airship);
-
-                object.components.push(airship);
+                object.components.push(airship as Networkable<any, any>);
                 break;
+        }
+
+        for (const component of object.components) {
+            await this.spawnComponent(component);
         }
 
         this.stream.push(
@@ -1181,9 +1162,9 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
     private _getExistingObjectSpawn() {
         const messages: SpawnMessage[] = [];
 
-        for (const [ , netobj ] of this.netobjects) {
+        for (const [, netobj] of this.netobjects) {
             let message = messages.find(
-                msg =>
+                (msg) =>
                     msg.spawnType === netobj.type &&
                     msg.ownerid === netobj.ownerid
             );
@@ -1205,10 +1186,7 @@ export class Hostable<T extends Record<string, any> = {}> extends Heritable<
             writer.write(netobj, true);
 
             message.components.push(
-                new ComponentSpawnData(
-                    netobj.netid,
-                    writer.buffer
-                )
+                new ComponentSpawnData(netobj.netid, writer.buffer)
             );
         }
 

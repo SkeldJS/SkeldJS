@@ -12,11 +12,11 @@ import * as skeldjs from "../index";
     await client.me.control.checkColor(skeldjs.Color.Blue);
     await client.me.control.checkName("weakeyes");
 
-    client.host.on("player.move", ev => {
-        client.me.transform.snapTo(ev.data.position);
+    client.host.on("player.move", (ev) => {
+        client.me.transform.snapTo(ev.position);
     });
 
-    client.on("player.move", ev => {
-        console.log(ev.data.player);
+    client.on("player.move", (ev) => {
+        console.log(ev.player);
     });
 })();

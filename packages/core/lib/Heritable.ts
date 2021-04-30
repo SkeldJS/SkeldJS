@@ -1,9 +1,8 @@
-import { EventEmitter } from "@skeldjs/events";
+import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { HazelReader } from "@skeldjs/util";
 
 import { Networkable, NetworkableEvents } from "./Networkable";
 import { Hostable } from "./Hostable";
-import { HazelReader } from "@skeldjs/util";
-import { PropagatedEvents } from "@skeldjs/events";
 
 type NetworkableConstructor<T> = {
     new (
@@ -15,17 +14,14 @@ type NetworkableConstructor<T> = {
     classname: string;
 };
 
-interface HeritableEvents
-    extends PropagatedEvents<NetworkableEvents, { component: Networkable }> {}
+export type HeritableEvents = NetworkableEvents & ExtractEventTypes<[]>;
 
 /**
  * Represents a basic identifiable entity with components.
  *
  * See {@link HeritableEvents} for events to listen to.
  */
-export class Heritable<T extends Record<string, any> = {}> extends EventEmitter<
-    T & HeritableEvents
-> {
+export class Heritable<T extends HeritableEvents = HeritableEvents> extends EventEmitter<T> {
     /**
      * The room that this object belongs to.
      */
@@ -50,15 +46,18 @@ export class Heritable<T extends Record<string, any> = {}> extends EventEmitter<
         this.components = [];
     }
 
-    async emit(...args: any[]): Promise<boolean> {
-        const event = args[0] as string;
-        const data = args[1] as any;
+    async emit<Event extends HeritableEvents[keyof HeritableEvents]>(
+        event: Event
+    ): Promise<Event>;
+    async emit<Event extends T[keyof T]>(
+        event: Event
+    ): Promise<Event>;
+    async emit<Event extends T[keyof T]>(
+        event: Event
+    ): Promise<Event> {
+        if (this.room as Heritable<any> !== this) this.room.emit(event);
 
-        this.room.emit(event, {
-            ...data,
-        });
-
-        return super.emit(event, data);
+        return super.emit(event);
     }
 
     /**

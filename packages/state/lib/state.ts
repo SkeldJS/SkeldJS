@@ -14,10 +14,10 @@ import {
 
 import { HazelReader } from "@skeldjs/util";
 
-export interface SkeldjsStateManagerEvents extends HostableEvents {}
+export type SkeldjsStateManagerEvents = HostableEvents;
 
 export class SkeldjsStateManager<
-    T extends Record<string, any> = {}
+    T extends SkeldjsStateManagerEvents = SkeldjsStateManagerEvents
 > extends Hostable<T> {
     clientid: number;
 
@@ -59,16 +59,19 @@ export class SkeldjsStateManager<
             }
         });
 
-        this.decoder.on(GameDataToMessage, async (message, direction, sender) => {
-            if (
-                direction === MessageDirection.Clientbound &&
-                message.code === this.code
-            ) {
-                for (const child of message._children) {
-                    this.decoder.emitDecoded(child, direction, sender);
+        this.decoder.on(
+            GameDataToMessage,
+            async (message, direction, sender) => {
+                if (
+                    direction === MessageDirection.Clientbound &&
+                    message.code === this.code
+                ) {
+                    for (const child of message._children) {
+                        this.decoder.emitDecoded(child, direction, sender);
+                    }
                 }
             }
-        });
+        );
 
         this.decoder.on(JoinedGameMessage, async (message, direction) => {
             if (direction === MessageDirection.Clientbound) {
@@ -115,7 +118,7 @@ export class SkeldjsStateManager<
         this.stream = [];
         this.code = 0;
         this.hostid = 0;
-        this.settings = new GameOptions;
+        this.settings = new GameOptions();
         this.counter = -1;
         this.privacy = "private";
     }

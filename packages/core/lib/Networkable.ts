@@ -1,20 +1,19 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
-import { EventEmitter } from "@skeldjs/events";
+import {
+    EventEmitter,
+    ExtractEventTypes,
+} from "@skeldjs/events";
 
 import { Hostable } from "./Hostable";
 
-export interface NetworkableEvents {
-    /**
-     * Emitted when this component is spawned.
-     */
-    "component.spawn": {};
-    /**
-     * Emitted when this component is despawned.
-     */
-    "component.despawn": {};
-}
+import { NetworkableDespawnEvent, NetworkableSpawnEvent } from "./events";
+
+export type NetworkableEvents = ExtractEventTypes<[
+    NetworkableSpawnEvent,
+    NetworkableDespawnEvent
+]>;
 
 /**
  * Represents a basic networkable object in Among Us.
@@ -23,8 +22,8 @@ export interface NetworkableEvents {
  */
 export class Networkable<
     DataT = any,
-    T extends Record<string, any> = {}
-> extends EventEmitter<T & NetworkableEvents> {
+    T extends NetworkableEvents = NetworkableEvents
+> extends EventEmitter<T> {
     static type: SpawnType;
     /**
      * The type of object that this component belongs to.
@@ -82,18 +81,20 @@ export class Networkable<
         Object.assign(this, data);
     }
 
-    async emit(...args: any[]): Promise<boolean> {
-        const event = args[0];
-        const data = args[1];
-
+    async emit<Event extends NetworkableEvents[keyof NetworkableEvents]>(
+        event: Event
+    ): Promise<Event>;
+    async emit<Event extends T[keyof T]>(
+        event: Event
+    ): Promise<Event>;
+    async emit<Event extends T[keyof T]>(
+        event: Event
+    ): Promise<Event> {
         if (this.owner) {
-            await this.owner.emit(event, {
-                ...data,
-                component: this,
-            });
+            this.owner.emit(event);
         }
 
-        return super.emit(event, data);
+        return super.emit(event);
     }
 
     get owner() {
@@ -109,7 +110,7 @@ export class Networkable<
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     PreSerialize() {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {}
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     FixedUpdate(delta: number) {}
 

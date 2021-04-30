@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/data",
-  "version": "2.6.14",
+  "version": "2.6.15",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^14.14.41",
-    "typescript": "^4.1.3"
+    "typescript": "^4.2.4"
   },
   "files": [
     "dist"

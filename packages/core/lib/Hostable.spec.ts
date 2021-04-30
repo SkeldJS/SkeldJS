@@ -17,7 +17,8 @@ import {
 } from "@skeldjs/protocol";
 
 import assert from "assert";
-import { MeetingHud, PlayerControl } from "./component";
+
+import { MeetingHud } from "./component";
 
 import { Hostable } from "./Hostable";
 import { PlayerVoteState } from "./misc/PlayerVoteState";
@@ -375,7 +376,7 @@ describe("Hostable", () => {
 
             let did_call = false;
             room.on("player.sethost", (ev) => {
-                if (ev.data.player.id === 1013) {
+                if (ev.player.id === 1013) {
                     did_call = true;
                 }
             });
@@ -418,7 +419,7 @@ describe("Hostable", () => {
 
             let did_call = false;
             room.on("player.join", (ev) => {
-                if (ev.data.player.id === 1013) {
+                if (ev.player.id === 1013) {
                     did_call = true;
                 }
             });
@@ -448,7 +449,7 @@ describe("Hostable", () => {
 
             let did_call = false;
             room.on("player.leave", (ev) => {
-                if (ev.data.player.id === 1013) {
+                if (ev.player.id === 1013) {
                     did_call = true;
                 }
             });
@@ -513,7 +514,7 @@ describe("Hostable", () => {
             const room = new Hostable();
             let did_receive = false;
 
-            room.on("game.start", () => {
+            room.on("room.game.start", () => {
                 did_receive = true;
             });
 
@@ -573,7 +574,7 @@ describe("Hostable", () => {
             const room = new Hostable();
             let did_receive = false;
 
-            room.on("game.end", () => {
+            room.on("room.game.end", () => {
                 did_receive = true;
             });
 
@@ -627,41 +628,6 @@ describe("Hostable", () => {
             await room.spawnComponent(component);
 
             assert.ok(did_receive);
-        });
-
-        it("Should emit a player component spawn event if the owner of the component is a player.", async () => {
-            const room = new Hostable();
-            const player = await room.handleJoin(1013);
-            const component = new PlayerControl(room, 1, player.id, {
-                isNew: false,
-                playerId: 1,
-            });
-            let did_receive = false;
-
-            room.on("player.component.spawn", () => {
-                did_receive = true;
-            });
-
-            await room.spawnComponent(component);
-
-            assert.ok(did_receive);
-        });
-
-        it("Should not emit a player component spawn event if the owner of the component is not a player.", async () => {
-            const room = new Hostable();
-            const component = new MeetingHud(room, 1, room.id, {
-                dirtyBit: 0,
-                states: new Map(),
-            });
-            let did_receive = false;
-
-            room.on("player.component.spawn", () => {
-                did_receive = true;
-            });
-
-            await room.spawnComponent(component);
-
-            assert.ok(!did_receive);
         });
 
         it("Should do nothing if the component is already spawned.", async () => {
@@ -720,43 +686,6 @@ describe("Hostable", () => {
             await room.despawnComponent(component);
 
             assert.ok(did_receive);
-        });
-
-        it("Should emit a player component spawn event if the owner of the component was a player.", async () => {
-            const room = new Hostable();
-            const player = await room.handleJoin(1013);
-            const component = new PlayerControl(room, 1, player.id, {
-                isNew: false,
-                playerId: 1,
-            });
-            await room.spawnComponent(component);
-            let did_receive = false;
-
-            room.on("player.component.despawn", () => {
-                did_receive = true;
-            });
-
-            await room.despawnComponent(component);
-
-            assert.ok(did_receive);
-        });
-
-        it("Should not emit a player component spawn event if the owner of the component was not a player.", async () => {
-            const room = new Hostable();
-            const component = new MeetingHud(room, 1, room.id, {
-                dirtyBit: 0,
-                states: new Map(),
-            });
-            await room.spawnComponent(component);
-            let did_receive = false;
-
-            room.on("player.component.despawn", () => {
-                did_receive = true;
-            });
-
-            await room.despawnComponent(component);
-
-            assert.ok(!did_receive);
         });
     });
 

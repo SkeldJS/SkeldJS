@@ -1,47 +1,53 @@
-export type EventContext<T> = {
-    cancelled: boolean;
-    cancel: () => void;
-    data: T;
+export type Eventable = {
+    eventName: string;
 };
 
-type EventData = Record<string, any>;
+export type ExtractEventName<Event extends Eventable> = Event extends {
+    eventName: infer X;
+}
+    ? X
+    : never;
 
-type Listener<Events extends EventData, EventName extends keyof Events> = (
-    ev: EventContext<Events[EventName]>
-) => void | Promise<void>;
+export type ExtractEventType<
+    Events extends Eventable[],
+    EventName extends ExtractEventName<Events[number]>
+> = Extract<Events[number], { eventName: EventName }>;
+
+export type ExtractEventTypes<Events extends Eventable[]> = {
+    [K in ExtractEventName<Events[number]>]: ExtractEventType<Events, K>
+};
+
+export type EventData = Record<string|number|symbol, Eventable>;
+
+type Listener<
+    Event extends Eventable
+> = (ev: Event) => void | Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
-    private readonly listeners: Map<keyof Events, Set<Listener<Events, any>>>;
+    private readonly listeners: Map<
+        keyof Events,
+        Set<Listener<Events[keyof Events]>>
+    >;
 
     constructor() {
         this.listeners = new Map();
     }
 
-    async emit<EventName extends keyof Events>(
-        event: EventName,
-        data: Events[EventName]
-    ) {
-        const listeners = this.getListeners(event);
-        const ctx: EventContext<Events[EventName]> = {
-            cancelled: false,
-            cancel() {
-                this.cancelled = true;
-            },
-            data,
-        };
+    async emit<Event extends Events[keyof Events]>(
+        event: Event
+    ): Promise<Event> {
+        const listeners = this.getListeners(event.eventName) as Set<Listener<Event>>;
 
         if (listeners.size) {
-            for (const listener of listeners) await listener(ctx);
-
-            if (ctx.cancelled) return false;
+            for (const listener of listeners) await listener(event);
         }
 
-        return true;
+        return event;
     }
 
     on<EventName extends keyof Events>(
         event: EventName,
-        listener: Listener<Events, EventName>
+        listener: Listener<Events[EventName]>
     ): () => void {
         const listeners = this.getListeners(event);
         listeners.add(listener);
@@ -51,7 +57,7 @@ export class EventEmitter<Events extends EventData> {
 
     once<EventName extends keyof Events>(
         event: EventName,
-        listener: Listener<Events, EventName>
+        listener: Listener<Events[EventName]>
     ) {
         const removeListener = this.on(event, async (ev) => {
             removeListener();
@@ -62,7 +68,7 @@ export class EventEmitter<Events extends EventData> {
 
     wait<EventName extends keyof Events>(
         event: EventName
-    ): Promise<EventContext<Events[EventName]>> {
+    ): Promise<Events[EventName]> {
         return new Promise((resolve) => {
             this.once(event, async (ev) => {
                 resolve(ev);
@@ -72,7 +78,7 @@ export class EventEmitter<Events extends EventData> {
 
     off<EventName extends keyof Events>(
         event: EventName,
-        listener: Listener<Events, EventName>
+        listener: Listener<Events[EventName]>
     ) {
         const listeners = this.getListeners(event);
         listeners.delete(listener);
@@ -80,16 +86,18 @@ export class EventEmitter<Events extends EventData> {
 
     getListeners<EventName extends keyof Events>(
         event: EventName
-    ): Set<Listener<Events, EventName>> {
+    ): Set<Listener<Events[EventName]>> {
         const listeners = this.listeners.get(event);
         if (!listeners) {
             this.listeners.set(event, new Set());
             return this.getListeners(event);
         }
-        return listeners;
+        return listeners as Set<Listener<Events[EventName]>>;
     }
 
-    removeListeners<EventName extends keyof Events>(event: EventName) {
+    removeListeners<EventName extends keyof Events>(
+        event: EventName
+    ) {
         const listeners = this.getListeners(event);
         listeners.clear();
     }

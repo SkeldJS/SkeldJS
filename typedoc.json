@@ -21,5 +21,6 @@
   ],
   "external-modulemap": ".*packages\/([^\/]+)\/.*",
   "excludePrivate": true,
-  "excludeProtected": true
+  "excludeProtected": true,
+  "listInvalidSymbolLinks": true
 }

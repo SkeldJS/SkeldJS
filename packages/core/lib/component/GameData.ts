@@ -9,6 +9,7 @@ import {
 
 import { RpcMessage } from "@skeldjs/protocol";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
@@ -18,44 +19,24 @@ import { PlayerControl } from "./PlayerControl";
 import { PlayerVoteState } from "../misc/PlayerVoteState";
 import { PlayerGameData, TaskState } from "../misc/PlayerGameData";
 
+import {
+    GameDataAddPlayerEvent,
+    GameDataRemovePlayerEvent,
+    GameDataSetTasksEvent,
+} from "../events";
+
 export interface GameDataData {
     dirtyBit: number;
     players: Map<number, PlayerGameData>;
 }
 
-export interface GameDataEvents extends NetworkableEvents {
-    /**
-     * Emitted when a player is added to the game data.
-     */
-    "gamedata.addplayer": {
-        /**
-         * The data of the player that was added.
-         */
-        playerData: PlayerGameData;
-    };
-    /**
-     * Emitted when a player is removed from the game data.
-     */
-    "gamedata.removeplayer": {
-        /**
-         * The data of the player that was removed.
-         */
-        playerData: PlayerGameData;
-    };
-    /**
-     * Emitted when a player has their tasks set.
-     */
-    "gamedata.settasks": {
-        /**
-         * The data of the player that had their tasks set.
-         */
-        playerData: PlayerGameData;
-        /**
-         * The IDs of the player's tasks.
-         */
-        taskids: number[];
-    };
-}
+export type GameDataEvents =
+    NetworkableEvents &
+ExtractEventTypes<[
+    GameDataAddPlayerEvent,
+    GameDataRemovePlayerEvent,
+    GameDataSetTasksEvent
+]>;
 
 export type PlayerIDResolvable =
     | number
@@ -94,7 +75,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         return super.owner as Hostable;
     }
 
-/*
+    /*
     private getOrCreate(playerId: number) {
         const data = this.players.get(playerId);
 
@@ -112,7 +93,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
-        if (!this.players) this.players = new Map;
+        if (!this.players) this.players = new Map();
 
         if (spawn) {
             const num_players = reader.upacked();
@@ -125,7 +106,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
             }
         } else {
             while (reader.left) {
-                const [ playerId, preader ] = reader.message();
+                const [playerId, preader] = reader.message();
 
                 const player = this.players.get(playerId);
 
@@ -161,7 +142,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.SetTasks:
                 this.setTasks;
@@ -275,14 +256,11 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         const player = this.players.get(playerId);
 
         if (player) {
-            player.tasks = taskIds.map((id, i) =>
-                new TaskState(i, false)
-            );
+            player.tasks = taskIds.map((id, i) => new TaskState(i, false));
 
-            this.emit("gamedata.settasks", {
-                playerData: player,
-                taskids: taskIds,
-            });
+            this.emit(
+                new GameDataSetTasksEvent(this.room, this, player, taskIds)
+            );
         }
     }
 
@@ -358,9 +336,13 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     add(playerId: number) {
         this.players.set(playerId, new PlayerGameData(playerId));
 
-        this.emit("gamedata.addplayer", {
-            playerData: this.players.get(playerId),
-        });
+        this.emit(
+            new GameDataAddPlayerEvent(
+                this.room,
+                this,
+                this.players.get(playerId)
+            )
+        );
 
         this.update(playerId);
         return this.players.get(playerId);
@@ -378,11 +360,9 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
                 this.dirtyBit ^= 1 << player.playerId;
             }
 
-            this.emit("gamedata.removeplayer", {
-                playerData: this.players.get(player.playerId),
-            });
-
             this.players.delete(player.playerId);
+
+            this.emit(new GameDataRemovePlayerEvent(this.room, this, player));
         }
     }
 }

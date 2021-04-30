@@ -1,10 +1,10 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-
+import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemType } from "@skeldjs/constant";
 
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
-import { BaseSystemStatusEvents } from "./events";
+import { SystemStatusEvents } from "./events";
 
 export const DeconState = {
     Enter: 0x1,
@@ -18,7 +18,9 @@ export interface DeconSystemData {
     state: number;
 }
 
-export interface DeconSystemEvents extends BaseSystemStatusEvents {}
+export type DeconSystemEvents =
+    SystemStatusEvents &
+    ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for the decontamination doors.

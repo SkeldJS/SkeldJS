@@ -1,6 +1,7 @@
 import { HazelBuffer, HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 import { RpcMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerData } from "../PlayerData";
@@ -8,38 +9,22 @@ import { Hostable } from "../Hostable";
 
 import { NetworkUtils } from "../utils/net";
 
+import {
+    PlayerClimbLadderEvent,
+    PlayerEnterVentEvent,
+    PlayerExitVentEvent,
+} from "../events";
+
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface PlayerPhysicsData {}
 
-export interface PlayerPhysicsEvents extends NetworkableEvents {
-    /**
-     * Emitted when a player enters a vent.
-     */
-    "player.entervent": {
-        /**
-         * The ID of the vent that the player entered.
-         */
-        ventid: number;
-    };
-    /**
-     * Emitted when a player exits a vent.
-     */
-    "player.exitvent": {
-        /**
-         * The ID of the vent that the player exited.
-         */
-        ventid: number;
-    };
-    /**
-     * Emitted when a player uses a ladder.
-     */
-    "player.climbladder": {
-        /**
-         * The ID of the ladder that the player climbed.
-         */
-        ladderId: number;
-    };
-}
+export type PlayerPhysicsEvents =
+    NetworkableEvents &
+ExtractEventTypes<[
+    PlayerEnterVentEvent,
+    PlayerExitVentEvent,
+    PlayerClimbLadderEvent
+]>;
 
 /**
  * Represents a player object for handling vent entering and exiting.
@@ -72,11 +57,11 @@ export class PlayerPhysics extends Networkable<
         super(room, netid, ownerid, data);
     }
 
-    get owner() {
-        return super.owner as PlayerData;
+    get player() {
+        return this.owner as PlayerData;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.EnterVent:
                 const ventid = reader.upacked();
@@ -106,7 +91,7 @@ export class PlayerPhysics extends Networkable<
 
     private _enterVent(ventid: number) {
         this.vent = ventid;
-        this.emit("player.entervent", { ventid });
+        this.emit(new PlayerEnterVentEvent(this.room, this.player, ventid));
     }
 
     /**
@@ -130,7 +115,7 @@ export class PlayerPhysics extends Networkable<
 
     private _exitVent(ventid: number) {
         this.vent = null;
-        this.emit("player.exitvent", { ventid });
+        this.emit(new PlayerExitVentEvent(this.room, this.player, ventid));
     }
 
     /**
@@ -152,8 +137,8 @@ export class PlayerPhysics extends Networkable<
         );
     }
 
-    private _climbLadder(ladderId: number) {
-        this.emit("player.climbladder", { ladderId });
+    private _climbLadder(ladderid: number) {
+        this.emit(new PlayerClimbLadderEvent(this.room, this.player, ladderid));
     }
 
     climbLadder(ladderId: number) {

@@ -1,9 +1,9 @@
 import assert from "assert";
 
-import { Heritable } from "./Heritable";
-import { Hostable } from "./Hostable";
+import { Heritable, HeritableEvents } from "./Heritable";
+import { Hostable, HostableEvents } from "./Hostable";
 
-import { TestComponent, TestEvents, alphabet } from "./tests.spec";
+import { TestComponent, TestEvents, alphabet, TestEvent } from "./tests.spec";
 
 describe("Heritable", () => {
     describe("Heritable#ctr", () => {
@@ -22,24 +22,24 @@ describe("Heritable", () => {
             let was_called1 = false;
             let was_called2 = false;
 
-            const room = new Hostable<TestEvents>();
-            const heritable = new Heritable<TestEvents>(room, 1013);
+            const room = new Hostable<HostableEvents & TestEvents>();
+            const heritable = new Heritable<HeritableEvents & TestEvents>(room, 1013);
 
             heritable.on("test.event", async (ev) => {
-                if (ev.data.alphabet === alphabet) {
+                if (ev.alphabet === alphabet) {
                     was_called1 = true;
                 }
             });
 
             room.on("test.event", async (ev) => {
-                if (ev.data.alphabet === alphabet) {
+                if (ev.alphabet === alphabet) {
                     was_called2 = true;
                 }
             });
 
-            await heritable.emit("test.event", {
-                alphabet,
-            });
+            await heritable.emit(
+                new TestEvent(alphabet)
+            );
 
             assert.ok(was_called1);
             assert.ok(was_called2);

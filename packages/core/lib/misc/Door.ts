@@ -1,18 +1,16 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { EventEmitter } from "@skeldjs/events";
+import {
+    EventEmitter,
+    ExtractEventTypes,
+} from "@skeldjs/events";
 
 import { SystemStatus } from "../system";
+import { DoorCloseDoorEvent, DoorOpenDoorEvent } from "../events";
 
-export interface DoorEvents {
-    /**
-     * Emitted when the door opens.
-     */
-    "doors.open": {};
-    /**
-     * Emitted when the door closes.
-     */
-    "doors.close": {};
-}
+export type DoorEvents = ExtractEventTypes<[
+    DoorOpenDoorEvent,
+    DoorCloseDoorEvent
+]>;
 
 /**
  * Represents a manual door for the {@link DoorsSystem} or {@link ElectricalDoorsSystem}.
@@ -32,16 +30,14 @@ export class Door extends EventEmitter<DoorEvents> {
         this._isOpen = isOpen;
     }
 
-    async emit(...args: any): Promise<boolean> {
-        const event = args[0];
-        const data = args[1];
+    async emit<Event extends DoorEvents[keyof DoorEvents]>(
+        event: Event
+    ): Promise<Event> {
+        if (this.system) {
+            this.system.emit(event);
+        }
 
-        this.system.emit(event, {
-            ...data,
-            door: this,
-        });
-
-        return super.emit(event, data);
+        return super.emit(event);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -73,7 +69,7 @@ export class Door extends EventEmitter<DoorEvents> {
         if (this._isOpen) return;
 
         this._isOpen = true;
-        this.emit("doors.open", {});
+        this.emit(new DoorOpenDoorEvent(this.system?.ship?.room, this));
     }
 
     /**
@@ -83,6 +79,6 @@ export class Door extends EventEmitter<DoorEvents> {
         if (!this._isOpen) return;
 
         this._isOpen = false;
-        this.emit("doors.close", {});
+        this.emit(new DoorCloseDoorEvent(this.system?.ship?.room, this));
     }
 }
