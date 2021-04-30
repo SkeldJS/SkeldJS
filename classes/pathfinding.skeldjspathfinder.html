@@ -75,14 +75,14 @@
 					<div class="lead">
 						<p>Represents a pathfinding utility for the <a href="client.skeldjsclient.html">SkeldJS Client</a>.</p>
 					</div>
-					<p>See {@link SkeldjsPathfinderEvents} for events to listen to.</p>
+					<p>See <a href="../modules/pathfinding.html#skeldjspathfinderevents">SkeldjsPathfinderEvents</a> for events to listen to.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">EventEmitter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">&gt;</span>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">EventEmitter</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SkeldjsPathfinder</span>
@@ -152,20 +152,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Skeldjs<wbr>Pathfinder<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span>, config<span class="tsd-signature-symbol">?: </span><a href="../interfaces/pathfinding.pathfinderconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">PathfinderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsPathfinder</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Skeldjs<wbr>Pathfinder<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span>, config<span class="tsd-signature-symbol">?: </span><a href="../interfaces/pathfinding.pathfinderconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">PathfinderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsPathfinder</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L100">pathfinding/lib/Pathfinder.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L72">pathfinding/lib/Pathfinder.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>client: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>client: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>config: <a href="../interfaces/pathfinding.pathfinderconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">PathfinderConfig</a><span class="tsd-signature-symbol"> = {}</span></h5>
@@ -191,7 +191,7 @@
 					<div class="tsd-signature tsd-kind-icon">destination<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L85">pathfinding/lib/Pathfinder.ts:85</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L57">pathfinding/lib/Pathfinder.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -206,7 +206,7 @@
 					<div class="tsd-signature tsd-kind-icon">following<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L100">pathfinding/lib/Pathfinder.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L72">pathfinding/lib/Pathfinder.ts:72</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -221,7 +221,7 @@
 					<div class="tsd-signature tsd-kind-icon">grid<span class="tsd-signature-symbol">:</span> <a href="pathfinding.grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L90">pathfinding/lib/Pathfinder.ts:90</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L62">pathfinding/lib/Pathfinder.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L95">pathfinding/lib/Pathfinder.ts:95</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L67">pathfinding/lib/Pathfinder.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -251,7 +251,7 @@
 					<div class="tsd-signature tsd-kind-icon">Movement<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">6</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L306">pathfinding/lib/Pathfinder.ts:306</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L284">pathfinding/lib/Pathfinder.ts:284</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -268,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L142">pathfinding/lib/Pathfinder.ts:142</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L114">pathfinding/lib/Pathfinder.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">GameMap</a></h4>
@@ -285,7 +285,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L134">pathfinding/lib/Pathfinder.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L106">pathfinding/lib/Pathfinder.ts:106</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerData</span></h4>
@@ -302,7 +302,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L146">pathfinding/lib/Pathfinder.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L118">pathfinding/lib/Pathfinder.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -319,7 +319,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L126">pathfinding/lib/Pathfinder.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L98">pathfinding/lib/Pathfinder.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a></h4>
@@ -336,7 +336,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L138">pathfinding/lib/Pathfinder.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L110">pathfinding/lib/Pathfinder.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -353,7 +353,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L130">pathfinding/lib/Pathfinder.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L102">pathfinding/lib/Pathfinder.ts:102</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">CustomNetworkTransform</a></h4>
@@ -367,32 +367,29 @@
 					<a name="emit" class="tsd-anchor"></a>
 					<h3>emit</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">emit&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">emit&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L20">events/lib/EventEmitter.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L36">events/lib/EventEmitter.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span></h4>
+									<h4>Event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PathfinderEndEvent</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EngineMoveEvent</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PathfinderPauseEvent</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EngineRecalculateEvent</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PathfinderStartEvent</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PathfinderStopEvent</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
-								</li>
-								<li>
-									<h5>data: <span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span></h5>
+									<h5>event: <span class="tsd-signature-type">Event</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -406,7 +403,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L298">pathfinding/lib/Pathfinder.ts:298</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L276">pathfinding/lib/Pathfinder.ts:276</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -423,20 +420,20 @@
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.getListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L81">events/lib/EventEmitter.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L87">events/lib/EventEmitter.ts:87</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -445,7 +442,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -453,19 +450,19 @@
 					<a name="go" class="tsd-anchor"></a>
 					<h3>go</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">go<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">CustomNetworkTransform</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerControl</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerPhysics</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a><span class="tsd-signature-symbol"> | </span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">go<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerDataResolvable</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a><span class="tsd-signature-symbol"> | </span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L245">pathfinding/lib/Pathfinder.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L228">pathfinding/lib/Pathfinder.ts:228</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>pos: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">CustomNetworkTransform</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerControl</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerPhysics</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a><span class="tsd-signature-symbol"> | </span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></h5>
+									<h5>pos: <span class="tsd-signature-type">PlayerDataResolvable</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">Vector2</a><span class="tsd-signature-symbol"> | </span><a href="pathfinding.node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -476,20 +473,20 @@
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.off</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L73">events/lib/EventEmitter.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L79">events/lib/EventEmitter.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -498,7 +495,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -509,20 +506,20 @@
 					<a name="on" class="tsd-anchor"></a>
 					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L42">events/lib/EventEmitter.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -531,7 +528,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -554,20 +551,20 @@
 					<a name="once" class="tsd-anchor"></a>
 					<h3>once</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L52">events/lib/EventEmitter.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L58">events/lib/EventEmitter.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -576,7 +573,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 								<li>
-									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
@@ -605,7 +602,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L209">pathfinding/lib/Pathfinder.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L186">pathfinding/lib/Pathfinder.ts:186</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -622,7 +619,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L201">pathfinding/lib/Pathfinder.ts:201</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L176">pathfinding/lib/Pathfinder.ts:176</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -640,7 +637,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.removeAllListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L97">events/lib/EventEmitter.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L105">events/lib/EventEmitter.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -658,13 +655,13 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.removeListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L92">events/lib/EventEmitter.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L98">events/lib/EventEmitter.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -687,7 +684,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L214">pathfinding/lib/Pathfinder.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L193">pathfinding/lib/Pathfinder.ts:193</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -704,7 +701,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L231">pathfinding/lib/Pathfinder.ts:231</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L214">pathfinding/lib/Pathfinder.ts:214</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -715,19 +712,19 @@
 					<a name="vent" class="tsd-anchor"></a>
 					<h3>vent</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">vent<span class="tsd-signature-symbol">(</span>ventid<span class="tsd-signature-symbol">: </span><a href="../enums/constant.theskeldvent.html#admin" class="tsd-signature-type" data-tsd-kind="Enumeration member">Admin</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#righthallway" class="tsd-signature-type" data-tsd-kind="Enumeration member">RightHallway</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#cafeteria" class="tsd-signature-type" data-tsd-kind="Enumeration member">Cafeteria</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#electrical" class="tsd-signature-type" data-tsd-kind="Enumeration member">Electrical</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#upperengine" class="tsd-signature-type" data-tsd-kind="Enumeration member">UpperEngine</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#security" class="tsd-signature-type" data-tsd-kind="Enumeration member">Security</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#medbay" class="tsd-signature-type" data-tsd-kind="Enumeration member">MedBay</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#weapons" class="tsd-signature-type" data-tsd-kind="Enumeration member">Weapons</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#lowerreactor" class="tsd-signature-type" data-tsd-kind="Enumeration member">LowerReactor</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#lowerengine" class="tsd-signature-type" data-tsd-kind="Enumeration member">LowerEngine</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#shields" class="tsd-signature-type" data-tsd-kind="Enumeration member">Shields</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#upperreactor" class="tsd-signature-type" data-tsd-kind="Enumeration member">UpperReactor</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#uppernavigation" class="tsd-signature-type" data-tsd-kind="Enumeration member">UpperNavigation</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#lowernavigation" class="tsd-signature-type" data-tsd-kind="Enumeration member">LowerNavigation</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#balcony" class="tsd-signature-type" data-tsd-kind="Enumeration member">Balcony</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#cafeteria" class="tsd-signature-type" data-tsd-kind="Enumeration member">Cafeteria</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#reactor" class="tsd-signature-type" data-tsd-kind="Enumeration member">Reactor</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#laboratory" class="tsd-signature-type" data-tsd-kind="Enumeration member">Laboratory</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#office" class="tsd-signature-type" data-tsd-kind="Enumeration member">Office</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#admin" class="tsd-signature-type" data-tsd-kind="Enumeration member">Admin</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#greenhouse" class="tsd-signature-type" data-tsd-kind="Enumeration member">Greenhouse</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#medbay" class="tsd-signature-type" data-tsd-kind="Enumeration member">MedBay</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#decontamination" class="tsd-signature-type" data-tsd-kind="Enumeration member">Decontamination</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#lockerroom" class="tsd-signature-type" data-tsd-kind="Enumeration member">LockerRoom</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#launchpad" class="tsd-signature-type" data-tsd-kind="Enumeration member">Launchpad</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#security" class="tsd-signature-type" data-tsd-kind="Enumeration member">Security</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#electrical" class="tsd-signature-type" data-tsd-kind="Enumeration member">Electrical</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#o2" class="tsd-signature-type" data-tsd-kind="Enumeration member">O2</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#communications" class="tsd-signature-type" data-tsd-kind="Enumeration member">Communications</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#office" class="tsd-signature-type" data-tsd-kind="Enumeration member">Office</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#admin" class="tsd-signature-type" data-tsd-kind="Enumeration member">Admin</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#laboratory" class="tsd-signature-type" data-tsd-kind="Enumeration member">Laboratory</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#lavapool" class="tsd-signature-type" data-tsd-kind="Enumeration member">LavaPool</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#storage" class="tsd-signature-type" data-tsd-kind="Enumeration member">Storage</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#rightseismic" class="tsd-signature-type" data-tsd-kind="Enumeration member">RightSeismic</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#leftseismic" class="tsd-signature-type" data-tsd-kind="Enumeration member">LeftSeismic</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#outsideadmin" class="tsd-signature-type" data-tsd-kind="Enumeration member">OutsideAdmin</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">vent<span class="tsd-signature-symbol">(</span>ventid<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">TheSkeldVent</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MiraHQVent</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PolusVent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/pathfinding/lib/Pathfinder.ts#L268">pathfinding/lib/Pathfinder.ts:268</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/pathfinding/lib/Pathfinder.ts#L251">pathfinding/lib/Pathfinder.ts:251</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ventid: <a href="../enums/constant.theskeldvent.html#admin" class="tsd-signature-type" data-tsd-kind="Enumeration member">Admin</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#righthallway" class="tsd-signature-type" data-tsd-kind="Enumeration member">RightHallway</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#cafeteria" class="tsd-signature-type" data-tsd-kind="Enumeration member">Cafeteria</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#electrical" class="tsd-signature-type" data-tsd-kind="Enumeration member">Electrical</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#upperengine" class="tsd-signature-type" data-tsd-kind="Enumeration member">UpperEngine</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#security" class="tsd-signature-type" data-tsd-kind="Enumeration member">Security</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#medbay" class="tsd-signature-type" data-tsd-kind="Enumeration member">MedBay</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#weapons" class="tsd-signature-type" data-tsd-kind="Enumeration member">Weapons</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#lowerreactor" class="tsd-signature-type" data-tsd-kind="Enumeration member">LowerReactor</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#lowerengine" class="tsd-signature-type" data-tsd-kind="Enumeration member">LowerEngine</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#shields" class="tsd-signature-type" data-tsd-kind="Enumeration member">Shields</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#upperreactor" class="tsd-signature-type" data-tsd-kind="Enumeration member">UpperReactor</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#uppernavigation" class="tsd-signature-type" data-tsd-kind="Enumeration member">UpperNavigation</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.theskeldvent.html#lowernavigation" class="tsd-signature-type" data-tsd-kind="Enumeration member">LowerNavigation</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#balcony" class="tsd-signature-type" data-tsd-kind="Enumeration member">Balcony</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#cafeteria" class="tsd-signature-type" data-tsd-kind="Enumeration member">Cafeteria</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#reactor" class="tsd-signature-type" data-tsd-kind="Enumeration member">Reactor</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#laboratory" class="tsd-signature-type" data-tsd-kind="Enumeration member">Laboratory</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#office" class="tsd-signature-type" data-tsd-kind="Enumeration member">Office</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#admin" class="tsd-signature-type" data-tsd-kind="Enumeration member">Admin</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#greenhouse" class="tsd-signature-type" data-tsd-kind="Enumeration member">Greenhouse</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#medbay" class="tsd-signature-type" data-tsd-kind="Enumeration member">MedBay</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#decontamination" class="tsd-signature-type" data-tsd-kind="Enumeration member">Decontamination</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#lockerroom" class="tsd-signature-type" data-tsd-kind="Enumeration member">LockerRoom</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.mirahqvent.html#launchpad" class="tsd-signature-type" data-tsd-kind="Enumeration member">Launchpad</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#security" class="tsd-signature-type" data-tsd-kind="Enumeration member">Security</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#electrical" class="tsd-signature-type" data-tsd-kind="Enumeration member">Electrical</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#o2" class="tsd-signature-type" data-tsd-kind="Enumeration member">O2</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#communications" class="tsd-signature-type" data-tsd-kind="Enumeration member">Communications</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#office" class="tsd-signature-type" data-tsd-kind="Enumeration member">Office</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#admin" class="tsd-signature-type" data-tsd-kind="Enumeration member">Admin</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#laboratory" class="tsd-signature-type" data-tsd-kind="Enumeration member">Laboratory</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#lavapool" class="tsd-signature-type" data-tsd-kind="Enumeration member">LavaPool</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#storage" class="tsd-signature-type" data-tsd-kind="Enumeration member">Storage</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#rightseismic" class="tsd-signature-type" data-tsd-kind="Enumeration member">RightSeismic</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#leftseismic" class="tsd-signature-type" data-tsd-kind="Enumeration member">LeftSeismic</a><span class="tsd-signature-symbol"> | </span><a href="../enums/constant.polusvent.html#outsideadmin" class="tsd-signature-type" data-tsd-kind="Enumeration member">OutsideAdmin</a></h5>
+									<h5>ventid: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">TheSkeldVent</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MiraHQVent</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PolusVent</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -738,20 +735,20 @@
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">EventContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L63">events/lib/EventEmitter.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L69">events/lib/EventEmitter.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -760,7 +757,7 @@
 									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">EventContext</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">SkeldjsPathfinderEvents</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -866,10 +863,28 @@
 						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 						<ul>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.enginemoveevent.html" class="tsd-kind-icon">Engine<wbr>Move<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.enginerecalculateevent.html" class="tsd-kind-icon">Engine<wbr>Recalculate<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="pathfinding.grid.html" class="tsd-kind-icon">Grid</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="pathfinding.node.html" class="tsd-kind-icon">Node</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.pathfinderendevent.html" class="tsd-kind-icon">Pathfinder<wbr>End<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.pathfinderpauseevent.html" class="tsd-kind-icon">Pathfinder<wbr>Pause<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.pathfinderstartevent.html" class="tsd-kind-icon">Pathfinder<wbr>Start<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.pathfinderstopevent.html" class="tsd-kind-icon">Pathfinder<wbr>Stop<wbr>Event</a>
 							</li>
 							<li class="current tsd-kind-class tsd-parent-kind-module">
 								<a href="pathfinding.skeldjspathfinder.html" class="tsd-kind-icon">Skeldjs<wbr>Pathfinder</a>
@@ -962,6 +977,9 @@
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/pathfinding.pathfinderconfig.html" class="tsd-kind-icon">Pathfinder<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/pathfinding.html#skeldjspathfinderevents" class="tsd-kind-icon">Skeldjs<wbr>Pathfinder<wbr>Events</a>
 							</li>
 							<li class=" tsd-kind-function tsd-parent-kind-module">
 								<a href="../modules/pathfinding.html#getshortestpath" class="tsd-kind-icon">get<wbr>Shortest<wbr>Path</a>

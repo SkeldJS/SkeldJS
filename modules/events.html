@@ -83,14 +83,19 @@
 						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/events.basicevent.html" class="tsd-kind-icon">Basic<wbr>Event</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/events.cancelableevent.html" class="tsd-kind-icon">Cancelable<wbr>Event</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter"><a href="../classes/events.eventemitter.html" class="tsd-kind-icon">Event<wbr>Emitter</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="events.html#eventcontext" class="tsd-kind-icon">Event<wbr>Context</a></li>
-								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="events.html#propagatedevents" class="tsd-kind-icon">Propagated<wbr>Events</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="events.html#eventdata" class="tsd-kind-icon">Event<wbr>Data</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="events.html#eventable" class="tsd-kind-icon">Eventable</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="events.html#extracteventname" class="tsd-kind-icon">Extract<wbr>Event<wbr>Name</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="events.html#extracteventtype" class="tsd-kind-icon">Extract<wbr>Event<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="events.html#extracteventtypes" class="tsd-kind-icon">Extract<wbr>Event<wbr>Types</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,64 +103,82 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-					<a name="eventcontext" class="tsd-anchor"></a>
-					<h3>Event<wbr>Context</h3>
-					<div class="tsd-signature tsd-kind-icon">Event<wbr>Context&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>cancel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">; </span>cancelled<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> }</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="eventdata" class="tsd-anchor"></a>
+					<h3>Event<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Event<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Eventable</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/EventEmitter.ts#L1">events/lib/EventEmitter.ts:1</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L20">events/lib/EventEmitter.ts:20</a></li>
 						</ul>
 					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>T</h4>
-						</li>
-					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="eventable" class="tsd-anchor"></a>
+					<h3>Eventable</h3>
+					<div class="tsd-signature tsd-kind-icon">Eventable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L1">events/lib/EventEmitter.ts:1</a></li>
+						</ul>
+					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5>cancel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
-								<ul class="tsd-parameters">
-									<li class="tsd-parameter-signature">
-										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
-											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-										</ul>
-										<ul class="tsd-descriptions">
-											<li class="tsd-description">
-												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li class="tsd-parameter">
-								<h5>cancelled<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
-							</li>
-							<li class="tsd-parameter">
-								<h5>data<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></h5>
+								<h5>event<wbr>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 							</li>
 						</ul>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-					<a name="propagatedevents" class="tsd-anchor"></a>
-					<h3>Propagated<wbr>Events</h3>
-					<div class="tsd-signature tsd-kind-icon">Propagated<wbr>Events&lt;Child, Prepend&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><span class="tsd-signature-symbol">[ </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> in </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">Child</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Child</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">Prepend</span><span class="tsd-signature-symbol"> }</span></div>
+					<a name="extracteventname" class="tsd-anchor"></a>
+					<h3>Extract<wbr>Event<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">Extract<wbr>Event<wbr>Name&lt;Event&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{ </span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">infer </span> X<span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">X</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">never</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/32d300b/packages/events/lib/PropagatedEvents.ts#L1">events/lib/PropagatedEvents.ts:1</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L5">events/lib/EventEmitter.ts:5</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
 					<ul class="tsd-type-parameters">
 						<li>
-							<h4>Child<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Eventable</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="extracteventtype" class="tsd-anchor"></a>
+					<h3>Extract<wbr>Event<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Extract<wbr>Event<wbr>Type&lt;Events, EventName&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Extract</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Events</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">{ </span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L11">events/lib/EventEmitter.ts:11</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Events<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Eventable</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 						<li>
-							<h4>Prepend<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4>EventName<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">ExtractEventName</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Events</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="extracteventtypes" class="tsd-anchor"></a>
+					<h3>Extract<wbr>Event<wbr>Types</h3>
+					<div class="tsd-signature tsd-kind-icon">Extract<wbr>Event<wbr>Types&lt;Events&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{</span><span class="tsd-signature-symbol">[ </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol"> in </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">ExtractEventName</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Events</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">ExtractEventType</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Events</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L16">events/lib/EventEmitter.ts:16</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Events<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">Eventable</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -251,14 +274,29 @@
 					<li class="current tsd-kind-module">
 						<a href="events.html" class="tsd-kind-icon">events</a>
 						<ul>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/events.basicevent.html" class="tsd-kind-icon">Basic<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/events.cancelableevent.html" class="tsd-kind-icon">Cancelable<wbr>Event</a>
+							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 								<a href="../classes/events.eventemitter.html" class="tsd-kind-icon">Event<wbr>Emitter</a>
 							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="events.html#eventcontext" class="tsd-kind-icon">Event<wbr>Context</a>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="events.html#eventdata" class="tsd-kind-icon">Event<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="events.html#eventable" class="tsd-kind-icon">Eventable</a>
 							</li>
 							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
-								<a href="events.html#propagatedevents" class="tsd-kind-icon">Propagated<wbr>Events</a>
+								<a href="events.html#extracteventname" class="tsd-kind-icon">Extract<wbr>Event<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="events.html#extracteventtype" class="tsd-kind-icon">Extract<wbr>Event<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="events.html#extracteventtypes" class="tsd-kind-icon">Extract<wbr>Event<wbr>Types</a>
 							</li>
 						</ul>
 					</li>
