@@ -18,7 +18,7 @@ describe("AcknowledgePacket", () => {
 
     describe("AcknowledgePacket#Serialize", () => {
         it("Should serialize an acknowledgement packet.", () => {
-            const writer = HazelWriter.alloc(3);
+            const writer = HazelWriter.alloc(0);
             const packet = new AcknowledgePacket(
                 15,
                 [4, 5, 6]

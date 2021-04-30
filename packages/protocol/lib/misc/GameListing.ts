@@ -24,7 +24,7 @@ export class GameListing {
 
     static Deserialize(reader: HazelReader) {
         const ip = reader.bytes(4).buffer.join(".");
-        const port = reader.uint8();
+        const port = reader.uint16();
         const code = reader.int32();
         const name = reader.string();
         const num_players = reader.uint8();

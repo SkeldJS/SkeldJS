@@ -31,7 +31,7 @@ describe("RemovePlayerMessage", () => {
 
     describe("RemovePlayerMessage#Serialize", () => {
         it("Should serialize a client-bound redirect root message.", () => {
-            const writer = HazelWriter.alloc(3);
+            const writer = HazelWriter.alloc(0);
             const packet = new RemovePlayerMessage(
                 "GXTYKF",
                 36308,
@@ -45,7 +45,7 @@ describe("RemovePlayerMessage", () => {
         });
 
         it("Should serialize a server-bound redirect root message.", () => {
-            const writer = HazelWriter.alloc(3);
+            const writer = HazelWriter.alloc(0);
             const packet = new RemovePlayerMessage(
                 "GXTYKF",
                 36308,

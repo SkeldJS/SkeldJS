@@ -18,7 +18,7 @@ export class ComponentSpawnData {
 
     Serialize(writer: HazelWriter) {
         writer.upacked(this.netid);
-        writer.begin(0);
+        writer.begin(1);
         writer.bytes(this.data);
         writer.end();
     }

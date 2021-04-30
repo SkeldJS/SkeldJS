@@ -16,6 +16,16 @@ describe("DisconnectPacket", () => {
             assert.strictEqual(packet.reason, DisconnectReason.None);
         });
 
+        it("Should deserialize a disconnect packet with no reason.", () => {
+            const reader = HazelReader.from("01", "hex");
+            const packet = DisconnectPacket.Deserialize(reader);
+
+            assert.strictEqual(packet.tag, SendOption.Disconnect);
+            assert.strictEqual(packet.showReason, true);
+            assert.strictEqual(packet.message, "");
+            assert.strictEqual(packet.reason, DisconnectReason.None);
+        });
+
         it("Should deserialize a disconnect packet with a reason.", () => {
             const reader = HazelReader.from("0101000001", "hex");
             const packet = DisconnectPacket.Deserialize(reader);
@@ -45,6 +55,15 @@ describe("DisconnectPacket", () => {
             packet.Serialize(writer);
 
             assert.strictEqual(writer.toString("hex"), "");
+        });
+
+        it("Should deserialize a disconnect packet with no reason.", () => {
+            const writer = HazelWriter.alloc(0);
+            const packet = new DisconnectPacket(undefined, undefined, true);
+
+            packet.Serialize(writer);
+
+            assert.strictEqual(writer.toString("hex"), "01");
         });
 
         it("Should serialize a disconnect packet with a reason.", () => {
