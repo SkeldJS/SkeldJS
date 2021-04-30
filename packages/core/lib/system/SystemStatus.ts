@@ -17,6 +17,22 @@ export class SystemStatus<
     static systemType: SystemType;
     systemType: SystemType;
 
+    constructor(protected ship: InnerShipStatus, data?: HazelReader | DataT) {
+        super();
+
+        if (data) {
+            if (data instanceof HazelReader) {
+                this.Deserialize(data, true);
+            } else {
+                this.patch(data);
+            }
+        }
+    }
+
+    protected patch(data: DataT) {
+        Object.assign(this, data);
+    }
+
     /**
      * Whether or not this system is dirty.
      */
@@ -39,20 +55,11 @@ export class SystemStatus<
         return false;
     }
 
-    constructor(public ship: InnerShipStatus, data?: HazelReader | DataT) {
-        super();
-
-        if (data) {
-            if (data instanceof HazelReader) {
-                this.Deserialize(data, true);
-            } else {
-                this.patch(data);
-            }
-        }
-    }
-
-    protected patch(data: DataT) {
-        Object.assign(this, data);
+    /**
+     * Return the room that this system belongs to.
+     */
+    get room() {
+        return this.ship.room;
     }
 
     async emit<Event extends SystemStatusEvents[keyof SystemStatusEvents]>(

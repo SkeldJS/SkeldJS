@@ -69,7 +69,7 @@ export class Door extends EventEmitter<DoorEvents> {
         if (this._isOpen) return;
 
         this._isOpen = true;
-        this.emit(new DoorOpenDoorEvent(this.system?.ship?.room, this));
+        this.emit(new DoorOpenDoorEvent(this.system?.room, this));
     }
 
     /**
@@ -79,6 +79,6 @@ export class Door extends EventEmitter<DoorEvents> {
         if (!this._isOpen) return;
 
         this._isOpen = false;
-        this.emit(new DoorCloseDoorEvent(this.system?.ship?.room, this));
+        this.emit(new DoorCloseDoorEvent(this.system?.room, this));
     }
 }
