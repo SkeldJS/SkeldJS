@@ -5,12 +5,13 @@ import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { Heritable } from "../Heritable";
 import { KickPlayerMessage, RpcMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 export interface VoteBanSystemData {
     clients: Map<number, [number, number, number]>;
 }
 
-export interface VoteBanSystemEvents extends NetworkableEvents {}
+export type VoteBanSystemEvents = NetworkableEvents & ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for handling vote kicks.
@@ -79,7 +80,7 @@ export class VoteBanSystem extends Networkable<
         return true;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.AddVote:
                 const votingid = reader.uint32();

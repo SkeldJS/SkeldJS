@@ -2,11 +2,11 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import assert from "assert";
 
-import { Heritable } from "./Heritable";
+import { Heritable, HeritableEvents } from "./Heritable";
 import { Hostable } from "./Hostable";
 
 import { Networkable } from "./Networkable";
-import { alphabet, TestComponent, TestEvents } from "./tests.spec";
+import { alphabet, TestComponent, TestEvent, TestEvents } from "./tests.spec";
 
 describe("Networkable", () => {
     describe("Networkable#ctr", () => {
@@ -47,18 +47,18 @@ describe("Networkable", () => {
     describe("Networkable#emit", () => {
         it("Should emit an event that propagates through its owner.", async () => {
             const room = new Hostable();
-            const object = new Heritable<TestEvents>(room, 1);
+            const object = new Heritable<HeritableEvents & TestEvents>(room, 1);
             room.objects.set(1, object);
             const component = new TestComponent(room, 1, 1);
 
             let did_receive = false;
             object.on("test.event", (ev) => {
-                if (ev.data.alphabet === alphabet) {
+                if (ev.alphabet === alphabet) {
                     did_receive = true;
                 }
             });
 
-            await component.emit("test.event", { alphabet });
+            await component.emit(new TestEvent(alphabet));
 
             assert.ok(did_receive);
         });

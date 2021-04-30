@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/text",
-  "version": "2.6.14",
+  "version": "2.6.15",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -12,7 +12,7 @@
     "prepack": "yarn build"
   },
   "devDependencies": {
-    "typescript": "^4.1.3"
+    "typescript": "^4.2.4"
   },
   "license": "GPL-3.0-only",
   "gitHead": "a08b2fe1f52693c6379029a1c5cb37d092a892ff",

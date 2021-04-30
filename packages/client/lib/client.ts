@@ -35,21 +35,27 @@ import {
     HostGameMessage,
     AllGameOptions,
     GetGameListMessage,
-    GameListing
+    GameListing,
 } from "@skeldjs/protocol";
-
-import { PlayerData, RoomID } from "@skeldjs/core";
 
 import {
     Code2Int,
     unary,
     EncodeVersion,
-    HazelWriter,
+    HazelWriter
 } from "@skeldjs/util";
 
+import { PlayerData, RoomID } from "@skeldjs/core";
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { ClientConfig, DebugLevel } from "./interface/ClientConfig";
+
+import {
+    ClientConnectEvent,
+    ClientDisconnectEvent,
+    ClientJoinEvent
+} from "./events";
 
 const lookupDns = util.promisify(dns.lookup);
 
@@ -81,38 +87,14 @@ export interface SentPacket {
     ackd: boolean;
 }
 
-export interface SkeldjsClientEvents extends SkeldjsStateManagerEvents {
-    /**
-     * Emitted when the client gets disconnected.
-     */
-    "client.disconnect": {
-        /**
-         * The reason for why the client was disconnected.
-         */
-        reason: DisconnectReason;
-        /**
-         * A message provided if the disconnect reason was custom.
-         */
-        message: string;
-    };
-    /**
-     * Emitted when a client connects to among us servers.
-     */
-    "client.connect": {
-        /**
-         * The IP of the server that the client is connecting to.
-         */
-        ip: string;
-        /**
-         * The port of the server that the client is connecting to.
-         */
-        port: number;
-    };
-    /**
-     * Emitted when the client joins a game.
-     */
-    "client.join": {}
-}
+export type SkeldjsClientEvents =
+    SkeldjsStateManagerEvents &
+ExtractEventTypes<[
+    ClientConnectEvent,
+    ClientDisconnectEvent,
+    ClientJoinEvent
+]>;
+
 
 /**
  * Represents a programmable Among Us client.
@@ -220,18 +202,21 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.stream = [];
 
-        this.decoder.on([ ReliablePacket, HelloPacket, PingPacket], message => {
-            this.packets_recv.unshift(message.nonce);
-            this.packets_recv.splice(8);
+        this.decoder.on(
+            [ReliablePacket, HelloPacket, PingPacket],
+            (message) => {
+                this.packets_recv.unshift(message.nonce);
+                this.packets_recv.splice(8);
 
-            this.ack(message.nonce);
-        });
+                this.ack(message.nonce);
+            }
+        );
 
-        this.decoder.on(DisconnectPacket, message => {
+        this.decoder.on(DisconnectPacket, (message) => {
             this.disconnect(message.reason, message.message);
         });
 
-        this.decoder.on(AcknowledgePacket, message => {
+        this.decoder.on(AcknowledgePacket, (message) => {
             const sent = this.packets_sent.find(
                 (s) => s.nonce === message.nonce
             );
@@ -269,7 +254,9 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         await this.send(
             new AcknowledgePacket(
                 nonce,
-                this.packets_sent.filter(packet => packet.ackd).map((_, i) => i)
+                this.packets_sent
+                    .filter((packet) => packet.ackd)
+                    .map((_, i) => i)
             )
         );
     }
@@ -334,10 +321,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
 
-        await this.emit("client.connect", {
-            ip: this.ip,
-            port: this.port
-        });
+        await this.emit(
+            new ClientConnectEvent(
+                this.ip,
+                this.port
+            )
+        );
 
         if (typeof username === "string") {
             await this.identify(username, this.token);
@@ -370,19 +359,15 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     async disconnect(reason?: DisconnectReason, message?: string) {
         if (this.connected) {
             if (this.identified && !this.sent_disconnect) {
-                await this.send(
-                    new DisconnectPacket(
-                        reason,
-                        message,
-                        true
-                    )
-                );
+                await this.send(new DisconnectPacket(reason, message, true));
                 this.sent_disconnect = true;
             }
-            this.emit("client.disconnect", {
-                reason,
-                message: message || DisconnectMessages[reason],
-            });
+            this.emit(
+                new ClientDisconnectEvent(
+                    reason,
+                    message || DisconnectMessages[reason]
+                )
+            );
             this._reset();
         }
     }
@@ -397,12 +382,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     async identify(username: string, token: number) {
         await this.send(
-            new HelloPacket(
-                this.nonce,
-                this.version,
-                username,
-                token
-            )
+            new HelloPacket(this.nonce, this.version, username, token)
         );
 
         this.identified = true;
@@ -469,21 +449,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                         if (++attempts > 8) {
                             await this.disconnect();
                             clearInterval(interval);
-                            return this.emit(
-                                "error",
-                                new Error(
-                                    "Server failed to acknowledge packet 8 times."
-                                )
-                            );
                         }
 
                         if ((await this._send(writer.buffer)) === null) {
                             await this.disconnect();
                             clearInterval(interval);
-                            this.emit(
-                                "error",
-                                new Error("Could not send message.")
-                            );
                         }
                     }
                 }, 1500);
@@ -514,33 +484,28 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         if (recipient) {
             const children = [
                 ...(messages.length
-                    ? [new GameDataToMessage(
-                        this.code,
-                        recipient.id,
-                        messages
-                    )] : []),
+                    ? [new GameDataToMessage(this.code, recipient.id, messages)]
+                    : []),
                 ...payloads,
             ];
 
             await this.send(
                 reliable
-                ? new ReliablePacket(this.nonce, children)
-                : new UnreliablePacket(children)
+                    ? new ReliablePacket(this.nonce, children)
+                    : new UnreliablePacket(children)
             );
         } else {
             const children = [
                 ...(messages.length
-                    ? [new GameDataMessage(
-                        this.code,
-                        messages
-                    )] : []),
+                    ? [new GameDataMessage(this.code, messages)]
+                    : []),
                 ...payloads,
             ];
 
             await this.send(
                 reliable
-                ? new ReliablePacket(this.nonce, children)
-                : new UnreliablePacket(children)
+                    ? new ReliablePacket(this.nonce, children)
+                    : new UnreliablePacket(children)
             );
         }
     }
@@ -568,11 +533,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             await this.send(
                 new ReliablePacket(this.nonce, [
                     new GameDataMessage(this.code, [
-                        new SceneChangeMessage(
-                            this.clientid,
-                            "OnlineGame"
-                        )
-                    ])
+                        new SceneChangeMessage(this.clientid, "OnlineGame"),
+                    ]),
                 ])
             );
 
@@ -610,19 +572,17 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         await this.send(
-            new ReliablePacket(this.nonce, [
-                new JoinGameMessage(code)
-            ])
+            new ReliablePacket(this.nonce, [new JoinGameMessage(code)])
         );
 
         const { message } = await Promise.race([
             this.decoder.waitf(
                 JoinGameMessage,
-                message => message.error !== undefined
+                (message) => message.error !== undefined
             ),
             this.decoder.wait(RedirectMessage),
             this.decoder.wait(JoinedGameMessage),
-            this.decoder.wait(DisconnectPacket)
+            this.decoder.wait(DisconnectPacket),
         ]);
 
         switch (message.tag) {
@@ -672,9 +632,9 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      *```typescript
      * // Create a game on The Skeld with an English chat with 2 impostors.
      * await client.createGame({
-     *   map: MapID.TheSkeld,
-     *   language: LanguageID.English,
-     *   impostors: 2
+     *   map: GameMap.TheSkeld,
+     *   keywords: GameKeyword.English,
+     *   numImpostors: 2
      * });
      * ```
      */
@@ -685,25 +645,22 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     ): Promise<number> {
         const settings = new GameOptions({
             ...host_settings,
-            version: 2
+            version: 2,
         });
 
         await this.send(
             new ReliablePacket(this.nonce, [
-                new HostGameMessage(
-                    settings,
-                    chatMode
-                )
+                new HostGameMessage(settings, chatMode),
             ])
         );
 
         const { message } = await Promise.race([
             this.decoder.waitf(
                 JoinGameMessage,
-                message => message.error !== undefined
+                (message) => message.error !== undefined
             ),
             this.decoder.wait(RedirectMessage),
-            this.decoder.wait(HostGameMessage)
+            this.decoder.wait(HostGameMessage),
         ]);
 
         switch (message.tag) {
@@ -743,8 +700,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * Search for public games.
      * @param maps The maps of games to look for. If a number, it will be a bitfield of the maps, else, it will be an array of the maps.
      * @param impostors The number of impostors to look for. 0 for any amount.
-     * @param language The language of the game to look for, {@link LanguageID.All} for any.
-     * @returns An array of game listings with the data and a {@link GameListing.join} method to join the game.
+     * @param keyword The language of the game to look for, use {@link GameKeyword.All} for any.
+     * @returns An array of game listings.
      * @example
 	 *```typescript
      * // Search for games and join a random one.
@@ -761,7 +718,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     async findGames(
         maps: number | GameMap[] = 0x7 /* all maps */,
         impostors = 0 /* any impostors */,
-        language = GameKeyword.All,
+        keyword = GameKeyword.All,
         quickchat = QuickChatMode.QuickChat
     ): Promise<GameListing[]> {
         if (Array.isArray(maps)) {
@@ -771,7 +728,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     0
                 ) /* convert to bitfield */,
                 impostors,
-                language
+                keyword
             );
         }
 
@@ -783,7 +740,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         await this.send(
             new ReliablePacket(this.nonce, [
-                new GetGameListMessage(options, quickchat)
+                new GetGameListMessage(options, quickchat),
             ])
         );
 

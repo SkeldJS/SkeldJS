@@ -1,13 +1,29 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 
-import { SystemStatus } from "../system";
+import {
+    AutoDoorsSystemEvents,
+    DeconSystemEvents,
+    DoorsSystemEvents,
+    ElectricalDoorsSystemEvents,
+    HqHudSystemEvents,
+    HudOverrideSystemEvents,
+    LifeSuppSystemEvents,
+    MedScanSystemEvents,
+    MovingPlatformSystemEvents,
+    ReactorSystemEvents,
+    SabotageSystemEvents,
+    SecurityCameraSystemEvents,
+    SwitchSystemEvents,
+    SystemStatus
+} from "../system";
 
 import { SystemStatusEvents } from "../system/events";
 
-import { Networkable } from "../Networkable";
+import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 type AllSystems = Partial<Record<SystemType, SystemStatus<any, any>>>;
 
@@ -15,7 +31,23 @@ export interface ShipStatusData {
     systems: AllSystems;
 }
 
-export interface ShipStatusEvents extends SystemStatusEvents {}
+export type ShipStatusEvents =
+    NetworkableEvents &
+    DoorsSystemEvents &
+    SystemStatusEvents &
+    AutoDoorsSystemEvents &
+    DeconSystemEvents &
+    ElectricalDoorsSystemEvents &
+    HqHudSystemEvents &
+    HudOverrideSystemEvents &
+    LifeSuppSystemEvents &
+    MedScanSystemEvents &
+    MovingPlatformSystemEvents &
+    ReactorSystemEvents &
+    SabotageSystemEvents &
+    SecurityCameraSystemEvents &
+    SwitchSystemEvents &
+    ExtractEventTypes<[]>;
 
 export type ShipStatusType =
     | SpawnType.ShipStatus
@@ -52,10 +84,6 @@ export class InnerShipStatus extends Networkable<
         super(room, netid, ownerid, data);
     }
 
-    get owner() {
-        return super.owner as Hostable;
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     Setup() {}
 
@@ -90,7 +118,7 @@ export class InnerShipStatus extends Networkable<
         return true;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.RepairSystem:
                 const systemid = reader.uint8();

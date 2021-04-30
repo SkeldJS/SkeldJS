@@ -15,11 +15,15 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
         await client.connect("127.0.0.1", "weakeyes", 0);
 
         console.log("Creating game..");
-        const code = await client.createGame({
-            maxPlayers: 10,
-            map: skeldjs.GameMap.TheSkeld,
-            numImpostors: 2,
-        }, true, skeldjs.QuickChatMode.QuickChat);
+        const code = await client.createGame(
+            {
+                maxPlayers: 10,
+                map: skeldjs.GameMap.TheSkeld,
+                numImpostors: 2,
+            },
+            true,
+            skeldjs.QuickChatMode.QuickChat
+        );
 
         await client.me.control.setName("weakeyes");
         await client.me.control.setColor(skeldjs.Color.Red);

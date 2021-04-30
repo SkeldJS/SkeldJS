@@ -1,21 +1,23 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType, GameMap } from "@skeldjs/constant";
 import { MapDoors } from "@skeldjs/data";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 import { DoorEvents } from "../misc/Door";
-import { BaseSystemStatusEvents } from "./events";
+import { SystemStatusEvents } from "./events";
 
 export interface AutoDoorsSystemData {
     dirtyBit: number;
     doors: boolean[];
 }
 
-type BaseAutoDoorsSystemEvents = BaseSystemStatusEvents & DoorEvents;
-
-export interface AutoDoorsSystemEvents extends BaseAutoDoorsSystemEvents {}
+export type AutoDoorsSystemEvents =
+    SystemStatusEvents &
+    DoorEvents &
+    ExtractEventTypes<[]>;
 
 /**
  * Represents a system for doors that open after a period of time.

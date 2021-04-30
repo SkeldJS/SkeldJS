@@ -4,13 +4,16 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { BaseSystemStatusEvents } from "./events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 export interface MedScanSystemData {
     queue: number[];
 }
 
-export interface MedScanSystemEvents extends BaseSystemStatusEvents {}
+export type MedScanSystemEvents =
+    SystemStatusEvents &
+    ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling the medbay scan queue.

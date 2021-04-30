@@ -4,7 +4,13 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { BaseSystemStatusEvents } from "./events";
+import {
+    SwitchFlipEvent,
+    SystemRepairEvent,
+    SystemSabotageEvent,
+} from "../events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
@@ -14,13 +20,11 @@ export interface SwitchSystemData {
     brightness: number;
 }
 
-export type SwitchSystemEvents = BaseSystemStatusEvents & {
-    "electrical.switches.flip": {
-        player?: PlayerData;
-        num: number;
-        value: boolean;
-    };
-};
+export type SwitchSystemEvents =
+    SystemStatusEvents &
+ExtractEventTypes<[
+        SwitchFlipEvent
+]>;
 
 /**
  * Represents a system responsible for handling switches in Electrical.
@@ -63,10 +67,10 @@ export class SwitchSystem extends SystemStatus<
         this.expected = SwitchSystem.readSwitches(reader.byte());
         this.actual = SwitchSystem.readSwitches(reader.byte());
         if (!before && this.sabotaged) {
-            this.emit("system.sabotage", {});
+            this.emit(new SystemSabotageEvent(this.ship?.room, this));
         }
         if (before && !this.sabotaged) {
-            this.emit("system.repair", {});
+            this.emit(new SystemRepairEvent(this.ship?.room, this));
         }
         this.brightness = reader.uint8();
     }
@@ -88,7 +92,9 @@ export class SwitchSystem extends SystemStatus<
 
         this.actual[num] = value;
         this.dirty = true;
-        this.emit("electrical.switches.flip", { player, num, value });
+        this.emit(
+            new SwitchFlipEvent(this.ship?.room, this, num, value, player)
+        );
     }
 
     /**

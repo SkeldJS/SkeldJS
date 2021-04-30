@@ -15,24 +15,15 @@ import {
     MessageDirection,
     PacketDecoder,
     PingPacket,
-    ReliablePacket
+    ReliablePacket,
 } from "@skeldjs/protocol";
 
-import {
-    DisconnectReason,
-    SendOption
-} from "@skeldjs/constant";
+import { DisconnectReason, SendOption } from "@skeldjs/constant";
 
-import {
-    V2Gen,
-    ritoa,
-    sleep,
-    HazelWriter,
-    HazelReader
-} from "@skeldjs/util";
+import { V2Gen, ritoa, sleep, HazelWriter, HazelReader } from "@skeldjs/util";
 
 import { AlterGameTag } from "@skeldjs/core";
-import { EventEmitter, PropagatedEvents } from "@skeldjs/events";
+import { EventEmitter } from "@skeldjs/events";
 
 import { RemoteClient, RemoteClientEvents } from "./RemoteClient";
 
@@ -45,28 +36,9 @@ const default_config = (): ServerConfig => ({
     host: "0.0.0.0",
 });
 
-type BaseSkeldjsServerEvents = PropagatedEvents<RoomEvents, { room: Room }> &
-    PropagatedEvents<RemoteClientEvents, { remote: RemoteClient }>;
-
-export interface SkeldjsServerEvents extends BaseSkeldjsServerEvents {
-    /**
-     * Emitted when a remote client is disconnected.
-     */
-    disconnect: {
-        /**
-         * The remote client that was disconected.
-         */
-        client: RemoteClient;
-        /**
-         * The reason for why the remote client was disconnected.
-         */
-        reason: DisconnectReason;
-        /**
-         * The message for why the remote client was disconncted if the reason is custom.
-         */
-        message?: string;
-    };
-}
+export type SkeldjsServerEvents =
+    RemoteClientEvents &
+    RoomEvents
 
 /**
  * Represents a programmable Among Us region server.
@@ -115,111 +87,122 @@ export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
         this.remotes = new Map();
         this.rooms = new Map();
 
-        this.decoder = new PacketDecoder;
+        this.decoder = new PacketDecoder();
 
-        this.decoder.on(HostGameMessage, async (message, direction, sender: dgram.RemoteInfo) => {
-            const client = this.getOrCreateClient(sender);
+        this.decoder.on(
+            HostGameMessage,
+            async (message, direction, sender: dgram.RemoteInfo) => {
+                const client = this.getOrCreateClient(sender);
 
-            const code = this.generateUniqueCode();
-            const room = new Room(this, { SaaH: true });
-            room.setHost(SpecialID.SaaH);
-            room.code = code;
-            room.settings.patch(message.options);
+                const code = this.generateUniqueCode();
+                const room = new Room(this, { SaaH: true });
+                room.setHost(SpecialID.SaaH);
+                room.code = code;
+                room.settings.patch(message.options);
 
-            this.rooms.set(code, room);
+                this.rooms.set(code, room);
 
-            await client.send(
-                new ReliablePacket(client.nonce, [
-                    new HostGameMessage(code)
-                ])
-            );
-        });
-
-        this.decoder.on(JoinGameMessage, async (message, direction, sender: dgram.RemoteInfo) => {
-            const client = this.getOrCreateClient(sender);
-
-            const room = this.rooms.get(message.code);
-            if (client.room) {
-                return await client.joinError(
-                    DisconnectReason.Custom,
-                    "Already in game, please leave your current one before joining a new one."
-                );
-            }
-
-            if (!room)
-                return await client.joinError(DisconnectReason.GameNotFound);
-
-            if (room.players.size >= room.settings.maxPlayers)
-                return await client.joinError(DisconnectReason.GameFull);
-
-            const player = await room.handleJoin(client.clientid);
-            room.remotes.set(client.clientid, client);
-            client.room = room;
-
-            if (!room.hostid)
-                room.hostid = client.clientid;
-
-            await client.send(
-                new ReliablePacket(client.nonce, [
-                    new JoinedGameMessage(
-                        room.code,
-                        client.clientid,
-                        room.hostid,
-                        [...room.remotes.values()]
-                            .filter((player) => player.clientid !== client.clientid)
-                            .map((player) => player.clientid)
-                    ),
-                    new AlterGameMessage(
-                        room.code,
-                        AlterGameTag.ChangePrivacy,
-                        room.privacy === "public" ? 1 : 0
-                    )
-                ])
-            );
-
-            await room.broadcast(null, true, null, [
-                new JoinGameMessage(
-                    room.code,
-                    client.clientid,
-                    room.hostid
-                )
-            ]);
-
-            if (room.options.SaaH) {
-                await player.wait("player.spawn");
-                await Promise.race([
-                    Promise.all([
-                        player.wait("player.setname"),
-                        player.wait("player.setcolor"),
-                    ]),
-                    sleep(1000),
-                ]);
-                await room.setHost(SpecialID.SaaH);
-            }
-        });
-
-        this.decoder.on(GameDataMessage, (message, direction, sender: dgram.RemoteInfo) => {
-            const client = this.getOrCreateClient(sender);
-
-            const room = this.rooms.get(message.code);
-            if (room) {
-                room.decoder.emitDecoded(message, direction, sender);
-
-                client.send(
+                await client.send(
                     new ReliablePacket(client.nonce, [
-                        new GameDataMessage(message.code, message.children)
+                        new HostGameMessage(code),
                     ])
                 );
             }
-        });
+        );
+
+        this.decoder.on(
+            JoinGameMessage,
+            async (message, direction, sender: dgram.RemoteInfo) => {
+                const client = this.getOrCreateClient(sender);
+
+                const room = this.rooms.get(message.code);
+                if (client.room) {
+                    return await client.joinError(
+                        DisconnectReason.Custom,
+                        "Already in game, please leave your current one before joining a new one."
+                    );
+                }
+
+                if (!room)
+                    return await client.joinError(
+                        DisconnectReason.GameNotFound
+                    );
+
+                if (room.players.size >= room.settings.maxPlayers)
+                    return await client.joinError(DisconnectReason.GameFull);
+
+                const player = await room.handleJoin(client.clientid);
+                room.remotes.set(client.clientid, client);
+                client.room = room;
+
+                if (!room.hostid) room.hostid = client.clientid;
+
+                await client.send(
+                    new ReliablePacket(client.nonce, [
+                        new JoinedGameMessage(
+                            room.code,
+                            client.clientid,
+                            room.hostid,
+                            [...room.remotes.values()]
+                                .filter(
+                                    (player) =>
+                                        player.clientid !== client.clientid
+                                )
+                                .map((player) => player.clientid)
+                        ),
+                        new AlterGameMessage(
+                            room.code,
+                            AlterGameTag.ChangePrivacy,
+                            room.privacy === "public" ? 1 : 0
+                        ),
+                    ])
+                );
+
+                await room.broadcast(null, true, null, [
+                    new JoinGameMessage(
+                        room.code,
+                        client.clientid,
+                        room.hostid
+                    ),
+                ]);
+
+                if (room.options.SaaH) {
+                    await player.wait("player.spawn");
+                    await Promise.race([
+                        Promise.all([
+                            player.wait("player.setname"),
+                            player.wait("player.setcolor"),
+                        ]),
+                        sleep(1000),
+                    ]);
+                    await room.setHost(SpecialID.SaaH);
+                }
+            }
+        );
+
+        this.decoder.on(
+            GameDataMessage,
+            (message, direction, sender: dgram.RemoteInfo) => {
+                const client = this.getOrCreateClient(sender);
+
+                const room = this.rooms.get(message.code);
+                if (room) {
+                    room.decoder.emitDecoded(message, direction, sender);
+
+                    client.send(
+                        new ReliablePacket(client.nonce, [
+                            new GameDataMessage(message.code, message.children),
+                        ])
+                    );
+                }
+            }
+        );
 
         this.decoder.on(GameDataToMessage, (message) => {
             const room = this.rooms.get(message.code);
 
             if (room) {
-                const recipient = room.remotes.get(
-                    message.recipientid
-                );
+                const recipient = room.remotes.get(message.recipientid);
 
                 if (recipient) {
                     recipient.send(
@@ -228,65 +211,79 @@ export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
                                 message.code,
                                 recipient.clientid,
                                 message._children
-                            )
+                            ),
                         ])
                     );
                 }
             }
         });
 
-        this.decoder.on(ReliablePacket, (message, direction, sender: dgram.RemoteInfo) => {
-            const client = this.getOrCreateClient(sender);
+        this.decoder.on(
+            ReliablePacket,
+            (message, direction, sender: dgram.RemoteInfo) => {
+                const client = this.getOrCreateClient(sender);
 
-            client.packets_recv.unshift(message.nonce);
-            client.packets_recv.splice(8);
+                client.packets_recv.unshift(message.nonce);
+                client.packets_recv.splice(8);
 
-            client.ack(message.nonce);
-        });
-
-        this.decoder.on(HelloPacket, (message, direction, sender: dgram.RemoteInfo) => {
-            const client = this.getOrCreateClient(sender);
-
-            client.packets_recv.unshift(message.nonce);
-            client.packets_recv.splice(8);
-
-            client.ack(message.nonce);
-
-            client.identified = true;
-            client.username = message.username;
-            client.version = message.clientver;
-        });
-
-        this.decoder.on(PingPacket, (message, direction, sender: dgram.RemoteInfo) => {
-            const client = this.getOrCreateClient(sender);
-
-            client.packets_recv.unshift(message.nonce);
-            client.packets_recv.splice(8);
-
-            client.ack(message.nonce);
-        });
-
-        this.decoder.on(DisconnectPacket, (message, direction, sender: dgram.RemoteInfo) => {
-            const client = this.getOrCreateClient(sender);
-
-            if (!client.disconnected) client.disconnect();
-
-            this.remotes.delete(ritoa(client.remote));
-        });
-
-        this.decoder.on(AcknowledgePacket, (message, direction, sender: dgram.RemoteInfo) => {
-            const client = this.getOrCreateClient(sender);
-
-            const sent = client.packets_sent.find(
-                (s) => s.nonce === message.nonce
-            );
-            if (sent) sent.ackd = true;
-
-            for (const missing of message.missingPackets) {
-                client.ack(client.packets_recv[missing]);
+                client.ack(message.nonce);
             }
-        });
+        );
 
+        this.decoder.on(
+            HelloPacket,
+            (message, direction, sender: dgram.RemoteInfo) => {
+                const client = this.getOrCreateClient(sender);
+
+                client.packets_recv.unshift(message.nonce);
+                client.packets_recv.splice(8);
+
+                client.ack(message.nonce);
+
+                client.identified = true;
+                client.username = message.username;
+                client.version = message.clientver;
+            }
+        );
+
+        this.decoder.on(
+            PingPacket,
+            (message, direction, sender: dgram.RemoteInfo) => {
+                const client = this.getOrCreateClient(sender);
+
+                client.packets_recv.unshift(message.nonce);
+                client.packets_recv.splice(8);
+
+                client.ack(message.nonce);
+            }
+        );
+
+        this.decoder.on(
+            DisconnectPacket,
+            (message, direction, sender: dgram.RemoteInfo) => {
+                const client = this.getOrCreateClient(sender);
+
+                if (!client.disconnected) client.disconnect();
+
+                this.remotes.delete(ritoa(client.remote));
+            }
+        );
+
+        this.decoder.on(
+            AcknowledgePacket,
+            (message, direction, sender: dgram.RemoteInfo) => {
+                const client = this.getOrCreateClient(sender);
+
+                const sent = client.packets_sent.find(
+                    (s) => s.nonce === message.nonce
+                );
+                if (sent) sent.ackd = true;
+
+                for (const missing of message.missingPackets) {
+                    client.ack(client.packets_recv[missing]);
+                }
+            }
+        );
     }
 
     private inc_clientid() {
@@ -337,11 +334,10 @@ export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
         });
     }
 
-
     /**
      * Send a packet to the connected server.
      */
-     async send(client: RemoteClient, packet: BaseRootPacket): Promise<void> {
+    async send(client: RemoteClient, packet: BaseRootPacket): Promise<void> {
         if (!this.socket) {
             return null;
         }
@@ -385,7 +381,10 @@ export class SkeldjsServer extends EventEmitter<SkeldjsServerEvents> {
                             clearInterval(interval);
                         }
 
-                        if ((await this._send(client.remote, writer.buffer)) === null) {
+                        if (
+                            (await this._send(client.remote, writer.buffer)) ===
+                            null
+                        ) {
                             await client.disconnect();
                         }
                     }

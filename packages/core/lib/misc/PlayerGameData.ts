@@ -1,17 +1,8 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import {
-    Color,
-    Hat,
-    Pet,
-    PlayerDataFlags,
-    Skin
-} from "@skeldjs/constant";
+import { Color, Hat, Pet, PlayerDataFlags, Skin } from "@skeldjs/constant";
 
 export class TaskState {
-    constructor(
-        public taskidx: number,
-        public completed: boolean
-    ) {}
+    constructor(public taskidx: number, public completed: boolean) {}
 
     static Deserialize(reader: HazelReader) {
         const task = new TaskState(0, false);
@@ -98,14 +89,14 @@ export class PlayerGameData {
     }
 
     Serialize(writer: HazelWriter) {
-        writer.string(this.name);
-        writer.packed(this.color);
-        writer.upacked(this.hat);
-        writer.upacked(this.pet);
-        writer.upacked(this.skin);
-        writer.byte(this.flags);
+        writer.string(this.name || "");
+        writer.packed(this.color || 0);
+        writer.upacked(this.hat || 0);
+        writer.upacked(this.pet || 0);
+        writer.upacked(this.skin || 0);
+        writer.byte(this.flags || 0);
 
-        writer.uint8(this.tasks.length);
-        writer.lwrite(false, this.tasks);
+        writer.uint8(this.tasks?.length || 0);
+        writer.lwrite(false, this.tasks || []);
     }
 }

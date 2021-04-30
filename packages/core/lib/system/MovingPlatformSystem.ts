@@ -1,13 +1,15 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
+import { RpcMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
-import { BaseSystemStatusEvents } from "./events";
 import { PlayerData } from "../PlayerData";
 import { PlayerDataResolvable } from "../Hostable";
 import { NetworkUtils } from "../utils/net";
-import { RpcMessage } from "@skeldjs/protocol";
+import { MovingPlatformPlayerUpdateEvent } from "../events";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { SystemStatusEvents } from "./events";
 
 export interface MovingPlatformSystemData {
     useId: number;
@@ -20,22 +22,11 @@ export enum MovingPlatformSide {
     Left,
 }
 
-export interface MovingPlatformSystemEvents extends BaseSystemStatusEvents {
-    /**
-     * Emitted when a player gets on the platform. (Can be null if no one is on it.)
-     */
-    "platform.player.update": {
-        /**
-         * The player who got on the platform.
-         */
-        player: PlayerData;
-
-        /**
-         * The direction that the player is moving in.
-         */
-        side: MovingPlatformSide;
-    };
-}
+export type MovingPlatformSystemEvents =
+    SystemStatusEvents &
+ExtractEventTypes<[
+    MovingPlatformPlayerUpdateEvent
+]>;
 
 /**
  * Represents a system for doors that must be manually opened.
@@ -99,7 +90,14 @@ export class MovingPlatformSystem extends SystemStatus<
 
     private _setTarget(player: PlayerData, side: MovingPlatformSide) {
         this.target = player;
-        this.emit("platform.player.update", { player, side });
+        this.emit(
+            new MovingPlatformPlayerUpdateEvent(
+                this.ship?.room,
+                this,
+                player,
+                side
+            )
+        );
     }
 
     setTarget(player: PlayerDataResolvable, side: MovingPlatformSide) {
