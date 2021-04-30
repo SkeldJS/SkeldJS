@@ -17,11 +17,11 @@ export class TestEvent extends BasicEvent {
     }
 }
 
-export type TestEvents = NetworkableEvents & ExtractEventTypes<[TestEvent]>;
+export type TestEvents = ExtractEventTypes<[TestEvent]>;
 
 export class TestComponent extends Networkable<
     { dataParam: number },
-    TestEvents
+    NetworkableEvents & TestEvents
 > {
     static classname = "TestComponent" as const;
     classname = "TestComponent" as const;

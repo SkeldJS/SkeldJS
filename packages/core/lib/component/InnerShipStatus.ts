@@ -118,7 +118,7 @@ export class InnerShipStatus extends Networkable<
         return true;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.RepairSystem:
                 const systemid = reader.uint8();

@@ -1,4 +1,5 @@
-import { SkeldjsClient } from "@skeldjs/client";
+import { GameKeyword, GameMap, SkeldjsClient } from "@skeldjs/client";
+import { Int2Code } from "@skeldjs/util";
 import { authTokenHook } from "../index";
 
 (async () => {
@@ -15,7 +16,15 @@ import { authTokenHook } from "../index";
     await client.connect("EU", "weakeyes");
 
     console.log("Joining " + process.argv[2] + "..");
-    await client.joinGame(process.argv[2]);
+    const code = await client.createGame({
+        map: GameMap.TheSkeld,
+        keywords: GameKeyword.English,
+        numImpostors: 2
+    });
 
-    console.log("Joined game!");
+    console.log("Created game " + Int2Code(code) + "!");
+
+    client.on("player.checkcolor", ev => {
+        ev.setColor((ev.original + 1) % 12);
+    });
 })();

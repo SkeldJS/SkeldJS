@@ -35,7 +35,7 @@ export class EventEmitter<Events extends EventData> {
 
     async emit<Event extends Events[keyof Events]>(
         event: Event
-    ) {
+    ): Promise<Event> {
         const listeners = this.getListeners(event.eventName) as Set<Listener<Event>>;
 
         if (listeners.size) {

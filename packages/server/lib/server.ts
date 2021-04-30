@@ -36,7 +36,7 @@ const default_config = (): ServerConfig => ({
     host: "0.0.0.0",
 });
 
-type SkeldjsServerEvents =
+export type SkeldjsServerEvents =
     RemoteClientEvents &
     RoomEvents
 

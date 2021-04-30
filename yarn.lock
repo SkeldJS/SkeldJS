@@ -362,7 +362,7 @@ __metadata:
     "@types/node": ^14.14.16
     gif-frames: ^1.0.1
     image-pixels: ^2.2.2
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -371,7 +371,7 @@ __metadata:
   resolution: "@skeldjs/constant@workspace:packages/constant"
   dependencies:
     "@skeldjs/util": "workspace:*"
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -386,7 +386,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -397,7 +397,7 @@ __metadata:
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/util": "workspace:*"
     "@types/node": ^14.14.41
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -407,7 +407,7 @@ __metadata:
   dependencies:
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -419,7 +419,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -443,7 +443,7 @@ __metadata:
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
     heap: ^0.2.6
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -454,7 +454,7 @@ __metadata:
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/util": "workspace:*"
     "@types/node": ^14.14.41
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -470,7 +470,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -482,7 +482,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/node": ^14.14.16
     tedis: ^0.1.12
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -495,7 +495,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -505,7 +505,7 @@ __metadata:
   dependencies:
     "@skeldjs/core": "workspace:*"
     "@types/node": ^14.14.16
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -513,7 +513,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/text@workspace:packages/text"
   dependencies:
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -523,7 +523,7 @@ __metadata:
   dependencies:
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.1.3
+    typescript: ^4.2.4
   languageName: unknown
   linkType: soft
 
@@ -5997,16 +5997,6 @@ typescript@^3.8.3:
   languageName: node
   linkType: hard
 
-typescript@^4.1.3:
-  version: 4.1.3
-  resolution: "typescript@npm:4.1.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 4f7ab1506ea22c7a1c313ec5b4285e93ce08d709ad6086d02d3096adb399ca339972ee56d1e578213c51dd0fb7b0fad50283c2d3c39642405644458ae29774f8
-  languageName: node
-  linkType: hard
-
 typescript@^4.2.4:
   version: 4.2.4
   resolution: "typescript@npm:4.2.4"
@@ -6024,16 +6014,6 @@ typescript@^4.2.4:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 05a113f2ec0d0fc3263335c230d2eb7b94d851e51b5766f63b88b611127d08782ce41132eb32b9d3d434de8340f698f7ec2f72ebb4d33c3b2976b27de1f47ace
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@^4.1.3#builtin<compat/typescript>":
-  version: 4.1.3
-  resolution: "typescript@patch:typescript@npm%3A4.1.3#builtin<compat/typescript>::version=4.1.3&hash=a45b0e"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 28f0f616bf6284543bb14d4bfe0e1a74963e5df0396ebccfc6a57bfd4ab70b4284e51b3a2045ed2466151a4a58c8a549edb886a2f7a2232cf08fcf73496592e6
   languageName: node
   linkType: hard
 

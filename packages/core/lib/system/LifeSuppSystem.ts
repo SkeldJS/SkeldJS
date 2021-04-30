@@ -7,7 +7,7 @@ import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 
 import {
-    O2ConsoleClearEvent,
+    O2ConsolesClearEvent,
     O2ConsoleCompleteEvent,
     SystemRepairEvent,
     SystemSabotageEvent,
@@ -23,7 +23,7 @@ export interface LifeSuppSystemData {
 export type LifeSuppSystemEvents =
     SystemStatusEvents &
 ExtractEventTypes<[
-    O2ConsoleClearEvent,
+    O2ConsolesClearEvent,
     O2ConsoleCompleteEvent
 ]>;
 
@@ -104,7 +104,7 @@ export class LifeSuppSystem extends SystemStatus<
     private _clearConsoles() {
         this.completed.clear();
         this.dirty = true;
-        this.emit(new O2ConsoleClearEvent(this.ship?.room, this));
+        this.emit(new O2ConsolesClearEvent(this.ship?.room, this));
     }
 
     private _completeConsole(consoleid: number, player?: PlayerData) {

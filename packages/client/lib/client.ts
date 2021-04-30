@@ -50,6 +50,7 @@ import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { ClientConfig, DebugLevel } from "./interface/ClientConfig";
+
 import {
     ClientConnectEvent,
     ClientDisconnectEvent,
@@ -631,9 +632,9 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      *```typescript
      * // Create a game on The Skeld with an English chat with 2 impostors.
      * await client.createGame({
-     *   map: MapID.TheSkeld,
-     *   language: LanguageID.English,
-     *   impostors: 2
+     *   map: GameMap.TheSkeld,
+     *   keywords: GameKeyword.English,
+     *   numImpostors: 2
      * });
      * ```
      */
@@ -699,8 +700,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * Search for public games.
      * @param maps The maps of games to look for. If a number, it will be a bitfield of the maps, else, it will be an array of the maps.
      * @param impostors The number of impostors to look for. 0 for any amount.
-     * @param language The language of the game to look for, {@link LanguageID.All} for any.
-     * @returns An array of game listings with the data and a {@link GameListing.join} method to join the game.
+     * @param keyword The language of the game to look for, use {@link GameKeyword.All} for any.
+     * @returns An array of game listings.
      * @example
 	 *```typescript
      * // Search for games and join a random one.
@@ -717,7 +718,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     async findGames(
         maps: number | GameMap[] = 0x7 /* all maps */,
         impostors = 0 /* any impostors */,
-        language = GameKeyword.All,
+        keyword = GameKeyword.All,
         quickchat = QuickChatMode.QuickChat
     ): Promise<GameListing[]> {
         if (Array.isArray(maps)) {
@@ -727,7 +728,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     0
                 ) /* convert to bitfield */,
                 impostors,
-                language
+                keyword
             );
         }
 
