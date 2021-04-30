@@ -107,7 +107,6 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.systemstatus.html#ship" class="tsd-kind-icon">ship</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.systemstatus.html#systemtype" class="tsd-kind-icon">system<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="core.systemstatus.html#systemtype-1" class="tsd-kind-icon">system<wbr>Type</a></li>
 							</ul>
@@ -116,6 +115,7 @@
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="core.systemstatus.html#dirty" class="tsd-kind-icon">dirty</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.systemstatus.html#room" class="tsd-kind-icon">room</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.systemstatus.html#sabotaged" class="tsd-kind-icon">sabotaged</a></li>
 							</ul>
 						</section>
@@ -156,7 +156,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L40">core/lib/system/SystemStatus.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L18">core/lib/system/SystemStatus.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -185,19 +185,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="ship" class="tsd-anchor"></a>
-					<h3>ship</h3>
-					<div class="tsd-signature tsd-kind-icon">ship<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">InnerShipStatus</a></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="systemtype" class="tsd-anchor"></a>
 					<h3>system<wbr>Type</h3>
 					<div class="tsd-signature tsd-kind-icon">system<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">SystemType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L18">core/lib/system/SystemStatus.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L18">core/lib/system/SystemStatus.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -207,7 +200,7 @@
 					<div class="tsd-signature tsd-kind-icon">system<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">SystemType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L17">core/lib/system/SystemStatus.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L17">core/lib/system/SystemStatus.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -225,7 +218,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L23">core/lib/system/SystemStatus.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L39">core/lib/system/SystemStatus.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,7 +231,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L27">core/lib/system/SystemStatus.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L43">core/lib/system/SystemStatus.ts:43</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -257,6 +250,28 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="room" class="tsd-anchor"></a>
+					<h3>room</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> room<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L61">core/lib/system/SystemStatus.ts:61</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Return the room that this system belongs to.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="sabotaged" class="tsd-anchor"></a>
 					<h3>sabotaged</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
@@ -266,7 +281,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L38">core/lib/system/SystemStatus.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L54">core/lib/system/SystemStatus.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -291,7 +306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L75">core/lib/system/SystemStatus.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L82">core/lib/system/SystemStatus.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -317,7 +332,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L81">core/lib/system/SystemStatus.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L88">core/lib/system/SystemStatus.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -340,7 +355,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L79">core/lib/system/SystemStatus.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L86">core/lib/system/SystemStatus.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -366,7 +381,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L83">core/lib/system/SystemStatus.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L90">core/lib/system/SystemStatus.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -389,7 +404,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L77">core/lib/system/SystemStatus.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L84">core/lib/system/SystemStatus.ts:84</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -417,7 +432,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L58">core/lib/system/SystemStatus.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L65">core/lib/system/SystemStatus.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -438,7 +453,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L61">core/lib/system/SystemStatus.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L68">core/lib/system/SystemStatus.ts:68</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -467,7 +482,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L135">core/lib/system/SystemStatus.ts:135</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L142">core/lib/system/SystemStatus.ts:142</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -485,7 +500,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.getListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L87">events/lib/EventEmitter.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/events/lib/EventEmitter.ts#L87">events/lib/EventEmitter.ts:87</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -515,7 +530,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.off</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L79">events/lib/EventEmitter.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/events/lib/EventEmitter.ts#L79">events/lib/EventEmitter.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -548,7 +563,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -593,7 +608,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L58">events/lib/EventEmitter.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/events/lib/EventEmitter.ts#L58">events/lib/EventEmitter.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -638,7 +653,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.removeAllListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L105">events/lib/EventEmitter.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/events/lib/EventEmitter.ts#L105">events/lib/EventEmitter.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -656,7 +671,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.removeListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L98">events/lib/EventEmitter.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/events/lib/EventEmitter.ts#L98">events/lib/EventEmitter.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -685,7 +700,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L111">core/lib/system/SystemStatus.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L118">core/lib/system/SystemStatus.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -711,7 +726,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/core/lib/system/SystemStatus.ts#L85">core/lib/system/SystemStatus.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/core/lib/system/SystemStatus.ts#L92">core/lib/system/SystemStatus.ts:92</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -735,7 +750,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from EventEmitter.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/55d6a56/packages/events/lib/EventEmitter.ts#L69">events/lib/EventEmitter.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0a58e86/packages/events/lib/EventEmitter.ts#L69">events/lib/EventEmitter.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -847,9 +862,6 @@
 										<a href="core.systemstatus.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.systemstatus.html#ship" class="tsd-kind-icon">ship</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.systemstatus.html#systemtype" class="tsd-kind-icon">system<wbr>Type</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
@@ -857,6 +869,9 @@
 									</li>
 									<li class=" tsd-kind-accessor tsd-parent-kind-class">
 										<a href="core.systemstatus.html#dirty" class="tsd-kind-icon">dirty</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.systemstatus.html#room" class="tsd-kind-icon">room</a>
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 										<a href="core.systemstatus.html#sabotaged" class="tsd-kind-icon">sabotaged</a>
