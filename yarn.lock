@@ -453,6 +453,7 @@ __metadata:
   dependencies:
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/util": "workspace:*"
+    "@types/mocha": ^8.2.2
     "@types/node": ^14.14.41
     typescript: ^4.2.4
   languageName: unknown
@@ -673,6 +674,13 @@ __metadata:
   version: 8.2.0
   resolution: "@types/mocha@npm:8.2.0"
   checksum: 87a6cc62fa8bb4c0d3c9447c7aa316b600435fa969822e5a786abc9df78e4143f71906480684dbf9ae7b8b8849dfda4783828c47e5415d370371db84225a05ff
+  languageName: node
+  linkType: hard
+
+"@types/mocha@npm:^8.2.2":
+  version: 8.2.2
+  resolution: "@types/mocha@npm:8.2.2"
+  checksum: 3455211b134b0cfcfc71fee2d4f22a6ac3e313a93bf6c0cd3519c1e85653ffb8c9bb68dcff083b8e9e15b4ea3cb4f50d9916709946c082f072807aeba747575b
   languageName: node
   linkType: hard
 

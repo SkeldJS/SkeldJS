@@ -14,7 +14,7 @@ import { GameDataEvent } from "./GameDataEvent";
  * @example
  * ```ts
  * // Log whenever a player gets added to gamedata.
- * // Note how 'name' is not necessarily anything meaningful when it is first created.
+ * // Remember that 'name' is not necessarily anything meaningful when it is first created.
  * client.on("gamedata.addplayer", ev => {
  *   console.log("A player with name " + ev.player.name + " was added.");
  * });

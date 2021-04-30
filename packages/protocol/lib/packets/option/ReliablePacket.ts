@@ -10,11 +10,15 @@ export class ReliablePacket extends NormalPacket {
     static tag = SendOption.Reliable as const;
     tag = SendOption.Reliable as const;
 
+    readonly nonce: number;
+
     constructor(
-        public readonly nonce: number,
-        public readonly children: BaseRootMessage[]
+        nonce: number,
+        children: BaseRootMessage[]
     ) {
         super(children);
+
+        this.nonce = nonce;
     }
 
     static Deserialize(

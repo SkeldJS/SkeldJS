@@ -7,8 +7,12 @@ export class PingPacket extends BaseRootPacket {
     static tag = SendOption.Ping as const;
     tag = SendOption.Ping as const;
 
-    constructor(public readonly nonce: number) {
+    readonly nonce: number;
+
+    constructor(nonce: number) {
         super();
+
+        this.nonce = nonce;
     }
 
     static Deserialize(reader: HazelReader) {

@@ -6,7 +6,7 @@ import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootPacket } from "./BaseRootPacket";
 
 export class NormalPacket extends BaseRootPacket {
-    children: BaseRootMessage[];
+    readonly children: BaseRootMessage[];
 
     constructor(children: BaseRootMessage[]) {
         super();

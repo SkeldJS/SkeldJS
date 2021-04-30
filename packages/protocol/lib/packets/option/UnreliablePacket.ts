@@ -10,7 +10,7 @@ export class UnreliablePacket extends NormalPacket {
     static tag = SendOption.Unreliable as const;
     tag = SendOption.Unreliable as const;
 
-    constructor(public readonly children: BaseRootMessage[]) {
+    constructor(children: BaseRootMessage[]) {
         super(children);
     }
 

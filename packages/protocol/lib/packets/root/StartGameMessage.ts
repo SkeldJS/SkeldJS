@@ -20,12 +20,12 @@ export class StartGameMessage extends BaseRootMessage {
     }
 
     static Deserialize(reader: HazelReader) {
-        const code = reader.uint32();
+        const code = reader.int32();
 
         return new StartGameMessage(code);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.uint32(this.code);
+        writer.int32(this.code);
     }
 }

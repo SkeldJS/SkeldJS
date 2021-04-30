@@ -17,6 +17,7 @@
     "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
+    "@types/mocha": "^8.2.2",
     "@types/node": "^14.14.41",
     "typescript": "^4.2.4"
   },

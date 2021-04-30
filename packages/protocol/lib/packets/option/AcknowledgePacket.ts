@@ -9,11 +9,17 @@ export class AcknowledgePacket extends BaseRootPacket {
     static tag = SendOption.Acknowledge as const;
     tag = SendOption.Acknowledge as const;
 
+    readonly nonce: number;
+    readonly missingPackets: MissingPackets;
+
     constructor(
-        public readonly nonce: number,
-        public readonly missingPackets: MissingPackets
+        nonce: number,
+        missingPackets: MissingPackets
     ) {
         super();
+
+        this.nonce = nonce;
+        this.missingPackets = missingPackets;
     }
 
     static Deserialize(reader: HazelReader) {
@@ -35,9 +41,7 @@ export class AcknowledgePacket extends BaseRootPacket {
 
         let bit = 0xff;
         for (let i = 0; i < this.missingPackets.length; i++) {
-            if (!this.missingPackets[i]) {
-                bit &= ~(1 << i);
-            }
+            bit &= ~(1 << this.missingPackets[i]);
         }
 
         writer.uint8(bit);

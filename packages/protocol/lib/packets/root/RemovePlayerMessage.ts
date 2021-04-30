@@ -1,5 +1,5 @@
 import { DisconnectReason, RootMessageTag } from "@skeldjs/constant";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
@@ -14,14 +14,19 @@ export class RemovePlayerMessage extends BaseRootMessage {
     readonly reason: DisconnectReason;
 
     constructor(
-        code: number,
+        code: string|number,
         clientid: number,
         reason: DisconnectReason,
         hostid?: number
     ) {
         super();
 
-        this.code = code;
+        if (typeof code === "string") {
+            this.code = Code2Int(code);
+        } else {
+            this.code = code;
+        }
+
         this.clientid = clientid;
         this.reason = reason;
 
@@ -31,29 +36,29 @@ export class RemovePlayerMessage extends BaseRootMessage {
     static Deserialize(reader: HazelReader, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             const code = reader.int32();
-            const clientid = reader.packed();
-            const reason = reader.uint8();
-
-            return new RemovePlayerMessage(code, clientid, reason);
-        } else {
-            const code = reader.int32();
             const clientid = reader.int32();
             const hostid = reader.int32();
             const reason = reader.uint8();
 
             return new RemovePlayerMessage(code, clientid, reason, hostid);
+        } else {
+            const code = reader.int32();
+            const clientid = reader.packed();
+            const reason = reader.uint8();
+
+            return new RemovePlayerMessage(code, clientid, reason);
         }
     }
 
     Serialize(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             writer.int32(this.code);
-            writer.packed(this.clientid);
+            writer.int32(this.clientid);
+            writer.int32(this.hostid);
             writer.uint8(this.reason);
         } else {
             writer.int32(this.code);
-            writer.int32(this.clientid);
-            writer.int32(this.hostid);
+            writer.packed(this.clientid);
             writer.uint8(this.reason);
         }
     }
