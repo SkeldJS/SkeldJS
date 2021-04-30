@@ -657,6 +657,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/mocha", "npm:8.2.2"],
             ["@types/node", "npm:14.14.41"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
@@ -916,6 +917,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-mocha-npm-8.2.0-af8ea75ffd-87a6cc62fa.zip/node_modules/@types/mocha/",
           "packageDependencies": [
             ["@types/mocha", "npm:8.2.0"]
+          ],
+          "linkType": "HARD",
+        }],
+        ["npm:8.2.2", {
+          "packageLocation": "./.yarn/cache/@types-mocha-npm-8.2.2-4cc87e4f8c-3455211b13.zip/node_modules/@types/mocha/",
+          "packageDependencies": [
+            ["@types/mocha", "npm:8.2.2"]
           ],
           "linkType": "HARD",
         }]

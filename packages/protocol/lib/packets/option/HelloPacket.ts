@@ -7,13 +7,23 @@ export class HelloPacket extends BaseRootPacket {
     static tag = SendOption.Hello as const;
     tag = SendOption.Hello as const;
 
+    readonly nonce: number;
+    readonly clientver: number;
+    readonly username: string;
+    readonly token: number;
+
     constructor(
-        public readonly nonce: number,
-        public readonly clientver: number,
-        public readonly username: string,
-        public readonly token: number
+        nonce: number,
+        clientver: number,
+        username: string,
+        token: number
     ) {
         super();
+
+        this.nonce = nonce;
+        this.clientver = clientver;
+        this.username = username;
+        this.token = token;
     }
 
     static Deserialize(reader: HazelReader) {

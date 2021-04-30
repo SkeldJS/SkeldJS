@@ -7,12 +7,20 @@ export class DisconnectPacket extends BaseRootPacket {
     static tag = SendOption.Disconnect as const;
     tag = SendOption.Disconnect as const;
 
+    readonly reason?: DisconnectReason;
+    readonly message?: string;
+    readonly showReason?: boolean;
+
     constructor(
-        public readonly reason: DisconnectReason = DisconnectReason.None,
-        public readonly message: string = "",
-        public readonly showReason: boolean = true
+        reason?: DisconnectReason,
+        message?: string,
+        showReason?: boolean
     ) {
         super();
+
+        this.reason = reason;
+        this.message = message;
+        this.showReason = showReason;
     }
 
     static Deserialize(reader: HazelReader) {
@@ -23,8 +31,8 @@ export class DisconnectPacket extends BaseRootPacket {
                 const [, mreader] = reader.message();
                 const reason = mreader.uint8();
 
-                if (reason === DisconnectReason.Custom && reader.left) {
-                    const message = reader.string();
+                if (reason === DisconnectReason.Custom && mreader.left) {
+                    const message = mreader.string();
 
                     return new DisconnectPacket(reason, message, showReason);
                 }
@@ -43,8 +51,11 @@ export class DisconnectPacket extends BaseRootPacket {
     }
 
     Serialize(writer: HazelWriter) {
-        if (typeof this.showReason === "boolean") {
-            writer.bool(this.showReason);
+        if (
+            typeof this.showReason === "boolean" ||
+            typeof this.reason === "number"
+        ) {
+            writer.bool(this.showReason ?? true);
 
             if (typeof this.reason === "number") {
                 writer.begin(0);

@@ -44,6 +44,9 @@ export class KickPlayerMessage extends BaseRootMessage {
         writer.int32(this.code);
         writer.packed(this.clientid);
         writer.bool(this.banned);
-        writer.uint8(this.reason);
+
+        if (typeof this.reason === "number") {
+            writer.uint8(this.reason);
+        }
     }
 }
