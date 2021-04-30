@@ -80,7 +80,7 @@ export class VoteBanSystem extends Networkable<
         return true;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.AddVote:
                 const votingid = reader.uint32();

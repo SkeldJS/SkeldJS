@@ -57,13 +57,13 @@ export class SystemStatus<
 
     async emit<Event extends SystemStatusEvents[keyof SystemStatusEvents]>(
         event: Event
-    );
+    ): Promise<Event>;
     async emit<Event extends T[keyof T]>(
         event: Event
-    );
+    ): Promise<Event>;
     async emit<Event extends T[keyof T]>(
         event: Event
-    ) {
+    ): Promise<Event> {
         if (this.ship) {
             this.ship.emit(event as any);
         }

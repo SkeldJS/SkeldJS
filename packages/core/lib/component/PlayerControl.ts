@@ -19,7 +19,7 @@ import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
-import { PlayerCompleteTaskEvent } from "../events/player/CompleteTask";
+import { PlayerCompleteTaskEvent } from "../events";
 
 import {
     PlayerCallMeetingEvent,
@@ -119,7 +119,7 @@ export class PlayerControl extends Networkable<
         return true;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.CompleteTask:
                 const taskIdx = reader.upacked();
@@ -140,16 +140,18 @@ export class PlayerControl extends Networkable<
                         return;
                     }
 
+                    let new_name = name;
+
                     const players = [...this.room.gamedata.players.values()];
                     if (
                         players.some(
                             (player) =>
                                 player.playerId !== this.playerId &&
-                                name.toLowerCase() === name.toLowerCase()
+                                player?.name.toLowerCase() === new_name.toLowerCase()
                         )
                     ) {
                         for (let i = 1; i < 100; i++) {
-                            const new_name = name + " " + i;
+                            new_name = name + " " + i;
 
                             if (
                                 !players.some(
@@ -159,21 +161,31 @@ export class PlayerControl extends Networkable<
                                             new_name.toLowerCase()
                                 )
                             ) {
-                                this.setName(new_name);
-                                return;
+                                break;
                             }
                         }
                     }
 
-                    this.setName(name);
+                    const ev = await this.emit(
+                        new PlayerCheckNameEvent(
+                            this.room,
+                            this.player,
+                            name,
+                            new_name
+                        )
+                    );
+
+                    this.setName(ev.altered);
                 }
                 break;
             case RpcMessageTag.CheckColor:
-                let color = reader.uint8();
+                const color = reader.uint8();
                 if (this.room.amhost) {
                     if (!this.room.gamedata) {
                         return;
                     }
+
+                    let new_color = color;
 
                     const players = [...this.room.gamedata.players.values()];
                     while (
@@ -183,13 +195,22 @@ export class PlayerControl extends Networkable<
                                 player.color === color
                         )
                     ) {
-                        color++;
-                        if (color > 11) {
-                            color = 0;
+                        new_color++;
+                        if (new_color > 11) {
+                            new_color = 0;
                         }
                     }
 
-                    this.setColor(color);
+                    const ev = await this.emit(
+                        new PlayerCheckColorEvent(
+                            this.room,
+                            this.player,
+                            color,
+                            new_color
+                        )
+                    );
+
+                    this.setColor(ev.altered);
                 }
                 break;
             case RpcMessageTag.SetName: {

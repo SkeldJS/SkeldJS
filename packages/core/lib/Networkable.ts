@@ -83,13 +83,13 @@ export class Networkable<
 
     async emit<Event extends NetworkableEvents[keyof NetworkableEvents]>(
         event: Event
-    );
+    ): Promise<Event>;
     async emit<Event extends T[keyof T]>(
         event: Event
-    );
+    ): Promise<Event>;
     async emit<Event extends T[keyof T]>(
         event: Event
-    ) {
+    ): Promise<Event> {
         if (this.owner) {
             this.owner.emit(event);
         }
@@ -110,7 +110,7 @@ export class Networkable<
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     PreSerialize() {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {}
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     FixedUpdate(delta: number) {}
 

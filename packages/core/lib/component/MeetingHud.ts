@@ -20,7 +20,7 @@ import {
     MeetingHudVoteCastEvent,
     MeetingHudVoteClearEvent,
     MeetingHudVotingCompleteEvent,
-} from "../events/meetinghud";
+} from "../events";
 
 export interface MeetingHudData {
     dirtyBit: number;
@@ -109,7 +109,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         return true;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.Close:
                 this._close();

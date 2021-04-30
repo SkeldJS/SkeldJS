@@ -57,7 +57,7 @@ export class Room extends Hostable<RoomEvents> {
 
     async emit<Event extends RoomEvents[keyof RoomEvents]>(
         event: Event
-    ) {
+    ): Promise<Event> {
         this.server.emit(event);
 
         return super.emit(event);

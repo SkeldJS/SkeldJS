@@ -114,7 +114,7 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
 
     async emit<Event extends RemoteClientEvents[keyof RemoteClientEvents]>(
         event: Event
-    ) {
+    ): Promise<Event> {
         this.server.emit(event);
 
         return super.emit(event);

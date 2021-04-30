@@ -5,6 +5,14 @@ import { GameDataEvent } from "./GameDataEvent";
 
 /**
  * Emitted when the host updates tasks for a player.
+ *
+ * @example
+ * ```ts
+ * // Print the tasks of a player when they get updated.
+ * client.on("gamedata.settasks", ev => {
+ *   console.log("Player " + ev.player.name + " has task ids: " + ev.tasks.join(", ") + ".");
+ * });
+ * ```
  */
 export class GameDataSetTasksEvent extends GameDataEvent {
     static eventName = "gamedata.settasks" as const;

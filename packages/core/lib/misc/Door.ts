@@ -32,7 +32,7 @@ export class Door extends EventEmitter<DoorEvents> {
 
     async emit<Event extends DoorEvents[keyof DoorEvents]>(
         event: Event
-    ) {
+    ): Promise<Event> {
         if (this.system) {
             this.system.emit(event);
         }

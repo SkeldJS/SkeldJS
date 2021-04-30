@@ -6,6 +6,14 @@ import { PlayerData } from "../../PlayerData";
  * Emitted when a player asks the host to check and set a name.
  *
  * Only received if the current client is the host of the room.
+ *
+ * @example
+ * ```ts
+ * // Force a player's name to always end in ' 69'.
+ * client.on("gamedata.checkname", ev => {
+ *   ev.setName(ev.original + " 69");
+ * });
+ * ```
  */
 export class PlayerCheckNameEvent extends PlayerEvent {
     static eventName = "player.checkname" as const;
@@ -14,15 +22,25 @@ export class PlayerCheckNameEvent extends PlayerEvent {
     /**
      * The name that the player is requesting.
      */
-    name: string;
+    original: string;
 
-    constructor(room: Hostable<any>, player: PlayerData, name: string) {
+    /**
+     * The updated name of the player.
+     */
+    altered: string;
+
+    constructor(room: Hostable<any>, player: PlayerData, name: string, modified: string) {
         super(room, player);
 
-        this.name = name;
+        this.original = name;
+        this.altered = modified;
     }
 
     setName(name: string) {
-        this.name = name;
+        this.altered = name;
+    }
+
+    revert() {
+        this.altered = this.original;
     }
 }

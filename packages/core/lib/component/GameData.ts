@@ -142,7 +142,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.SetTasks:
                 this.setTasks;

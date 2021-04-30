@@ -1,6 +1,6 @@
 import assert from "assert";
 
-import { Heritable } from "./Heritable";
+import { Heritable, HeritableEvents } from "./Heritable";
 import { Hostable, HostableEvents } from "./Hostable";
 
 import { TestComponent, TestEvents, alphabet, TestEvent } from "./tests.spec";
@@ -23,7 +23,7 @@ describe("Heritable", () => {
             let was_called2 = false;
 
             const room = new Hostable<HostableEvents & TestEvents>();
-            const heritable = new Heritable<TestEvents>(room, 1013);
+            const heritable = new Heritable<HeritableEvents & TestEvents>(room, 1013);
 
             heritable.on("test.event", async (ev) => {
                 if (ev.alphabet === alphabet) {

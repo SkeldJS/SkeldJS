@@ -16,7 +16,12 @@ import {
     AllGameOptions,
 } from "@skeldjs/protocol";
 
-import { Code2Int, HazelReader, HazelWriter, sleep } from "@skeldjs/util";
+import {
+    Code2Int,
+    HazelReader,
+    HazelWriter,
+    sleep
+} from "@skeldjs/util";
 
 import {
     DisconnectReason,
@@ -25,6 +30,8 @@ import {
     SpawnType,
     SpawnFlag,
 } from "@skeldjs/constant";
+
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import {
     AirshipStatus,
@@ -66,7 +73,6 @@ import {
     RoomGameStartEvent,
     RoomSetVisibilityEvent,
 } from "./events";
-import { ExtractEventTypes } from "@skeldjs/events";
 
 export type RoomID = string | number;
 
@@ -222,12 +228,12 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
             }
         });
 
-        this.decoder.on(RpcMessage, (message) => {
+        this.decoder.on(RpcMessage, async (message) => {
             const component = this.netobjects.get(message.netid);
 
             if (component) {
                 const reader = HazelReader.from(message.data);
-                component.HandleRpc(message.callid, reader);
+                await component.HandleRpc(message.callid, reader);
             }
         });
 
@@ -391,13 +397,13 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
 
     async emit<Event extends HostableEvents[keyof HostableEvents]>(
         event: Event
-    );
+    ): Promise<Event>;
     async emit<Event extends T[keyof T]>(
         event: Event
-    );
+    ): Promise<Event>;
     async emit<Event extends T[keyof T]>(
         event: Event
-    ) {
+    ): Promise<Event> {
         return super.emit(event);
     }
 

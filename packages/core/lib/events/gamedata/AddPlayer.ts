@@ -10,6 +10,15 @@ import { GameDataEvent } from "./GameDataEvent";
  *
  * This event does not necessarily mean that the player has name/colour information, although that may be the case. To listen for those, see the
  * {@link PlayerSetColorEvent | Player Set Color Event} and the {@link PlayerSetNameEvent | Player Set Name Event}.
+ *
+ * @example
+ * ```ts
+ * // Log whenever a player gets added to gamedata.
+ * // Note how 'name' is not necessarily anything meaningful when it is first created.
+ * client.on("gamedata.addplayer", ev => {
+ *   console.log("A player with name " + ev.player.name + " was added.");
+ * });
+ * ```
  */
 export class GameDataAddPlayerEvent extends GameDataEvent {
     static eventName = "gamedata.addplayer" as const;

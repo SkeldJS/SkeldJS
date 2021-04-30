@@ -61,7 +61,7 @@ export class PlayerPhysics extends Networkable<
         return this.owner as PlayerData;
     }
 
-    HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
+    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.EnterVent:
                 const ventid = reader.upacked();

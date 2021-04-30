@@ -35,12 +35,12 @@ ExtractEventTypes<[
     HqHudConsoleCompleteEvent
 ]>;
 
-export enum HqHudSystemRepairTag {
-    CompleteConsole = 0x10,
-    CloseConsole = 0x20,
-    OpenConsole = 0x40,
-    Sabotage = 0x80,
-}
+export const HqHudSystemRepairTag = {
+    CompleteConsole: 0x10,
+    CloseConsole: 0x20,
+    OpenConsole: 0x40,
+    Sabotage: 0x80,
+} as const;
 
 /**
  * Represents a system responsible for handling communication consoles on Mira HQ.

@@ -48,13 +48,13 @@ export class Heritable<T extends HeritableEvents = HeritableEvents> extends Even
 
     async emit<Event extends HeritableEvents[keyof HeritableEvents]>(
         event: Event
-    );
+    ): Promise<Event>;
     async emit<Event extends T[keyof T]>(
         event: Event
-    );
+    ): Promise<Event>;
     async emit<Event extends T[keyof T]>(
         event: Event
-    ) {
+    ): Promise<Event> {
         if (this.room as Heritable<any> !== this) this.room.emit(event);
 
         return super.emit(event);

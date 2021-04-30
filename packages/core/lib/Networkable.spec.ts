@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import assert from "assert";
 
-import { Heritable } from "./Heritable";
+import { Heritable, HeritableEvents } from "./Heritable";
 import { Hostable } from "./Hostable";
 
 import { Networkable } from "./Networkable";
@@ -47,7 +47,7 @@ describe("Networkable", () => {
     describe("Networkable#emit", () => {
         it("Should emit an event that propagates through its owner.", async () => {
             const room = new Hostable();
-            const object = new Heritable<TestEvents>(room, 1);
+            const object = new Heritable<HeritableEvents & TestEvents>(room, 1);
             room.objects.set(1, object);
             const component = new TestComponent(room, 1, 1);
 
