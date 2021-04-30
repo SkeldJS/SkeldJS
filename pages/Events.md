@@ -110,30 +110,22 @@ client.on("player.setname", ev => {
 ### Systems
 * {@link SystemRepairEvent | `system.repair`}
 * {@link SystemSabotageEvent | `system.sabotage`}
-
 * {@link DoorOpenDoorEvent | `doors.open`}
 * {@link DoorCloseDoorEvent | `doors.close`}
-
 * {@link GameDataAddPlayerEvent | `gamedata.addplayer`}
 * {@link GameDataRemovePlayerEvent | `gamedata.removeplayer`}
 * {@link GameDataSetTasksEvent | `gamedata.settasks`}
-
 * {@link HqHudConsoleCloseEvent | `hqhud.console.close`}
 * {@link HqHudConsoleCompleteEvent | `hqhud.console.complete`}
 * {@link HqHudConsoleOpenEvent | `hqhud.console.open`}
 * {@link HqHudConsoleResetEvent | `hqhud.console.reset`}
-
 * {@link O2ConsolesClearEvent | `o2.consoles.clear`}
 * {@link O2ConsoleCompleteEvent | `o2.consoles.complete`}
-
 * {@link MeetingHudMeetingCloseEvent | `meetinghud.close`}
 * {@link MeetingHudVoteCastEvent | `meetinghud.votecast`}
 * {@link MeetingHudVoteClearEvent | `meetinghud.voteclear`}
 * {@link MeetingHudVotingCompleteEvent | `meetinghud.votingcomplete`}
-
 * {@link MovingPlatformPlayerUpdateEvent | `movingplatform.player.update`}
-
 * {@link SecurityCameraJoinEvent | `security.cameras.join`}
 * {@link SecurityCameraLeaveEvent | `security.cameras.leave`}
-
 * {@link SwitchFlipEvent | `electrical.switch.flip`}
