@@ -20,7 +20,7 @@ describe("HelloPacket", () => {
 
     describe("HelloPacket#Serialize", () => {
         it("Should serialize a hello packet.", () => {
-            const writer = HazelWriter.alloc(3);
+            const writer = HazelWriter.alloc(0);
             const packet = new HelloPacket(
                 1,
                 50532300,

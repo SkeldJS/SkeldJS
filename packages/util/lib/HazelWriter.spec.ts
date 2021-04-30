@@ -179,7 +179,7 @@ describe("HazelWriter", () => {
 
     describe("HazelWriter#uint8", () => {
         it("Should write an unsigned 8-bit integer value to the buffer.", () => {
-            const writer = HazelWriter.alloc(3);
+            const writer = HazelWriter.alloc(0);
 
             writer.uint8(23);
             writer.uint8(92);
@@ -191,7 +191,7 @@ describe("HazelWriter", () => {
         });
 
         it("Should write increase the cursor by 1.", () => {
-            const writer = HazelWriter.alloc(3);
+            const writer = HazelWriter.alloc(0);
 
             assert.strictEqual(writer.cursor, 0);
             writer.uint8(5);

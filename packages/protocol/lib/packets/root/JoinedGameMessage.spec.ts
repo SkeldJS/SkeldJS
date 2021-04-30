@@ -20,7 +20,7 @@ describe("JoinedGameMessage", () => {
 
     describe("JoinedGameMessage#Serialize", () => {
         it("Should serialize a joined game root message.", () => {
-            const writer = HazelWriter.alloc(3);
+            const writer = HazelWriter.alloc(0);
             const packet = new JoinedGameMessage(
                 "XJWWCF",
                 37315,

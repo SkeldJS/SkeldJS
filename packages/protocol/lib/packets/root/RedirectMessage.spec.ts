@@ -18,7 +18,7 @@ describe("RedirectMessage", () => {
 
     describe("RedirectMessage#Serialize", () => {
         it("Should serialize a redirect root message.", () => {
-            const writer = HazelWriter.alloc(3);
+            const writer = HazelWriter.alloc(0);
             const packet = new RedirectMessage(
                 "128.14.211.114",
                 22223

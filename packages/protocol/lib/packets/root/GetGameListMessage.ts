@@ -4,13 +4,14 @@ import {
     QuickChatMode,
     RootMessageTag,
 } from "@skeldjs/constant";
+
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { GameOptions, GameListing } from "../../misc";
 import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
 
-export type GameCounts = Record<GameMap, number>;
+export type GameCounts = Partial<Record<GameMap, number>>;
 
 export class GetGameListMessage extends BaseRootMessage {
     static tag = RootMessageTag.GetGameListV2 as const;
@@ -19,23 +20,23 @@ export class GetGameListMessage extends BaseRootMessage {
     readonly options: GameOptions;
     readonly quickchat: QuickChatMode;
 
-    readonly gameCounts: GameCounts;
+    readonly gameCounts?: GameCounts;
     readonly gameList: GameListing[];
 
     constructor(options: GameOptions, quickchat: QuickChatMode);
-    constructor(gameCounts: GameCounts, gameList: GameListing[]);
+    constructor(gameList: GameListing[], gameCounts?: GameCounts);
     constructor(
-        arg0: GameOptions | GameCounts,
-        arg1: QuickChatMode | GameListing[]
+        arg0: GameOptions | GameListing[],
+        arg1: QuickChatMode | GameCounts
     ) {
         super();
 
-        if (Array.isArray(arg1)) {
-            this.gameCounts = arg0 as GameCounts;
-            this.gameList = arg1;
+        if (Array.isArray(arg0)) {
+            this.gameList = arg0 as GameListing[];
+            this.gameCounts = arg1 as GameCounts;
         } else {
             this.options = arg0 as GameOptions;
-            this.quickchat = arg1;
+            this.quickchat = arg1 as QuickChatMode;
         }
     }
 
@@ -49,22 +50,24 @@ export class GetGameListMessage extends BaseRootMessage {
 
                 switch (tag) {
                     case GetGameListTag.GameCounts:
-                        gameCounts[GameMap.TheSkeld] = reader.uint32();
-                        gameCounts[GameMap.MiraHQ] = reader.uint32();
-                        gameCounts[GameMap.Polus] = reader.uint32();
+                        gameCounts[GameMap.TheSkeld] = mreader.uint32();
+                        gameCounts[GameMap.MiraHQ] = mreader.uint32();
+                        gameCounts[GameMap.Polus] = mreader.uint32();
                         break;
                     case GetGameListTag.GameList:
                         while (mreader.left) {
-                            const [, lreader] = reader.message();
+                            const [, lreader] = mreader.message();
 
-                            const listing = GameListing.Deserialize(lreader);
+                            console.log(lreader);
+
+                            const listing = lreader.read(GameListing);
                             gameList.push(listing);
                         }
                         break;
                 }
             }
 
-            return new GetGameListMessage(gameCounts as GameCounts, gameList);
+            return new GetGameListMessage(gameList, gameCounts);
         } else {
             reader.upacked(); // Skip hard-coded value at 0x02
             const options = GameOptions.Deserialize(reader);
@@ -76,11 +79,13 @@ export class GetGameListMessage extends BaseRootMessage {
 
     Serialize(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
-            writer.begin(GetGameListTag.GameCounts);
-            writer.uint32(this.gameCounts[GameMap.TheSkeld]);
-            writer.uint32(this.gameCounts[GameMap.MiraHQ]);
-            writer.uint32(this.gameCounts[GameMap.Polus]);
-            writer.end();
+            if (this.gameCounts) {
+                writer.begin(GetGameListTag.GameCounts);
+                writer.uint32(this.gameCounts[GameMap.TheSkeld]);
+                writer.uint32(this.gameCounts[GameMap.MiraHQ]);
+                writer.uint32(this.gameCounts[GameMap.Polus]);
+                writer.end();
+            }
 
             writer.begin(GetGameListTag.GameList);
             for (const listing of this.gameList) {
@@ -88,6 +93,7 @@ export class GetGameListMessage extends BaseRootMessage {
                 writer.write(listing);
                 writer.end();
             }
+            writer.end();
         } else {
             writer.upacked(0x02);
             writer.write(this.options);

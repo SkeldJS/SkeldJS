@@ -47,7 +47,7 @@ describe("ReportPlayerMessage", () => {
         it("Should serialize a server-bound report player root message", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new ReportPlayerMessage(
-                -1933419961,
+                "FILLNF",
                 28822,
                 ReportReason.CheatingHacking
             );

@@ -1,4 +1,4 @@
-import { RootMessageTag } from "@skeldjs/constant";
+import { DisconnectReason, RootMessageTag } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import assert from "assert";
 
@@ -18,8 +18,8 @@ describe("KickPlayerMessage", () => {
     });
 
     describe("KickPlayerMessage#Serialize", () => {
-        it("Should serialize a kick player root message.", () => {
-            const writer = HazelWriter.alloc(3);
+        it("Should serialize a kick player root message without a reason.", () => {
+            const writer = HazelWriter.alloc(0);
             const packet = new KickPlayerMessage(
                 "XJWWCF",
                 37315,
@@ -29,6 +29,20 @@ describe("KickPlayerMessage", () => {
             packet.Serialize(writer);
 
             assert.strictEqual(writer.toString("hex"), "88fd958cc3a30200");
+        });
+
+        it("Should serialize a kick player root message with a reason.", () => {
+            const writer = HazelWriter.alloc(0);
+            const packet = new KickPlayerMessage(
+                "XJWWCF",
+                37315,
+                false,
+                DisconnectReason.Hacking
+            );
+
+            packet.Serialize(writer);
+
+            assert.strictEqual(writer.toString("hex"), "88fd958cc3a302000a");
         });
     });
 });
