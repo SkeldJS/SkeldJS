@@ -1,6 +1,6 @@
 node_modules
 plugins
-js
+dist
 **/*.js
 .yarn
 .pnp.*

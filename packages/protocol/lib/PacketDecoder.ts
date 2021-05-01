@@ -225,10 +225,10 @@ export class PacketDecoder<SenderType = any> {
      * @param listener The callback for when the message is decoded.
      * @returns A function to remove the listener.
      */
-    on<T extends Deserializable[]>(
+    on<T extends Deserializable>(
         messageClass: T,
         listener: (
-            message: GetSerialized<T[number]>,
+            message: GetSerialized<T>,
             direction: MessageDirection,
             sender: SenderType
         ) => void
@@ -239,10 +239,10 @@ export class PacketDecoder<SenderType = any> {
      * @param listener The callback for when one of the messages is decoded.
      * @returns A function to remove the listener.
      */
-    on<T extends Deserializable>(
+    on<T extends Deserializable[]>(
         messageClass: T,
         listener: (
-            message: GetSerialized<T>,
+            message: GetSerialized<T[number]>,
             direction: MessageDirection,
             sender: SenderType
         ) => void
@@ -417,7 +417,7 @@ export class PacketDecoder<SenderType = any> {
     private _parse(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound
-    ) {
+    ): Serializable {
         if (Buffer.isBuffer(reader)) {
             return this._parse(HazelReader.from(reader));
         }

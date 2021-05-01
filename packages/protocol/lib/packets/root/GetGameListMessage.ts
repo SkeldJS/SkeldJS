@@ -58,8 +58,6 @@ export class GetGameListMessage extends BaseRootMessage {
                         while (mreader.left) {
                             const [, lreader] = mreader.message();
 
-                            console.log(lreader);
-
                             const listing = lreader.read(GameListing);
                             gameList.push(listing);
                         }
