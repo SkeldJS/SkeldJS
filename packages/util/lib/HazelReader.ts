@@ -434,12 +434,3 @@ export class HazelReader extends HazelBuffer {
         );
     }
 }
-
-
-const reader = HazelReader.from("0102030405060708090a0b0c", "hex");
-
-reader.jump(-3);
-
-for (let i = 0; i < 20; i++) {
-    reader.jump(1);
-}
