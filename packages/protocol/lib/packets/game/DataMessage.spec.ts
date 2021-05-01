@@ -11,7 +11,6 @@ describe("DataMessage", () => {
             const packet = DataMessage.Deserialize(reader);
 
             assert.strictEqual(packet.tag, GameDataMessageTag.Data);
-            console.log(packet.data);
             assert.strictEqual(packet.data.byteLength, 10);
             assert.strictEqual(packet.data[0], 4);
         });
