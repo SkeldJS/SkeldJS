@@ -449,7 +449,7 @@ export class PacketDecoder<SenderType = any> {
     write(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound,
-        sender: SenderType
+        sender: SenderType = null
     ) {
         const message = this._parse(reader, direction);
 

@@ -1,6 +1,6 @@
 import { BOUNDS, SIZES } from "./bounds";
 import { HazelBuffer } from "./HazelBuffer";
-import { unlerpValue, Vector2 } from "./Vector";
+import { Vector2 } from "./Vector";
 
 type ListWriter<T> = (item: T, i: number, writer: HazelWriter) => any;
 
@@ -577,8 +577,8 @@ export class HazelWriter extends HazelBuffer {
      * @returns The writer.
      */
     vector(position: Vector2) {
-        const x = unlerpValue(position.x) * 65535;
-        const y = unlerpValue(position.y) * 65535;
+        const x = Vector2.unlerp(position.x) * 65535;
+        const y = Vector2.unlerp(position.y) * 65535;
 
         this.uint16(~~x);
         this.uint16(~~y);

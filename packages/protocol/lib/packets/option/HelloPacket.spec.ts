@@ -1,5 +1,5 @@
 import { SendOption } from "@skeldjs/constant";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
 import assert from "assert";
 
 import { HelloPacket } from "./HelloPacket";
@@ -12,7 +12,10 @@ describe("HelloPacket", () => {
 
             assert.strictEqual(packet.tag, SendOption.Hello);
             assert.strictEqual(packet.nonce, 1);
-            assert.strictEqual(packet.clientver, 50532300 /* 2021.4.2.0 */);
+            assert.strictEqual(packet.clientver.year, 2021);
+            assert.strictEqual(packet.clientver.month, 4);
+            assert.strictEqual(packet.clientver.day, 2);
+            assert.strictEqual(packet.clientver.revision, 0);
             assert.strictEqual(packet.username, "amogus");
             assert.strictEqual(packet.token, 3159563010);
         });
@@ -23,7 +26,7 @@ describe("HelloPacket", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new HelloPacket(
                 1,
-                50532300,
+                new VersionInfo(2021, 4, 2),
                 "mary poppins",
                 69
             );

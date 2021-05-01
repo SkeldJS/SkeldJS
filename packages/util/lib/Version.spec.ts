@@ -1,66 +1,73 @@
 import assert from "assert";
+import { HazelReader } from "./HazelReader";
+import { HazelWriter } from "./HazelWriter";
 
-import {
-    EncodeVersionInfo,
-    EncodeVersion,
-    DecodeVersion,
-    FormatVersionInfo,
-    FormatVersion,
-} from "./Version";
+import { VersionInfo } from "./Version";
 
-describe("Version utility functions", () => {
-    describe("EncodeVersionInfo", () => {
-        it("Should convert information about a version into an integer.", () => {
-            assert.strictEqual(
-                EncodeVersionInfo({
-                    year: 2020,
-                    month: 11,
-                    day: 17,
-                    revision: 0,
-                }),
-                50520650
-            );
+describe("VersionInfo", () => {
+    describe("VersionInfo#ctr", () => {
+        it("Should create a version from basic version information..", () => {
+            const version = new VersionInfo(2021, 4, 2);
+
+            assert.strictEqual(version.year, 2021);
+            assert.strictEqual(version.month, 4);
+            assert.strictEqual(version.day, 2);
         });
     });
 
-    describe("EncodeVersion", () => {
-        it("Should convert information about a version into an integer.", () => {
-            assert.strictEqual(EncodeVersion(2020, 11, 17, 0), 50520650);
+    describe("VersionInfo#from", () => {
+        it("Should create a version from a string.", () => {
+            const version = VersionInfo.from("2021.4.2s");
+
+            assert.strictEqual(version.year, 2021);
+            assert.strictEqual(version.month, 4);
+            assert.strictEqual(version.day, 2);
+        });
+
+        it("Should create a version from a number.", () => {
+            const version = VersionInfo.from(50532300);
+
+            assert.strictEqual(version.year, 2021);
+            assert.strictEqual(version.month, 4);
+            assert.strictEqual(version.day, 2);
         });
     });
 
-    describe("DecodeVersion", () => {
-        it("Should get information about a version from an integer.", () => {
-            assert.deepStrictEqual(DecodeVersion(50516650), {
-                year: 2020,
-                month: 9,
-                day: 9,
-                revision: 0,
-            });
+    describe("VersionInfo#Deserialize", () => {
+        it("Should create a version from deserializing a buffer.", () => {
+            const reader = HazelReader.from("cc0f0303", "hex");
+            const version = VersionInfo.Deserialize(reader);
+
+            assert.strictEqual(version.year, 2021);
+            assert.strictEqual(version.month, 4);
+            assert.strictEqual(version.day, 2);
         });
     });
 
-    describe("FormatVersionInfo", () => {
-        it("Should format version information into a recognisable syntax.", () => {
-            assert.strictEqual(
-                FormatVersionInfo({
-                    year: 2020,
-                    month: 9,
-                    day: 9,
-                    revision: 0,
-                }),
-                "2020.9.9.0"
-            );
-        });
+    describe("VersionInfo#Serialize", () => {
+        it("Should create a version from serializing a buffer.", () => {
+            const writer = HazelWriter.alloc(4);
+            const version = new VersionInfo(2021, 4, 2);
 
-        it("Should format a version integer into a recognisable syntax.", () => {
-            assert.strictEqual(FormatVersionInfo(50516650), "2020.9.9.0");
+            version.Serialize(writer);
+
+            assert.strictEqual(writer.toString("hex"), "cc0f0303");
         });
     });
 
-    describe("FormatVersion", () => {
-        it("Should format version information into a recognisable syntax.", () => {
-            assert.strictEqual(FormatVersion(2020, 9, 9, 0), "2020.9.9.0");
+    describe("VersionInfo#toString", () => {
+        it("Should convert the version into a human-readable string.", () => {
+            const version = new VersionInfo(2021, 4, 2);
+
+            assert.deepStrictEqual(version.toString(), "2021.4.2.0");
+        });
+    });
+
+    describe("VersionInfo#encode", () => {
+        it("Should convert the version into a number.", () => {
+            const version = new VersionInfo(2021, 4, 2);
+
+            assert.deepStrictEqual(version.encode(), 50532300);
         });
     });
 });

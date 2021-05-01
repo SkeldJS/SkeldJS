@@ -55,6 +55,19 @@ describe("HazelWriter", () => {
         });
     });
 
+    describe("HazelWriter#clone", () => {
+        it("Should clone the writer pointing to a new place in memory.", () => {
+            const writer = HazelWriter.alloc(4);
+            writer.uint8(4);
+
+            const cloned = writer.clone();
+
+            assert.notStrictEqual(writer.buffer, cloned.buffer);
+            assert.deepStrictEqual(writer.buffer.buffer, cloned.buffer.buffer);
+            assert.strictEqual(writer.cursor, cloned.cursor);
+        });
+    });
+
     describe("HazelWriter#buffer", () => {
         it("Should retrieve the buffer that the writer is writing to.", () => {
             const writer = HazelWriter.alloc(4);

@@ -5,11 +5,10 @@ import {
     PolusVent,
     AirshipVent,
 } from "@skeldjs/constant";
-import { Vector2 } from "@skeldjs/util";
 
 interface VentDataModel {
     id: number;
-    position: Vector2;
+    position: { x: number; y: number };
     network: number[];
 }
 

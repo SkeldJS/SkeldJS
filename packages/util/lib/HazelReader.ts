@@ -1,6 +1,6 @@
 import { SIZES } from "./bounds";
 import { HazelBuffer } from "./HazelBuffer";
-import { lerpValue } from "./Vector";
+import { Vector2 } from "./Vector";
 
 type ListReader<T> = (reader: HazelReader) => T;
 
@@ -39,7 +39,7 @@ export class HazelReader extends HazelBuffer {
      * @returns The created reader.
      * @example
      * ```typescript
-     * const reader = HazelReader.from("weakeyes");
+     * const reader = HazelReader.from("weakeyes", "utf8");
      * ```
      */
     static from(str: string, encoding: BufferEncoding): HazelReader;
@@ -428,9 +428,18 @@ export class HazelReader extends HazelBuffer {
         const x = this.uint16();
         const y = this.uint16();
 
-        return {
-            x: lerpValue(x / 65535),
-            y: lerpValue(y / 65535),
-        };
+        return new Vector2(
+            Vector2.lerp(x / 65535),
+            Vector2.lerp(y / 65535)
+        );
     }
+}
+
+
+const reader = HazelReader.from("0102030405060708090a0b0c", "hex");
+
+reader.jump(-3);
+
+for (let i = 0; i < 20; i++) {
+    reader.jump(1);
 }

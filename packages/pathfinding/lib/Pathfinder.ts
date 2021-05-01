@@ -150,18 +150,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         if (next) {
             const pos = this.grid.actual(next.x, next.y);
-            const dist = Math.hypot(
-                this.position.x - pos.x,
-                this.position.y - pos.y
-            );
+            const dist = Vector2.dist(this.position, pos);
             const ev = await this.emit(
                 new EngineMoveEvent(pos)
             );
             if (!ev.canceled) {
-                this.transform.move(pos, {
-                    x: dist * this.client.settings.playerSpeed,
-                    y: dist * this.client.settings.playerSpeed,
-                });
+                this.transform.move(pos, new Vector2(dist * this.client.settings.playerSpeed));
             }
 
             if (this.path.length === 0) {
@@ -216,11 +210,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     }
 
     private _go(dest: Vector2) {
-        this.destination = {
-            // Recreate object to not recalculate new player position after moving.
-            x: dest.x,
-            y: dest.y,
-        };
+        this.destination = new Vector2(dest);
         this._moved = true;
         this.start();
     }
@@ -253,15 +243,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         const coords = MapVentData[this.map][ventid];
 
-        this.go(coords.position);
+        this.go(new Vector2(coords.position));
     }
 
     private _handleMove(ev: PlayerMoveEvent) {
         if (ev.player === this.following) {
-            this.destination = {
-                x: ev.position.x,
-                y: ev.position.y,
-            };
+            this.destination = new Vector2(ev.position);
             this._moved = true;
         }
     }
