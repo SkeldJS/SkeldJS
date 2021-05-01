@@ -40,8 +40,7 @@ import {
 
 import {
     Code2Int,
-    unary,
-    EncodeVersion,
+    VersionInfo,
     HazelWriter
 } from "@skeldjs/util";
 
@@ -159,7 +158,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * The version of the client.
      */
-    version: number;
+    version: VersionInfo;
 
     /**
      * The client ID of the client.
@@ -179,20 +178,17 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * ```
      */
     constructor(
-        version: string | number,
+        version: string | number | VersionInfo,
         options: ClientConfig = { debug: DebugLevel.None, allowHost: true }
     ) {
         super({ doFixedUpdate: true });
 
         this.options = options;
 
-        if (typeof version === "number") {
+        if (version instanceof VersionInfo) {
             this.version = version;
         } else {
-            const [year, month, day, revision] = version
-                .split(".")
-                .map(unary(parseInt));
-            this.version = EncodeVersion(year, month, day, revision);
+            this.version = VersionInfo.from(version);
         }
 
         this.packets_recv = [];

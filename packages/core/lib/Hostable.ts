@@ -20,7 +20,8 @@ import {
     Code2Int,
     HazelReader,
     HazelWriter,
-    sleep
+    sleep,
+    Vector2
 } from "@skeldjs/util";
 
 import {
@@ -1043,14 +1044,8 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                     ownerid,
                     {
                         seqId: 1,
-                        position: {
-                            x: 0,
-                            y: 0,
-                        },
-                        velocity: {
-                            x: 0,
-                            y: 0,
-                        },
+                        position: Vector2.null,
+                        velocity: Vector2.null
                     }
                 );
 

@@ -2,7 +2,7 @@ import dgram from "dgram";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { EncodeVersion, unary } from "@skeldjs/util";
+import {  unary, VersionInfo } from "@skeldjs/util";
 
 import { DisconnectReason } from "@skeldjs/constant";
 
@@ -47,7 +47,7 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
     /**
      * The version of the remote client's game client.
      */
-    version: number;
+    version: VersionInfo;
 
     /**
      * The username of the remote client.
@@ -120,16 +120,13 @@ export class RemoteClient extends EventEmitter<RemoteClientEvents> {
         return super.emit(event);
     }
 
-    identify(username: string, version: string | number) {
+    identify(username: string, version: string | number | VersionInfo) {
         this.username = username;
 
-        if (typeof version === "number") {
+        if (version instanceof VersionInfo) {
             this.version = version;
         } else {
-            const [year, month, day, revision] = version
-                .split(".")
-                .map(unary(parseInt));
-            this.version = EncodeVersion(year, month, day, revision);
+            this.version = VersionInfo.from(version);
         }
     }
 

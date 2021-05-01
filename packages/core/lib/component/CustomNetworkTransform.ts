@@ -88,14 +88,8 @@ export class CustomNetworkTransform extends Networkable<
             new PlayerMoveEvent(
                 this.room,
                 this.player,
-                {
-                    x: this.position.x,
-                    y: this.position.y,
-                },
-                {
-                    x: this.velocity.x,
-                    y: this.velocity.y,
-                }
+                new Vector2(this.position),
+                new Vector2(this.velocity)
             )
         );
     }
@@ -118,12 +112,13 @@ export class CustomNetworkTransform extends Networkable<
                 if (NetworkUtils.seqIdGreaterThan(seqId, this.seqId)) {
                     this.seqId = seqId;
                     this.position = position;
-                    this.velocity = { x: 0, y: 0 };
+                    this.velocity = Vector2.null;
                     this.emit(
-                        new PlayerSnapToEvent(this.room, this.player, {
-                            x: this.position.x,
-                            y: this.position.y,
-                        })
+                        new PlayerSnapToEvent(
+                            this.room,
+                            this.player,
+                            new Vector2(this.position)
+                        )
                     );
                 }
                 break;
@@ -142,7 +137,7 @@ export class CustomNetworkTransform extends Networkable<
      * });
      * ```
      */
-    async move(position: Vector2, velocity: Vector2 = { x: 0, y: 0 }) {
+    async move(position: Vector2, velocity: Vector2 = Vector2.null) {
         this.seqId += 1;
 
         if (this.seqId > 2 ** 16 - 1) {
@@ -165,14 +160,8 @@ export class CustomNetworkTransform extends Networkable<
             new PlayerMoveEvent(
                 this.room,
                 this.player,
-                {
-                    x: this.position.x,
-                    y: this.position.y,
-                },
-                {
-                    x: this.velocity.x,
-                    y: this.velocity.y,
-                }
+                new Vector2(this.position),
+                new Vector2(this.velocity)
             )
         );
     }
@@ -206,10 +195,11 @@ export class CustomNetworkTransform extends Networkable<
         );
 
         this.emit(
-            new PlayerSnapToEvent(this.room, this.player, {
-                x: this.position.x,
-                y: this.position.y,
-            })
+            new PlayerSnapToEvent(
+                this.room,
+                this.player,
+                new Vector2(this.position)
+            )
         );
     }
 }

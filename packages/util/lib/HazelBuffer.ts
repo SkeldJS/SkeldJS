@@ -97,6 +97,48 @@ export class HazelBuffer {
         return this.buffer.toString(encoding);
     }
 
+    [Symbol.for("nodejs.util.inspect.custom")]() {
+        const width = 10;
+
+        let min = this.cursor - Math.floor(width / 2);
+        let max = this.cursor + Math.ceil(width / 2);
+
+        if (max >= this.buffer.byteLength) {
+            min = Math.max(0, this.buffer.byteLength - width);
+            max = this.buffer.byteLength;
+        }
+        if (min < 0) {
+            max = Math.min(this.buffer.byteLength - 1, max + (0 - min));
+            min = 0;
+        }
+
+        const view = [...this.buffer].slice(min, max).map(_ => _.toString(16).padStart(2, "0"));
+        const cur_view = this.cursor - min;
+        if (min > 0) {
+            view.unshift(".." + min + " byte" + (min === 1 ? "" : "s") + "..");
+        }
+        if (max < this.buffer.byteLength) {
+            const num = this.buffer.byteLength - max;
+            view.push(".." + num + " byte" + (num === 1 ? "" : "s") + "..");
+        }
+        if (cur_view < 0) {
+            const num = 0 - cur_view;
+            if (num > 0) {
+                view.unshift(".." + num + " byte" + (num === 1 ? "" : "s") + "..");
+            }
+            view.unshift("[  ]");
+        } else if (cur_view > view.length - 1){
+            const num = cur_view - view.length;
+            if (num > 0) {
+                view.push(".." + num + " byte" + (num === 1 ? "" : "s") + "..");
+            }
+            view.push("[  ]");
+        } else {
+            view[cur_view] = "[" + view[cur_view] + "]";
+        }
+        return "<HazelBuffer " + view.join(" ") + ">";
+    }
+
     /**
      * Move the cursor to a position.
      * @param pos The position to move to.

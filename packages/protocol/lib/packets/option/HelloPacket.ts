@@ -1,5 +1,5 @@
 import { SendOption } from "@skeldjs/constant";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
 
 import { BaseRootPacket } from "./BaseRootPacket";
 
@@ -8,13 +8,13 @@ export class HelloPacket extends BaseRootPacket {
     tag = SendOption.Hello as const;
 
     readonly nonce: number;
-    readonly clientver: number;
+    readonly clientver: VersionInfo;
     readonly username: string;
     readonly token: number;
 
     constructor(
         nonce: number,
-        clientver: number,
+        clientver: VersionInfo,
         username: string,
         token: number
     ) {
@@ -29,7 +29,7 @@ export class HelloPacket extends BaseRootPacket {
     static Deserialize(reader: HazelReader) {
         const nonce = reader.uint16(true);
         reader.jump(1); // Skip hazel version.
-        const clientver = reader.int32();
+        const clientver = reader.read(VersionInfo);
         const username = reader.string();
         const token = reader.uint32();
 
@@ -39,7 +39,7 @@ export class HelloPacket extends BaseRootPacket {
     Serialize(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
         writer.uint8(0);
-        writer.int32(this.clientver);
+        writer.write(this.clientver);
         writer.string(this.username);
         writer.uint32(this.token);
     }

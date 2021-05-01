@@ -226,7 +226,7 @@ describe("PacketDecoder", () => {
                 recv++;
             });
 
-            decoder.write(buffer, MessageDirection.Serverbound, null);
+            decoder.write(buffer);
 
             assert.strictEqual(recv, 10);
         });
@@ -238,11 +238,20 @@ describe("PacketDecoder", () => {
 
             const decoder = new PacketDecoder;
 
-            const parsed = decoder.parse(buffer, MessageDirection.Serverbound);
+            const parsed = decoder.parse(buffer);
 
             assert.strictEqual(parsed.tag, 1);
             assert.strictEqual(parsed.children.length, 1);
             assert.strictEqual(parsed.children[0]?.children?.length, 10);
+        });
+
+        it("Should return null on an invalid message send option.", () => {
+            const buffer = Buffer.from("69");
+            const decoder = new PacketDecoder;
+
+            const parsed = decoder.parse(buffer);
+
+            assert.strictEqual(parsed, null);
         });
     });
 });

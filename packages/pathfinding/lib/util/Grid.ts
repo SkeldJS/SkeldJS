@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
 
 import { Node } from "./Node";
 
@@ -98,10 +98,10 @@ export class Grid {
     }
 
     actual(x: number, y: number) {
-        return {
-            x: x / this.density + this.basex,
-            y: y / this.density + this.basey,
-        };
+        return new Vector2(
+            x / this.density + this.basex,
+            y / this.density + this.basey
+        );
     }
 
     at(i: number) {
