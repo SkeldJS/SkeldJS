@@ -600,7 +600,6 @@ describe("Hostable", () => {
         it("Should add a component to the map of net objects and push to the owner's components.", async () => {
             const room = new Hostable();
             const component = new MeetingHud(room, 1, room.id, {
-                dirtyBit: 0,
                 states: new Map(),
             });
 
@@ -616,7 +615,6 @@ describe("Hostable", () => {
         it("Should emit a component spawn event.", async () => {
             const room = new Hostable();
             const component = new MeetingHud(room, 1, room.id, {
-                dirtyBit: 0,
                 states: new Map(),
             });
             let did_receive = false;
@@ -633,7 +631,6 @@ describe("Hostable", () => {
         it("Should do nothing if the component is already spawned.", async () => {
             const room = new Hostable();
             const component = new MeetingHud(room, 1, room.id, {
-                dirtyBit: 0,
                 states: new Map(),
             });
 
@@ -655,7 +652,6 @@ describe("Hostable", () => {
         it("Should remove the component from the map of net objects and remove from the owner's components.", async () => {
             const room = new Hostable();
             const component = new MeetingHud(room, 1, room.id, {
-                dirtyBit: 0,
                 states: new Map(),
             });
 
@@ -673,7 +669,6 @@ describe("Hostable", () => {
         it("Should emit a component despawn event.", async () => {
             const room = new Hostable();
             const component = new MeetingHud(room, 1, room.id, {
-                dirtyBit: 0,
                 states: new Map(),
             });
             await room.spawnComponent(component);

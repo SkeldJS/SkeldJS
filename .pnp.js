@@ -6574,7 +6574,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["test", "workspace:test"],
             ["@skeldjs/client", "workspace:packages/client"],
             ["@skeldjs/get-auth-token", "workspace:packages/get-auth-token"],
-            ["@skeldjs/util", "workspace:packages/util"]
+            ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/node", "npm:15.0.1"]
           ],
           "linkType": "SOFT",
         }]

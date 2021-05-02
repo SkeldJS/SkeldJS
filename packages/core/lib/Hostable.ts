@@ -234,7 +234,9 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
 
             if (component) {
                 const reader = HazelReader.from(message.data);
-                await component.HandleRpc(message.callid, reader);
+                try {
+                    await component.HandleRpc(message.callid, reader);
+                } catch (e) { void e; }
             }
         });
 
@@ -977,7 +979,6 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                     this.incr_netid,
                     ownerid,
                     {
-                        dirtyBit: 0,
                         states: new Map(),
                     }
                 );
@@ -996,7 +997,6 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                 break;
             case SpawnType.GameData:
                 const gamedata = new GameData(this, this.incr_netid, ownerid, {
-                    dirtyBit: 0,
                     players: new Map(),
                 });
 
@@ -1009,7 +1009,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                     this.incr_netid,
                     ownerid,
                     {
-                        clients: new Map(),
+                        voted: new Map(),
                     }
                 );
 
@@ -1035,7 +1035,9 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                     this,
                     this.incr_netid,
                     ownerid,
-                    {}
+                    {
+                        ventid: -1
+                    }
                 );
 
                 const transform = new CustomNetworkTransform(

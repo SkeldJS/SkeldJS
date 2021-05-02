@@ -121,16 +121,7 @@ export class InnerShipStatus extends Networkable<
     async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.RepairSystem:
-                const systemid = reader.uint8();
-                const pcnetid = reader.upacked();
-                const amount = reader.uint8();
-
-                const system = this.systems[systemid] as SystemStatus;
-                const player = this.room.getPlayerByNetId(pcnetid);
-
-                if (system && player) {
-                    system.HandleRepair(player, amount);
-                }
+                this._handleRepairSystem(reader);
                 break;
         }
     }
@@ -143,6 +134,19 @@ export class InnerShipStatus extends Networkable<
             const system = systems[i];
 
             system.Detoriorate(delta);
+        }
+    }
+
+    private _handleRepairSystem(reader: HazelReader) {
+        const systemid = reader.uint8();
+        const pcnetid = reader.upacked();
+        const amount = reader.uint8();
+
+        const system = this.systems[systemid] as SystemStatus;
+        const player = this.room.getPlayerByNetId(pcnetid);
+
+        if (system && player) {
+            system.HandleRepair(player, amount);
         }
     }
 

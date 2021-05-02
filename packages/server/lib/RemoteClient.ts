@@ -2,7 +2,7 @@ import dgram from "dgram";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import {  unary, VersionInfo } from "@skeldjs/util";
+import { VersionInfo } from "@skeldjs/util";
 
 import { DisconnectReason } from "@skeldjs/constant";
 

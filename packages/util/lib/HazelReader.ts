@@ -2,7 +2,7 @@ import { SIZES } from "./bounds";
 import { HazelBuffer } from "./HazelBuffer";
 import { Vector2 } from "./Vector";
 
-type ListReader<T> = (reader: HazelReader) => T;
+type ListReader<T> = (reader: HazelReader, i: number) => T;
 
 type Deserializable<T extends any[] = any[]> = {
     Deserialize(reader: HazelReader, ...args: T): any;
@@ -412,7 +412,7 @@ export class HazelReader extends HazelBuffer {
 
             const items: T[] = [];
             for (let i = 0; i < length; i++) {
-                items.push(fn(this));
+                items.push(fn(this, i));
             }
             return items;
         }
