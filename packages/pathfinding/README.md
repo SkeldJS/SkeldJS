@@ -34,7 +34,7 @@ pathfinder.follow(player);
 pathfinder.follow(player);
 
 pathfinder.on("engine.move", ev => {
-    const position = ev.data.position;
+    const position = ev.position;
     const player_pos = player.transform.position;
 
     const dist = Math.hypot(

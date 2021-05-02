@@ -155,7 +155,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
                 new EngineMoveEvent(pos)
             );
             if (!ev.canceled) {
-                this.transform.move(pos, new Vector2(dist * this.client.settings.playerSpeed));
+                this.transform.move(pos.x, pos.y, new Vector2(dist * this.client.settings.playerSpeed));
             }
 
             if (this.path.length === 0) {

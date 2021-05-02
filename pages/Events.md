@@ -5,13 +5,13 @@ Events in SkeldJS are emitted by individual objects and components, but propagat
 For example, you can attach a listener to a specific player to know when their name has been updated.
 ```ts
 player.on("player.setname", ev => {
-    console.log(player.id, "set their name to", ev.data.name);
+    console.log(player.id, "set their name to", ev.name);
 });
 ```
 Or, you can attach a listener to the client to know when any player has their name updated.
 ```ts
 client.on("player.setname", ev => {
-    console.log(ev.data.player.id, "set their name to", ev.data.name);
+    console.log(ev.player.id, "set their name to", ev.name);
 });
 ```
 

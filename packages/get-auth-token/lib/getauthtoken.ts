@@ -6,23 +6,20 @@ import { sleep } from "@skeldjs/util";
 
 export interface GetAuthTokenOptions {
     /**
-     * The path to the GetAuthToken executable.
+     * Absolute path to the GetAuthToken executable.
      */
     exe_path: string;
     /**
-     * The path to the certificate to use.
+     * Absolute path to the certificate to use.
      */
     cert_path: string;
+    /**
+     * The maximum number of attempts to get an auth token.
+     */
+    attempts?: number;
 }
 
-/**
- * Get an authentication token from a specified server.
- * @param exe_path The path to the GetAuthToken executable.
- * @param cert_path The path to the certificate to use.
- * @param ip The IP of the server to get a token from.
- * @param port The port of the server to get a token from.
- */
-export function getAuthToken(
+function getAuthTokenImpl(
     exe_path: string,
     cert_path: string,
     ip: string,
@@ -65,9 +62,54 @@ export function getAuthToken(
 }
 
 /**
+ * Get an authentication token from a specified server.
+ * @param exe_path The path to the GetAuthToken executable.
+ * @param cert_path The path to the certificate to use.
+ * @param ip The IP of the server to get a token from.
+ * @param port The port of the server to get a token from.
+ * @param attempts The maximum number of attempts to get an auth token, before throwing an error.
+ * @example
+ * ```ts
+ * const token = await getAuthToken(
+ *   "path_to_get_auth_token.exe",
+ *   "path_to_cert_path",
+ *   "127.0.0.1",
+ *   22025
+ * )
+ * ```
+ */
+export async function getAuthToken(
+    exe_path: string,
+    cert_path: string,
+    ip: string,
+    port: number,
+    attempts = 1,
+    attempt = 1
+): Promise<number> {
+    try {
+        return await getAuthTokenImpl(exe_path, cert_path, ip, port);
+    } catch (e) {
+        if (attempt === attempts) {
+            throw e;
+        } else {
+            return await getAuthToken(exe_path, cert_path, ip, port, attempts, attempt + 1);
+        }
+    }
+}
+
+/**
  * Hook a skeldjs client to automatically get an authentication token before connecting to a server.
  * @param client The client to hook.
  * @param options Options for get auth token.
+ * @example
+ * ```ts
+ * const client = new SkeldjsClient("2021.4.2");
+ *
+ * authTokenHook(client, {
+ *   exe_path: "path_to_get_auth_token.exe",
+ *   cert_path: "path_to_cert_path"
+ * });
+ * ```
  */
 export function authTokenHook(
     client: SkeldjsClient,
@@ -79,7 +121,8 @@ export function authTokenHook(
                 options.exe_path,
                 options.cert_path,
                 ev.ip,
-                ev.port + 2 /* Auth port is normal port + 2 */
+                ev.port + 2, /* Auth port is normal port + 2 */
+                options.attempts ?? 1
             );
         } catch (e) {
             client.token = 0;

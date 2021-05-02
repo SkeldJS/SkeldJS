@@ -133,18 +133,19 @@ export class CustomNetworkTransform extends Networkable<
      *```typescript
      * // Follow the host
      * host.transform.on("player.move", ev => {
-     *   player.transform.move(ev.data.position);
+     *   player.transform.move(ev.position.x, ev.position.y);
      * });
      * ```
      */
-    async move(position: Vector2, velocity: Vector2 = Vector2.null) {
+    async move(x: number, y: number, velocity: Vector2 = Vector2.null) {
         this.seqId += 1;
 
         if (this.seqId > 2 ** 16 - 1) {
             this.seqId = 1;
         }
 
-        this.position = position;
+        this.position.x = x;
+        this.position.y = y;
         this.velocity = velocity;
 
         this.dirtyBit = 1;
@@ -173,18 +174,19 @@ export class CustomNetworkTransform extends Networkable<
      *```typescript
      * // Instantly teleport to wherever the host moves.
      * host.transform.on("player.move", ev => {
-     *   player.transform.snapTo(ev.data.position);
+     *   player.transform.snapTo(ev.position.x, ev.position.y);
      * });
      * ```
      */
-    async snapTo(position: Vector2) {
+    async snapTo(x: number, y: number) {
         this.seqId += 1;
 
         if (this.seqId > 2 ** 16 - 1) {
             this.seqId = 1;
         }
 
-        this.position = position;
+        this.position.x = x;
+        this.position.y = y;
         this.dirtyBit = 0;
 
         const writer = HazelWriter.alloc(4);

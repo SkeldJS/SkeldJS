@@ -52,7 +52,7 @@ await client.me.control.setName("weakeyes");
 await client.me.control.setColor(ColorID.Blue);
 
 client.on("player.setname", async ev => {
-    client.me.control.chat("Hello, " + ev.data.name + "!");
+    client.me.control.chat("Hello, " + ev.name + "!");
 });
 
 ```
