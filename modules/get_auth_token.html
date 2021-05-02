@@ -120,13 +120,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e95a6b0/packages/get-auth-token/lib/getauthtoken.ts#L72">get-auth-token/lib/getauthtoken.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4b8e30e/packages/get-auth-token/lib/getauthtoken.ts#L114">get-auth-token/lib/getauthtoken.ts:114</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Hook a skeldjs client to automatically get an authentication token before connecting to a server.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">client</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SkeldjsClient</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2021.4.2&quot;</span><span style="color: #000000">);</span>
+
+<span style="color: #795E26">authTokenHook</span><span style="color: #000000">(</span><span style="color: #001080">client</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">exe_path:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;path_to_get_auth_token.exe&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">cert_path:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;path_to_cert_path&quot;</span>
+<span style="color: #000000">});</span>
+</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -151,19 +162,30 @@
 					<a name="getauthtoken" class="tsd-anchor"></a>
 					<h3>get<wbr>Auth<wbr>Token</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Auth<wbr>Token<span class="tsd-signature-symbol">(</span>exe_path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cert_path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, ip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Auth<wbr>Token<span class="tsd-signature-symbol">(</span>exe_path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cert_path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, ip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, attempts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, attempt<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e95a6b0/packages/get-auth-token/lib/getauthtoken.ts#L25">get-auth-token/lib/getauthtoken.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4b8e30e/packages/get-auth-token/lib/getauthtoken.ts#L81">get-auth-token/lib/getauthtoken.ts:81</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Get an authentication token from a specified server.</p>
 								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">token</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">getAuthToken</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #A31515">&quot;path_to_get_auth_token.exe&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #A31515">&quot;path_to_cert_path&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #A31515">&quot;127.0.0.1&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #098658">22025</span>
+<span style="color: #000000">)</span>
+</code></pre>
+									</dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -190,6 +212,15 @@
 									<div class="tsd-comment tsd-typography">
 										<p>The port of the server to get a token from.</p>
 									</div>
+								</li>
+								<li>
+									<h5>attempts: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The maximum number of attempts to get an auth token, before throwing an error.</p>
+									</div>
+								</li>
+								<li>
+									<h5>attempt: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span></h4>
