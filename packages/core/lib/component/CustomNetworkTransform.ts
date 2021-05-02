@@ -106,21 +106,7 @@ export class CustomNetworkTransform extends Networkable<
     async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.SnapTo:
-                const seqId = reader.uint16();
-                const position = reader.vector();
-
-                if (NetworkUtils.seqIdGreaterThan(seqId, this.seqId)) {
-                    this.seqId = seqId;
-                    this.position = position;
-                    this.velocity = Vector2.null;
-                    this.emit(
-                        new PlayerSnapToEvent(
-                            this.room,
-                            this.player,
-                            new Vector2(this.position)
-                        )
-                    );
-                }
+                await this._handleSnapTo(reader);
                 break;
         }
     }
@@ -153,7 +139,9 @@ export class CustomNetworkTransform extends Networkable<
         this.Serialize(writer, false);
 
         await this.room.broadcast(
-            [new DataMessage(this.netid, writer.buffer)],
+            [
+                new DataMessage(this.netid, writer.buffer)
+            ],
             false
         );
 
@@ -167,41 +155,79 @@ export class CustomNetworkTransform extends Networkable<
         );
     }
 
+    private async _handleSnapTo(reader: HazelReader) {
+        const position = reader.vector();
+        const seqId = reader.uint16();
+
+        if (NetworkUtils.seqIdGreaterThan(seqId, this.seqId)) {
+            this.seqId = seqId;
+            this.position = position;
+            this.velocity = Vector2.null;
+
+            await this.emit(
+                new PlayerSnapToEvent(
+                    this.room,
+                    this.player,
+                    new Vector2(this.position)
+                )
+            );
+        }
+    }
+
+    private _snapTo(x: number, y: number) {
+        this.position.x = x;
+        this.position.y = y;
+    }
+
+    private _rpcSnapTo(position: Vector2) {
+        const writer = HazelWriter.alloc(4);
+        writer.vector(position);
+
+        this.room.stream.push(
+            new RpcMessage(this.netid, RpcMessageTag.SnapTo, writer.buffer)
+        );
+    }
+
     /**
-     * Instantly snap to a position (no lerping).
+     * Instantly snap to a position without lerping.
      * @param position The position to snap to.
      * @example
      *```typescript
      * // Instantly teleport to wherever the host moves.
      * host.transform.on("player.move", ev => {
-     *   player.transform.snapTo(ev.position.x, ev.position.y);
+     *   client.me.transform.snapTo(ev.position);
      * });
      * ```
      */
-    async snapTo(x: number, y: number) {
+    snapTo(position: Vector2);
+    /**
+     * Instantly snap to a position without lerping.
+     * @param x The X position to snap to.
+     * @param y The Y position to snap to.
+     * @example
+     *```typescript
+     * // Instantly teleport to wherever the host moves.
+     * host.transform.on("player.move", ev => {
+     *   client.me.transform.snapTo(ev.position.x, ev.position.y);
+     * });
+     * ```
+     */
+    snapTo(x: number, y: number);
+    snapTo(x: number|Vector2, y?: number) {
         this.seqId += 1;
 
         if (this.seqId > 2 ** 16 - 1) {
             this.seqId = 1;
         }
 
-        this.position.x = x;
-        this.position.y = y;
         this.dirtyBit = 0;
 
-        const writer = HazelWriter.alloc(4);
-        writer.vector(this.position);
+        if (x instanceof Vector2) {
+            this._snapTo(x.x, x.y);
+        } else {
+            this._snapTo(x, y);
+        }
 
-        await this.room.stream.push(
-            new RpcMessage(this.netid, RpcMessageTag.SnapTo, writer.buffer)
-        );
-
-        this.emit(
-            new PlayerSnapToEvent(
-                this.room,
-                this.player,
-                new Vector2(this.position)
-            )
-        );
+        this._rpcSnapTo(this.position);
     }
 }

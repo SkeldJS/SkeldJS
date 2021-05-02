@@ -5,6 +5,5 @@ export * from "./HazelWriter";
 export * from "./ritoa";
 export * from "./sleep";
 export * from "./TextBuilder";
-export * from "./unary";
 export * from "./Vector";
 export * from "./Version";

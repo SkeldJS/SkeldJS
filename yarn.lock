@@ -5656,6 +5656,7 @@ resolve@^1.1.6:
     "@skeldjs/client": "workspace:packages/client"
     "@skeldjs/get-auth-token": "workspace:packages/get-auth-token"
     "@skeldjs/util": "workspace:packages/util"
+    "@types/node": ^15.0.1
   languageName: unknown
   linkType: soft
 

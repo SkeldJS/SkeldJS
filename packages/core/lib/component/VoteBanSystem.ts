@@ -6,9 +6,10 @@ import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { Heritable } from "../Heritable";
 import { KickPlayerMessage, RpcMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
+import { PlayerData } from "../PlayerData";
 
 export interface VoteBanSystemData {
-    clients: Map<number, [number, number, number]>;
+    voted: Map<number, [PlayerData, PlayerData, PlayerData]>;
 }
 
 export type VoteBanSystemEvents = NetworkableEvents & ExtractEventTypes<[]>;
@@ -31,7 +32,7 @@ export class VoteBanSystem extends Networkable<
     /**
      * The accumulated votes.
      */
-    voted: Map<number, [number, number, number]>;
+    voted: Map<number, [PlayerData, PlayerData, PlayerData]>;
 
     constructor(
         room: Hostable<any>,
@@ -74,7 +75,7 @@ export class VoteBanSystem extends Networkable<
             writer.uint32(clientid);
 
             for (let i = 0; i < 3; i++) {
-                writer.upacked(voters[i]);
+                writer.upacked(voters[i].id);
             }
         }
         return true;
@@ -83,20 +84,30 @@ export class VoteBanSystem extends Networkable<
     async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.AddVote:
-                const votingid = reader.uint32();
-                const targetid = reader.uint32();
-                this._addVote(votingid, targetid);
+                this._handleAddVote(reader);
                 break;
         }
     }
 
-    private _addVote(voterid: number, targetid: number) {
-        const voted = this.voted.get(targetid);
+    private _handleAddVote(reader: HazelReader) {
+        const votingid = reader.uint32();
+        const targetid = reader.uint32();
+
+        const voting = this.room.players.get(votingid);
+        const target = this.room.players.get(targetid);
+
+        if (voting && target) {
+            this._addVote(voting, target);
+        }
+    }
+
+    private _addVote(voter: PlayerData, target: PlayerData) {
+        const voted = this.voted.get(target.id);
         if (voted) {
             const next = voted.indexOf(null);
 
             if (~next) {
-                voted[next] = voterid;
+                voted[next] = voter;
                 this.dirtyBit = 1;
             }
 
@@ -104,16 +115,30 @@ export class VoteBanSystem extends Networkable<
                 this.room.broadcast([], true, null, [
                     new KickPlayerMessage(
                         this.room.code,
-                        targetid,
+                        target.id,
                         false,
                         DisconnectReason.None
                     ),
                 ]);
             }
         } else {
-            this.voted.set(targetid, [voterid, null, null]);
+            this.voted.set(target.id, [voter, null, null]);
             this.dirtyBit = 1;
         }
+    }
+
+    private _rpcAddVote(voter: PlayerData, target: PlayerData) {
+        const writer = HazelWriter.alloc(8);
+        writer.uint32(voter.id);
+        writer.uint32(target.id);
+
+        this.room.stream.push(
+            new RpcMessage(
+                this.netid,
+                RpcMessageTag.AddVote,
+                writer.buffer
+            )
+        );
     }
 
     /**
@@ -126,17 +151,12 @@ export class VoteBanSystem extends Networkable<
      * ```
      */
     addVote(voter: PlayerDataResolvable, target: PlayerDataResolvable) {
-        const voterid = this.room.resolvePlayerClientID(voter);
-        const targetid = this.room.resolvePlayerClientID(target);
+        const _voter = this.room.resolvePlayer(voter);
+        const _target = this.room.resolvePlayer(target);
 
-        this._addVote(voterid, targetid);
-
-        const writer = HazelWriter.alloc(8);
-        writer.uint32(voterid);
-        writer.uint32(targetid);
-
-        this.room.stream.push(
-            new RpcMessage(this.netid, RpcMessageTag.AddVote, writer.buffer)
-        );
+        if (_voter && _target) {
+            this._addVote(_voter, _target);
+            this._rpcAddVote(_voter, _target);
+        }
     }
 }

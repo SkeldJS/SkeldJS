@@ -21,10 +21,12 @@ import {
     MeetingHudVoteClearEvent,
     MeetingHudVotingCompleteEvent,
 } from "../events";
+import { PlayerData } from "../PlayerData";
 
 export interface MeetingHudData {
-    dirtyBit: number;
     states: Map<number, PlayerVoteState>;
+    tie?: boolean;
+    exilied?: PlayerData;
 }
 
 export type MeetingHudEvents =
@@ -52,6 +54,16 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
      * The vote states in the meeting hud.
      */
     states: Map<number, PlayerVoteState>;
+
+    /**
+     * Whether the vote resulted in a tie.
+     */
+    tie?: boolean;
+
+    /**
+     * The player that was exiled, if any.
+     */
+    exiled?: PlayerData;
 
     constructor(
         room: Hostable<any>,
@@ -112,29 +124,35 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.Close:
-                this._close();
+                await this._handleClose(reader);
                 break;
             case RpcMessageTag.VotingComplete:
-                const states = reader.list((r) => r.upacked());
-                const exiled = reader.uint8();
-                const tie = reader.bool();
-
-                this._completeVoting(states, exiled, tie);
+                await this._handleVotingComplete(reader);
                 break;
             case RpcMessageTag.CastVote:
-                const votingid = reader.uint8();
-                const suspectid = reader.uint8();
-
-                this._castVote(votingid, suspectid);
+                await this._handleCastVote(reader);
                 break;
             case RpcMessageTag.ClearVote:
-                this._clearVote(this.room.me.playerId);
+                await this._handleClearVote(reader);
                 break;
         }
     }
 
-    private _close() {
+    private _handleClose(reader: HazelReader) {
+        void reader;
+
         this.emit(new MeetingHudMeetingCloseEvent(this.room, this));
+    }
+
+    private _close() {
+        // todo: meeting close routine
+        void 0;
+    }
+
+    private _rpcClose() {
+        this.room.stream.push(
+            new RpcMessage(this.netid, RpcMessageTag.Close, Buffer.alloc(0))
+        );
     }
 
     /**
@@ -142,29 +160,22 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
      */
     close() {
         this._close();
-
-        this.room.stream.push(
-            new RpcMessage(this.netid, RpcMessageTag.Close, Buffer.alloc(0))
-        );
+        this._rpcClose();
     }
 
-    private _castVote(votingid: number, suspectid: number) {
+    private async _handleCastVote(reader: HazelReader) {
+        const votingid = reader.uint8();
+        const suspectid = reader.uint8();
+
         const voting = this.states.get(votingid);
+        const suspect = suspectid === 0xff
+            ? undefined
+            : this.room.getPlayerByPlayerId(suspectid);
 
-        const resolved_suspect = this.room.getPlayerByPlayerId(suspectid);
+        if (voting && (suspect || suspectid === 0xff)) {
+            this._castVote(voting, suspect);
 
-        if (voting && (resolved_suspect || suspectid === 0xff)) {
-            if (suspectid !== 0xff)
-                voting.state |= (suspectid & VoteState.VotedFor) + 1;
-
-            voting.state |= VoteState.DidVote;
-            this.dirtyBit |= 1 << votingid;
-
-            if (this.room.amhost) {
-                this.room.host.control.sendChatNote(ChatNoteType.DidVote);
-            }
-
-            this.emit(
+            await this.emit(
                 new MeetingHudVoteCastEvent(
                     this.room,
                     this,
@@ -175,45 +186,12 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         }
     }
 
-    private _clearVote(voterid: number) {
-        const voting = this.states.get(voterid);
+    private _castVote(voting: PlayerVoteState, suspect?: PlayerData) {
+        if (suspect)
+            voting.state |= (suspect.playerId & VoteState.VotedFor) + 1;
 
-        if (voting) {
-            voting.state ^= 0xf;
-            voting.state ^= VoteState.DidVote;
-            this.dirtyBit |= 1 << voterid;
-
-            this.emit(
-                new MeetingHudVoteClearEvent(
-                    this.room,
-                    this,
-                    this.room.getPlayerByPlayerId(voterid)
-                )
-            );
-        }
-    }
-
-    /**
-     * Remove someone's vote (usually due to their suspect getting disconnected).
-     * @param resolvable The player to remove the vote of.
-     */
-    async clearVote(resolvable: PlayerDataResolvable) {
-        const voter = this.room.resolvePlayer(resolvable);
-
-        if (voter) {
-            // this.players.get(voter.playerId).votedFor = 0;
-            await this.room.broadcast(
-                [
-                    new RpcMessage(
-                        this.netid,
-                        RpcMessageTag.ClearVote,
-                        Buffer.alloc(0)
-                    ),
-                ],
-                true,
-                voter
-            );
-        }
+        voting.state |= VoteState.DidVote;
+        this.dirtyBit |= 1 << voting.playerId;
     }
 
     /**
@@ -234,54 +212,146 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         voting: PlayerDataResolvable,
         suspect: PlayerDataResolvable | "skip"
     ) {
-        const votingid = this.room.resolvePlayer(voting).playerId;
-        const suspectid =
+        const player = this.room.resolvePlayer(voting);
+
+        const _suspect =
             suspect === "skip"
-                ? 0xff
-                : this.room.resolvePlayer(suspect).playerId;
+                ? undefined
+                : this.room.resolvePlayer(suspect);
 
-        this._castVote(votingid, suspectid);
+        if (player) {
+            const _voting = this.states.get(player.playerId);
 
-        if (!this.room.amhost) {
-            const writer = HazelWriter.alloc(2);
-            writer.uint8(votingid);
-            writer.uint8(suspectid);
-
-            await this.room.broadcast(
-                [
-                    new RpcMessage(
-                        this.netid,
-                        RpcMessageTag.CastVote,
-                        writer.buffer
-                    ),
-                ],
-                true,
-                this.room.host
-            );
+            if (_voting && _suspect) {
+                this._castVote(_voting, _suspect);
+                player.control.sendChatNote(ChatNoteType.DidVote);
+            }
         }
     }
 
-    private _completeVoting(states: number[], exiled: number, tie: boolean) {
-        const resolved =
-            tie || exiled === 0xff
-                ? undefined
-                : this.room.getPlayerByPlayerId(exiled);
+    private async _handleClearVote(reader: HazelReader) {
+        void reader;
 
-        const votes = new Map(
-            states.map((state, i) => [
-                i,
-                new PlayerVoteState(this.room, i, state),
-            ])
+        const player = this.room.me;
+
+        if (player) {
+            const voter = this.states.get(player.playerId);
+
+            if (voter?.voted) {
+                this._clearVote(voter);
+
+                await this.emit(
+                    new MeetingHudVoteClearEvent(
+                        this.room,
+                        this,
+                        player
+                    )
+                );
+            }
+        }
+    }
+
+    private _clearVote(voter: PlayerVoteState) {
+        if (voter.voted) {
+            voter.state &= ~0xf;
+            voter.state &= ~VoteState.DidVote;
+            this.dirtyBit |= 1 << voter.playerId;
+        }
+    }
+
+    private async _rpcClearVote(voter: PlayerVoteState) {
+        await this.room.broadcast(
+            [
+                new RpcMessage(
+                    this.netid,
+                    RpcMessageTag.ClearVote,
+                    Buffer.alloc(0)
+                ),
+            ],
+            true,
+            this.room.getPlayerByPlayerId(voter.playerId)
         );
+    }
 
-        this.emit(
+    /**
+     * Remove someone's vote (usually due to the player they voted for getting disconnected).
+     * @param resolvable The player to remove the vote of.
+     */
+    async clearVote(voter: PlayerDataResolvable) {
+        const player = this.room.resolvePlayer(voter);
+
+        if (player) {
+            const _voter = this.states.get(player.playerId);
+
+            if (_voter) {
+                this._clearVote(_voter);
+                await this._rpcClearVote(_voter);
+            }
+        }
+    }
+
+    private async _handleVotingComplete(reader: HazelReader) {
+        const states = reader.list(reader => reader.uint8());
+        const exiledid = reader.uint8();
+        const tie = reader.bool();
+
+        const exiled = exiledid === 0xff
+            ? undefined
+            : this.room.getPlayerByPlayerId(exiledid);
+
+        this._votingComplete(states, tie, exiled);
+
+        await this.emit(
             new MeetingHudVotingCompleteEvent(
                 this.room,
                 this,
                 tie,
-                votes,
-                resolved
+                new Map(
+                    states.map((state, i) => [
+                        i,
+                        new PlayerVoteState(this.room, i, state),
+                    ])
+                ),
+                exiled
             )
         );
+    }
+
+    private _votingComplete(states: number[], tie: boolean, exiled?: PlayerData) {
+        for (let i = 0; i < states.length; i++) {
+            const state = this.states.get(i);
+            if (state) {
+                state.state = states[i];
+            }
+        }
+        this.tie = tie;
+        this.exiled = exiled;
+    }
+
+    private _rpcVotingComplete(states: number[], tie: boolean, exiled: PlayerData) {
+        const writer = HazelWriter.alloc(4);
+        writer.list(true, states, state => writer.uint8(state));
+        writer.uint8(exiled ? exiled.playerId : 0xff);
+        writer.bool(tie);
+
+        this.room.stream.push(
+            new RpcMessage(
+                this.netid,
+                RpcMessageTag.VotingComplete,
+                writer.buffer
+            )
+        );
+    }
+
+    votingComplete(tie: boolean, exiled?: PlayerDataResolvable) {
+        const _exiled = this.room.resolvePlayer(exiled);
+
+        const states = new Array(this.room.players.size);
+        for (const [ playerid, state ] of this.states) {
+            states[playerid] = state.state;
+        }
+
+        this._votingComplete(states, tie, _exiled);
+        this._rpcVotingComplete(states, tie, _exiled);
     }
 }

@@ -127,7 +127,7 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
             console.log("player joined.");
             (async () => {
                 await sleep(1500);
-                client.me.control.chat("Hello");
+                client.me.control.sendChat("Hello");
             })();
         });
 

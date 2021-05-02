@@ -28,10 +28,10 @@
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
     "build-all": "yarn workspaces foreach -ptv run build",
-    "update:patch": "yarn workspaces foreach version patch",
-    "update:minor": "yarn workspaces foreach version minor",
-    "update:major": "yarn workspaces foreach version major",
-    "publish-all": "yarn workspaces foreach --no-private npm publish --access public",
+    "update:patch": "yarn workspaces foreach --exclude test version patch",
+    "update:minor": "yarn workspaces foreach --exclude test version minor",
+    "update:major": "yarn workspaces foreach --exclude test version major",
+    "publish-all": "yarn workspaces foreach --exclude test --no-private npm publish --access public",
     "postinstall": "husky install",
     "docs": "typedoc"
   },
@@ -82,5 +82,5 @@
     "packages/*",
     "test"
   ],
-  "version": "2.6.15"
+  "version": "2.6.17"
 }

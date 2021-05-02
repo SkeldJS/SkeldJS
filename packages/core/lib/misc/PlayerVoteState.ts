@@ -1,4 +1,5 @@
 import { VoteState } from "@skeldjs/constant";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { Hostable } from "../Hostable";
 
@@ -11,6 +12,16 @@ export class PlayerVoteState {
         public playerId: number,
         public state: number
     ) {}
+
+    static Deserialize(reader: HazelReader, room: Hostable<any>, playerId: number) {
+        const state = reader.uint8();
+
+        return new PlayerVoteState(room, playerId, state);
+    }
+
+    Serialize(writer: HazelWriter) {
+        writer.uint8(this.state);
+    }
 
     /**
      * The player that the voter voted for.

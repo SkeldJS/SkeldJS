@@ -26,7 +26,6 @@ import {
 } from "../events";
 
 export interface GameDataData {
-    dirtyBit: number;
     players: Map<number, PlayerGameData>;
 }
 
@@ -74,19 +73,6 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     get owner() {
         return super.owner as Hostable;
     }
-
-    /*
-    private getOrCreate(playerId: number) {
-        const data = this.players.get(playerId);
-
-        if (data)
-            return data;
-
-        const new_data = new PlayerGameData(playerId);
-        this.players.set(playerId, new_data);
-        return new_data;
-    }
-*/
 
     resolvePlayerData(resolvable: PlayerIDResolvable) {
         return this.players.get(this.room.resolvePlayerId(resolvable));
@@ -145,7 +131,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
         switch (callid) {
             case RpcMessageTag.SetTasks:
-                this.setTasks;
+                this._handleSetTasks(reader);
                 break;
         }
     }
@@ -252,16 +238,43 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
-    private _setTasks(playerId: number, taskIds: number[]) {
-        const player = this.players.get(playerId);
+    private async _handleSetTasks(reader: HazelReader) {
+        const playerId = reader.uint8();
+        const taskIds = reader.list(r => r.uint8());
 
-        if (player) {
-            player.tasks = taskIds.map((id, i) => new TaskState(i, false));
+        const playerData = this.players.get(playerId);
 
-            this.emit(
-                new GameDataSetTasksEvent(this.room, this, player, taskIds)
+        if (playerData) {
+            this._setTasks(playerData, taskIds);
+
+            await this.emit(
+                new GameDataSetTasksEvent(
+                    this.room,
+                    this,
+                    playerData,
+                    taskIds
+                )
             );
         }
+    }
+
+    private _setTasks(player: PlayerGameData, taskIds: number[]) {
+        player.tasks = taskIds
+            .map((id, i) => new TaskState(i, false));
+    }
+
+    private _rpcSetTasks(player: PlayerGameData, taskIds: number[]) {
+        const writer = HazelWriter.alloc(2);
+        writer.uint8(player.playerId);
+        writer.list(true, taskIds, (taskId) => writer.uint8(taskId));
+
+        this.room.stream.push(
+            new RpcMessage(
+                this.netid,
+                RpcMessageTag.SetTasks,
+                writer.buffer
+            )
+        );
     }
 
     /**
@@ -282,19 +295,8 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         const player = this.resolvePlayerData(resolvable);
 
         if (player) {
-            this._setTasks(player.playerId, taskIds);
-
-            const writer = HazelWriter.alloc(2);
-            writer.uint8(player.playerId);
-            writer.list(true, taskIds, (taskId) => writer.uint8(taskId));
-
-            this.room.stream.push(
-                new RpcMessage(
-                    this.netid,
-                    RpcMessageTag.SetTasks,
-                    writer.buffer
-                )
-            );
+            this._setTasks(player, taskIds);
+            this._rpcSetTasks(player, taskIds);
             this.update(player);
         }
     }
