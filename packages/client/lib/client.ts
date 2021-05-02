@@ -36,6 +36,7 @@ import {
     AllGameOptions,
     GetGameListMessage,
     GameListing,
+    RemovePlayerMessage,
 } from "@skeldjs/protocol";
 
 import {
@@ -222,6 +223,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 if (missing < this.packets_recv.length) {
                     this.ack(this.packets_recv[missing]);
                 }
+            }
+        });
+
+        this.decoder.on(RemovePlayerMessage, async (message) => {
+            if (message.clientid === this.clientid) {
+                await this.disconnect(DisconnectReason.None);
             }
         });
     }

@@ -705,6 +705,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^15.0.1":
+  version: 15.0.1
+  resolution: "@types/node@npm:15.0.1"
+  checksum: 4e4fb69394efb224272ad7c6b6dc16a381b97e46a8f3c21d33fec51ef13a4d635f571b446d127eae333ea6a763f304b787f4b3f73e24e1f3b05a21b481900dfb
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -1579,13 +1586,13 @@ __metadata:
   linkType: hard
 
 "clipanion@npm:^3.0.0-rc.10":
-  version: 3.0.0-rc.11
-  resolution: "clipanion@npm:3.0.0-rc.11"
+  version: 3.0.0-rc.12
+  resolution: "clipanion@npm:3.0.0-rc.12"
   dependencies:
-    typanion: ^3.3.0
+    typanion: ^3.3.1
   peerDependencies:
     typanion: "*"
-  checksum: 8157d90a9925e99201f27ce67a71a5ca473170229315d215eb0af2a91377abd9fd432bde0fd642eb15a7f078b156b6d2a18ba01d7b78b53e7e7dac052791ce17
+  checksum: b221278f7a84c3ba192730a9dcbc18ab9b013714d6401ed722872b5833a36775485c47fdd0a8edfec52fda254038c364511905b19b3f950cd774ae54e9948c8e
   languageName: node
   linkType: hard
 
@@ -5231,7 +5238,7 @@ resolve@^1.1.6:
     "@types/expect": ^24.3.0
     "@types/lunr": ^2
     "@types/mocha": ^8.2.0
-    "@types/node": ^14.14.41
+    "@types/node": ^15.0.1
     "@typescript-eslint/eslint-plugin": ^4.11.0
     "@typescript-eslint/parser": ^4.11.0
     "@yarnpkg/pnpify": ^3.0.0-rc.3
@@ -5642,6 +5649,16 @@ resolve@^1.1.6:
   languageName: node
   linkType: hard
 
+"test@workspace:test":
+  version: 0.0.0-use.local
+  resolution: "test@workspace:test"
+  dependencies:
+    "@skeldjs/client": "workspace:packages/client"
+    "@skeldjs/get-auth-token": "workspace:packages/get-auth-token"
+    "@skeldjs/util": "workspace:packages/util"
+  languageName: unknown
+  linkType: soft
+
 "text-table@npm:^0.2.0":
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
@@ -5822,10 +5839,10 @@ resolve@^1.1.6:
   languageName: node
   linkType: hard
 
-"typanion@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "typanion@npm:3.3.0"
-  checksum: e31d9ee6e50bba9d066675a0efcc43df95c581176dcd02855c690bbf1936a160d56c8e3146d9e6870e982a4dc807221e9ede0f0d4603f82a074181ab1860d80d
+"typanion@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "typanion@npm:3.3.1"
+  checksum: 4341c4199f5ce022c9e486a47fff9509bb887768c9496fec86e10bdac9631f34298b9257dc5c9425e2eb177c3df5189ba029570114a5fddbfb11928330023262
   languageName: node
   linkType: hard
 

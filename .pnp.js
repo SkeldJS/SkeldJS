@@ -81,6 +81,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@skeldjs/util",
         "reference": "workspace:packages/util"
+      },
+      {
+        "name": "test",
+        "reference": "workspace:test"
       }
     ],
     "enableTopLevelFallback": true,
@@ -101,7 +105,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@skeldjs/tasks", ["workspace:packages/tasks"]],
       ["@skeldjs/text", ["workspace:packages/text"]],
       ["@skeldjs/util", ["workspace:packages/util"]],
-      ["skeldjs", ["workspace:."]]
+      ["skeldjs", ["workspace:."]],
+      ["test", ["workspace:test"]]
     ],
     "fallbackPool": [
     ],
@@ -117,7 +122,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/expect", "npm:24.3.0"],
             ["@types/lunr", "npm:2.3.3"],
             ["@types/mocha", "npm:8.2.0"],
-            ["@types/node", "npm:14.14.41"],
+            ["@types/node", "npm:15.0.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.11.0"],
             ["@typescript-eslint/parser", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.11.0"],
             ["@yarnpkg/pnpify", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:3.0.0-rc.3"],
@@ -949,6 +954,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:14.14.41"]
           ],
           "linkType": "HARD",
+        }],
+        ["npm:15.0.1", {
+          "packageLocation": "./.yarn/cache/@types-node-npm-15.0.1-dcfad4a203-4e4fb69394.zip/node_modules/@types/node/",
+          "packageDependencies": [
+            ["@types/node", "npm:15.0.1"]
+          ],
+          "linkType": "HARD",
         }]
       ]],
       ["@types/parse-json", [
@@ -1211,7 +1223,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["camelcase", "npm:5.3.1"],
             ["chalk", "npm:3.0.0"],
             ["ci-info", "npm:2.0.0"],
-            ["clipanion", "virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.11"],
+            ["clipanion", "virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.12"],
             ["cross-spawn", "npm:7.0.3"],
             ["diff", "npm:4.0.2"],
             ["globby", "npm:11.0.1"],
@@ -1318,7 +1330,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@yarnpkg/fslib", "npm:2.5.0-rc.2"],
             ["@yarnpkg/parsers", "npm:2.3.1-rc.2"],
             ["chalk", "npm:3.0.0"],
-            ["clipanion", "virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.11"],
+            ["clipanion", "virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.12"],
             ["comment-json", "npm:2.4.2"],
             ["eslint", "npm:7.16.0"],
             ["lodash", "npm:4.17.20"],
@@ -1341,7 +1353,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@yarnpkg/shell", "npm:3.0.0-rc.2"],
             ["@yarnpkg/fslib", "npm:2.5.0-rc.2"],
             ["@yarnpkg/parsers", "npm:2.3.1-rc.2"],
-            ["clipanion", "virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.11"],
+            ["clipanion", "virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.12"],
             ["cross-spawn", "npm:7.0.3"],
             ["fast-glob", "npm:3.2.5"],
             ["micromatch", "npm:4.0.2"],
@@ -2018,19 +2030,19 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["clipanion", [
-        ["npm:3.0.0-rc.11", {
-          "packageLocation": "./.yarn/cache/clipanion-npm-3.0.0-rc.11-606ac83d22-8157d90a99.zip/node_modules/clipanion/",
+        ["npm:3.0.0-rc.12", {
+          "packageLocation": "./.yarn/cache/clipanion-npm-3.0.0-rc.12-95ffbe8b7e-b221278f7a.zip/node_modules/clipanion/",
           "packageDependencies": [
-            ["clipanion", "npm:3.0.0-rc.11"]
+            ["clipanion", "npm:3.0.0-rc.12"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.11", {
-          "packageLocation": "./.yarn/$$virtual/clipanion-virtual-86e62864f8/0/cache/clipanion-npm-3.0.0-rc.11-606ac83d22-8157d90a99.zip/node_modules/clipanion/",
+        ["virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.12", {
+          "packageLocation": "./.yarn/$$virtual/clipanion-virtual-3710aedaf2/0/cache/clipanion-npm-3.0.0-rc.12-95ffbe8b7e-b221278f7a.zip/node_modules/clipanion/",
           "packageDependencies": [
-            ["clipanion", "virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.11"],
+            ["clipanion", "virtual:017f68ab59a907342205fdab87fb76039567d240de0c56c5497b73c48baf521b88c7d747d9528374bd48e537364d3c9a756840fb596d3bd47f156ed806632050#npm:3.0.0-rc.12"],
             ["@types/typanion", null],
-            ["typanion", "npm:3.3.0"]
+            ["typanion", "npm:3.3.1"]
           ],
           "packagePeers": [
             "@types/typanion"
@@ -6134,7 +6146,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/expect", "npm:24.3.0"],
             ["@types/lunr", "npm:2.3.3"],
             ["@types/mocha", "npm:8.2.0"],
-            ["@types/node", "npm:14.14.41"],
+            ["@types/node", "npm:15.0.1"],
             ["@typescript-eslint/eslint-plugin", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.11.0"],
             ["@typescript-eslint/parser", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.11.0"],
             ["@yarnpkg/pnpify", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:3.0.0-rc.3"],
@@ -6555,6 +6567,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["test", [
+        ["workspace:test", {
+          "packageLocation": "./test/",
+          "packageDependencies": [
+            ["test", "workspace:test"],
+            ["@skeldjs/client", "workspace:packages/client"],
+            ["@skeldjs/get-auth-token", "workspace:packages/get-auth-token"],
+            ["@skeldjs/util", "workspace:packages/util"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
       ["test-exclude", [
         ["npm:6.0.0", {
           "packageLocation": "./.yarn/cache/test-exclude-npm-6.0.0-3fb03d69df-68294d1006.zip/node_modules/test-exclude/",
@@ -6805,10 +6829,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["typanion", [
-        ["npm:3.3.0", {
-          "packageLocation": "./.yarn/cache/typanion-npm-3.3.0-9d1255e428-e31d9ee6e5.zip/node_modules/typanion/",
+        ["npm:3.3.1", {
+          "packageLocation": "./.yarn/cache/typanion-npm-3.3.1-ee9997c7cf-4341c4199f.zip/node_modules/typanion/",
           "packageDependencies": [
-            ["typanion", "npm:3.3.0"]
+            ["typanion", "npm:3.3.1"]
           ],
           "linkType": "HARD",
         }]

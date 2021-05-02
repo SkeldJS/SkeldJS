@@ -216,20 +216,24 @@ export class PlayerControl extends Networkable<
             case RpcMessageTag.SetName: {
                 const name = reader.string();
                 this._setName(name);
+                this.emit(new PlayerSetNameEvent(this.room, this.player, name));
                 break;
             }
             case RpcMessageTag.SetColor: {
                 const color = reader.uint8();
                 this._setColor(color);
+                this.emit(new PlayerSetColorEvent(this.room, this.player, color));
                 break;
             }
             case RpcMessageTag.SetHat:
                 const hat = reader.upacked();
                 this._setHat(hat);
+                this.emit(new PlayerSetHatEvent(this.room, this.player, hat));
                 break;
             case RpcMessageTag.SetSkin:
                 const skin = reader.upacked();
                 this._setSkin(skin);
+                this.emit(new PlayerSetSkinEvent(this.room, this.player, skin));
                 break;
             case RpcMessageTag.MurderPlayer:
                 const victimid = reader.upacked();
@@ -238,14 +242,26 @@ export class PlayerControl extends Networkable<
             case RpcMessageTag.SendChat:
                 const message = reader.string();
                 this._chat(message);
+                this.emit(new PlayerChatEvent(this.room, this.player, message));
                 break;
             case RpcMessageTag.StartMeeting:
                 const bodyid = reader.uint8();
                 this._startMeeting(bodyid);
+                this.emit(
+                    new PlayerCallMeetingEvent(
+                        this.room,
+                        this.player,
+                        bodyid === 0xff,
+                        bodyid === 0xff
+                            ? undefined
+                            : this.room.getPlayerByPlayerId(bodyid)
+                    )
+                );
                 break;
             case RpcMessageTag.SetPet:
                 const pet = reader.upacked();
                 this._setPet(pet);
+                this.emit(new PlayerSetPetEvent(this.room, this.player, pet));
                 break;
             case RpcMessageTag.SetStartCounter:
                 /*TODO: Implement sequence IDs for joining/set start counter
@@ -397,8 +413,6 @@ export class PlayerControl extends Networkable<
     private _setName(name: string) {
         if (this.room.gamedata) {
             this.room.gamedata.setName(this.playerId, name);
-
-            this.emit(new PlayerSetNameEvent(this.room, this.player, name));
         }
     }
 
@@ -429,8 +443,6 @@ export class PlayerControl extends Networkable<
     private _setColor(color: Color) {
         if (this.room.gamedata) {
             this.room.gamedata.setColor(this.playerId, color);
-
-            this.emit(new PlayerSetColorEvent(this.room, this.player, color));
         }
     }
 
@@ -465,8 +477,6 @@ export class PlayerControl extends Networkable<
     private _setHat(hat: Hat) {
         if (this.room.gamedata) {
             this.room.gamedata.setHat(this.playerId, hat);
-
-            this.emit(new PlayerSetHatEvent(this.room, this.player, hat));
         }
     }
 
@@ -492,8 +502,6 @@ export class PlayerControl extends Networkable<
     private _setSkin(skin: Skin) {
         if (this.room.gamedata) {
             this.room.gamedata.setSkin(this.playerId, skin);
-
-            this.emit(new PlayerSetSkinEvent(this.room, this.player, skin));
         }
     }
 
@@ -519,8 +527,6 @@ export class PlayerControl extends Networkable<
     private _setPet(pet: Pet) {
         if (this.room.gamedata) {
             this.room.gamedata.setPet(this.playerId, pet);
-
-            this.emit(new PlayerSetPetEvent(this.room, this.player, pet));
         }
     }
 
@@ -544,7 +550,7 @@ export class PlayerControl extends Networkable<
     }
 
     private _chat(message: string) {
-        this.emit(new PlayerChatEvent(this.room, this.player, message));
+        void message;
     }
 
     /**
@@ -712,16 +718,7 @@ export class PlayerControl extends Networkable<
     }
 
     private _startMeeting(bodyid: number) {
-        this.emit(
-            new PlayerCallMeetingEvent(
-                this.room,
-                this.player,
-                bodyid === 0xff,
-                bodyid === 0xff
-                    ? undefined
-                    : this.room.getPlayerByPlayerId(bodyid)
-            )
-        );
+        void bodyid;
     }
 
     /**
