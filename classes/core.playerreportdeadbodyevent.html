@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DeconSystemEvent | SkeldJS</title>
+	<title>PlayerReportDeadBodyEvent | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -60,24 +60,44 @@
 					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="core.deconsystemevent.html">DeconSystemEvent</a>
+					<a href="core.playerreportdeadbodyevent.html">PlayerReportDeadBodyEvent</a>
 				</li>
 			</ul>
-			<h1>Class DeconSystemEvent</h1>
+			<h1>Class PlayerReportDeadBodyEvent</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Emitted when a player reports a dead body or presses the emergency meeting button.</p>
+					</div>
+					<p>Only received if the current client is the host.</p>
+					<p>Can be canceled to prevent a meeting from taking place.</p>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="language-ts"><span style="color: #008000">// Prevent the meeting from taking place if the player is the impostor.</span>
+<span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;player.reportbody&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">?.</span><span style="color: #001080">impostor</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #795E26">cancel</span><span style="color: #000000">();</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">});</span>
+</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomEvent</a>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">DeconSystemEvent</span>
+								<span class="target">PlayerReportDeadBodyEvent</span>
 							</li>
 						</ul>
 					</li>
@@ -90,23 +110,25 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.deconsystemevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.playerreportdeadbodyevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.deconsystemevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.deconsystemevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.deconsystemevent.html#room" class="tsd-kind-icon">room</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.deconsystemevent.html#system" class="tsd-kind-icon">system</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="core.deconsystemevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#body" class="tsd-kind-icon">body</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerreportdeadbodyevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#emergency" class="tsd-kind-icon">emergency</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.playerreportdeadbodyevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerreportdeadbodyevent.html#player" class="tsd-kind-icon">player</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerreportdeadbodyevent.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.playerreportdeadbodyevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.deconsystemevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerreportdeadbodyevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,14 +140,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Decon<wbr>System<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, system<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">DeconSystem</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">DeconSystemEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Report<wbr>Dead<wbr>Body<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span>, emergency<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, body<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerReportDeadBodyEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides RoomEvent.constructor</p>
+								<p>Overrides PlayerEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/deconsystem/DeconSystemEvent.ts#L9">core/lib/events/deconsystem/DeconSystemEvent.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/player/ReportDeadBody.ts#L33">core/lib/events/player/ReportDeadBody.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -134,44 +156,96 @@
 									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
-									<h5>system: <a href="" class="tsd-signature-type" data-tsd-kind="Class">DeconSystem</a></h5>
+									<h5>player: <span class="tsd-signature-type">PlayerData</span></h5>
+								</li>
+								<li>
+									<h5>emergency: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> body: <span class="tsd-signature-type">PlayerData</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">DeconSystemEvent</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerReportDeadBodyEvent</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="body" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> body</h3>
+					<div class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/player/ReportDeadBody.ts#L33">core/lib/events/player/ReportDeadBody.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The body that the player reported, if any.</p>
+						</div>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="canceled" class="tsd-anchor"></a>
 					<h3>canceled</h3>
 					<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from RoomEvent.canceled</p>
+						<p>Inherited from PlayerEvent.canceled</p>
 						<ul>
 							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="eventname" class="tsd-anchor"></a>
-					<h3>event<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="emergency" class="tsd-anchor"></a>
+					<h3>emergency</h3>
+					<div class="tsd-signature tsd-kind-icon">emergency<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from RoomEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/BasicEvent.ts#L3">events/lib/BasicEvent.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/player/ReportDeadBody.ts#L28">core/lib/events/player/ReportDeadBody.ts:28</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether or not the meeting called is an emergency.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+					<a name="eventname" class="tsd-anchor"></a>
+					<h3>event<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<p>Overrides PlayerEvent.eventName</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/player/ReportDeadBody.ts#L23">core/lib/events/player/ReportDeadBody.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="player" class="tsd-anchor"></a>
+					<h3>player</h3>
+					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from PlayerEvent.player</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/player/PlayerEvent.ts#L9">core/lib/events/player/PlayerEvent.ts:9</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The player in question.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="room" class="tsd-anchor"></a>
 					<h3>room</h3>
 					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from RoomEvent.room</p>
+						<p>Inherited from PlayerEvent.room</p>
 						<ul>
 							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/RoomEvent.ts#L9">core/lib/events/RoomEvent.ts:9</a></li>
 						</ul>
@@ -182,29 +256,14 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="system" class="tsd-anchor"></a>
-					<h3>system</h3>
-					<div class="tsd-signature tsd-kind-icon">system<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">DeconSystem</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/deconsystem/DeconSystemEvent.ts#L9">core/lib/events/deconsystem/DeconSystemEvent.ts:9</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The decontamination system in question.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="eventname-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from RoomEvent.eventName</p>
+						<p>Overrides PlayerEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/BasicEvent.ts#L2">events/lib/BasicEvent.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/events/player/ReportDeadBody.ts#L22">core/lib/events/player/ReportDeadBody.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -220,7 +279,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from RoomEvent.cancel</p>
+								<p>Inherited from PlayerEvent.cancel</p>
 								<ul>
 									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/CancelableEvent.ts#L6">events/lib/CancelableEvent.ts:6</a></li>
 								</ul>
@@ -316,28 +375,34 @@
 						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
 						<ul>
 							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="core.deconsystemevent.html" class="tsd-kind-icon">Decon<wbr>System<wbr>Event</a>
+								<a href="core.playerreportdeadbodyevent.html" class="tsd-kind-icon">Player<wbr>Report<wbr>Dead<wbr>Body<wbr>Event</a>
 								<ul>
 									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-										<a href="core.deconsystemevent.html#constructor" class="tsd-kind-icon">constructor</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.deconsystemevent.html#canceled" class="tsd-kind-icon">canceled</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.deconsystemevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.deconsystemevent.html#room" class="tsd-kind-icon">room</a>
+										<a href="core.playerreportdeadbodyevent.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.deconsystemevent.html#system" class="tsd-kind-icon">system</a>
+										<a href="core.playerreportdeadbodyevent.html#body" class="tsd-kind-icon">body</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-										<a href="core.deconsystemevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.playerreportdeadbodyevent.html#canceled" class="tsd-kind-icon">canceled</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.playerreportdeadbodyevent.html#emergency" class="tsd-kind-icon">emergency</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+										<a href="core.playerreportdeadbodyevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.playerreportdeadbodyevent.html#player" class="tsd-kind-icon">player</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.playerreportdeadbodyevent.html#room" class="tsd-kind-icon">room</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+										<a href="core.playerreportdeadbodyevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.deconsystemevent.html#cancel" class="tsd-kind-icon">cancel</a>
+										<a href="core.playerreportdeadbodyevent.html#cancel" class="tsd-kind-icon">cancel</a>
 									</li>
 								</ul>
 							</li>
@@ -409,6 +474,9 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 			</ul>
 		</div>
 	</div>
