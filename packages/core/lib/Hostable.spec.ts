@@ -135,7 +135,7 @@ describe("Hostable", () => {
         it("Should retrieve any ShipStatus object in the room.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.ShipStatus, -2);
+            const object = room.spawnPrefab(SpawnType.ShipStatus, -2);
             const ship = object.components[0];
 
             assert.strictEqual(room.shipstatus, ship);
@@ -146,7 +146,7 @@ describe("Hostable", () => {
         it("Should retrieve the current meeting hud object in the room.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.MeetingHud, -2);
+            const object = room.spawnPrefab(SpawnType.MeetingHud, -2);
             const meetinghud = object.components[0];
 
             assert.strictEqual(room.meetinghud, meetinghud);
@@ -157,7 +157,7 @@ describe("Hostable", () => {
         it("Should retrieve the current lobby behaviour object in the room.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.LobbyBehaviour, -2);
+            const object = room.spawnPrefab(SpawnType.LobbyBehaviour, -2);
             const lobbybehaviour = object.components[0];
 
             assert.strictEqual(room.lobbybehaviour, lobbybehaviour);
@@ -168,7 +168,7 @@ describe("Hostable", () => {
         it("Should retrieve the current gamedata object in the room.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.GameData, -2);
+            const object = room.spawnPrefab(SpawnType.GameData, -2);
             const gamedata = object.components[0];
 
             assert.strictEqual(room.gamedata, gamedata);
@@ -179,7 +179,7 @@ describe("Hostable", () => {
         it("Should retrieve the current vote ban system object in the room.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.GameData, -2);
+            const object = room.spawnPrefab(SpawnType.GameData, -2);
             const votebansystem = object.components[1];
 
             assert.strictEqual(room.votebansystem, votebansystem);
@@ -207,7 +207,7 @@ describe("Hostable", () => {
         const room = new Hostable();
 
         const player = await room.handleJoin(1013);
-        await room.spawnPrefab(SpawnType.Player, player);
+        room.spawnPrefab(SpawnType.Player, player);
 
         it("Should resolve a client ID to a player data object.", () => {
             assert.strictEqual(room.resolvePlayer(1013), player);
@@ -234,8 +234,8 @@ describe("Hostable", () => {
         const room = new Hostable();
 
         const player = await room.handleJoin(1013);
-        await room.spawnPrefab(SpawnType.GameData, -2);
-        await room.spawnPrefab(SpawnType.Player, player);
+        room.spawnPrefab(SpawnType.GameData, -2);
+        room.spawnPrefab(SpawnType.Player, player);
 
         it("Should resolve a player ID to a player ID.", () => {
             assert.strictEqual(
@@ -264,7 +264,14 @@ describe("Hostable", () => {
         });
 
         it("Should resolve a player vote state to a player ID.", () => {
-            const state = new PlayerVoteState(room, player.playerId, 0);
+            const state = new PlayerVoteState(
+                room,
+                player.playerId,
+                null,
+                false,
+                false,
+                false
+            );
 
             assert.strictEqual(room.resolvePlayerId(state), player.playerId);
         });
@@ -274,7 +281,7 @@ describe("Hostable", () => {
         const room = new Hostable();
 
         const player = await room.handleJoin(1013);
-        await room.spawnPrefab(SpawnType.Player, player);
+        room.spawnPrefab(SpawnType.Player, player);
 
         it("Should resolve a client ID to a client ID.", () => {
             assert.strictEqual(room.resolvePlayerClientID(1013), 1013);
@@ -462,8 +469,8 @@ describe("Hostable", () => {
         it("Should remove the player from gamedata records.", async () => {
             const room = new Hostable();
             const player = await room.handleJoin(1013);
-            await room.spawnPrefab(SpawnType.GameData, room);
-            await room.spawnPrefab(SpawnType.Player, player);
+            room.spawnPrefab(SpawnType.GameData, room);
+            room.spawnPrefab(SpawnType.Player, player);
 
             assert.ok(room.gamedata.players.get(player.playerId));
 
@@ -476,8 +483,8 @@ describe("Hostable", () => {
             const room = new Hostable();
             const player = await room.handleJoin(1013);
             await room.handleJoin(1023);
-            await room.spawnPrefab(SpawnType.GameData, room);
-            await room.spawnPrefab(SpawnType.Player, player);
+            room.spawnPrefab(SpawnType.GameData, room);
+            room.spawnPrefab(SpawnType.Player, player);
 
             room.votebansystem.addVote(1023, 1013);
             assert.ok(room.votebansystem.voted.get(player.id));
@@ -490,7 +497,7 @@ describe("Hostable", () => {
         it("Should despawn all of the player's components.", async () => {
             const room = new Hostable();
             const player = await room.handleJoin(1013);
-            await room.spawnPrefab(SpawnType.Player, player);
+            room.spawnPrefab(SpawnType.Player, player);
 
             assert.strictEqual(player.components.length, 3);
             assert.ok(player.components.every(Boolean));
@@ -544,7 +551,7 @@ describe("Hostable", () => {
         it("Should despawn the lobby behaviour and spawn the map.", async () => {
             const room = new TestHost();
             const player = await room.handleJoin(1);
-            await room.spawnPrefab(SpawnType.Player, player);
+            room.spawnPrefab(SpawnType.Player, player);
             await room.setHost(1);
             room.setSettings(defaultSettings);
 
@@ -692,10 +699,10 @@ describe("Hostable", () => {
             const player3 = await room.handleJoin(1015);
             const player4 = await room.handleJoin(1016);
 
-            await room.spawnPrefab(SpawnType.Player, player1);
-            await room.spawnPrefab(SpawnType.Player, player2);
-            await room.spawnPrefab(SpawnType.Player, player3);
-            await room.spawnPrefab(SpawnType.Player, player4);
+            room.spawnPrefab(SpawnType.Player, player1);
+            room.spawnPrefab(SpawnType.Player, player2);
+            room.spawnPrefab(SpawnType.Player, player3);
+            room.spawnPrefab(SpawnType.Player, player4);
 
             const playerID = room.getAvailablePlayerID();
 
@@ -707,7 +714,7 @@ describe("Hostable", () => {
         it("Should instantiate a map object for The Skeld.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.ShipStatus, room);
+            const object = room.spawnPrefab(SpawnType.ShipStatus, room);
 
             assert.strictEqual(object.type, SpawnType.ShipStatus);
             assert.strictEqual(object.ownerid, -2);
@@ -722,7 +729,7 @@ describe("Hostable", () => {
         it("Should instantiate a meeting hud object.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.MeetingHud, room);
+            const object = room.spawnPrefab(SpawnType.MeetingHud, room);
 
             assert.strictEqual(object.type, SpawnType.MeetingHud);
             assert.strictEqual(object.ownerid, -2);
@@ -737,7 +744,7 @@ describe("Hostable", () => {
         it("Should instantiate a map object for the dropship lobby.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(
+            const object = room.spawnPrefab(
                 SpawnType.LobbyBehaviour,
                 room
             );
@@ -758,7 +765,7 @@ describe("Hostable", () => {
         it("Should instantiate a game data object.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.GameData, room);
+            const object = room.spawnPrefab(SpawnType.GameData, room);
 
             assert.strictEqual(object.type, SpawnType.GameData);
             assert.strictEqual(object.ownerid, -2);
@@ -776,7 +783,7 @@ describe("Hostable", () => {
             const room = new Hostable();
 
             await room.handleJoin(1013);
-            const object = await room.spawnPrefab(SpawnType.Player, 1013);
+            const object = room.spawnPrefab(SpawnType.Player, 1013);
 
             assert.strictEqual(object.type, SpawnType.Player);
             assert.strictEqual(object.ownerid, 1013);
@@ -798,7 +805,7 @@ describe("Hostable", () => {
         it("Should instantiate a map object for Mira HQ.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.Headquarters, room);
+            const object = room.spawnPrefab(SpawnType.Headquarters, room);
 
             assert.strictEqual(object.type, SpawnType.Headquarters);
             assert.strictEqual(object.ownerid, -2);
@@ -813,7 +820,7 @@ describe("Hostable", () => {
         it("Should instantiate a map object for Polus.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.PlanetMap, room);
+            const object = room.spawnPrefab(SpawnType.PlanetMap, room);
 
             assert.strictEqual(object.type, SpawnType.PlanetMap);
             assert.strictEqual(object.ownerid, -2);
@@ -828,7 +835,7 @@ describe("Hostable", () => {
         it("Should instantiate a map object for the april fools' version of The Skeld.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(
+            const object = room.spawnPrefab(
                 SpawnType.AprilShipStatus,
                 room
             );
@@ -849,7 +856,7 @@ describe("Hostable", () => {
         it("Should instantiate a map object for Airship.", async () => {
             const room = new Hostable();
 
-            const object = await room.spawnPrefab(SpawnType.Airship, room);
+            const object = room.spawnPrefab(SpawnType.Airship, room);
 
             assert.strictEqual(object.type, SpawnType.Airship);
             assert.strictEqual(object.ownerid, -2);
@@ -866,7 +873,7 @@ describe("Hostable", () => {
         it("Should retrieve a player by their player ID.", async () => {
             const room = new Hostable();
             const player = await room.handleJoin(1013);
-            await room.spawnPrefab(SpawnType.Player, player);
+            room.spawnPrefab(SpawnType.Player, player);
 
             assert.strictEqual(room.getPlayerByPlayerId(0), player);
         });
@@ -881,7 +888,7 @@ describe("Hostable", () => {
     describe("Hostable#getPlayerByNetID", async () => {
         const room = new Hostable();
         const player = await room.handleJoin(1013);
-        await room.spawnPrefab(SpawnType.Player, player);
+        room.spawnPrefab(SpawnType.Player, player);
 
         it("Should retrieve a player by their player control component's netid.", async () => {
             assert.strictEqual(

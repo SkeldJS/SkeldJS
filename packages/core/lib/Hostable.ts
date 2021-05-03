@@ -240,7 +240,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
             }
         });
 
-        this.decoder.on(SpawnMessage, async (message) => {
+        this.decoder.on(SpawnMessage, (message) => {
             for (let i = 0; i < message.components.length; i++) {
                 const spawn_component = message.components[i];
                 const owner = this.objects.get(message.ownerid);
@@ -256,7 +256,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
 
                     if (this.netobjects.get(component.netid)) continue;
 
-                    await this.spawnComponent(component);
+                    this.spawnComponent(component);
                 }
             }
         });
@@ -778,7 +778,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                 SpawnType.Airship,
             ];
             await this._startGame();
-            await this.spawnPrefab(ship_prefabs[this.settings?.map] || 0, -2);
+            this.spawnPrefab(ship_prefabs[this.settings?.map] || 0, -2);
             this.shipstatus?.selectInfected();
             this.shipstatus?.begin();
         } else {
@@ -886,7 +886,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
         this.netobjects.set(component.netid, component);
         component.owner?.components.push(component);
 
-        await component.emit(
+        component.emit(
             new NetworkableSpawnEvent(this, component as AnyNetworkable)
         );
     }
@@ -949,10 +949,10 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
      * room.spawnPrefab(SpawnType.Player, client.me);
      * ```
      */
-    async spawnPrefab(
+    spawnPrefab(
         type: SpawnType,
         owner: Heritable<any> | number
-    ): Promise<SpawnObject> {
+    ): SpawnObject {
         const ownerid = typeof owner === "number" ? owner : owner.id;
 
         const object: Partial<SpawnObject> = {
@@ -1094,7 +1094,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
         }
 
         for (const component of object.components) {
-            await this.spawnComponent(component);
+            this.spawnComponent(component);
         }
 
         this.stream.push(

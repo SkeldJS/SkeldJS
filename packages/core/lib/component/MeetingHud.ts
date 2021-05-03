@@ -3,8 +3,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import {
     ChatNoteType,
     RpcMessageTag,
-    SpawnType,
-    VoteState,
+    SpawnType
 } from "@skeldjs/constant";
 
 import { RpcMessage } from "@skeldjs/protocol";
@@ -86,7 +85,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
             for (let i = 0; i < this.states.size; i++) {
                 this.states.set(
                     i,
-                    new PlayerVoteState(this.room, i, reader.byte())
+                    PlayerVoteState.Deserialize(reader, this.room, i)
                 );
             }
         } else {
@@ -96,7 +95,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
                 if (mask & (1 << i)) {
                     this.states.set(
                         i,
-                        new PlayerVoteState(this.room, i, reader.byte())
+                        PlayerVoteState.Deserialize(reader, this.room, i)
                     );
                 }
             }
@@ -105,15 +104,15 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
 
     Serialize(writer: HazelWriter, spawn: boolean = false) {
         if (spawn) {
-            for (const [, player] of this.states) {
-                writer.upacked(player.state);
+            for (const [, state] of this.states) {
+                state.Serialize(writer);
             }
         } else {
             writer.upacked(this.dirtyBit);
 
-            for (const [playerId, player] of this.states) {
+            for (const [playerId, state] of this.states) {
                 if (this.dirtyBit & (1 << playerId)) {
-                    writer.upacked(player.state);
+                    state.Serialize(writer);
                 }
             }
         }
@@ -188,9 +187,9 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
 
     private _castVote(voting: PlayerVoteState, suspect?: PlayerData) {
         if (suspect)
-            voting.state |= (suspect.playerId & VoteState.VotedFor) + 1;
+            voting.votedFor = suspect;
 
-        voting.state |= VoteState.DidVote;
+        voting.voted = true;
         this.dirtyBit |= 1 << voting.playerId;
     }
 
@@ -253,8 +252,8 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
 
     private _clearVote(voter: PlayerVoteState) {
         if (voter.voted) {
-            voter.state &= ~0xf;
-            voter.state &= ~VoteState.DidVote;
+            voter.votedFor = null;
+            voter.voted = false;
             this.dirtyBit |= 1 << voter.playerId;
         }
     }
@@ -309,7 +308,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
                 new Map(
                     states.map((state, i) => [
                         i,
-                        new PlayerVoteState(this.room, i, state),
+                        PlayerVoteState.from(this.room, i, state),
                     ])
                 ),
                 exiled
@@ -321,7 +320,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         for (let i = 0; i < states.length; i++) {
             const state = this.states.get(i);
             if (state) {
-                state.state = states[i];
+                state.patch(states[i]);
             }
         }
         this.tie = tie;
@@ -348,7 +347,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
 
         const states = new Array(this.room.players.size);
         for (const [ playerid, state ] of this.states) {
-            states[playerid] = state.state;
+            states[playerid] = state.byte;
         }
 
         this._votingComplete(states, tie, _exiled);

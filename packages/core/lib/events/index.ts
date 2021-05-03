@@ -55,6 +55,7 @@ export * from "./player/Move";
 export * from "./player/MurderPlayer";
 export * from "./player/PlayerEvent";
 export * from "./player/Ready";
+export * from "./player/ReportDeadBody";
 export * from "./player/SceneChange";
 export * from "./player/SetColor";
 export * from "./player/SetHat";

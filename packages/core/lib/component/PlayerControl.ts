@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { AllGameOptions, GameOptions, RpcMessage } from "@skeldjs/protocol";
+import { AllGameOptions, ComponentSpawnData, GameOptions, RpcMessage, SpawnMessage } from "@skeldjs/protocol";
 
 import {
     ChatNoteType,
@@ -10,6 +10,7 @@ import {
     Pet,
     SpawnType,
     RpcMessageTag,
+    SpawnFlag,
 } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -19,7 +20,7 @@ import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
-import { PlayerCompleteTaskEvent } from "../events";
+import { PlayerCompleteTaskEvent, PlayerReportDeadBodyEvent } from "../events";
 
 import {
     PlayerCallMeetingEvent,
@@ -36,6 +37,8 @@ import {
     PlayerSetStartCounterEvent,
     PlayerSyncSettingsEvent,
 } from "../events";
+import { MeetingHud } from "./MeetingHud";
+import { PlayerVoteState } from "../misc/PlayerVoteState";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -57,6 +60,7 @@ ExtractEventTypes<[
     PlayerSetStartCounterEvent,
     PlayerSetImpostorsEvent,
     PlayerMurderPlayerEvent,
+    PlayerReportDeadBodyEvent,
     PlayerCallMeetingEvent,
     PlayerChatEvent
 ]>;
@@ -151,6 +155,11 @@ export class PlayerControl extends Networkable<
                 break;
             case RpcMessageTag.SetSkin:
                 await this._handleSetSkin(reader);
+                break;
+            case RpcMessageTag.ReportDeadBody:
+                if (this.room.amhost) {
+                    await this._handleReportDeadBody(reader);
+                }
                 break;
             case RpcMessageTag.MurderPlayer:
                 await this._handleMurderPlayer(reader);
@@ -494,7 +503,7 @@ export class PlayerControl extends Networkable<
 
     private async _handleSetHat(reader: HazelReader) {
         const hat = reader.upacked();
-        this.setHat(hat);
+        this._setHat(hat);
 
         await this.emit(
             new PlayerSetHatEvent(
@@ -560,6 +569,52 @@ export class PlayerControl extends Networkable<
     setSkin(skin: Skin) {
         this._setSkin(skin);
         this._rpcSetSkin(skin);
+    }
+
+    private async _handleReportDeadBody(reader: HazelReader) {
+        const bodyid = reader.uint8();
+
+        const body = bodyid === 0xff
+            ? undefined
+            : await this.room.getPlayerByPlayerId(bodyid);
+
+        const ev = await this.emit(
+            new PlayerReportDeadBodyEvent(
+                this.room,
+                this.player,
+                bodyid === 0xff,
+                body
+            )
+        );
+
+        if (!ev.canceled) {
+            this._reportDeadBody(body);
+        }
+    }
+
+    private _reportDeadBody(body?: PlayerData) {
+        this.room.host.control.startMeeting(body);
+    }
+
+    private async _rpcReportDeadBody(body?: PlayerData) {
+        const writer = HazelWriter.alloc(1);
+        writer.uint8(body ? body.playerId : 0xff);
+
+        await this.room.broadcast(
+            [
+                new RpcMessage(
+                    this.netid,
+                    RpcMessageTag.ReportDeadBody,
+                    writer.buffer
+                )
+            ],
+            true,
+            this.room.host
+        );
+    }
+
+    async reportDeadBody(body?: PlayerData) {
+        await this._rpcReportDeadBody(body);
     }
 
     private async _handleMurderPlayer(reader: HazelReader) {
@@ -674,30 +729,73 @@ export class PlayerControl extends Networkable<
     }
 
     private _startMeeting(player?: PlayerData) {
-        // todo: meeting routine
         void player;
-    }
 
-    private _rpcStartMeeting(player?: PlayerData) {
-        const writer = HazelWriter.alloc(1);
-        writer.uint8(player ? player.playerId : 0xff);
+        const meetinghud = new MeetingHud(
+            this.room,
+            this.room.incr_netid,
+            this.room.id,
+            {
+                states: new Map(
+                    [...this.room.players]
+                        .filter(([ , player ]) => player.data && player.spawned)
+                        .map(([ , player ]) => {
+                            return [
+                                player.playerId,
+                                new PlayerVoteState(
+                                    this.room,
+                                    player.playerId,
+                                    null,
+                                    player === this.player,
+                                    false,
+                                    player.data.dead
+                                )
+                            ];
+                        })
+                )
+            }
+        );
+
+        const writer = HazelWriter.alloc(0);
+        writer.write(meetinghud, true);
 
         this.room.stream.push(
-            new RpcMessage(
-                this.netid,
-                RpcMessageTag.StartMeeting,
-                writer.buffer
+            new SpawnMessage(
+                SpawnType.MeetingHud,
+                -2,
+                SpawnFlag.None,
+                [
+                    new ComponentSpawnData(
+                        meetinghud.netid,
+                        writer.buffer
+                    )
+                ]
             )
         );
     }
 
-    startMeeting(player: PlayerDataResolvable | "emergency") {
-        const resolved = player === "emergency"
-            ? undefined
-            : this.room.resolvePlayer(player);
+    private async _rpcStartMeeting(player?: PlayerData) {
+        const writer = HazelWriter.alloc(1);
+        writer.uint8(player ? player.playerId : 0xff);
 
+        await this.room.broadcast(
+            [
+                new RpcMessage(
+                    this.netid,
+                    RpcMessageTag.StartMeeting,
+                    writer.buffer
+                )
+            ]
+        );
+    }
+
+    async startMeeting(body: PlayerDataResolvable | "emergency") {
+        const resolved = body === "emergency"
+            ? undefined
+            : this.room.resolvePlayer(body);
+
+        await this._rpcStartMeeting(resolved);
         this._startMeeting(resolved);
-        this._rpcStartMeeting(resolved);
     }
 
     private async _handleSetPet(reader: HazelReader) {

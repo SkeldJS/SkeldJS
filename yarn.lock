@@ -362,7 +362,7 @@ __metadata:
     "@types/node": ^14.14.16
     gif-frames: ^1.0.1
     image-pixels: ^2.2.2
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -371,7 +371,7 @@ __metadata:
   resolution: "@skeldjs/constant@workspace:packages/constant"
   dependencies:
     "@skeldjs/util": "workspace:*"
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -386,7 +386,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -397,7 +397,7 @@ __metadata:
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/util": "workspace:*"
     "@types/node": ^14.14.41
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -407,7 +407,7 @@ __metadata:
   dependencies:
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -419,7 +419,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -443,7 +443,7 @@ __metadata:
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
     heap: ^0.2.6
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -455,7 +455,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.2
     "@types/node": ^14.14.41
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -471,7 +471,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -483,7 +483,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/node": ^14.14.16
     tedis: ^0.1.12
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -496,7 +496,7 @@ __metadata:
     "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -506,7 +506,7 @@ __metadata:
   dependencies:
     "@skeldjs/core": "workspace:*"
     "@types/node": ^14.14.16
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -514,7 +514,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/text@workspace:packages/text"
   dependencies:
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -524,7 +524,7 @@ __metadata:
   dependencies:
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: ^4.2.4
+    typescript: latest
   languageName: unknown
   linkType: soft
 
@@ -5257,7 +5257,7 @@ resolve@^1.1.6:
     typedoc-plugin-pages: "patch:typedoc-plugin-pages@^1.1.0#./typedoc-plugin-pages-pr-41.diff"
     typedoc-plugin-remove-references: ^0.0.5
     typedoc-plugin-yarn: "portal:./typedoc-plugin-yarn"
-    typescript: ^4.2.4
+    typescript: latest
   dependenciesMeta:
     highlight.js:
       built: false
@@ -6023,7 +6023,7 @@ typescript@^3.8.3:
   languageName: node
   linkType: hard
 
-typescript@^4.2.4:
+typescript@latest:
   version: 4.2.4
   resolution: "typescript@npm:4.2.4"
   bin:
@@ -6043,7 +6043,7 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.2.4#builtin<compat/typescript>":
+"typescript@patch:typescript@latest#builtin<compat/typescript>":
   version: 4.2.4
   resolution: "typescript@patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"
   bin:
