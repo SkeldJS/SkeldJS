@@ -1,10 +1,10 @@
 {
   "name": "@skeldjs/lan",
-  "version": "2.6.17",
+  "version": "2.6.18",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
-    "types": "dist/index.d.ts"
+    "types": "./dist/index.d.ts"
   },
   "scripts": {
     "build": "tsc -p ./",

@@ -14,5 +14,5 @@
     "sourceMap": true,
     "experimentalDecorators": true
   },
-  "exclude": ["**/dist", "**/*.d.ts"]
+  "exclude": ["dist", "**/*.d.ts", "**/*.spec.ts"]
 }

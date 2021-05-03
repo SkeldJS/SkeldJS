@@ -4,7 +4,7 @@
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
-    "types": "dist/index.d.ts"
+    "types": "./dist/index.d.ts"
   },
   "scripts": {
     "build": "tsc -p ./",
@@ -17,7 +17,7 @@
     "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^4.2.4"
+    "typescript": "latest"
   },
   "files": [
     "dist"
