@@ -261,11 +261,11 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
             }
         });
 
-        this.decoder.on(DespawnMessage, async (message) => {
+        this.decoder.on(DespawnMessage, (message) => {
             const component = this.netobjects.get(message.netid);
 
             if (component) {
-                await this._despawnComponent(component);
+                this._despawnComponent(component);
             }
         });
 
@@ -707,24 +707,15 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
         return player;
     }
 
-    private async _startGame() {
-        this._started = true;
-        await this.emit(
-            new RoomGameStartEvent(this)
-        );
-    }
-
     /**
      * Handle when the game is started.
      */
-    async handleStart() {
+    protected async _handleStart() {
         if (this._started) return;
+        this._started = true;
 
         if (this.amhost) {
             await Promise.all([
-                this.broadcast([], true, null, [
-                    new StartGameMessage(this.code),
-                ]),
                 Promise.race([
                     Promise.all(
                         [...this.players.values()].map((player) => {
@@ -777,12 +768,16 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                 SpawnType.AprilShipStatus,
                 SpawnType.Airship,
             ];
-            await this._startGame();
+            await this.emit(
+                new RoomGameStartEvent(this)
+            );
             this.spawnPrefab(ship_prefabs[this.settings?.map] || 0, -2);
             this.shipstatus?.selectInfected();
             this.shipstatus?.begin();
         } else {
-            await this._startGame();
+            await this.emit(
+                new RoomGameStartEvent(this)
+            );
             if (this.me) await this.me.ready();
         }
     }
@@ -837,8 +832,10 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
     /**
      * Start a game.
      */
-    async startGame() {
-        return await this.handleStart();
+    async requestStartGame() {
+        await this.broadcast([], true, null, [
+            new StartGameMessage(this.code),
+        ]);
     }
 
     /**
@@ -878,7 +875,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
      * this.spawnComponent(meetinghud);
      * ```
      */
-    async spawnComponent(component: Networkable<any, any>) {
+    spawnComponent(component: Networkable<any, any>) {
         if (this.netobjects.get(component.netid)) {
             return;
         }
@@ -891,10 +888,10 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
         );
     }
 
-    private async _despawnComponent(component: Networkable<any>) {
+    private _despawnComponent(component: Networkable<any>) {
         this.netobjects.delete(component.netid);
 
-        await component.emit(
+        component.emit(
             new NetworkableDespawnEvent(
                 this,
                 component as AnyNetworkable
@@ -915,8 +912,8 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
      * room.despawnComponent(room.meetinghud);
      * ```
      */
-    async despawnComponent(component: Networkable<any, any>) {
-        await this._despawnComponent(component);
+    despawnComponent(component: Networkable<any, any>) {
+        this._despawnComponent(component);
 
         this.stream.push(new DespawnMessage(component.netid));
     }

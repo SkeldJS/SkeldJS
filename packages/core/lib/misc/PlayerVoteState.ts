@@ -23,13 +23,12 @@ export class PlayerVoteState {
         public dead: boolean
     ) {}
 
-    patch(byte: number) {
-        this.votedFor = this.room.getPlayerByPlayerId(
-            (byte & VoteState.VotedFor) - 1
-        );
-        this.reported = (byte & VoteState.DidReport) > 0;
-        this.voted = (byte & VoteState.DidVote) > 0;
-        this.dead = (byte & VoteState.IsDead) > 0;
+    get player() {
+        return this.room.getPlayerByPlayerId(this.playerId);
+    }
+
+    get skipped() {
+        return this.voted && !this.votedFor;
     }
 
     get byte() {
@@ -37,6 +36,15 @@ export class PlayerVoteState {
             (this.reported ? VoteState.DidReport : 0) |
             (this.voted ? VoteState.DidVote : 0) |
             (this.dead ? VoteState.IsDead : 0);
+    }
+
+    patch(byte: number) {
+        this.votedFor = this.room.getPlayerByPlayerId(
+            (byte & VoteState.VotedFor) - 1
+        );
+        this.reported = (byte & VoteState.DidReport) > 0;
+        this.voted = (byte & VoteState.DidVote) > 0;
+        this.dead = (byte & VoteState.IsDead) > 0;
     }
 
     static Deserialize(reader: HazelReader, room: Hostable<any>, playerId: number) {

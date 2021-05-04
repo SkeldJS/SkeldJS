@@ -1,14 +1,13 @@
 import {
     AlterGameTag,
     KillDistance,
-    GameOverReason,
     GameKeyword,
     GameMap,
     SpawnType,
     TaskBarUpdate,
 } from "@skeldjs/constant";
 
-import { Code2Int, sleep } from "@skeldjs/util";
+import { Code2Int } from "@skeldjs/util";
 
 import {
     DespawnMessage,
@@ -28,31 +27,6 @@ export class TestHost extends Hostable {
         return true;
     }
 }
-
-const defaultSettings = new GameOptions({
-    version: 4,
-    maxPlayers: 10,
-    keywords: GameKeyword.Other,
-    map: GameMap.TheSkeld,
-    playerSpeed: 1,
-    crewmateVision: 1,
-    impostorVision: 1.5,
-    killCooldown: 45,
-    commonTasks: 1,
-    longTasks: 1,
-    shortTasks: 2,
-    numEmergencies: 1,
-    numImpostors: 3,
-    killDistance: KillDistance.Medium,
-    discussionTime: 15,
-    votingTime: 120,
-    isDefaults: false,
-    emergencyCooldown: 15,
-    confirmEjects: true,
-    visualTasks: true,
-    anonymousVotes: false,
-    taskbarUpdates: TaskBarUpdate.Always,
-});
 
 describe("Hostable", () => {
     describe("Hostable#ctr", () => {
@@ -100,16 +74,6 @@ describe("Hostable", () => {
 
             assert.strictEqual(room.hostid, 1013);
             assert.strictEqual(room.host, player);
-        });
-    });
-
-    describe("Hostable#started", () => {
-        it("Should be true if a game in currently playing.", async () => {
-            const room = new Hostable();
-
-            await room.startGame();
-
-            assert.ok(room.started);
         });
     });
 
@@ -508,90 +472,6 @@ describe("Hostable", () => {
         });
     });
 
-    describe("Hostable#handleStart", () => {
-        it("Should mark the game as started.", async () => {
-            const room = new Hostable();
-
-            await room.startGame();
-
-            assert.ok(room.started);
-        });
-
-        it("Should emit a game started event.", async () => {
-            const room = new Hostable();
-            let did_receive = false;
-
-            room.on("room.game.start", () => {
-                did_receive = true;
-            });
-
-            await room.startGame();
-
-            assert.ok(did_receive);
-        });
-
-        it("Should wait for all players to be readied up.", async () => {
-            const room = new TestHost();
-            await room.handleJoin(1013);
-            await room.handleJoin(1023);
-
-            room.startGame();
-
-            await sleep(50);
-
-            assert.ok(!room.started);
-
-            for (const [, player] of room.players) {
-                await player.ready();
-            }
-
-            assert.ok(room.started);
-        });
-
-        it("Should despawn the lobby behaviour and spawn the map.", async () => {
-            const room = new TestHost();
-            const player = await room.handleJoin(1);
-            room.spawnPrefab(SpawnType.Player, player);
-            await room.setHost(1);
-            room.setSettings(defaultSettings);
-
-            assert.ok(room.lobbybehaviour);
-            assert.ok(!room.shipstatus);
-
-            player.ready();
-
-            await room.startGame();
-
-            assert.ok(!room.lobbybehaviour);
-            assert.ok(room.shipstatus);
-        });
-    });
-
-    describe("Hostable#handleEnd", () => {
-        it("Should mark the game as not started.", async () => {
-            const room = new Hostable();
-
-            await room.startGame();
-            await room.handleEnd(GameOverReason.HumansByTask);
-
-            assert.ok(!room.started);
-        });
-
-        it("Should emit a game ended event.", async () => {
-            const room = new Hostable();
-            let did_receive = false;
-
-            room.on("room.game.end", () => {
-                did_receive = true;
-            });
-
-            await room.startGame();
-            await room.handleEnd(GameOverReason.HumansByTask);
-
-            assert.ok(did_receive);
-        });
-    });
-
     describe("Hostable#handleReady", () => {
         it("Should handle a player readying up.", async () => {
             const room = new TestHost();
@@ -613,7 +493,7 @@ describe("Hostable", () => {
             assert.ok(!room.netobjects.has(1));
             assert.strictEqual(room.components.length, 0);
 
-            await room.spawnComponent(component);
+            room.spawnComponent(component);
 
             assert.ok(room.netobjects.has(1));
             assert.strictEqual(room.components.length, 1);
@@ -630,7 +510,7 @@ describe("Hostable", () => {
                 did_receive = true;
             });
 
-            await room.spawnComponent(component);
+            room.spawnComponent(component);
 
             assert.ok(did_receive);
         });
@@ -641,7 +521,7 @@ describe("Hostable", () => {
                 states: new Map(),
             });
 
-            await room.spawnComponent(component);
+            room.spawnComponent(component);
 
             let did_receive = false;
 
@@ -649,7 +529,7 @@ describe("Hostable", () => {
                 did_receive = true;
             });
 
-            await room.spawnComponent(component);
+            room.spawnComponent(component);
 
             assert.ok(!did_receive);
         });
@@ -662,7 +542,7 @@ describe("Hostable", () => {
                 states: new Map(),
             });
 
-            await room.spawnComponent(component);
+            room.spawnComponent(component);
 
             assert.ok(room.netobjects.has(1));
             assert.strictEqual(room.components.length, 1);
@@ -678,7 +558,7 @@ describe("Hostable", () => {
             const component = new MeetingHud(room, 1, room.id, {
                 states: new Map(),
             });
-            await room.spawnComponent(component);
+            room.spawnComponent(component);
             let did_receive = false;
 
             room.on("component.despawn", () => {

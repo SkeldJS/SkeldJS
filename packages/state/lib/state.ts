@@ -45,7 +45,7 @@ export class SkeldjsStateManager<
                 direction === MessageDirection.Clientbound &&
                 message.code === this.code
             ) {
-                await this.handleStart();
+                await this._handleStart();
             }
         });
 

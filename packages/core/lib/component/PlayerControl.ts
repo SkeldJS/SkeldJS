@@ -286,6 +286,7 @@ export class PlayerControl extends Networkable<
     private _setInfected(players: PlayerData[]) {
         for (const impostor of players) {
             impostor.data.impostor = true;
+            this.room.gamedata.update(impostor);
         }
     }
 
@@ -352,7 +353,17 @@ export class PlayerControl extends Networkable<
             )
         );
 
-        this.setName(ev.altered);
+        if (!ev.canceled) {
+            this.setName(ev.altered);
+
+            await this.emit(
+                new PlayerSetNameEvent(
+                    this.room,
+                    this.player,
+                    ev.altered
+                )
+            );
+        }
     }
 
     private async _rpcCheckName(name: string) {
@@ -407,7 +418,17 @@ export class PlayerControl extends Networkable<
             )
         );
 
-        this.setColor(ev.altered);
+        if (!ev.canceled) {
+            this.setColor(ev.altered);
+
+            await this.emit(
+                new PlayerSetColorEvent(
+                    this.room,
+                    this.player,
+                    ev.altered
+                )
+            );
+        }
     }
 
     private async _rpcCheckColor(color: Color) {
@@ -589,11 +610,20 @@ export class PlayerControl extends Networkable<
 
         if (!ev.canceled) {
             this._reportDeadBody(body);
+
+            await this.emit(
+                new PlayerCallMeetingEvent(
+                    this.room,
+                    this.room.host,
+                    bodyid === 0xff,
+                    body
+                )
+            );
         }
     }
 
     private _reportDeadBody(body?: PlayerData) {
-        this.room.host.control.startMeeting(body);
+        this.room.host.control.startMeeting(this.player, body);
     }
 
     private async _rpcReportDeadBody(body?: PlayerData) {
@@ -691,9 +721,9 @@ export class PlayerControl extends Networkable<
         this._rpcSendChat(message);
     }
 
-    private _rpcSendChatNote(type: ChatNoteType) {
+    private _rpcSendChatNote(player: PlayerData, type: ChatNoteType) {
         const writer = HazelWriter.alloc(2);
-        writer.uint8(this.playerId);
+        writer.uint8(player.playerId);
         writer.uint8(type);
 
         this.room.stream.push(
@@ -705,8 +735,12 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    sendChatNote(type: ChatNoteType) {
-        this._rpcSendChatNote(type);
+    sendChatNote(player: PlayerDataResolvable, type: ChatNoteType) {
+        const _player = this.room.resolvePlayer(player);
+
+        if (_player) {
+            this._rpcSendChatNote(_player, type);
+        }
     }
 
     private async _handleStartMeeting(reader: HazelReader) {
@@ -728,9 +762,7 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    private _startMeeting(player?: PlayerData) {
-        void player;
-
+    private _startMeeting(caller: PlayerData) {
         const meetinghud = new MeetingHud(
             this.room,
             this.room.incr_netid,
@@ -746,7 +778,7 @@ export class PlayerControl extends Networkable<
                                     this.room,
                                     player.playerId,
                                     null,
-                                    player === this.player,
+                                    player === caller,
                                     false,
                                     player.data.dead
                                 )
@@ -755,6 +787,8 @@ export class PlayerControl extends Networkable<
                 )
             }
         );
+
+        this.room.spawnComponent(meetinghud);
 
         const writer = HazelWriter.alloc(0);
         writer.write(meetinghud, true);
@@ -774,28 +808,26 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    private async _rpcStartMeeting(player?: PlayerData) {
+    private _rpcStartMeeting(player?: PlayerData) {
         const writer = HazelWriter.alloc(1);
         writer.uint8(player ? player.playerId : 0xff);
 
-        await this.room.broadcast(
-            [
-                new RpcMessage(
-                    this.netid,
-                    RpcMessageTag.StartMeeting,
-                    writer.buffer
-                )
-            ]
+        this.room.stream.push(
+            new RpcMessage(
+                this.netid,
+                RpcMessageTag.StartMeeting,
+                writer.buffer
+            )
         );
     }
 
-    async startMeeting(body: PlayerDataResolvable | "emergency") {
+    startMeeting(caller: PlayerData, body: PlayerDataResolvable | "emergency") {
         const resolved = body === "emergency"
             ? undefined
             : this.room.resolvePlayer(body);
 
-        await this._rpcStartMeeting(resolved);
-        this._startMeeting(resolved);
+        this._rpcStartMeeting(resolved);
+        this._startMeeting(caller);
     }
 
     private async _handleSetPet(reader: HazelReader) {
