@@ -164,12 +164,12 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#handlejoin" class="tsd-kind-icon">handle<wbr>Join</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#handleleave" class="tsd-kind-icon">handle<wbr>Leave</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#handleready" class="tsd-kind-icon">handle<wbr>Ready</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#handlestart" class="tsd-kind-icon">handle<wbr>Start</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.hostable.html#off" class="tsd-kind-icon">off</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.hostable.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.hostable.html#once" class="tsd-kind-icon">once</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.hostable.html#removealllisteners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.hostable.html#removelisteners" class="tsd-kind-icon">remove<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#requeststartgame" class="tsd-kind-icon">request<wbr>Start<wbr>Game</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#resolveplayer" class="tsd-kind-icon">resolve<wbr>Player</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#resolveplayerclientid" class="tsd-kind-icon">resolve<wbr>Player<wbr>ClientID</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#resolveplayerid" class="tsd-kind-icon">resolve<wbr>Player<wbr>Id</a></li>
@@ -180,7 +180,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#setsettings" class="tsd-kind-icon">set<wbr>Settings</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#spawncomponent" class="tsd-kind-icon">spawn<wbr>Component</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#spawnprefab" class="tsd-kind-icon">spawn<wbr>Prefab</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.hostable.html#startgame" class="tsd-kind-icon">start<wbr>Game</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.hostable.html#wait" class="tsd-kind-icon">wait</a></li>
 							</ul>
 						</section>
@@ -200,7 +199,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Heritable&lt;T&gt;.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L190">core/lib/Hostable.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L190">core/lib/Hostable.ts:190</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -228,7 +227,7 @@
 					<div class="tsd-signature tsd-kind-icon">code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L153">core/lib/Hostable.ts:153</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L153">core/lib/Hostable.ts:153</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -240,11 +239,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="components" class="tsd-anchor"></a>
 					<h3>components</h3>
-					<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Heritable.components</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Heritable.ts#L38">core/lib/Heritable.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Heritable.ts#L38">core/lib/Heritable.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -259,7 +258,7 @@
 					<div class="tsd-signature tsd-kind-icon">counter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L170">core/lib/Hostable.ts:170</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L170">core/lib/Hostable.ts:170</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -274,7 +273,7 @@
 					<div class="tsd-signature tsd-kind-icon">decoder<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L180">core/lib/Hostable.ts:180</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L180">core/lib/Hostable.ts:180</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -289,7 +288,7 @@
 					<div class="tsd-signature tsd-kind-icon">hostid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L158">core/lib/Hostable.ts:158</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L158">core/lib/Hostable.ts:158</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -305,7 +304,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Heritable.id</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Heritable.ts#L33">core/lib/Heritable.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Heritable.ts#L33">core/lib/Heritable.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -320,7 +319,7 @@
 					<div class="tsd-signature tsd-kind-icon">netobjects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L143">core/lib/Hostable.ts:143</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L143">core/lib/Hostable.ts:143</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -335,7 +334,7 @@
 					<div class="tsd-signature tsd-kind-icon">objects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Heritable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L133">core/lib/Hostable.ts:133</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L133">core/lib/Hostable.ts:133</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -357,7 +356,7 @@
 					<div class="tsd-signature tsd-kind-icon">players<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L138">core/lib/Hostable.ts:138</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L138">core/lib/Hostable.ts:138</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -372,7 +371,7 @@
 					<div class="tsd-signature tsd-kind-icon">privacy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PrivacyType</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L175">core/lib/Hostable.ts:175</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L175">core/lib/Hostable.ts:175</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -388,7 +387,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Heritable.room</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Heritable.ts#L28">core/lib/Heritable.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Heritable.ts#L28">core/lib/Heritable.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -403,7 +402,7 @@
 					<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">GameOptions</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L165">core/lib/Hostable.ts:165</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L165">core/lib/Hostable.ts:165</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -418,7 +417,7 @@
 					<div class="tsd-signature tsd-kind-icon">stream<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">BaseGameDataMessage</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L148">core/lib/Hostable.ts:148</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L148">core/lib/Hostable.ts:148</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -433,7 +432,7 @@
 					<div class="tsd-signature tsd-kind-icon">Fixed<wbr>Update<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L1196">core/lib/Hostable.ts:1196</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L1193">core/lib/Hostable.ts:1193</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -455,7 +454,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L351">core/lib/Hostable.ts:351</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L351">core/lib/Hostable.ts:351</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -477,7 +476,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L344">core/lib/Hostable.ts:344</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L344">core/lib/Hostable.ts:344</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -494,7 +493,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L391">core/lib/Hostable.ts:391</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L391">core/lib/Hostable.ts:391</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -516,7 +515,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L333">core/lib/Hostable.ts:333</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L333">core/lib/Hostable.ts:333</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -538,7 +537,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L317">core/lib/Hostable.ts:317</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L317">core/lib/Hostable.ts:317</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -555,7 +554,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L384">core/lib/Hostable.ts:384</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L384">core/lib/Hostable.ts:384</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -577,7 +576,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L326">core/lib/Hostable.ts:326</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L326">core/lib/Hostable.ts:326</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -599,7 +598,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L377">core/lib/Hostable.ts:377</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L377">core/lib/Hostable.ts:377</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -621,7 +620,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L358">core/lib/Hostable.ts:358</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L358">core/lib/Hostable.ts:358</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -643,7 +642,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L340">core/lib/Hostable.ts:340</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L340">core/lib/Hostable.ts:340</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -665,7 +664,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L398">core/lib/Hostable.ts:398</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L398">core/lib/Hostable.ts:398</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -690,7 +689,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L426">core/lib/Hostable.ts:426</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L426">core/lib/Hostable.ts:426</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -707,7 +706,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L811">core/lib/Hostable.ts:811</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L806">core/lib/Hostable.ts:806</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -729,7 +728,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L414">core/lib/Hostable.ts:414</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L414">core/lib/Hostable.ts:414</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -755,13 +754,13 @@
 					<a name="despawncomponent" class="tsd-anchor"></a>
 					<h3>despawn<wbr>Component</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">despawn<wbr>Component<span class="tsd-signature-symbol">(</span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">despawn<wbr>Component<span class="tsd-signature-symbol">(</span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L918">core/lib/Hostable.ts:918</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L915">core/lib/Hostable.ts:915</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -784,7 +783,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -798,7 +797,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L312">core/lib/Hostable.ts:312</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L312">core/lib/Hostable.ts:312</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -817,7 +816,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Heritable.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L402">core/lib/Hostable.ts:402</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L402">core/lib/Hostable.ts:402</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -838,7 +837,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Heritable.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L405">core/lib/Hostable.ts:405</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L405">core/lib/Hostable.ts:405</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -867,7 +866,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L847">core/lib/Hostable.ts:847</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L844">core/lib/Hostable.ts:844</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -895,7 +894,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L934">core/lib/Hostable.ts:934</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L931">core/lib/Hostable.ts:931</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -927,7 +926,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Heritable.getComponent</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Heritable.ts#L67">core/lib/Heritable.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Heritable.ts#L67">core/lib/Heritable.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -965,7 +964,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Heritable.getListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/EventEmitter.ts#L87">events/lib/EventEmitter.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/events/lib/EventEmitter.ts#L87">events/lib/EventEmitter.ts:87</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -994,7 +993,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L1146">core/lib/Hostable.ts:1146</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L1143">core/lib/Hostable.ts:1143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1032,7 +1031,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L1129">core/lib/Hostable.ts:1129</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L1126">core/lib/Hostable.ts:1126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1070,7 +1069,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L804">core/lib/Hostable.ts:804</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L799">core/lib/Hostable.ts:799</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1101,7 +1100,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L657">core/lib/Hostable.ts:657</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L657">core/lib/Hostable.ts:657</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1132,7 +1131,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L682">core/lib/Hostable.ts:682</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L682">core/lib/Hostable.ts:682</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1163,7 +1162,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L855">core/lib/Hostable.ts:855</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L852">core/lib/Hostable.ts:852</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1184,28 +1183,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="handlestart" class="tsd-anchor"></a>
-					<h3>handle<wbr>Start</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Start<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L720">core/lib/Hostable.ts:720</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handle when the game is started.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 					<a name="off" class="tsd-anchor"></a>
 					<h3>off</h3>
@@ -1217,7 +1194,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Heritable.off</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/EventEmitter.ts#L79">events/lib/EventEmitter.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/events/lib/EventEmitter.ts#L79">events/lib/EventEmitter.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1250,7 +1227,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Heritable.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1295,7 +1272,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Heritable.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/EventEmitter.ts#L58">events/lib/EventEmitter.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/events/lib/EventEmitter.ts#L58">events/lib/EventEmitter.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1340,7 +1317,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Heritable.removeAllListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/EventEmitter.ts#L105">events/lib/EventEmitter.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/events/lib/EventEmitter.ts#L105">events/lib/EventEmitter.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1358,7 +1335,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Heritable.removeListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/EventEmitter.ts#L98">events/lib/EventEmitter.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/events/lib/EventEmitter.ts#L98">events/lib/EventEmitter.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1378,6 +1355,28 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="requeststartgame" class="tsd-anchor"></a>
+					<h3>request<wbr>Start<wbr>Game</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">request<wbr>Start<wbr>Game<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L835">core/lib/Hostable.ts:835</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Start a game.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="resolveplayer" class="tsd-anchor"></a>
 					<h3>resolve<wbr>Player</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -1387,7 +1386,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L473">core/lib/Hostable.ts:473</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L473">core/lib/Hostable.ts:473</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1426,7 +1425,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L503">core/lib/Hostable.ts:503</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L503">core/lib/Hostable.ts:503</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1458,7 +1457,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L486">core/lib/Hostable.ts:486</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L486">core/lib/Hostable.ts:486</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1490,7 +1489,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L561">core/lib/Hostable.ts:561</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L561">core/lib/Hostable.ts:561</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1533,7 +1532,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L530">core/lib/Hostable.ts:530</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L530">core/lib/Hostable.ts:530</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1567,7 +1566,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L616">core/lib/Hostable.ts:616</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L616">core/lib/Hostable.ts:616</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1599,7 +1598,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L583">core/lib/Hostable.ts:583</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L583">core/lib/Hostable.ts:583</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1636,7 +1635,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L601">core/lib/Hostable.ts:601</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L601">core/lib/Hostable.ts:601</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1670,13 +1669,13 @@
 					<a name="spawncomponent" class="tsd-anchor"></a>
 					<h3>spawn<wbr>Component</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">spawn<wbr>Component<span class="tsd-signature-symbol">(</span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">spawn<wbr>Component<span class="tsd-signature-symbol">(</span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L881">core/lib/Hostable.ts:881</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L878">core/lib/Hostable.ts:878</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1709,7 +1708,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1723,7 +1722,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L952">core/lib/Hostable.ts:952</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/core/lib/Hostable.ts#L949">core/lib/Hostable.ts:949</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1757,28 +1756,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="startgame" class="tsd-anchor"></a>
-					<h3>start<wbr>Game</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">start<wbr>Game<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/core/lib/Hostable.ts#L840">core/lib/Hostable.ts:840</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Start a game.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 					<a name="wait" class="tsd-anchor"></a>
 					<h3>wait</h3>
@@ -1790,7 +1767,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Heritable.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/3b9d6e0/packages/events/lib/EventEmitter.ts#L69">events/lib/EventEmitter.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a2e15c9/packages/events/lib/EventEmitter.ts#L69">events/lib/EventEmitter.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -2027,9 +2004,6 @@
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.hostable.html#handleready" class="tsd-kind-icon">handle<wbr>Ready</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="core.hostable.html#handlestart" class="tsd-kind-icon">handle<wbr>Start</a>
-									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.hostable.html#off" class="tsd-kind-icon">off</a>
 									</li>
@@ -2044,6 +2018,9 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.hostable.html#removelisteners" class="tsd-kind-icon">remove<wbr>Listeners</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.hostable.html#requeststartgame" class="tsd-kind-icon">request<wbr>Start<wbr>Game</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.hostable.html#resolveplayer" class="tsd-kind-icon">resolve<wbr>Player</a>
@@ -2074,9 +2051,6 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.hostable.html#spawnprefab" class="tsd-kind-icon">spawn<wbr>Prefab</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="core.hostable.html#startgame" class="tsd-kind-icon">start<wbr>Game</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.hostable.html#wait" class="tsd-kind-icon">wait</a>
