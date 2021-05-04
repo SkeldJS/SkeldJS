@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter, sleep } from "@skeldjs/util";
 
 import {
     ChatNoteType,
@@ -140,12 +140,18 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     private _handleClose(reader: HazelReader) {
         void reader;
 
-        this.emit(new MeetingHudMeetingCloseEvent(this.room, this));
+        this.emit(
+            new MeetingHudMeetingCloseEvent(this.room, this)
+        );
     }
 
     private _close() {
-        // todo: meeting close routine
-        void 0;
+        this.room.netobjects.delete(this.netid);
+        this.room.components.splice(
+            this.room.components.indexOf(this),
+            1,
+            null
+        );
     }
 
     private _rpcClose() {
@@ -167,21 +173,60 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         const suspectid = reader.uint8();
 
         const voting = this.states.get(votingid);
+        const player = this.room.getPlayerByPlayerId(votingid);
         const suspect = suspectid === 0xff
             ? undefined
             : this.room.getPlayerByPlayerId(suspectid);
 
-        if (voting && (suspect || suspectid === 0xff)) {
+        if (player && voting && (suspect || suspectid === 0xff)) {
             this._castVote(voting, suspect);
 
-            await this.emit(
+            const ev = await this.emit(
                 new MeetingHudVoteCastEvent(
                     this.room,
                     this,
-                    this.room.getPlayerByPlayerId(votingid),
-                    this.room.getPlayerByPlayerId(suspectid)
+                    player,
+                    suspect
                 )
             );
+
+            if (ev.canceled) {
+                if (player) {
+                    await this.clearVote(player);
+                }
+            } else {
+                this.room.me.control.sendChatNote(votingid, ChatNoteType.DidVote);
+
+                const states = [...this.states];
+
+                if (states.every(([ , state ]) => state.voted && !state.dead)) {
+                    let tie = false;
+                    let exiled: PlayerData;
+                    let exiled_votes = 0;
+                    for (const [ , state ] of states) {
+                        let num = 0;
+                        for (const [ , state2 ] of states) {
+                            if (state2.votedFor === state.player) {
+                                num++;
+                            }
+                        }
+                        if (num) {
+                            if (num > exiled_votes) {
+                                tie = false;
+                                exiled = state.player;
+                                exiled_votes = num;
+                            } else if (num === exiled_votes) {
+                                tie = true;
+                            }
+                        }
+                    }
+
+                    this.votingComplete(tie, exiled);
+                    sleep(5000).then(() => {
+                        this.close();
+                    });
+                }
+            }
         }
     }
 
@@ -223,7 +268,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
 
             if (_voting && _suspect) {
                 this._castVote(_voting, _suspect);
-                player.control.sendChatNote(ChatNoteType.DidVote);
+                this.room.me.control.sendChatNote(player.playerId, ChatNoteType.DidVote);
             }
         }
     }

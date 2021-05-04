@@ -117,14 +117,14 @@ export class Networkable<
     /**
      * Spawn this component if does not exist in the room it belongs in.
      */
-    async spawn(): Promise<void> {
-        return await this.room.spawnComponent(this);
+    spawn() {
+        return this.room.spawnComponent(this);
     }
 
     /**
      * Despawns the component from the room it belongs in.
      */
-    async despawn(): Promise<void> {
-        return await this.room.despawnComponent(this);
+    despawn() {
+        return this.room.despawnComponent(this);
     }
 }

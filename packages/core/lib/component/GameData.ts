@@ -98,6 +98,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
 
                 if (player) {
                     player.Deserialize(preader);
+                } else {
+                    const player = PlayerGameData.Deserialize(preader, playerId);
+
+                    this.players.set(player.playerId, player);
                 }
             }
         }

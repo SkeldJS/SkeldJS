@@ -71,9 +71,10 @@ export class Room extends Hostable<RoomEvents> {
         return this.hostid === SpecialID.SaaH;
     }
 
-    async handleStart() {
+    async startGame() {
         await this.setHost(SpecialID.SaaH);
-        return await super.handleStart();
+        await super.requestStartGame();
+        await super._handleStart();
     }
 
     async destroy() {

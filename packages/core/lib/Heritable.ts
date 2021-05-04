@@ -35,7 +35,7 @@ export class Heritable<T extends HeritableEvents = HeritableEvents> extends Even
     /**
      * The components for this object.
      */
-    components: (Networkable | null)[];
+    components: (Networkable<any, any> | null)[];
 
     constructor(room: Hostable<any>, id: number) {
         super();
