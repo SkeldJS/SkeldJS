@@ -12,8 +12,7 @@ export interface ElectricalDoorsSystemData {
     doors: boolean[];
 }
 
-export type ElectricalDoorsSystemEvents =
-    SystemStatusEvents &
+export type ElectricalDoorsSystemEvents = SystemStatusEvents &
     DoorEvents &
     ExtractEventTypes<[]>;
 

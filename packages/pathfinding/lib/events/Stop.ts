@@ -12,9 +12,7 @@ export class PathfinderStopEvent extends BasicEvent {
      */
     reached: boolean;
 
-    constructor(
-        reached: boolean
-    ) {
+    constructor(reached: boolean) {
         super();
 
         this.reached = reached;

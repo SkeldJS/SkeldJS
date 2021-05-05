@@ -20,12 +20,8 @@ export interface LifeSuppSystemData {
     completed: Set<number>;
 }
 
-export type LifeSuppSystemEvents =
-    SystemStatusEvents &
-ExtractEventTypes<[
-    O2ConsolesClearEvent,
-    O2ConsoleCompleteEvent
-]>;
+export type LifeSuppSystemEvents = SystemStatusEvents &
+    ExtractEventTypes<[O2ConsolesClearEvent, O2ConsoleCompleteEvent]>;
 
 /**
  * Represents a system responsible for handling oxygen consoles.

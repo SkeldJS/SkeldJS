@@ -18,9 +18,7 @@ export interface DeconSystemData {
     state: number;
 }
 
-export type DeconSystemEvents =
-    SystemStatusEvents &
-    ExtractEventTypes<[]>;
+export type DeconSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for the decontamination doors.

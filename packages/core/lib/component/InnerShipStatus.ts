@@ -15,7 +15,7 @@ import {
     SabotageSystemEvents,
     SecurityCameraSystemEvents,
     SwitchSystemEvents,
-    SystemStatus
+    SystemStatus,
 } from "../system";
 
 import { SystemStatusEvents } from "../system/events";
@@ -24,6 +24,7 @@ import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 import { ExtractEventTypes } from "@skeldjs/events";
+import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
 
 type AllSystems = Partial<Record<SystemType, SystemStatus<any, any>>>;
 
@@ -31,8 +32,7 @@ export interface ShipStatusData {
     systems: AllSystems;
 }
 
-export type ShipStatusEvents =
-    NetworkableEvents &
+export type ShipStatusEvents = NetworkableEvents &
     DoorsSystemEvents &
     SystemStatusEvents &
     AutoDoorsSystemEvents &
@@ -118,10 +118,10 @@ export class InnerShipStatus extends Networkable<
         return true;
     }
 
-    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
-        switch (callid) {
+    async HandleRpc(rpc: BaseRpcMessage) {
+        switch (rpc.tag) {
             case RpcMessageTag.RepairSystem:
-                this._handleRepairSystem(reader);
+                this._handleRepairSystem(rpc as RepairSystemMessage);
                 break;
         }
     }
@@ -137,16 +137,12 @@ export class InnerShipStatus extends Networkable<
         }
     }
 
-    private _handleRepairSystem(reader: HazelReader) {
-        const systemid = reader.uint8();
-        const pcnetid = reader.upacked();
-        const amount = reader.uint8();
-
-        const system = this.systems[systemid] as SystemStatus;
-        const player = this.room.getPlayerByNetId(pcnetid);
+    private _handleRepairSystem(rpc: RepairSystemMessage) {
+        const system = this.systems[rpc.systemid] as SystemStatus;
+        const player = this.room.getPlayerByNetId(rpc.netid);
 
         if (system && player) {
-            system.HandleRepair(player, amount);
+            system.HandleRepair(player, rpc.amount);
         }
     }
 

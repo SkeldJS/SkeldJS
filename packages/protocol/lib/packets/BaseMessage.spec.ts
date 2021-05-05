@@ -7,10 +7,14 @@ import { BaseMessage } from "./BaseMessage";
 describe("BaseMessage", () => {
     describe("BaseMessage#Deserialize", () => {
         it("Should deserialize a base message.", () => {
-            const decoder = new PacketDecoder;
+            const decoder = new PacketDecoder();
 
             const reader = HazelReader.from("", "hex");
-            const packet = BaseMessage.Deserialize(reader, MessageDirection.Clientbound, decoder);
+            const packet = BaseMessage.Deserialize(
+                reader,
+                MessageDirection.Clientbound,
+                decoder
+            );
 
             assert.strictEqual(packet.tag, undefined);
         });
@@ -18,10 +22,10 @@ describe("BaseMessage", () => {
 
     describe("BaseMessage#Serialize", () => {
         it("Should serialize a base message.", () => {
-            const decoder = new PacketDecoder;
+            const decoder = new PacketDecoder();
 
             const writer = HazelWriter.alloc(0);
-            const packet = new BaseMessage;
+            const packet = new BaseMessage();
 
             packet.Serialize(writer, MessageDirection.Clientbound, decoder);
 

@@ -79,7 +79,7 @@ export class Vector2 {
      * ```
      */
     static mul(a: Vector2, b: number): Vector2;
-    static mul(a: Vector2, b: Vector2|number) {
+    static mul(a: Vector2, b: Vector2 | number) {
         if (typeof b === "number") {
             return new Vector2(a.x * b, a.y * b);
         }
@@ -115,7 +115,7 @@ export class Vector2 {
      * ```
      */
     static div(a: Vector2, b: number): Vector2;
-    static div(a: Vector2, b: Vector2|number) {
+    static div(a: Vector2, b: Vector2 | number) {
         if (typeof b === "number") {
             return new Vector2(a.x / b, a.y / b);
         }
@@ -138,7 +138,7 @@ export class Vector2 {
      * ```
      */
     static dist(a: Vector2, b: Vector2) {
-        return Math.sqrt((b.x - a.x)**2 + (b.y - a.y)**2);
+        return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
     }
 
     /**
@@ -254,8 +254,11 @@ export class Vector2 {
      * });
      * ```
      */
-    constructor(pos: { x: number, y: number });
-    constructor(x?: number|[number, number]|Vector2|{ x: number, y: number }, y?: number) {
+    constructor(pos: { x: number; y: number });
+    constructor(
+        x?: number | [number, number] | Vector2 | { x: number; y: number },
+        y?: number
+    ) {
         if (typeof x === "undefined") {
             this.x = 0;
             this.y = 0;

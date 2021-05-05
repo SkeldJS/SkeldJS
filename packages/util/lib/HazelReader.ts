@@ -428,9 +428,6 @@ export class HazelReader extends HazelBuffer {
         const x = this.uint16();
         const y = this.uint16();
 
-        return new Vector2(
-            Vector2.lerp(x / 65535),
-            Vector2.lerp(y / 65535)
-        );
+        return new Vector2(Vector2.lerp(x / 65535), Vector2.lerp(y / 65535));
     }
 }

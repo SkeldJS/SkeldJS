@@ -26,14 +26,15 @@ export interface HqHudSystemData {
     completed: Set<number>;
 }
 
-export type HqHudSystemEvents =
-    SystemStatusEvents &
-ExtractEventTypes<[
-    HqHudConsoleResetEvent,
-    HqHudConsoleOpenEvent,
-    HqHudConsoleCloseEvent,
-    HqHudConsoleCompleteEvent
-]>;
+export type HqHudSystemEvents = SystemStatusEvents &
+    ExtractEventTypes<
+        [
+            HqHudConsoleResetEvent,
+            HqHudConsoleOpenEvent,
+            HqHudConsoleCloseEvent,
+            HqHudConsoleCompleteEvent
+        ]
+    >;
 
 export const HqHudSystemRepairTag = {
     CompleteConsole: 0x10,

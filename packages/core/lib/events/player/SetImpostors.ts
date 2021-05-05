@@ -14,7 +14,11 @@ export class PlayerSetImpostorsEvent extends PlayerEvent {
      */
     impostors: PlayerData[];
 
-    constructor(room: Hostable<any>, player: PlayerData, impostors: PlayerData[]) {
+    constructor(
+        room: Hostable<any>,
+        player: PlayerData,
+        impostors: PlayerData[]
+    ) {
         super(room, player);
 
         this.impostors = impostors;

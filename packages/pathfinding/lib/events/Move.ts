@@ -13,9 +13,7 @@ export class EngineMoveEvent extends CancelableEvent {
      */
     position: Vector2;
 
-    constructor(
-        position: Vector2
-    ) {
+    constructor(position: Vector2) {
         super();
 
         this.position = position;

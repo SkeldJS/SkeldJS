@@ -13,9 +13,7 @@ export class PathfinderStartEvent extends BasicEvent {
      */
     destination: Vector2;
 
-    constructor(
-        destination: Vector2
-    ) {
+    constructor(destination: Vector2) {
         super();
 
         this.destination = destination;

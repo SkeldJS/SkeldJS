@@ -36,6 +36,8 @@ import {
     SceneChangeMessage,
     SpawnMessage,
 } from "./packets/game";
+import { AddVoteMessage, CastVoteMessage, CheckColorMessage, CheckNameMessage, ClearVoteMessage, ClimbLadderMessage, CloseDoorsOfTypeMessage, CloseMessage, CompleteTaskMessage, EnterVentMessage, ExitVentMessage, MurderPlayerMessage, PlayAnimationMessage, RepairSystemMessage, ReportDeadBodyMessage, SendChatMessage, SendChatNoteMessage, SetColorMessage, SetHatMessage, SetInfectedMessage, SetNameMessage, SetPetMessage, SetScanner, SetSkinMessage, SetStartCounterMessage, SetTasksMessage, SnapToMessage, StartMeetingMessage, SyncSettingsMessage, UsePlatformMessage, VotingCompleteMessage } from "./packets";
+import { ExiledMessage } from "./packets/rpc/Exiled";
 
 export enum MessageDirection {
     Clientbound,
@@ -133,6 +135,41 @@ export class PacketDecoder<SenderType = any> {
             RpcMessage,
             SceneChangeMessage,
             SpawnMessage
+        );
+
+        this.register(
+            AddVoteMessage,
+            CastVoteMessage,
+            CheckColorMessage,
+            CheckNameMessage,
+            ClearVoteMessage,
+            ClimbLadderMessage,
+            CloseMessage,
+            CloseDoorsOfTypeMessage,
+            CompleteTaskMessage,
+            EnterVentMessage,
+            ExiledMessage,
+            ExitVentMessage,
+            MurderPlayerMessage,
+            PlayAnimationMessage,
+            RepairSystemMessage,
+            ReportDeadBodyMessage,
+            SendChatMessage,
+            SendChatNoteMessage,
+            SetColorMessage,
+            SetHatMessage,
+            SetInfectedMessage,
+            SetNameMessage,
+            SetPetMessage,
+            SetScanner,
+            SetSkinMessage,
+            SetStartCounterMessage,
+            SetTasksMessage,
+            SnapToMessage,
+            StartMeetingMessage,
+            SyncSettingsMessage,
+            UsePlatformMessage,
+            VotingCompleteMessage
         );
     }
 
@@ -419,7 +456,7 @@ export class PacketDecoder<SenderType = any> {
         direction: MessageDirection = MessageDirection.Clientbound
     ): Serializable {
         if (Buffer.isBuffer(reader)) {
-            return this._parse(HazelReader.from(reader));
+            return this._parse(HazelReader.from(reader), direction);
         }
 
         const optionMessages = this.types.get("option");

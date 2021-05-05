@@ -12,9 +12,7 @@ export interface ReactorSystemData {
     completed: Set<number>;
 }
 
-export type ReactorSystemEvents =
-    SystemStatusEvents &
-    ExtractEventTypes<[]>;
+export type ReactorSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling reactor consoles.

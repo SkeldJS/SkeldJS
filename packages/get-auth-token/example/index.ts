@@ -19,12 +19,12 @@ import { authTokenHook } from "../index";
     const code = await client.createGame({
         map: GameMap.TheSkeld,
         keywords: GameKeyword.English,
-        numImpostors: 2
+        numImpostors: 2,
     });
 
     console.log("Created game " + Int2Code(code) + "!");
 
-    client.on("player.checkcolor", ev => {
+    client.on("player.checkcolor", (ev) => {
         ev.setColor((ev.original + 1) % 12);
     });
 })();

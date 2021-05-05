@@ -22,7 +22,7 @@ import { Room } from "./Room";
 import {
     RemoteClientConnectEvent,
     RemoteClientDisconnectEvent,
-    RemoteClientJoinRoomEvent
+    RemoteClientJoinRoomEvent,
 } from "./events";
 
 export interface SentPacket {
@@ -30,11 +30,13 @@ export interface SentPacket {
     ackd: boolean;
 }
 
-export type RemoteClientEvents = ExtractEventTypes<[
-    RemoteClientConnectEvent,
-    RemoteClientDisconnectEvent,
-    RemoteClientJoinRoomEvent
-]>;
+export type RemoteClientEvents = ExtractEventTypes<
+    [
+        RemoteClientConnectEvent,
+        RemoteClientDisconnectEvent,
+        RemoteClientJoinRoomEvent
+    ]
+>;
 
 /**
  * Represents a remotely connected client.

@@ -22,19 +22,20 @@ import {
 } from "./events";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-export type PlayerDataEvents =
-    HeritableEvents &
+export type PlayerDataEvents = HeritableEvents &
     PlayerControlEvents &
     PlayerPhysicsEvents &
     CustomNetworkTransformEvents &
-ExtractEventTypes<[
-    PlayerReadyEvent,
-    PlayerJoinEvent,
-    PlayerLeaveEvent,
-    PlayerSetHostEvent,
-    PlayerSceneChangeEvent,
-    PlayerSpawnEvent
-]>;
+    ExtractEventTypes<
+        [
+            PlayerReadyEvent,
+            PlayerJoinEvent,
+            PlayerLeaveEvent,
+            PlayerSetHostEvent,
+            PlayerSceneChangeEvent,
+            PlayerSpawnEvent
+        ]
+    >;
 
 /**
  * Represents the player of a client connected to the room.

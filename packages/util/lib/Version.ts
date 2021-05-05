@@ -31,8 +31,8 @@ export class VersionInfo {
      * ```
      */
     static from(version: string);
-    static from(version: number|string);
-    static from(version: number|string) {
+    static from(version: number | string);
+    static from(version: number | string) {
         if (typeof version === "number") {
             const year = Math.floor(version / 25000);
             version %= 25000;
@@ -78,7 +78,12 @@ export class VersionInfo {
      */
     revision: number;
 
-    constructor(year: number, month: number, day: number, revision: number = 0) {
+    constructor(
+        year: number,
+        month: number,
+        day: number,
+        revision: number = 0
+    ) {
         this.year = year;
         this.month = month;
         this.day = day;
@@ -106,7 +111,9 @@ export class VersionInfo {
      * ```
      */
     toString() {
-        return this.year + "." + this.month + "." + this.day + "." + this.revision;
+        return (
+            this.year + "." + this.month + "." + this.day + "." + this.revision
+        );
     }
 
     /**
@@ -120,6 +127,11 @@ export class VersionInfo {
      * ```
      */
     encode() {
-        return this.year * 25000 + this.month * 1800 + this.day * 50 + this.revision;
+        return (
+            this.year * 25000 +
+            this.month * 1800 +
+            this.day * 50 +
+            this.revision
+        );
     }
 }

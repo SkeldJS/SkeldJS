@@ -21,7 +21,7 @@ import {
     HazelReader,
     HazelWriter,
     sleep,
-    Vector2
+    Vector2,
 } from "@skeldjs/util";
 
 import {
@@ -106,27 +106,30 @@ export type AnyNetworkable =
     | SkeldShipStatus
     | VoteBanSystem;
 
-export type HostableEvents =
-    HeritableEvents &
+export type HostableEvents = HeritableEvents &
     PlayerDataEvents &
     GameDataEvents &
     LobbyBehaviourEvents &
     MeetingHudEvents &
     ShipStatusEvents &
     VoteBanSystemEvents &
-ExtractEventTypes<[
-    RoomGameStartEvent,
-    RoomGameEndEvent,
-    RoomFixedUpdateEvent,
-    RoomSetVisibilityEvent
-]>;
+    ExtractEventTypes<
+        [
+            RoomGameStartEvent,
+            RoomGameEndEvent,
+            RoomFixedUpdateEvent,
+            RoomSetVisibilityEvent
+        ]
+    >;
 
 /**
  * Represents an object capable of hosting games.
  *
  * See {@link HostableEvents} for events to listen to.
  */
-export class Hostable<T extends HostableEvents = HostableEvents> extends Heritable<T> {
+export class Hostable<
+    T extends HostableEvents = HostableEvents
+> extends Heritable<T> {
     /**
      * The objects in the room.
      */
@@ -233,10 +236,12 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
             const component = this.netobjects.get(message.netid);
 
             if (component) {
-                const reader = HazelReader.from(message.data);
                 try {
-                    await component.HandleRpc(message.callid, reader);
-                } catch (e) { void e; }
+                    console.log(message.data.tag);
+                    await component.HandleRpc(message.data);
+                } catch (e) {
+                    void e;
+                }
             }
         });
 
@@ -289,12 +294,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                             this.me.control.syncSettings(this.settings);
                         }
 
-                        player.emit(
-                            new PlayerSceneChangeEvent(
-                                this,
-                                player
-                            )
-                        );
+                        player.emit(new PlayerSceneChangeEvent(this, player));
                     }
                 }
             }
@@ -402,12 +402,8 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
     async emit<Event extends HostableEvents[keyof HostableEvents]>(
         event: Event
     ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(
-        event: Event
-    ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(
-        event: Event
-    ): Promise<Event> {
+    async emit<Event extends T[keyof T]>(event: Event): Promise<Event>;
+    async emit<Event extends T[keyof T]>(event: Event): Promise<Event> {
         return super.emit(event);
     }
 
@@ -445,12 +441,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
             }
         }
 
-        await this.emit(
-            new RoomFixedUpdateEvent(
-                this,
-                this.stream
-            )
-        );
+        await this.emit(new RoomFixedUpdateEvent(this, this.stream));
 
         if (this.stream.length) {
             const stream = this.stream;
@@ -539,12 +530,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
         switch (tag) {
             case AlterGameTag.ChangePrivacy:
                 this.privacy = value ? "public" : "private";
-                this.emit(
-                    new RoomSetVisibilityEvent(
-                        this,
-                        this.privacy
-                    )
-                );
+                this.emit(new RoomSetVisibilityEvent(this, this.privacy));
                 break;
         }
     }
@@ -632,22 +618,12 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
         }
 
         if (before !== this.hostid && this.host) {
-            await this.host.emit(
-                new PlayerSetHostEvent(
-                    this,
-                    this.host
-                )
-            );
+            await this.host.emit(new PlayerSetHostEvent(this, this.host));
         }
     }
 
     private async _addPlayer(player: PlayerData) {
-        await player.emit(
-            new PlayerJoinEvent(
-                this,
-                player
-            )
-        );
+        await player.emit(new PlayerJoinEvent(this, player));
     }
 
     /**
@@ -667,12 +643,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
     }
 
     private _removePlayer(player: PlayerData) {
-        player.emit(
-            new PlayerLeaveEvent(
-                this,
-                player
-            )
-        );
+        player.emit(new PlayerLeaveEvent(this, player));
     }
 
     /**
@@ -759,7 +730,9 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
             }
 
             if (this.lobbybehaviour)
-                await this.despawnComponent(this.lobbybehaviour as Networkable<any, any>);
+                await this.despawnComponent(
+                    this.lobbybehaviour as Networkable<any, any>
+                );
 
             const ship_prefabs = [
                 SpawnType.ShipStatus,
@@ -768,28 +741,19 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                 SpawnType.AprilShipStatus,
                 SpawnType.Airship,
             ];
-            await this.emit(
-                new RoomGameStartEvent(this)
-            );
+            await this.emit(new RoomGameStartEvent(this));
             this.spawnPrefab(ship_prefabs[this.settings?.map] || 0, -2);
             this.shipstatus?.selectInfected();
             this.shipstatus?.begin();
         } else {
-            await this.emit(
-                new RoomGameStartEvent(this)
-            );
+            await this.emit(new RoomGameStartEvent(this));
             if (this.me) await this.me.ready();
         }
     }
 
     private async _endGame(reason: GameOverReason) {
         this._started = false;
-        await this.emit(
-            new RoomGameEndEvent(
-                this,
-                reason
-            )
-        );
+        await this.emit(new RoomGameEndEvent(this, reason));
     }
 
     /**
@@ -833,9 +797,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
      * Start a game.
      */
     async requestStartGame() {
-        await this.broadcast([], true, null, [
-            new StartGameMessage(this.code),
-        ]);
+        await this.broadcast([], true, null, [new StartGameMessage(this.code)]);
     }
 
     /**
@@ -892,10 +854,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
         this.netobjects.delete(component.netid);
 
         component.emit(
-            new NetworkableDespawnEvent(
-                this,
-                component as AnyNetworkable
-            )
+            new NetworkableDespawnEvent(this, component as AnyNetworkable)
         );
         component.owner?.components.splice(
             component.owner.components.indexOf(component),
@@ -946,10 +905,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
      * room.spawnPrefab(SpawnType.Player, client.me);
      * ```
      */
-    spawnPrefab(
-        type: SpawnType,
-        owner: Heritable<any> | number
-    ): SpawnObject {
+    spawnPrefab(type: SpawnType, owner: Heritable<any> | number): SpawnObject {
         const ownerid = typeof owner === "number" ? owner : owner.id;
 
         const object: Partial<SpawnObject> = {
@@ -1033,7 +989,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                     this.incr_netid,
                     ownerid,
                     {
-                        ventid: -1
+                        ventid: -1,
                     }
                 );
 
@@ -1044,7 +1000,7 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                     {
                         seqId: 1,
                         position: Vector2.null,
-                        velocity: Vector2.null
+                        velocity: Vector2.null,
                     }
                 );
 
@@ -1077,7 +1033,9 @@ export class Hostable<T extends HostableEvents = HostableEvents> extends Heritab
                     ownerid
                 );
 
-                object.components.push(aprilshipstatus as Networkable<any, any>);
+                object.components.push(
+                    aprilshipstatus as Networkable<any, any>
+                );
                 break;
             case SpawnType.Airship:
                 const airship = new AirshipStatus(

@@ -14,8 +14,7 @@ export interface AutoDoorsSystemData {
     doors: boolean[];
 }
 
-export type AutoDoorsSystemEvents =
-    SystemStatusEvents &
+export type AutoDoorsSystemEvents = SystemStatusEvents &
     DoorEvents &
     ExtractEventTypes<[]>;
 

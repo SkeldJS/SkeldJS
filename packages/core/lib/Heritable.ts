@@ -21,7 +21,9 @@ export type HeritableEvents = NetworkableEvents & ExtractEventTypes<[]>;
  *
  * See {@link HeritableEvents} for events to listen to.
  */
-export class Heritable<T extends HeritableEvents = HeritableEvents> extends EventEmitter<T> {
+export class Heritable<
+    T extends HeritableEvents = HeritableEvents
+> extends EventEmitter<T> {
     /**
      * The room that this object belongs to.
      */
@@ -49,13 +51,9 @@ export class Heritable<T extends HeritableEvents = HeritableEvents> extends Even
     async emit<Event extends HeritableEvents[keyof HeritableEvents]>(
         event: Event
     ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(
-        event: Event
-    ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(
-        event: Event
-    ): Promise<Event> {
-        if (this.room as Heritable<any> !== this) this.room.emit(event);
+    async emit<Event extends T[keyof T]>(event: Event): Promise<Event>;
+    async emit<Event extends T[keyof T]>(event: Event): Promise<Event> {
+        if ((this.room as Heritable<any>) !== this) this.room.emit(event);
 
         return super.emit(event);
     }

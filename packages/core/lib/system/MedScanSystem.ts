@@ -11,9 +11,7 @@ export interface MedScanSystemData {
     queue: number[];
 }
 
-export type MedScanSystemEvents =
-    SystemStatusEvents &
-    ExtractEventTypes<[]>;
+export type MedScanSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling the medbay scan queue.

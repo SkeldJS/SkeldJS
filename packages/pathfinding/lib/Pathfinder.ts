@@ -28,18 +28,20 @@ import {
     PathfinderPauseEvent,
     EngineRecalculateEvent,
     PathfinderStartEvent,
-    PathfinderStopEvent
+    PathfinderStopEvent,
 } from "./events";
 import { PlayerLeaveEvent, PlayerMoveEvent } from "@skeldjs/core/lib/events";
 
-export type SkeldjsPathfinderEvents = ExtractEventTypes<[
-    PathfinderEndEvent,
-    EngineMoveEvent,
-    PathfinderPauseEvent,
-    EngineRecalculateEvent,
-    PathfinderStartEvent,
-    PathfinderStopEvent
-]>;
+export type SkeldjsPathfinderEvents = ExtractEventTypes<
+    [
+        PathfinderEndEvent,
+        EngineMoveEvent,
+        PathfinderPauseEvent,
+        EngineRecalculateEvent,
+        PathfinderStartEvent,
+        PathfinderStopEvent
+    ]
+>;
 
 /**
  * Represents a pathfinding utility for the {@link SkeldjsClient SkeldJS Client}.
@@ -151,11 +153,13 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         if (next) {
             const pos = this.grid.actual(next.x, next.y);
             const dist = Vector2.dist(this.position, pos);
-            const ev = await this.emit(
-                new EngineMoveEvent(pos)
-            );
+            const ev = await this.emit(new EngineMoveEvent(pos));
             if (!ev.canceled) {
-                this.transform.move(pos.x, pos.y, new Vector2(dist * this.client.settings.playerSpeed));
+                this.transform.move(
+                    pos.x,
+                    pos.y,
+                    new Vector2(dist * this.client.settings.playerSpeed)
+                );
             }
 
             if (this.path.length === 0) {
@@ -179,29 +183,21 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
     pause() {
         this._paused = true;
-        this.emit(
-            new PathfinderPauseEvent
-        );
+        this.emit(new PathfinderPauseEvent());
     }
 
     start() {
         this._paused = false;
-        this.emit(
-            new PathfinderStartEvent(this.destination)
-        );
+        this.emit(new PathfinderStartEvent(this.destination));
     }
 
     private _stop(reached: boolean) {
         this.destination = null;
         if (!reached) this._moved = true;
 
-        this.emit(
-            new PathfinderStopEvent(reached)
-        );
+        this.emit(new PathfinderStopEvent(reached));
         if (reached) {
-            this.emit(
-                new PathfinderEndEvent
-            );
+            this.emit(new PathfinderEndEvent());
         }
     }
 

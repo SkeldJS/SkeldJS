@@ -1,19 +1,16 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
-import {
-    EventEmitter,
-    ExtractEventTypes,
-} from "@skeldjs/events";
+import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { Hostable } from "./Hostable";
 
 import { NetworkableDespawnEvent, NetworkableSpawnEvent } from "./events";
+import { BaseRpcMessage } from "@skeldjs/protocol";
 
-export type NetworkableEvents = ExtractEventTypes<[
-    NetworkableSpawnEvent,
-    NetworkableDespawnEvent
-]>;
+export type NetworkableEvents = ExtractEventTypes<
+    [NetworkableSpawnEvent, NetworkableDespawnEvent]
+>;
 
 /**
  * Represents a basic networkable object in Among Us.
@@ -84,12 +81,8 @@ export class Networkable<
     async emit<Event extends NetworkableEvents[keyof NetworkableEvents]>(
         event: Event
     ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(
-        event: Event
-    ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(
-        event: Event
-    ): Promise<Event> {
+    async emit<Event extends T[keyof T]>(event: Event): Promise<Event>;
+    async emit<Event extends T[keyof T]>(event: Event): Promise<Event> {
         if (this.owner) {
             this.owner.emit(event);
         }
@@ -110,7 +103,7 @@ export class Networkable<
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     PreSerialize() {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {}
+    async HandleRpc(rpc: BaseRpcMessage) {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     FixedUpdate(delta: number) {}
 

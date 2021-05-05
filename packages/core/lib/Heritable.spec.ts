@@ -23,7 +23,10 @@ describe("Heritable", () => {
             let was_called2 = false;
 
             const room = new Hostable<HostableEvents & TestEvents>();
-            const heritable = new Heritable<HeritableEvents & TestEvents>(room, 1013);
+            const heritable = new Heritable<HeritableEvents & TestEvents>(
+                room,
+                1013
+            );
 
             heritable.on("test.event", async (ev) => {
                 if (ev.alphabet === alphabet) {
@@ -37,9 +40,7 @@ describe("Heritable", () => {
                 }
             });
 
-            await heritable.emit(
-                new TestEvent(alphabet)
-            );
+            await heritable.emit(new TestEvent(alphabet));
 
             assert.ok(was_called1);
             assert.ok(was_called2);
