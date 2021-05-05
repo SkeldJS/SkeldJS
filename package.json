@@ -82,5 +82,5 @@
     "packages/*",
     "test"
   ],
-  "version": "2.6.20"
+  "version": "2.9.0"
 }
