@@ -32,6 +32,76 @@ export interface AllGameOptions {
 }
 
 export class GameOptions implements AllGameOptions {
+    static isValid(options: GameOptions) {
+        if (options.maxPlayers < 4 || options.maxPlayers > 10) {
+            return false;
+        }
+
+        if (!(options.keywords in GameKeyword)) {
+            return false;
+        }
+
+        if (!(options.map in GameMap)) {
+            return false;
+        }
+
+        if (options.numImpostors < 1 || options.numImpostors > 3) {
+            return false;
+        }
+
+        if (options.numEmergencies > 9) {
+            return false;
+        }
+
+        if (options.emergencyCooldown < 0 || options.emergencyCooldown > 60) {
+            return false;
+        }
+
+        if (options.discussionTime < 0 || options.discussionTime > 120) {
+            return false;
+        }
+
+        if (options.votingTime < 0 || options.votingTime > 300) {
+            return false;
+        }
+
+        if (options.playerSpeed < 0.5 || options.playerSpeed > 3) {
+            return false;
+        }
+
+        if (options.crewmateVision < 0.25 || options.crewmateVision > 5) {
+            return false;
+        }
+
+        if (options.impostorVision < 0.25 || options.impostorVision > 5) {
+            return false;
+        }
+
+        if (options.killCooldown < 10 || options.killCooldown > 60) {
+            return false;
+        }
+
+        if (!(options.keywords in KillDistance)) {
+            return false;
+        }
+
+        if (!(options.taskbarUpdates in TaskBarUpdate)) {
+            return false;
+        }
+
+        if (options.commonTasks < 0 || options.commonTasks > 2) {
+            return false;
+        }
+
+        if (options.longTasks < 0 || options.longTasks > 3) {
+            return false;
+        }
+
+        if (options.shortTasks < 0 || options.shortTasks > 5) {
+            return false;
+        }
+    }
+
     version: number;
     maxPlayers: number;
     keywords: GameKeyword;
@@ -85,43 +155,46 @@ export class GameOptions implements AllGameOptions {
     }
 
     static Deserialize(reader: HazelReader) {
+        return new GameOptions().Deserialize(reader);
+    }
+
+    Deserialize(reader: HazelReader) {
         const length = reader.upacked();
         const oreader = reader.bytes(length);
-        const options: Partial<AllGameOptions> = {};
 
-        options.version = oreader.uint8();
-        options.maxPlayers = oreader.uint8();
-        options.keywords = oreader.uint32();
-        options.map = oreader.uint8();
-        options.playerSpeed = oreader.float();
-        options.crewmateVision = oreader.float();
-        options.impostorVision = oreader.float();
-        options.killCooldown = oreader.float();
-        options.commonTasks = oreader.uint8();
-        options.longTasks = oreader.uint8();
-        options.shortTasks = oreader.uint8();
-        options.numEmergencies = oreader.uint32();
-        options.numImpostors = oreader.uint8();
-        options.killDistance = oreader.uint8();
-        options.discussionTime = oreader.uint32();
-        options.votingTime = oreader.uint32();
-        options.isDefaults = oreader.bool();
+        this.version = oreader.uint8();
+        this.maxPlayers = oreader.uint8();
+        this.keywords = oreader.uint32();
+        this.map = oreader.uint8();
+        this.playerSpeed = oreader.float();
+        this.crewmateVision = oreader.float();
+        this.impostorVision = oreader.float();
+        this.killCooldown = oreader.float();
+        this.commonTasks = oreader.uint8();
+        this.longTasks = oreader.uint8();
+        this.shortTasks = oreader.uint8();
+        this.numEmergencies = oreader.uint32();
+        this.numImpostors = oreader.uint8();
+        this.killDistance = oreader.uint8();
+        this.discussionTime = oreader.uint32();
+        this.votingTime = oreader.uint32();
+        this.isDefaults = oreader.bool();
 
-        if (options.version >= 2) {
-            options.emergencyCooldown = oreader.uint8();
+        if (this.version >= 2) {
+            this.emergencyCooldown = oreader.uint8();
 
-            if (options.version >= 3) {
-                options.confirmEjects = oreader.bool();
-                options.visualTasks = oreader.bool();
+            if (this.version >= 3) {
+                this.confirmEjects = oreader.bool();
+                this.visualTasks = oreader.bool();
 
-                if (options.version >= 4) {
-                    options.anonymousVotes = oreader.bool();
-                    options.taskbarUpdates = oreader.uint8();
+                if (this.version >= 4) {
+                    this.anonymousVotes = oreader.bool();
+                    this.taskbarUpdates = oreader.uint8();
                 }
             }
         }
 
-        return new GameOptions(options);
+        return this;
     }
 
     Serialize(writer: HazelWriter) {

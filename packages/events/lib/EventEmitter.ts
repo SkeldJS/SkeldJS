@@ -14,14 +14,12 @@ export type ExtractEventType<
 > = Extract<Events[number], { eventName: EventName }>;
 
 export type ExtractEventTypes<Events extends Eventable[]> = {
-    [K in ExtractEventName<Events[number]>]: ExtractEventType<Events, K>
+    [K in ExtractEventName<Events[number]>]: ExtractEventType<Events, K>;
 };
 
-export type EventData = Record<string|number|symbol, Eventable>;
+export type EventData = Record<string | number | symbol, Eventable>;
 
-type Listener<
-    Event extends Eventable
-> = (ev: Event) => void | Promise<void>;
+type Listener<Event extends Eventable> = (ev: Event) => void | Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
     private readonly listeners: Map<
@@ -36,7 +34,9 @@ export class EventEmitter<Events extends EventData> {
     async emit<Event extends Events[keyof Events]>(
         event: Event
     ): Promise<Event> {
-        const listeners = this.getListeners(event.eventName) as Set<Listener<Event>>;
+        const listeners = this.getListeners(event.eventName) as Set<
+            Listener<Event>
+        >;
 
         if (listeners.size) {
             for (const listener of listeners) await listener(event);
@@ -95,9 +95,7 @@ export class EventEmitter<Events extends EventData> {
         return listeners as Set<Listener<Events[EventName]>>;
     }
 
-    removeListeners<EventName extends keyof Events>(
-        event: EventName
-    ) {
+    removeListeners<EventName extends keyof Events>(event: EventName) {
         const listeners = this.getListeners(event);
         listeners.clear();
     }

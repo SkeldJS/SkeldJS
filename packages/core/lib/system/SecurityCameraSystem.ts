@@ -13,12 +13,8 @@ export interface SecurityCameraSystemData {
     players: Set<number>;
 }
 
-export type SecurityCameraSystemEvents =
-    SystemStatusEvents &
-ExtractEventTypes<[
-    SecurityCameraJoinEvent,
-    SecurityCameraLeaveEvent
-]>;
+export type SecurityCameraSystemEvents = SystemStatusEvents &
+    ExtractEventTypes<[SecurityCameraJoinEvent, SecurityCameraLeaveEvent]>;
 
 /**
  * Represents a system responsible for handling players entering and leaving security cameras.

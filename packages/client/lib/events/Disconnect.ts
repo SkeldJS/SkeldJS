@@ -18,10 +18,7 @@ export class ClientDisconnectEvent extends CancelableEvent {
      */
     message?: string;
 
-    constructor(
-        reason: DisconnectReason,
-        message?: string
-    ) {
+    constructor(reason: DisconnectReason, message?: string) {
         super();
 
         this.reason = reason;

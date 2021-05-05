@@ -20,11 +20,8 @@ export interface SwitchSystemData {
     brightness: number;
 }
 
-export type SwitchSystemEvents =
-    SystemStatusEvents &
-ExtractEventTypes<[
-        SwitchFlipEvent
-]>;
+export type SwitchSystemEvents = SystemStatusEvents &
+    ExtractEventTypes<[SwitchFlipEvent]>;
 
 /**
  * Represents a system responsible for handling switches in Electrical.

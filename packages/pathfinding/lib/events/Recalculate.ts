@@ -13,9 +13,7 @@ export class EngineRecalculateEvent extends BasicEvent {
      */
     path: Vector2[];
 
-    constructor(
-        path: Vector2[]
-    ) {
+    constructor(path: Vector2[]) {
         super();
 
         this.path = path;

@@ -92,7 +92,14 @@ export async function getAuthToken(
         if (attempt === attempts) {
             throw e;
         } else {
-            return await getAuthToken(exe_path, cert_path, ip, port, attempts, attempt + 1);
+            return await getAuthToken(
+                exe_path,
+                cert_path,
+                ip,
+                port,
+                attempts,
+                attempt + 1
+            );
         }
     }
 }
@@ -121,7 +128,7 @@ export function authTokenHook(
                 options.exe_path,
                 options.cert_path,
                 ev.ip,
-                ev.port + 2, /* Auth port is normal port + 2 */
+                ev.port + 2 /* Auth port is normal port + 2 */,
                 options.attempts ?? 1
             );
         } catch (e) {

@@ -4,7 +4,12 @@ import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { Heritable } from "../Heritable";
-import { KickPlayerMessage, RpcMessage } from "@skeldjs/protocol";
+import {
+    AddVoteMessage,
+    BaseRpcMessage,
+    KickPlayerMessage,
+    RpcMessage,
+} from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { PlayerData } from "../PlayerData";
 
@@ -81,20 +86,17 @@ export class VoteBanSystem extends Networkable<
         return true;
     }
 
-    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
-        switch (callid) {
+    async HandleRpc(rpc: BaseRpcMessage) {
+        switch (rpc.tag) {
             case RpcMessageTag.AddVote:
-                this._handleAddVote(reader);
+                this._handleAddVote(rpc as AddVoteMessage);
                 break;
         }
     }
 
-    private _handleAddVote(reader: HazelReader) {
-        const votingid = reader.uint32();
-        const targetid = reader.uint32();
-
-        const voting = this.room.players.get(votingid);
-        const target = this.room.players.get(targetid);
+    private _handleAddVote(rpc: AddVoteMessage) {
+        const voting = this.room.players.get(rpc.votingid);
+        const target = this.room.players.get(rpc.targetid);
 
         if (voting && target) {
             this._addVote(voting, target);
@@ -128,15 +130,11 @@ export class VoteBanSystem extends Networkable<
     }
 
     private _rpcAddVote(voter: PlayerData, target: PlayerData) {
-        const writer = HazelWriter.alloc(8);
-        writer.uint32(voter.id);
-        writer.uint32(target.id);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.AddVote,
-                writer.buffer
+                new AddVoteMessage(voter.id, target.id)
             )
         );
     }

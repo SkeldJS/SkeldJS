@@ -39,11 +39,7 @@ import {
     RemovePlayerMessage,
 } from "@skeldjs/protocol";
 
-import {
-    Code2Int,
-    VersionInfo,
-    HazelWriter
-} from "@skeldjs/util";
+import { Code2Int, VersionInfo, HazelWriter } from "@skeldjs/util";
 
 import { PlayerData, RoomID } from "@skeldjs/core";
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
@@ -54,7 +50,7 @@ import { ClientConfig, DebugLevel } from "./interface/ClientConfig";
 import {
     ClientConnectEvent,
     ClientDisconnectEvent,
-    ClientJoinEvent
+    ClientJoinEvent,
 } from "./events";
 
 const lookupDns = util.promisify(dns.lookup);
@@ -87,14 +83,10 @@ export interface SentPacket {
     ackd: boolean;
 }
 
-export type SkeldjsClientEvents =
-    SkeldjsStateManagerEvents &
-ExtractEventTypes<[
-    ClientConnectEvent,
-    ClientDisconnectEvent,
-    ClientJoinEvent
-]>;
-
+export type SkeldjsClientEvents = SkeldjsStateManagerEvents &
+    ExtractEventTypes<
+        [ClientConnectEvent, ClientDisconnectEvent, ClientJoinEvent]
+    >;
 
 /**
  * Represents a programmable Among Us client.
@@ -324,12 +316,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
 
-        await this.emit(
-            new ClientConnectEvent(
-                this.ip,
-                this.port
-            )
-        );
+        await this.emit(new ClientConnectEvent(this.ip, this.port));
 
         if (typeof username === "string") {
             await this.identify(username, this.token);

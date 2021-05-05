@@ -1,5 +1,29 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { AllGameOptions, ComponentSpawnData, GameOptions, RpcMessage, SpawnMessage } from "@skeldjs/protocol";
+import {
+    AllGameOptions,
+    BaseRpcMessage,
+    CheckColorMessage,
+    CheckNameMessage,
+    CompleteTaskMessage,
+    ComponentSpawnData,
+    GameOptions,
+    MurderPlayerMessage,
+    ReportDeadBodyMessage,
+    RpcMessage,
+    SendChatMessage,
+    SendChatNoteMessage,
+    SetColorMessage,
+    SetHatMessage,
+    SetInfectedMessage,
+    SetNameMessage,
+    SetPetMessage,
+    SetSkinMessage,
+    SetStartCounterMessage,
+    SpawnMessage,
+    StartMeetingMessage,
+    SyncSettingsMessage,
+    UsePlatformMessage,
+} from "@skeldjs/protocol";
 
 import {
     ChatNoteType,
@@ -45,25 +69,26 @@ export interface PlayerControlData {
     playerId: number;
 }
 
-export type PlayerControlEvents =
-    NetworkableEvents &
-ExtractEventTypes<[
-    PlayerCompleteTaskEvent,
-    PlayerCheckNameEvent,
-    PlayerCheckColorEvent,
-    PlayerSetNameEvent,
-    PlayerSetColorEvent,
-    PlayerSetHatEvent,
-    PlayerSetSkinEvent,
-    PlayerSetPetEvent,
-    PlayerSyncSettingsEvent,
-    PlayerSetStartCounterEvent,
-    PlayerSetImpostorsEvent,
-    PlayerMurderPlayerEvent,
-    PlayerReportDeadBodyEvent,
-    PlayerCallMeetingEvent,
-    PlayerChatEvent
-]>;
+export type PlayerControlEvents = NetworkableEvents &
+    ExtractEventTypes<
+        [
+            PlayerCompleteTaskEvent,
+            PlayerCheckNameEvent,
+            PlayerCheckColorEvent,
+            PlayerSetNameEvent,
+            PlayerSetColorEvent,
+            PlayerSetHatEvent,
+            PlayerSetSkinEvent,
+            PlayerSetPetEvent,
+            PlayerSyncSettingsEvent,
+            PlayerSetStartCounterEvent,
+            PlayerSetImpostorsEvent,
+            PlayerMurderPlayerEvent,
+            PlayerReportDeadBodyEvent,
+            PlayerCallMeetingEvent,
+            PlayerChatEvent
+        ]
+    >;
 
 /**
  * Represents a player object for interacting with the game and other players.
@@ -123,76 +148,78 @@ export class PlayerControl extends Networkable<
         return true;
     }
 
-    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
-        switch (callid) {
+    async HandleRpc(rpc: BaseRpcMessage) {
+        switch (rpc.tag) {
             case RpcMessageTag.CompleteTask:
-                await this._handleCompleteTask(reader);
+                await this._handleCompleteTask(rpc as CompleteTaskMessage);
                 break;
             case RpcMessageTag.SyncSettings:
-                await this._handleSyncSettings(reader);
+                await this._handleSyncSettings(rpc as SyncSettingsMessage);
                 break;
             case RpcMessageTag.SetInfected:
-                await this._handleSetInfected(reader);
+                await this._handleSetInfected(rpc as SetInfectedMessage);
                 break;
             case RpcMessageTag.CheckName:
                 if (this.room.amhost) {
-                    await this._handleCheckName(reader);
+                    await this._handleCheckName(rpc as CheckNameMessage);
                 }
                 break;
             case RpcMessageTag.CheckColor:
                 if (this.room.amhost) {
-                    await this._handleCheckColor(reader);
+                    await this._handleCheckColor(rpc as CheckColorMessage);
                 }
                 break;
             case RpcMessageTag.SetName:
-                await this._handleSetName(reader);
+                await this._handleSetName(rpc as SetNameMessage);
                 break;
             case RpcMessageTag.SetColor:
-                await this._handleSetColor(reader);
+                await this._handleSetColor(rpc as SetColorMessage);
                 break;
             case RpcMessageTag.SetHat:
-                await this._handleSetHat(reader);
+                await this._handleSetHat(rpc as SetHatMessage);
                 break;
             case RpcMessageTag.SetSkin:
-                await this._handleSetSkin(reader);
+                await this._handleSetSkin(rpc as SetSkinMessage);
                 break;
             case RpcMessageTag.ReportDeadBody:
                 if (this.room.amhost) {
-                    await this._handleReportDeadBody(reader);
+                    await this._handleReportDeadBody(
+                        rpc as ReportDeadBodyMessage
+                    );
                 }
                 break;
             case RpcMessageTag.MurderPlayer:
-                await this._handleMurderPlayer(reader);
+                await this._handleMurderPlayer(rpc as MurderPlayerMessage);
                 break;
             case RpcMessageTag.SendChat:
-                await this._handleSendChat(reader);
+                await this._handleSendChat(rpc as SendChatMessage);
                 break;
             case RpcMessageTag.StartMeeting:
-                await this._handleStartMeeting(reader);
+                await this._handleStartMeeting(rpc as StartMeetingMessage);
                 break;
             case RpcMessageTag.SetPet:
-                await this._handleSetPet(reader);
+                await this._handleSetPet(rpc as SetPetMessage);
                 break;
             case RpcMessageTag.SetStartCounter:
-                await this._handleSetStartCounter(reader);
+                await this._handleSetStartCounter(
+                    rpc as SetStartCounterMessage
+                );
                 break;
             case RpcMessageTag.UsePlatform:
-                await this._handleUsePlatform(reader);
+                await this._handleUsePlatform(rpc as UsePlatformMessage);
                 break;
         }
     }
 
-    private async _handleCompleteTask(reader: HazelReader) {
-        const taskIdx = reader.upacked();
-
-        this._completeTask(taskIdx);
+    private async _handleCompleteTask(rpc: CompleteTaskMessage) {
+        this._completeTask(rpc.taskidx);
 
         if (this.player.data?.tasks) {
             await this.emit(
                 new PlayerCompleteTaskEvent(
                     this.room,
                     this.player,
-                    this.player.data.tasks[taskIdx]
+                    this.player.data.tasks[rpc.taskidx]
                 )
             );
         }
@@ -205,14 +232,11 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcCompleteTask(taskIdx: number) {
-        const writer = HazelWriter.alloc(1);
-        writer.upacked(taskIdx);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.CompleteTask,
-                writer.buffer
+                new CompleteTaskMessage(taskIdx)
             )
         );
     }
@@ -222,11 +246,9 @@ export class PlayerControl extends Networkable<
         this._rpcCompleteTask(taskIdx);
     }
 
-    private async _handleSyncSettings(reader: HazelReader) {
-        const settings = reader.read(GameOptions);
-
-        if (settings) {
-            this._syncSettings(settings);
+    private async _handleSyncSettings(rpc: SyncSettingsMessage) {
+        if (rpc.options) {
+            this._syncSettings(rpc.options);
 
             await this.emit(
                 new PlayerSyncSettingsEvent(
@@ -243,43 +265,37 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSyncSettings(settings: GameOptions) {
-        const writer = HazelWriter.alloc(40);
-        writer.write(settings);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SyncSettings,
-                writer.buffer
+                new SyncSettingsMessage(settings)
             )
         );
     }
 
     syncSettings(
-        update_settings: Partial<AllGameOptions> | GameOptions = this.room.settings
+        update_settings: Partial<AllGameOptions> | GameOptions = this.room
+            .settings
     ) {
-        const settings = update_settings instanceof GameOptions
-            ? update_settings
-            : new GameOptions(update_settings);
+        const settings =
+            update_settings instanceof GameOptions
+                ? update_settings
+                : new GameOptions(update_settings);
 
         this._syncSettings(settings);
         this._rpcSyncSettings(settings);
     }
 
-    private async _handleSetInfected(reader: HazelReader) {
-        const impostors = reader
-            .list((r) => r.uint8())
-            .map(id => this.room.getPlayerByPlayerId(id))
-            .filter(player => player && player.data);
+    private async _handleSetInfected(rpc: SetInfectedMessage) {
+        const impostors = rpc.impostors
+            .map((id) => this.room.getPlayerByPlayerId(id))
+            .filter((player) => player && player.data);
 
         this._setInfected(impostors);
 
         await this.emit(
-            new PlayerSetImpostorsEvent(
-                this.room,
-                this.player,
-                impostors
-            )
+            new PlayerSetImpostorsEvent(this.room, this.player, impostors)
         );
     }
 
@@ -290,15 +306,14 @@ export class PlayerControl extends Networkable<
         }
     }
 
-    private _rpcSetInfected(players: PlayerData[]) {
-        const writer = HazelWriter.alloc(players.length + 1);
-        writer.list(true, players, (player) => writer.uint8(player.playerId));
-
+    private _rpcSetInfected(infected: PlayerData[]) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SetInfected,
-                writer.buffer
+                new SetInfectedMessage(
+                    infected.map((player) => player.playerId)
+                )
             )
         );
     }
@@ -312,13 +327,12 @@ export class PlayerControl extends Networkable<
         this._rpcSetInfected(resolved);
     }
 
-    private async _handleCheckName(reader: HazelReader) {
-        const name = reader.string();
+    private async _handleCheckName(rpc: CheckNameMessage) {
         if (!this.room.gamedata) {
             return;
         }
 
-        let new_name = name;
+        let new_name = rpc.name;
 
         const players = [...this.room.gamedata.players.values()];
         if (
@@ -329,14 +343,13 @@ export class PlayerControl extends Networkable<
             )
         ) {
             for (let i = 1; i < 100; i++) {
-                new_name = name + " " + i;
+                new_name = rpc.name + " " + i;
 
                 if (
                     !players.some(
                         (player) =>
                             player.playerId !== this.playerId &&
-                            player.name.toLowerCase() ===
-                                new_name.toLowerCase()
+                            player.name.toLowerCase() === new_name.toLowerCase()
                     )
                 ) {
                     break;
@@ -345,37 +358,25 @@ export class PlayerControl extends Networkable<
         }
 
         const ev = await this.emit(
-            new PlayerCheckNameEvent(
-                this.room,
-                this.player,
-                name,
-                new_name
-            )
+            new PlayerCheckNameEvent(this.room, this.player, rpc.name, new_name)
         );
 
         if (!ev.canceled) {
             this.setName(ev.altered);
 
             await this.emit(
-                new PlayerSetNameEvent(
-                    this.room,
-                    this.player,
-                    ev.altered
-                )
+                new PlayerSetNameEvent(this.room, this.player, ev.altered)
             );
         }
     }
 
     private async _rpcCheckName(name: string) {
-        const writer = HazelWriter.alloc(name.length + 1);
-        writer.string(name);
-
         await this.room.broadcast(
             [
                 new RpcMessage(
                     this.netid,
                     RpcMessageTag.CheckName,
-                    writer.buffer
+                    new CheckNameMessage(name)
                 ),
             ],
             true,
@@ -387,20 +388,19 @@ export class PlayerControl extends Networkable<
         await this._rpcCheckName(name);
     }
 
-    private async _handleCheckColor(reader: HazelReader) {
-        const color = reader.uint8();
+    private async _handleCheckColor(rpc: CheckColorMessage) {
         if (!this.room.gamedata) {
             return;
         }
 
-        let new_color = color;
+        let new_color = rpc.color;
 
         const players = [...this.room.gamedata.players.values()];
         while (
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player.color === color
+                    player.color === rpc.color
             )
         ) {
             new_color++;
@@ -413,7 +413,7 @@ export class PlayerControl extends Networkable<
             new PlayerCheckColorEvent(
                 this.room,
                 this.player,
-                color,
+                rpc.color,
                 new_color
             )
         );
@@ -422,25 +422,18 @@ export class PlayerControl extends Networkable<
             this.setColor(ev.altered);
 
             await this.emit(
-                new PlayerSetColorEvent(
-                    this.room,
-                    this.player,
-                    ev.altered
-                )
+                new PlayerSetColorEvent(this.room, this.player, ev.altered)
             );
         }
     }
 
     private async _rpcCheckColor(color: Color) {
-        const writer = HazelWriter.alloc(1);
-        writer.uint8(color);
-
         await this.room.broadcast(
             [
                 new RpcMessage(
                     this.netid,
                     RpcMessageTag.CheckColor,
-                    writer.buffer
+                    new CheckColorMessage(color)
                 ),
             ],
             true,
@@ -452,16 +445,11 @@ export class PlayerControl extends Networkable<
         await this._rpcCheckColor(color);
     }
 
-    private async _handleSetName(reader: HazelReader) {
-        const name = reader.string();
-        this._setName(name);
+    private async _handleSetName(rpc: SetNameMessage) {
+        this._setName(rpc.name);
 
         await this.emit(
-            new PlayerSetNameEvent(
-                this.room,
-                this.player,
-                name
-            )
+            new PlayerSetNameEvent(this.room, this.player, rpc.name)
         );
     }
 
@@ -470,14 +458,11 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSetName(name: string) {
-        const writer = HazelWriter.alloc(name.length + 1);
-        writer.string(name);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SetName,
-                writer.buffer
+                new SetNameMessage(name)
             )
         );
     }
@@ -487,16 +472,11 @@ export class PlayerControl extends Networkable<
         this._rpcSetName(name);
     }
 
-    private async _handleSetColor(reader: HazelReader) {
-        const color = reader.uint8();
-        this._setColor(color);
+    private async _handleSetColor(rpc: SetColorMessage) {
+        this._setColor(rpc.color);
 
         await this.emit(
-            new PlayerSetColorEvent(
-                this.room,
-                this.player,
-                color
-            )
+            new PlayerSetColorEvent(this.room, this.player, rpc.color)
         );
     }
 
@@ -505,14 +485,11 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSetColor(color: Color) {
-        const writer = HazelWriter.alloc(1);
-        writer.uint8(color);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SetColor,
-                writer.buffer
+                new SetColorMessage(color)
             )
         );
     }
@@ -522,17 +499,10 @@ export class PlayerControl extends Networkable<
         this._rpcSetColor(color);
     }
 
-    private async _handleSetHat(reader: HazelReader) {
-        const hat = reader.upacked();
-        this._setHat(hat);
+    private async _handleSetHat(rpc: SetHatMessage) {
+        this._setHat(rpc.hat);
 
-        await this.emit(
-            new PlayerSetHatEvent(
-                this.room,
-                this.player,
-                hat
-            )
-        );
+        await this.emit(new PlayerSetHatEvent(this.room, this.player, rpc.hat));
     }
 
     private _setHat(hat: Hat) {
@@ -540,14 +510,11 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSetHat(hat: Hat) {
-        const writer = HazelWriter.alloc(1);
-        writer.upacked(hat);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SetHat,
-                writer.buffer
+                new SetHatMessage(hat)
             )
         );
     }
@@ -557,16 +524,11 @@ export class PlayerControl extends Networkable<
         this._rpcSetHat(hat);
     }
 
-    private async _handleSetSkin(reader: HazelReader) {
-        const skin = reader.upacked();
-        this._setSkin(skin);
+    private async _handleSetSkin(rpc: SetSkinMessage) {
+        this._setSkin(rpc.skin);
 
         await this.emit(
-            new PlayerSetSkinEvent(
-                this.room,
-                this.player,
-                skin
-            )
+            new PlayerSetSkinEvent(this.room, this.player, rpc.skin)
         );
     }
 
@@ -575,14 +537,11 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSetSkin(skin: Skin) {
-        const writer = HazelWriter.alloc(1);
-        writer.upacked(skin);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SetSkin,
-                writer.buffer
+                new SetSkinMessage(skin)
             )
         );
     }
@@ -592,18 +551,17 @@ export class PlayerControl extends Networkable<
         this._rpcSetSkin(skin);
     }
 
-    private async _handleReportDeadBody(reader: HazelReader) {
-        const bodyid = reader.uint8();
-
-        const body = bodyid === 0xff
-            ? undefined
-            : await this.room.getPlayerByPlayerId(bodyid);
+    private async _handleReportDeadBody(rpc: ReportDeadBodyMessage) {
+        const body =
+            rpc.bodyid === 0xff
+                ? undefined
+                : await this.room.getPlayerByPlayerId(rpc.bodyid);
 
         const ev = await this.emit(
             new PlayerReportDeadBodyEvent(
                 this.room,
                 this.player,
-                bodyid === 0xff,
+                rpc.bodyid === 0xff,
                 body
             )
         );
@@ -615,7 +573,7 @@ export class PlayerControl extends Networkable<
                 new PlayerCallMeetingEvent(
                     this.room,
                     this.room.host,
-                    bodyid === 0xff,
+                    rpc.bodyid === 0xff,
                     body
                 )
             );
@@ -627,16 +585,13 @@ export class PlayerControl extends Networkable<
     }
 
     private async _rpcReportDeadBody(body?: PlayerData) {
-        const writer = HazelWriter.alloc(1);
-        writer.uint8(body ? body.playerId : 0xff);
-
         await this.room.broadcast(
             [
                 new RpcMessage(
                     this.netid,
                     RpcMessageTag.ReportDeadBody,
-                    writer.buffer
-                )
+                    new ReportDeadBodyMessage(body ? body.playerId : 0xff)
+                ),
             ],
             true,
             this.room.host
@@ -647,38 +602,28 @@ export class PlayerControl extends Networkable<
         await this._rpcReportDeadBody(body);
     }
 
-    private async _handleMurderPlayer(reader: HazelReader) {
-        const netid = reader.upacked();
-
-        const resolved = this.room.getPlayerByNetId(netid);
+    private async _handleMurderPlayer(rpc: MurderPlayerMessage) {
+        const resolved = this.room.getPlayerByNetId(rpc.victimid);
 
         if (resolved) {
             this._murderPlayer(resolved);
 
             await this.emit(
-                new PlayerMurderPlayerEvent(
-                    this.room,
-                    this.player,
-                    resolved
-                )
+                new PlayerMurderPlayerEvent(this.room, this.player, resolved)
             );
         }
     }
 
     private _murderPlayer(victim: PlayerData) {
-        if (victim.data)
-            victim.data.dead = true;
+        if (victim.data) victim.data.dead = true;
     }
 
     private _rpcMurderPlayer(victim: PlayerData) {
-        const writer = HazelWriter.alloc(1);
-        writer.upacked(victim.control.netid);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.MurderPlayer,
-                writer.buffer
+                new MurderPlayerMessage(victim.control.netid)
             )
         );
     }
@@ -692,27 +637,18 @@ export class PlayerControl extends Networkable<
         }
     }
 
-    private async _handleSendChat(reader: HazelReader) {
-        const message = reader.string();
-
+    private async _handleSendChat(rpc: SendChatMessage) {
         await this.emit(
-            new PlayerChatEvent(
-                this.room,
-                this.player,
-                message
-            )
+            new PlayerChatEvent(this.room, this.player, rpc.message)
         );
     }
 
     private _rpcSendChat(message: string) {
-        const writer = HazelWriter.alloc(1);
-        writer.string(message);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SendChat,
-                writer.buffer
+                new SendChatMessage(message)
             )
         );
     }
@@ -722,15 +658,11 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSendChatNote(player: PlayerData, type: ChatNoteType) {
-        const writer = HazelWriter.alloc(2);
-        writer.uint8(player.playerId);
-        writer.uint8(type);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SendChatNote,
-                writer.buffer
+                new SendChatNoteMessage(player.playerId, type)
             )
         );
     }
@@ -743,12 +675,11 @@ export class PlayerControl extends Networkable<
         }
     }
 
-    private async _handleStartMeeting(reader: HazelReader) {
-        const bodyid = reader.uint8();
-
-        const player = bodyid === 0xff
-            ? this.room.getPlayerByPlayerId(bodyid)
-            : undefined;
+    private async _handleStartMeeting(rpc: StartMeetingMessage) {
+        const player =
+            rpc.bodyid === 0xff
+                ? this.room.getPlayerByPlayerId(rpc.bodyid)
+                : undefined;
 
         this._startMeeting(player);
 
@@ -756,7 +687,7 @@ export class PlayerControl extends Networkable<
             new PlayerCallMeetingEvent(
                 this.room,
                 this.player,
-                bodyid === 0xff,
+                rpc.bodyid === 0xff,
                 player
             )
         );
@@ -770,8 +701,8 @@ export class PlayerControl extends Networkable<
             {
                 states: new Map(
                     [...this.room.players]
-                        .filter(([ , player ]) => player.data && player.spawned)
-                        .map(([ , player ]) => {
+                        .filter(([, player]) => player.data && player.spawned)
+                        .map(([, player]) => {
                             return [
                                 player.playerId,
                                 new PlayerVoteState(
@@ -781,10 +712,10 @@ export class PlayerControl extends Networkable<
                                     player === caller,
                                     false,
                                     player.data.dead
-                                )
+                                ),
                             ];
                         })
-                )
+                ),
             }
         );
 
@@ -794,53 +725,34 @@ export class PlayerControl extends Networkable<
         writer.write(meetinghud, true);
 
         this.room.stream.push(
-            new SpawnMessage(
-                SpawnType.MeetingHud,
-                -2,
-                SpawnFlag.None,
-                [
-                    new ComponentSpawnData(
-                        meetinghud.netid,
-                        writer.buffer
-                    )
-                ]
-            )
+            new SpawnMessage(SpawnType.MeetingHud, -2, SpawnFlag.None, [
+                new ComponentSpawnData(meetinghud.netid, writer.buffer),
+            ])
         );
     }
 
     private _rpcStartMeeting(player?: PlayerData) {
-        const writer = HazelWriter.alloc(1);
-        writer.uint8(player ? player.playerId : 0xff);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.StartMeeting,
-                writer.buffer
+                new StartMeetingMessage(player ? player.playerId : 0xff)
             )
         );
     }
 
     startMeeting(caller: PlayerData, body: PlayerDataResolvable | "emergency") {
-        const resolved = body === "emergency"
-            ? undefined
-            : this.room.resolvePlayer(body);
+        const resolved =
+            body === "emergency" ? undefined : this.room.resolvePlayer(body);
 
         this._rpcStartMeeting(resolved);
         this._startMeeting(caller);
     }
 
-    private async _handleSetPet(reader: HazelReader) {
-        const pet = reader.upacked();
-        this._setPet(pet);
+    private async _handleSetPet(rpc: SetPetMessage) {
+        this._setPet(rpc.pet);
 
-        await this.emit(
-            new PlayerSetPetEvent(
-                this.room,
-                this.player,
-                pet
-            )
-        );
+        await this.emit(new PlayerSetPetEvent(this.room, this.player, rpc.pet));
     }
 
     private _setPet(pet: Pet) {
@@ -848,14 +760,11 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSetPet(pet: Pet) {
-        const writer = HazelWriter.alloc(1);
-        writer.upacked(pet);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SetPet,
-                writer.buffer
+                new SetPetMessage(pet)
             )
         );
     }
@@ -865,18 +774,12 @@ export class PlayerControl extends Networkable<
         this._rpcSetPet(pet);
     }
 
-    private async _handleSetStartCounter(reader: HazelReader) {
-        /*TODO: Implement sequence IDs for joining/set start counter
-        const seq = */ reader.upacked();
-        const counter = reader.uint8();
-        this._setStartCounter(counter);
+    private async _handleSetStartCounter(rpc: SetStartCounterMessage) {
+        // todo: Implement sequence IDs for joining/set start counter
+        this._setStartCounter(rpc.counter);
 
         await this.emit(
-            new PlayerSetStartCounterEvent(
-                this.room,
-                this.player,
-                counter
-            )
+            new PlayerSetStartCounterEvent(this.room, this.player, rpc.counter)
         );
     }
 
@@ -886,15 +789,11 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSetStartCounter(counter: number) {
-        const writer = HazelWriter.alloc(2);
-        writer.upacked(this.lastStartCounter);
-        writer.uint8(counter);
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SetStartCounter,
-                writer.buffer
+                new SetStartCounterMessage(this.lastStartCounter, counter)
             )
         );
     }
@@ -904,8 +803,8 @@ export class PlayerControl extends Networkable<
         this._rpcSetStartCounter(counter);
     }
 
-    private async _handleUsePlatform(reader: HazelReader) {
-        void reader;
+    private async _handleUsePlatform(rpc: UsePlatformMessage) {
+        void rpc;
         this._usePlatform();
     }
 
@@ -933,7 +832,7 @@ export class PlayerControl extends Networkable<
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.UsePlatform,
-                Buffer.alloc(0)
+                new UsePlatformMessage()
             )
         );
     }

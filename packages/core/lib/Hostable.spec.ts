@@ -1,19 +1,8 @@
-import {
-    AlterGameTag,
-    KillDistance,
-    GameKeyword,
-    GameMap,
-    SpawnType,
-    TaskBarUpdate,
-} from "@skeldjs/constant";
+import { AlterGameTag, SpawnType } from "@skeldjs/constant";
 
 import { Code2Int } from "@skeldjs/util";
 
-import {
-    DespawnMessage,
-    GameOptions,
-    SceneChangeMessage,
-} from "@skeldjs/protocol";
+import { DespawnMessage, SceneChangeMessage } from "@skeldjs/protocol";
 
 import assert from "assert";
 
@@ -624,10 +613,7 @@ describe("Hostable", () => {
         it("Should instantiate a map object for the dropship lobby.", async () => {
             const room = new Hostable();
 
-            const object = room.spawnPrefab(
-                SpawnType.LobbyBehaviour,
-                room
-            );
+            const object = room.spawnPrefab(SpawnType.LobbyBehaviour, room);
 
             assert.strictEqual(object.type, SpawnType.LobbyBehaviour);
             assert.strictEqual(object.ownerid, -2);
@@ -715,10 +701,7 @@ describe("Hostable", () => {
         it("Should instantiate a map object for the april fools' version of The Skeld.", async () => {
             const room = new Hostable();
 
-            const object = room.spawnPrefab(
-                SpawnType.AprilShipStatus,
-                room
-            );
+            const object = room.spawnPrefab(SpawnType.AprilShipStatus, room);
 
             assert.strictEqual(object.type, SpawnType.AprilShipStatus);
             assert.strictEqual(object.ownerid, -2);

@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 
 import { EventEmitter } from "@skeldjs/events";
-import { RpcMessage } from "@skeldjs/protocol";
+import { RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
@@ -65,12 +65,8 @@ export class SystemStatus<
     async emit<Event extends SystemStatusEvents[keyof SystemStatusEvents]>(
         event: Event
     ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(
-        event: Event
-    ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(
-        event: Event
-    ): Promise<Event> {
+    async emit<Event extends T[keyof T]>(event: Event): Promise<Event>;
+    async emit<Event extends T[keyof T]>(event: Event): Promise<Event> {
         if (this.ship) {
             this.ship.emit(event as any);
         }
@@ -93,20 +89,23 @@ export class SystemStatus<
         if (this.ship.room.amhost) {
             this.HandleSabotage(player);
             this.emit(
-                new SystemSabotageEvent(this.ship?.room, this as unknown as AnySystem, player)
+                new SystemSabotageEvent(
+                    this.ship?.room,
+                    (this as unknown) as AnySystem,
+                    player
+                )
             );
         } else {
-            const writer = HazelWriter.alloc(3);
-            writer.uint8(SystemType.Sabotage);
-            writer.upacked(player.control.netid);
-            writer.uint8(this.systemType);
-
             this.ship.room.broadcast(
                 [
                     new RpcMessage(
                         this.ship.netid,
                         RpcMessageTag.RepairSystem,
-                        writer.buffer
+                        new RepairSystemMessage(
+                            SystemType.Sabotage,
+                            player.control.netid,
+                            this.systemType
+                        )
                     ),
                 ],
                 true,
@@ -129,7 +128,11 @@ export class SystemStatus<
                     new RpcMessage(
                         this.ship.netid,
                         RpcMessageTag.RepairSystem,
-                        writer.buffer
+                        new RepairSystemMessage(
+                            SystemType.Sabotage,
+                            player.control.netid,
+                            this.systemType
+                        )
                     ),
                 ],
                 true,

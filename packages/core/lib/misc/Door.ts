@@ -1,16 +1,12 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import {
-    EventEmitter,
-    ExtractEventTypes,
-} from "@skeldjs/events";
+import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "../system";
 import { DoorCloseDoorEvent, DoorOpenDoorEvent } from "../events";
 
-export type DoorEvents = ExtractEventTypes<[
-    DoorOpenDoorEvent,
-    DoorCloseDoorEvent
-]>;
+export type DoorEvents = ExtractEventTypes<
+    [DoorOpenDoorEvent, DoorCloseDoorEvent]
+>;
 
 /**
  * Represents a manual door for the {@link DoorsSystem} or {@link ElectricalDoorsSystem}.

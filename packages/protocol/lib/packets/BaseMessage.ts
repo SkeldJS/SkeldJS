@@ -14,7 +14,7 @@ export class BaseMessage {
         decoder: PacketDecoder
     ) {
         void reader, direction, decoder;
-        return new BaseMessage;
+        return new BaseMessage();
     }
 
     Serialize(

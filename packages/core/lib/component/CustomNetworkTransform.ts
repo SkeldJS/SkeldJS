@@ -1,6 +1,11 @@
 import { Vector2, HazelReader, HazelWriter } from "@skeldjs/util";
 
-import { DataMessage, RpcMessage } from "@skeldjs/protocol";
+import {
+    BaseRpcMessage,
+    DataMessage,
+    RpcMessage,
+    SnapToMessage,
+} from "@skeldjs/protocol";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -17,11 +22,8 @@ export interface CustomNetworkTransformData {
     velocity: Vector2;
 }
 
-export type CustomNetworkTransformEvents =
-    NetworkableEvents &
-ExtractEventTypes<[
-    PlayerMoveEvent, PlayerSnapToEvent
-]>;
+export type CustomNetworkTransformEvents = NetworkableEvents &
+    ExtractEventTypes<[PlayerMoveEvent, PlayerSnapToEvent]>;
 
 /**
  * Represents player component for networking movement.
@@ -103,10 +105,10 @@ export class CustomNetworkTransform extends Networkable<
         return true;
     }
 
-    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
-        switch (callid) {
+    async HandleRpc(rpc: BaseRpcMessage) {
+        switch (rpc.tag) {
             case RpcMessageTag.SnapTo:
-                await this._handleSnapTo(reader);
+                await this._handleSnapTo(rpc as SnapToMessage);
                 break;
         }
     }
@@ -139,9 +141,7 @@ export class CustomNetworkTransform extends Networkable<
         this.Serialize(writer, false);
 
         await this.room.broadcast(
-            [
-                new DataMessage(this.netid, writer.buffer)
-            ],
+            [new DataMessage(this.netid, writer.buffer)],
             false
         );
 
@@ -155,13 +155,10 @@ export class CustomNetworkTransform extends Networkable<
         );
     }
 
-    private async _handleSnapTo(reader: HazelReader) {
-        const position = reader.vector();
-        const seqId = reader.uint16();
-
-        if (NetworkUtils.seqIdGreaterThan(seqId, this.seqId)) {
-            this.seqId = seqId;
-            this.position = position;
+    private async _handleSnapTo(rpc: SnapToMessage) {
+        if (NetworkUtils.seqIdGreaterThan(rpc.sequenceid, this.seqId)) {
+            this.seqId = rpc.sequenceid;
+            this.position = rpc.position;
             this.velocity = Vector2.null;
 
             await this.emit(
@@ -180,11 +177,12 @@ export class CustomNetworkTransform extends Networkable<
     }
 
     private _rpcSnapTo(position: Vector2) {
-        const writer = HazelWriter.alloc(4);
-        writer.vector(position);
-
         this.room.stream.push(
-            new RpcMessage(this.netid, RpcMessageTag.SnapTo, writer.buffer)
+            new RpcMessage(
+                this.netid,
+                RpcMessageTag.SnapTo,
+                new SnapToMessage(new Vector2(position), this.seqId)
+            )
         );
     }
 
@@ -213,7 +211,7 @@ export class CustomNetworkTransform extends Networkable<
      * ```
      */
     snapTo(x: number, y: number);
-    snapTo(x: number|Vector2, y?: number) {
+    snapTo(x: number | Vector2, y?: number) {
         this.seqId += 1;
 
         if (this.seqId > 2 ** 16 - 1) {

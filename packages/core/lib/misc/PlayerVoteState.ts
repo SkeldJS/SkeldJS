@@ -9,7 +9,14 @@ import { PlayerData } from "../PlayerData";
  */
 export class PlayerVoteState {
     static from(room: Hostable<any>, playerId: number, byte: number) {
-        const state = new PlayerVoteState(room, playerId, null, null, null, null);
+        const state = new PlayerVoteState(
+            room,
+            playerId,
+            null,
+            null,
+            null,
+            null
+        );
         state.patch(byte);
         return state;
     }
@@ -32,10 +39,12 @@ export class PlayerVoteState {
     }
 
     get byte() {
-        return (this.votedFor ? this.votedFor.playerId : 0) |
+        return (
+            (this.votedFor ? this.votedFor.playerId : 0) |
             (this.reported ? VoteState.DidReport : 0) |
             (this.voted ? VoteState.DidVote : 0) |
-            (this.dead ? VoteState.IsDead : 0);
+            (this.dead ? VoteState.IsDead : 0)
+        );
     }
 
     patch(byte: number) {
@@ -47,7 +56,11 @@ export class PlayerVoteState {
         this.dead = (byte & VoteState.IsDead) > 0;
     }
 
-    static Deserialize(reader: HazelReader, room: Hostable<any>, playerId: number) {
+    static Deserialize(
+        reader: HazelReader,
+        room: Hostable<any>,
+        playerId: number
+    ) {
         const byte = reader.uint8();
 
         return PlayerVoteState.from(room, playerId, byte);

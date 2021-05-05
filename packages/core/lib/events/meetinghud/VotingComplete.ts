@@ -33,7 +33,7 @@ export class MeetingHudVotingCompleteEvent extends MeetingHudEvent {
         meetinghud: MeetingHud,
         tie: boolean,
         voteStates: Map<number, PlayerVoteState>,
-        ejected?: PlayerData,
+        ejected?: PlayerData
     ) {
         super(room, meetinghud);
 

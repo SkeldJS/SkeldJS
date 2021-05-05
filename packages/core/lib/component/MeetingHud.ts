@@ -1,12 +1,15 @@
 import { HazelReader, HazelWriter, sleep } from "@skeldjs/util";
 
-import {
-    ChatNoteType,
-    RpcMessageTag,
-    SpawnType
-} from "@skeldjs/constant";
+import { ChatNoteType, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
-import { RpcMessage } from "@skeldjs/protocol";
+import {
+    BaseRpcMessage,
+    CastVoteMessage,
+    ClearVoteMessage,
+    CloseMessage,
+    RpcMessage,
+    VotingCompleteMessage,
+} from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
@@ -28,14 +31,15 @@ export interface MeetingHudData {
     exilied?: PlayerData;
 }
 
-export type MeetingHudEvents =
-    NetworkableEvents &
-ExtractEventTypes<[
-    MeetingHudVoteCastEvent,
-    MeetingHudVoteClearEvent,
-    MeetingHudVotingCompleteEvent,
-    MeetingHudMeetingCloseEvent
-]>;
+export type MeetingHudEvents = NetworkableEvents &
+    ExtractEventTypes<
+        [
+            MeetingHudVoteCastEvent,
+            MeetingHudVoteClearEvent,
+            MeetingHudVotingCompleteEvent,
+            MeetingHudMeetingCloseEvent
+        ]
+    >;
 
 export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     static type = SpawnType.MeetingHud as const;
@@ -120,29 +124,27 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         return true;
     }
 
-    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
-        switch (callid) {
+    async HandleRpc(rpc: BaseRpcMessage) {
+        switch (rpc.tag) {
             case RpcMessageTag.Close:
-                await this._handleClose(reader);
+                await this._handleClose(rpc as CloseMessage);
                 break;
             case RpcMessageTag.VotingComplete:
-                await this._handleVotingComplete(reader);
+                await this._handleVotingComplete(rpc as VotingCompleteMessage);
                 break;
             case RpcMessageTag.CastVote:
-                await this._handleCastVote(reader);
+                await this._handleCastVote(rpc as CastVoteMessage);
                 break;
             case RpcMessageTag.ClearVote:
-                await this._handleClearVote(reader);
+                await this._handleClearVote(rpc as ClearVoteMessage);
                 break;
         }
     }
 
-    private _handleClose(reader: HazelReader) {
-        void reader;
+    private _handleClose(rpc: CloseMessage) {
+        void rpc;
 
-        this.emit(
-            new MeetingHudMeetingCloseEvent(this.room, this)
-        );
+        this.emit(new MeetingHudMeetingCloseEvent(this.room, this));
     }
 
     private _close() {
@@ -156,7 +158,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
 
     private _rpcClose() {
         this.room.stream.push(
-            new RpcMessage(this.netid, RpcMessageTag.Close, Buffer.alloc(0))
+            new RpcMessage(this.netid, RpcMessageTag.Close, new CloseMessage())
         );
     }
 
@@ -168,26 +170,19 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         this._rpcClose();
     }
 
-    private async _handleCastVote(reader: HazelReader) {
-        const votingid = reader.uint8();
-        const suspectid = reader.uint8();
+    private async _handleCastVote(rpc: CastVoteMessage) {
+        const voting = this.states.get(rpc.votingid);
+        const player = this.room.getPlayerByPlayerId(rpc.votingid);
+        const suspect =
+            rpc.suspectid === 0xff
+                ? undefined
+                : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        const voting = this.states.get(votingid);
-        const player = this.room.getPlayerByPlayerId(votingid);
-        const suspect = suspectid === 0xff
-            ? undefined
-            : this.room.getPlayerByPlayerId(suspectid);
-
-        if (player && voting && (suspect || suspectid === 0xff)) {
+        if (player && voting && (suspect || rpc.suspectid === 0xff)) {
             this._castVote(voting, suspect);
 
             const ev = await this.emit(
-                new MeetingHudVoteCastEvent(
-                    this.room,
-                    this,
-                    player,
-                    suspect
-                )
+                new MeetingHudVoteCastEvent(this.room, this, player, suspect)
             );
 
             if (ev.canceled) {
@@ -195,17 +190,20 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
                     await this.clearVote(player);
                 }
             } else {
-                this.room.me.control.sendChatNote(votingid, ChatNoteType.DidVote);
+                this.room.me.control.sendChatNote(
+                    rpc.votingid,
+                    ChatNoteType.DidVote
+                );
 
                 const states = [...this.states];
 
-                if (states.every(([ , state ]) => state.voted && !state.dead)) {
+                if (states.every(([, state]) => state.voted && !state.dead)) {
                     let tie = false;
                     let exiled: PlayerData;
                     let exiled_votes = 0;
-                    for (const [ , state ] of states) {
+                    for (const [, state] of states) {
                         let num = 0;
-                        for (const [ , state2 ] of states) {
+                        for (const [, state2] of states) {
                             if (state2.votedFor === state.player) {
                                 num++;
                             }
@@ -231,8 +229,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
     }
 
     private _castVote(voting: PlayerVoteState, suspect?: PlayerData) {
-        if (suspect)
-            voting.votedFor = suspect;
+        if (suspect) voting.votedFor = suspect;
 
         voting.voted = true;
         this.dirtyBit |= 1 << voting.playerId;
@@ -259,22 +256,23 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         const player = this.room.resolvePlayer(voting);
 
         const _suspect =
-            suspect === "skip"
-                ? undefined
-                : this.room.resolvePlayer(suspect);
+            suspect === "skip" ? undefined : this.room.resolvePlayer(suspect);
 
         if (player) {
             const _voting = this.states.get(player.playerId);
 
             if (_voting && _suspect) {
                 this._castVote(_voting, _suspect);
-                this.room.me.control.sendChatNote(player.playerId, ChatNoteType.DidVote);
+                this.room.me.control.sendChatNote(
+                    player.playerId,
+                    ChatNoteType.DidVote
+                );
             }
         }
     }
 
-    private async _handleClearVote(reader: HazelReader) {
-        void reader;
+    private async _handleClearVote(rpc: ClearVoteMessage) {
+        void rpc;
 
         const player = this.room.me;
 
@@ -285,11 +283,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
                 this._clearVote(voter);
 
                 await this.emit(
-                    new MeetingHudVoteClearEvent(
-                        this.room,
-                        this,
-                        player
-                    )
+                    new MeetingHudVoteClearEvent(this.room, this, player)
                 );
             }
         }
@@ -309,7 +303,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
                 new RpcMessage(
                     this.netid,
                     RpcMessageTag.ClearVote,
-                    Buffer.alloc(0)
+                    new ClearVoteMessage()
                 ),
             ],
             true,
@@ -334,24 +328,21 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         }
     }
 
-    private async _handleVotingComplete(reader: HazelReader) {
-        const states = reader.list(reader => reader.uint8());
-        const exiledid = reader.uint8();
-        const tie = reader.bool();
+    private async _handleVotingComplete(rpc: VotingCompleteMessage) {
+        const exiled =
+            rpc.exiledid === 0xff
+                ? undefined
+                : this.room.getPlayerByPlayerId(rpc.exiledid);
 
-        const exiled = exiledid === 0xff
-            ? undefined
-            : this.room.getPlayerByPlayerId(exiledid);
-
-        this._votingComplete(states, tie, exiled);
+        this._votingComplete(rpc.states, rpc.tie, exiled);
 
         await this.emit(
             new MeetingHudVotingCompleteEvent(
                 this.room,
                 this,
-                tie,
+                rpc.tie,
                 new Map(
-                    states.map((state, i) => [
+                    rpc.states.map((state, i) => [
                         i,
                         PlayerVoteState.from(this.room, i, state),
                     ])
@@ -361,7 +352,11 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         );
     }
 
-    private _votingComplete(states: number[], tie: boolean, exiled?: PlayerData) {
+    private _votingComplete(
+        states: number[],
+        tie: boolean,
+        exiled?: PlayerData
+    ) {
         for (let i = 0; i < states.length; i++) {
             const state = this.states.get(i);
             if (state) {
@@ -372,17 +367,16 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         this.exiled = exiled;
     }
 
-    private _rpcVotingComplete(states: number[], tie: boolean, exiled: PlayerData) {
-        const writer = HazelWriter.alloc(4);
-        writer.list(true, states, state => writer.uint8(state));
-        writer.uint8(exiled ? exiled.playerId : 0xff);
-        writer.bool(tie);
-
+    private _rpcVotingComplete(
+        states: number[],
+        tie: boolean,
+        exiled: PlayerData
+    ) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.VotingComplete,
-                writer.buffer
+                new VotingCompleteMessage(states, exiled.playerId, tie)
             )
         );
     }
@@ -391,7 +385,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> {
         const _exiled = this.room.resolvePlayer(exiled);
 
         const states = new Array(this.room.players.size);
-        for (const [ playerid, state ] of this.states) {
+        for (const [playerid, state] of this.states) {
             states[playerid] = state.byte;
         }
 

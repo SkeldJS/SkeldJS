@@ -17,10 +17,7 @@ export class ClientConnectEvent extends CancelableEvent {
      */
     port: number;
 
-    constructor(
-        ip: string,
-        port: number
-    ) {
+    constructor(ip: string, port: number) {
         super();
 
         this.ip = ip;

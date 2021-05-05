@@ -14,12 +14,8 @@ import { SabotageSystem } from "./SabotageSystem";
 import { SecurityCameraSystem } from "./SecurityCameraSystem";
 import { SwitchSystem } from "./SwitchSystem";
 
-export type SystemStatusEvents =
-    DoorEvents &
-ExtractEventTypes<[
-    SystemSabotageEvent,
-    SystemRepairEvent
-]>;
+export type SystemStatusEvents = DoorEvents &
+    ExtractEventTypes<[SystemSabotageEvent, SystemRepairEvent]>;
 
 export type AnySystem =
     | AutoDoorsSystem

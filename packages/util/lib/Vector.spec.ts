@@ -16,7 +16,7 @@ describe("Vector2", () => {
 
     describe("Vector2#ctr", () => {
         it("Should create a vector from nothing.", () => {
-            const vector = new Vector2;
+            const vector = new Vector2();
 
             assert.strictEqual(vector.x, 0);
             assert.strictEqual(vector.y, 0);
@@ -37,7 +37,7 @@ describe("Vector2", () => {
         });
 
         it("Should create a vector from a tuple", () => {
-            const vector = new Vector2([ 9, 7 ]);
+            const vector = new Vector2([9, 7]);
 
             assert.strictEqual(vector.x, 9);
             assert.strictEqual(vector.y, 7);
@@ -55,7 +55,7 @@ describe("Vector2", () => {
         it("Should create a vector from an object.", () => {
             const vector = new Vector2({
                 x: 5,
-                y: 6
+                y: 6,
             });
 
             assert.strictEqual(vector.x, 5);
@@ -96,7 +96,10 @@ describe("Vector2", () => {
         it("Should display the vector as a string with values rounded to 2 decimal places.", () => {
             const vector = new Vector2(5, 6);
 
-            assert.strictEqual(vector[Symbol.for("nodejs.util.inspect.custom")](), "(5.00, 6.00)");
+            assert.strictEqual(
+                vector[Symbol.for("nodejs.util.inspect.custom")](),
+                "(5.00, 6.00)"
+            );
         });
     });
 

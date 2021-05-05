@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
-import { RpcMessage } from "@skeldjs/protocol";
+import { RpcMessage, UsePlatformMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
@@ -22,11 +22,8 @@ export enum MovingPlatformSide {
     Left,
 }
 
-export type MovingPlatformSystemEvents =
-    SystemStatusEvents &
-ExtractEventTypes<[
-    MovingPlatformPlayerUpdateEvent
-]>;
+export type MovingPlatformSystemEvents = SystemStatusEvents &
+    ExtractEventTypes<[MovingPlatformPlayerUpdateEvent]>;
 
 /**
  * Represents a system for doors that must be manually opened.
@@ -110,7 +107,7 @@ export class MovingPlatformSystem extends SystemStatus<
                 new RpcMessage(
                     resolved.control.netid,
                     RpcMessageTag.UsePlatform,
-                    Buffer.alloc(0)
+                    new UsePlatformMessage()
                 )
             );
         }

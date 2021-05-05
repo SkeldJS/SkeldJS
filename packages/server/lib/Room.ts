@@ -26,11 +26,7 @@ import { RemoteClient } from "./RemoteClient";
 import { SkeldjsServer } from "./server";
 import { RoomDestroyEvent } from "./events";
 
-export type RoomEvents =
-    HostableEvents &
-ExtractEventTypes<[
-    RoomDestroyEvent
-]>;
+export type RoomEvents = HostableEvents & ExtractEventTypes<[RoomDestroyEvent]>;
 
 /**
  * Represents a room on the server.

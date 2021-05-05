@@ -8,9 +8,7 @@ export class ServerEvent extends CancelableEvent {
      */
     server: SkeldjsServer;
 
-    constructor(
-        server: SkeldjsServer
-    ) {
+    constructor(server: SkeldjsServer) {
         super();
 
         this.server = server;

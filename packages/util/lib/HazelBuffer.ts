@@ -112,7 +112,9 @@ export class HazelBuffer {
             min = 0;
         }
 
-        const view = [...this.buffer].slice(min, max).map(_ => _.toString(16).padStart(2, "0"));
+        const view = [...this.buffer]
+            .slice(min, max)
+            .map((_) => _.toString(16).padStart(2, "0"));
         const cur_view = this.cursor - min;
         if (min > 0) {
             view.unshift(".." + min + " byte" + (min === 1 ? "" : "s") + "..");
@@ -124,10 +126,12 @@ export class HazelBuffer {
         if (cur_view < 0) {
             const num = 0 - cur_view;
             if (num > 0) {
-                view.unshift(".." + num + " byte" + (num === 1 ? "" : "s") + "..");
+                view.unshift(
+                    ".." + num + " byte" + (num === 1 ? "" : "s") + ".."
+                );
             }
             view.unshift("[  ]");
-        } else if (cur_view > view.length - 1){
+        } else if (cur_view > view.length - 1) {
             const num = cur_view - view.length;
             if (num > 0) {
                 view.push(".." + num + " byte" + (num === 1 ? "" : "s") + "..");

@@ -26,7 +26,11 @@ export class GameDataRemovePlayerEvent extends GameDataEvent {
      */
     player: PlayerGameData;
 
-    constructor(room: Hostable<any>, gamedata: GameData, player: PlayerGameData) {
+    constructor(
+        room: Hostable<any>,
+        gamedata: GameData,
+        player: PlayerGameData
+    ) {
         super(room, gamedata);
 
         this.player = player;

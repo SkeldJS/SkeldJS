@@ -17,11 +17,7 @@ export class SystemRepairEvent extends SystemEvent {
      */
     player?: PlayerData;
 
-    constructor(
-        room: Hostable<any>,
-        system: AnySystem,
-        player?: PlayerData
-    ) {
+    constructor(room: Hostable<any>, system: AnySystem, player?: PlayerData) {
         super(room, system);
 
         this.player = player;

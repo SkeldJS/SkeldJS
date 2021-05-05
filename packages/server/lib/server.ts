@@ -36,9 +36,7 @@ const default_config = (): ServerConfig => ({
     host: "0.0.0.0",
 });
 
-export type SkeldjsServerEvents =
-    RemoteClientEvents &
-    RoomEvents
+export type SkeldjsServerEvents = RemoteClientEvents & RoomEvents;
 
 /**
  * Represents a programmable Among Us region server.

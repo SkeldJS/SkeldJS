@@ -7,7 +7,7 @@ import {
     SpawnType,
 } from "@skeldjs/constant";
 
-import { RpcMessage } from "@skeldjs/protocol";
+import { BaseRpcMessage, RpcMessage, SetTasksMessage } from "@skeldjs/protocol";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -29,13 +29,14 @@ export interface GameDataData {
     players: Map<number, PlayerGameData>;
 }
 
-export type GameDataEvents =
-    NetworkableEvents &
-ExtractEventTypes<[
-    GameDataAddPlayerEvent,
-    GameDataRemovePlayerEvent,
-    GameDataSetTasksEvent
-]>;
+export type GameDataEvents = NetworkableEvents &
+    ExtractEventTypes<
+        [
+            GameDataAddPlayerEvent,
+            GameDataRemovePlayerEvent,
+            GameDataSetTasksEvent
+        ]
+    >;
 
 export type PlayerIDResolvable =
     | number
@@ -99,7 +100,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
                 if (player) {
                     player.Deserialize(preader);
                 } else {
-                    const player = PlayerGameData.Deserialize(preader, playerId);
+                    const player = PlayerGameData.Deserialize(
+                        preader,
+                        playerId
+                    );
 
                     this.players.set(player.playerId, player);
                 }
@@ -132,10 +136,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async HandleRpc(callid: RpcMessageTag, reader: HazelReader) {
-        switch (callid) {
+    async HandleRpc(rpc: BaseRpcMessage) {
+        switch (rpc.tag) {
             case RpcMessageTag.SetTasks:
-                this._handleSetTasks(reader);
+                this._handleSetTasks(rpc as SetTasksMessage);
                 break;
         }
     }
@@ -242,41 +246,33 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         }
     }
 
-    private async _handleSetTasks(reader: HazelReader) {
-        const playerId = reader.uint8();
-        const taskIds = reader.list(r => r.uint8());
-
-        const playerData = this.players.get(playerId);
+    private async _handleSetTasks(rpc: SetTasksMessage) {
+        const playerData = this.players.get(rpc.playerid);
 
         if (playerData) {
-            this._setTasks(playerData, taskIds);
+            this._setTasks(playerData, rpc.taskids);
 
             await this.emit(
                 new GameDataSetTasksEvent(
                     this.room,
                     this,
                     playerData,
-                    taskIds
+                    rpc.taskids
                 )
             );
         }
     }
 
     private _setTasks(player: PlayerGameData, taskIds: number[]) {
-        player.tasks = taskIds
-            .map((id, i) => new TaskState(i, false));
+        player.tasks = taskIds.map((id, i) => new TaskState(i, false));
     }
 
     private _rpcSetTasks(player: PlayerGameData, taskIds: number[]) {
-        const writer = HazelWriter.alloc(2);
-        writer.uint8(player.playerId);
-        writer.list(true, taskIds, (taskId) => writer.uint8(taskId));
-
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 RpcMessageTag.SetTasks,
-                writer.buffer
+                new SetTasksMessage(player.playerId, taskIds)
             )
         );
     }

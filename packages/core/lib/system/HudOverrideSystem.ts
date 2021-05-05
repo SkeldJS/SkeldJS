@@ -12,8 +12,7 @@ export interface HudOverrideSystemData {
     sabotaged: boolean;
 }
 
-export type HudOverrideSystemEvents =
-    SystemStatusEvents &
+export type HudOverrideSystemEvents = SystemStatusEvents &
     ExtractEventTypes<[]>;
 
 /**

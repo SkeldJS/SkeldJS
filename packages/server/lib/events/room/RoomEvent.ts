@@ -8,10 +8,7 @@ export class RoomEvent extends ServerEvent {
      */
     room: Room;
 
-    constructor(
-        server: SkeldjsServer,
-        room: Room
-    ) {
+    constructor(server: SkeldjsServer, room: Room) {
         super(server);
 
         this.room = room;

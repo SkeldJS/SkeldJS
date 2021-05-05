@@ -31,7 +31,12 @@ export class PlayerCheckColorEvent extends PlayerEvent {
      */
     altered: Color;
 
-    constructor(room: Hostable<any>, player: PlayerData, color: Color, altered: Color) {
+    constructor(
+        room: Hostable<any>,
+        player: PlayerData,
+        color: Color,
+        altered: Color
+    ) {
         super(room, player);
 
         this.original = color;

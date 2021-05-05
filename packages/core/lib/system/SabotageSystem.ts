@@ -11,9 +11,7 @@ export interface SabotageSystemData {
     cooldown: number;
 }
 
-export type SabotageSystemEvents =
-    SystemStatusEvents &
-    ExtractEventTypes<[]>;
+export type SabotageSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling system sabotages.

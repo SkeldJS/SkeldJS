@@ -29,7 +29,12 @@ export class PlayerCheckNameEvent extends PlayerEvent {
      */
     altered: string;
 
-    constructor(room: Hostable<any>, player: PlayerData, name: string, modified: string) {
+    constructor(
+        room: Hostable<any>,
+        player: PlayerData,
+        name: string,
+        modified: string
+    ) {
         super(room, player);
 
         this.original = name;
