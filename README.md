@@ -138,6 +138,6 @@ The following resources have been extremely useful in developing this project, a
   * https://github.com/cybershard/wireshark-amongus Plugin for wireshark for quickly filtering and deserializing among us packets, extremely useful for quickly debugging issues.
 * https://github.com/alexis-evelyn/Among-Us-Protocol/wiki The first wiki I found that got me interested.
 
-Also credit to the NodePolus people who told me my code was cringe, I've tried my best to refactor and earn your approval. There's a long way to go, still 
+Also credit to the NodePolus people who told me my code was cringe, I've tried my best to refactor and earn your approval. There's a long way to go, still 😔.
 
 This repository is held under the GPL-V3 license, meaning I am not responsible for any consequences that may come from using the packages in SkeldJS.
