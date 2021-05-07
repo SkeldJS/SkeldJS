@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
+import { SpawnType } from "@skeldjs/constant";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 

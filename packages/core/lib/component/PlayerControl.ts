@@ -696,7 +696,7 @@ export class PlayerControl extends Networkable<
     private _startMeeting(caller: PlayerData) {
         const meetinghud = new MeetingHud(
             this.room,
-            this.room.incr_netid,
+            this.room.getNextNetId(),
             this.room.id,
             {
                 states: new Map(
