@@ -31,7 +31,7 @@
     "update:patch": "yarn workspaces foreach --exclude test version patch",
     "update:minor": "yarn workspaces foreach --exclude test version minor",
     "update:major": "yarn workspaces foreach --exclude test version major",
-    "publish-all": "yarn workspaces foreach --exclude test --no-private npm publish --access public",
+    "publish-all": "yarn workspaces foreach -p --exclude test --no-private npm publish --access public",
     "postinstall": "husky install",
     "docs": "typedoc"
   },

@@ -35,14 +35,14 @@ describe("Hostable", () => {
         });
     });
 
-    describe("Hostable#incr_netid", () => {
+    describe("Hostable#getNextNetId()", () => {
         it("Should increment the global netid counter every time it is read.", () => {
             const room = new Hostable();
 
-            assert.strictEqual(room.incr_netid, 1);
-            assert.strictEqual(room.incr_netid, 2);
-            assert.strictEqual(room.incr_netid, 3);
-            assert.strictEqual(room.incr_netid, 4);
+            assert.strictEqual(room.getNextNetId(), 1);
+            assert.strictEqual(room.getNextNetId(), 2);
+            assert.strictEqual(room.getNextNetId(), 3);
+            assert.strictEqual(room.getNextNetId(), 4);
         });
     });
 

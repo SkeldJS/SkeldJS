@@ -81,7 +81,7 @@ export class GameOptions implements AllGameOptions {
             return false;
         }
 
-        if (!(options.keywords in KillDistance)) {
+        if (!(options.killDistance in KillDistance)) {
             return false;
         }
 
@@ -100,6 +100,8 @@ export class GameOptions implements AllGameOptions {
         if (options.shortTasks < 0 || options.shortTasks > 5) {
             return false;
         }
+
+        return true;
     }
 
     version: number;

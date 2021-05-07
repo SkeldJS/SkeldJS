@@ -314,7 +314,7 @@ export class Hostable<
         this._destroyed = true;
     }
 
-    get incr_netid() {
+    getNextNetId() {
         this._incr_netid++;
 
         return this._incr_netid;
@@ -826,7 +826,7 @@ export class Hostable<
      *```typescript
      * const meetinghud = new MeetingHud(
      *   this,
-     *   this.incr_netid,
+     *   this.getNextNetId(),
      *   ownerid,
      *   {
      *     dirtyBit: 0,
@@ -919,7 +919,7 @@ export class Hostable<
             case SpawnType.ShipStatus: {
                 const shipstatus = new SkeldShipStatus(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid
                 );
 
@@ -929,7 +929,7 @@ export class Hostable<
             case SpawnType.MeetingHud:
                 const meetinghud = new MeetingHud(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid,
                     {
                         states: new Map(),
@@ -941,7 +941,7 @@ export class Hostable<
             case SpawnType.LobbyBehaviour:
                 const lobbybehaviour = new LobbyBehaviour(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid,
                     {}
                 );
@@ -949,7 +949,7 @@ export class Hostable<
                 object.components.push(lobbybehaviour as Networkable<any, any>);
                 break;
             case SpawnType.GameData:
-                const gamedata = new GameData(this, this.incr_netid, ownerid, {
+                const gamedata = new GameData(this, this.getNextNetId(), ownerid, {
                     players: new Map(),
                 });
 
@@ -959,7 +959,7 @@ export class Hostable<
 
                 const votebansystem = new VoteBanSystem(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid,
                     {
                         voted: new Map(),
@@ -976,7 +976,7 @@ export class Hostable<
 
                 const control = new PlayerControl(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid,
                     {
                         isNew: true,
@@ -986,7 +986,7 @@ export class Hostable<
 
                 const physics = new PlayerPhysics(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid,
                     {
                         ventid: -1,
@@ -995,7 +995,7 @@ export class Hostable<
 
                 const transform = new CustomNetworkTransform(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid,
                     {
                         seqId: 1,
@@ -1011,7 +1011,7 @@ export class Hostable<
             case SpawnType.Headquarters:
                 const headquarters = new MiraShipStatus(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid
                 );
 
@@ -1020,7 +1020,7 @@ export class Hostable<
             case SpawnType.PlanetMap:
                 const planetmap = new PolusShipStatus(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid
                 );
 
@@ -1029,7 +1029,7 @@ export class Hostable<
             case SpawnType.AprilShipStatus:
                 const aprilshipstatus = new AprilShipStatus(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid
                 );
 
@@ -1040,7 +1040,7 @@ export class Hostable<
             case SpawnType.Airship:
                 const airship = new AirshipStatus(
                     this,
-                    this.incr_netid,
+                    this.getNextNetId(),
                     ownerid
                 );
 
