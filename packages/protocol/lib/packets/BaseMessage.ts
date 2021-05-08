@@ -8,6 +8,16 @@ export class BaseMessage {
     readonly type: string;
     readonly tag: number;
 
+    private _canceled: boolean;
+
+    constructor() {
+        this._canceled = false;
+    }
+
+    get canceled() {
+        return this._canceled;
+    }
+
     static Deserialize(
         reader: HazelReader,
         direction: MessageDirection,
@@ -23,5 +33,9 @@ export class BaseMessage {
         decoder: PacketDecoder
     ) {
         void writer, direction, decoder;
+    }
+
+    cancel() {
+        this._canceled = true;
     }
 }

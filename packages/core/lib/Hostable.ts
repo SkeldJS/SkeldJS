@@ -237,7 +237,6 @@ export class Hostable<
 
             if (component) {
                 try {
-                    console.log(message.data.tag);
                     await component.HandleRpc(message.data);
                 } catch (e) {
                     void e;
