@@ -9,6 +9,7 @@ export * from "./Close";
 export * from "./CloseDoorsOfType";
 export * from "./CompleteTask";
 export * from "./EnterVent";
+export * from "./Exiled";
 export * from "./ExitVent";
 export * from "./MurderPlayer";
 export * from "./PlayAnimation";
