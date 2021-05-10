@@ -225,7 +225,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         });
     }
 
-    get nonce() {
+    getNextNonce() {
         this._nonce++;
 
         return this._nonce;
@@ -316,10 +316,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
 
-        await this.emit(new ClientConnectEvent(this.ip, this.port));
+        const ev = await this.emit(new ClientConnectEvent(this.ip, this.port));
 
-        if (typeof username === "string") {
-            await this.identify(username, this.token);
+        if (!ev.canceled) {
+            if (typeof username === "string") {
+                await this.identify(username, this.token);
+            }
         }
     }
 
@@ -371,9 +373,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * ```
      */
     async identify(username: string, token: number) {
+        const nonce = this.getNextNonce();
         await this.send(
-            new HelloPacket(this.nonce, this.version, username, token)
+            new HelloPacket(nonce, this.version, username, token)
         );
+
+        await this.decoder.waitf(AcknowledgePacket, ack => ack.nonce ===  nonce);
 
         this.identified = true;
         this.username = username;
@@ -481,7 +486,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
             await this.send(
                 reliable
-                    ? new ReliablePacket(this.nonce, children)
+                    ? new ReliablePacket(this.getNextNonce(), children)
                     : new UnreliablePacket(children)
             );
         } else {
@@ -494,7 +499,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
             await this.send(
                 reliable
-                    ? new ReliablePacket(this.nonce, children)
+                    ? new ReliablePacket(this.getNextNonce(), children)
                     : new UnreliablePacket(children)
             );
         }
@@ -521,7 +526,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.spawnPrefab(SpawnType.Player, this.me);
         } else {
             await this.send(
-                new ReliablePacket(this.nonce, [
+                new ReliablePacket(this.getNextNonce(), [
                     new GameDataMessage(this.code, [
                         new SceneChangeMessage(this.clientid, "OnlineGame"),
                     ]),
@@ -562,7 +567,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         await this.send(
-            new ReliablePacket(this.nonce, [new JoinGameMessage(code)])
+            new ReliablePacket(this.getNextNonce(), [new JoinGameMessage(code)])
         );
 
         const { message } = await Promise.race([
@@ -639,7 +644,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         });
 
         await this.send(
-            new ReliablePacket(this.nonce, [
+            new ReliablePacket(this.getNextNonce(), [
                 new HostGameMessage(settings, chatMode),
             ])
         );
@@ -729,7 +734,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         });
 
         await this.send(
-            new ReliablePacket(this.nonce, [
+            new ReliablePacket(this.getNextNonce(), [
                 new GetGameListMessage(options, quickchat),
             ])
         );
