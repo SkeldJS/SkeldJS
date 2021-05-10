@@ -1,5 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
 
 import {
     AutoDoorsSystemEvents,
@@ -23,8 +25,7 @@ import { SystemStatusEvents } from "../system/events";
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
-import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { RoomSelectImpostorsEvent } from "../events";
 
 type AllSystems = Partial<Record<SystemType, SystemStatus<any, any>>>;
 
@@ -47,7 +48,7 @@ export type ShipStatusEvents = NetworkableEvents &
     SabotageSystemEvents &
     SecurityCameraSystemEvents &
     SwitchSystemEvents &
-    ExtractEventTypes<[]>;
+    ExtractEventTypes<[ RoomSelectImpostorsEvent ]>;
 
 export type ShipStatusType =
     | SpawnType.ShipStatus
@@ -146,7 +147,7 @@ export class InnerShipStatus extends Networkable<
         }
     }
 
-    selectInfected() {
+    async selectImpostors() {
         const available = [...this.room.players.values()].filter(
             (player) =>
                 player.data && !player.data.disconnected && !player.data.dead
@@ -164,12 +165,15 @@ export class InnerShipStatus extends Networkable<
             available.splice(random, 1);
         }
 
-        this.room.host.control.setInfected(impostors);
-    }
+        const ev = await this.emit(
+            new RoomSelectImpostorsEvent(
+                this.room,
+                impostors
+            )
+        );
 
-    begin() {
-        for (const [, player] of this.room.players) {
-            this.room.gamedata.setTasks(player, [1, 2, 3]);
+        if (!ev.canceled) {
+            this.room.host.control.setImpostors(ev.impostors);
         }
     }
 }

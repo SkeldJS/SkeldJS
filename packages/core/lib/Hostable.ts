@@ -738,12 +738,16 @@ export class Hostable<
                 SpawnType.Headquarters,
                 SpawnType.PlanetMap,
                 SpawnType.AprilShipStatus,
-                SpawnType.Airship,
+                SpawnType.Airship
             ];
+
             await this.emit(new RoomGameStartEvent(this));
             this.spawnPrefab(ship_prefabs[this.settings?.map] || 0, -2);
-            this.shipstatus?.selectInfected();
-            this.shipstatus?.begin();
+            await this.shipstatus?.selectImpostors();
+
+            for (const [, player] of this.players) {
+                this.room.gamedata.setTasks(player, [1, 2, 3]);
+            }
         } else {
             await this.emit(new RoomGameStartEvent(this));
             if (this.me) await this.me.ready();

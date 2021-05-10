@@ -74,6 +74,7 @@ client.on("player.setname", ev => {
 * {@link RoomFixedUpdateEvent | `room.fixedupdate`}
 * {@link RoomGameEndEvent | `room.game.end`}
 * {@link RoomGameStartEvent | `room.game.start`}
+* {@link RoomSelectImpostorsEvent | `room.selectimpostors`}
 * {@link RoomSetVisibilityEvent | `room.setvisibility`}
 
 ### Players
