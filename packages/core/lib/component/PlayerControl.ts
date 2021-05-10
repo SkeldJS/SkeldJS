@@ -292,21 +292,21 @@ export class PlayerControl extends Networkable<
             .map((id) => this.room.getPlayerByPlayerId(id))
             .filter((player) => player && player.data);
 
-        this._setInfected(impostors);
+        this._setImpostors(impostors);
 
         await this.emit(
             new PlayerSetImpostorsEvent(this.room, this.player, impostors)
         );
     }
 
-    private _setInfected(players: PlayerData[]) {
+    private _setImpostors(players: PlayerData[]) {
         for (const impostor of players) {
             impostor.data.impostor = true;
             this.room.gamedata.update(impostor);
         }
     }
 
-    private _rpcSetInfected(infected: PlayerData[]) {
+    private _rpcSetImpostors(infected: PlayerData[]) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
@@ -318,13 +318,13 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    setInfected(players: PlayerDataResolvable[]) {
+    setImpostors(players: PlayerDataResolvable[]) {
         const resolved = players
             .map((player) => this.room.resolvePlayer(player))
             .filter((player) => player && player.data);
 
-        this._setInfected(resolved);
-        this._rpcSetInfected(resolved);
+        this._setImpostors(resolved);
+        this._rpcSetImpostors(resolved);
     }
 
     private async _handleCheckName(rpc: CheckNameMessage) {

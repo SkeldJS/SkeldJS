@@ -74,6 +74,7 @@ export * from "./reactorsystem/ReactorSystemEvent";
 export * from "./room/FixedUpdate";
 export * from "./room/GameEnd";
 export * from "./room/GameStart";
+export * from "./room/SelectImpostors";
 export * from "./room/SetVisibility";
 
 export * from "./sabotagesystem/SabotageSystemEvent";
