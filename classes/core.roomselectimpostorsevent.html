@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RemoteClientDisconnectEvent | SkeldJS</title>
+	<title>RoomSelectImpostorsEvent | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/server.html">server</a>
+					<a href="../modules/core.html">core</a>
 				</li>
 				<li>
-					<a href="server.remoteclientdisconnectevent.html">RemoteClientDisconnectEvent</a>
+					<a href="core.roomselectimpostorsevent.html">RoomSelectImpostorsEvent</a>
 				</li>
 			</ul>
-			<h1>Class RemoteClientDisconnectEvent</h1>
+			<h1>Class RoomSelectImpostorsEvent</h1>
 		</div>
 	</div>
 </header>
@@ -73,18 +73,27 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Emitted when a remote client disconnects from the server.</p>
+						<p>Emitted when the ship status of the room chooses who the impostors will be.</p>
 					</div>
+					<p>Can be used to change the logic of how impostors are set.</p>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;room.selectimpostors&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #795E26">setImpostors</span><span style="color: #000000">([ </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #001080">host</span><span style="color: #000000"> ]);</span>
+<span style="color: #000000">});</span>
+</code></pre>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClientEvent</a>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">RemoteClientDisconnectEvent</span>
+								<span class="target">RoomSelectImpostorsEvent</span>
 							</li>
 						</ul>
 					</li>
@@ -97,25 +106,24 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="server.remoteclientdisconnectevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.roomselectimpostorsevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="server.remoteclientdisconnectevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="server.remoteclientdisconnectevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="server.remoteclientdisconnectevent.html#message" class="tsd-kind-icon">message</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="server.remoteclientdisconnectevent.html#reason" class="tsd-kind-icon">reason</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="server.remoteclientdisconnectevent.html#remote" class="tsd-kind-icon">remote</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="server.remoteclientdisconnectevent.html#server" class="tsd-kind-icon">server</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="server.remoteclientdisconnectevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.roomselectimpostorsevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.roomselectimpostorsevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.roomselectimpostorsevent.html#impostors" class="tsd-kind-icon">impostors</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.roomselectimpostorsevent.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.roomselectimpostorsevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="server.remoteclientdisconnectevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.roomselectimpostorsevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.roomselectimpostorsevent.html#setimpostors" class="tsd-kind-icon">set<wbr>Impostors</a></li>
 							</ul>
 						</section>
 					</div>
@@ -127,32 +135,26 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Remote<wbr>Client<wbr>Disconnect<wbr>Event<span class="tsd-signature-symbol">(</span>server<span class="tsd-signature-symbol">: </span><a href="server.skeldjsserver.html" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsServer</a>, remote<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a>, reason<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">DisconnectReason</a>, message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClientDisconnectEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Room<wbr>Select<wbr>Impostors<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, impostors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomSelectImpostorsEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides RemoteClientEvent.constructor</p>
+								<p>Overrides RoomEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/server/lib/events/remoteclient/Disconnect.ts#L21">server/lib/events/remoteclient/Disconnect.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/core/lib/events/room/SelectImpostors.ts#L24">core/lib/events/room/SelectImpostors.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>server: <a href="server.skeldjsserver.html" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsServer</a></h5>
+									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
-									<h5>remote: <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></h5>
-								</li>
-								<li>
-									<h5>reason: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">DisconnectReason</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> message: <span class="tsd-signature-type">string</span></h5>
+									<h5>impostors: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClientDisconnectEvent</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomSelectImpostorsEvent</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -164,7 +166,7 @@
 					<h3>canceled</h3>
 					<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from RemoteClientEvent.canceled</p>
+						<p>Inherited from RoomEvent.canceled</p>
 						<ul>
 							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
 						</ul>
@@ -173,84 +175,58 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="eventname" class="tsd-anchor"></a>
 					<h3>event<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;remote.disconnect&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;room.selectimpostors&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides RemoteClientEvent.eventName</p>
+						<p>Overrides RoomEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/server/lib/events/remoteclient/Disconnect.ts#L11">server/lib/events/remoteclient/Disconnect.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/core/lib/events/room/SelectImpostors.ts#L19">core/lib/events/room/SelectImpostors.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="message" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> message</h3>
-					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="impostors" class="tsd-anchor"></a>
+					<h3>impostors</h3>
+					<div class="tsd-signature tsd-kind-icon">impostors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/server/lib/events/remoteclient/Disconnect.ts#L21">server/lib/events/remoteclient/Disconnect.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/core/lib/events/room/SelectImpostors.ts#L24">core/lib/events/room/SelectImpostors.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The message for why the client disconnected, if the reason is custom.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="reason" class="tsd-anchor"></a>
-					<h3>reason</h3>
-					<div class="tsd-signature tsd-kind-icon">reason<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">DisconnectReason</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/server/lib/events/remoteclient/Disconnect.ts#L16">server/lib/events/remoteclient/Disconnect.ts:16</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The reason for why the client disconnected.</p>
+							<p>The impostors that were selected by the room.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="remote" class="tsd-anchor"></a>
-					<h3>remote</h3>
-					<div class="tsd-signature tsd-kind-icon">remote<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">RemoteClient</a></div>
+					<a name="room" class="tsd-anchor"></a>
+					<h3>room</h3>
+					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from RemoteClientEvent.remote</p>
+						<p>Inherited from RoomEvent.room</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/server/lib/events/remoteclient/RemoteClientEvent.ts#L6">server/lib/events/remoteclient/RemoteClientEvent.ts:6</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="server" class="tsd-anchor"></a>
-					<h3>server</h3>
-					<div class="tsd-signature tsd-kind-icon">server<span class="tsd-signature-symbol">:</span> <a href="server.skeldjsserver.html" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsServer</a></div>
-					<aside class="tsd-sources">
-						<p>Inherited from RemoteClientEvent.server</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/server/lib/events/ServerEvent.ts#L9">server/lib/events/ServerEvent.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/core/lib/events/RoomEvent.ts#L9">core/lib/events/RoomEvent.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The server in question.</p>
+							<p>The room or client that the event came from.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="eventname-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;remote.disconnect&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;room.selectimpostors&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides RemoteClientEvent.eventName</p>
+						<p>Overrides RoomEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/server/lib/events/remoteclient/Disconnect.ts#L10">server/lib/events/remoteclient/Disconnect.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/core/lib/events/room/SelectImpostors.ts#L18">core/lib/events/room/SelectImpostors.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="cancel" class="tsd-anchor"></a>
@@ -261,11 +237,34 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from RemoteClientEvent.cancel</p>
+								<p>Inherited from RoomEvent.cancel</p>
 								<ul>
 									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/events/lib/CancelableEvent.ts#L6">events/lib/CancelableEvent.ts:6</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setimpostors" class="tsd-anchor"></a>
+					<h3>set<wbr>Impostors</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Impostors<span class="tsd-signature-symbol">(</span>players<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b314a8c/packages/core/lib/events/room/SelectImpostors.ts#L32">core/lib/events/room/SelectImpostors.ts:32</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>players: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -305,7 +304,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html">constant</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/core.html">core</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -326,7 +325,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html">protocol</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/server.html">server</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -351,9 +350,44 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html" class="tsd-kind-icon">constant</a>
 					</li>
-					<li class=" tsd-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
 						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
+						<ul>
+							<li class="current tsd-kind-class tsd-parent-kind-module">
+								<a href="core.roomselectimpostorsevent.html" class="tsd-kind-icon">Room<wbr>Select<wbr>Impostors<wbr>Event</a>
+								<ul>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+										<a href="core.roomselectimpostorsevent.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.roomselectimpostorsevent.html#canceled" class="tsd-kind-icon">canceled</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+										<a href="core.roomselectimpostorsevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.roomselectimpostorsevent.html#impostors" class="tsd-kind-icon">impostors</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.roomselectimpostorsevent.html#room" class="tsd-kind-icon">room</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+										<a href="core.roomselectimpostorsevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.roomselectimpostorsevent.html#cancel" class="tsd-kind-icon">cancel</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.roomselectimpostorsevent.html#setimpostors" class="tsd-kind-icon">set<wbr>Impostors</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/data.html" class="tsd-kind-icon">data</a>
 					</li>
@@ -372,95 +406,9 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/server.html" class="tsd-kind-icon">server</a>
-						<ul>
-							<li class=" tsd-kind-enum tsd-parent-kind-module">
-								<a href="../enums/server.specialid.html" class="tsd-kind-icon">SpecialID</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclient.html" class="tsd-kind-icon">Remote<wbr>Client</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclientconnectevent.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Connect<wbr>Event</a>
-							</li>
-							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclientdisconnectevent.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Disconnect<wbr>Event</a>
-								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-										<a href="server.remoteclientdisconnectevent.html#constructor" class="tsd-kind-icon">constructor</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="server.remoteclientdisconnectevent.html#canceled" class="tsd-kind-icon">canceled</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-										<a href="server.remoteclientdisconnectevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="server.remoteclientdisconnectevent.html#message" class="tsd-kind-icon">message</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="server.remoteclientdisconnectevent.html#reason" class="tsd-kind-icon">reason</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="server.remoteclientdisconnectevent.html#remote" class="tsd-kind-icon">remote</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="server.remoteclientdisconnectevent.html#server" class="tsd-kind-icon">server</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-										<a href="server.remoteclientdisconnectevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="server.remoteclientdisconnectevent.html#cancel" class="tsd-kind-icon">cancel</a>
-									</li>
-								</ul>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclientevent.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclientjoinroomevent.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Join<wbr>Room<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.room.html" class="tsd-kind-icon">Room</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.roomdestroyevent.html" class="tsd-kind-icon">Room<wbr>Destroy<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.roomevent.html" class="tsd-kind-icon">Room<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.serverevent.html" class="tsd-kind-icon">Server<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.skeldjsserver.html" class="tsd-kind-icon">Skeldjs<wbr>Server</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/server.roomconfig.html" class="tsd-kind-icon">Room<wbr>Config</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/server.sentpacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/server.serverconfig.html" class="tsd-kind-icon">Server<wbr>Config</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#remoteclientevents" class="tsd-kind-icon">Remote<wbr>Client<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#roomevents" class="tsd-kind-icon">Room<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#skeldjsserverevents" class="tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
@@ -494,6 +442,7 @@
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
