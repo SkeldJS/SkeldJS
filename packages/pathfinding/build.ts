@@ -59,29 +59,37 @@ function gradientSetGridPoint(
     }
 }
 
+function get_pathname() {
+    if (process.argv[0].includes("ts-node")) {
+        return path.resolve(__dirname, "./data/colliders");
+    } else {
+        return path.resolve(__dirname, "../data/colliders");
+    }
+}
+
 (async () => {
-    const basex = -40;
-    const basey = -40;
-    const width = 80;
-    const height = 80;
+    const basex = -50;
+    const basey = -50;
+    const width = 100;
+    const height = 100;
     const density = 16;
     const gradientDropoff = 0;
     const wallGradientWeight = 2;
 
+    const pathname = get_pathname();
+
     try {
-        await fs.mkdir(path.resolve(__dirname, "../data/build"));
+        await fs.mkdir(path.resolve(get_pathname(), "../build"));
     } catch (e) {
         if (e.code !== "EEXIST") {
             throw e;
         }
     }
-    const files = await fs.readdir(
-        path.resolve(__dirname, "../data/colliders")
-    );
+    const files = await fs.readdir(pathname);
 
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const filename = path.resolve(__dirname, "../data/colliders", file);
+        const filename = path.resolve(pathname, file);
 
         const data = await fs.readFile(filename, "utf8");
         const grid = Grid.create(basex, basey, width, height, density);
@@ -90,8 +98,8 @@ function gradientSetGridPoint(
         console.log("Compiling " + file + "..");
 
         try {
-            const lines = data.split("\r\n").map((line) => {
-                const points = line.match(/\(-?\d+(\.\d+)?, ?-?\d+(\.\d+)?\)/g);
+            const lines = data.split("\n").map((line) => {
+                const points = line.trim().match(/\(-?\d+(\.\d+)?, ?-?\d+(\.\d+)?\)/g);
 
                 return points.map((point) => {
                     const numbers = point.match(/-?\d+(\.\d+)?/g);
@@ -279,8 +287,8 @@ function gradientSetGridPoint(
 
             await fs.writeFile(
                 path.resolve(
-                    __dirname,
-                    "../data/build",
+                    pathname,
+                    "../build",
                     path.basename(file, ".txt")
                 ),
                 buf
@@ -288,7 +296,7 @@ function gradientSetGridPoint(
         } catch (e) {
             readline.cursorTo(process.stdout, 0);
             console.log("..There was an error parsing " + file);
-            console.log(e.toString());
+            console.log(e);
             continue;
         }
     }

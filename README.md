@@ -89,13 +89,6 @@ or
 yarn add @skeldjs/client
 ```
 
-### To install the server
-```
-npm install --save @skeldjs/server
-or
-yarn add @skeldjs/server
-```
-
 ### To install the proxy
 ```
 npm install --save @skeldjs/proxy

@@ -1,4 +1,4 @@
-import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 import { HazelReader } from "@skeldjs/util";
 
 import { Networkable, NetworkableEvents } from "./Networkable";
@@ -51,8 +51,8 @@ export class Heritable<
     async emit<Event extends HeritableEvents[keyof HeritableEvents]>(
         event: Event
     ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(event: Event): Promise<Event>;
-    async emit<Event extends T[keyof T]>(event: Event): Promise<Event> {
+    async emit<Event extends BasicEvent>(event: Event): Promise<Event>;
+    async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
         if ((this.room as Heritable<any>) !== this) this.room.emit(event);
 
         return super.emit(event);

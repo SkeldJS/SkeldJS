@@ -1,3 +1,5 @@
+import { BasicEvent } from "./BasicEvent";
+
 export type Eventable = {
     eventName: string;
 };
@@ -23,20 +25,18 @@ type Listener<Event extends Eventable> = (ev: Event) => void | Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
     private readonly listeners: Map<
-        keyof Events,
-        Set<Listener<Events[keyof Events]>>
+        string,
+        Set<Listener<BasicEvent>>
     >;
 
     constructor() {
         this.listeners = new Map();
     }
 
-    async emit<Event extends Events[keyof Events]>(
+    async emit<Event extends BasicEvent>(
         event: Event
     ): Promise<Event> {
-        const listeners = this.getListeners(event.eventName) as Set<
-            Listener<Event>
-        >;
+        const listeners = this.getListeners<Event>(event.eventName);
 
         if (listeners.size) {
             for (const listener of listeners) await listener(event);
@@ -44,11 +44,12 @@ export class EventEmitter<Events extends EventData> {
 
         return event;
     }
-
     on<EventName extends keyof Events>(
         event: EventName,
         listener: Listener<Events[EventName]>
-    ): () => void {
+    ): () => void;
+    on(event: string, listener: Listener<BasicEvent>): () => void;
+    on(event: string, listener: Listener<BasicEvent>): () => void {
         const listeners = this.getListeners(event);
         listeners.add(listener);
 
@@ -58,7 +59,9 @@ export class EventEmitter<Events extends EventData> {
     once<EventName extends keyof Events>(
         event: EventName,
         listener: Listener<Events[EventName]>
-    ) {
+    ): () => void;
+    once(event: string, listener: Listener<BasicEvent>): () => void;
+    once(event: string, listener: Listener<BasicEvent>): () => void {
         const removeListener = this.on(event, async (ev) => {
             removeListener();
             await listener(ev);
@@ -68,34 +71,33 @@ export class EventEmitter<Events extends EventData> {
 
     wait<EventName extends keyof Events>(
         event: EventName
-    ): Promise<Events[EventName]> {
+    ): Promise<Events[EventName]>;
+    wait(event: string): Promise<BasicEvent>;
+    wait(event: string): Promise<BasicEvent> {
         return new Promise((resolve) => {
-            this.once(event, async (ev) => {
-                resolve(ev);
-            });
+            this.once(event, resolve);
         });
     }
 
     off<EventName extends keyof Events>(
         event: EventName,
         listener: Listener<Events[EventName]>
-    ) {
+    );
+    off(event: string, listener: Listener<BasicEvent>) {
         const listeners = this.getListeners(event);
         listeners.delete(listener);
     }
 
-    getListeners<EventName extends keyof Events>(
-        event: EventName
-    ): Set<Listener<Events[EventName]>> {
+    getListeners<Event extends BasicEvent = BasicEvent>(event: string): Set<Listener<Event>> {
         const listeners = this.listeners.get(event);
         if (!listeners) {
             this.listeners.set(event, new Set());
             return this.getListeners(event);
         }
-        return listeners as Set<Listener<Events[EventName]>>;
+        return listeners as Set<Listener<Event>>;
     }
 
-    removeListeners<EventName extends keyof Events>(event: EventName) {
+    removeListeners(event: string) {
         const listeners = this.getListeners(event);
         listeners.clear();
     }

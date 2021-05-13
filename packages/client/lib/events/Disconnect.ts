@@ -1,10 +1,11 @@
-import { CancelableEvent } from "@skeldjs/events";
 import { DisconnectReason } from "@skeldjs/constant";
+import { SkeldjsClient } from "../client";
+import { ClientEvent } from "./ClientEvent";
 
 /**
  * Emitted when client disconnects from the server.
  */
-export class ClientDisconnectEvent extends CancelableEvent {
+export class ClientDisconnectEvent extends ClientEvent {
     static eventNamee = "client.disconnect" as const;
     eventName = "client.disconnect" as const;
 
@@ -18,8 +19,8 @@ export class ClientDisconnectEvent extends CancelableEvent {
      */
     message?: string;
 
-    constructor(reason: DisconnectReason, message?: string) {
-        super();
+    constructor(client: SkeldjsClient, reason: DisconnectReason, message?: string) {
+        super(client);
 
         this.reason = reason;
         this.message = message;

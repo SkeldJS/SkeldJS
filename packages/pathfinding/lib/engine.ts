@@ -20,7 +20,7 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
 
     start.opened = false;
 
-    let closest: Node = null;
+    let closest: Node = start;
 
     while (heap.size() > 0) {
         const current = heap.pop();

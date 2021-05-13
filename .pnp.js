@@ -59,12 +59,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/protocol"
       },
       {
-        "name": "@skeldjs/server",
-        "reference": "workspace:packages/server"
-      },
-      {
-        "name": "@skeldjs/skeldjs",
-        "reference": "workspace:packages/skeldjs"
+        "name": "@skeldjs/reactor",
+        "reference": "workspace:packages/reactor"
       },
       {
         "name": "@skeldjs/state",
@@ -99,8 +95,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@skeldjs/lan", ["workspace:packages/lan"]],
       ["@skeldjs/pathfinding", ["workspace:packages/pathfinding"]],
       ["@skeldjs/protocol", ["workspace:packages/protocol"]],
-      ["@skeldjs/server", ["workspace:packages/server"]],
-      ["@skeldjs/skeldjs", ["workspace:packages/skeldjs"]],
+      ["@skeldjs/reactor", ["workspace:packages/reactor"]],
       ["@skeldjs/state", ["workspace:packages/state"]],
       ["@skeldjs/tasks", ["workspace:packages/tasks"]],
       ["@skeldjs/text", ["workspace:packages/text"]],
@@ -640,6 +635,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/pathfinding/",
           "packageDependencies": [
             ["@skeldjs/pathfinding", "workspace:packages/pathfinding"],
+            ["@skeldjs/client", "workspace:packages/client"],
             ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/core", "workspace:packages/core"],
             ["@skeldjs/data", "workspace:packages/data"],
@@ -669,33 +665,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT",
         }]
       ]],
-      ["@skeldjs/server", [
-        ["workspace:packages/server", {
-          "packageLocation": "./packages/server/",
+      ["@skeldjs/reactor", [
+        ["workspace:packages/reactor", {
+          "packageLocation": "./packages/reactor/",
           "packageDependencies": [
-            ["@skeldjs/server", "workspace:packages/server"],
+            ["@skeldjs/reactor", "workspace:packages/reactor"],
+            ["@skeldjs/client", "workspace:packages/client"],
             ["@skeldjs/constant", "workspace:packages/constant"],
-            ["@skeldjs/core", "workspace:packages/core"],
-            ["@skeldjs/events", "workspace:packages/events"],
             ["@skeldjs/protocol", "workspace:packages/protocol"],
-            ["@skeldjs/state", "workspace:packages/state"],
             ["@skeldjs/util", "workspace:packages/util"],
             ["@types/mocha", "npm:8.2.0"],
             ["@types/node", "npm:14.14.16"],
-            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
-          ],
-          "linkType": "SOFT",
-        }]
-      ]],
-      ["@skeldjs/skeldjs", [
-        ["workspace:packages/skeldjs", {
-          "packageLocation": "./packages/skeldjs/",
-          "packageDependencies": [
-            ["@skeldjs/skeldjs", "workspace:packages/skeldjs"],
-            ["@skeldjs/server", "workspace:packages/server"],
-            ["@skeldjs/util", "workspace:packages/util"],
-            ["@types/node", "npm:14.14.16"],
-            ["tedis", "npm:0.1.12"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
           "linkType": "SOFT",
@@ -6557,23 +6537,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["tedis", [
-        ["npm:0.1.12", {
-          "packageLocation": "./.yarn/cache/tedis-npm-0.1.12-4c0facd68f-dc75ac2a49.zip/node_modules/tedis/",
-          "packageDependencies": [
-            ["tedis", "npm:0.1.12"],
-            ["uuid", "npm:3.4.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["test", [
         ["workspace:test", {
           "packageLocation": "./test/",
           "packageDependencies": [
             ["test", "workspace:test"],
             ["@skeldjs/client", "workspace:packages/client"],
+            ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/get-auth-token", "workspace:packages/get-auth-token"],
+            ["@skeldjs/pathfinding", "workspace:packages/pathfinding"],
+            ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/util", "workspace:packages/util"],
             ["@types/node", "npm:15.0.1"]
           ],

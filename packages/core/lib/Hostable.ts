@@ -398,14 +398,6 @@ export class Hostable<
         return this.getComponent(VoteBanSystem);
     }
 
-    async emit<Event extends HostableEvents[keyof HostableEvents]>(
-        event: Event
-    ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(event: Event): Promise<Event>;
-    async emit<Event extends T[keyof T]>(event: Event): Promise<Event> {
-        return super.emit(event);
-    }
-
     async broadcast(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         messages: BaseGameDataMessage[],
