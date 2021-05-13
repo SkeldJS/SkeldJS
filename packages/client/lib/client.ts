@@ -45,11 +45,12 @@ import { PlayerData, RoomID } from "@skeldjs/core";
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { ClientConfig, DebugLevel } from "./interface/ClientConfig";
+import { ClientConfig } from "./interface/ClientConfig";
 
 import {
     ClientConnectEvent,
     ClientDisconnectEvent,
+    ClientIdentifyEvent,
     ClientJoinEvent,
 } from "./events";
 
@@ -85,7 +86,12 @@ export interface SentPacket {
 
 export type SkeldjsClientEvents = SkeldjsStateManagerEvents &
     ExtractEventTypes<
-        [ClientConnectEvent, ClientDisconnectEvent, ClientJoinEvent]
+        [
+            ClientConnectEvent,
+            ClientDisconnectEvent,
+            ClientIdentifyEvent,
+            ClientJoinEvent
+        ]
     >;
 
 /**
@@ -159,7 +165,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     clientid: number;
 
     token: number;
-    private settings_cache: GameOptions;
 
     /**
      * Create a new Skeldjs client instance.
@@ -172,7 +177,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     constructor(
         version: string | number | VersionInfo,
-        options: ClientConfig = { debug: DebugLevel.None, allowHost: true }
+        options: ClientConfig = { allowHost: true }
     ) {
         super({ doFixedUpdate: true });
 
@@ -237,12 +242,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
     get amhost() {
         return this.hostid === this.clientid && this.options.allowHost;
-    }
-
-    private debug(level: number, ...fmt: any[]) {
-        if (this.options.debug & level) {
-            return fmt;
-        }
     }
 
     private async ack(nonce: number) {
@@ -316,7 +315,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
 
-        const ev = await this.emit(new ClientConnectEvent(this.ip, this.port));
+        const ev = await this.emit(new ClientConnectEvent(this, this.ip, this.port));
 
         if (!ev.canceled) {
             if (typeof username === "string") {
@@ -356,6 +355,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             }
             this.emit(
                 new ClientDisconnectEvent(
+                    this,
                     reason,
                     message || DisconnectMessages[reason]
                 )

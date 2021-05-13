@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "../system";
 import { DoorCloseDoorEvent, DoorOpenDoorEvent } from "../events";
@@ -26,7 +26,7 @@ export class Door extends EventEmitter<DoorEvents> {
         this._isOpen = isOpen;
     }
 
-    async emit<Event extends DoorEvents[keyof DoorEvents]>(
+    async emit<Event extends BasicEvent>(
         event: Event
     ): Promise<Event> {
         if (this.system) {

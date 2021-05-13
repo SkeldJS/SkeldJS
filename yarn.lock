@@ -433,6 +433,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/pathfinding@workspace:packages/pathfinding"
   dependencies:
+    "@skeldjs/client": "workspace:packages/client"
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/core": "workspace:*"
     "@skeldjs/data": "workspace:*"
@@ -459,30 +460,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@skeldjs/server@workspace:*, @skeldjs/server@workspace:packages/server":
+"@skeldjs/reactor@workspace:packages/reactor":
   version: 0.0.0-use.local
-  resolution: "@skeldjs/server@workspace:packages/server"
+  resolution: "@skeldjs/reactor@workspace:packages/reactor"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/core": "workspace:*"
-    "@skeldjs/events": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/state": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/client": "workspace:packages/client"
+    "@skeldjs/constant": "workspace:packages/constant"
+    "@skeldjs/protocol": "workspace:packages/protocol"
+    "@skeldjs/util": "workspace:packages/util"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
-    typescript: latest
-  languageName: unknown
-  linkType: soft
-
-"@skeldjs/skeldjs@workspace:packages/skeldjs":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/skeldjs@workspace:packages/skeldjs"
-  dependencies:
-    "@skeldjs/server": "workspace:*"
-    "@skeldjs/util": "workspace:*"
-    "@types/node": ^14.14.16
-    tedis: ^0.1.12
     typescript: latest
   languageName: unknown
   linkType: soft
@@ -5629,15 +5616,6 @@ resolve@^1.1.6:
   languageName: node
   linkType: hard
 
-"tedis@npm:^0.1.12":
-  version: 0.1.12
-  resolution: "tedis@npm:0.1.12"
-  dependencies:
-    uuid: ^3.3.2
-  checksum: dc75ac2a49275fd1c24db6f0e9e90152bb4abd1032c6643edd68e2f5b2b4a1216ec1818a587b775f32ee2b54cdac939a1b5df6497f5e03339a78ffec81d7e01e
-  languageName: node
-  linkType: hard
-
 "test-exclude@npm:^6.0.0":
   version: 6.0.0
   resolution: "test-exclude@npm:6.0.0"
@@ -5654,7 +5632,10 @@ resolve@^1.1.6:
   resolution: "test@workspace:test"
   dependencies:
     "@skeldjs/client": "workspace:packages/client"
+    "@skeldjs/constant": "workspace:packages/constant"
     "@skeldjs/get-auth-token": "workspace:packages/get-auth-token"
+    "@skeldjs/pathfinding": "workspace:packages/pathfinding"
+    "@skeldjs/protocol": "workspace:packages/protocol"
     "@skeldjs/util": "workspace:packages/util"
     "@types/node": ^15.0.1
   languageName: unknown

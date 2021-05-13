@@ -40,6 +40,10 @@ export class Grid {
                 const x = i % actual_height;
                 const y = ~~(i / actual_height);
 
+                if (!grid.nodes[y]) {
+                    grid.nodes.push([]);
+                }
+
                 grid.nodes[y][x] = new Node(grid, x, y, blocked, weight);
                 i++;
             }

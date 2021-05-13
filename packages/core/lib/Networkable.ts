@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SpawnType } from "@skeldjs/constant";
 
-import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { Hostable } from "./Hostable";
 
@@ -78,11 +78,7 @@ export class Networkable<
         Object.assign(this, data);
     }
 
-    async emit<Event extends NetworkableEvents[keyof NetworkableEvents]>(
-        event: Event
-    ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(event: Event): Promise<Event>;
-    async emit<Event extends T[keyof T]>(event: Event): Promise<Event> {
+    async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
         if (this.owner) {
             this.owner.emit(event);
         }

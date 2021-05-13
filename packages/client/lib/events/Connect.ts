@@ -1,9 +1,10 @@
-import { CancelableEvent } from "@skeldjs/events";
+import { SkeldjsClient } from "../client";
+import { ClientEvent } from "./ClientEvent";
 
 /**
  * Emitted when the client connects to a server, before it identifies.
  */
-export class ClientConnectEvent extends CancelableEvent {
+export class ClientConnectEvent extends ClientEvent {
     static eventNamee = "client.connect" as const;
     eventName = "client.connect" as const;
 
@@ -17,8 +18,8 @@ export class ClientConnectEvent extends CancelableEvent {
      */
     port: number;
 
-    constructor(ip: string, port: number) {
-        super();
+    constructor(client: SkeldjsClient, ip: string, port: number) {
+        super(client);
 
         this.ip = ip;
         this.port = port;

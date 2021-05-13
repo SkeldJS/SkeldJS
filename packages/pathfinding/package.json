@@ -10,10 +10,12 @@
   "scripts": {
     "build": "tsc -p ./",
     "watch": "tsc -w -p ./",
-    "prepack": "yarn build && yarn build:colliders",
+    "prepack": "yarn build",
+    "postinstall": "yarn build:colliders",
     "build:colliders": "node dist/build.js"
   },
   "dependencies": {
+    "@skeldjs/client": "workspace:packages/client",
     "@skeldjs/constant": "workspace:*",
     "@skeldjs/core": "workspace:*",
     "@skeldjs/data": "workspace:*",
@@ -31,6 +33,6 @@
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [
     "dist",
-    "data/build/*"
+    "data/colliders/*"
   ]
 }

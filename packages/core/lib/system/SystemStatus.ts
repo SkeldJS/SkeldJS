@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 
-import { EventEmitter } from "@skeldjs/events";
+import { BasicEvent, EventEmitter } from "@skeldjs/events";
 import { RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
@@ -62,11 +62,7 @@ export class SystemStatus<
         return this.ship.room;
     }
 
-    async emit<Event extends SystemStatusEvents[keyof SystemStatusEvents]>(
-        event: Event
-    ): Promise<Event>;
-    async emit<Event extends T[keyof T]>(event: Event): Promise<Event>;
-    async emit<Event extends T[keyof T]>(event: Event): Promise<Event> {
+    async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
         if (this.ship) {
             this.ship.emit(event as any);
         }

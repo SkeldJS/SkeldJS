@@ -3,6 +3,8 @@ import path from "path";
 
 import { Vector2 } from "@skeldjs/util";
 
+import { SkeldjsClient } from "@skeldjs/client";
+
 import {
     CustomNetworkTransform,
     PlayerData,
@@ -11,7 +13,9 @@ import {
     MiraHQVent,
     PolusVent,
     MapVentData,
-    Hostable,
+    PlayerLeaveEvent,
+    PlayerMoveEvent,
+    GameMap
 } from "@skeldjs/core";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
@@ -28,9 +32,8 @@ import {
     PathfinderPauseEvent,
     EngineRecalculateEvent,
     PathfinderStartEvent,
-    PathfinderStopEvent,
+    PathfinderStopEvent
 } from "./events";
-import { PlayerLeaveEvent, PlayerMoveEvent } from "@skeldjs/core/lib/events";
 
 export type SkeldjsPathfinderEvents = ExtractEventTypes<
     [
@@ -74,7 +77,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     following: PlayerData;
 
     constructor(
-        private client: Hostable,
+        private client: SkeldjsClient,
         public config: PathfinderConfig = {}
     ) {
         super();
@@ -83,6 +86,10 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         this.client.on("room.fixedupdate", this._ontick.bind(this));
         this.client.on("player.move", this._handleMove.bind(this));
         this.client.on("player.leave", this._handleLeave.bind(this));
+
+        this.client.on("player.syncsettings", syncsettings => {
+            this.grid = null;
+        });
     }
 
     private get snode() {
@@ -149,7 +156,6 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         if (this._paused) return;
 
         const next = this.path.shift();
-
         if (next) {
             const pos = this.grid.actual(next.x, next.y);
             const dist = Vector2.dist(this.position, pos);
