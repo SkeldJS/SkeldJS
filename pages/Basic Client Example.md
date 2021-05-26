@@ -1,5 +1,3 @@
-## Basic Client Example
-
 Join a game on EU servers, set colour & name and record player movement.
 
 ```ts

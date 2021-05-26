@@ -1,4 +1,4 @@
-## How to use Events in SkeldJS
+## How to Use Events in SkeldJS
 
 Events in SkeldJS are emitted by individual objects and components, but propagate throughout the tree, meaning you can attach listeners to the client to listen to events from all objects, and know where they are coming from.
 
