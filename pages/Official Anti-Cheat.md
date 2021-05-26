@@ -1,4 +1,4 @@
-## Official Anti-Cheat
+## Anti-Cheat on the Among Us Official Servers.
 
 It is important to know that many methods in SkeldJS require the client to be the host of the room, or risk getting banned from the room by the Anti-Cheat used on the official servers.
 
