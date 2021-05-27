@@ -26,7 +26,7 @@ class MyFavouriteMessage extends BaseMessage {
         direction: MessageDirection, // The direction that this message is travelling in.
         decoder: PacketDecoder // The decoder that this message is going through.
     ) {
-
+        // Should return an instance of MyFavouriteMessage
     }
 
     Serialize(
@@ -70,6 +70,9 @@ The Deserialize and Serialize methods take 3 parameters, a [HazelReader](https:/
 or [HazelWriter](https://skeldjs.github.io/SkeldJS/classes/util.hazelwriter.html)
 instance respectfully, and also both take a [MessageDirection](https://skeldjs.github.io/SkeldJS/enums/protocol.messagedirection.html)
 and [PacketDecoder](https://skeldjs.github.io/SkeldJS/classes/protocol.packetdecoder.html).
+
+The Deserialize method should also return an instance of the message, while
+Serialize should return nothing.
 
 ### Examples
 Of course, SkeldJS contains plenty of examples and real-world usecases of writing
