@@ -10,7 +10,7 @@ export class RemovePlayerMessage extends BaseRootMessage {
 
     readonly code: number;
     readonly clientid: number;
-    readonly hostid: number;
+    readonly hostid!: number;
     readonly reason: DisconnectReason;
 
     constructor(
@@ -30,7 +30,7 @@ export class RemovePlayerMessage extends BaseRootMessage {
         this.clientid = clientid;
         this.reason = reason;
 
-        this.hostid = hostid;
+        if (hostid) this.hostid = hostid;
     }
 
     static Deserialize(reader: HazelReader, direction: MessageDirection) {

@@ -1,4 +1,4 @@
 export class BasicEvent {
     static eventName: string;
-    eventName: string;
+    eventName!: string;
 }

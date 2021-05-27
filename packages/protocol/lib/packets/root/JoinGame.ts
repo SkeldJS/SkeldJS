@@ -8,12 +8,12 @@ export class JoinGameMessage extends BaseRootMessage {
     static tag = RootMessageTag.JoinGame as const;
     tag = RootMessageTag.JoinGame as const;
 
-    readonly code: number;
-    readonly clientid: number;
-    readonly hostid: number;
+    readonly code!: number;
+    readonly clientid!: number;
+    readonly hostid!: number;
 
-    readonly error: DisconnectReason;
-    readonly message: string;
+    readonly error!: DisconnectReason;
+    readonly message!: string;
 
     constructor(code: string | number);
     constructor(error: DisconnectReason, message?: string);

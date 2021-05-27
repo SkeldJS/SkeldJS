@@ -28,7 +28,7 @@ export class KickPlayerMessage extends BaseRootMessage {
 
         this.clientid = clientid;
         this.banned = banned;
-        this.reason = reason;
+        this.reason = reason || DisconnectReason.None;
     }
 
     static Deserialize(reader: HazelReader) {

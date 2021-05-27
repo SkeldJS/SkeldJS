@@ -17,17 +17,17 @@ export class GetGameListMessage extends BaseRootMessage {
     static tag = RootMessageTag.GetGameListV2 as const;
     tag = RootMessageTag.GetGameListV2 as const;
 
-    readonly options: GameOptions;
-    readonly quickchat: QuickChatMode;
+    readonly options!: GameOptions;
+    readonly quickchat!: QuickChatMode;
 
     readonly gameCounts?: GameCounts;
-    readonly gameList: GameListing[];
+    readonly gameList!: GameListing[];
 
     constructor(options: GameOptions, quickchat: QuickChatMode);
     constructor(gameList: GameListing[], gameCounts?: GameCounts);
     constructor(
         arg0: GameOptions | GameListing[],
-        arg1: QuickChatMode | GameCounts
+        arg1?: QuickChatMode | GameCounts
     ) {
         super();
 
@@ -79,9 +79,9 @@ export class GetGameListMessage extends BaseRootMessage {
         if (direction === MessageDirection.Clientbound) {
             if (this.gameCounts) {
                 writer.begin(GetGameListTag.GameCounts);
-                writer.uint32(this.gameCounts[GameMap.TheSkeld]);
-                writer.uint32(this.gameCounts[GameMap.MiraHQ]);
-                writer.uint32(this.gameCounts[GameMap.Polus]);
+                writer.uint32(this.gameCounts[GameMap.TheSkeld] || 0);
+                writer.uint32(this.gameCounts[GameMap.MiraHQ] || 0);
+                writer.uint32(this.gameCounts[GameMap.Polus] || 0);
                 writer.end();
             }
 

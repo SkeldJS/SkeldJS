@@ -101,8 +101,13 @@ function get_pathname() {
             const lines = data.split("\n").map((line) => {
                 const points = line.trim().match(/\(-?\d+(\.\d+)?, ?-?\d+(\.\d+)?\)/g);
 
+                if (!points) return [];
+
                 return points.map((point) => {
                     const numbers = point.match(/-?\d+(\.\d+)?/g);
+
+                    if (!numbers) return { x: 0, y: 0 };
+
                     const x = parseFloat(numbers[0]) * 1.2;
                     const y = parseFloat(numbers[1]) * 1.2;
 

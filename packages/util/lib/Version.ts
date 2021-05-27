@@ -19,7 +19,7 @@ export class VersionInfo {
      * console.log(version.toString()); // => 2021.4.2.0
      * ```
      */
-    static from(version: number);
+    static from(version: number): VersionInfo;
     /**
      * Create a version from a formatted string.
      * @param version The formatted string.
@@ -30,8 +30,8 @@ export class VersionInfo {
      * console.log(version.toString()); // => 2021.4.2.0
      * ```
      */
-    static from(version: string);
-    static from(version: number | string);
+    static from(version: string): VersionInfo;
+    static from(version: number | string): VersionInfo;
     static from(version: number | string) {
         if (typeof version === "number") {
             const year = Math.floor(version / 25000);

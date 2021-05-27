@@ -80,7 +80,7 @@ export class TMPElement {
      * const clone = formatted.clone();
      * ```
      */
-    clone() {
+    clone(): TMPElement {
         const clattr = { ...this.attributes };
         const children = this.children.map((child) => {
             if (typeof child === "string") {
@@ -110,7 +110,7 @@ export class TMPElement {
     /**
      * Get the inner representation of the element structure as a string.
      */
-    getInner() {
+    getInner(): string {
         if (this.is_single) {
             return "";
         }

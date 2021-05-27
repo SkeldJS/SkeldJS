@@ -28,7 +28,7 @@ export type DeconSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
 export class DeconSystem extends SystemStatus<
     DeconSystemData,
     DeconSystemEvents
-> {
+> implements DeconSystemData {
     static systemType = SystemType.Decontamination as const;
     systemType = SystemType.Decontamination as const;
 
@@ -44,6 +44,9 @@ export class DeconSystem extends SystemStatus<
 
     constructor(ship: InnerShipStatus, data?: HazelReader | DeconSystemData) {
         super(ship, data);
+
+        this.timer ??= 10000;
+        this.state ||= 0;
     }
 
     Deserialize(reader: HazelReader, spawn: boolean) {

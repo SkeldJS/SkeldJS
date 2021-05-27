@@ -13,7 +13,7 @@ import { SystemStatusEvents } from "./events";
 
 export interface MovingPlatformSystemData {
     useId: number;
-    target: PlayerData;
+    target: PlayerData|null;
     side: MovingPlatformSide;
 }
 
@@ -33,12 +33,12 @@ export type MovingPlatformSystemEvents = SystemStatusEvents &
 export class MovingPlatformSystem extends SystemStatus<
     MovingPlatformSystemData,
     MovingPlatformSystemEvents
-> {
+> implements MovingPlatformSystemData {
     static systemType = SystemType.Decontamination as const;
     systemType = SystemType.Decontamination as const;
 
-    private useId: number;
-    target: PlayerData;
+    useId: number;
+    target: PlayerData|null;
     side: MovingPlatformSide;
 
     constructor(
@@ -46,6 +46,10 @@ export class MovingPlatformSystem extends SystemStatus<
         data?: HazelReader | MovingPlatformSystemData
     ) {
         super(ship, data);
+
+        this.useId ||= 0;
+        this.target ||= null;
+        this.side ||= MovingPlatformSide.Right;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -53,7 +57,7 @@ export class MovingPlatformSystem extends SystemStatus<
         if (spawn) {
             this.useId = reader.uint8();
             const targetId = reader.uint8();
-            this.setTarget(
+            this._setTarget(
                 targetId === 255
                     ? null
                     : this.ship.room.getPlayerByNetId(targetId),
@@ -64,7 +68,7 @@ export class MovingPlatformSystem extends SystemStatus<
             if (NetworkUtils.seqIdGreaterThan(newSid, this.useId, 1)) {
                 this.useId = newSid;
                 const targetId = reader.uint8();
-                this.setTarget(
+                this._setTarget(
                     targetId === 255
                         ? null
                         : this.ship.room.getPlayerByNetId(targetId),
@@ -80,12 +84,12 @@ export class MovingPlatformSystem extends SystemStatus<
         if (this.useId > 255) this.useId = 0;
 
         writer.uint8(this.useId);
-        writer.uint8(this.target?.control?.netid ?? null);
+        writer.uint8(this.target?.control?.netid ?? 255);
         writer.uint8(this.side);
         this.dirty = spawn;
     }
 
-    private _setTarget(player: PlayerData, side: MovingPlatformSide) {
+    private _setTarget(player: PlayerData|null, side: MovingPlatformSide) {
         this.target = player;
         this.emit(
             new MovingPlatformPlayerUpdateEvent(
@@ -100,13 +104,16 @@ export class MovingPlatformSystem extends SystemStatus<
     setTarget(player: PlayerDataResolvable, side: MovingPlatformSide) {
         const resolved = this.ship.room.resolvePlayer(player);
 
-        if (this.target === resolved) return;
+        if (!resolved)
+            return;
 
-        if (resolved) {
+        if (this.target === resolved)
+            return;
+
+        if (resolved?.control) {
             this.ship.room.stream.push(
                 new RpcMessage(
                     resolved.control.netid,
-                    RpcMessageTag.UsePlatform,
                     new UsePlatformMessage()
                 )
             );

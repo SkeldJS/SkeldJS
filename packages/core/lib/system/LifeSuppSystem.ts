@@ -31,7 +31,7 @@ export type LifeSuppSystemEvents = SystemStatusEvents &
 export class LifeSuppSystem extends SystemStatus<
     LifeSuppSystemData,
     LifeSuppSystemEvents
-> {
+> implements LifeSuppSystemData {
     static systemType = SystemType.O2 as const;
     systemType = SystemType.O2 as const;
 
@@ -53,7 +53,8 @@ export class LifeSuppSystem extends SystemStatus<
     ) {
         super(ship, data);
 
-        this.completed ||= new Set();
+        this.timer ??= 10000;
+        this.completed ||= new Set;
     }
 
     get sabotaged() {
@@ -123,6 +124,9 @@ export class LifeSuppSystem extends SystemStatus<
      * @param consoleId The ID of the console to mark as complete.
      */
     completeConsole(consoleId: number) {
+        if (!this.ship.room.me)
+            return;
+
         this.repair(this.ship.room.me, (consoleId & 0x3) | 0x40);
     }
 
@@ -134,6 +138,9 @@ export class LifeSuppSystem extends SystemStatus<
     }
 
     fix() {
+        if (!this.ship.room.me)
+            return;
+
         this.repair(this.ship.room.me, 0x10);
     }
 

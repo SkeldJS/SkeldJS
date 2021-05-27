@@ -12,7 +12,7 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
 
     start.g = 0;
     start.h = heuristic(start.x - end.x, start.y - end.y);
-    start.parent = null;
+    start.parent = undefined;
 
     heap.push(start);
 
@@ -23,11 +23,12 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
     let closest: Node = start;
 
     while (heap.size() > 0) {
-        const current = heap.pop();
+        const current = heap.pop() as Node;
+
         current.closed = true;
         grid.dirty.add(current);
 
-        if (!closest?.h || current.h < closest.h) {
+        if (!closest?.h || !current.h || current.h < closest.h) {
             closest = current;
         }
 
@@ -42,14 +43,14 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
             if (neighbor.closed) continue;
 
             const g =
-                (current.g +
+                (current.g! +
                     (neighbor.x - current.x === 0 ||
                     neighbor.y - current.y === 0
                         ? 1
                         : Math.SQRT2)) *
                 neighbor.weight;
 
-            if (!neighbor.closed || g < neighbor.g) {
+            if (!neighbor.closed || g < neighbor.g!) {
                 neighbor.g = g;
                 neighbor.h ||=
                     1 * heuristic(neighbor.x - end.x, neighbor.y - end.y);

@@ -104,28 +104,28 @@ export class GameOptions implements AllGameOptions {
         return true;
     }
 
-    version: number;
-    maxPlayers: number;
-    keywords: GameKeyword;
-    map: GameMap;
-    playerSpeed: number;
-    crewmateVision: number;
-    impostorVision: number;
-    killCooldown: number;
-    commonTasks: number;
-    longTasks: number;
-    shortTasks: number;
-    numEmergencies: number;
-    numImpostors: number;
-    killDistance: KillDistance;
-    discussionTime: number;
-    votingTime: number;
-    isDefaults: boolean;
-    emergencyCooldown: number;
-    confirmEjects: boolean;
-    visualTasks: boolean;
-    anonymousVotes: boolean;
-    taskbarUpdates: TaskBarUpdate;
+    version!: number;
+    maxPlayers!: number;
+    keywords!: GameKeyword;
+    map!: GameMap;
+    playerSpeed!: number;
+    crewmateVision!: number;
+    impostorVision!: number;
+    killCooldown!: number;
+    commonTasks!: number;
+    longTasks!: number;
+    shortTasks!: number;
+    numEmergencies!: number;
+    numImpostors!: number;
+    killDistance!: KillDistance;
+    discussionTime!: number;
+    votingTime!: number;
+    isDefaults!: boolean;
+    emergencyCooldown!: number;
+    confirmEjects!: boolean;
+    visualTasks!: boolean;
+    anonymousVotes!: boolean;
+    taskbarUpdates!: TaskBarUpdate;
 
     constructor(options: Partial<AllGameOptions> = {}) {
         this.patch(options);

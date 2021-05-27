@@ -135,8 +135,8 @@ export class Grid {
         for (const node of this.dirty) {
             node.opened = false;
             node.closed = false;
-            node.g = null;
-            node.h = null;
+            node.g = undefined;
+            node.h = undefined;
         }
     }
 
@@ -153,7 +153,7 @@ export class Grid {
         writer.uint8(this.density);
 
         let num = 0;
-        let current: Node = null;
+        let current: Node|undefined = undefined;
         for (let y = 0; y < this.actual_height; y++) {
             for (let x = 0; x < this.actual_width; x++) {
                 if (!current) {
@@ -175,8 +175,8 @@ export class Grid {
             }
         }
         writer.upacked(num);
-        writer.bool(current.blocked);
-        writer.float(current.weight);
+        writer.bool(current?.blocked || false);
+        writer.float(current?.weight || 0);
 
         writer.realloc(writer.cursor);
 

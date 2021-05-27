@@ -28,7 +28,7 @@ export class AirshipStatus extends InnerShipStatus {
     static classname = "Airship" as const;
     classname = "Airship" as const;
 
-    systems: {
+    systems!: {
         [SystemType.Electrical]: SwitchSystem;
         [SystemType.Security]: SecurityCameraSystem;
         [SystemType.Communications]: HudOverrideSystem;
@@ -61,7 +61,6 @@ export class AirshipStatus extends InnerShipStatus {
                 sabotaged: false,
             }),
             [SystemType.Decontamination]: new ElectricalDoorsSystem(this, {
-                cooldowns: new Map(),
                 doors: [],
             }),
             [SystemType.Decontamination2]: new AutoDoorsSystem(this, {

@@ -24,7 +24,7 @@ describe("KickPlayerMessage", () => {
 
             packet.Serialize(writer);
 
-            assert.strictEqual(writer.toString("hex"), "88fd958cc3a30200");
+            assert.strictEqual(writer.toString("hex"), "88fd958cc3a3020000");
         });
 
         it("Should serialize a kick player root message with a reason.", () => {

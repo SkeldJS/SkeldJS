@@ -39,7 +39,7 @@ export type PlayerPhysicsEvents = NetworkableEvents &
 export class PlayerPhysics extends Networkable<
     PlayerPhysicsData,
     PlayerPhysicsEvents
-> {
+> implements PlayerPhysicsData {
     static type = SpawnType.Player as const;
     type = SpawnType.Player as const;
 
@@ -60,6 +60,9 @@ export class PlayerPhysics extends Networkable<
         data?: HazelReader | PlayerPhysicsData
     ) {
         super(room, netid, ownerid, data);
+
+        this.ventid ||= 0;
+        this.ladderClimbSeqId = 0;
     }
 
     get player() {
@@ -97,7 +100,6 @@ export class PlayerPhysics extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.EnterVent,
                 new EnterVentMessage(ventid)
             )
         );
@@ -125,7 +127,7 @@ export class PlayerPhysics extends Networkable<
     }
 
     private _exitVent(ventid: number) {
-        this.ventid = null;
+        this.ventid = -1;
         this.emit(new PlayerExitVentEvent(this.room, this.player, ventid));
     }
 
@@ -133,7 +135,6 @@ export class PlayerPhysics extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.ExitVent,
                 new ExitVentMessage(ventid)
             )
         );
@@ -172,7 +173,6 @@ export class PlayerPhysics extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.ClimbLadder,
                 new ClimbLadderMessage(ladderid, this.ladderClimbSeqId)
             )
         );

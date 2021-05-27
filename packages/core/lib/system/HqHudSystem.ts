@@ -51,7 +51,7 @@ export const HqHudSystemRepairTag = {
 export class HqHudSystem extends SystemStatus<
     HqHudSystemData,
     HqHudSystemEvents
-> {
+> implements HqHudSystemData {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
@@ -76,6 +76,10 @@ export class HqHudSystem extends SystemStatus<
 
     constructor(ship: InnerShipStatus, data?: HazelReader | HqHudSystemData) {
         super(ship, data);
+
+        this.timer ??= 10000;
+        this.active ||= [];
+        this.completed ||= new Set;
     }
 
     private _getIdx(consoleId: number, playerId: number) {
@@ -152,6 +156,9 @@ export class HqHudSystem extends SystemStatus<
     }
 
     private _openConsole(consoleid: number, player: PlayerData) {
+        if (player.playerId === undefined)
+            return;
+
         const idx = this._getIdx(consoleid, player.playerId);
 
         if (idx === -1) {
@@ -169,6 +176,9 @@ export class HqHudSystem extends SystemStatus<
     }
 
     private _closeConsole(consoleid: number, player: PlayerData) {
+        if (player.playerId === undefined)
+            return;
+
         const idx = this._getIdx(consoleid, player.playerId);
 
         if (idx > -1) {
@@ -210,6 +220,9 @@ export class HqHudSystem extends SystemStatus<
      * @param consoleId The ID of the console to mark as being used.
      */
     openConsole(consoleId: number) {
+        if (!this.ship.room.me)
+            return;
+
         this.repair(
             this.ship.room.me,
             (consoleId & 0xf) | HqHudSystemRepairTag.OpenConsole
@@ -221,6 +234,9 @@ export class HqHudSystem extends SystemStatus<
      * @param consoleId The ID of the console to mark as not being used.
      */
     closeConsole(consoleId: number) {
+        if (!this.ship.room.me)
+            return;
+
         this.repair(
             this.ship.room.me,
             (consoleId & 0xf) | HqHudSystemRepairTag.CloseConsole
@@ -232,6 +248,9 @@ export class HqHudSystem extends SystemStatus<
      * @param consoleId The ID of the console to mark as completed.
      */
     completeConsole(consoleId: number) {
+        if (!this.ship.room.me)
+            return;
+
         this.repair(
             this.ship.room.me,
             (consoleId & 0xf) | HqHudSystemRepairTag.CompleteConsole

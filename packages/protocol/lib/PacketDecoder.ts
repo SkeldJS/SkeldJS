@@ -110,17 +110,17 @@ export interface Deserializable {
 }
 
 export class PacketDecoder<SenderType = any> {
-    listeners: Map<
+    listeners!: Map<
         Deserializable,
         Set<
             (
                 message: Serializable,
                 direction: MessageDirection,
-                sender: SenderType
+                sender?: SenderType
             ) => void
         >
     >;
-    types: Map<string, Map<number, Deserializable>>;
+    types!: Map<string, Map<number, Deserializable>>;
 
     constructor() {
         this.reset();
@@ -230,38 +230,83 @@ export class PacketDecoder<SenderType = any> {
     }
 
     /**
-     * Emit a decoded message to all listeners, also emits the message's children recursively.
+     * Emit a decoded message to all listeners concurrently, also emits the message's children recursively.
      * @param message The message to emit.
      * @param direction The direction that the message was sent.
      * @param sender Additional metadata for the message, e.g. the sender.
      */
-    emitDecoded(
+    async emitDecoded(
         message: Serializable,
         direction: MessageDirection,
-        sender: SenderType
+        sender?: SenderType
     ) {
-        this.emit(message, direction, sender);
-
-        if (!message.children) return;
-
-        for (const child of message.children) {
-            this.emitDecoded(child, direction, sender);
+        if (message.children) {
+            for (const child of message.children) {
+                await this.emitDecoded(child, direction, sender);
+            }
         }
+
+        await this.emit(message, direction, sender);
     }
 
-    private emit(
+    /**
+     * Emit a decoded message to all listeners serially, also emits the message's children recursively.
+     * @param message The message to emit.
+     * @param direction The direction that the message was sent.
+     * @param sender Additional metadata for the message, e.g. the sender.
+     */
+    async emitDecodedSerial(
         message: Serializable,
         direction: MessageDirection,
-        sender: SenderType
+        sender?: SenderType
+    ) {
+        if (message.children) {
+            for (const child of message.children) {
+                await this.emitDecodedSerial(child, direction, sender);
+            }
+        }
+
+        await this.emitSerial(message, direction, sender);
+
+    }
+
+    async emit(
+        message: Serializable,
+        direction: MessageDirection,
+        sender?: SenderType
     ) {
         const classes = this.types.get(message.type);
 
         if (classes) {
             const messageClass = classes.get(message.tag);
-            const listeners = this.getListeners(messageClass);
 
-            for (const listener of listeners) {
-                listener(message, direction, sender);
+            if (messageClass) {
+                const listeners = this.getListeners(messageClass);
+
+                await Promise.all(
+                    [...listeners].map(listener =>
+                        listener(message, direction, sender))
+                );
+            }
+        }
+    }
+
+    async emitSerial(
+        message: Serializable,
+        direction: MessageDirection,
+        sender?: SenderType
+    ) {
+        const classes = this.types.get(message.type);
+
+        if (classes) {
+            const messageClass = classes.get(message.tag);
+
+            if (messageClass) {
+                const listeners = this.getListeners(messageClass);
+
+                for (const listener of listeners) {
+                    await listener(message, direction, sender);
+                }
             }
         }
     }
@@ -277,7 +322,7 @@ export class PacketDecoder<SenderType = any> {
         (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
     > {
         const listeners = this.listeners.get(messageClass);
@@ -300,9 +345,9 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
-    );
+    ): () => void;
     /**
      * Listen to any of several messages being sent through the decoder.
      * @param messageClass The messages to listen for.
@@ -314,15 +359,15 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
-    );
+    ): () => void;
     on(
         messageClass: any,
         listener: (
             message: any,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
     ) {
         if (Array.isArray(messageClass)) {
@@ -350,9 +395,9 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
-    );
+    ): void;
     /**
      * Remove a listener from several messages being listened to.
      * @param messageClass The message to listen for.
@@ -363,15 +408,15 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
-    );
+    ): void;
     off(
         messageClass: any,
         listener: (
             message: any,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
     ) {
         if (Array.isArray(messageClass)) {
@@ -398,9 +443,9 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
-    );
+    ): () => void;
     /**
      * Listen to any of several messages being sent through the decoder once.
      * @param messageClass The messages to listen for.
@@ -412,15 +457,15 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
-    );
+    ): () => void;
     once(
         messageClass: any,
         listener: (
             message: any,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => void
     ) {
         const removeListener = this.on(
@@ -444,7 +489,7 @@ export class PacketDecoder<SenderType = any> {
     ): Promise<{
         message: GetSerialized<T>;
         direction: MessageDirection;
-        sender: SenderType;
+        sender?: SenderType;
     }> {
         return new Promise((resolve) => {
             this.once(messageClass, (message, direction, sender) => {
@@ -464,12 +509,12 @@ export class PacketDecoder<SenderType = any> {
         filter: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            sender?: SenderType
         ) => boolean
     ): Promise<{
         message: GetSerialized<T>;
         direction: MessageDirection;
-        sender: SenderType;
+        sender?: SenderType;
     }> {
         return new Promise((resolve) => {
             const removeListener = this.on(
@@ -487,27 +532,29 @@ export class PacketDecoder<SenderType = any> {
     private _parse(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound
-    ): Serializable {
+    ): Serializable|null {
         if (Buffer.isBuffer(reader)) {
             return this._parse(HazelReader.from(reader), direction);
         }
 
         const optionMessages = this.types.get("option");
 
+        if (!optionMessages)
+            return null;
+
         const sendOption = reader.uint8();
         const optionMessageClass = optionMessages.get(sendOption);
 
-        if (optionMessageClass) {
-            const message = optionMessageClass.Deserialize(
-                reader,
-                direction,
-                this
-            );
+        if (!optionMessageClass)
+            return null;
 
-            return message;
-        }
+        const message = optionMessageClass.Deserialize(
+            reader,
+            direction,
+            this
+        );
 
-        return null;
+        return message;
     }
 
     /**
@@ -516,15 +563,15 @@ export class PacketDecoder<SenderType = any> {
      * @param direction The direction that the packet was sent.
      * @param sender Additional metadata for the sender.
      */
-    write(
+    async write(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound,
-        sender: SenderType = null
+        sender?: SenderType
     ) {
         const message = this._parse(reader, direction);
 
         if (message) {
-            this.emitDecoded(message, direction, sender);
+            await this.emitDecoded(message, direction, sender);
         }
 
         return message;

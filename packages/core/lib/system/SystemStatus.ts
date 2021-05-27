@@ -15,7 +15,7 @@ export class SystemStatus<
     T extends SystemStatusEvents = SystemStatusEvents
 > extends EventEmitter<T> {
     static systemType: SystemType;
-    systemType: SystemType;
+    systemType!: SystemType;
 
     constructor(protected ship: InnerShipStatus, data?: HazelReader | DataT) {
         super();
@@ -82,6 +82,9 @@ export class SystemStatus<
     HandleSabotage(player: PlayerData) {}
 
     sabotage(player: PlayerData) {
+        if (!player.control)
+            return;
+
         if (this.ship.room.amhost) {
             this.HandleSabotage(player);
             this.emit(
@@ -96,7 +99,6 @@ export class SystemStatus<
                 [
                     new RpcMessage(
                         this.ship.netid,
-                        RpcMessageTag.RepairSystem,
                         new RepairSystemMessage(
                             SystemType.Sabotage,
                             player.control.netid,
@@ -111,6 +113,9 @@ export class SystemStatus<
     }
 
     repair(player: PlayerData, amount: number) {
+        if (!player.control)
+            return;
+
         if (this.ship.room.amhost) {
             this.HandleRepair(player, amount);
         } else {
@@ -123,7 +128,6 @@ export class SystemStatus<
                 [
                     new RpcMessage(
                         this.ship.netid,
-                        RpcMessageTag.RepairSystem,
                         new RepairSystemMessage(
                             SystemType.Sabotage,
                             player.control.netid,

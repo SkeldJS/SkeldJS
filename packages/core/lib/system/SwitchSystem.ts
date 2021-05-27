@@ -31,7 +31,7 @@ export type SwitchSystemEvents = SystemStatusEvents &
 export class SwitchSystem extends SystemStatus<
     SwitchSystemData,
     SwitchSystemEvents
-> {
+> implements SwitchSystemData {
     static systemType = SystemType.Electrical as const;
     systemType = SystemType.Electrical as const;
 
@@ -56,6 +56,10 @@ export class SwitchSystem extends SystemStatus<
 
     constructor(ship: InnerShipStatus, data?: HazelReader | SwitchSystemData) {
         super(ship, data);
+
+        this.expected ||= [false, false, false, false, false];
+        this.actual ||= [false, false, false, false, false];
+        this.brightness ??= 100;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -124,6 +128,9 @@ export class SwitchSystem extends SystemStatus<
      * ```
      */
     flip(num: number) {
+        if (!this.ship?.room?.me)
+            return;
+
         this.repair(this.ship.room.me, num);
     }
 

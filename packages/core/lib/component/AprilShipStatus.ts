@@ -29,7 +29,7 @@ export class AprilShipStatus extends InnerShipStatus {
     static classname = "AprilShipStatus" as const;
     classname = "AprilShipStatus" as const;
 
-    systems: {
+    systems!: {
         [SystemType.Reactor]: ReactorSystem;
         [SystemType.Electrical]: SwitchSystem;
         [SystemType.O2]: LifeSuppSystem;

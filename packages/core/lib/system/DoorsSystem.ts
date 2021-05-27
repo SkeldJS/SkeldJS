@@ -41,6 +41,14 @@ export class DoorsSystem extends SystemStatus<
 
     constructor(ship: InnerShipStatus, data?: HazelReader | DoorsSystemData) {
         super(ship, data);
+
+        this.cooldowns ||= new Map;
+        this.doors ||= [];
+
+        this.doors = this.doors.map((door, i) =>
+            typeof door === "boolean"
+                ? new Door(this, i, door)
+                : door);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

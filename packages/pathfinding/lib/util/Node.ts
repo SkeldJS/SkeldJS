@@ -23,10 +23,12 @@ export class Node {
         this.y = y;
         this.blocked = blocked;
         this.weight = weight;
+        this.opened = false;
+        this.closed = false;
     }
 
     get f() {
-        return this.g + this.h;
+        return this.g && this.h ? this.g + this.h : 0;
     }
 
     get grid() {

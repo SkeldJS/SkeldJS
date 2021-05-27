@@ -8,7 +8,6 @@ import { SystemStatusEvents } from "./events";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 export interface ElectricalDoorsSystemData {
-    cooldowns: Map<number, number>;
     doors: boolean[];
 }
 
@@ -31,13 +30,20 @@ export class ElectricalDoorsSystem extends SystemStatus<
     /**
      * The doors in the map.
      */
-    doors: Door[];
+    doors!: Door[];
 
     constructor(
         ship: InnerShipStatus,
         data?: HazelReader | ElectricalDoorsSystemData
     ) {
         super(ship, data);
+
+        this.doors ||= [];
+
+        this.doors = this.doors.map((door, i) =>
+            typeof door === "boolean"
+                ? new Door(this, i, door)
+                : door);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

@@ -24,6 +24,8 @@ export class SkeldjsStateManager<
     constructor(options: HostableOptions = {}) {
         super({ doFixedUpdate: false, ...options });
 
+        this.clientid = 0;
+
         this.decoder.on(HostGameMessage, (message, direction) => {
             if (direction === MessageDirection.Clientbound) {
                 this.setCode(message.code);
@@ -90,14 +92,6 @@ export class SkeldjsStateManager<
                 this._setAlterGameTag(message.alter_tag, message.value);
             }
         });
-    }
-
-    get me() {
-        return null;
-    }
-
-    get amhost() {
-        return false;
     }
 
     async handleInboundMessage(message: Buffer) {
