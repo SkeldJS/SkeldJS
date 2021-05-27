@@ -98,7 +98,7 @@ export type PlayerControlEvents = NetworkableEvents &
 export class PlayerControl extends Networkable<
     PlayerControlData,
     PlayerControlEvents
-> {
+> implements PlayerControlData {
     static type = SpawnType.Player as const;
     type = SpawnType.Player as const;
 
@@ -124,6 +124,9 @@ export class PlayerControl extends Networkable<
         data?: HazelReader | PlayerControlData
     ) {
         super(room, netid, ownerid, data);
+
+        this.isNew ??= true;
+        this.playerId ||= 0;
     }
 
     get player() {
@@ -235,7 +238,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.CompleteTask,
                 new CompleteTaskMessage(taskIdx)
             )
         );
@@ -268,7 +270,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SyncSettings,
                 new SyncSettingsMessage(settings)
             )
         );
@@ -290,7 +291,7 @@ export class PlayerControl extends Networkable<
     private async _handleSetInfected(rpc: SetInfectedMessage) {
         const impostors = rpc.impostors
             .map((id) => this.room.getPlayerByPlayerId(id))
-            .filter((player) => player && player.data);
+            .filter((player) => player && player.data) as PlayerData[];
 
         this._setImpostors(impostors);
 
@@ -301,8 +302,8 @@ export class PlayerControl extends Networkable<
 
     private _setImpostors(players: PlayerData[]) {
         for (const impostor of players) {
-            impostor.data.impostor = true;
-            this.room.gamedata.update(impostor);
+            if (impostor.data) impostor.data.impostor = true;
+            this.room.gamedata?.update(impostor);
         }
     }
 
@@ -310,9 +311,8 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SetInfected,
                 new SetInfectedMessage(
-                    infected.map((player) => player.playerId)
+                    infected.map((player) => player.playerId) as number[]
                 )
             )
         );
@@ -321,7 +321,7 @@ export class PlayerControl extends Networkable<
     setImpostors(players: PlayerDataResolvable[]) {
         const resolved = players
             .map((player) => this.room.resolvePlayer(player))
-            .filter((player) => player && player.data);
+            .filter((player) => player && player.data) as PlayerData[];
 
         this._setImpostors(resolved);
         this._rpcSetImpostors(resolved);
@@ -375,7 +375,6 @@ export class PlayerControl extends Networkable<
             [
                 new RpcMessage(
                     this.netid,
-                    RpcMessageTag.CheckName,
                     new CheckNameMessage(name)
                 ),
             ],
@@ -432,7 +431,6 @@ export class PlayerControl extends Networkable<
             [
                 new RpcMessage(
                     this.netid,
-                    RpcMessageTag.CheckColor,
                     new CheckColorMessage(color)
                 ),
             ],
@@ -461,7 +459,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SetName,
                 new SetNameMessage(name)
             )
         );
@@ -488,7 +485,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SetColor,
                 new SetColorMessage(color)
             )
         );
@@ -513,7 +509,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SetHat,
                 new SetHatMessage(hat)
             )
         );
@@ -540,7 +535,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SetSkin,
                 new SetSkinMessage(skin)
             )
         );
@@ -572,7 +566,7 @@ export class PlayerControl extends Networkable<
             await this.emit(
                 new PlayerCallMeetingEvent(
                     this.room,
-                    this.room.host,
+                    this.room.host!,
                     rpc.bodyid === 0xff,
                     body
                 )
@@ -581,7 +575,7 @@ export class PlayerControl extends Networkable<
     }
 
     private _reportDeadBody(body?: PlayerData) {
-        this.room.host.control.startMeeting(this.player, body);
+        this.room.host?.control?.startMeeting(this.player, body || "emergency");
     }
 
     private async _rpcReportDeadBody(body?: PlayerData) {
@@ -589,8 +583,7 @@ export class PlayerControl extends Networkable<
             [
                 new RpcMessage(
                     this.netid,
-                    RpcMessageTag.ReportDeadBody,
-                    new ReportDeadBodyMessage(body ? body.playerId : 0xff)
+                    new ReportDeadBodyMessage(body ? body.playerId ?? 0xff : 0xff)
                 ),
             ],
             true,
@@ -619,10 +612,12 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcMurderPlayer(victim: PlayerData) {
+        if (!victim.control)
+            return;
+
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.MurderPlayer,
                 new MurderPlayerMessage(victim.control.netid)
             )
         );
@@ -647,7 +642,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SendChat,
                 new SendChatMessage(message)
             )
         );
@@ -658,10 +652,12 @@ export class PlayerControl extends Networkable<
     }
 
     private _rpcSendChatNote(player: PlayerData, type: ChatNoteType) {
+        if (player.playerId === undefined)
+            return;
+
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SendChatNote,
                 new SendChatNoteMessage(player.playerId, type)
             )
         );
@@ -681,7 +677,7 @@ export class PlayerControl extends Networkable<
                 ? this.room.getPlayerByPlayerId(rpc.bodyid)
                 : undefined;
 
-        this._startMeeting(player);
+        this._startMeeting(this.player);
 
         await this.emit(
             new PlayerCallMeetingEvent(
@@ -701,21 +697,21 @@ export class PlayerControl extends Networkable<
             {
                 states: new Map(
                     [...this.room.players]
-                        .filter(([, player]) => player.data && player.spawned)
+                        .filter(([, player]) => player.data && player.spawned && player.playerId !== undefined)
                         .map(([, player]) => {
                             return [
                                 player.playerId,
                                 new PlayerVoteState(
                                     this.room,
-                                    player.playerId,
-                                    null,
+                                    player.playerId!,
+                                    undefined,
                                     player === caller,
                                     false,
-                                    player.data.dead
+                                    player.data?.dead
                                 ),
                             ];
                         })
-                ),
+                ) as Map<number, PlayerVoteState>,
             }
         );
 
@@ -735,8 +731,7 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.StartMeeting,
-                new StartMeetingMessage(player ? player.playerId : 0xff)
+                new StartMeetingMessage(player ? player.playerId ?? 0xff : 0xff)
             )
         );
     }
@@ -763,7 +758,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SetPet,
                 new SetPetMessage(pet)
             )
         );
@@ -792,7 +786,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SetStartCounter,
                 new SetStartCounterMessage(this.lastStartCounter, counter)
             )
         );
@@ -811,10 +804,8 @@ export class PlayerControl extends Networkable<
     private _usePlatform() {
         const airship = this.room.shipstatus;
 
-        if (airship.type === SpawnType.Airship) {
-            const movingPlatform = airship.systems[
-                SystemType.GapRoom
-            ] as MovingPlatformSystem;
+        if (airship && airship.type === SpawnType.Airship) {
+            const movingPlatform = airship.systems[SystemType.GapRoom] as MovingPlatformSystem;
 
             if (movingPlatform) {
                 movingPlatform.setTarget(
@@ -831,7 +822,6 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.UsePlatform,
                 new UsePlatformMessage()
             )
         );

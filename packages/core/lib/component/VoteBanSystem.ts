@@ -37,7 +37,7 @@ export class VoteBanSystem extends Networkable<
     /**
      * The accumulated votes.
      */
-    voted: Map<number, [PlayerData, PlayerData, PlayerData]>;
+    voted: Map<number, [PlayerData|undefined, PlayerData|undefined, PlayerData|undefined]>;
 
     constructor(
         room: Hostable<any>,
@@ -62,10 +62,10 @@ export class VoteBanSystem extends Networkable<
             const clientid = reader.uint32();
 
             if (this.voted.get(clientid)) {
-                this.voted.set(clientid, [null, null, null]);
+                this.voted.set(clientid, [undefined, undefined, undefined]);
             }
 
-            this.voted.set(clientid, [null, null, null]);
+            this.voted.set(clientid, [undefined, undefined, undefined]);
             for (let i = 0; i < 3; i++) {
                 reader.upacked();
             }
@@ -80,7 +80,7 @@ export class VoteBanSystem extends Networkable<
             writer.uint32(clientid);
 
             for (let i = 0; i < 3; i++) {
-                writer.upacked(voters[i].id);
+                if (voters[i]) writer.upacked(voters[i]!.id);
             }
         }
         return true;
@@ -106,7 +106,7 @@ export class VoteBanSystem extends Networkable<
     private _addVote(voter: PlayerData, target: PlayerData) {
         const voted = this.voted.get(target.id);
         if (voted) {
-            const next = voted.indexOf(null);
+            const next = voted.indexOf(undefined);
 
             if (~next) {
                 voted[next] = voter;
@@ -124,7 +124,7 @@ export class VoteBanSystem extends Networkable<
                 ]);
             }
         } else {
-            this.voted.set(target.id, [voter, null, null]);
+            this.voted.set(target.id, [voter, undefined, undefined]);
             this.dirtyBit = 1;
         }
     }
@@ -133,7 +133,6 @@ export class VoteBanSystem extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.AddVote,
                 new AddVoteMessage(voter.id, target.id)
             )
         );

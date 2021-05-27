@@ -5,8 +5,8 @@ export class BaseMessage {
     static type: string;
     static tag: number;
 
-    readonly type: string;
-    readonly tag: number;
+    readonly type!: string;
+    readonly tag!: number;
 
     private _canceled: boolean;
 

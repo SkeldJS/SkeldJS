@@ -67,7 +67,7 @@ export class Heritable<
             | NetworkableConstructor<T>
             | NetworkableConstructor<T>[]
             | number
-    ): T | null {
+    ): T|undefined {
         if (typeof component == "number") {
             return (this.components.find(
                 (com) => com && com.netid === component
@@ -91,6 +91,6 @@ export class Heritable<
             }
         }
 
-        return null;
+        return undefined;
     }
 }

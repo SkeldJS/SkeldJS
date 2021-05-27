@@ -41,15 +41,15 @@ export function alpha(alpha: string | number, ...content: TMPNode[]) {
  * Create a colour element.
  */
 export function color(
-    color: string | [number, number, number, number],
+    clr: string | [number, number, number, number],
     ...content: TMPNode[]
-) {
-    if (typeof color === "string") {
-        return new TMPElement("color", { color }, content);
+): TMPElement {
+    if (typeof clr === "string") {
+        return new TMPElement("color", { color: clr }, content);
     }
 
-    const [r, g, b, a] = color;
-    return this.color(hex(r) + hex(g) + hex(b) + hex(a), ...content);
+    const [r, g, b, a] = clr;
+    return color(hex(r) + hex(g) + hex(b) + hex(a), ...content);
 }
 
 /**
@@ -148,7 +148,7 @@ export function margin(margin: string | number, ...content: TMPNode[]) {
 export function highlight(
     color: string | [number, number, number, number],
     ...content: TMPNode[]
-) {
+): TMPElement {
     if (typeof color === "string") {
         return new TMPElement("mark", { mark: color }, content);
     }

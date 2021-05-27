@@ -69,12 +69,12 @@ export class InnerShipStatus extends Networkable<
     ShipStatusEvents
 > {
     static type: ShipStatusType;
-    type: ShipStatusType;
+    type!: ShipStatusType;
 
     static classname: ShipStatusClassname;
-    classname: ShipStatusClassname;
+    classname!: ShipStatusClassname;
 
-    systems: AllSystems;
+    systems!: AllSystems;
 
     constructor(
         room: Hostable<any>,
@@ -93,7 +93,7 @@ export class InnerShipStatus extends Networkable<
 
         while (reader.left) {
             const [tag, mreader] = reader.message();
-            const system = this.systems[tag] as SystemStatus;
+            const system = this.systems[tag as SystemType] as SystemStatus;
 
             if (system) {
                 system.Deserialize(mreader, spawn);
@@ -108,7 +108,7 @@ export class InnerShipStatus extends Networkable<
         for (let i = 0; i < systems.length; i++) {
             const system = systems[i];
 
-            if (system.dirty) {
+            if (system?.dirty) {
                 writer.begin(i);
                 system.Serialize(writer, spawn);
                 writer.end();
@@ -134,12 +134,12 @@ export class InnerShipStatus extends Networkable<
         for (let i = 0; i < systems.length; i++) {
             const system = systems[i];
 
-            system.Detoriorate(delta);
+            system?.Detoriorate(delta);
         }
     }
 
     private _handleRepairSystem(rpc: RepairSystemMessage) {
-        const system = this.systems[rpc.systemid] as SystemStatus;
+        const system = this.systems[rpc.systemid as SystemType] as SystemStatus;
         const player = this.room.getPlayerByNetId(rpc.netid);
 
         if (system && player) {
@@ -173,7 +173,7 @@ export class InnerShipStatus extends Networkable<
         );
 
         if (!ev.canceled) {
-            this.room.host.control.setImpostors(ev.impostors);
+            this.room.host?.control?.setImpostors(ev.impostors);
         }
     }
 }

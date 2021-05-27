@@ -25,8 +25,8 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
             skeldjs.QuickChatMode.QuickChat
         );
 
-        await client.me.control.setName("weakeyes");
-        await client.me.control.setColor(skeldjs.Color.Red);
+        await client.me?.control?.setName("weakeyes");
+        await client.me?.control?.setColor(skeldjs.Color.Red);
 
         console.log(
             "Created game @ " +

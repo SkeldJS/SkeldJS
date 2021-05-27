@@ -29,7 +29,7 @@ export class SkeldShipStatus extends InnerShipStatus {
     static classname = "ShipStatus" as const;
     classname = "ShipStatus" as const;
 
-    systems: {
+    systems!: {
         [SystemType.Reactor]: ReactorSystem;
         [SystemType.Electrical]: SwitchSystem;
         [SystemType.O2]: LifeSuppSystem;

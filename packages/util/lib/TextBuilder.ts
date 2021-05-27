@@ -50,7 +50,7 @@ export class TextBuilder {
 
             this.tag(hexclr);
         } else if (typeof r === "number") {
-            const hexclr = hex(r) + hex(g) + hex(b) + hex(a);
+            const hexclr = hex(r) + hex(g || 0) + hex(b || 0) + hex(a || 0);
 
             this.tag(hexclr);
         }

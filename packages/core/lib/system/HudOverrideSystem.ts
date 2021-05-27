@@ -23,7 +23,7 @@ export type HudOverrideSystemEvents = SystemStatusEvents &
 export class HudOverrideSystem extends SystemStatus<
     HudOverrideSystemData,
     HudOverrideSystemEvents
-> {
+> implements HudOverrideSystemData {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
 
@@ -41,6 +41,8 @@ export class HudOverrideSystem extends SystemStatus<
         data?: HazelReader | HudOverrideSystemData
     ) {
         super(ship, data);
+
+        this._sabotaged = false;
     }
 
     patch(data: HudOverrideSystemData) {
@@ -64,6 +66,9 @@ export class HudOverrideSystem extends SystemStatus<
     }
 
     fix() {
+        if (!this.ship.room.me)
+            return;
+
         this.HandleRepair(this.ship.room.me, 0);
     }
 

@@ -10,7 +10,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 
 export interface SecurityCameraSystemData {
-    players: Set<number>;
+    players: Set<PlayerData>;
 }
 
 export type SecurityCameraSystemEvents = SystemStatusEvents &
@@ -24,7 +24,7 @@ export type SecurityCameraSystemEvents = SystemStatusEvents &
 export class SecurityCameraSystem extends SystemStatus<
     SecurityCameraSystemData,
     SecurityCameraSystemEvents
-> {
+> implements SecurityCameraSystemData {
     static systemType = SystemType.Security as const;
     systemType = SystemType.Security as const;
 
@@ -38,6 +38,8 @@ export class SecurityCameraSystem extends SystemStatus<
         data?: HazelReader | SecurityCameraSystemData
     ) {
         super(ship, data);
+
+        this.players ||= new Set;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -64,7 +66,7 @@ export class SecurityCameraSystem extends SystemStatus<
         const players = [...this.players];
         writer.upacked(players.length);
         for (let i = 0; i < players.length; i++) {
-            writer.uint8(players[i].playerId);
+            if (players[i].playerId) writer.uint8(players[i].playerId!);
         }
     }
 

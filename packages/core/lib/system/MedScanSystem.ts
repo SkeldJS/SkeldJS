@@ -8,7 +8,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 
 export interface MedScanSystemData {
-    queue: number[];
+    queue: PlayerData[];
 }
 
 export type MedScanSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
@@ -21,7 +21,7 @@ export type MedScanSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
 export class MedScanSystem extends SystemStatus<
     MedScanSystemData,
     MedScanSystemEvents
-> {
+> implements MedScanSystemData {
     static systemType = SystemType.MedBay as const;
     systemType = SystemType.MedBay as const;
 
@@ -32,6 +32,8 @@ export class MedScanSystem extends SystemStatus<
 
     constructor(ship: InnerShipStatus, data?: HazelReader | MedScanSystemData) {
         super(ship, data);
+
+        this.queue ||= [];
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -40,7 +42,8 @@ export class MedScanSystem extends SystemStatus<
 
         this.queue = [];
         for (let i = 0; i < num_players; i++) {
-            this.queue.push(this.ship.room.getPlayerByPlayerId(reader.uint8()));
+            const player = this.ship.room.getPlayerByPlayerId(reader.uint8());
+            if (player) this.queue.push(player);
         }
     }
 
@@ -49,7 +52,7 @@ export class MedScanSystem extends SystemStatus<
         writer.upacked(this.queue.length);
 
         for (let i = 0; i < this.queue.length; i++) {
-            writer.uint8(this.queue[i].playerId);
+            if (this.queue[i].playerId) writer.uint8(this.queue[i].playerId!);
         }
     }
 

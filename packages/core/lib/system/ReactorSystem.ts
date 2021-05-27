@@ -23,7 +23,7 @@ export type ReactorSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
 export class ReactorSystem extends SystemStatus<
     ReactorSystemData,
     ReactorSystemEvents
-> {
+> implements ReactorSystemData {
     static systemType = SystemType.Reactor as const;
     systemType = SystemType.Reactor as const;
 
@@ -39,6 +39,9 @@ export class ReactorSystem extends SystemStatus<
 
     constructor(ship: InnerShipStatus, data?: HazelReader | ReactorSystemData) {
         super(ship, data);
+
+        this.timer ??= 10000;
+        this.completed ||= new Set;
     }
 
     get sabotaged() {

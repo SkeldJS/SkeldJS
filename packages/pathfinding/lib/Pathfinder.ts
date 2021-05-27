@@ -59,22 +59,22 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     /**
      * The destination of the pathfinder.
      */
-    destination: Vector2;
+    destination?: Vector2;
 
     /**
      * The grid of nodes for the pathfinder engine.
      */
-    grid: Grid;
+    grid?: Grid;
 
     /**
      * The current intended path of the pathfinder.
      */
-    path: Node[];
+    path?: Node[];
 
     /**
      * The player that the pathfinder is currently finding.
      */
-    following: PlayerData;
+    following?: PlayerData;
 
     constructor(
         private client: SkeldjsClient,
@@ -83,32 +83,35 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         super();
 
         this._tick = 0;
+        this._moved = false;
+        this._paused = false;
+
         this.client.on("room.fixedupdate", this._ontick.bind(this));
         this.client.on("player.move", this._handleMove.bind(this));
         this.client.on("player.leave", this._handleLeave.bind(this));
 
         this.client.on("player.syncsettings", syncsettings => {
-            this.grid = null;
+            this.grid = undefined;
         });
     }
 
     private get snode() {
         if (!this.position) return null;
 
-        return this.grid.nearest(this.position.x, this.position.y);
+        return this.grid?.nearest(this.position.x, this.position.y);
     }
 
     private get dnode() {
         if (!this.destination) return null;
 
-        return this.grid.nearest(this.destination.x, this.destination.y);
+        return this.grid?.nearest(this.destination.x, this.destination.y);
     }
 
     get position() {
         return this.transform?.position;
     }
 
-    get transform(): CustomNetworkTransform {
+    get transform(): CustomNetworkTransform|undefined {
         return this.me?.transform;
     }
 
@@ -155,34 +158,37 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         if (this._paused) return;
 
-        const next = this.path.shift();
+        const next = this.path?.shift();
         if (next) {
             const pos = this.grid.actual(next.x, next.y);
-            const dist = Vector2.dist(this.position, pos);
+            const dist = this.position ? Vector2.dist(this.position, pos) : 0;
             const ev = await this.emit(new EngineMoveEvent(pos));
             if (!ev.canceled) {
-                this.transform.move(
+                this.transform?.move(
                     pos.x,
                     pos.y,
                     new Vector2(dist * this.client.settings.playerSpeed)
                 );
             }
 
-            if (this.path.length === 0) {
+            if (this.path?.length === 0) {
                 this._stop(true);
             }
         } else {
-            this.destination = null;
-            this.path = null;
+            this.destination = undefined;
+            this.path = undefined;
         }
     }
 
     async recalculate() {
+        if (!this.grid || !this.snode || !this.dnode)
+            return;
+
         this.grid.reset();
         this.path = getShortestPath(this.grid, this.snode, this.dnode);
         await this.emit(
             new EngineRecalculateEvent(
-                this.path.map((node) => this.grid.actual(node.x, node.y))
+                this.path.map((node) => this.grid!.actual(node.x, node.y))
             )
         );
     }
@@ -193,12 +199,15 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     }
 
     start() {
+        if (!this.destination)
+            return;
+
         this._paused = false;
         this.emit(new PathfinderStartEvent(this.destination));
     }
 
     private _stop(reached: boolean) {
-        this.destination = null;
+        this.destination = undefined;
         if (!reached) this._moved = true;
 
         this.emit(new PathfinderStopEvent(reached));
@@ -217,7 +226,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         this.start();
     }
 
-    go(pos: PlayerDataResolvable | Vector2 | Node) {
+    go(pos: PlayerDataResolvable | Vector2 | Node): void {
         const vec = pos as Vector2;
 
         if (vec.x) {
@@ -226,7 +235,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         }
 
         if (pos instanceof Node) {
-            return this.grid.actual(pos.x, pos.y);
+            if (!this.grid) {
+                return;
+            }
+
+            this.grid.actual(pos.x, pos.y);
+            return;
         }
 
         const resolved = this.client?.room?.resolvePlayer(
@@ -234,7 +248,11 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         );
 
         if (resolved && resolved.spawned) {
-            const position = resolved.transform.position;
+            const position = resolved.transform?.position;
+
+            if (!position) {
+                throw new Error("Could not follow player: they not fully spawned.");
+            }
 
             return this.go(position);
         }
@@ -258,7 +276,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     private _handleLeave(ev: PlayerLeaveEvent) {
         if (ev.player === this.following) {
             this._stop(false);
-            this.following = null;
+            this.following = undefined;
         }
     }
 

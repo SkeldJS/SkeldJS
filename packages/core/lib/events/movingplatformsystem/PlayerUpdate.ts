@@ -13,7 +13,7 @@ export class MovingPlatformPlayerUpdateEvent extends MovingPlatformSystemEvent {
     /**
      * The player on the moving platform.
      */
-    player: PlayerData;
+    player: PlayerData|null;
 
     /**
      * The direction that the moving platform is moving in.
@@ -23,7 +23,7 @@ export class MovingPlatformPlayerUpdateEvent extends MovingPlatformSystemEvent {
     constructor(
         room: Hostable<any>,
         system: MovingPlatformSystem,
-        player: PlayerData,
+        player: PlayerData|null,
         side: MovingPlatformSide
     ) {
         super(room, system);

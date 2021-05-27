@@ -25,13 +25,13 @@ export class Networkable<
     /**
      * The type of object that this component belongs to.
      */
-    type: SpawnType;
+    type!: SpawnType;
 
     static classname: string;
     /**
      * The class name of this component.
      */
-    classname: string;
+    classname!: string;
 
     /**
      * The room that this component belongs to.
@@ -106,14 +106,14 @@ export class Networkable<
     /**
      * Spawn this component if does not exist in the room it belongs in.
      */
-    spawn() {
+    spawn(): void {
         return this.room.spawnComponent(this);
     }
 
     /**
      * Despawns the component from the room it belongs in.
      */
-    despawn() {
+    despawn(): void {
         return this.room.despawnComponent(this);
     }
 }

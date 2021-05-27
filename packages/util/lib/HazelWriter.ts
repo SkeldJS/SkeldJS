@@ -565,7 +565,7 @@ export class HazelWriter extends HazelBuffer {
 
         for (let i = 0; i < arr.length; i++) {
             const obj = arr[i];
-            fn(obj, i, this);
+            if (fn) fn(obj, i, this);
         }
 
         return this;

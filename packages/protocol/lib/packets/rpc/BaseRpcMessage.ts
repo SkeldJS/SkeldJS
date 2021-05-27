@@ -6,5 +6,5 @@ export class BaseRpcMessage extends BaseMessage {
     type = "rpc" as const;
 
     static tag: RpcMessageTag;
-    tag: RpcMessageTag;
+    tag!: RpcMessageTag;
 }

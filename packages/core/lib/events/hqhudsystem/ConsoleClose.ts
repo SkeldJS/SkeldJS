@@ -16,9 +16,9 @@ export class HqHudConsoleCloseEvent extends HqHudSystemEvent {
     consoleid: number;
 
     /**
-     * The player that closed the communications console.
+     * The player that closed the communications console. (Only available if the client is the host)
      */
-    player: PlayerData;
+    player?: PlayerData;
 
     constructor(
         room: Hostable<any>,

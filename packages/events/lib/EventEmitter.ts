@@ -82,7 +82,7 @@ export class EventEmitter<Events extends EventData> {
     off<EventName extends keyof Events>(
         event: EventName,
         listener: Listener<Events[EventName]>
-    );
+    ): void;
     off(event: string, listener: Listener<BasicEvent>) {
         const listeners = this.getListeners(event);
         listeners.delete(listener);

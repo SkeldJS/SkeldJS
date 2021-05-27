@@ -26,7 +26,7 @@ export class MiraShipStatus extends InnerShipStatus {
     static classname = "Headquarters" as const;
     classname = "Headquarters" as const;
 
-    systems: {
+    systems!: {
         [SystemType.Reactor]: ReactorSystem;
         [SystemType.Electrical]: SwitchSystem;
         [SystemType.O2]: LifeSuppSystem;

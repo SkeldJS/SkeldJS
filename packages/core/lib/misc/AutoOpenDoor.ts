@@ -15,6 +15,8 @@ export class AutoOpenDoor extends Door {
         isOpen: boolean
     ) {
         super(system, id, isOpen);
+
+        this._timer = 0;
     }
 
     DoUpdate(delta: number) {

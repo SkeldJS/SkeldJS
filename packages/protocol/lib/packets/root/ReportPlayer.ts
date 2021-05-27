@@ -8,10 +8,10 @@ export class ReportPlayerMessage extends BaseRootMessage {
     static tag = RootMessageTag.ReportPlayer as const;
     tag = RootMessageTag.ReportPlayer as const;
 
-    code: number;
+    code!: number;
 
-    outcome: ReportOutcome;
-    name: string;
+    outcome!: ReportOutcome;
+    name!: string;
 
     clientid: number;
     reason: ReportReason;

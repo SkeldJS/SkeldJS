@@ -30,7 +30,7 @@ export class PolusShipStatus extends InnerShipStatus {
     static classname = "PlanetMap" as const;
     classname = "PlanetMap" as const;
 
-    systems: {
+    systems!: {
         [SystemType.Electrical]: SwitchSystem;
         [SystemType.MedBay]: MedScanSystem;
         [SystemType.Security]: SecurityCameraSystem;

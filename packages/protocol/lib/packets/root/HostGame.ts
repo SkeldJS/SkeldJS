@@ -9,9 +9,9 @@ export class HostGameMessage extends BaseRootMessage {
     static tag = RootMessageTag.HostGame as const;
     tag = RootMessageTag.HostGame as const;
 
-    readonly code: number;
-    readonly options: GameOptions;
-    readonly quickchat: QuickChatMode;
+    readonly code!: number;
+    readonly options!: GameOptions;
+    readonly quickchat!: QuickChatMode;
 
     constructor(code: string | number);
     constructor(options: GameOptions, quickchat: QuickChatMode);

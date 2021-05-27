@@ -11,11 +11,7 @@ export class PlayerVoteState {
     static from(room: Hostable<any>, playerId: number, byte: number) {
         const state = new PlayerVoteState(
             room,
-            playerId,
-            null,
-            null,
-            null,
-            null
+            playerId
         );
         state.patch(byte);
         return state;
@@ -24,10 +20,10 @@ export class PlayerVoteState {
     constructor(
         private room: Hostable<any>,
         public playerId: number,
-        public votedFor: PlayerData,
-        public reported: boolean,
-        public voted: boolean,
-        public dead: boolean
+        public votedFor?: PlayerData,
+        public reported: boolean = false,
+        public voted: boolean = false,
+        public dead: boolean = false
     ) {}
 
     get player() {
@@ -40,7 +36,7 @@ export class PlayerVoteState {
 
     get byte() {
         return (
-            (this.votedFor ? this.votedFor.playerId : 0) |
+            (this.votedFor? this.votedFor.playerId || 0 : 0) |
             (this.reported ? VoteState.DidReport : 0) |
             (this.voted ? VoteState.DidVote : 0) |
             (this.dead ? VoteState.IsDead : 0)

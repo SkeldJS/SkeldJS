@@ -21,7 +21,7 @@ export type SabotageSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
 export class SabotageSystem extends SystemStatus<
     SabotageSystemData,
     SabotageSystemEvents
-> {
+> implements SabotageSystemData {
     static systemType = SystemType.Sabotage as const;
     systemType = SystemType.Sabotage as const;
 
@@ -35,11 +35,13 @@ export class SabotageSystem extends SystemStatus<
         data?: HazelReader | SabotageSystemData
     ) {
         super(ship, data);
+
+        this.cooldown ??= 10000;
     }
 
     get anySabotaged() {
         return Object.values(this.ship.systems).some(
-            (system) => system.sabotaged
+            system => system?.sabotaged
         );
     }
 
@@ -54,7 +56,7 @@ export class SabotageSystem extends SystemStatus<
     }
 
     HandleRepair(player: PlayerData, amount: number) {
-        const system = this.ship.systems[amount] as SystemStatus;
+        const system = this.ship.systems[amount as SystemType] as SystemStatus;
 
         if (system) {
             system.sabotage(player);

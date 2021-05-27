@@ -287,7 +287,7 @@ describe("PacketDecoder", () => {
     });
 
     describe("PacketDecoder#write", () => {
-        it("Should decode a message and emit it and its children recursively to listeners.", () => {
+        it("Should decode a message and emit it and its children recursively to listeners.", async () => {
             const buffer = Buffer.from(
                 "010005b50005d0b5528c12000403feffffff0f0002010100010002010001001e0004048c9903010303020001010004000001050a00010000ff7fff7fff7fff7f31000203022e040a01000000000000803f0000803f0000c03f000034420101020100000002010f00000078000000000f010100000c000402feffffff0f000106000001090002030606496c6c72656b03000203080b030002031100030002030970030002030a09110001010d000006496c6c72656b0b7000090000",
                 "hex"
@@ -300,7 +300,7 @@ describe("PacketDecoder", () => {
                 recv++;
             });
 
-            decoder.write(buffer);
+            await decoder.write(buffer);
 
             assert.strictEqual(recv, 10);
         });

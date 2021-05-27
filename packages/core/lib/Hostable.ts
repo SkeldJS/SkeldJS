@@ -188,12 +188,12 @@ export class Hostable<
     private _destroyed: boolean;
 
     private _started: boolean;
-    private last_fixed_update;
+    private last_fixed_update: number;
 
-    private _interval: NodeJS.Timeout;
+    private _interval?: NodeJS.Timeout;
 
     constructor(public options: HostableOptions = {}) {
-        super(null, -2);
+        super(null as unknown as Hostable<any>, -2);
 
         this.code = 0;
         this.hostid = -1;
@@ -215,6 +215,8 @@ export class Hostable<
         this._started = false;
 
         this.decoder = new PacketDecoder();
+
+        this.last_fixed_update = 0;
 
         if (options.doFixedUpdate) {
             this._interval = setInterval(
@@ -289,9 +291,7 @@ export class Hostable<
 
                         this.spawnPrefab(SpawnType.Player, player.id);
 
-                        if (this.me) {
-                            this.me.control.syncSettings(this.settings);
-                        }
+                        this.me?.control?.syncSettings(this.settings);
 
                         player.emit(new PlayerSceneChangeEvent(this, player));
                     }
@@ -309,7 +309,7 @@ export class Hostable<
     }
 
     destroy() {
-        clearInterval(this._interval);
+        if (this._interval) clearInterval(this._interval);
         this._destroyed = true;
     }
 
@@ -322,8 +322,8 @@ export class Hostable<
     /**
      * The current client in the room.
      */
-    get me(): PlayerData | null {
-        return null;
+    get me(): PlayerData | undefined {
+        return undefined;
     }
 
     /**
@@ -455,7 +455,7 @@ export class Hostable<
     resolvePlayer(player: PlayerDataResolvable) {
         const clientid = this.resolvePlayerClientID(player);
 
-        if (clientid === null) return undefined;
+        if (clientid === undefined) return undefined;
 
         return this.players.get(clientid);
     }
@@ -467,7 +467,7 @@ export class Hostable<
      */
     resolvePlayerId(player: PlayerIDResolvable) {
         if (typeof player === "undefined") {
-            return null;
+            return undefined;
         }
 
         if (typeof player === "number") {
@@ -484,7 +484,7 @@ export class Hostable<
      */
     resolvePlayerClientID(player: PlayerDataResolvable) {
         if (typeof player === "undefined") {
-            return null;
+            return undefined;
         }
 
         if (typeof player === "number") {
@@ -499,7 +499,7 @@ export class Hostable<
             return player.id;
         }
 
-        return null;
+        return undefined;
     }
 
     /**
@@ -738,7 +738,7 @@ export class Hostable<
             await this.shipstatus?.selectImpostors();
 
             for (const [, player] of this.players) {
-                this.room.gamedata.setTasks(player, [1, 2, 3]);
+                this.room.gamedata?.setTasks(player, [1, 2, 3]);
             }
         } else {
             await this.emit(new RoomGameStartEvent(this));
@@ -903,7 +903,7 @@ export class Hostable<
     spawnPrefab(type: SpawnType, owner: Heritable<any> | number): SpawnObject {
         const ownerid = typeof owner === "number" ? owner : owner.id;
 
-        const object: Partial<SpawnObject> = {
+        const object: SpawnObject = {
             type,
             ownerid,
             flags: type === SpawnType.Player ? 1 : 0,
@@ -1081,7 +1081,7 @@ export class Hostable<
             if (player.playerId === playerId) return player;
         }
 
-        return null;
+        return undefined;
     }
 
     /**

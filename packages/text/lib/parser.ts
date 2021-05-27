@@ -9,8 +9,9 @@ export enum TokenType {
 }
 
 export enum PartType {
+    None,
     Tag,
-    Text,
+    Text
 }
 
 export interface ParseToken {
@@ -19,8 +20,8 @@ export interface ParseToken {
 }
 
 export interface BaseParsePart {
-    type: PartType;
-    value: any;
+    type: PartType|null;
+    value: any|null;
 }
 
 export interface TagParsePart extends BaseParsePart {
@@ -29,19 +30,19 @@ export interface TagParsePart extends BaseParsePart {
         tagName: TMPTag;
         attributes: TagPartAttribute[];
         children: ParsePart[];
-    };
+    }|null;
 }
 
 export interface TextParsePart extends BaseParsePart {
     type: PartType.Text;
-    value: string;
+    value: string|null;
 }
 
-export type ParsePart = TagParsePart | TextParsePart;
+export type ParsePart = BaseParsePart | TagParsePart | TextParsePart;
 
 export interface TagPartAttribute {
     key: string;
-    value: string;
+    value: string|null;
 }
 
 function transformer(tokens: ParseToken[]): ParsePart[];
@@ -53,6 +54,7 @@ function transformer(tokens: ParseToken[], tagName?: string) {
     const parts: ParsePart[] = [];
     for (let i = 0; i < tokens.length; i++) {
         const token = tokens[i];
+
         const next = tokens[i + 1];
         const part: ParsePart = {
             type: null,
@@ -74,7 +76,7 @@ function transformer(tokens: ParseToken[], tagName?: string) {
                 return [++i, parts];
             }
 
-            const attributes = [];
+            const attributes: TagPartAttribute[] = [];
 
             while (tokens[i].type !== TokenType.EndTag) {
                 i++;
@@ -126,9 +128,12 @@ function construct(part: ParsePart | ParsePart[]) {
     }
 
     if (part.type === PartType.Tag) {
-        const attributes = {};
-        for (let i = 0; i < part.value.attributes.length; i++) {
-            const attr = part.value.attributes[i];
+        const tagPart = part as TagParsePart;
+        const attributes: Record<string, string> = {};
+        if (!tagPart.value)
+            return;
+        for (let i = 0; i < tagPart.value.attributes.length; i++) {
+            const attr = tagPart.value.attributes[i];
             if (attr.value) attributes[attr.key] = attr.value;
         }
 
@@ -144,7 +149,7 @@ function construct(part: ParsePart | ParsePart[]) {
 }
 
 export function parseTMP(content: string) {
-    let tokens: ParseToken[] = [];
+    let tokens: (ParseToken|null)[] = [];
     let in_tag = false;
     let in_quote = false;
     let escaping = false;
@@ -164,7 +169,7 @@ export function parseTMP(content: string) {
                 escaping = !escaping;
             } else {
                 escaping = false;
-                last.value += content[i];
+                if (last) last.value += content[i];
             }
         } else {
             if (/\s/.test(char) && in_tag) {
@@ -200,5 +205,5 @@ export function parseTMP(content: string) {
 
     tokens = tokens.filter((token) => token); // Remove whitespace
 
-    return construct(transformer(tokens));
+    return construct(transformer(tokens as ParseToken[]));
 }

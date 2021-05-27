@@ -45,6 +45,14 @@ export class AutoDoorsSystem extends SystemStatus<
         data?: HazelReader | AutoDoorsSystemData
     ) {
         super(ship, data);
+
+        this.dirtyBit ||= 0;
+        this.doors ||= [];
+
+        this.doors = this.doors.map((door, i) =>
+            typeof door === "boolean"
+                ? new AutoOpenDoor(this, i, door)
+                : door);
     }
 
     get dirty() {

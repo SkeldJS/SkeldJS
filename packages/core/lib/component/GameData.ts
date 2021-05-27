@@ -50,7 +50,7 @@ export type PlayerIDResolvable =
  *
  * See {@link GameDataEvents} for events to listen to.
  */
-export class GameData extends Networkable<GameDataData, GameDataEvents> {
+export class GameData extends Networkable<GameDataData, GameDataEvents> implements GameDataData {
     static type = SpawnType.GameData as const;
     type = SpawnType.GameData as const;
 
@@ -69,6 +69,8 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         data?: HazelReader | GameDataData
     ) {
         super(room, netid, ownerid, data);
+
+        this.players ||= new Map;
     }
 
     get owner() {
@@ -76,7 +78,12 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
     }
 
     resolvePlayerData(resolvable: PlayerIDResolvable) {
-        return this.players.get(this.room.resolvePlayerId(resolvable));
+        const resolved = this.room.resolvePlayerId(resolvable);
+
+        if (!resolved)
+            return null;
+
+        return this.players.get(resolved);
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
@@ -271,7 +278,6 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SetTasks,
                 new SetTasksMessage(player.playerId, taskIds)
             )
         );
@@ -342,7 +348,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> {
             new GameDataAddPlayerEvent(
                 this.room,
                 this,
-                this.players.get(playerId)
+                this.players.get(playerId)!
             )
         );
 

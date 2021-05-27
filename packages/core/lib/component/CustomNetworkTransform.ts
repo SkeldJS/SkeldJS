@@ -33,7 +33,7 @@ export type CustomNetworkTransformEvents = NetworkableEvents &
 export class CustomNetworkTransform extends Networkable<
     CustomNetworkTransformData,
     CustomNetworkTransformEvents
-> {
+> implements CustomNetworkTransformData {
     static type = SpawnType.Player as const;
     type = SpawnType.Player as const;
 
@@ -67,6 +67,11 @@ export class CustomNetworkTransform extends Networkable<
         data?: HazelReader | CustomNetworkTransformData
     ) {
         super(room, netid, ownerid, data);
+
+        this.oldSeqId ||= 0;
+        this.seqId ||= 0;
+        this.position ||= Vector2.null;
+        this.velocity ||= Vector2.null;
     }
 
     get player() {
@@ -180,7 +185,6 @@ export class CustomNetworkTransform extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                RpcMessageTag.SnapTo,
                 new SnapToMessage(new Vector2(position), this.seqId)
             )
         );
@@ -197,7 +201,7 @@ export class CustomNetworkTransform extends Networkable<
      * });
      * ```
      */
-    snapTo(position: Vector2);
+    snapTo(position: Vector2): void;
     /**
      * Instantly snap to a position without lerping.
      * @param x The X position to snap to.
@@ -210,7 +214,7 @@ export class CustomNetworkTransform extends Networkable<
      * });
      * ```
      */
-    snapTo(x: number, y: number);
+    snapTo(x: number, y: number): void;
     snapTo(x: number | Vector2, y?: number) {
         this.seqId += 1;
 
@@ -222,7 +226,7 @@ export class CustomNetworkTransform extends Networkable<
 
         if (x instanceof Vector2) {
             this._snapTo(x.x, x.y);
-        } else {
+        } else if (y) {
             this._snapTo(x, y);
         }
 

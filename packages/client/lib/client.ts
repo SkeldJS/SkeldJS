@@ -110,17 +110,17 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * The datagram socket for the client.
      */
-    socket: dgram.Socket;
+    socket?: dgram.Socket;
 
     /**
      * The IP of the server that the client is currently connected to.
      */
-    ip: string;
+    ip?: string;
 
     /**
      * The port of the server that the client is currently connected to.
      */
-    port: number;
+    port?: number;
 
     /**
      * An array of 8 of the most recent packets received from the server.
@@ -137,22 +137,22 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * Whether or not the client is currently connected to a server.
      */
-    connected: boolean;
+    connected!: boolean;
 
     /**
      * Whether or not the client has sent a disconnect packet.
      */
-    sent_disconnect: boolean;
+    sent_disconnect!: boolean;
 
     /**
      * Whether or not the client is identified with the connected server.
      */
-    identified: boolean;
+    identified!: boolean;
 
     /**
      * The username of the client.
      */
-    username: string;
+    username?: string;
 
     /**
      * The version of the client.
@@ -162,9 +162,9 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * The client ID of the client.
      */
-    clientid: number;
+    clientid!: number;
 
-    token: number;
+    token?: number;
 
     /**
      * Create a new Skeldjs client instance.
@@ -241,7 +241,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     }
 
     get amhost() {
-        return this.hostid === this.clientid && this.options.allowHost;
+        return this.hostid === this.clientid && this.options.allowHost || false;
     }
 
     private async ack(nonce: number) {
@@ -277,14 +277,14 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         token?: number,
         port?: number,
         pem?: string
-    );
+    ): Promise<void>;
     async connect(
         host: string,
         username?: string,
         token?: number,
         port?: number,
         pem?: string
-    );
+    ): Promise<void>;
     async connect(
         host: string,
         username?: string,
@@ -296,7 +296,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         if (host in MatchmakingServers) {
             return await this.connect(
-                MatchmakingServers[host][0],
+                MatchmakingServers[host as "NA"|"EU"|"AS"][0],
                 username,
                 token,
                 22023,
@@ -330,13 +330,13 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.socket.removeAllListeners();
         }
 
-        this.ip = null;
-        this.port = null;
-        this.socket = null;
+        this.ip = undefined;
+        this.port = undefined;
+        this.socket = undefined;
         this.sent_disconnect = false;
         this.connected = false;
         this.identified = false;
-        this.username = null;
+        this.username = undefined;
 
         this.packets_sent = [];
         this.packets_recv = [];
@@ -357,7 +357,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 new ClientDisconnectEvent(
                     this,
                     reason,
-                    message || DisconnectMessages[reason]
+                    message || DisconnectMessages[reason as keyof typeof DisconnectMessages]
                 )
             );
             this._reset();
@@ -372,10 +372,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * await client.identify("weakeyes");
      * ```
      */
-    async identify(username: string, token: number) {
+    async identify(username: string, token?: number) {
         const nonce = this.getNextNonce();
         await this.send(
-            new HelloPacket(nonce, this.version, username, token)
+            new HelloPacket(nonce, this.version, username, token || 0)
         );
 
         await this.decoder.waitf(AcknowledgePacket, ack => ack.nonce ===  nonce);
@@ -388,7 +388,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     private _send(buffer: Buffer): Promise<number> {
         return new Promise((resolve, reject) => {
             if (!this.socket) {
-                resolve(null);
+                return resolve(0);
             }
 
             this.socket.send(buffer, this.port, this.ip, (err, written) => {
@@ -404,7 +404,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     async send(packet: BaseRootPacket): Promise<void> {
         if (!this.socket) {
-            return null;
+            return;
         }
 
         if (
@@ -429,7 +429,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 this.packets_sent.splice(8);
 
                 let attempts = 0;
-                const interval = setInterval(async () => {
+                const interval: NodeJS.Timeout = setInterval(async () => {
                     if (sent.ackd) {
                         return clearInterval(interval);
                     } else {
@@ -556,8 +556,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             return this.joinGame(Code2Int(code), doSpawn);
         }
 
+        if (!this.ip) {
+            throw new Error("Tried to join while not connected.");
+        }
+
         if (!this.identified) {
-            return null;
+            throw new Error("Tried to join while not identified.");
         }
 
         if (this.me && this.code !== code) {
@@ -586,7 +590,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     "Join error: Failed to join game, code: " +
                         message.error +
                         " (Message: " +
-                        DisconnectMessages[message.error] +
+                        DisconnectMessages[message.error as keyof typeof DisconnectMessages] +
                         ")"
                 );
             case RootMessageTag.Redirect:
@@ -611,7 +615,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     "Join error: Failed to join game, code: " +
                         message.reason +
                         " (Message: " +
-                        DisconnectMessages[message.reason] +
+                        DisconnectMessages[message.reason as keyof typeof DisconnectMessages] +
                         ")"
                 );
                 break;
@@ -664,7 +668,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     "Join error: Failed to create game, code: " +
                         message.error +
                         " (Message: " +
-                        DisconnectMessages[message.error] +
+                        DisconnectMessages[message.error as keyof typeof DisconnectMessages] +
                         ")"
                 );
             case RootMessageTag.Redirect:

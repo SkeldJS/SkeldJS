@@ -50,7 +50,7 @@ describe("Hostable", () => {
         it("Should be null as there is no client.", () => {
             const room = new Hostable();
 
-            assert.strictEqual(room.me, null);
+            assert.strictEqual(room.me, undefined);
         });
     });
 
@@ -220,7 +220,7 @@ describe("Hostable", () => {
             const state = new PlayerVoteState(
                 room,
                 player.playerId,
-                null,
+                undefined,
                 false,
                 false,
                 false
@@ -266,7 +266,7 @@ describe("Hostable", () => {
         });
 
         it("Should resolve an invalid player reference to null.", () => {
-            assert.strictEqual(room.resolvePlayerClientID(undefined), null);
+            assert.strictEqual(room.resolvePlayerClientID(undefined), undefined);
         });
     });
 
@@ -744,7 +744,7 @@ describe("Hostable", () => {
         it("Should return null if no player has the player ID in question.", () => {
             const room = new Hostable();
 
-            assert.strictEqual(room.getPlayerByPlayerId(0), null);
+            assert.strictEqual(room.getPlayerByPlayerId(0), undefined);
         });
     });
 
