@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RoomEvent | SkeldJS</title>
+	<title>ClientEvent | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/server.html">server</a>
+					<a href="../modules/client.html">client</a>
 				</li>
 				<li>
-					<a href="server.roomevent.html">RoomEvent</a>
+					<a href="client.clientevent.html">ClientEvent</a>
 				</li>
 			</ul>
-			<h1>Class RoomEvent</h1>
+			<h1>Class ClientEvent</h1>
 		</div>
 	</div>
 </header>
@@ -74,10 +74,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="server.serverevent.html" class="tsd-signature-type" data-tsd-kind="Class">ServerEvent</a>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">CancelableEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">RoomEvent</span>
+								<span class="target">ClientEvent</span>
 							</li>
 						</ul>
 					</li>
@@ -90,23 +90,22 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="server.roomevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="client.clientevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="server.roomevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="server.roomevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="server.roomevent.html#room" class="tsd-kind-icon">room</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="server.roomevent.html#server" class="tsd-kind-icon">server</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="server.roomevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="client.clientevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="client.clientevent.html#client" class="tsd-kind-icon">client</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="client.clientevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="client.clientevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="server.roomevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="client.clientevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,26 +117,23 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Room<wbr>Event<span class="tsd-signature-symbol">(</span>server<span class="tsd-signature-symbol">: </span><a href="server.skeldjsserver.html" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsServer</a>, room<span class="tsd-signature-symbol">: </span><a href="server.room.html" class="tsd-signature-type" data-tsd-kind="Class">Room</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Client<wbr>Event<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ClientEvent</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="server.serverevent.html">ServerEvent</a>.<a href="server.serverevent.html#constructor">constructor</a></p>
+								<p>Overrides CancelableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/server/lib/events/room/RoomEvent.ts#L9">server/lib/events/room/RoomEvent.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/client/lib/events/ClientEvent.ts#L5">client/lib/events/ClientEvent.ts:5</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>server: <a href="server.skeldjsserver.html" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsServer</a></h5>
-								</li>
-								<li>
-									<h5>room: <a href="server.room.html" class="tsd-signature-type" data-tsd-kind="Class">Room</a></h5>
+									<h5>client: <a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomEvent</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ClientEvent</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -149,9 +145,19 @@
 					<h3>canceled</h3>
 					<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="server.serverevent.html">ServerEvent</a>.<a href="server.serverevent.html#canceled">canceled</a></p>
+						<p>Inherited from CancelableEvent.canceled</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="client" class="tsd-anchor"></a>
+					<h3>client</h3>
+					<div class="tsd-signature tsd-kind-icon">client<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/client/lib/events/ClientEvent.ts#L5">client/lib/events/ClientEvent.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,51 +166,20 @@
 					<h3>event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="server.serverevent.html">ServerEvent</a>.<a href="server.serverevent.html#eventname">eventName</a></p>
+						<p>Inherited from CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/events/lib/BasicEvent.ts#L3">events/lib/BasicEvent.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/events/lib/BasicEvent.ts#L3">events/lib/BasicEvent.ts:3</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="room" class="tsd-anchor"></a>
-					<h3>room</h3>
-					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <a href="server.room.html" class="tsd-signature-type" data-tsd-kind="Class">Room</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/server/lib/events/room/RoomEvent.ts#L9">server/lib/events/room/RoomEvent.ts:9</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The room in question.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="server" class="tsd-anchor"></a>
-					<h3>server</h3>
-					<div class="tsd-signature tsd-kind-icon">server<span class="tsd-signature-symbol">:</span> <a href="server.skeldjsserver.html" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsServer</a></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="server.serverevent.html">ServerEvent</a>.<a href="server.serverevent.html#server">server</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/server/lib/events/ServerEvent.ts#L9">server/lib/events/ServerEvent.ts:9</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The server in question.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="eventname-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="server.serverevent.html">ServerEvent</a>.<a href="server.serverevent.html#eventname-1">eventName</a></p>
+						<p>Inherited from CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/events/lib/BasicEvent.ts#L2">events/lib/BasicEvent.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/events/lib/BasicEvent.ts#L2">events/lib/BasicEvent.ts:2</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -220,9 +195,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="server.serverevent.html">ServerEvent</a>.<a href="server.serverevent.html#cancel">cancel</a></p>
+								<p>Inherited from CancelableEvent.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/events/lib/CancelableEvent.ts#L6">events/lib/CancelableEvent.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -253,12 +228,18 @@
 						<a href="../pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
 					</li>
 					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
+					</li>
+					<li class="label pp-nav pp-group">
 						<span>API</span>
 					</li>
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/client.html">client</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -285,12 +266,6 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html">protocol</a>
 					</li>
-					<li class="current tsd-kind-module">
-						<a href="../modules/server.html">server</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/skeldjs.html">skeldjs</a>
-					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/state.html">state</a>
 					</li>
@@ -304,9 +279,86 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
 						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
+						<ul>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/client.pluginside.html" class="tsd-kind-icon">Plugin<wbr>Side</a>
+							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/client.reactormessagetag.html" class="tsd-kind-icon">Reactor<wbr>Message<wbr>Tag</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.basereactormessage.html" class="tsd-kind-icon">Base<wbr>Reactor<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientconnectevent.html" class="tsd-kind-icon">Client<wbr>Connect<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientdisconnectevent.html" class="tsd-kind-icon">Client<wbr>Disconnect<wbr>Event</a>
+							</li>
+							<li class="current tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientevent.html" class="tsd-kind-icon">Client<wbr>Event</a>
+								<ul>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+										<a href="client.clientevent.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="client.clientevent.html#canceled" class="tsd-kind-icon">canceled</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="client.clientevent.html#client" class="tsd-kind-icon">client</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="client.clientevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+										<a href="client.clientevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="client.clientevent.html#cancel" class="tsd-kind-icon">cancel</a>
+									</li>
+								</ul>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientidentifyevent.html" class="tsd-kind-icon">Client<wbr>Identify<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientjoinevent.html" class="tsd-kind-icon">Client<wbr>Join<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.modinfo.html" class="tsd-kind-icon">Mod<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.moddedhellopacket.html" class="tsd-kind-icon">Modded<wbr>Hello<wbr>Packet</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.reactorhandshakemessage.html" class="tsd-kind-icon">Reactor<wbr>Handshake<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.reactormessage.html" class="tsd-kind-icon">Reactor<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.reactormoddeclarationmessage.html" class="tsd-kind-icon">Reactor<wbr>Mod<wbr>Declaration<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.skeldjsclient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/client.clientconfig.html" class="tsd-kind-icon">Client<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/client.sentpacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/client.html#skeldjsclientevents" class="tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html" class="tsd-kind-icon">constant</a>
 					</li>
@@ -330,92 +382,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
-					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
-						<a href="../modules/server.html" class="tsd-kind-icon">server</a>
-						<ul>
-							<li class=" tsd-kind-enum tsd-parent-kind-module">
-								<a href="../enums/server.specialid.html" class="tsd-kind-icon">SpecialID</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclient.html" class="tsd-kind-icon">Remote<wbr>Client</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclientconnectevent.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Connect<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclientdisconnectevent.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Disconnect<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclientevent.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.remoteclientjoinroomevent.html" class="tsd-kind-icon">Remote<wbr>Client<wbr>Join<wbr>Room<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.room.html" class="tsd-kind-icon">Room</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.roomdestroyevent.html" class="tsd-kind-icon">Room<wbr>Destroy<wbr>Event</a>
-							</li>
-							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="server.roomevent.html" class="tsd-kind-icon">Room<wbr>Event</a>
-								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-										<a href="server.roomevent.html#constructor" class="tsd-kind-icon">constructor</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="server.roomevent.html#canceled" class="tsd-kind-icon">canceled</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="server.roomevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="server.roomevent.html#room" class="tsd-kind-icon">room</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="server.roomevent.html#server" class="tsd-kind-icon">server</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-										<a href="server.roomevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="server.roomevent.html#cancel" class="tsd-kind-icon">cancel</a>
-									</li>
-								</ul>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.serverevent.html" class="tsd-kind-icon">Server<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="server.skeldjsserver.html" class="tsd-kind-icon">Skeldjs<wbr>Server</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/server.roomconfig.html" class="tsd-kind-icon">Room<wbr>Config</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/server.sentpacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/server.serverconfig.html" class="tsd-kind-icon">Server<wbr>Config</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#remoteclientevents" class="tsd-kind-icon">Remote<wbr>Client<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#roomevents" class="tsd-kind-icon">Room<wbr>Events</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/server.html#skeldjsserverevents" class="tsd-kind-icon">Skeldjs<wbr>Server<wbr>Events</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="after-current">
-					<li class=" tsd-kind-module">
-						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/state.html" class="tsd-kind-icon">state</a>

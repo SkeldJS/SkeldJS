@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DebugLevel | SkeldJS</title>
+	<title>ModInfo | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -60,126 +60,106 @@
 					<a href="../modules/client.html">client</a>
 				</li>
 				<li>
-					<a href="client.debuglevel.html">DebugLevel</a>
+					<a href="client.modinfo.html">ModInfo</a>
 				</li>
 			</ul>
-			<h1>Enumeration DebugLevel</h1>
+			<h1>Class ModInfo</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">ModInfo</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Enumeration members</h3>
+							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#data" class="tsd-kind-icon">Data</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#despawn" class="tsd-kind-icon">Despawn</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#everything" class="tsd-kind-icon">Everything</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#inbound" class="tsd-kind-icon">Inbound</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#none" class="tsd-kind-icon">None</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#objects" class="tsd-kind-icon">Objects</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#outbound" class="tsd-kind-icon">Outbound</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#packets" class="tsd-kind-icon">Packets</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.debuglevel.html#spawn" class="tsd-kind-icon">Spawn</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="client.modinfo.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="client.modinfo.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="client.modinfo.html#side" class="tsd-kind-icon">side</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="client.modinfo.html#version" class="tsd-kind-icon">version</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="data" class="tsd-anchor"></a>
-					<h3>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 32</span></div>
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Mod<wbr>Info<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, side<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PluginSide</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="client.modinfo.html" class="tsd-signature-type" data-tsd-kind="Class">ModInfo</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/client/lib/reactor/ModInfo.ts#L6">client/lib/reactor/ModInfo.ts:6</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>version: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>side: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PluginSide</a><span class="tsd-signature-symbol"> = ...</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="client.modinfo.html" class="tsd-signature-type" data-tsd-kind="Class">ModInfo</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="id" class="tsd-anchor"></a>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L11">client/lib/interface/ClientConfig.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/client/lib/reactor/ModInfo.ts#L4">client/lib/reactor/ModInfo.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="despawn" class="tsd-anchor"></a>
-					<h3>Despawn</h3>
-					<div class="tsd-signature tsd-kind-icon">Despawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 16</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="side" class="tsd-anchor"></a>
+					<h3>side</h3>
+					<div class="tsd-signature tsd-kind-icon">side<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PluginSide</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L10">client/lib/interface/ClientConfig.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/client/lib/reactor/ModInfo.ts#L6">client/lib/reactor/ModInfo.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="everything" class="tsd-anchor"></a>
-					<h3>Everything</h3>
-					<div class="tsd-signature tsd-kind-icon">Everything<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="version" class="tsd-anchor"></a>
+					<h3>version</h3>
+					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L5">client/lib/interface/ClientConfig.ts:5</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="inbound" class="tsd-anchor"></a>
-					<h3>Inbound</h3>
-					<div class="tsd-signature tsd-kind-icon">Inbound<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L7">client/lib/interface/ClientConfig.ts:7</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="none" class="tsd-anchor"></a>
-					<h3>None</h3>
-					<div class="tsd-signature tsd-kind-icon">None<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L4">client/lib/interface/ClientConfig.ts:4</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="objects" class="tsd-anchor"></a>
-					<h3>Objects</h3>
-					<div class="tsd-signature tsd-kind-icon">Objects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 56</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L12">client/lib/interface/ClientConfig.ts:12</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="outbound" class="tsd-anchor"></a>
-					<h3>Outbound</h3>
-					<div class="tsd-signature tsd-kind-icon">Outbound<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L6">client/lib/interface/ClientConfig.ts:6</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="packets" class="tsd-anchor"></a>
-					<h3>Packets</h3>
-					<div class="tsd-signature tsd-kind-icon">Packets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 6</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L8">client/lib/interface/ClientConfig.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="spawn" class="tsd-anchor"></a>
-					<h3>Spawn</h3>
-					<div class="tsd-signature tsd-kind-icon">Spawn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 8</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L9">client/lib/interface/ClientConfig.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/client/lib/reactor/ModInfo.ts#L5">client/lib/reactor/ModInfo.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -205,6 +185,12 @@
 					</li>
 					<li class=" pp-nav pp-page">
 						<a href="../pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
 					</li>
 					<li class="label pp-nav pp-group">
 						<span>API</span>
@@ -240,12 +226,6 @@
 						<a href="../modules/protocol.html">protocol</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/server.html">server</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/skeldjs.html">skeldjs</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/state.html">state</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -263,49 +243,61 @@
 					<li class="current tsd-kind-module">
 						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
 						<ul>
-							<li class="current tsd-kind-enum tsd-parent-kind-module">
-								<a href="client.debuglevel.html" class="tsd-kind-icon">Debug<wbr>Level</a>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/client.pluginside.html" class="tsd-kind-icon">Plugin<wbr>Side</a>
+							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/client.reactormessagetag.html" class="tsd-kind-icon">Reactor<wbr>Message<wbr>Tag</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.basereactormessage.html" class="tsd-kind-icon">Base<wbr>Reactor<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientconnectevent.html" class="tsd-kind-icon">Client<wbr>Connect<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientdisconnectevent.html" class="tsd-kind-icon">Client<wbr>Disconnect<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientevent.html" class="tsd-kind-icon">Client<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientidentifyevent.html" class="tsd-kind-icon">Client<wbr>Identify<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.clientjoinevent.html" class="tsd-kind-icon">Client<wbr>Join<wbr>Event</a>
+							</li>
+							<li class="current tsd-kind-class tsd-parent-kind-module">
+								<a href="client.modinfo.html" class="tsd-kind-icon">Mod<wbr>Info</a>
 								<ul>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#data" class="tsd-kind-icon">Data</a>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class">
+										<a href="client.modinfo.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#despawn" class="tsd-kind-icon">Despawn</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="client.modinfo.html#id" class="tsd-kind-icon">id</a>
 									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#everything" class="tsd-kind-icon">Everything</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="client.modinfo.html#side" class="tsd-kind-icon">side</a>
 									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#inbound" class="tsd-kind-icon">Inbound</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#none" class="tsd-kind-icon">None</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#objects" class="tsd-kind-icon">Objects</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#outbound" class="tsd-kind-icon">Outbound</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#packets" class="tsd-kind-icon">Packets</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.debuglevel.html#spawn" class="tsd-kind-icon">Spawn</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="client.modinfo.html#version" class="tsd-kind-icon">version</a>
 									</li>
 								</ul>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.clientconnectevent.html" class="tsd-kind-icon">Client<wbr>Connect<wbr>Event</a>
+								<a href="client.moddedhellopacket.html" class="tsd-kind-icon">Modded<wbr>Hello<wbr>Packet</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.clientdisconnectevent.html" class="tsd-kind-icon">Client<wbr>Disconnect<wbr>Event</a>
+								<a href="client.reactorhandshakemessage.html" class="tsd-kind-icon">Reactor<wbr>Handshake<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.clientjoinevent.html" class="tsd-kind-icon">Client<wbr>Join<wbr>Event</a>
+								<a href="client.reactormessage.html" class="tsd-kind-icon">Reactor<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.skeldjsclient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
+								<a href="client.reactormoddeclarationmessage.html" class="tsd-kind-icon">Reactor<wbr>Mod<wbr>Declaration<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.skeldjsclient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/client.clientconfig.html" class="tsd-kind-icon">Client<wbr>Config</a>
@@ -345,12 +337,6 @@
 						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/server.html" class="tsd-kind-icon">server</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -378,6 +364,8 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

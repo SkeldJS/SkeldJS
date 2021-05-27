@@ -74,17 +74,18 @@
 					<a href="https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Lint+%26+Test%22"><img src="https://github.com/skeldjs/SkeldJS/workflows/Lint%20&%20Test/badge.svg" alt="Lint and Test"></a>
 					<a href="https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22"><img src="https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg" alt="Build"></a>
 				<a href="https://skeldjs.github.io/SkeldJS"><img src="https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg" alt="Docs"></a></p>
-				<a href="#read-here-if-you-are-using-or-plan-to-use-the-skeldjsclient-package" id="read-here-if-you-are-using-or-plan-to-use-the-skeldjsclient-package" style="color: inherit; text-decoration: none;">
-					<h2>Read <a href="https://skeldjs.github.io/SkeldJS/pages/Information/Client%20Authentication">here</a> if you are using or plan to use the @skeldjs/client package.</h2>
+				<a href="#read-here-if-you-are-using-or-plan-to-use-the-skeldjsclient-package-on-official-servers" id="read-here-if-you-are-using-or-plan-to-use-the-skeldjsclient-package-on-official-servers" style="color: inherit; text-decoration: none;">
+					<h2>Read <a href="https://skeldjs.github.io/SkeldJS/pages/Information/Client%20Authentication">here</a> if you are using or plan to use the @skeldjs/client package on official servers.</h2>
+				</a>
+				<a href="#the-skeldjs-server-has-been-removed-in-favour-of-my-other-project-hindenburg" id="the-skeldjs-server-has-been-removed-in-favour-of-my-other-project-hindenburg" style="color: inherit; text-decoration: none;">
+					<h2>The SkeldJS server has been removed in favour of my other project, <a href="https://github.com/edqx/Hindenburg">Hindenburg</a></h2>
 				</a>
 				<p>SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.</p>
 				<p>The repository holds several key programs for automating development with Among Us.</p>
 				<ul>
-					<li><strong>Server</strong> - Host your own Among Us server, complete with plugins and a Server-as-a-Host solution.</li>
 					<li><strong>Client</strong> - An Among Us client that allows you to host games, join games and act as a player programmatically.</li>
 					<li><strong>Proxy</strong> - A proxy with both a programmable client and an electron client, to inspect and modify packets in detail.</li>
 				</ul>
-				<p>as well as a central <code>@skeldjs/skeldjs</code> package that contains an abstracted client API, with Redis support and multiple server nodes.</p>
 				<p>The repository also hosts utility packages for the packages listed above, that you can use individually.</p>
 				<ul>
 					<li><strong>State</strong> - A state manager taking in both inbound and outbound packets.</li>
@@ -100,85 +101,16 @@
 					<li><strong>Task Manager</strong> - A tool used for managing task completion in the correct order.</li>
 				</ul>
 				<p>You can view auto-updating documentation for all packages hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS">https://skeldjs.github.io/SkeldJS</a>.</p>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h1>Installation</h1>
-				</a>
-				<a href="#main-region-server-installation" id="main-region-server-installation" style="color: inherit; text-decoration: none;">
-					<h2>Main region server installation</h2>
-				</a>
-				<a href="#prerequisites" id="prerequisites" style="color: inherit; text-decoration: none;">
-					<h3>Prerequisites</h3>
-				</a>
-				<ul>
-					<li><a href="https://nodejs.org">Node.js &gt;=15</a></li>
-					<li><a href="https://npmjs.org">NPM</a> (Installs with nodejs)</li>
-					<li><a href="https://yarnpkg.com">Yarn</a> (Can be installed with <code>npm install -g yarn</code> in a command prompt once <code>npm</code> has been installed.)</li>
-					<li><a href="https://git-scm.org">Git</a> (Optional)</li>
-					<li>A command prompt</li>
-				</ul>
-				<a href="#install-repository-and-packages" id="install-repository-and-packages" style="color: inherit; text-decoration: none;">
-					<h3>Install repository and packages</h3>
-				</a>
-				<a href="#if-you-have-installed-git" id="if-you-have-installed-git" style="color: inherit; text-decoration: none;">
-					<h4>If you have installed <a href="https://git-scm.org">Git</a></h4>
-				</a>
-				<ol>
-					<li><p>Open a command prompt in a folder of your choosing. See <a href="https://helpdeskgeek.com/how-to/open-command-prompt-folder-windows-explorer/">here</a> for help on Windows.</p>
-					</li>
-					<li><p>Install the repository with <code>git clone https://github.com/SkeldJS/SkeldJS</code></p>
-					</li>
-					<li><p>Enter the server install directory with <code>cd SkeldJS/packages/skeldjs</code></p>
-					</li>
-					<li><p>Install packages for the repository with <code>yarn install</code></p>
-					</li>
-				</ol>
-				<a href="#if-you-haven39t" id="if-you-haven39t" style="color: inherit; text-decoration: none;">
-					<h4>If you haven&#39;t</h4>
-				</a>
-				<ol>
-					<li><p>Install the repository <code>.zip</code> by clicking the &quot;Code &gt; Download ZIP&quot; button above. Or <a href="https://github.com/SkeldJS/SkeldJS/archive/master.zip">click here</a>.</p>
-					</li>
-					<li><p>Extract all contents of the downloaded <code>.zip</code> into a folder of your choosing. See <a href="https://www.howtogeek.com/668409/how-to-zip-and-unzip-files-on-windows-10">here</a> for help on Windows.</p>
-					</li>
-					<li><p>Enter the folder where you extracted the <code>.zip</code> contents in a command prompt. See <a href="https://helpdeskgeek.com/how-to/open-command-prompt-folder-windows-explorer/">here</a> for help on Windows.</p>
-					</li>
-					<li><p>Enter the server install directory with <code>cd packages/skeldjs</code></p>
-					</li>
-					<li><p>Install packages for the repository with <code>yarn install</code></p>
-					</li>
-				</ol>
-				<a href="#configure-and-start" id="configure-and-start" style="color: inherit; text-decoration: none;">
-					<h3>Configure and start</h3>
-				</a>
-				<p>To configure the server, open <code>config.json</code> in any text editor.</p>
-				<p>Insert plugins in the <code>plugins</code> directory.</p>
-				<p>Enter <code>npm start</code> in the command prompt to start the server.</p>
-				<a href="#connection" id="connection" style="color: inherit; text-decoration: none;">
-					<h3>Connection</h3>
-				</a>
-				<p>To connect, you can use <code>npm run set-server localhost 127.0.0.1</code></p>
-				<p>Or alternatively, you can use any of the following programs developed by others.</p>
-				<ul>
-					<li><a href="https://github.com/Koupah/Among-Us-Editor/releases">https://github.com/Koupah/Among-Us-Editor/releases</a></li>
-					<li><a href="https://github.com/andruzzzhka/CustomServersClient/releases">https://github.com/andruzzzhka/CustomServersClient/releases</a></li>
-				</ul>
 				<a href="#npm-packages" id="npm-packages" style="color: inherit; text-decoration: none;">
 					<h2>NPM Packages</h2>
 				</a>
-				<p>You can install individual packages through NPM as the <code>@skeldjs</code> scope/namespace.</p>
+				<p>You can install individual packages through NPM as the <code>@skeldjs/</code> scope/namespace.</p>
 				<a href="#to-install-the-client" id="to-install-the-client" style="color: inherit; text-decoration: none;">
 					<h3>To install the client</h3>
 				</a>
 				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> --</span><span style="color: #001080">save</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">client</span>
 <span style="color: #001080">or</span>
 <span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">client</span>
-</code></pre>
-				<a href="#to-install-the-server" id="to-install-the-server" style="color: inherit; text-decoration: none;">
-					<h3>To install the server</h3>
-				</a>
-				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> --</span><span style="color: #001080">save</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">server</span>
-<span style="color: #001080">or</span>
-<span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">server</span>
 </code></pre>
 				<a href="#to-install-the-proxy" id="to-install-the-proxy" style="color: inherit; text-decoration: none;">
 					<h3>To install the proxy</h3>
@@ -254,6 +186,12 @@
 						<a href="pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
 					</li>
 					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="pages/Guides/Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
+					</li>
+					<li class="label pp-nav pp-group">
 						<span>API</span>
 					</li>
 					<li class=" ">
@@ -285,12 +223,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/protocol.html">protocol</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/server.html">server</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/skeldjs.html">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/state.html">state</a>
@@ -331,12 +263,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/protocol.html" class="tsd-kind-icon">protocol</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/server.html" class="tsd-kind-icon">server</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/state.html" class="tsd-kind-icon">state</a>

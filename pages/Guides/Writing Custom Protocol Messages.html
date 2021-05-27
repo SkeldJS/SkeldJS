@@ -1,0 +1,327 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Writing Custom Protocol Messages | SkeldJS</title>
+	<meta name="description" content="Documentation for SkeldJS">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../../assets/css/main.css">
+	<link rel="stylesheet" href="../../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../../assets/js/search.json" data-base="../..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../../index.html" class="title">SkeldJS</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../../modules.html">Globals</a>
+				</li>
+				<li>
+					<a href="Writing Custom Protocol Messages.html">Guides</a>
+				</li>
+				<li>
+					<a href="Writing Custom Protocol Messages.html">Writing Custom Protocol Messages</a>
+				</li>
+			</ul>
+			<h1>Writing Custom Protocol Messages</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#note" id="note" style="color: inherit; text-decoration: none;">
+					<h4>Note</h4>
+				</a>
+				<a href="#messages-refer-to-any-level-of-hazel-messages-be-that-sendoption-rootmessage-gamedata-or-rpc-while-packets-refer-to-any-set-of-bytes-recieved-from-a-socket" id="messages-refer-to-any-level-of-hazel-messages-be-that-sendoption-rootmessage-gamedata-or-rpc-while-packets-refer-to-any-set-of-bytes-recieved-from-a-socket" style="color: inherit; text-decoration: none;">
+					<h5>Messages refer to any level of Hazel messages, be that <a href="https://github.com/codyphobe/among-us-protocol/blob/master/01_packet_structure/05_packet_types.md">SendOption</a>, <a href="https://github.com/codyphobe/among-us-protocol/blob/master/02_root_message_types/README.md">RootMessage</a>, <a href="https://github.com/codyphobe/among-us-protocol/blob/master/03_gamedata_and_gamedatato_message_types/README.md">GameData</a> or <a href="https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/README.md">Rpc</a>, while packets refer to any set of bytes recieved from a socket.</h5>
+				</a>
+				<a href="#writing-custom-protocol-messages" id="writing-custom-protocol-messages" style="color: inherit; text-decoration: none;">
+					<h2>Writing Custom Protocol Messages</h2>
+				</a>
+				<p>Messages in SkeldJS have been designed to be easy to both write and to register
+					to a client or server using the <a href="https://skeldjs.github.io/SkeldJS/classes/protocol.packetdecoder.html">PacketDecoder</a>
+				class.</p>
+				<a href="#message-skeleton" id="message-skeleton" style="color: inherit; text-decoration: none;">
+					<h3>Message Skeleton</h3>
+				</a>
+				<p>The very basic structure of a message declaration is as follows:</p>
+				<pre><code class="language-ts"><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">MyFavouriteMessage</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">BaseMessage</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">static</span><span style="color: #000000"> </span><span style="color: #001080">type</span><span style="color: #000000"> = </span><span style="color: #A31515">&quot;lorem&quot;</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000">; </span><span style="color: #008000">// The type of message that this is.</span>
+<span style="color: #000000">    </span><span style="color: #001080">type</span><span style="color: #000000"> = </span><span style="color: #A31515">&quot;lorem&quot;</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">static</span><span style="color: #000000"> </span><span style="color: #001080">tag</span><span style="color: #000000"> = </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000">; </span><span style="color: #008000">// The hazel message tag.</span>
+<span style="color: #000000">    </span><span style="color: #001080">tag</span><span style="color: #000000"> = </span><span style="color: #098658">1</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">constructor</span><span style="color: #000000">() {</span>
+
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">static</span><span style="color: #000000"> </span><span style="color: #795E26">Deserialize</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #001080">reader</span><span style="color: #000000">: </span><span style="color: #267F99">HazelReader</span><span style="color: #000000">, </span><span style="color: #008000">// The message reader to read the message from.</span>
+<span style="color: #000000">        </span><span style="color: #001080">direction</span><span style="color: #000000">: </span><span style="color: #267F99">MessageDirection</span><span style="color: #000000">, </span><span style="color: #008000">// The direction that this message is travelling in.</span>
+<span style="color: #000000">        </span><span style="color: #001080">decoder</span><span style="color: #000000">: </span><span style="color: #267F99">PacketDecoder</span><span style="color: #000000"> </span><span style="color: #008000">// The decoder that this message is going through.</span>
+<span style="color: #000000">    ) {</span>
+
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">Serialize</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #001080">writer</span><span style="color: #000000">: </span><span style="color: #267F99">HazelWriter</span><span style="color: #000000">, </span><span style="color: #008000">// The message writer to write the message to.</span>
+<span style="color: #000000">        </span><span style="color: #001080">direction</span><span style="color: #000000">: </span><span style="color: #267F99">MessageDirection</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">decoder</span><span style="color: #000000">: </span><span style="color: #267F99">PacketDecoder</span>
+<span style="color: #000000">    ) {</span>
+
+<span style="color: #000000">    }</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>A message declaration is just a class that optionally extends one of several
+					utility classes for standardisation, here being a very basic <a href="https://skeldjs.github.io/SkeldJS/classes/protocol.basemessage.html">BaseMessage</a>
+					which just contains a utility for cancelling the message in some scenarios (such
+				as if it is relayed through a server, you might want to stop this behaviour).</p>
+				<p>Otherwise, SkeldJS also contains several other classes based off of the Among Us
+				protocol to extend:</p>
+				<ul>
+					<li><p><a href="https://skeldjs.github.io/SkeldJS/classes/protocol.baserootpacket.html">BaseRootPacket</a> -
+							used for writing protocol send options, see <a href="https://github.com/codyphobe/among-us-protocol/blob/master/01_packet_structure/05_packet_types.md">here</a>
+						for more information.</p>
+					</li>
+					<li><p><a href="https://skeldjs.github.io/SkeldJS/classes/protocol.baserootmessage.html">BaseRootMessage</a> -
+							used for writing root messages, see <a href="https://github.com/codyphobe/among-us-protocol/blob/master/02_root_message_types/README.md">here</a>
+						for more information.</p>
+					</li>
+					<li><p><a href="https://skeldjs.github.io/SkeldJS/classes/protocol.basegamedatamessage.html">BaseGameDataMessage</a> -
+							used for writing game data messages, see <a href="https://github.com/codyphobe/among-us-protocol/blob/master/03_gamedata_and_gamedatato_message_types/README.md">here</a>
+						for more information.</p>
+					</li>
+					<li><p><a href="https://skeldjs.github.io/SkeldJS/classes/protocol.baserpcmessage.html">BaseRpcMessage</a> -
+							used for writing remote call procedure messages, see <a href="https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/README.md">here</a>
+						for more information.</p>
+					</li>
+				</ul>
+				<p>Using the above classes rather than extending <a href="https://skeldjs.github.io/SkeldJS/classes/protocol.basemessage.html">BaseMessage</a>
+				means that you don&#39;t need to specify the message type, since they will be set to <code>option</code>, <code>root</code>, <code>gamedata</code> and <code>rpc</code> respectfullys if you extend them.</p>
+				<p>The Deserialize and Serialize methods take 3 parameters, a <a href="https://skeldjs.github.io/SkeldJS/classes/util.hazelreader.html">HazelReader</a>
+					or <a href="https://skeldjs.github.io/SkeldJS/classes/util.hazelwriter.html">HazelWriter</a>
+					instance respectfully, and also both take a <a href="https://skeldjs.github.io/SkeldJS/enums/protocol.messagedirection.html">MessageDirection</a>
+				and <a href="https://skeldjs.github.io/SkeldJS/classes/protocol.packetdecoder.html">PacketDecoder</a>.</p>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h3>Examples</h3>
+				</a>
+				<p>Of course, SkeldJS contains plenty of examples and real-world usecases of writing
+				messages, <a href="https://github.com/SkeldJS/SkeldJS/tree/master/packages/protocol/lib/packets">https://github.com/SkeldJS/SkeldJS/tree/master/packages/protocol/lib/packets</a>.</p>
+				<p>To see an example of a custom message in the wild, I have several examples on my
+				server implementation, Hindenburg, <a href="https://github.com/edqx/Hindenburg/tree/master/src/packets">here</a></p>
+				<a href="#registering-and-listening-to-messages" id="registering-and-listening-to-messages" style="color: inherit; text-decoration: none;">
+					<h2>Registering and Listening to Messages</h2>
+				</a>
+				<p>To register a custom message, you can use the <a href="https://skeldjs.github.io/SkeldJS/classes/protocol.packetdecoder.html#register">PacketDecoder#register</a>
+				method, passing in the message class declaration itself. (Not an instance of the message)</p>
+				<p>To listen for a message to pass through the decoder, you can use the <a href="https://skeldjs.github.io/SkeldJS/classes/protocol.packetdecoder.html#on">PacketDecoder#on</a>
+					method, passing in the message class declaration itself and a function with 3
+				optional parameters,</p>
+				<ul>
+					<li>An instance of the message class delcaration.</li>
+					<li>The <a href="https://skeldjs.github.io/SkeldJS/enums/protocol.messagedirection.html">direction</a>
+					that the message is travelling in.</li>
+					<li>An optional parameter with the sender of the packet, if passed through the <a href="https://skeldjs.github.io/SkeldJS/classes/protocol.packetdecoder.html#write">PacetkDecoder#write</a>
+					method</li>
+				</ul>
+				<p>For example, you can do</p>
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">packetDecoder</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #001080">PacketDecoder</span><span style="color: #000000">;</span>
+
+<span style="color: #001080">packetDecoder</span><span style="color: #000000">.</span><span style="color: #795E26">register</span><span style="color: #000000">(</span><span style="color: #001080">MyFavouriteMessage</span><span style="color: #000000">);</span>
+
+<span style="color: #001080">packetDecoder</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #001080">MyFavouriteMessage</span><span style="color: #000000">, (</span><span style="color: #001080">message</span><span style="color: #000000">, </span><span style="color: #001080">direction</span><span style="color: #000000">, </span><span style="color: #001080">sender</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Got my favourite message from &quot;</span><span style="color: #000000">, </span><span style="color: #001080">sender</span><span style="color: #000000">.</span><span style="color: #001080">username</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<p>to register and listen for your favourite message ever.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Getting <wbr>Started</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Getting Started/Basic Client Example.html">Basic <wbr>Client <wbr>Example</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Information</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Information/Client Authentication.html">Client <wbr>Authentication</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Information/Events.html">Events</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class="current pp-nav pp-page">
+						<a href="Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class=" ">
+						<a href="../../modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/client.html">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/constant.html">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/core.html">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/data.html">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/events.html">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/lan.html">lan</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/pathfinding.html">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/protocol.html">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/state.html">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/text.html">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/util.html">util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="../../modules/client.html" class="tsd-kind-icon">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/constant.html" class="tsd-kind-icon">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/core.html" class="tsd-kind-icon">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/data.html" class="tsd-kind-icon">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/events.html" class="tsd-kind-icon">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/lan.html" class="tsd-kind-icon">lan</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/protocol.html" class="tsd-kind-icon">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/text.html" class="tsd-kind-icon">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/util.html" class="tsd-kind-icon">util</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>

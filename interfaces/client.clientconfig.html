@@ -91,7 +91,6 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#allowhost" class="tsd-kind-icon">allow<wbr>Host</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#debug" class="tsd-kind-icon">debug</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="client.clientconfig.html#dofixedupdate" class="tsd-kind-icon">do<wbr>Fixed<wbr>Update</a></li>
 							</ul>
 						</section>
@@ -106,7 +105,7 @@
 					<div class="tsd-signature tsd-kind-icon">allow<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L20">client/lib/interface/ClientConfig.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/client/lib/interface/ClientConfig.ts#L7">client/lib/interface/ClientConfig.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -115,16 +114,6 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="debug" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> debug</h3>
-					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <a href="../enums/client.debuglevel.html" class="tsd-signature-type" data-tsd-kind="Enumeration">DebugLevel</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/client/lib/interface/ClientConfig.ts#L16">client/lib/interface/ClientConfig.ts:16</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="dofixedupdate" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> do<wbr>Fixed<wbr>Update</h3>
@@ -132,7 +121,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from HostableOptions.doFixedUpdate</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/9a2b98b/packages/core/lib/misc/HostableOptions.ts#L6">core/lib/misc/HostableOptions.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d785c0/packages/core/lib/misc/HostableOptions.ts#L6">core/lib/misc/HostableOptions.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -170,6 +159,12 @@
 						<a href="../pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
 					</li>
 					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
+					</li>
+					<li class="label pp-nav pp-group">
 						<span>API</span>
 					</li>
 					<li class=" ">
@@ -203,12 +198,6 @@
 						<a href="../modules/protocol.html">protocol</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/server.html">server</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/skeldjs.html">skeldjs</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/state.html">state</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -227,7 +216,13 @@
 						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
 						<ul>
 							<li class=" tsd-kind-enum tsd-parent-kind-module">
-								<a href="../enums/client.debuglevel.html" class="tsd-kind-icon">Debug<wbr>Level</a>
+								<a href="../enums/client.pluginside.html" class="tsd-kind-icon">Plugin<wbr>Side</a>
+							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/client.reactormessagetag.html" class="tsd-kind-icon">Reactor<wbr>Message<wbr>Tag</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.basereactormessage.html" class="tsd-kind-icon">Base<wbr>Reactor<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.clientconnectevent.html" class="tsd-kind-icon">Client<wbr>Connect<wbr>Event</a>
@@ -236,7 +231,28 @@
 								<a href="../classes/client.clientdisconnectevent.html" class="tsd-kind-icon">Client<wbr>Disconnect<wbr>Event</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.clientevent.html" class="tsd-kind-icon">Client<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.clientidentifyevent.html" class="tsd-kind-icon">Client<wbr>Identify<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.clientjoinevent.html" class="tsd-kind-icon">Client<wbr>Join<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.modinfo.html" class="tsd-kind-icon">Mod<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.moddedhellopacket.html" class="tsd-kind-icon">Modded<wbr>Hello<wbr>Packet</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.reactorhandshakemessage.html" class="tsd-kind-icon">Reactor<wbr>Handshake<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.reactormessage.html" class="tsd-kind-icon">Reactor<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.reactormoddeclarationmessage.html" class="tsd-kind-icon">Reactor<wbr>Mod<wbr>Declaration<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.skeldjsclient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
@@ -246,9 +262,6 @@
 								<ul>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="client.clientconfig.html#allowhost" class="tsd-kind-icon">allow<wbr>Host</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-interface">
-										<a href="client.clientconfig.html#debug" class="tsd-kind-icon">debug</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a href="client.clientconfig.html#dofixedupdate" class="tsd-kind-icon">do<wbr>Fixed<wbr>Update</a>
@@ -288,12 +301,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/server.html" class="tsd-kind-icon">server</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/skeldjs.html" class="tsd-kind-icon">skeldjs</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
