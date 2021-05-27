@@ -25,6 +25,15 @@
           "source": "./pages/Official Anti-Cheat.md"
         }
       ]
+    },
+    {
+      "title": "Guides",
+      "pages": [
+        {
+          "title": "Writing Custom Protocol Messages",
+          "source": "./pages/Writing Custom Protocol Messages.md"
+        }
+      ]
     }
   ]
 }
