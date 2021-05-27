@@ -8,16 +8,15 @@
 [![Build](https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22)
 [![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://skeldjs.github.io/SkeldJS)
 
-## Read [here](https://skeldjs.github.io/SkeldJS/pages/Information/Client%20Authentication) if you are using or plan to use the @skeldjs/client package.
+## Read [here](https://skeldjs.github.io/SkeldJS/pages/Information/Client%20Authentication) if you are using or plan to use the @skeldjs/client package on official servers.
+
+## The SkeldJS server has been removed in favour of my other project, [Hindenburg](https://github.com/edqx/Hindenburg)
 
 SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.
 
 The repository holds several key programs for automating development with Among Us.
-* **Server** - Host your own Among Us server, complete with plugins and a Server-as-a-Host solution.
 * **Client** - An Among Us client that allows you to host games, join games and act as a player programmatically.
 * **Proxy** - A proxy with both a programmable client and an electron client, to inspect and modify packets in detail.
-
-as well as a central `@skeldjs/skeldjs` package that contains an abstracted client API, with Redis support and multiple server nodes.
 
 The repository also hosts utility packages for the packages listed above, that you can use individually.
 * **State** - A state manager taking in both inbound and outbound packets.
@@ -32,55 +31,8 @@ As well as the main and utility packages, the project also contains several pack
 * **Task Manager** - A tool used for managing task completion in the correct order.
 
 You can view auto-updating documentation for all packages hosted at github pages at https://skeldjs.github.io/SkeldJS.
-
-# Installation
-## Main region server installation
-### Prerequisites
-* [Node.js >=15](https://nodejs.org)
-* [NPM](https://npmjs.org) (Installs with nodejs)
-* [Yarn](https://yarnpkg.com) (Can be installed with `npm install -g yarn` in a command prompt once `npm` has been installed.)
-* [Git](https://git-scm.org) (Optional)
-* A command prompt
-
-### Install repository and packages
-
-#### If you have installed [Git](https://git-scm.org)
-
-1. Open a command prompt in a folder of your choosing. See [here](https://helpdeskgeek.com/how-to/open-command-prompt-folder-windows-explorer/) for help on Windows.
-
-2. Install the repository with `git clone https://github.com/SkeldJS/SkeldJS`
-
-3. Enter the server install directory with `cd SkeldJS/packages/skeldjs`
-
-4. Install packages for the repository with `yarn install`
-
-#### If you haven't
-1. Install the repository `.zip` by clicking the "Code > Download ZIP" button above. Or [click here](https://github.com/SkeldJS/SkeldJS/archive/master.zip).
-
-2. Extract all contents of the downloaded `.zip` into a folder of your choosing. See [here](https://www.howtogeek.com/668409/how-to-zip-and-unzip-files-on-windows-10) for help on Windows.
-
-3. Enter the folder where you extracted the `.zip` contents in a command prompt. See [here](https://helpdeskgeek.com/how-to/open-command-prompt-folder-windows-explorer/) for help on Windows.
-
-4. Enter the server install directory with `cd packages/skeldjs`
-
-5. Install packages for the repository with `yarn install`
-
-### Configure and start
-To configure the server, open `config.json` in any text editor.
-
-Insert plugins in the `plugins` directory.
-
-Enter `npm start` in the command prompt to start the server.
-
-### Connection
-To connect, you can use `npm run set-server localhost 127.0.0.1`
-
-Or alternatively, you can use any of the following programs developed by others.
-* https://github.com/Koupah/Among-Us-Editor/releases
-* https://github.com/andruzzzhka/CustomServersClient/releases
-
 ## NPM Packages
-You can install individual packages through NPM as the `@skeldjs` scope/namespace.
+You can install individual packages through NPM as the `@skeldjs/` scope/namespace.
 
 ### To install the client
 ```
