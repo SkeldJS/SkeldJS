@@ -1,44 +1,25 @@
+import { BasicEvent } from "@skeldjs/events";
+import { VotingCompleteMessage } from "@skeldjs/protocol";
 import { MeetingHud } from "../../component";
 import { Hostable } from "../../Hostable";
 import { PlayerVoteState } from "../../misc/PlayerVoteState";
 import { PlayerData } from "../../PlayerData";
+import { ProtocolEvent } from "../ProtocolEvent";
+import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
-/**
- * Emitted when voting is complete, either by the timer reaching 0 or everyone having voted.
- */
-export class MeetingHudVotingCompleteEvent extends MeetingHudEvent {
+export class MeetingHudVotingCompleteEvent extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meetinghud.votingcomplete" as const;
     eventName = "meetinghud.votingcomplete" as const;
 
-    /**
-     * Whether or not the votes resulted in a tie.
-     */
-    tie: boolean;
-
-    /**
-     * The player that was ejected.
-     *
-     * This will be undefined if players voted to skip or if there was a tie.
-     */
-    ejected?: PlayerData;
-
-    /**
-     * The vote states for every player, mapped by their player ID.
-     */
-    voteStates: Map<number, PlayerVoteState>;
-
     constructor(
-        room: Hostable<any>,
-        meetinghud: MeetingHud,
-        tie: boolean,
-        voteStates: Map<number, PlayerVoteState>,
-        ejected?: PlayerData
+        public readonly room: Hostable,
+        public readonly meetinghud: MeetingHud,
+        public readonly message: VotingCompleteMessage|undefined,
+        public readonly tie: boolean,
+        public readonly voteStates: Map<number, PlayerVoteState>,
+        public readonly ejected?: PlayerData
     ) {
-        super(room, meetinghud);
-
-        this.tie = tie;
-        this.ejected = ejected;
-        this.voteStates = voteStates;
+        super();
     }
 }

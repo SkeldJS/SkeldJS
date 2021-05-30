@@ -28,6 +28,16 @@ export class AirshipStatus extends InnerShipStatus {
     static classname = "Airship" as const;
     classname = "Airship" as const;
 
+    static roomDoors = {
+        [SystemType.Communications]: [0, 1, 2, 3],
+        [SystemType.Brig]: [4, 5, 6],
+        [SystemType.Kitchen]: [7, 8, 9],
+        [SystemType.MainHall]: [10, 11],
+        [SystemType.Records]: [12, 13, 14],
+        [SystemType.Lounge]: [15, 16, 17],
+        [SystemType.Medical]: [19, 20]
+    }
+
     systems!: {
         [SystemType.Electrical]: SwitchSystem;
         [SystemType.Security]: SecurityCameraSystem;
@@ -71,7 +81,7 @@ export class AirshipStatus extends InnerShipStatus {
                 cooldown: 0,
             }),
             [SystemType.GapRoom]: new MovingPlatformSystem(this, {
-                target: null,
+                target: undefined,
                 side: MovingPlatformSide.Left,
                 useId: 0,
             }),

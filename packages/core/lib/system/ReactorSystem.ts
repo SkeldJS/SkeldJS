@@ -6,13 +6,20 @@ import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ReactorConsoleAddEvent, ReactorConsoleRemoveEvent, ReactorConsolesResetEvent } from "../events";
 
 export interface ReactorSystemData {
     timer: number;
     completed: Set<number>;
 }
 
-export type ReactorSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
+export type ReactorSystemEvents = SystemStatusEvents &
+    ExtractEventTypes<[
+        ReactorConsoleAddEvent,
+        ReactorConsoleRemoveEvent,
+        ReactorConsolesResetEvent
+    ]>;
 
 /**
  * Represents a system responsible for handling reactor consoles.
@@ -69,17 +76,107 @@ export class ReactorSystem extends SystemStatus<
         }
     }
 
+    private async _addConsole(player: PlayerData, consoleid: number, rpc: RepairSystemMessage|undefined) {
+        this.completed.add(consoleid);
+        this.dirty = true;
+
+        const ev = await this.emit(
+            new ReactorConsoleAddEvent(
+                this.room,
+                this,
+                undefined,
+                player,
+                consoleid
+            )
+        );
+
+        if (ev.reverted) {
+            return this.completed.delete(ev.consoleId);
+        }
+
+        if (ev.alteredConsoleId !== consoleid) {
+            this.completed.delete(consoleid);
+            this.completed.add(ev.alteredConsoleId);
+        }
+    }
+
+    async addConsole(consoleId: number) {
+        if (!this.room.me)
+            return;
+
+        await this._addConsole(this.room.me, consoleId, undefined);
+    }
+
+    private async _removeConsole(player: PlayerData, consoleid: number, rpc: RepairSystemMessage|undefined) {
+        this.completed.delete(consoleid);
+        this.dirty = true;
+
+        const ev = await this.emit(
+            new ReactorConsoleRemoveEvent(
+                this.room,
+                this,
+                undefined,
+                player,
+                consoleid
+            )
+        );
+
+        if (ev.reverted) {
+            return this.completed.add(ev.consoleId);
+        }
+
+        if (ev.alteredConsoleId !== consoleid) {
+            this.completed.add(consoleid);
+            this.completed.delete(ev.alteredConsoleId);
+        }
+    }
+
+    async removeConsole(consoleId: number) {
+        if (!this.room.me)
+            return;
+
+        await this._removeConsole(this.room.me, consoleId, undefined);
+    }
+
+    private async _repair(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+        const oldTimer = this.timer;
+        const oldCompleted = this.completed;
+        this.timer = 10000;
+        this.completed = new Set;
+        this.dirty = true;
+
+        const ev = await this.emit(
+            new ReactorConsolesResetEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.timer = oldTimer;
+            this.completed = oldCompleted;
+        }
+    }
+
+    async repair() {
+        if (!this.room.me)
+            return;
+
+        await this._repair(this.room.me, undefined);
+    }
+
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    HandleRepair(player: PlayerData, amount: number) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {
-            this.completed.add(consoleId);
+            await this._addConsole(player, consoleId, rpc);
         } else if (amount & 0x20) {
-            this.completed.delete(consoleId);
+            await this._removeConsole(player, consoleId, rpc);
         } else if (amount & 0x1) {
-            this.timer = 10000;
-            this.completed.clear();
+            await this._repair(player, rpc);
         }
 
         this.dirty = true;

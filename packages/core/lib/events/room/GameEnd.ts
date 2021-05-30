@@ -1,22 +1,16 @@
 import { GameOverReason } from "@skeldjs/constant";
+import { BasicEvent } from "@skeldjs/events";
 import { Hostable } from "../../Hostable";
 import { RoomEvent } from "../RoomEvent";
 
-/**
- * Emitted when a game in the room ends.
- */
-export class RoomGameEndEvent extends RoomEvent {
-    static eventName = "room.game.end" as const;
-    eventName = "room.game.end" as const;
+export class RoomGameEndEvent extends BasicEvent implements RoomEvent {
+    static eventName = "room.gameend" as const;
+    eventName = "room.gameend" as const;
 
-    /**
-     * The reason for why the game ended.
-     */
-    reason: GameOverReason;
-
-    constructor(room: Hostable<any>, reason: GameOverReason) {
-        super(room);
-
-        this.reason = reason;
+    constructor(
+        public readonly room: Hostable,
+        public readonly reason: GameOverReason
+    ) {
+        super();
     }
 }

@@ -1,6 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import {
-    AllGameOptions,
     BaseRpcMessage,
     CheckColorMessage,
     CheckNameMessage,
@@ -22,36 +21,33 @@ import {
     SpawnMessage,
     StartMeetingMessage,
     SyncSettingsMessage,
-    UsePlatformMessage,
+    UsePlatformMessage
 } from "@skeldjs/protocol";
 
 import {
-    ChatNoteType,
-    SystemType,
+    SpawnType,
+    RpcMessageTag,
     Color,
     Hat,
     Skin,
-    Pet,
-    SpawnType,
-    RpcMessageTag,
+    ChatNoteType,
     SpawnFlag,
+    Pet,
+    SystemType
 } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { MovingPlatformSide, MovingPlatformSystem } from "../system";
-
 import { Networkable, NetworkableEvents } from "../Networkable";
-import { PlayerDataResolvable, Hostable } from "../Hostable";
+import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
-import { PlayerCompleteTaskEvent, PlayerReportDeadBodyEvent } from "../events";
-
 import {
-    PlayerCallMeetingEvent,
-    PlayerChatEvent,
     PlayerCheckColorEvent,
     PlayerCheckNameEvent,
-    PlayerMurderPlayerEvent,
+    PlayerCompleteTaskEvent,
+    PlayerMurderEvent,
+    PlayerReportDeadBodyEvent,
+    PlayerSendChatEvent,
     PlayerSetColorEvent,
     PlayerSetHatEvent,
     PlayerSetImpostorsEvent,
@@ -59,10 +55,12 @@ import {
     PlayerSetPetEvent,
     PlayerSetSkinEvent,
     PlayerSetStartCounterEvent,
-    PlayerSyncSettingsEvent,
+    PlayerStartMeetingEvent,
+    PlayerSyncSettingsEvent
 } from "../events";
 import { MeetingHud } from "./MeetingHud";
 import { PlayerVoteState } from "../misc/PlayerVoteState";
+import { MovingPlatformSide, MovingPlatformSystem } from "../system/MovingPlatformSystem";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -72,21 +70,13 @@ export interface PlayerControlData {
 export type PlayerControlEvents = NetworkableEvents &
     ExtractEventTypes<
         [
-            PlayerCompleteTaskEvent,
             PlayerCheckNameEvent,
             PlayerCheckColorEvent,
             PlayerSetNameEvent,
             PlayerSetColorEvent,
             PlayerSetHatEvent,
             PlayerSetSkinEvent,
-            PlayerSetPetEvent,
-            PlayerSyncSettingsEvent,
-            PlayerSetStartCounterEvent,
-            PlayerSetImpostorsEvent,
-            PlayerMurderPlayerEvent,
-            PlayerReportDeadBodyEvent,
-            PlayerCallMeetingEvent,
-            PlayerChatEvent
+            PlayerSetPetEvent
         ]
     >;
 
@@ -160,7 +150,7 @@ export class PlayerControl extends Networkable<
                 await this._handleSyncSettings(rpc as SyncSettingsMessage);
                 break;
             case RpcMessageTag.SetInfected:
-                await this._handleSetInfected(rpc as SetInfectedMessage);
+                await this._handleSetImpostors(rpc as SetInfectedMessage);
                 break;
             case RpcMessageTag.CheckName:
                 if (this.room.amhost) {
@@ -215,26 +205,26 @@ export class PlayerControl extends Networkable<
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
+        if (!this.player.data?.taskStates)
+            return;
+
         this._completeTask(rpc.taskidx);
 
-        if (this.player.data?.tasks) {
-            await this.emit(
-                new PlayerCompleteTaskEvent(
-                    this.room,
-                    this.player,
-                    this.player.data.tasks[rpc.taskidx]
-                )
-            );
-        }
+        await this.emit(
+            new PlayerCompleteTaskEvent(
+                this.room,
+                this.player,
+                rpc,
+                this.player.data.taskStates[rpc.taskidx]
+            )
+        );
     }
 
     private _completeTask(taskIdx: number) {
-        if (this.room.gamedata) {
-            this.room.gamedata.completeTask(this.playerId, taskIdx);
-        }
+        this.room.gamedata?.completeTask(this.playerId, taskIdx);
     }
 
-    private _rpcCompleteTask(taskIdx: number) {
+    private async _rpcCompleteTask(taskIdx: number) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
@@ -244,21 +234,40 @@ export class PlayerControl extends Networkable<
     }
 
     completeTask(taskIdx: number) {
+        if (!this.player.data?.taskStates[taskIdx])
+            return;
+
+        this.emit(
+            new PlayerCompleteTaskEvent(
+                this.room,
+                this.player,
+                undefined,
+                this.player.data.taskStates[taskIdx]
+            )
+        );
+
         this._completeTask(taskIdx);
         this._rpcCompleteTask(taskIdx);
     }
 
     private async _handleSyncSettings(rpc: SyncSettingsMessage) {
-        if (rpc.options) {
-            this._syncSettings(rpc.options);
+        if (!rpc.options)
+            return;
 
-            await this.emit(
-                new PlayerSyncSettingsEvent(
-                    this.room,
-                    this.player,
-                    this.room.settings
-                )
-            );
+        this._syncSettings(rpc.options);
+
+        const ev = await this.emit(
+            new PlayerSyncSettingsEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.options
+            )
+        );
+
+        if (ev.isDirty) {
+            this._syncSettings(ev.alteredSettings);
+            this._rpcSyncSettings(ev.alteredSettings);
         }
     }
 
@@ -266,7 +275,7 @@ export class PlayerControl extends Networkable<
         this.room.settings.patch(settings);
     }
 
-    private _rpcSyncSettings(settings: GameOptions) {
+    private async _rpcSyncSettings(settings: GameOptions) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
@@ -275,62 +284,84 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    syncSettings(
-        update_settings: Partial<AllGameOptions> | GameOptions = this.room
-            .settings
-    ) {
-        const settings =
-            update_settings instanceof GameOptions
-                ? update_settings
-                : new GameOptions(update_settings);
+    async syncSettings(settings: GameOptions) {
+        this._syncSettings(settings);
+
+        const ev = await this.emit(
+            new PlayerSyncSettingsEvent(
+                this.room,
+                this.player,
+                undefined,
+                settings
+            )
+        );
+
+        this._syncSettings(ev.alteredSettings);
 
         this._syncSettings(settings);
         this._rpcSyncSettings(settings);
     }
 
-    private async _handleSetInfected(rpc: SetInfectedMessage) {
+    private async _handleSetImpostors(rpc: SetInfectedMessage) {
         const impostors = rpc.impostors
             .map((id) => this.room.getPlayerByPlayerId(id))
             .filter((player) => player && player.data) as PlayerData[];
 
         this._setImpostors(impostors);
 
-        await this.emit(
-            new PlayerSetImpostorsEvent(this.room, this.player, impostors)
+        const ev = await this.emit(
+            new PlayerSetImpostorsEvent(
+                this.room,
+                this.player,
+                rpc,
+                impostors
+            )
         );
+
+        if (ev.isDirty) {
+            this._setImpostors(ev.alteredImpostors);
+            this._rpcSetImpostors(ev.alteredImpostors);
+        }
     }
 
-    private _setImpostors(players: PlayerData[]) {
-        for (const impostor of players) {
-            if (impostor.data) impostor.data.impostor = true;
+    private _setImpostors(impostors: PlayerData[]) {
+        for (const impostor of impostors) {
+            if (impostor.data) impostor.data.setImpostor(true);
             this.room.gamedata?.update(impostor);
         }
     }
 
-    private _rpcSetImpostors(infected: PlayerData[]) {
+    private _rpcSetImpostors(impostors: PlayerData[]) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
                 new SetInfectedMessage(
-                    infected.map((player) => player.playerId) as number[]
+                    impostors.map(impostor => impostor.playerId!)
                 )
             )
         );
     }
 
-    setImpostors(players: PlayerDataResolvable[]) {
-        const resolved = players
-            .map((player) => this.room.resolvePlayer(player))
-            .filter((player) => player && player.data) as PlayerData[];
+    async setImpostors(impostors: PlayerData[]) {
+        this._setImpostors(impostors);
 
-        this._setImpostors(resolved);
-        this._rpcSetImpostors(resolved);
+        const ev = await this.emit(
+            new PlayerSetImpostorsEvent(
+                this.room,
+                this.player,
+                undefined,
+                impostors
+            )
+        );
+
+        if (ev.isDirty) this._setImpostors(ev.alteredImpostors);
+
+        this._rpcSetImpostors(impostors);
     }
 
     private async _handleCheckName(rpc: CheckNameMessage) {
-        if (!this.room.gamedata) {
+        if (!this.room.gamedata)
             return;
-        }
 
         let new_name = rpc.name;
 
@@ -339,7 +370,7 @@ export class PlayerControl extends Networkable<
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player?.name.toLowerCase() === new_name.toLowerCase()
+                    player.name.toLowerCase() === new_name.toLowerCase()
             )
         ) {
             for (let i = 1; i < 100; i++) {
@@ -358,15 +389,17 @@ export class PlayerControl extends Networkable<
         }
 
         const ev = await this.emit(
-            new PlayerCheckNameEvent(this.room, this.player, rpc.name, new_name)
+            new PlayerCheckNameEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.name,
+                new_name
+            )
         );
 
         if (!ev.canceled) {
-            this.setName(ev.altered);
-
-            await this.emit(
-                new PlayerSetNameEvent(this.room, this.player, ev.altered)
-            );
+            await this.setName(ev.alteredName);
         }
     }
 
@@ -387,10 +420,68 @@ export class PlayerControl extends Networkable<
         await this._rpcCheckName(name);
     }
 
-    private async _handleCheckColor(rpc: CheckColorMessage) {
-        if (!this.room.gamedata) {
+    private async _handleSetName(rpc: SetNameMessage) {
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
             return;
+
+        const oldName = playerGamedata.name;
+        playerGamedata.name = rpc.name;
+
+        const ev = await this.emit(
+            new PlayerSetNameEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldName,
+                rpc.name
+            )
+        );
+
+        playerGamedata.name = ev.alteredName;
+
+        if (ev.alteredName !== rpc.name) {
+            this._rpcSetName(ev.alteredName);
         }
+    }
+
+    private _rpcSetName(name: string) {
+        this.room.stream.push(
+            new RpcMessage(
+                this.netid,
+                new SetNameMessage(name)
+            )
+        );
+    }
+
+    async setName(name: string) {
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
+
+        const oldName = playerGamedata.name;
+        playerGamedata.name = name;
+
+        const ev = await this.emit(
+            new PlayerSetNameEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldName,
+                name
+            )
+        );
+
+        playerGamedata.name = ev.alteredName;
+
+        if (playerGamedata.name !== oldName) {
+            this._rpcSetName(playerGamedata.name);
+        }
+    }
+
+    private async _handleCheckColor(rpc: CheckColorMessage) {
+        if (!this.room.gamedata)
+            return;
 
         let new_color = rpc.color;
 
@@ -412,17 +503,14 @@ export class PlayerControl extends Networkable<
             new PlayerCheckColorEvent(
                 this.room,
                 this.player,
+                rpc,
                 rpc.color,
                 new_color
             )
         );
 
         if (!ev.canceled) {
-            this.setColor(ev.altered);
-
-            await this.emit(
-                new PlayerSetColorEvent(this.room, this.player, ev.altered)
-            );
+            this.setColor(ev.alteredColor);
         }
     }
 
@@ -443,42 +531,29 @@ export class PlayerControl extends Networkable<
         await this._rpcCheckColor(color);
     }
 
-    private async _handleSetName(rpc: SetNameMessage) {
-        this._setName(rpc.name);
+    private async _handleSetColor(rpc: SetColorMessage) {
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
 
-        await this.emit(
-            new PlayerSetNameEvent(this.room, this.player, rpc.name)
-        );
-    }
+        const oldColor = playerGamedata.color;
+        playerGamedata.color = rpc.color;
 
-    private _setName(name: string) {
-        this.room.gamedata?.setName(this.playerId, name);
-    }
-
-    private _rpcSetName(name: string) {
-        this.room.stream.push(
-            new RpcMessage(
-                this.netid,
-                new SetNameMessage(name)
+        const ev = await this.emit(
+            new PlayerSetColorEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldColor,
+                rpc.color
             )
         );
-    }
 
-    setName(name: string) {
-        this._setName(name);
-        this._rpcSetName(name);
-    }
+        playerGamedata.color = ev.alteredColor;
 
-    private async _handleSetColor(rpc: SetColorMessage) {
-        this._setColor(rpc.color);
-
-        await this.emit(
-            new PlayerSetColorEvent(this.room, this.player, rpc.color)
-        );
-    }
-
-    private _setColor(color: Color) {
-        this.room.gamedata?.setColor(this.playerId, color);
+        if (ev.alteredColor !== rpc.color) {
+            this._rpcSetColor(ev.alteredColor);
+        }
     }
 
     private _rpcSetColor(color: Color) {
@@ -490,19 +565,54 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    setColor(color: Color) {
-        this._setColor(color);
-        this._rpcSetColor(color);
+    async setColor(color: Color) {
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
+
+        const oldColor = playerGamedata.color;
+        playerGamedata.color = color;
+
+        const ev = await this.emit(
+            new PlayerSetColorEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldColor,
+                color
+            )
+        );
+
+        playerGamedata.color = ev.alteredColor;
+
+        if (playerGamedata.color !== oldColor) {
+            this._rpcSetColor(playerGamedata.color);
+        }
     }
 
     private async _handleSetHat(rpc: SetHatMessage) {
-        this._setHat(rpc.hat);
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
 
-        await this.emit(new PlayerSetHatEvent(this.room, this.player, rpc.hat));
-    }
+        const oldHat = playerGamedata.hat;
+        playerGamedata.hat = rpc.hat;
 
-    private _setHat(hat: Hat) {
-        this.room.gamedata?.setHat(this.playerId, hat);
+        const ev = await this.emit(
+            new PlayerSetHatEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldHat,
+                rpc.hat
+            )
+        );
+
+        playerGamedata.hat = ev.alteredHat;
+
+        if (ev.alteredHat !== rpc.hat) {
+            this._rpcSetHat(ev.alteredHat);
+        }
     }
 
     private _rpcSetHat(hat: Hat) {
@@ -514,21 +624,54 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    setHat(hat: Hat) {
-        this._setHat(hat);
-        this._rpcSetHat(hat);
+    async setHat(hat: Hat) {
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
+
+        const oldHat = playerGamedata.hat;
+        playerGamedata.hat = hat;
+
+        const ev = await this.emit(
+            new PlayerSetHatEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldHat,
+                hat
+            )
+        );
+
+        playerGamedata.hat = ev.alteredHat;
+
+        if (playerGamedata.hat !== oldHat) {
+            this._rpcSetHat(playerGamedata.hat);
+        }
     }
 
     private async _handleSetSkin(rpc: SetSkinMessage) {
-        this._setSkin(rpc.skin);
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
 
-        await this.emit(
-            new PlayerSetSkinEvent(this.room, this.player, rpc.skin)
+        const oldSkin = playerGamedata.skin;
+        playerGamedata.skin = rpc.skin;
+
+        const ev = await this.emit(
+            new PlayerSetSkinEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldSkin,
+                rpc.skin
+            )
         );
-    }
 
-    private _setSkin(skin: Skin) {
-        this.room.gamedata?.setSkin(this.playerId, skin);
+        playerGamedata.skin = ev.alteredSkin;
+
+        if (ev.alteredSkin !== rpc.skin) {
+            this._rpcSetSkin(ev.alteredSkin);
+        }
     }
 
     private _rpcSetSkin(skin: Skin) {
@@ -540,75 +683,104 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    setSkin(skin: Skin) {
-        this._setSkin(skin);
-        this._rpcSetSkin(skin);
+    async setSkin(skin: Skin) {
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
+
+        const oldSkin = playerGamedata.skin;
+        playerGamedata.skin = skin;
+
+        const ev = await this.emit(
+            new PlayerSetSkinEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldSkin,
+                skin
+            )
+        );
+
+        playerGamedata.skin = ev.alteredSkin;
+
+        if (playerGamedata.skin !== oldSkin) {
+            this._rpcSetSkin(playerGamedata.skin);
+        }
     }
 
     private async _handleReportDeadBody(rpc: ReportDeadBodyMessage) {
-        const body =
-            rpc.bodyid === 0xff
-                ? undefined
-                : await this.room.getPlayerByPlayerId(rpc.bodyid);
+        const reportedBody = rpc.bodyid === 0xff
+            ? "emergency"
+            : this.room.getPlayerByPlayerId(rpc.bodyid);
+
+        if (!reportedBody)
+            return;
 
         const ev = await this.emit(
             new PlayerReportDeadBodyEvent(
                 this.room,
                 this.player,
-                rpc.bodyid === 0xff,
+                rpc,
+                reportedBody
+            )
+        );
+
+        if (!ev.canceled) {
+            this.room?.host?.control?.startMeeting(this.player, ev.alteredBody);
+        }
+    }
+
+    private async _rpcReportDeadBody(body: PlayerData | "emergency"): Promise<void> {
+        if (body !== "emergency" && body.playerId === undefined) {
+            return this._rpcReportDeadBody("emergency");
+        }
+
+        await this.room.broadcast([
+            new RpcMessage(
+                this.netid,
+                new ReportDeadBodyMessage(
+                    body === "emergency"
+                        ? 0xff
+                        : body.playerId!
+                )
+            )
+        ], true, this.room.host);
+    }
+
+    async reportDeadBody(body: PlayerData | "emergency") {
+        const ev = await this.emit(
+            new PlayerReportDeadBodyEvent(
+                this.room,
+                this.player,
+                undefined,
                 body
             )
         );
 
         if (!ev.canceled) {
-            this._reportDeadBody(body);
-
-            await this.emit(
-                new PlayerCallMeetingEvent(
-                    this.room,
-                    this.room.host!,
-                    rpc.bodyid === 0xff,
-                    body
-                )
-            );
+            await this._rpcReportDeadBody(ev.alteredBody);
         }
-    }
-
-    private _reportDeadBody(body?: PlayerData) {
-        this.room.host?.control?.startMeeting(this.player, body || "emergency");
-    }
-
-    private async _rpcReportDeadBody(body?: PlayerData) {
-        await this.room.broadcast(
-            [
-                new RpcMessage(
-                    this.netid,
-                    new ReportDeadBodyMessage(body ? body.playerId ?? 0xff : 0xff)
-                ),
-            ],
-            true,
-            this.room.host
-        );
-    }
-
-    async reportDeadBody(body?: PlayerData) {
-        await this._rpcReportDeadBody(body);
     }
 
     private async _handleMurderPlayer(rpc: MurderPlayerMessage) {
-        const resolved = this.room.getPlayerByNetId(rpc.victimid);
+        const victim = this.room.getPlayerByNetId(rpc.victimid);
 
-        if (resolved) {
-            this._murderPlayer(resolved);
+        if (!victim || victim.playerId === undefined)
+            return;
 
-            await this.emit(
-                new PlayerMurderPlayerEvent(this.room, this.player, resolved)
-            );
+        if (victim.data) {
+            victim.data.setDead(true);
+            this.room.gamedata?.update(victim.playerId);
         }
-    }
 
-    private _murderPlayer(victim: PlayerData) {
-        if (victim.data) victim.data.dead = true;
+        await this.emit(
+            new PlayerMurderEvent(
+                this.room,
+                this.player,
+                rpc,
+                victim
+            )
+        );
     }
 
     private _rpcMurderPlayer(victim: PlayerData) {
@@ -623,18 +795,35 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    murder(victim: PlayerDataResolvable) {
-        const resolved = this.room.resolvePlayer(victim);
+    murderPlayer(victim: PlayerData) {
+        if (victim.playerId === undefined)
+            return;
 
-        if (resolved?.control) {
-            this._murderPlayer(resolved);
-            this._rpcMurderPlayer(resolved);
+        if (victim.data) {
+            victim.data.setDead(true);
+            this.room.gamedata?.update(victim.playerId);
         }
+
+        this.emit(
+            new PlayerMurderEvent(
+                this.room,
+                this.player,
+                undefined,
+                victim
+            )
+        );
+
+        this._rpcMurderPlayer(victim);
     }
 
     private async _handleSendChat(rpc: SendChatMessage) {
         await this.emit(
-            new PlayerChatEvent(this.room, this.player, rpc.message)
+            new PlayerSendChatEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.message
+            )
         );
     }
 
@@ -648,6 +837,14 @@ export class PlayerControl extends Networkable<
     }
 
     sendChat(message: string) {
+        this.emit(
+            new PlayerSendChatEvent(
+                this.room,
+                this.player,
+                undefined,
+                message
+            )
+        );
         this._rpcSendChat(message);
     }
 
@@ -663,30 +860,28 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    sendChatNote(player: PlayerDataResolvable, type: ChatNoteType) {
-        const _player = this.room.resolvePlayer(player);
-
-        if (_player) {
-            this._rpcSendChatNote(_player, type);
-        }
+    sendChatNote(player: PlayerData, type: ChatNoteType) {
+        this._rpcSendChatNote(player, type);
     }
 
     private async _handleStartMeeting(rpc: StartMeetingMessage) {
-        const player =
-            rpc.bodyid === 0xff
-                ? this.room.getPlayerByPlayerId(rpc.bodyid)
-                : undefined;
+        const reportedBody = rpc.bodyid === 0xff
+            ? "emergency"
+            : this.room.getPlayerByPlayerId(rpc.bodyid);
 
-        this._startMeeting(this.player);
+        if (!reportedBody)
+            return;
 
         await this.emit(
-            new PlayerCallMeetingEvent(
+            new PlayerStartMeetingEvent(
                 this.room,
                 this.player,
-                rpc.bodyid === 0xff,
-                player
+                rpc,
+                reportedBody
             )
         );
+
+        this._startMeeting(this.player);
     }
 
     private _startMeeting(caller: PlayerData) {
@@ -707,7 +902,7 @@ export class PlayerControl extends Networkable<
                                     undefined,
                                     player === caller,
                                     false,
-                                    player.data?.dead
+                                    player.data?.isDead
                                 ),
                             ];
                         })
@@ -727,31 +922,60 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    private _rpcStartMeeting(player?: PlayerData) {
+    private _rpcStartMeeting(player: PlayerData|"emergency"): void {
+        if (player !== "emergency" && player.playerId === undefined) {
+            return this._rpcStartMeeting("emergency");
+        }
+
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                new StartMeetingMessage(player ? player.playerId ?? 0xff : 0xff)
+                new StartMeetingMessage(
+                    player === "emergency"
+                        ? 0xff
+                        : player.playerId!
+                )
             )
         );
     }
 
-    startMeeting(caller: PlayerData, body: PlayerDataResolvable | "emergency") {
-        const resolved =
-            body === "emergency" ? undefined : this.room.resolvePlayer(body);
+    startMeeting(caller: PlayerData, body: PlayerData | "emergency") {
+        this.emit(
+            new PlayerStartMeetingEvent(
+                this.room,
+                this.player,
+                undefined,
+                body
+            )
+        );
 
-        this._rpcStartMeeting(resolved);
+        this._rpcStartMeeting(body);
         this._startMeeting(caller);
     }
 
     private async _handleSetPet(rpc: SetPetMessage) {
-        this._setPet(rpc.pet);
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
 
-        await this.emit(new PlayerSetPetEvent(this.room, this.player, rpc.pet));
-    }
+        const oldPet = playerGamedata.pet;
+        playerGamedata.pet = rpc.pet;
 
-    private _setPet(pet: Pet) {
-        this.room.gamedata?.setPet(this.playerId, pet);
+        const ev = await this.emit(
+            new PlayerSetPetEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldPet,
+                rpc.pet
+            )
+        );
+
+        playerGamedata.pet = ev.alteredPet;
+
+        if (ev.alteredPet !== rpc.pet) {
+            this._rpcSetPet(ev.alteredPet);
+        }
     }
 
     private _rpcSetPet(pet: Pet) {
@@ -763,18 +987,50 @@ export class PlayerControl extends Networkable<
         );
     }
 
-    setPet(pet: Pet) {
-        this._setPet(pet);
-        this._rpcSetPet(pet);
+    async setPet(pet: Pet) {
+        const playerGamedata = this.room.gamedata?.players.get(this.playerId);
+        if (!playerGamedata)
+            return;
+
+        const oldPet = playerGamedata.pet;
+        playerGamedata.pet = pet;
+
+        const ev = await this.emit(
+            new PlayerSetPetEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldPet,
+                pet
+            )
+        );
+
+        playerGamedata.pet = ev.alteredPet;
+
+        if (playerGamedata.pet !== oldPet) {
+            this._rpcSetPet(playerGamedata.pet);
+        }
     }
 
     private async _handleSetStartCounter(rpc: SetStartCounterMessage) {
-        // todo: Implement sequence IDs for joining/set start counter
+        const oldCounter = this.room.counter;
         this._setStartCounter(rpc.counter);
 
-        await this.emit(
-            new PlayerSetStartCounterEvent(this.room, this.player, rpc.counter)
+        const ev = await this.emit(
+            new PlayerSetStartCounterEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldCounter,
+                rpc.counter
+            )
         );
+
+        this.room.counter = ev.alteredCounter;
+
+        if (this.room.counter !== rpc.counter) {
+            await this._rpcSetStartCounter(ev.alteredCounter);
+        }
     }
 
     private _setStartCounter(counter: number) {
@@ -786,14 +1042,31 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                new SetStartCounterMessage(this.lastStartCounter, counter)
+                new SetStartCounterMessage(
+                    this.lastStartCounter,
+                    counter
+                )
             )
         );
     }
 
-    setStartCounter(counter: number) {
+    async setStartCounter(counter: number) {
         this._setStartCounter(counter);
-        this._rpcSetStartCounter(counter);
+
+        const ev = await this.emit(
+            new PlayerSetStartCounterEvent(
+                this.room,
+                this.player,
+                undefined,
+                this.room.counter,
+                counter
+            )
+        );
+
+        if (ev.alteredCounter !== counter) {
+            this.room.counter = ev.alteredCounter;
+        }
+        this._rpcSetStartCounter(ev.alteredCounter);
     }
 
     private async _handleUsePlatform(rpc: UsePlatformMessage) {
@@ -804,17 +1077,18 @@ export class PlayerControl extends Networkable<
     private _usePlatform() {
         const airship = this.room.shipstatus;
 
-        if (airship && airship.type === SpawnType.Airship) {
-            const movingPlatform = airship.systems[SystemType.GapRoom] as MovingPlatformSystem;
+        if (!airship || airship.type !== SpawnType.Airship)
+            return;
 
-            if (movingPlatform) {
-                movingPlatform.setTarget(
-                    this.player,
-                    movingPlatform.side === MovingPlatformSide.Left
-                        ? MovingPlatformSide.Right
-                        : MovingPlatformSide.Left
-                );
-            }
+        const movingPlatform = airship.systems[SystemType.GapRoom] as MovingPlatformSystem;
+
+        if (movingPlatform) {
+            movingPlatform.setTarget(
+                this.player,
+                movingPlatform.side === MovingPlatformSide.Left
+                    ? MovingPlatformSide.Right
+                    : MovingPlatformSide.Left
+            );
         }
     }
 
@@ -822,13 +1096,13 @@ export class PlayerControl extends Networkable<
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                new UsePlatformMessage()
+                new UsePlatformMessage
             )
         );
     }
 
     usePlatform() {
-        this.usePlatform();
+        this._usePlatform();
         this._rpcUsePlatform();
     }
 }

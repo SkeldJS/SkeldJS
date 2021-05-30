@@ -1,22 +1,39 @@
-import { PlayerEvent } from "./PlayerEvent";
+import { BasicEvent } from "@skeldjs/events";
+import { SetNameMessage } from "@skeldjs/protocol";
+
+import { RoomEvent } from "../RoomEvent";
+import { ProtocolEvent } from "../ProtocolEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
+import { PlayerEvent } from "./PlayerEvent";
 
-/**
- * Emitted when a player updates their name.
- */
-export class PlayerSetNameEvent extends PlayerEvent {
+export class PlayerSetNameEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setname" as const;
     eventName = "player.setname" as const;
 
-    /**
-     * The name of the player.
-     */
-    name: string;
+    private _alteredName: string;
 
-    constructor(room: Hostable<any>, player: PlayerData, name: string) {
-        super(room, player);
+    constructor(
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: SetNameMessage|undefined,
+        public readonly oldName: string,
+        public readonly newName: string
+    ) {
+        super();
 
-        this.name = name;
+        this._alteredName = newName;
+    }
+
+    get alteredName() {
+        return this._alteredName;
+    }
+
+    revert() {
+        this.setName(this.oldName);
+    }
+
+    setName(name: string) {
+        this._alteredName = name;
     }
 }

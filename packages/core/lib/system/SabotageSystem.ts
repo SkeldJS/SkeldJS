@@ -6,6 +6,7 @@ import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 export interface SabotageSystemData {
     cooldown: number;
@@ -55,11 +56,11 @@ export class SabotageSystem extends SystemStatus<
         writer.float(this.cooldown);
     }
 
-    HandleRepair(player: PlayerData, amount: number) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         const system = this.ship.systems[amount as SystemType] as SystemStatus;
 
         if (system) {
-            system.sabotage(player);
+            await system.HandleSabotage(player, rpc);
 
             this.cooldown = 30;
             this.dirty = true;

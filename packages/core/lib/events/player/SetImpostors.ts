@@ -1,26 +1,39 @@
-import { PlayerEvent } from "./PlayerEvent";
+import { BasicEvent } from "@skeldjs/events";
+import { SetInfectedMessage } from "@skeldjs/protocol";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
+import { ProtocolEvent } from "../ProtocolEvent";
+import { RoomEvent } from "../RoomEvent";
+import { PlayerEvent } from "./PlayerEvent";
 
-/**
- * Emitted when the host updates the impostors in the game.
- */
-export class PlayerSetImpostorsEvent extends PlayerEvent {
+export class PlayerSetImpostorsEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setimpostors" as const;
     eventName = "player.setimpostors" as const;
 
-    /**
-     * The impostors that the host set.
-     */
-    impostors: PlayerData[];
+    private _alteredImpostors: PlayerData[];
+    private _isDirty: boolean;
 
     constructor(
-        room: Hostable<any>,
-        player: PlayerData,
-        impostors: PlayerData[]
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: SetInfectedMessage|undefined,
+        public readonly impostors: PlayerData[]
     ) {
-        super(room, player);
+        super();
 
-        this.impostors = impostors;
+        this._alteredImpostors = [...impostors];
+        this._isDirty = false;
+    }
+
+    get alteredImpostors() {
+        return this._alteredImpostors;
+    }
+
+    get isDirty() {
+        return this._isDirty;
+    }
+    setImpostors(impostors: PlayerData[]) {
+        this._alteredImpostors = impostors;
+        this._isDirty = true;
     }
 }

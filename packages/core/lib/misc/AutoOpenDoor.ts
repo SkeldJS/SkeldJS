@@ -1,4 +1,4 @@
-import { SystemStatus } from "../system";
+import { AutoDoorsSystem } from "../system";
 import { Door } from "./Door";
 
 /**
@@ -7,23 +7,23 @@ import { Door } from "./Door";
  * See {@link DoorEvents} for events to listen to.
  */
 export class AutoOpenDoor extends Door {
-    private _timer: number;
+    timer: number;
 
     constructor(
-        protected system: SystemStatus,
+        protected system: AutoDoorsSystem,
         readonly id: number,
         isOpen: boolean
     ) {
         super(system, id, isOpen);
 
-        this._timer = 0;
+        this.timer = 0;
     }
 
     DoUpdate(delta: number) {
-        this._timer -= delta;
+        this.timer -= delta;
 
-        if (this._timer < 0) {
-            this.open();
+        if (this.timer < 0) {
+            this.system.openDoor(this.id);
             return true;
         }
         return false;

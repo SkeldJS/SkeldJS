@@ -1,14 +1,13 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { RpcMessageTag, SystemType } from "@skeldjs/constant";
+import { SystemType } from "@skeldjs/constant";
 
 import { BasicEvent, EventEmitter } from "@skeldjs/events";
-import { RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
-import { AnySystem, SystemStatusEvents } from "./events";
-import { SystemSabotageEvent } from "../events";
+import { SystemStatusEvents } from "./events";
 
 export class SystemStatus<
     DataT = any,
@@ -16,6 +15,8 @@ export class SystemStatus<
 > extends EventEmitter<T> {
     static systemType: SystemType;
     systemType!: SystemType;
+
+    private _dirty: boolean;
 
     constructor(protected ship: InnerShipStatus, data?: HazelReader | DataT) {
         super();
@@ -27,25 +28,21 @@ export class SystemStatus<
                 this.patch(data);
             }
         }
+
+        this._dirty = false;
+    }
+
+    get dirty() {
+        return this._dirty;
+    }
+
+    set dirty(isDirty: boolean) {
+        this._dirty = isDirty;
+        this.ship.dirtyBit = 1;
     }
 
     protected patch(data: DataT) {
         Object.assign(this, data);
-    }
-
-    /**
-     * Whether or not this system is dirty.
-     */
-    get dirty() {
-        return (this.ship.dirtyBit & (1 << this.systemType)) > 0;
-    }
-
-    set dirty(val: boolean) {
-        if (val) {
-            this.ship.dirtyBit |= 1 << this.systemType;
-        } else {
-            this.ship.dirtyBit &= ~(1 << this.systemType);
-        }
     }
 
     /**
@@ -70,77 +67,26 @@ export class SystemStatus<
         return super.emit(event);
     }
 
-    /* eslint-disable-next-line */
-    Deserialize(reader: HazelReader, spawn: boolean) {}
-    /* eslint-disable-next-line */
-    Serialize(writer: HazelWriter, spawn: boolean) {}
-    /* eslint-disable-next-line */
-    HandleRepair(player: PlayerData, amount: number) {}
-    /* eslint-disable-next-line */
-    Detoriorate(delta: number) {}
-    /* eslint-disable-next-line */
-    HandleSabotage(player: PlayerData) {}
-
-    sabotage(player: PlayerData) {
-        if (!player.control)
-            return;
-
-        if (this.ship.room.amhost) {
-            this.HandleSabotage(player);
-            this.emit(
-                new SystemSabotageEvent(
-                    this.ship?.room,
-                    (this as unknown) as AnySystem,
-                    player
-                )
-            );
-        } else {
-            this.ship.room.broadcast(
-                [
-                    new RpcMessage(
-                        this.ship.netid,
-                        new RepairSystemMessage(
-                            SystemType.Sabotage,
-                            player.control.netid,
-                            this.systemType
-                        )
-                    ),
-                ],
-                true,
-                this.ship.room.host
-            );
-        }
+    Deserialize(reader: HazelReader, spawn: boolean): void {
+        void reader, spawn;
     }
 
-    repair(player: PlayerData, amount: number) {
-        if (!player.control)
-            return;
-
-        if (this.ship.room.amhost) {
-            this.HandleRepair(player, amount);
-        } else {
-            const writer = HazelWriter.alloc(3);
-            writer.uint8(this.systemType);
-            writer.upacked(player.control.netid);
-            writer.uint8(amount);
-
-            this.ship.room.broadcast(
-                [
-                    new RpcMessage(
-                        this.ship.netid,
-                        new RepairSystemMessage(
-                            SystemType.Sabotage,
-                            player.control.netid,
-                            this.systemType
-                        )
-                    ),
-                ],
-                true,
-                this.ship.room.host
-            );
-        }
+    Serialize(writer: HazelWriter, spawn: boolean): void {
+        void writer, spawn;
     }
 
-    /* eslint-disable-next-line */
-    fix() {}
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage): Promise<void> {
+        void player, amount, rpc;
+    }
+
+    Detoriorate(delta: number): void {
+        void delta;
+    }
+
+    async HandleSabotage(player: PlayerData, rpc: RepairSystemMessage|undefined): Promise<void> {
+        void player, rpc;
+    }
+
+    async sabotage(): Promise<void> {}
+    async repair(): Promise<void> {}
 }

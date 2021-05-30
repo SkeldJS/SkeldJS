@@ -14,7 +14,10 @@ import { PlayerData } from "../PlayerData";
 import { Hostable } from "../Hostable";
 import { NetworkUtils } from "../utils/net";
 
-import { PlayerMoveEvent, PlayerSnapToEvent } from "../events";
+import {
+    PlayerMoveEvent,
+    PlayerSnapToEvent
+} from "../events";
 
 export interface CustomNetworkTransformData {
     seqId: number;
@@ -23,7 +26,10 @@ export interface CustomNetworkTransformData {
 }
 
 export type CustomNetworkTransformEvents = NetworkableEvents &
-    ExtractEventTypes<[PlayerMoveEvent, PlayerSnapToEvent]>;
+    ExtractEventTypes<[
+        PlayerMoveEvent,
+        PlayerSnapToEvent
+    ]>;
 
 /**
  * Represents player component for networking movement.
@@ -162,17 +168,31 @@ export class CustomNetworkTransform extends Networkable<
 
     private async _handleSnapTo(rpc: SnapToMessage) {
         if (NetworkUtils.seqIdGreaterThan(rpc.sequenceid, this.seqId)) {
+            const oldPosition = this.position;
+
             this.seqId = rpc.sequenceid;
             this.position = rpc.position;
             this.velocity = Vector2.null;
 
-            await this.emit(
+            const newPosition = new Vector2(this.position);
+
+            const ev = await this.emit(
                 new PlayerSnapToEvent(
                     this.room,
                     this.player,
-                    new Vector2(this.position)
+                    rpc,
+                    oldPosition,
+                    newPosition
                 )
             );
+
+            if (
+                ev.alteredPosition.x !== newPosition.x ||
+                ev.alteredPosition.y !== newPosition.y
+            ) {
+                this.position = new Vector2(ev.alteredPosition);
+                this.snapTo(ev.alteredPosition);
+            }
         }
     }
 

@@ -114,7 +114,7 @@ export class VoteBanSystem extends Networkable<
             }
 
             if (this.room.amhost && voted.every((v) => v !== null)) {
-                this.room.broadcast([], true, null, [
+                this.room.broadcast([], true, undefined, [
                     new KickPlayerMessage(
                         this.room.code,
                         target.id,

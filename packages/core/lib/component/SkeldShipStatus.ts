@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/util";
-import { SpawnType, SystemType } from "@skeldjs/constant";
+import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
@@ -16,6 +16,7 @@ import {
 
 import { Hostable } from "../Hostable";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
+import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 
 /**
  * Represents a room object for the The Skeld map.
@@ -28,6 +29,16 @@ export class SkeldShipStatus extends InnerShipStatus {
 
     static classname = "ShipStatus" as const;
     classname = "ShipStatus" as const;
+
+    static roomDoors = {
+        [SystemType.Storage]: [1, 7, 12],
+        [SystemType.Cafeteria]: [0, 3, 8],
+        [SystemType.UpperEngine]: [2, 5],
+        [SystemType.Electrical]: [9],
+        [SystemType.MedBay]: [10],
+        [SystemType.Security]: [6],
+        [SystemType.LowerEngine]: [4, 11]
+    }
 
     systems!: {
         [SystemType.Reactor]: ReactorSystem;
@@ -47,6 +58,25 @@ export class SkeldShipStatus extends InnerShipStatus {
         data?: HazelReader | ShipStatusData
     ) {
         super(room, netid, ownerid, data);
+    }
+
+    async HandleRpc(rpc: BaseRpcMessage) {
+        switch (rpc.tag) {
+            case RpcMessageTag.CloseDoorsOfType:
+                await this._handleCloseDoorsOfType(rpc as CloseDoorsOfTypeMessage);
+                break;
+            default:
+                await super.HandleRpc(rpc);
+                break;
+        }
+    }
+
+    private async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
+        const doorsinRoom = SkeldShipStatus.roomDoors[rpc.systemid as keyof typeof SkeldShipStatus.roomDoors];
+
+        for (const doorId of doorsinRoom) {
+            this.systems[SystemType.Doors].closeDoor(doorId);
+        }
     }
 
     Setup() {

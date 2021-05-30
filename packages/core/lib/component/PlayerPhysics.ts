@@ -88,7 +88,12 @@ export class PlayerPhysics extends Networkable<
         this._enterVent(rpc.ventid);
 
         await this.emit(
-            new PlayerEnterVentEvent(this.room, this.player, rpc.ventid)
+            new PlayerEnterVentEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.ventid
+            )
         );
     }
 
@@ -115,6 +120,14 @@ export class PlayerPhysics extends Networkable<
      */
     enterVent(ventid: number) {
         this._enterVent(ventid);
+        this.emit(
+            new PlayerEnterVentEvent(
+                this.room,
+                this.player,
+                undefined,
+                ventid
+            )
+        );
         this._rpcEnterVent(ventid);
     }
 
@@ -122,13 +135,17 @@ export class PlayerPhysics extends Networkable<
         this._exitVent(rpc.ventid);
 
         await this.emit(
-            new PlayerExitVentEvent(this.room, this.player, rpc.ventid)
+            new PlayerExitVentEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.ventid
+            )
         );
     }
 
     private _exitVent(ventid: number) {
         this.ventid = -1;
-        this.emit(new PlayerExitVentEvent(this.room, this.player, ventid));
     }
 
     private _rpcExitVent(ventid: number) {
@@ -150,6 +167,14 @@ export class PlayerPhysics extends Networkable<
      */
     exitVent(ventid: number) {
         this._exitVent(ventid);
+        this.emit(
+            new PlayerExitVentEvent(
+                this.room,
+                this.player,
+                undefined,
+                ventid
+            )
+        );
         this._rpcExitVent(ventid);
     }
 
@@ -164,7 +189,12 @@ export class PlayerPhysics extends Networkable<
             this.ladderClimbSeqId = rpc.sequenceid;
 
             await this.emit(
-                new PlayerClimbLadderEvent(this.room, this.player, rpc.ladderid)
+                new PlayerClimbLadderEvent(
+                    this.room,
+                    this.player,
+                    rpc,
+                    rpc.ladderid
+                )
             );
         }
     }

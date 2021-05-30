@@ -68,5 +68,8 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["dist", "**/*.d.ts", "**/*.spec.ts"]
+  "exclude": ["dist", "**/*.d.ts", "**/*.spec.ts"],
+  "ts-node": {
+    "transpileOnly": true
+  }
 }

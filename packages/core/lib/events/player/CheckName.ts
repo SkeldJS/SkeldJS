@@ -1,51 +1,27 @@
+import { CancelableEvent } from "@skeldjs/events";
+import { CheckNameMessage } from "@skeldjs/protocol";
+
+import { RoomEvent } from "../RoomEvent";
+import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
 
-/**
- * Emitted when a player asks the host to check and set a name.
- *
- * Only received if the current client is the host of the room.
- *
- * @example
- * ```ts
- * // Force a player's name to always end in ' 69'.
- * client.on("gamedata.checkname", ev => {
- *   ev.setName(ev.original + " 69");
- * });
- * ```
- */
-export class PlayerCheckNameEvent extends PlayerEvent {
+export class PlayerCheckNameEvent extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.checkname" as const;
     eventName = "player.checkname" as const;
 
-    /**
-     * The name that the player is requesting.
-     */
-    original: string;
-
-    /**
-     * The updated name of the player.
-     */
-    altered: string;
-
     constructor(
-        room: Hostable<any>,
-        player: PlayerData,
-        name: string,
-        modified: string
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: CheckNameMessage|undefined,
+        public readonly originalName: string,
+        public alteredName: string
     ) {
-        super(room, player);
-
-        this.original = name;
-        this.altered = modified;
+        super();
     }
 
     setName(name: string) {
-        this.altered = name;
-    }
-
-    revert() {
-        this.altered = this.original;
+        this.alteredName = name;
     }
 }

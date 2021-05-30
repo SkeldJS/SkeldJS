@@ -1,15 +1,5 @@
-import { AnyNetworkable, Hostable } from "../../Hostable";
-import { RoomEvent } from "../RoomEvent";
+import { Networkable } from "../../Networkable";
 
-export class NetworkableEvent extends RoomEvent {
-    /**
-     * The component in question.
-     */
-    component: AnyNetworkable;
-
-    constructor(room: Hostable<any>, component: AnyNetworkable) {
-        super(room);
-
-        this.component = component;
-    }
+export interface NetworkableEvent {
+    networkable: Networkable;
 }

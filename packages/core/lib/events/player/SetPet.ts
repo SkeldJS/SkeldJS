@@ -1,24 +1,40 @@
+import { BasicEvent } from "@skeldjs/events";
 import { Pet } from "@skeldjs/constant";
+import { SetPetMessage } from "@skeldjs/protocol";
 
+import { RoomEvent } from "../RoomEvent";
+import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
 
-/**
- * Emitted when a player updates their pet.
- */
-export class PlayerSetPetEvent extends PlayerEvent {
+export class PlayerSetPetEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setpet" as const;
     eventName = "player.setpet" as const;
 
-    /**
-     * The pet of the player.
-     */
-    pet: Pet;
+    private _alteredPet: Pet;
 
-    constructor(room: Hostable<any>, player: PlayerData, pet: Pet) {
-        super(room, player);
+    constructor(
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: SetPetMessage|undefined,
+        public readonly oldPet: Pet,
+        public readonly newPet: Pet
+    ) {
+        super();
 
-        this.pet = pet;
+        this._alteredPet = newPet;
+    }
+
+    get alteredPet() {
+        return this._alteredPet;
+    }
+
+    revert() {
+        this.setPet(this.oldPet);
+    }
+
+    setPet(pet: Pet) {
+        this._alteredPet = pet;
     }
 }

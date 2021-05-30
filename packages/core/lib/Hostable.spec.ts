@@ -291,29 +291,14 @@ describe("Hostable", () => {
         });
     });
 
-    describe("Hostable#setAlterGameTag", () => {
-        it("Should change the privacy of the room.", () => {
-            const room = new TestHost();
-
-            room.setAlterGameTag(AlterGameTag.ChangePrivacy, 0);
-            assert.strictEqual(room.privacy, "private");
-
-            room.setAlterGameTag(AlterGameTag.ChangePrivacy, 1);
-            assert.strictEqual(room.privacy, "public");
-
-            room.setAlterGameTag(AlterGameTag.ChangePrivacy, 0);
-            assert.strictEqual(room.privacy, "private");
-        });
-    });
-
-    describe("Hostable#setPublic", () => {
+    describe("Hostable#setPrivacy", () => {
         it("Should change the privacy of the room.", () => {
             const room = new Hostable();
 
-            room.setPublic(true);
+            room.setPrivacy("public");
             assert.strictEqual(room.privacy, "public");
 
-            room.setPublic(false);
+            room.setPrivacy("private");
             assert.strictEqual(room.privacy, "private");
         });
     });
@@ -775,7 +760,7 @@ describe("Hostable", () => {
         });
 
         it("Should return null if there is no player with the netid.", async () => {
-            assert.strictEqual(room.getPlayerByNetId(53), null);
+            assert.strictEqual(room.getPlayerByNetId(53), undefined);
         });
     });
 });

@@ -38,12 +38,25 @@ export class EventEmitter<Events extends EventData> {
     ): Promise<Event> {
         const listeners = this.getListeners<Event>(event.eventName);
 
-        if (listeners.size) {
-            for (const listener of listeners) await listener(event);
+        await Promise.all(
+            [...listeners].map(lis => lis(event))
+        );
+
+        return event;
+    }
+
+    async emitSerial<Event extends BasicEvent>(
+        event: Event
+    ): Promise<Event> {
+        const listeners = this.getListeners<Event>(event.eventName);
+
+        for (const listener of listeners) {
+            listener(event);
         }
 
         return event;
     }
+
     on<EventName extends keyof Events>(
         event: EventName,
         listener: Listener<Events[EventName]>

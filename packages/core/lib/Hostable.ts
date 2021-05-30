@@ -72,7 +72,7 @@ import {
     RoomFixedUpdateEvent,
     RoomGameEndEvent,
     RoomGameStartEvent,
-    RoomSetVisibilityEvent,
+    RoomSetPrivacyEvent,
 } from "./events";
 
 export type RoomID = string | number;
@@ -118,7 +118,7 @@ export type HostableEvents = HeritableEvents &
             RoomGameStartEvent,
             RoomGameEndEvent,
             RoomFixedUpdateEvent,
-            RoomSetVisibilityEvent
+            RoomSetPrivacyEvent
         ]
     >;
 
@@ -225,7 +225,36 @@ export class Hostable<
             );
         }
 
-        this.decoder.on(DataMessage, (message) => {
+        this.decoder.on(AlterGameMessage, async message => {
+            if (message.alterTag === AlterGameTag.ChangePrivacy) {
+                const messagePrivacy = message.value ? "public" : "private";
+                const oldPrivacy = this.privacy;
+                const ev = await this.emit(
+                    new RoomSetPrivacyEvent(
+                        this,
+                        message,
+                        oldPrivacy,
+                        messagePrivacy
+                    )
+                );
+
+                if (ev.alteredPrivacy !== messagePrivacy) {
+                    await this.broadcast([], true, undefined, [
+                        new AlterGameMessage(
+                            this.code,
+                            AlterGameTag.ChangePrivacy,
+                            ev.alteredPrivacy === "public" ? 1 : 0
+                        )
+                    ]);
+                }
+
+                if (ev.alteredPrivacy !== oldPrivacy) {
+                    this._setPrivacy(ev.alteredPrivacy);
+                }
+            }
+        });
+
+        this.decoder.on(DataMessage, message => {
             const component = this.netobjects.get(message.netid);
 
             if (component) {
@@ -234,7 +263,7 @@ export class Hostable<
             }
         });
 
-        this.decoder.on(RpcMessage, async (message) => {
+        this.decoder.on(RpcMessage, async message => {
             const component = this.netobjects.get(message.netid);
 
             if (component) {
@@ -246,7 +275,7 @@ export class Hostable<
             }
         });
 
-        this.decoder.on(SpawnMessage, (message) => {
+        this.decoder.on(SpawnMessage, message => {
             for (let i = 0; i < message.components.length; i++) {
                 const spawn_component = message.components[i];
                 const owner = this.objects.get(message.ownerid);
@@ -267,7 +296,7 @@ export class Hostable<
             }
         });
 
-        this.decoder.on(DespawnMessage, (message) => {
+        this.decoder.on(DespawnMessage, message => {
             const component = this.netobjects.get(message.netid);
 
             if (component) {
@@ -275,31 +304,41 @@ export class Hostable<
             }
         });
 
-        this.decoder.on(SceneChangeMessage, async (message) => {
-            const player = this.objects.get(message.clientid) as PlayerData;
+        this.decoder.on(SceneChangeMessage, async message => {
+            const player = this.players.get(message.clientid);
 
             if (player) {
                 if (message.scene === "OnlineGame") {
                     player.inScene = true;
 
-                    if (this.amhost) {
-                        await this.broadcast(
-                            this._getExistingObjectSpawn(),
-                            true,
-                            player
-                        );
+                    const ev = await this.emit(
+                        new PlayerSceneChangeEvent(
+                            this,
+                            player,
+                            message
+                        )
+                    );
 
-                        this.spawnPrefab(SpawnType.Player, player.id);
+                    if (ev.canceled) {
+                        player.inScene = false;
+                    } else {
+                        if (this.amhost) {
+                            await this.broadcast(
+                                this._getExistingObjectSpawn(),
+                                true,
+                                player
+                            );
 
-                        this.me?.control?.syncSettings(this.settings);
+                            this.spawnPrefab(SpawnType.Player, player.id);
 
-                        player.emit(new PlayerSceneChangeEvent(this, player));
+                            this.me?.control?.syncSettings(this.settings);
+                        }
                     }
                 }
             }
         });
 
-        this.decoder.on(ReadyMessage, (message) => {
+        this.decoder.on(ReadyMessage, message => {
             const player = this.players.get(message.clientid);
 
             if (player) {
@@ -404,7 +443,7 @@ export class Hostable<
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         reliable: boolean = true,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        recipient: PlayerData | null = null,
+        recipient: PlayerData | undefined = undefined,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         payloads: BaseRootMessage[] = []
         // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -432,13 +471,18 @@ export class Hostable<
             }
         }
 
-        await this.emit(new RoomFixedUpdateEvent(this, this.stream));
+        const ev = await this.emit(
+            new RoomFixedUpdateEvent(
+                this,
+                this.stream
+            )
+        );
 
         if (this.stream.length) {
             const stream = this.stream;
             this.stream = [];
 
-            await this.broadcast(stream);
+            if (!ev.canceled) await this.broadcast(stream);
         }
     }
 
@@ -517,17 +561,12 @@ export class Hostable<
         this.code = code;
     }
 
-    protected _setAlterGameTag(tag: AlterGameTag, value: number) {
-        switch (tag) {
-            case AlterGameTag.ChangePrivacy:
-                this.privacy = value ? "public" : "private";
-                this.emit(new RoomSetVisibilityEvent(this, this.privacy));
-                break;
-        }
+    protected _setPrivacy(privacy: PrivacyType) {
+        this.privacy = privacy;
     }
 
     /**
-     * Change the value of a game tag. Currently only used for changing the privacy of a game.
+     * Change the the privacy of the room.
      * @param tag The tag to change.
      * @param value The new value of the tag.
      * @example
@@ -535,33 +574,30 @@ export class Hostable<
      * room.setAlterGameTag(AlterGameTag.ChangePrivacy, 1); // 0 for private, 1 for public.
      * ```
      */
-    async setAlterGameTag(tag: AlterGameTag, value: number) {
-        this._setAlterGameTag(tag, value);
+    async setPrivacy(privacy: PrivacyType) {
+        const oldPrivacy = this.privacy;
+        this._setPrivacy(privacy);
 
-        if (this.amhost) {
-            await this.broadcast([], true, null, [
+        const ev = await this.emit(
+            new RoomSetPrivacyEvent(
+                this,
+                undefined,
+                oldPrivacy,
+                privacy
+            )
+        );
+
+        this._setPrivacy(ev.alteredPrivacy);
+
+        if (ev.alteredPrivacy !== oldPrivacy) {
+            await this.broadcast([], true, undefined, [
                 new AlterGameMessage(
                     this.code,
                     AlterGameTag.ChangePrivacy,
-                    value
+                    this.privacy === "public" ? 1 : 0
                 ),
             ]);
         }
-    }
-
-    /**
-     * Set the publicity of the game.
-     * @param is_public Whether or not the game should be made public.
-     * @example
-     *```typescript
-     * room.setPublic(false);
-     * ```
-     */
-    async setPublic(is_public = true) {
-        await this.setAlterGameTag(
-            AlterGameTag.ChangePrivacy,
-            is_public ? 1 : 0
-        );
     }
 
     /**
@@ -709,7 +745,7 @@ export class Hostable<
                 await this.broadcast(
                     [],
                     true,
-                    null,
+                    undefined,
                     removes.map((clientid) => {
                         return new RemovePlayerMessage(
                             this.code,
@@ -792,7 +828,7 @@ export class Hostable<
      * Start a game.
      */
     async requestStartGame() {
-        await this.broadcast([], true, null, [new StartGameMessage(this.code)]);
+        await this.broadcast([], true, undefined, [new StartGameMessage(this.code)]);
     }
 
     /**
@@ -1103,7 +1139,7 @@ export class Hostable<
                 return player;
         }
 
-        return null;
+        return undefined;
     }
 
     private _getExistingObjectSpawn() {
