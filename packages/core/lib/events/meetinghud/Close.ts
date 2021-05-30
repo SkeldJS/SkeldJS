@@ -7,8 +7,8 @@ import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
 export class MeetingHudCloseEvent extends CancelableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
-    static eventName = "meetinghud.close" as const;
-    eventName = "meetinghud.close" as const;
+    static eventName = "meeting.close" as const;
+    eventName = "meeting.close" as const;
 
     constructor(
         public readonly room: Hostable,

@@ -63,23 +63,56 @@ client.on("player.setname", ev => {
 });
 ```
 
-## Event List
+# Event List
 
-### Client
-* {@link ClientConnectEvent | `client.connect`}
-* {@link ClientDisconnectEvent | `client.disconnect`}
-* {@link ClientJoinEvent | `client.join`}
+## Client
 
-### Room
-* {@link RoomFixedUpdateEvent | `room.fixedupdate`}
-* {@link RoomGameEndEvent | `room.game.end`}
-* {@link RoomGameStartEvent | `room.game.start`}
-* {@link RoomSelectImpostorsEvent | `room.selectimpostors`}
-* {@link RoomSetVisibilityEvent | `room.setvisibility`}
+## Room
+### Security Cameras
+* {@link SecurityCameraJoinEvent | `security.cameras.join`}
+* {@link SecurityCameraLeaveEvent | `security.cameras.leave`}
+
+### Doors
+* {@link DoorsDoorCloseEvent | `doors.close`}
+* {@link DoorsDoorOpenEvent | `doors.open`}
+
+### Electrical
+* {@link ElectricalSwitchFlipEvent | `electrical.switchflip`}
+
+### Game Data
+* {@link GameDataAddPlayerEvent | `gamedata.addplayer`}
+* {@link GameDataRemovePlayerEvent | `gamedata.removeplayer`}
+* {@link GameDataSetTasksEvent | `gamedata.settasks`}
+
+### Mira HQ Comms
+* {@link HqHudConsoleCloseEvent | `hqhud.consoles.close`}
+* {@link HqHudConsoleCompleteEvent | `hqhud.consoles.complete`}
+* {@link HqHudConsoleOpenEvent | `hqhud.consoles.open`}
+* {@link HqHudConsoleResetEvent | `hqhud.consoles.reset`}
+
+### Med Scan
+* {@link MedScanJoinQueueEvent | `medscan.joinqueue`}
+* {@link MedScanLeaveQueueEvent | `medscan.leavequeue`}
+
+### Meetings
+* {@link MeetingHudClearVoteEvent | `meeting.clearvote`}
+* {@link MeetingHudCloseEvent | `meeting.close`}
+* {@link MeetingHudVoteCastEvent | `meeting.castvote`}
+* {@link MeetingHudVotingCompleteEvent | `meeting.votingcomplete`}
+
+### Moving Platform
+* {@link MeetingPlatformPlayerUpdateEvent | `movingplatform.updateplayer`}
+
+### Components
+* {@link NetworkableDespawnEvent | `component.despawn`}
+* {@link NetworkableSpawnEvent | `component.spawn`}
+
+### Oxygen
+* {@link O2ConsoleCompleteEvent | `o2.consoles.complete`}
+* {@link O2ConsolesClearEvent | `o2.consoles.clear`}
+* {@link O2ConsolesResetEvent | `o2.consoles.reset`}
 
 ### Players
-* {@link PlayerCallMeetingEvent | `player.callmeeting`}
-* {@link PlayerChatEvent | `player.chat`}
 * {@link PlayerCheckColorEvent | `player.checkcolor`}
 * {@link PlayerCheckNameEvent | `player.checkname`}
 * {@link PlayerClimbLadderEvent | `player.climbladder`}
@@ -89,9 +122,11 @@ client.on("player.setname", ev => {
 * {@link PlayerJoinEvent | `player.join`}
 * {@link PlayerLeaveEvent | `player.leave`}
 * {@link PlayerMoveEvent | `player.move`}
-* {@link PlayerMurderPlayerEvent | `player.murder`}
+* {@link PlayerMurderEvent | `player.murder`}
 * {@link PlayerReadyEvent | `player.ready`}
+* {@link PlayerReportDeadBodyEvent | `player.reportbody`}
 * {@link PlayerSceneChangeEvent | `player.scenechange`}
+* {@link PlayerSendChatEvent | `player.chat`}
 * {@link PlayerSetColorEvent | `player.setcolor`}
 * {@link PlayerSetHatEvent | `player.sethat`}
 * {@link PlayerSetHostEvent | `player.sethost`}
@@ -102,31 +137,21 @@ client.on("player.setname", ev => {
 * {@link PlayerSetStartCounterEvent | `player.setstartcounter`}
 * {@link PlayerSnapToEvent | `player.snapto`}
 * {@link PlayerSpawnEvent | `player.spawn`}
+* {@link PlayerStartMeetingEvent | `player.startmeeting`}
 * {@link PlayerSyncSettingsEvent | `player.syncsettings`}
 
-### Objects
-* {@link NetworkableDespawnEvent | `component.despawn`}
-* {@link NetworkableSpawnEvent | `component.spawn`}
+### Reactor
+* {@link ReactorConsoleAddEvent | `reactor.consoles.add`}
+* {@link ReactorConsoleRemoveEvent | `reactor.consoles.remove`}
+* {@link ReactorConsolesResetEvent | `reactor.consoles.reset`}
+
+### Room
+* {@link RoomFixedUpdateEvent | `room.fixedupdate`}
+* {@link RoomGameEndEvent | `room.gameend`}
+* {@link RoomGaneStartEvent | `room.gamestart`}
+* {@link RoomSelectImpostorsEvent | `room.selectimpostors`}
+* {@link RoomSetPrivacyEvent | `room.setprivacy`}
 
 ### Systems
 * {@link SystemRepairEvent | `system.repair`}
 * {@link SystemSabotageEvent | `system.sabotage`}
-* {@link DoorOpenDoorEvent | `doors.open`}
-* {@link DoorCloseDoorEvent | `doors.close`}
-* {@link GameDataAddPlayerEvent | `gamedata.addplayer`}
-* {@link GameDataRemovePlayerEvent | `gamedata.removeplayer`}
-* {@link GameDataSetTasksEvent | `gamedata.settasks`}
-* {@link HqHudConsoleCloseEvent | `hqhud.console.close`}
-* {@link HqHudConsoleCompleteEvent | `hqhud.console.complete`}
-* {@link HqHudConsoleOpenEvent | `hqhud.console.open`}
-* {@link HqHudConsoleResetEvent | `hqhud.console.reset`}
-* {@link O2ConsolesClearEvent | `o2.consoles.clear`}
-* {@link O2ConsoleCompleteEvent | `o2.consoles.complete`}
-* {@link MeetingHudMeetingCloseEvent | `meetinghud.close`}
-* {@link MeetingHudVoteCastEvent | `meetinghud.votecast`}
-* {@link MeetingHudVoteClearEvent | `meetinghud.voteclear`}
-* {@link MeetingHudVotingCompleteEvent | `meetinghud.votingcomplete`}
-* {@link MovingPlatformPlayerUpdateEvent | `movingplatform.player.update`}
-* {@link SecurityCameraJoinEvent | `security.cameras.join`}
-* {@link SecurityCameraLeaveEvent | `security.cameras.leave`}
-* {@link SwitchFlipEvent | `electrical.switch.flip`}

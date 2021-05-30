@@ -9,8 +9,8 @@ import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
 export class MeetingHudVotingCompleteEvent extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
-    static eventName = "meetinghud.votingcomplete" as const;
-    eventName = "meetinghud.votingcomplete" as const;
+    static eventName = "meeting.votingcomplete" as const;
+    eventName = "meeting.votingcomplete" as const;
 
     constructor(
         public readonly room: Hostable,

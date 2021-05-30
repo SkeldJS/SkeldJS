@@ -10,8 +10,8 @@ import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
 export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
-    static eventName = "meetinghud.votecast" as const;
-    eventName = "meetinghud.votecast" as const;
+    static eventName = "meeting.castvote" as const;
+    eventName = "meeting.castvote" as const;
 
     private _alteredVoter: PlayerVoteState;
     private _alteredSuspect: PlayerData|undefined;

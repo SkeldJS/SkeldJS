@@ -8,8 +8,8 @@ import { RoomEvent } from "../RoomEvent";
 import { ReactorEvent } from "./ReactorEvent";
 
 export class ReactorConsolesResetEvent extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
-    static eventName = "reactor.consoles.remove" as const;
-    eventName = "reactor.consoles.remove" as const;
+    static eventName = "reactor.consoles.reset" as const;
+    eventName = "reactor.consoles.reset" as const;
 
     constructor(
         public readonly room: Hostable,

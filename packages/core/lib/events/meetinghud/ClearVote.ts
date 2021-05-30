@@ -9,8 +9,8 @@ import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
 export class MeetingHudClearVoteEvent extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
-    static eventName = "meetinghud.clearvote" as const;
-    eventName = "meetinghud.clearvote" as const;
+    static eventName = "meeting.clearvote" as const;
+    eventName = "meeting.clearvote" as const;
 
     constructor(
         public readonly room: Hostable,
