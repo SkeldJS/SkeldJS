@@ -123,32 +123,92 @@
 <span style="color: #000000">});</span>
 </code></pre>
 				<a href="#event-list" id="event-list" style="color: inherit; text-decoration: none;">
-					<h2>Event List</h2>
+					<h1>Event List</h1>
 				</a>
 				<a href="#client" id="client" style="color: inherit; text-decoration: none;">
-					<h3>Client</h3>
+					<h2>Client</h2>
 				</a>
-				<ul>
-					<li><a href="../../classes/client.clientconnectevent.html"><code>client.connect</code></a></li>
-					<li><a href="../../classes/client.clientdisconnectevent.html"><code>client.disconnect</code></a></li>
-					<li><a href="../../classes/client.clientjoinevent.html"><code>client.join</code></a></li>
-				</ul>
 				<a href="#room" id="room" style="color: inherit; text-decoration: none;">
-					<h3>Room</h3>
+					<h2>Room</h2>
+				</a>
+				<a href="#security-cameras" id="security-cameras" style="color: inherit; text-decoration: none;">
+					<h3>Security Cameras</h3>
 				</a>
 				<ul>
-					<li><a href="../../classes/core.roomfixedupdateevent.html"><code>room.fixedupdate</code></a></li>
-					<li><a href="../../classes/core.roomgameendevent.html"><code>room.game.end</code></a></li>
-					<li><a href="../../classes/core.roomgamestartevent.html"><code>room.game.start</code></a></li>
-					<li><a href="../../classes/core.roomselectimpostorsevent.html"><code>room.selectimpostors</code></a></li>
-					<li>{@link RoomSetVisibilityEvent | <code>room.setvisibility</code>}</li>
+					<li><a href="../../classes/core.securitycamerajoinevent.html"><code>security.cameras.join</code></a></li>
+					<li><a href="../../classes/core.securitycameraleaveevent.html"><code>security.cameras.leave</code></a></li>
+				</ul>
+				<a href="#doors" id="doors" style="color: inherit; text-decoration: none;">
+					<h3>Doors</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.doorsdoorcloseevent.html"><code>doors.close</code></a></li>
+					<li><a href="../../classes/core.doorsdooropenevent.html"><code>doors.open</code></a></li>
+				</ul>
+				<a href="#electrical" id="electrical" style="color: inherit; text-decoration: none;">
+					<h3>Electrical</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.electricalswitchflipevent.html"><code>electrical.switchflip</code></a></li>
+				</ul>
+				<a href="#game-data" id="game-data" style="color: inherit; text-decoration: none;">
+					<h3>Game Data</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.gamedataaddplayerevent.html"><code>gamedata.addplayer</code></a></li>
+					<li><a href="../../classes/core.gamedataremoveplayerevent.html"><code>gamedata.removeplayer</code></a></li>
+					<li><a href="../../classes/core.gamedatasettasksevent.html"><code>gamedata.settasks</code></a></li>
+				</ul>
+				<a href="#mira-hq-comms" id="mira-hq-comms" style="color: inherit; text-decoration: none;">
+					<h3>Mira HQ Comms</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.hqhudconsolecloseevent.html"><code>hqhud.consoles.close</code></a></li>
+					<li><a href="../../classes/core.hqhudconsolecompleteevent.html"><code>hqhud.consoles.complete</code></a></li>
+					<li><a href="../../classes/core.hqhudconsoleopenevent.html"><code>hqhud.consoles.open</code></a></li>
+					<li>{@link HqHudConsoleResetEvent | <code>hqhud.consoles.reset</code>}</li>
+				</ul>
+				<a href="#med-scan" id="med-scan" style="color: inherit; text-decoration: none;">
+					<h3>Med Scan</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.medscanjoinqueueevent.html"><code>medscan.joinqueue</code></a></li>
+					<li><a href="../../classes/core.medscanleavequeueevent.html"><code>medscan.leavequeue</code></a></li>
+				</ul>
+				<a href="#meetings" id="meetings" style="color: inherit; text-decoration: none;">
+					<h3>Meetings</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.meetinghudclearvoteevent.html"><code>meeting.clearvote</code></a></li>
+					<li><a href="../../classes/core.meetinghudcloseevent.html"><code>meeting.close</code></a></li>
+					<li><a href="../../classes/core.meetinghudvotecastevent.html"><code>meeting.castvote</code></a></li>
+					<li><a href="../../classes/core.meetinghudvotingcompleteevent.html"><code>meeting.votingcomplete</code></a></li>
+				</ul>
+				<a href="#moving-platform" id="moving-platform" style="color: inherit; text-decoration: none;">
+					<h3>Moving Platform</h3>
+				</a>
+				<ul>
+					<li>{@link MeetingPlatformPlayerUpdateEvent | <code>movingplatform.updateplayer</code>}</li>
+				</ul>
+				<a href="#components" id="components" style="color: inherit; text-decoration: none;">
+					<h3>Components</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.networkabledespawnevent.html"><code>component.despawn</code></a></li>
+					<li><a href="../../classes/core.networkablespawnevent.html"><code>component.spawn</code></a></li>
+				</ul>
+				<a href="#oxygen" id="oxygen" style="color: inherit; text-decoration: none;">
+					<h3>Oxygen</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.o2consolecompleteevent.html"><code>o2.consoles.complete</code></a></li>
+					<li><a href="../../classes/core.o2consolesclearevent.html"><code>o2.consoles.clear</code></a></li>
+					<li><a href="../../classes/core.o2consolesresetevent.html"><code>o2.consoles.reset</code></a></li>
 				</ul>
 				<a href="#players" id="players" style="color: inherit; text-decoration: none;">
 					<h3>Players</h3>
 				</a>
 				<ul>
-					<li>{@link PlayerCallMeetingEvent | <code>player.callmeeting</code>}</li>
-					<li>{@link PlayerChatEvent | <code>player.chat</code>}</li>
 					<li><a href="../../classes/core.playercheckcolorevent.html"><code>player.checkcolor</code></a></li>
 					<li><a href="../../classes/core.playerchecknameevent.html"><code>player.checkname</code></a></li>
 					<li><a href="../../classes/core.playerclimbladderevent.html"><code>player.climbladder</code></a></li>
@@ -158,9 +218,11 @@
 					<li><a href="../../classes/core.playerjoinevent.html"><code>player.join</code></a></li>
 					<li><a href="../../classes/core.playerleaveevent.html"><code>player.leave</code></a></li>
 					<li><a href="../../classes/core.playermoveevent.html"><code>player.move</code></a></li>
-					<li>{@link PlayerMurderPlayerEvent | <code>player.murder</code>}</li>
+					<li><a href="../../classes/core.playermurderevent.html"><code>player.murder</code></a></li>
 					<li><a href="../../classes/core.playerreadyevent.html"><code>player.ready</code></a></li>
+					<li><a href="../../classes/core.playerreportdeadbodyevent.html"><code>player.reportbody</code></a></li>
 					<li><a href="../../classes/core.playerscenechangeevent.html"><code>player.scenechange</code></a></li>
+					<li><a href="../../classes/core.playersendchatevent.html"><code>player.chat</code></a></li>
 					<li><a href="../../classes/core.playersetcolorevent.html"><code>player.setcolor</code></a></li>
 					<li><a href="../../classes/core.playersethatevent.html"><code>player.sethat</code></a></li>
 					<li><a href="../../classes/core.playersethostevent.html"><code>player.sethost</code></a></li>
@@ -171,14 +233,26 @@
 					<li><a href="../../classes/core.playersetstartcounterevent.html"><code>player.setstartcounter</code></a></li>
 					<li><a href="../../classes/core.playersnaptoevent.html"><code>player.snapto</code></a></li>
 					<li><a href="../../classes/core.playerspawnevent.html"><code>player.spawn</code></a></li>
+					<li><a href="../../classes/core.playerstartmeetingevent.html"><code>player.startmeeting</code></a></li>
 					<li><a href="../../classes/core.playersyncsettingsevent.html"><code>player.syncsettings</code></a></li>
 				</ul>
-				<a href="#objects" id="objects" style="color: inherit; text-decoration: none;">
-					<h3>Objects</h3>
+				<a href="#reactor" id="reactor" style="color: inherit; text-decoration: none;">
+					<h3>Reactor</h3>
 				</a>
 				<ul>
-					<li><a href="../../classes/core.networkabledespawnevent.html"><code>component.despawn</code></a></li>
-					<li><a href="../../classes/core.networkablespawnevent.html"><code>component.spawn</code></a></li>
+					<li><a href="../../classes/core.reactorconsoleaddevent.html"><code>reactor.consoles.add</code></a></li>
+					<li><a href="../../classes/core.reactorconsoleremoveevent.html"><code>reactor.consoles.remove</code></a></li>
+					<li><a href="../../classes/core.reactorconsolesresetevent.html"><code>reactor.consoles.reset</code></a></li>
+				</ul>
+				<a href="#room-1" id="room-1" style="color: inherit; text-decoration: none;">
+					<h3>Room</h3>
+				</a>
+				<ul>
+					<li><a href="../../classes/core.roomfixedupdateevent.html"><code>room.fixedupdate</code></a></li>
+					<li><a href="../../classes/core.roomgameendevent.html"><code>room.gameend</code></a></li>
+					<li>{@link RoomGaneStartEvent | <code>room.gamestart</code>}</li>
+					<li><a href="../../classes/core.roomselectimpostorsevent.html"><code>room.selectimpostors</code></a></li>
+					<li><a href="../../classes/core.roomsetprivacyevent.html"><code>room.setprivacy</code></a></li>
 				</ul>
 				<a href="#systems" id="systems" style="color: inherit; text-decoration: none;">
 					<h3>Systems</h3>
@@ -186,25 +260,6 @@
 				<ul>
 					<li><a href="../../classes/core.systemrepairevent.html"><code>system.repair</code></a></li>
 					<li><a href="../../classes/core.systemsabotageevent.html"><code>system.sabotage</code></a></li>
-					<li>{@link DoorOpenDoorEvent | <code>doors.open</code>}</li>
-					<li>{@link DoorCloseDoorEvent | <code>doors.close</code>}</li>
-					<li><a href="../../classes/core.gamedataaddplayerevent.html"><code>gamedata.addplayer</code></a></li>
-					<li><a href="../../classes/core.gamedataremoveplayerevent.html"><code>gamedata.removeplayer</code></a></li>
-					<li><a href="../../classes/core.gamedatasettasksevent.html"><code>gamedata.settasks</code></a></li>
-					<li><a href="../../classes/core.hqhudconsolecloseevent.html"><code>hqhud.console.close</code></a></li>
-					<li><a href="../../classes/core.hqhudconsolecompleteevent.html"><code>hqhud.console.complete</code></a></li>
-					<li><a href="../../classes/core.hqhudconsoleopenevent.html"><code>hqhud.console.open</code></a></li>
-					<li>{@link HqHudConsoleResetEvent | <code>hqhud.console.reset</code>}</li>
-					<li><a href="../../classes/core.o2consolesclearevent.html"><code>o2.consoles.clear</code></a></li>
-					<li><a href="../../classes/core.o2consolecompleteevent.html"><code>o2.consoles.complete</code></a></li>
-					<li>{@link MeetingHudMeetingCloseEvent | <code>meetinghud.close</code>}</li>
-					<li><a href="../../classes/core.meetinghudvotecastevent.html"><code>meetinghud.votecast</code></a></li>
-					<li>{@link MeetingHudVoteClearEvent | <code>meetinghud.voteclear</code>}</li>
-					<li><a href="../../classes/core.meetinghudvotingcompleteevent.html"><code>meetinghud.votingcomplete</code></a></li>
-					<li><a href="../../classes/core.movingplatformplayerupdateevent.html"><code>movingplatform.player.update</code></a></li>
-					<li><a href="../../classes/core.securitycamerajoinevent.html"><code>security.cameras.join</code></a></li>
-					<li><a href="../../classes/core.securitycameraleaveevent.html"><code>security.cameras.leave</code></a></li>
-					<li>{@link SwitchFlipEvent | <code>electrical.switch.flip</code>}</li>
 				</ul>
 			</div>
 		</div>
