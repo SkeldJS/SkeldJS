@@ -188,7 +188,7 @@ export class Hostable<
     private _destroyed: boolean;
 
     private _started: boolean;
-    private last_fixed_update: number;
+    protected last_fixed_update: number;
 
     private _interval?: NodeJS.Timeout;
 
