@@ -303,6 +303,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@napi-rs/triples@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@napi-rs/triples@npm:1.0.2"
+  checksum: 72fbc29c14202a10335796d32230a0880a14fcebcdeb8ea54cea77ddad314351040f214d5715457b8875e00ac3854c431f781cf07149e5e4003142681fbb1308
+  languageName: node
+  linkType: hard
+
+"@node-rs/helper@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "@node-rs/helper@npm:1.1.0"
+  dependencies:
+    "@napi-rs/triples": ^1.0.2
+    tslib: ^2.1.0
+  checksum: b4cf30440f7c5ac61e413c9fd3c3c2d2a33cee4256241431aaa75d86f7b2489bbeed8f68a7b784d5822e63bc5942e8f35afc98e935aba7fbbd26b3a84546cb50
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.3":
   version: 2.1.3
   resolution: "@nodelib/fs.scandir@npm:2.1.3"
@@ -460,20 +477,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@skeldjs/reactor@workspace:packages/reactor":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/reactor@workspace:packages/reactor"
-  dependencies:
-    "@skeldjs/client": "workspace:packages/client"
-    "@skeldjs/constant": "workspace:packages/constant"
-    "@skeldjs/protocol": "workspace:packages/protocol"
-    "@skeldjs/util": "workspace:packages/util"
-    "@types/mocha": ^8.2.0
-    "@types/node": ^14.14.16
-    typescript: latest
-  languageName: unknown
-  linkType: soft
-
 "@skeldjs/state@workspace:*, @skeldjs/state@workspace:packages/state":
   version: 0.0.0-use.local
   resolution: "@skeldjs/state@workspace:packages/state"
@@ -534,6 +537,123 @@ __metadata:
   peerDependencies:
     typedoc: ">=0.20 <1.0"
   checksum: a5e2f0e1da0b0ebec3177d7d340877f1754371eda6f09e9d4aa00eeea2509b370edc4a6eab5c136bc3c5c5d4f9f8a947e44f5af4a876efd47ae87edd1218c775
+  languageName: node
+  linkType: hard
+
+"@swc/core-android-arm64@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-android-arm64@npm:1.2.59"
+  checksum: a55dbfe9577d358d879708379534ceecedf38c98c320155537fda967ccf25ca989b28fff9c5fd8bd6ac84bb1af1d710c80e9fc713654f958354ecbb2170ef3e9
+  languageName: node
+  linkType: hard
+
+"@swc/core-darwin-arm64@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-darwin-arm64@npm:1.2.59"
+  checksum: 7203a034140ca4f0c8bd135e33b1203d8712064c82e411b1671fbdfb09f807bd68bc32b9e5e8907138215906d0fa03088fa6221c0d88362a9b69b670555c81fa
+  languageName: node
+  linkType: hard
+
+"@swc/core-darwin-x64@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-darwin-x64@npm:1.2.59"
+  checksum: c16afbb486c2f4dfbb546ff25a2c6c6279b3b9a30a25b6a98d28459fcf9b616fe01088ff85bfd277d48baa811ec0e111faf320ee68d7a042565feda27c83c06c
+  languageName: node
+  linkType: hard
+
+"@swc/core-freebsd-x64@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-freebsd-x64@npm:1.2.59"
+  checksum: f118e5f1d757cbc7c5eb426ad9bf52c564de7948fa97f66f87bac772306a187357dd6cbee762132cfb174d59210a4d7dcbe1158ae7ac97e56826e01c0f6484bf
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-arm-gnueabihf@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.2.59"
+  checksum: 14616b678ee94126d86840a16b8b0663170fa5fbbdd8e1678bafbd47c17288cddc0ac68a6364da504b9943076c0862c46c6693a611b19f0539a244b161f918b7
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-arm64-gnu@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.2.59"
+  checksum: 29c6dcb19bf22359fa136ac54c8c052198b86696a9e54a5c1b1685fc7ca0edc0cd16fc57455093dedc9a6d2ab813f4a5396812eb0bd938e6f5678edb922c01fc
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-x64-gnu@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-linux-x64-gnu@npm:1.2.59"
+  checksum: 49259f574bb886b9e6575088fb0c638cfea85f5b5c9cd9b301e4e84d15b4225228bd24514f8da0e19d4650eaba9d88ff87c9b8c94452fcd368f69bd44f3948e0
+  languageName: node
+  linkType: hard
+
+"@swc/core-linux-x64-musl@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-linux-x64-musl@npm:1.2.59"
+  checksum: 28eb1b0370a9d7aca891c18acd18ea932bb8de01fa39140598041a900dd9197b8562b407eab9db40b5a0c07be583094200d6c94b3db3cd86f79352218318b8e3
+  languageName: node
+  linkType: hard
+
+"@swc/core-win32-ia32-msvc@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.2.59"
+  checksum: 0cdc83b6bd18ce98d217a8d1699854fe10847423ad9cc5806954ad8ab37a8773cc09a7155b3dcb91f1af8cacdb3fd54512818755137bfbda95629e1caaf24b50
+  languageName: node
+  linkType: hard
+
+"@swc/core-win32-x64-msvc@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core-win32-x64-msvc@npm:1.2.59"
+  checksum: 34fd8b01521a00fa3e95591fedbe55688a52be6caef17e6cf25f9d004fb236d2d09116b12f5c9b49f3a8b68c720f0c5bb90bca6253ed149dbe8821be49b6d76a
+  languageName: node
+  linkType: hard
+
+"@swc/core@npm:^1.2.59":
+  version: 1.2.59
+  resolution: "@swc/core@npm:1.2.59"
+  dependencies:
+    "@node-rs/helper": ^1.0.0
+    "@swc/core-android-arm64": ^1.2.59
+    "@swc/core-darwin-arm64": ^1.2.59
+    "@swc/core-darwin-x64": ^1.2.59
+    "@swc/core-freebsd-x64": ^1.2.59
+    "@swc/core-linux-arm-gnueabihf": ^1.2.59
+    "@swc/core-linux-arm64-gnu": ^1.2.59
+    "@swc/core-linux-x64-gnu": ^1.2.59
+    "@swc/core-linux-x64-musl": ^1.2.59
+    "@swc/core-win32-ia32-msvc": ^1.2.59
+    "@swc/core-win32-x64-msvc": ^1.2.59
+  dependenciesMeta:
+    "@swc/core-android-arm64":
+      optional: true
+    "@swc/core-darwin-arm64":
+      optional: true
+    "@swc/core-darwin-x64":
+      optional: true
+    "@swc/core-freebsd-x64":
+      optional: true
+    "@swc/core-linux-arm-gnueabihf":
+      optional: true
+    "@swc/core-linux-arm64-gnu":
+      optional: true
+    "@swc/core-linux-x64-gnu":
+      optional: true
+    "@swc/core-linux-x64-musl":
+      optional: true
+    "@swc/core-win32-ia32-msvc":
+      optional: true
+    "@swc/core-win32-x64-msvc":
+      optional: true
+  checksum: e41da42c57187ac38815a399cfd826d1a33d11d6e15494249844b3352c9e39d773d53c2ab24aa45712a4cb99596f3d3fbb8d8c000d04d9bff72cfa04045631c1
+  languageName: node
+  linkType: hard
+
+"@swc/helpers@npm:^0.2.12":
+  version: 0.2.12
+  resolution: "@swc/helpers@npm:0.2.12"
+  checksum: 8898fdd5ce38c12bb3f168800448c28c2ad9182d28fb303ef2bba3eb51028bbfa00592406de4619ecaad694f076af730065a6008b65a4af64a955d78a5e9dd1a
   languageName: node
   linkType: hard
 
@@ -5222,6 +5342,8 @@ resolve@^1.1.6:
   dependencies:
     "@istanbuljs/nyc-config-typescript": ^1.0.1
     "@strictsoftware/typedoc-plugin-monorepo": "patch:@strictsoftware/typedoc-plugin-monorepo@^0.4.2#./typedoc-plugin-monorepo-pr-11.diff"
+    "@swc/core": ^1.2.59
+    "@swc/helpers": ^0.2.12
     "@types/expect": ^24.3.0
     "@types/lunr": ^2
     "@types/mocha": ^8.2.0
@@ -5784,6 +5906,13 @@ resolve@^1.1.6:
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: f44fe7f216946b17d3e3074df3746372703cf24e9127b4c045511456e8e4bf25515fb0a1bb3937676cc305651c5d4fcb6377b0588a4c6a957e748c4c28905d17
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.1.0":
+  version: 2.2.0
+  resolution: "tslib@npm:2.2.0"
+  checksum: 2d35468c470410871c5246e43f12dcb6d0fc363b617c176f26443b9530e5c5ee8448966892a42956168d8f495da7865bda33dfe82c26c91991e28999974a618f
   languageName: node
   linkType: hard
 
