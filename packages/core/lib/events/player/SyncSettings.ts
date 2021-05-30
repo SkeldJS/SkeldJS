@@ -1,25 +1,41 @@
-import { GameOptions } from "@skeldjs/protocol";
+import { BasicEvent } from "@skeldjs/events";
+import { AllGameOptions, GameOptions, SyncSettingsMessage } from "@skeldjs/protocol";
 
-import { PlayerEvent } from "./PlayerEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
+import { ProtocolEvent } from "../ProtocolEvent";
+import { RoomEvent } from "../RoomEvent";
+import { PlayerEvent } from "./PlayerEvent";
 
-/**
- * Emitted when the host updates the room settings.
- */
-
-export class PlayerSyncSettingsEvent extends PlayerEvent {
+export class PlayerSyncSettingsEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.syncsettings" as const;
     eventName = "player.syncsettings" as const;
 
-    /**
-     * The settings of the room.
-     */
-    options: GameOptions;
+    private _alteredSettings: GameOptions;
+    private _isDirty: boolean;
 
-    constructor(room: Hostable<any>, player: PlayerData, options: GameOptions) {
-        super(room, player);
+    constructor(
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: SyncSettingsMessage|undefined,
+        public readonly settings: GameOptions
+    ) {
+        super();
 
-        this.options = options;
+        this._alteredSettings = new GameOptions(settings);
+        this._isDirty = false;
+    }
+
+    get alteredSettings() {
+        return this._alteredSettings;
+    }
+
+    get isDirty() {
+        return this._isDirty;
+    }
+
+    setSettings(options: Partial<AllGameOptions>) {
+        this._alteredSettings.patch(options);
+        this._isDirty = true;
     }
 }

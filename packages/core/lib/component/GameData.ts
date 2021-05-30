@@ -94,7 +94,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
 
             for (let i = 0; i < num_players; i++) {
                 const playerId = reader.uint8();
-                const player = PlayerGameData.Deserialize(reader, playerId);
+                const player = PlayerGameData.Deserialize(reader, this, playerId);
 
                 this.players.set(player.playerId, player);
             }
@@ -109,6 +109,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
                 } else {
                     const player = PlayerGameData.Deserialize(
                         preader,
+                        this,
                         playerId
                     );
 
@@ -257,21 +258,32 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
         const playerData = this.players.get(rpc.playerid);
 
         if (playerData) {
+            const oldTasks = playerData.taskIds;
             this._setTasks(playerData, rpc.taskids);
+            const playerTasks = playerData.taskIds;
 
-            await this.emit(
+            const ev = await this.emit(
                 new GameDataSetTasksEvent(
                     this.room,
                     this,
                     playerData,
-                    rpc.taskids
+                    oldTasks,
+                    playerTasks
                 )
             );
+
+            playerData.taskIds = ev.alteredTasks;
+
+            if (ev.alteredTasks !== playerTasks) {
+                this._rpcSetTasks(playerData, playerData.taskIds);
+            }
         }
     }
 
     private _setTasks(player: PlayerGameData, taskIds: number[]) {
-        player.tasks = taskIds.map((id, i) => new TaskState(i, false));
+        player.taskIds = taskIds;
+        player.taskStates = taskIds.map((id, i) => new TaskState(i, false));
+        this.update(player);
     }
 
     private _rpcSetTasks(player: PlayerGameData, taskIds: number[]) {
@@ -285,7 +297,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
 
     /**
      * Set the tasks of a player.
-     * @param resolvable The player to set the tasks of.
+     * @param player The player to set the tasks of.
      * @param taskIds The tasks to set.
      * @example
      *```typescript
@@ -297,13 +309,28 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
      * ]);
      * ```
      */
-    setTasks(resolvable: PlayerIDResolvable, taskIds: number[]) {
-        const player = this.resolvePlayerData(resolvable);
+    async setTasks(player: PlayerIDResolvable, taskIds: number[]) {
+        const playerData = this.resolvePlayerData(player);
 
-        if (player) {
-            this._setTasks(player, taskIds);
-            this._rpcSetTasks(player, taskIds);
-            this.update(player);
+        if (playerData) {
+            const oldTasks = playerData.taskIds;
+            this._setTasks(playerData, taskIds);
+            const ev = await this.emit(
+                new GameDataSetTasksEvent(
+                    this.room,
+                    this,
+                    playerData,
+                    oldTasks,
+                    playerData.taskIds
+                )
+            );
+
+            playerData.taskIds = ev.alteredTasks;
+
+            if (playerData.taskIds !== oldTasks) {
+                this._rpcSetTasks(playerData, taskIds);
+                this.update(playerData);
+            }
         }
     }
 
@@ -323,7 +350,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
         const player = this.resolvePlayerData(resolvable);
 
         if (player) {
-            const task = player.tasks[taskIdx];
+            const task = player.taskStates[taskIdx];
 
             if (task) {
                 task.completed = true;
@@ -341,36 +368,53 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
      * room.gamedata.add(playerId);
      * ```
      */
-    add(playerId: number) {
-        this.players.set(playerId, new PlayerGameData(playerId));
+    async add(playerId: number) {
+        const playerGameData = PlayerGameData.createDefault(this, playerId);
+        this.players.set(playerId, playerGameData);
 
-        this.emit(
+        const ev = await this.emit(
             new GameDataAddPlayerEvent(
                 this.room,
                 this,
-                this.players.get(playerId)!
+                playerGameData
             )
         );
 
-        this.update(playerId);
-        return this.players.get(playerId);
+        if (ev.reverted) {
+            this.players.delete(playerId);
+        } else {
+            this.update(playerId);
+        }
+        return playerGameData;
     }
 
     /**
      * Remove player data from the game data.
      * @param resolvable The player to remove.
      */
-    remove(resolvable: PlayerIDResolvable) {
-        const player = this.resolvePlayerData(resolvable);
+    async remove(resolvable: PlayerIDResolvable) {
+        const playerGameData = this.resolvePlayerData(resolvable);
 
-        if (player) {
-            if (this.dirtyBit & (1 << player.playerId)) {
-                this.dirtyBit ^= 1 << player.playerId;
+        if (playerGameData) {
+            const wasMarked = this.dirtyBit & (1 << playerGameData.playerId);
+            if (wasMarked) {
+                this.dirtyBit ^= 1 << playerGameData.playerId;
             }
 
-            this.players.delete(player.playerId);
+            this.players.delete(playerGameData.playerId);
 
-            this.emit(new GameDataRemovePlayerEvent(this.room, this, player));
+            const ev = await this.emit(
+                new GameDataRemovePlayerEvent(
+                    this.room,
+                    this,
+                    playerGameData
+                )
+            );
+
+            if (ev.reverted) {
+                this.players.set(playerGameData.playerId, playerGameData);
+                this.update(playerGameData.playerId);
+            }
         }
     }
 }

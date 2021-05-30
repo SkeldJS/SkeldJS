@@ -1,22 +1,23 @@
+import { BasicEvent } from "@skeldjs/events";
+import { ExitVentMessage } from "@skeldjs/protocol";
+
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
+
+import { ProtocolEvent } from "../ProtocolEvent";
+import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
-/**
- * Emitted when a player exits a vent.
- */
-export class PlayerExitVentEvent extends PlayerEvent {
+export class PlayerExitVentEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.exitvent" as const;
     eventName = "player.exitvent" as const;
 
-    /**
-     * The ID of the vent that the player exited.
-     */
-    ventid: number;
-
-    constructor(room: Hostable<any>, player: PlayerData, ventid: number) {
-        super(room, player);
-
-        this.ventid = ventid;
+    constructor(
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: ExitVentMessage|undefined,
+        public readonly ventid: number
+    ) {
+        super();
     }
 }

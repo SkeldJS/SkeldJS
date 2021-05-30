@@ -6,6 +6,9 @@ import { SystemStatus } from "./SystemStatus";
 import { Door, DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { ExtractEventTypes } from "@skeldjs/events";
+import { PlayerData } from "../PlayerData";
+import { RepairSystemMessage } from "@skeldjs/protocol";
+import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 
 export interface ElectricalDoorsSystemData {
     doors: boolean[];
@@ -62,5 +65,85 @@ export class ElectricalDoorsSystem extends SystemStatus<
         }
         writer.uint32(dirtyBit);
         this.dirty = spawn;
+    }
+
+    private async _openDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        const door = this.doors[doorId];
+
+        if (!door)
+            return;
+
+        door.isOpen = true;
+        this.dirty = true;
+
+        const ev = await door.emit(
+            new DoorsDoorOpenEvent(
+                this.room,
+                this,
+                rpc,
+                player,
+                door
+            )
+        );
+
+        if (ev.reverted) {
+            door.isOpen = false;
+            return;
+        }
+
+        if (ev.alteredDoor !== door) {
+            door.isOpen = false;
+            ev.alteredDoor.isOpen = true;
+        }
+    }
+
+    async openDoor(doorId: number) {
+        if (!this.room.me)
+            return;
+
+        await this._openDoor(doorId, this.room.me, undefined);
+    }
+
+    private async _closeDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        const door = this.doors[doorId];
+
+        if (!door)
+            return;
+
+        door.isOpen = false;
+        this.dirty = true;
+
+        const ev = await door.emit(
+            new DoorsDoorCloseEvent(
+                this.room,
+                this,
+                rpc,
+                player,
+                door
+            )
+        );
+
+        if (ev.reverted) {
+            door.isOpen = true;
+            return;
+        }
+
+        if (ev.alteredDoor !== door) {
+            door.isOpen = true;
+            ev.alteredDoor.isOpen = false;
+        }
+    }
+
+    async closeDoor(doorId: number) {
+        if (!this.room.me)
+            return;
+
+        this._closeDoor(doorId, this.room.me, undefined);
+    }
+
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+        const doorId = amount & 0x1f;
+
+        await this._openDoor(doorId, player, rpc);
     }
 }

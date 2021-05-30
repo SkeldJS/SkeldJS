@@ -5,12 +5,13 @@ import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import {
-    SwitchFlipEvent,
+    ElectricalSwitchFlipEvent,
     SystemRepairEvent,
     SystemSabotageEvent,
 } from "../events";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
@@ -21,7 +22,9 @@ export interface SwitchSystemData {
 }
 
 export type SwitchSystemEvents = SystemStatusEvents &
-    ExtractEventTypes<[SwitchFlipEvent]>;
+    ExtractEventTypes<[
+        ElectricalSwitchFlipEvent
+    ]>;
 
 /**
  * Represents a system responsible for handling switches in Electrical.
@@ -51,7 +54,11 @@ export class SwitchSystem extends SystemStatus<
     brightness: number;
 
     get sabotaged() {
-        return this.expected.some((val, i) => this.actual[i] !== val);
+        return this.actual[0] !== this.expected[0]
+            || this.actual[1] !== this.expected[1]
+            || this.actual[2] !== this.expected[2]
+            || this.actual[3] !== this.expected[3]
+            || this.actual[4] !== this.expected[4];
     }
 
     constructor(ship: InnerShipStatus, data?: HazelReader | SwitchSystemData) {
@@ -62,40 +69,102 @@ export class SwitchSystem extends SystemStatus<
         this.brightness ??= 100;
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelReader, spawn: boolean) {
         const before = this.sabotaged;
         this.expected = SwitchSystem.readSwitches(reader.byte());
         this.actual = SwitchSystem.readSwitches(reader.byte());
         if (!before && this.sabotaged) {
-            this.emit(new SystemSabotageEvent(this.ship?.room, this));
+            this.emit(
+                new SystemSabotageEvent(
+                    this.room,
+                    this,
+                    undefined,
+                    undefined
+                )
+            );
         }
         if (before && !this.sabotaged) {
-            this.emit(new SystemRepairEvent(this.ship?.room, this));
+            this.emit(
+                new SystemRepairEvent(
+                    this.room,
+                    this,
+                    undefined,
+                    undefined
+                )
+            );
         }
         this.brightness = reader.uint8();
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelWriter, spawn: boolean) {
         writer.byte(SwitchSystem.writeSwitches(this.expected));
         writer.byte(SwitchSystem.writeSwitches(this.actual));
         writer.uint8(this.brightness);
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    HandleRepair(player: PlayerData, amount: number) {
-        this._setSwitch(amount, !this.actual[amount], player);
+    async HandleSabotage(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+        if (this.sabotaged)
+            return;
+
+        const oldActual = this.actual;
+        const oldExpected = this.expected;
+
+        while (!this.sabotaged) {
+            this.actual = new Array(5).fill(false).map(f => Math.random() > 0.5) as SwitchSetup;
+            this.expected = new Array(5).fill(false).map(f => Math.random() > 0.5) as SwitchSetup;
+        }
+
+        const ev = await this.emit(
+            new SystemSabotageEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.actual = oldActual;
+            this.expected = oldExpected;
+        }
     }
 
-    private _setSwitch(num: number, value: boolean, player?: PlayerData) {
-        if (this.actual[num] === value) return;
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+        await this._setSwitch(amount, !this.actual[amount], player, rpc);
+    }
 
+    private async _setSwitch(num: number, value: boolean, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        if (this.actual[num] === value)
+            return;
+
+        const beforeFlipped = this.actual[num];
         this.actual[num] = value;
         this.dirty = true;
-        this.emit(
-            new SwitchFlipEvent(this.ship?.room, this, num, value, player)
+
+        const ev = await this.emit(
+            new ElectricalSwitchFlipEvent(
+                this.room,
+                this,
+                rpc,
+                player,
+                num,
+                value
+            )
         );
+
+        if (ev.reverted) {
+            this.actual[num] = beforeFlipped;
+            return;
+        }
+
+        if (ev.alteredFlipped !== value) {
+            this.actual[num] = ev.alteredFlipped;
+        }
+
+        if (ev.alteredSwitchId !== num) {
+            this.actual[num] = beforeFlipped;
+            this.actual[ev.alteredSwitchId] = ev.alteredFlipped;
+        }
     }
 
     /**
@@ -128,10 +197,35 @@ export class SwitchSystem extends SystemStatus<
      * ```
      */
     flip(num: number) {
-        if (!this.ship?.room?.me)
+        if (!this.room.me)
             return;
 
-        this.repair(this.ship.room.me, num);
+        this._setSwitch(num, !this.actual[num], this.room.me, undefined);
+    }
+
+    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        const oldActual = this.actual;
+        this.actual = [...this.expected];
+
+        const ev = await this.emit(
+            new SystemRepairEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.actual = oldActual;
+        }
+    }
+
+    async repair() {
+        if (!this.room.me)
+            return;
+
+        await this._repair(this.room.me, undefined);
     }
 
     /**
@@ -174,5 +268,16 @@ export class SwitchSystem extends SystemStatus<
             (~~switches[3] << 3) |
             (~~switches[4] << 4)
         );
+    }
+
+    Detoriorate() {
+        if (this.sabotaged) {
+            if (this.brightness > 0) {
+                this.brightness -= 15;
+                if (this.brightness < 0)
+                    this.brightness = 0;
+                this.dirty = true;
+            }
+        }
     }
 }

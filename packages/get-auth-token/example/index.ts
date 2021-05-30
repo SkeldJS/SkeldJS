@@ -23,8 +23,4 @@ import { authTokenHook } from "../index";
     });
 
     console.log("Created game " + Int2Code(code) + "!");
-
-    client.on("player.checkcolor", (ev) => {
-        ev.setColor((ev.original + 1) % 12);
-    });
 })();

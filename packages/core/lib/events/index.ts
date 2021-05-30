@@ -1,48 +1,36 @@
-export * from "./autodoorssystem/AutoDoorsSystemEvent";
-
-export * from "./deconsystem/DeconSystemEvent";
-
-export * from "./doors/CloseDoor";
-export * from "./doors/DoorEvent";
-export * from "./doors/OpenDoor";
-
-export * from "./electricaldoorsystem/ElectricalDoorsSystemEvent";
+export * from "./doors/Close";
+export * from "./doors/Open";
 
 export * from "./gamedata/AddPlayer";
-export * from "./gamedata/GameDataEvent";
 export * from "./gamedata/RemovePlayer";
 export * from "./gamedata/SetTasks";
 
-export * from "./hqhudsystem/ConsoleClose";
-export * from "./hqhudsystem/ConsoleComplete";
-export * from "./hqhudsystem/ConsoleOpen";
-export * from "./hqhudsystem/ConsoleReset";
-export * from "./hqhudsystem/HqHudSystemEvent";
+export * from "./hqhud/ConsoleClose";
+export * from "./hqhud/ConsoleComplete";
+export * from "./hqhud/ConsoleOpen";
+export * from "./hqhud/ConsolesReset";
 
-export * from "./hudsystem/HudSystemEvent";
+export * from "./cameras/Join";
+export * from "./cameras/Leave";
 
-export * from "./lifesupplysystem/ConsoleClear";
-export * from "./lifesupplysystem/ConsoleComplete";
-export * from "./lifesupplysystem/O2SystemEvent";
+export * from "./medscan/JoinQueue";
+export * from "./medscan/LeaveQueue";
 
-export * from "./lobbybehaviour/LobbyBehaviourEvent";
-
-export * from "./medscansystem/MedScanSystemEvent";
-
-export * from "./meetinghud/MeetingClose";
-export * from "./meetinghud/MeetingHudEvent";
+export * from "./meetinghud/Close";
 export * from "./meetinghud/VoteCast";
-export * from "./meetinghud/VoteClear";
+export * from "./meetinghud/ClearVote";
 export * from "./meetinghud/VotingComplete";
-
-export * from "./movingplatformsystem/MovingPlatformSystemEvent";
-export * from "./movingplatformsystem/PlayerUpdate";
 
 export * from "./networkable/Despawn";
 export * from "./networkable/Spawn";
 
-export * from "./player/CallMeeting";
-export * from "./player/Chat";
+export * from "./oxygen/ConsoleComplete";
+export * from "./oxygen/ConsolesClear";
+export * from "./oxygen/ConsolesReset";
+
+export * from "./movingplatform/PlayerUpdate";
+
+export * from "./player/SendChat";
 export * from "./player/CheckColor";
 export * from "./player/CheckName";
 export * from "./player/ClimbLadder";
@@ -52,8 +40,7 @@ export * from "./player/ExitVent";
 export * from "./player/Join";
 export * from "./player/Leave";
 export * from "./player/Move";
-export * from "./player/MurderPlayer";
-export * from "./player/PlayerEvent";
+export * from "./player/Murder";
 export * from "./player/Ready";
 export * from "./player/ReportDeadBody";
 export * from "./player/SceneChange";
@@ -64,32 +51,23 @@ export * from "./player/SetImpostors";
 export * from "./player/SetName";
 export * from "./player/SetPet";
 export * from "./player/SetSkin";
+export * from "./player/StartMeeting";
 export * from "./player/SetStartCounter";
 export * from "./player/SnapTo";
 export * from "./player/Spawn";
 export * from "./player/SyncSettings";
 
-export * from "./reactorsystem/ReactorSystemEvent";
+export * from "./reactor/ConsoleAdd";
+export * from "./reactor/ConsoleRemove";
+export * from "./reactor/ConsolesReset";
 
 export * from "./room/FixedUpdate";
 export * from "./room/GameEnd";
 export * from "./room/GameStart";
 export * from "./room/SelectImpostors";
-export * from "./room/SetVisibility";
+export * from "./room/SetPrivacy";
 
-export * from "./sabotagesystem/SabotageSystemEvent";
+export * from "./electrical/SwitchFlip";
 
-export * from "./securitycamerasystem/CamerasJoin";
-export * from "./securitycamerasystem/CamerasLeave";
-export * from "./securitycamerasystem/SecurityCameraSystemEvent";
-
-export * from "./switchsystem/Flip";
-export * from "./switchsystem/SwitchSystemEvent";
-
-export * from "./system/Repair";
-export * from "./system/Sabotage";
-export * from "./system/SystemEvent";
-
-export * from "./votebansystem/VoteBanSystemEvent";
-
-export * from "./RoomEvent";
+export * from "./systems/Repair";
+export * from "./systems/Sabotage";

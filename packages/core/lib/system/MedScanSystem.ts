@@ -1,17 +1,23 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
+import { MedScanJoinQueueEvent, MedScanLeaveQueueEvent } from "../events";
 
 export interface MedScanSystemData {
     queue: PlayerData[];
 }
 
-export type MedScanSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
+export type MedScanSystemEvents = SystemStatusEvents &
+    ExtractEventTypes<[
+        MedScanJoinQueueEvent,
+        MedScanLeaveQueueEvent
+    ]>;
 
 /**
  * Represents a system responsible for handling the medbay scan queue.
@@ -56,19 +62,79 @@ export class MedScanSystem extends SystemStatus<
         }
     }
 
-    HandleRepair(player: PlayerData, amount: number) {
+    private _removeFromQueue(player: PlayerData) {
+        const idx = this.queue.indexOf(player);
+        if (~idx) {
+            this.queue.splice(idx, 1);
+        }
+    }
+
+    private async _joinQueue(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+        this._removeFromQueue(player);
+        this.queue.push(player);
+
+        const ev = await this.emit(
+            new MedScanJoinQueueEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this._removeFromQueue(player);
+        }
+    }
+
+    async addToQueue(player: PlayerData) {
+        await this._joinQueue(player, undefined);
+    }
+
+    async joinQueue() {
+        if (!this.room.me)
+            return;
+
+        await this.addToQueue(this.room.me);
+    }
+
+    private async _leaveQueue(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+        this._removeFromQueue(player);
+
+        const ev = await this.emit(
+            new MedScanLeaveQueueEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.queue.push(player);
+        }
+    }
+
+    async removeFromQueue(player: PlayerData) {
+        await this._leaveQueue(player, undefined);
+    }
+
+    async leaveQueue() {
+        if (!this.room.me)
+            return;
+
+        await this.removeFromQueue(this.room.me);
+    }
+
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         const playerId = amount & 0x1f;
         const resolved = this.ship.room.getPlayerByPlayerId(playerId);
 
         if (resolved) {
             if (amount & 0x80) {
-                this.queue.push(resolved);
+                await this._joinQueue(resolved, rpc);
             } else if (amount & 0x40) {
-                const idx = this.queue.indexOf(resolved);
-
-                if (~idx) {
-                    this.queue.splice(idx, 1);
-                }
+                await this._leaveQueue(resolved, rpc);
             }
         }
     }

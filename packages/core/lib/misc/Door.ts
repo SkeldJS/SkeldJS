@@ -1,11 +1,11 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "../system";
-import { DoorCloseDoorEvent, DoorOpenDoorEvent } from "../events";
+import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem} from "../system";
+import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 
 export type DoorEvents = ExtractEventTypes<
-    [DoorOpenDoorEvent, DoorCloseDoorEvent]
+    [DoorsDoorOpenEvent, DoorsDoorCloseEvent]
 >;
 
 /**
@@ -14,16 +14,16 @@ export type DoorEvents = ExtractEventTypes<
  * See {@link DoorEvents} for events to listen to.
  */
 export class Door extends EventEmitter<DoorEvents> {
-    private _isOpen: boolean;
+    isOpen: boolean;
 
     constructor(
-        protected system: SystemStatus,
+        protected system: AutoDoorsSystem|DoorsSystem|ElectricalDoorsSystem,
         readonly id: number,
         isOpen: boolean
     ) {
         super();
 
-        this._isOpen = isOpen;
+        this.isOpen = isOpen;
     }
 
     async emit<Event extends BasicEvent>(
@@ -43,38 +43,20 @@ export class Door extends EventEmitter<DoorEvents> {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     Serialize(writer: HazelWriter, spawn: boolean) {
-        writer.bool(this._isOpen);
-    }
-
-    /**
-     * Whether or not this door is currently open.
-     */
-    get isOpen() {
-        return this._isOpen;
-    }
-
-    set isOpen(isOpen: boolean) {
-        if (isOpen) this.open();
-        else this.close();
+        writer.bool(this.isOpen);
     }
 
     /**
      * Force the door open.
      */
-    open() {
-        if (this._isOpen) return;
-
-        this._isOpen = true;
-        this.emit(new DoorOpenDoorEvent(this.system?.room, this));
+    async open() {
+        await this.system.openDoor(this.id);
     }
 
     /**
      * Force the door to close.
      */
-    close() {
-        if (!this._isOpen) return;
-
-        this._isOpen = false;
-        this.emit(new DoorCloseDoorEvent(this.system?.room, this));
+    async close() {
+        await this.system.closeDoor(this.id);
     }
 }

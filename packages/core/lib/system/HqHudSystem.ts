@@ -7,14 +7,15 @@ import { PlayerData } from "../PlayerData";
 
 import {
     HqHudConsoleOpenEvent,
-    HqHudConsoleResetEvent,
     HqHudConsoleCloseEvent,
     HqHudConsoleCompleteEvent,
+    HqHudConsolesResetEvent,
     SystemSabotageEvent,
     SystemRepairEvent,
 } from "../events";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 export interface UserConsolePair {
     playerid: number;
@@ -29,7 +30,7 @@ export interface HqHudSystemData {
 export type HqHudSystemEvents = SystemStatusEvents &
     ExtractEventTypes<
         [
-            HqHudConsoleResetEvent,
+            HqHudConsolesResetEvent,
             HqHudConsoleOpenEvent,
             HqHudConsoleCloseEvent,
             HqHudConsoleCompleteEvent
@@ -100,7 +101,7 @@ export class HqHudSystem extends SystemStatus<
 
             const player = this.ship.room.getPlayerByPlayerId(playerId);
             if (player) {
-                this._openConsole(consoleId, player);
+                this._openConsole(consoleId, player, undefined);
             }
         }
 
@@ -109,20 +110,34 @@ export class HqHudSystem extends SystemStatus<
             const idx = this._getIdx(console.consoleid, console.playerid);
             const player = this.ship.room.getPlayerByPlayerId(console.playerid);
             if (player && idx === -1) {
-                this._closeConsole(console.consoleid, player);
+                this._closeConsole(console.consoleid, player, undefined);
             }
         }
 
         const before_completed = this.completed.size;
         const num_completed = reader.upacked();
         for (let i = 0; i < num_completed; i++) {
-            this._completeConsole(reader.uint8());
+            this._completeConsole(reader.uint8(), undefined, undefined);
         }
         if (before_completed === 2 && num_completed === 0) {
-            this.emit(new SystemSabotageEvent(this.ship?.room, this));
+            this.emit(
+                new SystemSabotageEvent(
+                    this.room,
+                    this,
+                    undefined,
+                    undefined
+                )
+            );
         }
         if (before_completed < 2 && num_completed === 2) {
-            this.emit(new SystemRepairEvent(this.ship?.room, this));
+            this.emit(
+                new SystemRepairEvent(
+                    this.room,
+                    this,
+                    undefined,
+                    undefined
+                )
+            );
         }
     }
 
@@ -145,144 +160,205 @@ export class HqHudSystem extends SystemStatus<
         }
     }
 
-    HandleSabotage(player: PlayerData) {
-        this.HandleRepair(player, 0x80);
-    }
-
-    private _resetConsoles() {
-        this.completed.clear();
+    async HandleSabotage(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        const oldTimer = this.timer;
+        const oldActive = this.active;
+        const oldCompleted = this.completed;
+        this.timer = -1;
+        this.active = [];
+        this.completed = new Set;
         this.dirty = true;
-        this.emit(new HqHudConsoleResetEvent(this.ship?.room, this));
+
+        const ev = await this.emit(
+            new SystemSabotageEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.timer = oldTimer;
+            this.active = oldActive;
+            this.completed = oldCompleted;
+        }
     }
 
-    private _openConsole(consoleid: number, player: PlayerData) {
+    private async _resetConsoles(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        const oldCompleted = this.completed;
+        this.completed = new Set;
+        this.dirty = true;
+
+        const ev = await this.emit(
+            new HqHudConsolesResetEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.completed = oldCompleted;
+        }
+    }
+
+    private async _openConsole(consoleid: number, player: PlayerData, rpc: RepairSystemMessage|undefined) {
         if (player.playerId === undefined)
             return;
 
         const idx = this._getIdx(consoleid, player.playerId);
 
         if (idx === -1) {
-            this.active.push({ consoleid, playerid: player.playerId });
+            const consoleEntry = { consoleid, playerid: player.playerId };
+            this.active.push(consoleEntry);
             this.dirty = true;
-            this.emit(
+            const ev = await this.emit(
                 new HqHudConsoleOpenEvent(
-                    this.ship?.room,
+                    this.room,
                     this,
-                    consoleid,
-                    player
+                    rpc,
+                    player,
+                    consoleid
                 )
             );
+            if (ev.reverted) {
+                const newIdx = this.active.indexOf(consoleEntry);
+                if (newIdx > -1) this.active.splice(newIdx, 1);
+                return;
+            }
+            if (ev.alteredConsoleId !== consoleid) {
+                consoleEntry.consoleid = ev.alteredConsoleId;
+            }
         }
-    }
-
-    private _closeConsole(consoleid: number, player: PlayerData) {
-        if (player.playerId === undefined)
-            return;
-
-        const idx = this._getIdx(consoleid, player.playerId);
-
-        if (idx > -1) {
-            this.active.push({ consoleid, playerid: player.playerId });
-            this.dirty = true;
-            this.emit(
-                new HqHudConsoleCloseEvent(
-                    this.ship?.room,
-                    this,
-                    consoleid,
-                    player
-                )
-            );
-        }
-    }
-
-    private _completeConsole(consoleid: number, player?: PlayerData) {
-        if (!this.completed.has(consoleid)) {
-            this.completed.add(consoleid);
-            this.dirty = true;
-            this.emit(
-                new HqHudConsoleCompleteEvent(
-                    this.ship?.room,
-                    this,
-                    consoleid,
-                    player
-                )
-            );
-        }
-    }
-
-    private _fix() {
-        this.completed.add(0).add(1);
-        this.emit(new SystemRepairEvent(this.ship?.room, this));
     }
 
     /**
      * Mark the console as being used by your player.
      * @param consoleId The ID of the console to mark as being used.
      */
-    openConsole(consoleId: number) {
-        if (!this.ship.room.me)
+    async openConsole(consoleId: number) {
+        if (!this.room.me)
             return;
 
-        this.repair(
-            this.ship.room.me,
-            (consoleId & 0xf) | HqHudSystemRepairTag.OpenConsole
-        );
+        this._openConsole(consoleId, this.room.me, undefined);
+    }
+
+    private async _closeConsole(consoleid: number, player: PlayerData, rpc: RepairSystemMessage|undefined) {
+        if (player.playerId === undefined)
+            return;
+
+        const idx = this._getIdx(consoleid, player.playerId);
+
+        if (idx > -1) {
+            const consoleEntry = this.active[idx];
+            this.active.splice(idx, 1);
+            this.dirty = true;
+            const ev = await this.emit(
+                new HqHudConsoleCloseEvent(
+                    this.room,
+                    this,
+                    rpc,
+                    player,
+                    consoleid
+                )
+            );
+            if (ev.reverted) {
+                this.active.splice(idx, 0, consoleEntry);
+            }
+        }
     }
 
     /**
      * Mark the console as no longer being used by your player.
      * @param consoleId The ID of the console to mark as not being used.
      */
-    closeConsole(consoleId: number) {
-        if (!this.ship.room.me)
+    async closeConsole(consoleId: number) {
+        if (!this.room.me)
             return;
 
-        this.repair(
-            this.ship.room.me,
-            (consoleId & 0xf) | HqHudSystemRepairTag.CloseConsole
-        );
+        await this._closeConsole(consoleId, this.room.me, undefined);
+    }
+
+    private async _completeConsole(consoleid: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        if (!this.completed.has(consoleid)) {
+            this.completed.add(consoleid);
+            this.dirty = true;
+            const ev = await this.emit(
+                new HqHudConsoleCompleteEvent(
+                    this.room,
+                    this,
+                    rpc,
+                    player,
+                    consoleid
+                )
+            );
+            if (ev.reverted) {
+                this.completed.delete(consoleid);
+            }
+        }
     }
 
     /**
      * Mark a console as completed.
      * @param consoleId The ID of the console to mark as completed.
      */
-    completeConsole(consoleId: number) {
+    async completeConsole(consoleId: number) {
         if (!this.ship.room.me)
             return;
 
-        this.repair(
-            this.ship.room.me,
-            (consoleId & 0xf) | HqHudSystemRepairTag.CompleteConsole
+        await this._completeConsole(consoleId, this.room.me, undefined);
+    }
+
+    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        const completedBefore = this.completed;
+        this.completed = new Set([0, 1]);
+        this.dirty = true;
+        const ev = await this.emit(
+            new SystemRepairEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
         );
+        if(ev.reverted) {
+            this.completed = completedBefore;
+        }
     }
 
-    fix() {
-        this.completeConsole(0);
-        this.completeConsole(1);
+    async repair() {
+        if (!this.room.me)
+            return;
+
+        if (this.room.amhost) {
+            await this._repair(this.room.me, undefined);
+        } else {
+            await this.completeConsole(0);
+            await this.completeConsole(1);
+        }
     }
 
-    HandleRepair(player: PlayerData, amount: number) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         const consoleId = amount & 0xf;
         const tags = amount & 0xf0;
 
         switch (tags) {
             case HqHudSystemRepairTag.CompleteConsole:
-                this._completeConsole(consoleId, player);
-                if (this.completed.size >= 2) this._fix();
+                await this._completeConsole(consoleId, player, rpc);
+                if (this.completed.size >= 2) {
+                    await this._repair(player, rpc);
+                }
                 break;
             case HqHudSystemRepairTag.CloseConsole:
-                this._closeConsole(consoleId, player);
+                await this._closeConsole(consoleId, player, rpc);
                 break;
             case HqHudSystemRepairTag.OpenConsole:
-                this._openConsole(consoleId, player);
+                await this._openConsole(consoleId, player, rpc);
                 break;
             case HqHudSystemRepairTag.Sabotage:
-                this.timer = -1;
-                this.active.splice(0);
-                this.completed.clear();
-                this.dirty = true;
-                this.emit(new SystemSabotageEvent(this.ship?.room, this));
+                await this.HandleSabotage(player, rpc);
                 break;
         }
     }
@@ -292,7 +368,7 @@ export class HqHudSystem extends SystemStatus<
         if (this.timer < 0) {
             this.timer = 10;
             this.dirty = true;
-            this._resetConsoles();
+            this._resetConsoles(undefined, undefined);
         }
     }
 }

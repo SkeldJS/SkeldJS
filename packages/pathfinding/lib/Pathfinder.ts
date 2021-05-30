@@ -14,8 +14,7 @@ import {
     PolusVent,
     MapVentData,
     PlayerLeaveEvent,
-    PlayerMoveEvent,
-    GameMap
+    PlayerMoveEvent
 } from "@skeldjs/core";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";

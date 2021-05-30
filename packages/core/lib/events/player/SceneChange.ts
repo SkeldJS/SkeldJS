@@ -1,9 +1,20 @@
+import { CancelableEvent } from "@skeldjs/events";
+import { SceneChangeMessage } from "@skeldjs/protocol";
+import { Hostable } from "../../Hostable";
+import { PlayerData } from "../../PlayerData";
+import { ProtocolEvent } from "../ProtocolEvent";
+import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
-/**
- * Emitted when a player requests to change their scene.
- */
-export class PlayerSceneChangeEvent extends PlayerEvent {
-    static eventName = "player.scenechange" as const;
+export class PlayerSceneChangeEvent extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+    static eventNamee = "player.scenechange" as const;
     eventName = "player.scenechange" as const;
+
+    constructor(
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: SceneChangeMessage
+    ) {
+        super();
+    }
 }

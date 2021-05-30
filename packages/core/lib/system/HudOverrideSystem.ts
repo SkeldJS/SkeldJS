@@ -7,6 +7,7 @@ import { PlayerData } from "../PlayerData";
 import { SystemRepairEvent, SystemSabotageEvent } from "../events";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 export interface HudOverrideSystemData {
     sabotaged: boolean;
@@ -55,9 +56,31 @@ export class HudOverrideSystem extends SystemStatus<
         this._sabotaged = reader.bool();
 
         if (!before && this._sabotaged)
-            this.emit(new SystemSabotageEvent(this.ship?.room, this));
+            this.emit(
+                new SystemSabotageEvent(
+                    this.room,
+                    this,
+                    undefined,
+                    undefined
+                )
+            ).then(ev => {
+                if (ev.reverted) {
+                    this.repair();
+                }
+            });
         if (before && !this._sabotaged)
-            this.emit(new SystemRepairEvent(this.ship?.room, this));
+            this.emit(
+                new SystemRepairEvent(
+                    this.room,
+                    this,
+                    undefined,
+                    undefined
+                )
+            ).then(ev => {
+                if (ev.reverted) {
+                    this.sabotage();
+                }
+            });
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -65,24 +88,52 @@ export class HudOverrideSystem extends SystemStatus<
         writer.bool(this.sabotaged);
     }
 
-    fix() {
-        if (!this.ship.room.me)
-            return;
-
-        this.HandleRepair(this.ship.room.me, 0);
-    }
-
-    HandleSabotage() {
-        this.emit(new SystemSabotageEvent(this.ship?.room, this));
+    async HandleSabotage(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
         this._sabotaged = true;
         this.dirty = true;
+
+        const ev = await this.emit(
+            new SystemSabotageEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this._sabotaged = false;
+        }
     }
 
-    HandleRepair(player: PlayerData, amount: number) {
+    async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        this._sabotaged = false;
+        this.dirty = true;
+
+        const ev = await this.emit(
+            new SystemRepairEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this._sabotaged = true;
+        }
+    }
+
+    async repair() {
+        if (!this.room.me)
+            return;
+
+        await this._repair(this.room.me, undefined);
+    }
+
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         if (amount === 0) {
-            this.emit(new SystemRepairEvent(this.ship?.room, this));
-            this._sabotaged = false;
-            this.dirty = true;
+            await this._repair(player, rpc);
         }
     }
 }

@@ -1,46 +1,38 @@
-import { PlayerEvent } from "./PlayerEvent";
+import { CancelableEvent } from "@skeldjs/events";
+import { ReportDeadBodyMessage } from "@skeldjs/protocol";
+
+import { RoomEvent } from "../RoomEvent";
+import { ProtocolEvent } from "../ProtocolEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
+import { PlayerEvent } from "./PlayerEvent";
 
-/**
- * Emitted when a player reports a dead body or presses the emergency meeting button.
- *
- * Only received if the current client is the host.
- *
- * Can be canceled to prevent a meeting from taking place.
- * @example
- * ```ts
- * // Prevent the meeting from taking place if the player is the impostor.
- * client.on("player.reportbody", ev => {
- *   if (ev.player.data?.impostor) {
- *     ev.cancel();
- *   }
- * });
- * ```
- */
-export class PlayerReportDeadBodyEvent extends PlayerEvent {
+export class PlayerReportDeadBodyEvent extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.reportbody" as const;
     eventName = "player.reportbody" as const;
 
-    /**
-     * Whether or not the meeting called is an emergency.
-     */
-    emergency: boolean;
-
-    /**
-     * The body that the player reported, if any.
-     */
-    body?: PlayerData;
+    private _alteredBody: PlayerData|"emergency";
 
     constructor(
-        room: Hostable<any>,
-        player: PlayerData,
-        emergency: boolean,
-        body?: PlayerData
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: ReportDeadBodyMessage|undefined,
+        public readonly body: PlayerData|"emergency"
     ) {
-        super(room, player);
+        super();
 
-        this.emergency = emergency;
-        this.body = body;
+        this._alteredBody = body;
+    }
+
+    get alteredBody() {
+        return this._alteredBody;
+    }
+
+    setEmergency() {
+        return this.setBody("emergency");
+    }
+
+    setBody(body: PlayerData | "emergency") {
+        this._alteredBody = body;
     }
 }

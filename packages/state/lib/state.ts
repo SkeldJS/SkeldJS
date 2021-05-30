@@ -7,7 +7,6 @@ import {
     StartGameMessage,
     GameDataToMessage,
     JoinedGameMessage,
-    AlterGameMessage,
     MessageDirection,
     GameOptions,
 } from "@skeldjs/protocol";
@@ -84,12 +83,6 @@ export class SkeldjsStateManager<
                 for (let i = 0; i < message.others.length; i++) {
                     await this.handleJoin(message.others[i]);
                 }
-            }
-        });
-
-        this.decoder.on(AlterGameMessage, async (message) => {
-            if (message.code === this.code) {
-                this._setAlterGameTag(message.alter_tag, message.value);
             }
         });
     }

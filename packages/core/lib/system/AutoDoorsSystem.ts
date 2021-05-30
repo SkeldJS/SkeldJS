@@ -8,6 +8,9 @@ import { SystemStatus } from "./SystemStatus";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 import { DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
+import { PlayerData } from "../PlayerData";
+import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 export interface AutoDoorsSystemData {
     dirtyBit: number;
@@ -55,14 +58,6 @@ export class AutoDoorsSystem extends SystemStatus<
                 : door);
     }
 
-    get dirty() {
-        return this.dirtyBit > 0;
-    }
-
-    set dirty(val: boolean) {
-        super.dirty = val;
-    }
-
     Deserialize(reader: HazelReader, spawn: boolean) {
         if (spawn) {
             for (let i = 0; i < MapDoors[GameMap.TheSkeld]; i++) {
@@ -74,9 +69,12 @@ export class AutoDoorsSystem extends SystemStatus<
 
             for (let i = 0; i < MapDoors[GameMap.TheSkeld]; i++) {
                 if (mask & (1 << i)) {
-                    const door = this.doors[i];
-                    const open = reader.bool();
-                    door.isOpen = open;
+                    const isOpen = reader.bool();
+                    if (isOpen) {
+                        this.openDoor(i);
+                    } else {
+                        this.closeDoor(i);
+                    }
                 }
             }
         }
@@ -94,6 +92,98 @@ export class AutoDoorsSystem extends SystemStatus<
                 if (this.dirtyBit & (1 << i)) {
                     this.doors[i].Serialize(writer, spawn);
                 }
+            }
+        }
+        this.dirtyBit = 0;
+    }
+
+    private async _openDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        const door = this.doors[doorId];
+
+        if (!door)
+            return;
+
+        door.isOpen = true;
+        this.dirtyBit |= 1 << doorId;
+        this.dirty = true;
+
+        const ev = await door.emit(
+            new DoorsDoorOpenEvent(
+                this.room,
+                this,
+                rpc,
+                player,
+                door
+            )
+        );
+
+        if (ev.reverted) {
+            door.isOpen = false;
+            return;
+        }
+
+        if (ev.alteredDoor !== door) {
+            door.isOpen = false;
+            ev.alteredDoor.isOpen = true;
+        }
+    }
+
+    async openDoor(doorId: number) {
+        if (!this.room.me)
+            return;
+
+        await this._openDoor(doorId, this.room.me, undefined);
+    }
+
+    private async _closeDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+        const door = this.doors[doorId];
+
+        if (!door)
+            return;
+
+        door.isOpen = false;
+        door.timer = 10;
+        this.dirtyBit |= 1 << doorId;
+        this.dirty = true;
+
+        const ev = await door.emit(
+            new DoorsDoorCloseEvent(
+                this.room,
+                this,
+                rpc,
+                player,
+                door
+            )
+        );
+
+        if (ev.reverted) {
+            door.isOpen = true;
+            return;
+        }
+
+        if (ev.alteredDoor !== door) {
+            door.isOpen = true;
+            ev.alteredDoor.isOpen = false;
+        }
+    }
+
+    async closeDoor(doorId: number) {
+        if (!this.room.me)
+            return;
+
+        this._closeDoor(doorId, this.room.me, undefined);
+    }
+
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+        const doorId = amount & 0x1f;
+
+        await this._openDoor(doorId, player, rpc);
+    }
+
+    Detoriorate(delta: number) {
+        for (const door of this.doors) {
+            if (!door.isOpen && door.DoUpdate(delta)) {
+                this.dirty = true;
             }
         }
     }

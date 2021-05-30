@@ -1,36 +1,51 @@
+import { RevertableEvent } from "@skeldjs/events";
+import { CastVoteMessage } from "@skeldjs/protocol";
+
 import { MeetingHud } from "../../component";
 import { Hostable } from "../../Hostable";
+import { PlayerVoteState } from "../../misc/PlayerVoteState";
 import { PlayerData } from "../../PlayerData";
+import { ProtocolEvent } from "../ProtocolEvent";
+import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
-/**
- * Emitted when someone casts a vote in a meeting.
- */
-export class MeetingHudVoteCastEvent extends MeetingHudEvent {
+export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meetinghud.votecast" as const;
     eventName = "meetinghud.votecast" as const;
 
-    /**
-     * The player that cast the vote.
-     */
-    voter: PlayerData;
-
-    /**
-     * The player that the player voted.
-     *
-     * This will be undefined if the player voted to skip.
-     */
-    suspect?: PlayerData;
+    private _alteredVoter: PlayerVoteState;
+    private _alteredSuspect: PlayerData|undefined;
 
     constructor(
-        room: Hostable<any>,
-        meetinghud: MeetingHud,
-        voter: PlayerData,
-        suspect?: PlayerData
+        public readonly room: Hostable,
+        public readonly meetinghud: MeetingHud,
+        public readonly message: CastVoteMessage|undefined,
+        public readonly voter: PlayerVoteState,
+        public readonly suspect: PlayerData|undefined
     ) {
-        super(room, meetinghud);
+        super();
 
-        this.voter = voter;
-        this.suspect = suspect;
+        this._alteredVoter = voter;
+        this._alteredSuspect = suspect;
+    }
+
+    get didSkip() {
+        return this._alteredSuspect === undefined;
+    }
+
+    get alteredVoter() {
+        return this._alteredVoter;
+    }
+
+    get alteredSuspect() {
+        return this._alteredSuspect;
+    }
+
+    setVoter(voter: PlayerVoteState) {
+        this._alteredVoter = voter;
+    }
+
+    setSuspect(suspect: PlayerData) {
+        this._alteredSuspect = suspect;
     }
 }

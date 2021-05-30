@@ -31,6 +31,12 @@ As well as the main and utility packages, the project also contains several pack
 * **Task Manager** - A tool used for managing task completion in the correct order.
 
 You can view auto-updating documentation for all packages hosted at github pages at https://skeldjs.github.io/SkeldJS.
+
+### Discord Server
+SkeldJS now has a discord server where you can get help with installing, get help
+with usage and talk about changes.
+
+Invite: https://discord.gg/8ewNJYmYAU
 ## NPM Packages
 You can install individual packages through NPM as the `@skeldjs/` scope/namespace.
 

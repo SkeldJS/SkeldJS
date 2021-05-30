@@ -1,22 +1,39 @@
+import { BasicEvent } from "@skeldjs/events";
+import { SetStartCounterMessage } from "@skeldjs/protocol";
+
+import { RoomEvent } from "../RoomEvent";
+import { ProtocolEvent } from "../ProtocolEvent";
+import { PlayerEvent } from "./PlayerEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
-import { PlayerEvent } from "./PlayerEvent";
 
-/**
- * Emitted when the host updates the start counter at the bottom of the screen before the game starts.
- */
-export class PlayerSetStartCounterEvent extends PlayerEvent {
-    static eventName = "player.setcounter" as const;
-    eventName = "player.setcounter" as const;
+export class PlayerSetStartCounterEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+    static eventName = "player.setstartcounter" as const;
+    eventName = "player.setstartcounter" as const;
 
-    /**
-     * The counter, usually between -1 to 5.
-     */
-    counter: number;
+    private _alteredCounter: number;
 
-    constructor(room: Hostable<any>, player: PlayerData, counter: number) {
-        super(room, player);
+    constructor(
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: SetStartCounterMessage|undefined,
+        public readonly oldCounter: number,
+        public readonly newCounter: number
+    ) {
+        super();
 
-        this.counter = counter;
+        this._alteredCounter = newCounter;
+    }
+
+    get alteredCounter() {
+        return this._alteredCounter;
+    }
+
+    revert() {
+        this.setCounter(this.oldCounter);
+    }
+
+    setCounter(counter: number) {
+        this._alteredCounter = counter;
     }
 }

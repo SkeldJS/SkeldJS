@@ -64,7 +64,7 @@ used for writing remote call procedure messages, see [here](https://github.com/c
 for more information.
 
 Using the above classes rather than extending [BaseMessage](https://skeldjs.github.io/SkeldJS/classes/protocol.basemessage.html)
-means that you don't need to specify the message type, since they will be set to `option`, `root`, `gamedata` and `rpc` respectfullys if you extend them.
+means that you don't need to specify the message type, since they will be set to `option`, `root`, `gamedata` and `rpc` respectfully if you extend them.
 
 The Deserialize and Serialize methods take 3 parameters, a [HazelReader](https://skeldjs.github.io/SkeldJS/classes/util.hazelreader.html)
 or [HazelWriter](https://skeldjs.github.io/SkeldJS/classes/util.hazelwriter.html)
@@ -102,7 +102,7 @@ const packetDecoder = new PacketDecoder;
 packetDecoder.register(MyFavouriteMessage);
 
 packetDecoder.on(MyFavouriteMessage, (message, direction, sender) => {
-    console.log("Got my favourite message from ", sender.username);
+    console.log("Got my favourite message from %s", sender.username);
 });
 ```
 to register and listen for your favourite message ever.

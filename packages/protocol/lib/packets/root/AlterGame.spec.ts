@@ -12,7 +12,7 @@ describe("AlterGameMessage", () => {
 
             assert.strictEqual(packet.tag, RootMessageTag.AlterGame);
             assert.strictEqual(packet.code, -1932862904);
-            assert.strictEqual(packet.alter_tag, AlterGameTag.ChangePrivacy);
+            assert.strictEqual(packet.alterTag, AlterGameTag.ChangePrivacy);
             assert.strictEqual(packet.value, 1);
         });
     });

@@ -1,8 +1,12 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { Color, Hat, Pet, PlayerDataFlags, Skin } from "@skeldjs/constant";
+import { GameData } from "../component";
 
 export class TaskState {
-    constructor(public taskidx: number, public completed: boolean) {}
+    constructor(
+        public taskidx: number,
+        public completed: boolean
+    ) {}
 
     static Deserialize(reader: HazelReader) {
         const task = new TaskState(0, false);
@@ -23,56 +27,45 @@ export class TaskState {
 
 export class PlayerGameData {
     constructor(
+        public readonly gamedata: GameData,
         public playerId: number,
         public name = "",
-        public color = Color.Red,
+        public color = -1,
         public hat = Hat.None,
         public pet = Pet.None,
         public skin = Skin.None,
         public flags = 0,
-        public tasks: TaskState[] = []
+        public taskIds: number[] = [],
+        public taskStates: TaskState[] = []
     ) {}
 
-    static Deserialize(reader: HazelReader, playerId: number) {
-        const player = new PlayerGameData(playerId);
+    get player() {
+        return this.gamedata.room.getPlayerByPlayerId(this.playerId);
+    }
+
+    get isDisconnected() {
+        return (this.flags & PlayerDataFlags.IsDisconnected)
+            === PlayerDataFlags.IsDisconnected;
+    }
+
+    get isImpostor() {
+        return (this.flags & PlayerDataFlags.IsImpostor)
+            === PlayerDataFlags.IsImpostor;
+    }
+
+    get isDead() {
+        return (this.flags & PlayerDataFlags.IsDead)
+            === PlayerDataFlags.IsDead;
+    }
+
+    static createDefault(gamedata: GameData, playerId: number) {
+        return new PlayerGameData(gamedata, playerId, "", Color.Red, Hat.None, Pet.None, Skin.None, 0, [], []);
+    }
+
+    static Deserialize(reader: HazelReader, gamedata: GameData, playerId: number) {
+        const player = this.createDefault(gamedata, playerId);
         player.Deserialize(reader);
         return player;
-    }
-
-    get disconnected() {
-        return (this.flags & PlayerDataFlags.IsDisconnected) > 0;
-    }
-
-    set disconnected(value: boolean) {
-        if (value) {
-            this.flags |= PlayerDataFlags.IsDisconnected;
-        } else {
-            this.flags &= ~PlayerDataFlags.IsDisconnected;
-        }
-    }
-
-    get impostor() {
-        return (this.flags & PlayerDataFlags.IsImpostor) > 0;
-    }
-
-    set impostor(value: boolean) {
-        if (value) {
-            this.flags |= PlayerDataFlags.IsImpostor;
-        } else {
-            this.flags &= ~PlayerDataFlags.IsImpostor;
-        }
-    }
-
-    get dead() {
-        return (this.flags & PlayerDataFlags.IsDead) > 0;
-    }
-
-    set dead(value: boolean) {
-        if (value) {
-            this.flags |= PlayerDataFlags.IsDead;
-        } else {
-            this.flags &= ~PlayerDataFlags.IsDead;
-        }
     }
 
     Deserialize(reader: HazelReader) {
@@ -83,9 +76,9 @@ export class PlayerGameData {
         this.skin = reader.upacked();
         this.flags = reader.byte();
 
-        this.tasks = [];
+        this.taskStates = [];
         const num_tasks = reader.uint8();
-        this.tasks = reader.lread(num_tasks, TaskState);
+        this.taskStates = reader.lread(num_tasks, TaskState);
     }
 
     Serialize(writer: HazelWriter) {
@@ -96,7 +89,91 @@ export class PlayerGameData {
         writer.upacked(this.skin || 0);
         writer.byte(this.flags || 0);
 
-        writer.uint8(this.tasks?.length || 0);
-        writer.lwrite(false, this.tasks || []);
+        writer.uint8(this.taskStates?.length || 0);
+        writer.lwrite(false, this.taskStates || []);
+    }
+
+    clone(playerId: number) {
+        return new PlayerGameData(
+            this.gamedata,
+            playerId,
+            this.name,
+            this.color,
+            this.hat,
+            this.pet,
+            this.skin,
+            this.flags,
+            [...this.taskIds],
+            [...this.taskStates.map(state => new TaskState(state.taskidx, state.completed))]
+        );
+    }
+
+    setDisconnected(isDisconnected: boolean) {
+        if (isDisconnected) {
+            this.setFlags(this.flags | PlayerDataFlags.IsDisconnected);
+        } else {
+            this.setFlags(this.flags & ~PlayerDataFlags.IsDisconnected);
+        }
+    }
+
+    setImpostor(isImpostor: boolean) {
+        if (isImpostor) {
+            this.setFlags(this.flags | PlayerDataFlags.IsImpostor);
+        } else {
+            this.setFlags(this.flags & ~PlayerDataFlags.IsImpostor);
+        }
+    }
+
+    setDead(isDead: boolean) {
+        if (isDead) {
+            this.setFlags(this.flags | PlayerDataFlags.IsDead);
+        } else {
+            this.setFlags(this.flags & ~PlayerDataFlags.IsDead);
+        }
+    }
+
+    setName(name: string) {
+        this.name = name;
+        this.gamedata.update(this);
+    }
+
+    setColor(color: Color) {
+        this.color = color;
+        this.gamedata.update(this);
+    }
+
+    setHat(hat: Hat) {
+        this.hat = hat;
+        this.gamedata.update(this);
+    }
+
+    setPet(pet: Pet) {
+        this.pet = pet;
+        this.gamedata.update(this);
+    }
+
+    setSkin(skin: Skin) {
+        this.skin = skin;
+        this.gamedata.update(this);
+    }
+
+    setFlags(flags: number) {
+        this.flags = flags;
+        this.gamedata.update(this);
+    }
+
+    setTaskIds(taskIds: number[]) {
+        this.taskIds = taskIds;
+        this.gamedata.update(this);
+    }
+
+    setTaskStates(taskStates: TaskState[]) {
+        this.taskStates = taskStates;
+        this.gamedata.update(this);
+    }
+
+    completeTask(state: TaskState) {
+        state.completed = true;
+        this.gamedata.update(this);
     }
 }

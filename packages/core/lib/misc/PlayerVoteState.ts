@@ -30,7 +30,7 @@ export class PlayerVoteState {
         return this.room.getPlayerByPlayerId(this.playerId);
     }
 
-    get skipped() {
+    get didSkip() {
         return this.voted && !this.votedFor;
     }
 

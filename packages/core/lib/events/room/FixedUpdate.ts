@@ -1,22 +1,17 @@
+import { CancelableEvent } from "@skeldjs/events";
 import { BaseGameDataMessage } from "@skeldjs/protocol";
 import { Hostable } from "../../Hostable";
+
 import { RoomEvent } from "../RoomEvent";
 
-/**
- * Emitted before a Fixed Update stream is sent to the server.
- */
-export class RoomFixedUpdateEvent extends RoomEvent {
+export class RoomFixedUpdateEvent extends CancelableEvent implements RoomEvent {
     static eventName = "room.fixedupdate" as const;
     eventName = "room.fixedupdate" as const;
 
-    /**
-     * Array of messages that will be sent to the server.
-     */
-    stream: BaseGameDataMessage[];
-
-    constructor(room: Hostable<any>, stream: BaseGameDataMessage[]) {
-        super(room);
-
-        this.stream = stream;
+    constructor(
+        public readonly room: Hostable,
+        public readonly stream: BaseGameDataMessage[]
+    ) {
+        super();
     }
 }

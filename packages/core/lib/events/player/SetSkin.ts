@@ -1,24 +1,40 @@
+import { BasicEvent } from "@skeldjs/events";
 import { Skin } from "@skeldjs/constant";
+import { SetSkinMessage } from "@skeldjs/protocol";
 
+import { RoomEvent } from "../RoomEvent";
+import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
 
-/**
- * Emitted when a player updates their skin.
- */
-export class PlayerSetSkinEvent extends PlayerEvent {
+export class PlayerSetSkinEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setskin" as const;
     eventName = "player.setskin" as const;
 
-    /**
-     * The skin of the player.
-     */
-    skin: Skin;
+    private _alteredSkin: Skin;
 
-    constructor(room: Hostable<any>, player: PlayerData, skin: Skin) {
-        super(room, player);
+    constructor(
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: SetSkinMessage|undefined,
+        public readonly oldSkin: Skin,
+        public readonly newSkin: Skin
+    ) {
+        super();
 
-        this.skin = skin;
+        this._alteredSkin = newSkin;
+    }
+
+    get alteredSkin() {
+        return this._alteredSkin;
+    }
+
+    revert() {
+        this.setSkin(this.oldSkin);
+    }
+
+    setSkin(skin: Skin) {
+        this._alteredSkin = skin;
     }
 }

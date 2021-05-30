@@ -8,7 +8,7 @@ export class AlterGameMessage extends BaseRootMessage {
     tag = RootMessageTag.AlterGame as const;
 
     readonly code: number;
-    readonly alter_tag: AlterGameTag;
+    readonly alterTag: AlterGameTag;
     readonly value: number;
 
     constructor(code: string | number, alter_tag: AlterGameTag, value: number) {
@@ -20,7 +20,7 @@ export class AlterGameMessage extends BaseRootMessage {
             this.code = code;
         }
 
-        this.alter_tag = alter_tag;
+        this.alterTag = alter_tag;
         this.value = value;
     }
 
@@ -34,7 +34,7 @@ export class AlterGameMessage extends BaseRootMessage {
 
     Serialize(writer: HazelWriter) {
         writer.int32(this.code);
-        writer.uint8(this.alter_tag);
+        writer.uint8(this.alterTag);
         writer.uint8(this.value);
     }
 }

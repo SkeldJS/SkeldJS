@@ -18,9 +18,9 @@ import { PlayerVoteState } from "../misc/PlayerVoteState";
 import { Heritable } from "../Heritable";
 
 import {
-    MeetingHudMeetingCloseEvent,
+    MeetingHudCloseEvent,
     MeetingHudVoteCastEvent,
-    MeetingHudVoteClearEvent,
+    MeetingHudClearVoteEvent,
     MeetingHudVotingCompleteEvent,
 } from "../events";
 import { PlayerData } from "../PlayerData";
@@ -35,9 +35,9 @@ export type MeetingHudEvents = NetworkableEvents &
     ExtractEventTypes<
         [
             MeetingHudVoteCastEvent,
-            MeetingHudVoteClearEvent,
+            MeetingHudClearVoteEvent,
             MeetingHudVotingCompleteEvent,
-            MeetingHudMeetingCloseEvent
+            MeetingHudCloseEvent
         ]
     >;
 
@@ -144,10 +144,14 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
         }
     }
 
-    private _handleClose(rpc: CloseMessage) {
-        void rpc;
-
-        this.emit(new MeetingHudMeetingCloseEvent(this.room, this));
+    private async _handleClose(rpc: CloseMessage) {
+        await this.emit(
+            new MeetingHudCloseEvent(
+                this.room,
+                this,
+                rpc
+            )
+        );
     }
 
     private _close() {
@@ -174,27 +178,33 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     }
 
     private async _handleCastVote(rpc: CastVoteMessage) {
-        const voting = this.states.get(rpc.votingid);
+        const voter = this.states.get(rpc.votingid);
         const player = this.room.getPlayerByPlayerId(rpc.votingid);
         const suspect =
             rpc.suspectid === 0xff
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        if (player && voting && (suspect || rpc.suspectid === 0xff)) {
-            this._castVote(voting, suspect);
+        if (player && voter && (suspect || rpc.suspectid === 0xff)) {
+            this._castVote(voter, suspect);
 
             const ev = await this.emit(
-                new MeetingHudVoteCastEvent(this.room, this, player, suspect)
+                new MeetingHudVoteCastEvent(
+                    this.room,
+                    this,
+                    rpc,
+                    voter,
+                    suspect
+                )
             );
 
-            if (ev.canceled) {
+            if (ev.reverted) {
                 if (player) {
                     await this.clearVote(player);
                 }
             } else {
                 this.room.me?.control?.sendChatNote(
-                    rpc.votingid,
+                    player,
                     ChatNoteType.DidVote
                 );
 
@@ -262,12 +272,23 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
             suspect === "skip" ? undefined : this.room.resolvePlayer(suspect);
 
         if (player && player.playerId !== undefined) {
-            const _voting = this.states.get(player.playerId);
+            const votingState = this.states.get(player.playerId);
 
-            if (_voting && _suspect) {
-                this._castVote(_voting, _suspect);
+            if (votingState && _suspect) {
+                this._castVote(votingState, _suspect);
+
+                await this.emit(
+                    new MeetingHudVoteCastEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        votingState,
+                        _suspect
+                    )
+                );
+
                 this.room.me?.control?.sendChatNote(
-                    player.playerId,
+                    player,
                     ChatNoteType.DidVote
                 );
             }
@@ -286,7 +307,12 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                 this._clearVote(voter);
 
                 await this.emit(
-                    new MeetingHudVoteClearEvent(this.room, this, player)
+                    new MeetingHudClearVoteEvent(
+                        this.room,
+                        this,
+                        rpc,
+                        voter
+                    )
                 );
             }
         }
@@ -325,6 +351,14 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
 
             if (_voter) {
                 this._clearVote(_voter);
+                await this.emit(
+                    new MeetingHudClearVoteEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        _voter
+                    )
+                );
                 await this._rpcClearVote(_voter);
             }
         }
@@ -342,6 +376,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
             new MeetingHudVotingCompleteEvent(
                 this.room,
                 this,
+                rpc,
                 rpc.tie,
                 new Map(
                     rpc.states.map((state, i) => [
@@ -385,12 +420,23 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     votingComplete(tie: boolean, exiled?: PlayerDataResolvable) {
         const _exiled = exiled ? this.room.resolvePlayer(exiled) : undefined;
 
-        const states = new Array(this.room.players.size);
-        for (const [playerid, state] of this.states) {
-            states[playerid] = state.byte;
+        const voteStates: number[] = new Array(this.room.players.size);
+        for (const [ playerid, state ] of this.states) {
+            voteStates[playerid] = state.byte;
         }
 
-        this._votingComplete(states, tie, _exiled);
-        this._rpcVotingComplete(states, tie, _exiled);
+        this._votingComplete(voteStates, tie, _exiled);
+        this._rpcVotingComplete(voteStates, tie, _exiled);
+
+        this.emit(
+            new MeetingHudVotingCompleteEvent(
+                this.room,
+                this,
+                undefined,
+                tie,
+                this.states,
+                _exiled
+            )
+        );
     }
 }

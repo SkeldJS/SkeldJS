@@ -74,6 +74,8 @@ export class InnerShipStatus extends Networkable<
     static classname: ShipStatusClassname;
     classname!: ShipStatusClassname;
 
+    static roomDoors: Partial<Record<SystemType, number[]>>;
+
     systems!: AllSystems;
 
     constructor(
@@ -109,12 +111,12 @@ export class InnerShipStatus extends Networkable<
             const system = systems[i];
 
             if (system?.dirty) {
-                writer.begin(i);
+                writer.begin(system.systemType);
                 system.Serialize(writer, spawn);
                 writer.end();
+                system.dirty = false;
             }
         }
-
         this.dirtyBit = 0;
         return true;
     }
@@ -122,7 +124,7 @@ export class InnerShipStatus extends Networkable<
     async HandleRpc(rpc: BaseRpcMessage) {
         switch (rpc.tag) {
             case RpcMessageTag.RepairSystem:
-                this._handleRepairSystem(rpc as RepairSystemMessage);
+                await this._handleRepairSystem(rpc as RepairSystemMessage);
                 break;
         }
     }
@@ -138,19 +140,19 @@ export class InnerShipStatus extends Networkable<
         }
     }
 
-    private _handleRepairSystem(rpc: RepairSystemMessage) {
+    private async _handleRepairSystem(rpc: RepairSystemMessage) {
         const system = this.systems[rpc.systemid as SystemType] as SystemStatus;
         const player = this.room.getPlayerByNetId(rpc.netid);
 
         if (system && player) {
-            system.HandleRepair(player, rpc.amount);
+            await system.HandleRepair(player, rpc.amount, rpc);
         }
     }
 
     async selectImpostors() {
         const available = [...this.room.players.values()].filter(
             (player) =>
-                player.data && !player.data.disconnected && !player.data.dead
+                player.data && !player.data.isDisconnected && !player.data.isDead
         );
         const max = available.length < 7 ? 1 : available.length < 9 ? 2 : 3;
         const impostors: PlayerData[] = [];
@@ -173,7 +175,7 @@ export class InnerShipStatus extends Networkable<
         );
 
         if (!ev.canceled) {
-            this.room.host?.control?.setImpostors(ev.impostors);
+            await this.room.host?.control?.setImpostors(ev.alteredImpostors);
         }
     }
 }

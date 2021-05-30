@@ -1,24 +1,23 @@
+import { BasicEvent } from "@skeldjs/events";
+import { CompleteTaskMessage } from "@skeldjs/protocol";
+
+import { RoomEvent } from "../RoomEvent";
+import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
-
 import { TaskState } from "../../misc/PlayerGameData";
 
-/**
- * Emitted when a player completes a task.
- */
-export class PlayerCompleteTaskEvent extends PlayerEvent {
+export class PlayerCompleteTaskEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.completetask" as const;
     eventName = "player.completetask" as const;
 
-    /**
-     * The task that the player completed.
-     */
-    task: TaskState;
-
-    constructor(room: Hostable<any>, player: PlayerData, task: TaskState) {
-        super(room, player);
-
-        this.task = task;
+    constructor(
+        public readonly room: Hostable,
+        public readonly player: PlayerData,
+        public readonly message: CompleteTaskMessage|undefined,
+        public readonly task: TaskState
+    ) {
+        super();
     }
 }

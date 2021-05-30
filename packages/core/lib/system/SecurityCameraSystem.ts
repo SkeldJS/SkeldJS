@@ -8,6 +8,7 @@ import { PlayerData } from "../PlayerData";
 import { SecurityCameraJoinEvent, SecurityCameraLeaveEvent } from "../events";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 export interface SecurityCameraSystemData {
     players: Set<PlayerData>;
@@ -51,12 +52,12 @@ export class SecurityCameraSystem extends SystemStatus<
         for (let i = 0; i < num_players; i++) {
             const player = this.ship.room.getPlayerByPlayerId(reader.uint8());
             if (player && !before.has(player)) {
-                this._addPlayer(player);
+                this._addPlayer(player, undefined);
             }
         }
         for (const player of before) {
             if (!this.players.has(player)) {
-                this._removePlayer(player);
+                this._removePlayer(player, undefined);
             }
         }
     }
@@ -70,23 +71,22 @@ export class SecurityCameraSystem extends SystemStatus<
         }
     }
 
-    HandleRepair(player: PlayerData, amount: number) {
-        if (amount === 1) {
-            this._addPlayer(player);
-        } else {
-            this._removePlayer(player);
-        }
-        this.dirty = true;
-    }
-
-    private _addPlayer(player: PlayerData) {
+    private async _addPlayer(player: PlayerData, rpc: RepairSystemMessage|undefined) {
         this.players.add(player);
-        this.emit(new SecurityCameraJoinEvent(this.ship?.room, this, player));
-    }
+        this.dirty = true;
 
-    private _removePlayer(player: PlayerData) {
-        this.players.delete(player);
-        this.emit(new SecurityCameraLeaveEvent(this.ship?.room, this, player));
+        const ev = await this.emit(
+            new SecurityCameraJoinEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.players.delete(player);
+        }
     }
 
     /**
@@ -97,8 +97,33 @@ export class SecurityCameraSystem extends SystemStatus<
      * security.addPlayer(client.me);
      * ```
      */
-    addPlayer(player: PlayerData) {
-        this.repair(player, 1);
+    async addPlayer(player: PlayerData) {
+        await this._addPlayer(player, undefined);
+    }
+
+    async join() {
+        if (!this.room.me)
+            return;
+
+        await this.addPlayer(this.room.me);
+    }
+
+    private async _removePlayer(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+        this.players.delete(player);
+        this.dirty = true;
+
+        const ev = await this.emit(
+            new SecurityCameraLeaveEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.players.add(player);
+        }
     }
 
     /**
@@ -109,7 +134,22 @@ export class SecurityCameraSystem extends SystemStatus<
      * security.removePlayer(client.me);
      * ```
      */
-    removePlayer(player: PlayerData) {
-        this.repair(player, 0);
+    async removePlayer(player: PlayerData) {
+        await this._removePlayer(player, undefined);
+    }
+
+    async leave() {
+        if (!this.room.me)
+            return;
+
+        await this.removePlayer(this.room.me);
+    }
+
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+        if (amount === 1) {
+            await this._addPlayer(player, rpc);
+        } else {
+            await this._removePlayer(player, rpc);
+        }
     }
 }
