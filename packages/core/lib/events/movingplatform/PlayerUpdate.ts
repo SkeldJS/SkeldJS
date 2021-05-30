@@ -8,6 +8,9 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { MovingPlatformEvent } from "./MovingPlatformEvent";
 
 export class MovingPlatformPlayerUpdateEvent extends RevertableEvent implements RoomEvent, MovingPlatformEvent, ProtocolEvent {
+    static eventName = "movingplatform.updateplayer" as const;
+    eventName = "movingplatform.updateplayer" as const;
+
     private _alteredPlayer: PlayerData|undefined;
     private _alteredSide: MovingPlatformSide
 

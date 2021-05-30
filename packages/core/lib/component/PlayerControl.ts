@@ -70,13 +70,20 @@ export interface PlayerControlData {
 export type PlayerControlEvents = NetworkableEvents &
     ExtractEventTypes<
         [
-            PlayerCheckNameEvent,
             PlayerCheckColorEvent,
-            PlayerSetNameEvent,
+            PlayerCheckNameEvent,
+            PlayerMurderEvent,
+            PlayerReportDeadBodyEvent,
+            PlayerSendChatEvent,
             PlayerSetColorEvent,
             PlayerSetHatEvent,
+            PlayerSetImpostorsEvent,
+            PlayerSetNameEvent,
+            PlayerSetPetEvent,
             PlayerSetSkinEvent,
-            PlayerSetPetEvent
+            PlayerSetStartCounterEvent,
+            PlayerStartMeetingEvent,
+            PlayerSyncSettingsEvent
         ]
     >;
 
