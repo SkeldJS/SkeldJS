@@ -88,7 +88,7 @@ client.on("player.setname", ev => {
 * {@link HqHudConsoleCloseEvent | `hqhud.consoles.close`}
 * {@link HqHudConsoleCompleteEvent | `hqhud.consoles.complete`}
 * {@link HqHudConsoleOpenEvent | `hqhud.consoles.open`}
-* {@link HqHudConsoleResetEvent | `hqhud.consoles.reset`}
+* {@link HqHudConsolesResetEvent | `hqhud.consoles.reset`}
 
 ### Med Scan
 * {@link MedScanJoinQueueEvent | `medscan.joinqueue`}
@@ -101,7 +101,7 @@ client.on("player.setname", ev => {
 * {@link MeetingHudVotingCompleteEvent | `meeting.votingcomplete`}
 
 ### Moving Platform
-* {@link MeetingPlatformPlayerUpdateEvent | `movingplatform.updateplayer`}
+* {@link MovingPlatformPlayerUpdateEvent | `movingplatform.updateplayer`}
 
 ### Components
 * {@link NetworkableDespawnEvent | `component.despawn`}
