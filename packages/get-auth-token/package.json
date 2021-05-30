@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/get-auth-token",
-  "version": "2.9.5",
+  "version": "2.10.0",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {

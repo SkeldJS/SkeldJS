@@ -148,7 +148,7 @@ client.on("player.setname", ev => {
 ### Room
 * {@link RoomFixedUpdateEvent | `room.fixedupdate`}
 * {@link RoomGameEndEvent | `room.gameend`}
-* {@link RoomGaneStartEvent | `room.gamestart`}
+* {@link RoomGameStartEvent | `room.gamestart`}
 * {@link RoomSelectImpostorsEvent | `room.selectimpostors`}
 * {@link RoomSetPrivacyEvent | `room.setprivacy`}
 
