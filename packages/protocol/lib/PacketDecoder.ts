@@ -116,7 +116,7 @@ export class PacketDecoder<SenderType = any> {
             (
                 message: Serializable,
                 direction: MessageDirection,
-                sender?: SenderType
+                sender: SenderType
             ) => void
         >
     >;
@@ -238,7 +238,7 @@ export class PacketDecoder<SenderType = any> {
     async emitDecoded(
         message: Serializable,
         direction: MessageDirection,
-        sender?: SenderType
+        sender: SenderType
     ) {
         if (message.children) {
             for (const child of message.children) {
@@ -258,7 +258,7 @@ export class PacketDecoder<SenderType = any> {
     async emitDecodedSerial(
         message: Serializable,
         direction: MessageDirection,
-        sender?: SenderType
+        sender: SenderType
     ) {
         if (message.children) {
             for (const child of message.children) {
@@ -273,7 +273,7 @@ export class PacketDecoder<SenderType = any> {
     async emit(
         message: Serializable,
         direction: MessageDirection,
-        sender?: SenderType
+        sender: SenderType
     ) {
         const classes = this.types.get(message.type);
 
@@ -285,7 +285,7 @@ export class PacketDecoder<SenderType = any> {
 
                 await Promise.all(
                     [...listeners].map(listener =>
-                        listener(message, direction, sender))
+                        listener(message, direction, sender as SenderType))
                 );
             }
         }
@@ -294,7 +294,7 @@ export class PacketDecoder<SenderType = any> {
     async emitSerial(
         message: Serializable,
         direction: MessageDirection,
-        sender?: SenderType
+        sender: SenderType
     ) {
         const classes = this.types.get(message.type);
 
@@ -305,7 +305,7 @@ export class PacketDecoder<SenderType = any> {
                 const listeners = this.getListeners(messageClass);
 
                 for (const listener of listeners) {
-                    await listener(message, direction, sender);
+                    await listener(message, direction, sender as SenderType);
                 }
             }
         }
@@ -322,7 +322,7 @@ export class PacketDecoder<SenderType = any> {
         (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     > {
         const listeners = this.listeners.get(messageClass);
@@ -345,7 +345,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ): () => void;
     /**
@@ -359,7 +359,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ): () => void;
     on(
@@ -367,7 +367,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: any,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ) {
         if (Array.isArray(messageClass)) {
@@ -395,7 +395,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ): void;
     /**
@@ -408,7 +408,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ): void;
     off(
@@ -416,7 +416,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: any,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ) {
         if (Array.isArray(messageClass)) {
@@ -443,7 +443,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ): () => void;
     /**
@@ -457,7 +457,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ): () => void;
     once(
@@ -465,7 +465,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: any,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => void
     ) {
         const removeListener = this.on(
@@ -489,7 +489,7 @@ export class PacketDecoder<SenderType = any> {
     ): Promise<{
         message: GetSerialized<T>;
         direction: MessageDirection;
-        sender?: SenderType;
+        sender: SenderType;
     }> {
         return new Promise((resolve) => {
             this.once(messageClass, (message, direction, sender) => {
@@ -509,12 +509,12 @@ export class PacketDecoder<SenderType = any> {
         filter: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender?: SenderType
+            sender: SenderType
         ) => boolean
     ): Promise<{
         message: GetSerialized<T>;
         direction: MessageDirection;
-        sender?: SenderType;
+        sender: SenderType;
     }> {
         return new Promise((resolve) => {
             const removeListener = this.on(
@@ -566,7 +566,7 @@ export class PacketDecoder<SenderType = any> {
     async write(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound,
-        sender?: SenderType
+        sender: SenderType
     ) {
         const message = this._parse(reader, direction);
 
