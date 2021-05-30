@@ -6,7 +6,7 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
-import { TaskState } from "../../misc/PlayerGameData";
+import { TaskState } from "../../misc/PlayerInfo";
 
 export class PlayerCompleteTaskEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.completetask" as const;

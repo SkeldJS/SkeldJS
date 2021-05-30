@@ -1,4 +1,4 @@
-import { AlterGameTag, SpawnType } from "@skeldjs/constant";
+import { SpawnType } from "@skeldjs/constant";
 
 import { Code2Int } from "@skeldjs/util";
 

@@ -25,7 +25,7 @@ export class TaskState {
     }
 }
 
-export class PlayerGameData {
+export class PlayerInfo {
     constructor(
         public readonly gamedata: GameData,
         public playerId: number,
@@ -59,7 +59,7 @@ export class PlayerGameData {
     }
 
     static createDefault(gamedata: GameData, playerId: number) {
-        return new PlayerGameData(gamedata, playerId, "", Color.Red, Hat.None, Pet.None, Skin.None, 0, [], []);
+        return new PlayerInfo(gamedata, playerId, "", Color.Red, Hat.None, Pet.None, Skin.None, 0, [], []);
     }
 
     static Deserialize(reader: HazelReader, gamedata: GameData, playerId: number) {
@@ -94,7 +94,7 @@ export class PlayerGameData {
     }
 
     clone(playerId: number) {
-        return new PlayerGameData(
+        return new PlayerInfo(
             this.gamedata,
             playerId,
             this.name,

@@ -17,7 +17,7 @@ import { PlayerData } from "../PlayerData";
 
 import { PlayerControl } from "./PlayerControl";
 import { PlayerVoteState } from "../misc/PlayerVoteState";
-import { PlayerGameData, TaskState } from "../misc/PlayerGameData";
+import { PlayerInfo, TaskState } from "../misc/PlayerInfo";
 
 import {
     GameDataAddPlayerEvent,
@@ -26,7 +26,7 @@ import {
 } from "../events";
 
 export interface GameDataData {
-    players: Map<number, PlayerGameData>;
+    players: Map<number, PlayerInfo>;
 }
 
 export type GameDataEvents = NetworkableEvents &
@@ -42,7 +42,7 @@ export type PlayerIDResolvable =
     | number
     | PlayerData
     | PlayerControl
-    | PlayerGameData
+    | PlayerInfo
     | PlayerVoteState;
 
 /**
@@ -60,7 +60,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
     /**
      * The players in the game data.
      */
-    players: Map<number, PlayerGameData>;
+    players: Map<number, PlayerInfo>;
 
     constructor(
         room: Hostable<any>,
@@ -94,7 +94,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
 
             for (let i = 0; i < num_players; i++) {
                 const playerId = reader.uint8();
-                const player = PlayerGameData.Deserialize(reader, this, playerId);
+                const player = PlayerInfo.Deserialize(reader, this, playerId);
 
                 this.players.set(player.playerId, player);
             }
@@ -107,7 +107,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
                 if (player) {
                     player.Deserialize(preader);
                 } else {
-                    const player = PlayerGameData.Deserialize(
+                    const player = PlayerInfo.Deserialize(
                         preader,
                         this,
                         playerId
@@ -280,13 +280,13 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
         }
     }
 
-    private _setTasks(player: PlayerGameData, taskIds: number[]) {
+    private _setTasks(player: PlayerInfo, taskIds: number[]) {
         player.taskIds = taskIds;
         player.taskStates = taskIds.map((id, i) => new TaskState(i, false));
         this.update(player);
     }
 
-    private _rpcSetTasks(player: PlayerGameData, taskIds: number[]) {
+    private _rpcSetTasks(player: PlayerInfo, taskIds: number[]) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
@@ -369,14 +369,14 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
      * ```
      */
     async add(playerId: number) {
-        const playerGameData = PlayerGameData.createDefault(this, playerId);
-        this.players.set(playerId, playerGameData);
+        const playerInfo = PlayerInfo.createDefault(this, playerId);
+        this.players.set(playerId, playerInfo);
 
         const ev = await this.emit(
             new GameDataAddPlayerEvent(
                 this.room,
                 this,
-                playerGameData
+                playerInfo
             )
         );
 
@@ -385,7 +385,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
         } else {
             this.update(playerId);
         }
-        return playerGameData;
+        return playerInfo;
     }
 
     /**
@@ -393,27 +393,27 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
      * @param resolvable The player to remove.
      */
     async remove(resolvable: PlayerIDResolvable) {
-        const playerGameData = this.resolvePlayerData(resolvable);
+        const playerInfo = this.resolvePlayerData(resolvable);
 
-        if (playerGameData) {
-            const wasMarked = this.dirtyBit & (1 << playerGameData.playerId);
+        if (playerInfo) {
+            const wasMarked = this.dirtyBit & (1 << playerInfo.playerId);
             if (wasMarked) {
-                this.dirtyBit ^= 1 << playerGameData.playerId;
+                this.dirtyBit ^= 1 << playerInfo.playerId;
             }
 
-            this.players.delete(playerGameData.playerId);
+            this.players.delete(playerInfo.playerId);
 
             const ev = await this.emit(
                 new GameDataRemovePlayerEvent(
                     this.room,
                     this,
-                    playerGameData
+                    playerInfo
                 )
             );
 
             if (ev.reverted) {
-                this.players.set(playerGameData.playerId, playerGameData);
-                this.update(playerGameData.playerId);
+                this.players.set(playerInfo.playerId, playerInfo);
+                this.update(playerInfo.playerId);
             }
         }
     }

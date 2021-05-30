@@ -5,7 +5,7 @@ export * from "./system";
 export * from "./misc/AutoOpenDoor";
 export * from "./misc/Door";
 export * from "./misc/HostableOptions";
-export * from "./misc/PlayerGameData";
+export * from "./misc/PlayerInfo";
 export * from "./misc/PlayerVoteState";
 
 export * from "./Heritable";
