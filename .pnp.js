@@ -59,6 +59,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/protocol"
       },
       {
+        "name": "@skeldjs/reactor",
+        "reference": "workspace:packages/reactor"
+      },
+      {
         "name": "@skeldjs/state",
         "reference": "workspace:packages/state"
       },
@@ -91,6 +95,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@skeldjs/lan", ["workspace:packages/lan"]],
       ["@skeldjs/pathfinding", ["workspace:packages/pathfinding"]],
       ["@skeldjs/protocol", ["workspace:packages/protocol"]],
+      ["@skeldjs/reactor", ["workspace:packages/reactor"]],
       ["@skeldjs/state", ["workspace:packages/state"]],
       ["@skeldjs/tasks", ["workspace:packages/tasks"]],
       ["@skeldjs/text", ["workspace:packages/text"]],
@@ -677,6 +682,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/util", "workspace:packages/util"],
             ["@types/mocha", "npm:8.2.2"],
             ["@types/node", "npm:14.14.41"],
+            ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
+          ],
+          "linkType": "SOFT",
+        }]
+      ]],
+      ["@skeldjs/reactor", [
+        ["workspace:packages/reactor", {
+          "packageLocation": "./packages/reactor/",
+          "packageDependencies": [
+            ["@skeldjs/reactor", "workspace:packages/reactor"],
+            ["@skeldjs/client", "workspace:packages/client"],
+            ["@skeldjs/constant", "workspace:packages/constant"],
+            ["@skeldjs/protocol", "workspace:packages/protocol"],
+            ["@skeldjs/util", "workspace:packages/util"],
+            ["@types/mocha", "npm:8.2.0"],
+            ["@types/node", "npm:14.14.16"],
             ["typescript", "patch:typescript@npm%3A4.2.4#builtin<compat/typescript>::version=4.2.4&hash=a45b0e"]
           ],
           "linkType": "SOFT",

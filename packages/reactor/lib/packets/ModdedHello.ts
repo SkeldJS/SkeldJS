@@ -1,17 +1,17 @@
 import { SendOption } from "@skeldjs/constant";
-import { BaseRootPacket } from "@skeldjs/protocol";
+import { BaseRootPacket, HelloPacket } from "@skeldjs/protocol";
 import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
 
 export class ModdedHelloPacket extends BaseRootPacket {
     static tag = SendOption.Hello as const;
     tag = SendOption.Hello as const;
 
-    nonce!: number;
-    clientver!: VersionInfo;
-    username!: string;
-    token!: number;
-    protocolver!: number;
-    modcount!: number;
+    nonce: number;
+    clientver: VersionInfo;
+    username: string;
+    token: number;
+    protocolver: number;
+    modcount: number;
 
     constructor(
         nonce: number,
@@ -23,12 +23,16 @@ export class ModdedHelloPacket extends BaseRootPacket {
     ) {
         super();
 
-        this.nonce = nonce as number;
-        this.clientver = clientver as VersionInfo;
-        this.username = username as string;
-        this.token = token as number;
-        this.protocolver = protocolver as number;
-        this.modcount = modcount as number;
+        this.nonce = nonce;
+        this.clientver = clientver;
+        this.username = username;
+        this.token = token;
+        this.protocolver = protocolver;
+        this.modcount = modcount;
+    }
+
+    isNormalHello(): this is HelloPacket {
+        return this.protocolver === undefined;
     }
 
     static Deserialize(reader: HazelReader) {
@@ -37,6 +41,7 @@ export class ModdedHelloPacket extends BaseRootPacket {
         const clientver = reader.read(VersionInfo);
         const username = reader.string();
         const token = reader.uint32();
+
         const protocolversion = reader.uint8();
         const modcount = reader.packed();
 
@@ -55,8 +60,6 @@ export class ModdedHelloPacket extends BaseRootPacket {
         writer.write(this.clientver);
         writer.string(this.username);
         writer.uint32(this.token);
-        writer.uint8(this.protocolver);
-        writer.packed(this.modcount);
         writer.uint8(this.protocolver);
         writer.packed(this.modcount);
     }

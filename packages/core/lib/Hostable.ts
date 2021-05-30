@@ -160,7 +160,7 @@ export class Hostable<
      */
     hostid: number;
 
-    private _incr_netid: number;
+    protected _incr_netid: number;
 
     /**
      * The settings of the room.
@@ -185,12 +185,12 @@ export class Hostable<
     /**
      * Whether or not this room has been destroyed.
      */
-    private _destroyed: boolean;
+    protected _destroyed: boolean;
 
-    private _started: boolean;
+    protected _started: boolean;
     protected last_fixed_update: number;
 
-    private _interval?: NodeJS.Timeout;
+    protected _interval?: NodeJS.Timeout;
 
     constructor(public options: HostableOptions = {}) {
         super(null as unknown as Hostable<any>, -2);
