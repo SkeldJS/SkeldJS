@@ -140,7 +140,7 @@
 					</li>
 				</ul>
 				<p>Using the above classes rather than extending <a href="https://skeldjs.github.io/SkeldJS/classes/protocol.basemessage.html">BaseMessage</a>
-				means that you don&#39;t need to specify the message type, since they will be set to <code>option</code>, <code>root</code>, <code>gamedata</code> and <code>rpc</code> respectfullys if you extend them.</p>
+				means that you don&#39;t need to specify the message type, since they will be set to <code>option</code>, <code>root</code>, <code>gamedata</code> and <code>rpc</code> respectfully if you extend them.</p>
 				<p>The Deserialize and Serialize methods take 3 parameters, a <a href="https://skeldjs.github.io/SkeldJS/classes/util.hazelreader.html">HazelReader</a>
 					or <a href="https://skeldjs.github.io/SkeldJS/classes/util.hazelwriter.html">HazelWriter</a>
 					instance respectfully, and also both take a <a href="https://skeldjs.github.io/SkeldJS/enums/protocol.messagedirection.html">MessageDirection</a>
@@ -175,7 +175,7 @@
 <span style="color: #001080">packetDecoder</span><span style="color: #000000">.</span><span style="color: #795E26">register</span><span style="color: #000000">(</span><span style="color: #001080">MyFavouriteMessage</span><span style="color: #000000">);</span>
 
 <span style="color: #001080">packetDecoder</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #001080">MyFavouriteMessage</span><span style="color: #000000">, (</span><span style="color: #001080">message</span><span style="color: #000000">, </span><span style="color: #001080">direction</span><span style="color: #000000">, </span><span style="color: #001080">sender</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Got my favourite message from &quot;</span><span style="color: #000000">, </span><span style="color: #001080">sender</span><span style="color: #000000">.</span><span style="color: #001080">username</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Got my favourite message from %s&quot;</span><span style="color: #000000">, </span><span style="color: #001080">sender</span><span style="color: #000000">.</span><span style="color: #001080">username</span><span style="color: #000000">);</span>
 <span style="color: #000000">});</span>
 </code></pre>
 				<p>to register and listen for your favourite message ever.</p>

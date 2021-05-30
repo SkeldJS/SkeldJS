@@ -70,37 +70,24 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Emitted when a player is added to the game data player list.</p>
-					</div>
-					<p>This event is not the same as the <a href="core.playerjoinevent.html">Player Join Event</a> as this only applies when the player has actually spawned.</p>
-					<p>This event does not necessarily mean that the player has name/colour information, although that may be the case. To listen for those, see the
-					<a href="core.playersetcolorevent.html">Player Set Color Event</a> and the <a href="core.playersetnameevent.html">Player Set Name Event</a>.</p>
-					<dl class="tsd-comment-tags">
-						<dt>example</dt>
-						<dd><pre><code class="language-ts"><span style="color: #008000">// Log whenever a player gets added to gamedata.</span>
-<span style="color: #008000">// Remember that &#039;name&#039; is not necessarily anything meaningful when it is first created.</span>
-<span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;gamedata.addplayer&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;A player with name &quot;</span><span style="color: #000000"> + </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000"> + </span><span style="color: #A31515">&quot; was added.&quot;</span><span style="color: #000000">);</span>
-<span style="color: #000000">});</span>
-</code></pre>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">GameDataEvent</a>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">RevertableEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">GameDataAddPlayerEvent</span>
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/core.roomevent.html" class="tsd-signature-type" data-tsd-kind="Interface">RoomEvent</a></li>
+					<li><a href="../interfaces/core.gamedataevent.html" class="tsd-signature-type" data-tsd-kind="Interface">GameDataEvent</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -116,18 +103,18 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.gamedataaddplayerevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.gamedataaddplayerevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.gamedataaddplayerevent.html#gamedata" class="tsd-kind-icon">gamedata</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.gamedataaddplayerevent.html#gamedata" class="tsd-kind-icon">gamedata</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.gamedataaddplayerevent.html#player" class="tsd-kind-icon">player</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.gamedataaddplayerevent.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.gamedataaddplayerevent.html#reverted" class="tsd-kind-icon">reverted</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.gamedataaddplayerevent.html#room" class="tsd-kind-icon">room</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.gamedataaddplayerevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.gamedataaddplayerevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.gamedataaddplayerevent.html#revert" class="tsd-kind-icon">revert</a></li>
 							</ul>
 						</section>
 					</div>
@@ -139,26 +126,26 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Game<wbr>Data<wbr>Add<wbr>Player<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, gamedata<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">GameData</a>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerGameData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">GameDataAddPlayerEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Game<wbr>Data<wbr>Add<wbr>Player<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span>, gamedata<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">GameData</a>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">GameDataAddPlayerEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides GameDataEvent.constructor</p>
+								<p>Overrides RevertableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/gamedata/AddPlayer.ts#L30">core/lib/events/gamedata/AddPlayer.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/gamedata/AddPlayer.ts#L10">core/lib/events/gamedata/AddPlayer.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>gamedata: <a href="" class="tsd-signature-type" data-tsd-kind="Class">GameData</a></h5>
 								</li>
 								<li>
-									<h5>player: <span class="tsd-signature-type">PlayerGameData</span></h5>
+									<h5>player: <span class="tsd-signature-type">PlayerInfo</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">GameDataAddPlayerEvent</a></h4>
@@ -168,68 +155,49 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="canceled" class="tsd-anchor"></a>
-					<h3>canceled</h3>
-					<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from GameDataEvent.canceled</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="eventname" class="tsd-anchor"></a>
 					<h3>event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides GameDataEvent.eventName</p>
+						<p>Overrides RevertableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/gamedata/AddPlayer.ts#L25">core/lib/events/gamedata/AddPlayer.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/gamedata/AddPlayer.ts#L10">core/lib/events/gamedata/AddPlayer.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="gamedata" class="tsd-anchor"></a>
-					<h3>gamedata</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> gamedata</h3>
 					<div class="tsd-signature tsd-kind-icon">gamedata<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">GameData</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from GameDataEvent.gamedata</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/gamedata/GameDataEvent.ts#L9">core/lib/events/gamedata/GameDataEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.gamedataevent.html">GameDataEvent</a>.<a href="../interfaces/core.gamedataevent.html#gamedata">gamedata</a></p>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The game data object in question.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="player" class="tsd-anchor"></a>
-					<h3>player</h3>
-					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerGameData</span></div>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> player</h3>
+					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerInfo</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/gamedata/AddPlayer.ts#L30">core/lib/events/gamedata/AddPlayer.ts:30</a></li>
-						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The player data in question that was added to the game data player list.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="reverted" class="tsd-anchor"></a>
+					<h3>reverted</h3>
+					<div class="tsd-signature tsd-kind-icon">reverted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from RevertableEvent.reverted</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/RevertableEvent.ts#L4">events/lib/RevertableEvent.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="room" class="tsd-anchor"></a>
-					<h3>room</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
 					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from GameDataEvent.room</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/RoomEvent.ts#L9">core/lib/events/RoomEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.roomevent.html">RoomEvent</a>.<a href="../interfaces/core.roomevent.html#room">room</a></p>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
@@ -242,9 +210,9 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;gamedata.addplayer&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides GameDataEvent.eventName</p>
+						<p>Overrides RevertableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/gamedata/AddPlayer.ts#L24">core/lib/events/gamedata/AddPlayer.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/gamedata/AddPlayer.ts#L9">core/lib/events/gamedata/AddPlayer.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -252,17 +220,17 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="cancel" class="tsd-anchor"></a>
-					<h3>cancel</h3>
+					<a name="revert" class="tsd-anchor"></a>
+					<h3>revert</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">cancel<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">revert<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from GameDataEvent.cancel</p>
+								<p>Inherited from RevertableEvent.revert</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/RevertableEvent.ts#L12">events/lib/RevertableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -361,26 +329,26 @@
 									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.gamedataaddplayerevent.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.gamedataaddplayerevent.html#canceled" class="tsd-kind-icon">canceled</a>
-									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.gamedataaddplayerevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.gamedataaddplayerevent.html#gamedata" class="tsd-kind-icon">gamedata</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.gamedataaddplayerevent.html#player" class="tsd-kind-icon">player</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.gamedataaddplayerevent.html#reverted" class="tsd-kind-icon">reverted</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.gamedataaddplayerevent.html#room" class="tsd-kind-icon">room</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="core.gamedataaddplayerevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.gamedataaddplayerevent.html#cancel" class="tsd-kind-icon">cancel</a>
+										<a href="core.gamedataaddplayerevent.html#revert" class="tsd-kind-icon">revert</a>
 									</li>
 								</ul>
 							</li>

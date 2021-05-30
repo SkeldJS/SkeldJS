@@ -101,16 +101,12 @@
 								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.autoopendoor.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.autoopendoor.html#id" class="tsd-kind-icon">id</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Accessors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="core.autoopendoor.html#isopen" class="tsd-kind-icon">is<wbr>Open</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.autoopendoor.html#isopen" class="tsd-kind-icon">is<wbr>Open</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.autoopendoor.html#timer" class="tsd-kind-icon">timer</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -121,6 +117,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.autoopendoor.html#serialize" class="tsd-kind-icon">Serialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.autoopendoor.html#close" class="tsd-kind-icon">close</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.autoopendoor.html#emit" class="tsd-kind-icon">emit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.autoopendoor.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.autoopendoor.html#getlisteners" class="tsd-kind-icon">get<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.autoopendoor.html#off" class="tsd-kind-icon">off</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.autoopendoor.html#on" class="tsd-kind-icon">on</a></li>
@@ -140,20 +137,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Auto<wbr>Open<wbr>Door<span class="tsd-signature-symbol">(</span>system<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SystemStatus</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type" data-tsd-kind="Type alias">SystemStatusEvents</a><span class="tsd-signature-symbol">&gt;</span>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, isOpen<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AutoOpenDoor</span></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Auto<wbr>Open<wbr>Door<span class="tsd-signature-symbol">(</span>system<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">AutoDoorsSystem</a>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, isOpen<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AutoOpenDoor</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides Door.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/AutoOpenDoor.ts#L10">core/lib/misc/AutoOpenDoor.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/AutoOpenDoor.ts#L10">core/lib/misc/AutoOpenDoor.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>system: <a href="" class="tsd-signature-type" data-tsd-kind="Class">SystemStatus</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><a href="../modules/core.html#systemstatusevents" class="tsd-signature-type" data-tsd-kind="Type alias">SystemStatusEvents</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>system: <a href="" class="tsd-signature-type" data-tsd-kind="Class">AutoDoorsSystem</a></h5>
 								</li>
 								<li>
 									<h5>id: <span class="tsd-signature-type">number</span></h5>
@@ -167,7 +164,7 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="id" class="tsd-anchor"></a>
@@ -177,50 +174,26 @@
 						<p>Inherited from Door.id</p>
 					</aside>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="isopen" class="tsd-anchor"></a>
 					<h3>is<wbr>Open</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isOpen<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> isOpen<span class="tsd-signature-symbol">(</span>isOpen<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/Door.ts#L52">core/lib/misc/Door.ts:52</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Whether or not this door is currently open.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/Door.ts#L56">core/lib/misc/Door.ts:56</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Whether or not this door is currently open.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>isOpen: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Open<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Door.isOpen</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/Door.ts#L17">core/lib/misc/Door.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="timer" class="tsd-anchor"></a>
+					<h3>timer</h3>
+					<div class="tsd-signature tsd-kind-icon">timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/AutoOpenDoor.ts#L10">core/lib/misc/AutoOpenDoor.ts:10</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -236,7 +209,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/Door.ts#L40">core/lib/misc/Door.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/Door.ts#L40">core/lib/misc/Door.ts:40</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -262,7 +235,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/AutoOpenDoor.ts#L22">core/lib/misc/AutoOpenDoor.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/AutoOpenDoor.ts#L22">core/lib/misc/AutoOpenDoor.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -286,7 +259,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/Door.ts#L45">core/lib/misc/Door.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/Door.ts#L45">core/lib/misc/Door.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -306,14 +279,14 @@
 					<a name="close" class="tsd-anchor"></a>
 					<h3>close</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Door.close</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/Door.ts#L74">core/lib/misc/Door.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/Door.ts#L59">core/lib/misc/Door.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -321,7 +294,7 @@
 									<p>Force the door to close.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -336,7 +309,37 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/Door.ts#L29">core/lib/misc/Door.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/Door.ts#L29">core/lib/misc/Door.ts:29</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">Event</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="emitserial" class="tsd-anchor"></a>
+					<h3>emit<wbr>Serial</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">emit<wbr>Serial&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Door.emitSerial</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -366,7 +369,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.getListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L91">events/lib/EventEmitter.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L104">events/lib/EventEmitter.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -396,7 +399,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.off</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L82">events/lib/EventEmitter.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L95">events/lib/EventEmitter.ts:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -430,7 +433,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L47">events/lib/EventEmitter.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L60">events/lib/EventEmitter.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -466,7 +469,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L51">events/lib/EventEmitter.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -506,7 +509,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L59">events/lib/EventEmitter.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -542,7 +545,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L63">events/lib/EventEmitter.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L76">events/lib/EventEmitter.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -574,14 +577,14 @@
 					<a name="open" class="tsd-anchor"></a>
 					<h3>open</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">open<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">open<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from Door.open</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/misc/Door.ts#L64">core/lib/misc/Door.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/misc/Door.ts#L52">core/lib/misc/Door.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -589,7 +592,7 @@
 									<p>Force the door open.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -604,7 +607,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.removeAllListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L105">events/lib/EventEmitter.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L118">events/lib/EventEmitter.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -622,7 +625,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.removeListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L100">events/lib/EventEmitter.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L113">events/lib/EventEmitter.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -647,7 +650,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L85">events/lib/EventEmitter.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -668,7 +671,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Door.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L75">events/lib/EventEmitter.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L88">events/lib/EventEmitter.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -776,8 +779,11 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.autoopendoor.html#id" class="tsd-kind-icon">id</a>
 									</li>
-									<li class=" tsd-kind-accessor tsd-parent-kind-class">
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.autoopendoor.html#isopen" class="tsd-kind-icon">is<wbr>Open</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.autoopendoor.html#timer" class="tsd-kind-icon">timer</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.autoopendoor.html#deserialize" class="tsd-kind-icon">Deserialize</a>
@@ -793,6 +799,9 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.autoopendoor.html#emit" class="tsd-kind-icon">emit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.autoopendoor.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.autoopendoor.html#getlisteners" class="tsd-kind-icon">get<wbr>Listeners</a>
@@ -871,8 +880,8 @@
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>

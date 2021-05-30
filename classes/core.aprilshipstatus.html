@@ -112,6 +112,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.aprilshipstatus.html#systems" class="tsd-kind-icon">systems</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.aprilshipstatus.html#type" class="tsd-kind-icon">type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.aprilshipstatus.html#classname-1" class="tsd-kind-icon">classname</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.aprilshipstatus.html#roomdoors" class="tsd-kind-icon">room<wbr>Doors</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.aprilshipstatus.html#type-1" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
@@ -126,12 +127,13 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.aprilshipstatus.html#deserialize" class="tsd-kind-icon">Deserialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.aprilshipstatus.html#fixedupdate" class="tsd-kind-icon">Fixed<wbr>Update</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.aprilshipstatus.html#handlerpc" class="tsd-kind-icon">Handle<wbr>Rpc</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.aprilshipstatus.html#handlerpc" class="tsd-kind-icon">Handle<wbr>Rpc</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.aprilshipstatus.html#preserialize" class="tsd-kind-icon">Pre<wbr>Serialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.aprilshipstatus.html#serialize" class="tsd-kind-icon">Serialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.aprilshipstatus.html#setup" class="tsd-kind-icon">Setup</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.aprilshipstatus.html#despawn" class="tsd-kind-icon">despawn</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.aprilshipstatus.html#emit" class="tsd-kind-icon">emit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.aprilshipstatus.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.aprilshipstatus.html#getlisteners" class="tsd-kind-icon">get<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.aprilshipstatus.html#off" class="tsd-kind-icon">off</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.aprilshipstatus.html#on" class="tsd-kind-icon">on</a></li>
@@ -159,7 +161,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides InnerShipStatus.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/AprilShipStatus.ts#L41">core/lib/component/AprilShipStatus.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L52">core/lib/component/AprilShipStatus.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -191,7 +193,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides InnerShipStatus.classname</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/AprilShipStatus.ts#L30">core/lib/component/AprilShipStatus.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L31">core/lib/component/AprilShipStatus.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -202,7 +204,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from InnerShipStatus.dirtyBit</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L54">core/lib/Networkable.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L54">core/lib/Networkable.ts:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -218,7 +220,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from InnerShipStatus.netid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L44">core/lib/Networkable.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L44">core/lib/Networkable.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -234,7 +236,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from InnerShipStatus.ownerid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L49">core/lib/Networkable.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L49">core/lib/Networkable.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -250,7 +252,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from InnerShipStatus.room</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L39">core/lib/Networkable.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L39">core/lib/Networkable.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -266,7 +268,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides InnerShipStatus.systems</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/AprilShipStatus.ts#L32">core/lib/component/AprilShipStatus.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L43">core/lib/component/AprilShipStatus.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -306,7 +308,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides InnerShipStatus.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/AprilShipStatus.ts#L27">core/lib/component/AprilShipStatus.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L28">core/lib/component/AprilShipStatus.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -317,9 +319,46 @@
 					<aside class="tsd-sources">
 						<p>Overrides InnerShipStatus.classname</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/AprilShipStatus.ts#L29">core/lib/component/AprilShipStatus.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L30">core/lib/component/AprilShipStatus.ts:30</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+					<a name="roomdoors" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> room<wbr>Doors</h3>
+					<div class="tsd-signature tsd-kind-icon">room<wbr>Doors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>10<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>11<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>13<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>7<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<p>Overrides InnerShipStatus.roomDoors</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L33">core/lib/component/AprilShipStatus.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>1<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>10<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>11<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>13<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>4<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>7<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="type-1" class="tsd-anchor"></a>
@@ -328,7 +367,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides InnerShipStatus.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/AprilShipStatus.ts#L26">core/lib/component/AprilShipStatus.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L27">core/lib/component/AprilShipStatus.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -345,7 +384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L89">core/lib/Networkable.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L89">core/lib/Networkable.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Heritable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -366,7 +405,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/InnerShipStatus.ts#L91">core/lib/component/InnerShipStatus.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/InnerShipStatus.ts#L93">core/lib/component/InnerShipStatus.ts:93</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -393,7 +432,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.FixedUpdate</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/InnerShipStatus.ts#L130">core/lib/component/InnerShipStatus.ts:130</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/InnerShipStatus.ts#L132">core/lib/component/InnerShipStatus.ts:132</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -406,18 +445,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="handlerpc" class="tsd-anchor"></a>
 					<h3>Handle<wbr>Rpc</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">Handle<wbr>Rpc<span class="tsd-signature-symbol">(</span>rpc<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BaseRpcMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from InnerShipStatus.HandleRpc</p>
+								<p>Overrides InnerShipStatus.HandleRpc</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/InnerShipStatus.ts#L122">core/lib/component/InnerShipStatus.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L63">core/lib/component/AprilShipStatus.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -441,7 +480,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.PreSerialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L100">core/lib/Networkable.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L100">core/lib/Networkable.ts:100</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -459,7 +498,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/InnerShipStatus.ts#L105">core/lib/component/InnerShipStatus.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/InnerShipStatus.ts#L107">core/lib/component/InnerShipStatus.ts:107</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -486,7 +525,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides InnerShipStatus.Setup</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/AprilShipStatus.ts#L52">core/lib/component/AprilShipStatus.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/AprilShipStatus.ts#L82">core/lib/component/AprilShipStatus.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -504,7 +543,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.despawn</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L116">core/lib/Networkable.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L116">core/lib/Networkable.ts:116</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -527,7 +566,37 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L81">core/lib/Networkable.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L81">core/lib/Networkable.ts:81</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">Event</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="emitserial" class="tsd-anchor"></a>
+					<h3>emit<wbr>Serial</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">emit<wbr>Serial&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from InnerShipStatus.emitSerial</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -557,7 +626,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.getListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L91">events/lib/EventEmitter.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L104">events/lib/EventEmitter.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -587,13 +656,13 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.off</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L82">events/lib/EventEmitter.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L95">events/lib/EventEmitter.ts:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;movingplatform.player.update&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switch.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.selectimpostors&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -621,13 +690,13 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L47">events/lib/EventEmitter.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L60">events/lib/EventEmitter.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;movingplatform.player.update&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switch.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.selectimpostors&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -657,7 +726,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L51">events/lib/EventEmitter.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -697,13 +766,13 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L59">events/lib/EventEmitter.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;movingplatform.player.update&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switch.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.selectimpostors&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -733,7 +802,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L63">events/lib/EventEmitter.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L76">events/lib/EventEmitter.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -772,7 +841,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.removeAllListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L105">events/lib/EventEmitter.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L118">events/lib/EventEmitter.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -790,7 +859,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.removeListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L100">events/lib/EventEmitter.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L113">events/lib/EventEmitter.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -814,7 +883,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.selectImpostors</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/component/InnerShipStatus.ts#L150">core/lib/component/InnerShipStatus.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/component/InnerShipStatus.ts#L152">core/lib/component/InnerShipStatus.ts:152</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -832,7 +901,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.spawn</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/Networkable.ts#L109">core/lib/Networkable.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/Networkable.ts#L109">core/lib/Networkable.ts:109</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -856,13 +925,13 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L85">events/lib/EventEmitter.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;doors.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.sabotage&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;system.repair&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.reset&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.open&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.close&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;hqhud.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.clear&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;o2.consoles.complete&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;movingplatform.player.update&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.join&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;electrical.switch.flip&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;room.selectimpostors&quot;</span></h4>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -877,7 +946,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from InnerShipStatus.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/EventEmitter.ts#L75">events/lib/EventEmitter.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/EventEmitter.ts#L88">events/lib/EventEmitter.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1007,6 +1076,9 @@
 										<a href="core.aprilshipstatus.html#classname-1" class="tsd-kind-icon">classname</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+										<a href="core.aprilshipstatus.html#roomdoors" class="tsd-kind-icon">room<wbr>Doors</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="core.aprilshipstatus.html#type-1" class="tsd-kind-icon">type</a>
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
@@ -1018,7 +1090,7 @@
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.aprilshipstatus.html#fixedupdate" class="tsd-kind-icon">Fixed<wbr>Update</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.aprilshipstatus.html#handlerpc" class="tsd-kind-icon">Handle<wbr>Rpc</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1035,6 +1107,9 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.aprilshipstatus.html#emit" class="tsd-kind-icon">emit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.aprilshipstatus.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.aprilshipstatus.html#getlisteners" class="tsd-kind-icon">get<wbr>Listeners</a>

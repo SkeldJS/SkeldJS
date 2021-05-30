@@ -70,33 +70,23 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Emitted when the ship status of the room chooses who the impostors will be.</p>
-					</div>
-					<p>Can be used to change the logic of how impostors are set.</p>
-					<dl class="tsd-comment-tags">
-						<dt>example</dt>
-						<dd><pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;room.selectimpostors&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">  </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #795E26">setImpostors</span><span style="color: #000000">([ </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #001080">host</span><span style="color: #000000"> ]);</span>
-<span style="color: #000000">});</span>
-</code></pre>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomEvent</a>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">CancelableEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">RoomSelectImpostorsEvent</span>
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/core.roomevent.html" class="tsd-signature-type" data-tsd-kind="Interface">RoomEvent</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -115,8 +105,14 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.roomselectimpostorsevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.roomselectimpostorsevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.roomselectimpostorsevent.html#impostors" class="tsd-kind-icon">impostors</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.roomselectimpostorsevent.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.roomselectimpostorsevent.html#room" class="tsd-kind-icon">room</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.roomselectimpostorsevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.roomselectimpostorsevent.html#alteredimpostors" class="tsd-kind-icon">altered<wbr>Impostors</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -135,20 +131,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Room<wbr>Select<wbr>Impostors<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, impostors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomSelectImpostorsEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Room<wbr>Select<wbr>Impostors<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span>, impostors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RoomSelectImpostorsEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides RoomEvent.constructor</p>
+								<p>Overrides CancelableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/room/SelectImpostors.ts#L24">core/lib/events/room/SelectImpostors.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/room/SelectImpostors.ts#L10">core/lib/events/room/SelectImpostors.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>impostors: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></h5>
@@ -166,9 +162,9 @@
 					<h3>canceled</h3>
 					<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from RoomEvent.canceled</p>
+						<p>Inherited from CancelableEvent.canceled</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -177,36 +173,25 @@
 					<h3>event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;room.selectimpostors&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides RoomEvent.eventName</p>
+						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/room/SelectImpostors.ts#L19">core/lib/events/room/SelectImpostors.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/room/SelectImpostors.ts#L8">core/lib/events/room/SelectImpostors.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="impostors" class="tsd-anchor"></a>
-					<h3>impostors</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> impostors</h3>
 					<div class="tsd-signature tsd-kind-icon">impostors<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/room/SelectImpostors.ts#L24">core/lib/events/room/SelectImpostors.ts:24</a></li>
-						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The impostors that were selected by the room.</p>
-						</div>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="room" class="tsd-anchor"></a>
-					<h3>room</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
 					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from RoomEvent.room</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/RoomEvent.ts#L9">core/lib/events/RoomEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.roomevent.html">RoomEvent</a>.<a href="../interfaces/core.roomevent.html#room">room</a></p>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
@@ -219,11 +204,31 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;room.selectimpostors&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides RoomEvent.eventName</p>
+						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/room/SelectImpostors.ts#L18">core/lib/events/room/SelectImpostors.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/room/SelectImpostors.ts#L7">core/lib/events/room/SelectImpostors.ts:7</a></li>
 						</ul>
 					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="alteredimpostors" class="tsd-anchor"></a>
+					<h3>altered<wbr>Impostors</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> alteredImpostors<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/room/SelectImpostors.ts#L21">core/lib/events/room/SelectImpostors.ts:21</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -237,9 +242,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from RoomEvent.cancel</p>
+								<p>Inherited from CancelableEvent.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -250,19 +255,19 @@
 					<a name="setimpostors" class="tsd-anchor"></a>
 					<h3>set<wbr>Impostors</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Impostors<span class="tsd-signature-symbol">(</span>players<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Impostors<span class="tsd-signature-symbol">(</span>impostors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/room/SelectImpostors.ts#L32">core/lib/events/room/SelectImpostors.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/room/SelectImpostors.ts#L25">core/lib/events/room/SelectImpostors.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>players: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>impostors: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -370,11 +375,14 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.roomselectimpostorsevent.html#impostors" class="tsd-kind-icon">impostors</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.roomselectimpostorsevent.html#room" class="tsd-kind-icon">room</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="core.roomselectimpostorsevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.roomselectimpostorsevent.html#alteredimpostors" class="tsd-kind-icon">altered<wbr>Impostors</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.roomselectimpostorsevent.html#cancel" class="tsd-kind-icon">cancel</a>

@@ -70,37 +70,25 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Emitted when a player reports a dead body or presses the emergency meeting button.</p>
-					</div>
-					<p>Only received if the current client is the host.</p>
-					<p>Can be canceled to prevent a meeting from taking place.</p>
-					<dl class="tsd-comment-tags">
-						<dt>example</dt>
-						<dd><pre><code class="language-ts"><span style="color: #008000">// Prevent the meeting from taking place if the player is the impostor.</span>
-<span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;player.reportbody&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">  </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">?.</span><span style="color: #001080">impostor</span><span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #795E26">cancel</span><span style="color: #000000">();</span>
-<span style="color: #000000">  }</span>
-<span style="color: #000000">});</span>
-</code></pre>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerEvent</a>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">CancelableEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">PlayerReportDeadBodyEvent</span>
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/core.roomevent.html" class="tsd-signature-type" data-tsd-kind="Interface">RoomEvent</a></li>
+					<li><a href="../interfaces/core.playerevent.html" class="tsd-signature-type" data-tsd-kind="Interface">PlayerEvent</a></li>
+					<li><a href="../interfaces/core.protocolevent.html" class="tsd-signature-type" data-tsd-kind="Interface">ProtocolEvent</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -118,17 +106,25 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#body" class="tsd-kind-icon">body</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerreportdeadbodyevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#emergency" class="tsd-kind-icon">emergency</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.playerreportdeadbodyevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerreportdeadbodyevent.html#player" class="tsd-kind-icon">player</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerreportdeadbodyevent.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#player" class="tsd-kind-icon">player</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#room" class="tsd-kind-icon">room</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.playerreportdeadbodyevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#alteredbody" class="tsd-kind-icon">altered<wbr>Body</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerreportdeadbodyevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#setbody" class="tsd-kind-icon">set<wbr>Body</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.playerreportdeadbodyevent.html#setemergency" class="tsd-kind-icon">set<wbr>Emergency</a></li>
 							</ul>
 						</section>
 					</div>
@@ -140,29 +136,29 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Report<wbr>Dead<wbr>Body<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span>, emergency<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, body<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerReportDeadBodyEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Report<wbr>Dead<wbr>Body<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span>, message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">ReportDeadBodyMessage</a>, body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerReportDeadBodyEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides PlayerEvent.constructor</p>
+								<p>Overrides CancelableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/ReportDeadBody.ts#L33">core/lib/events/player/ReportDeadBody.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/ReportDeadBody.ts#L14">core/lib/events/player/ReportDeadBody.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>player: <span class="tsd-signature-type">PlayerData</span></h5>
 								</li>
 								<li>
-									<h5>emergency: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>message: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">ReportDeadBodyMessage</a></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> body: <span class="tsd-signature-type">PlayerData</span></h5>
+									<h5>body: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerReportDeadBodyEvent</a></h4>
@@ -174,81 +170,65 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="body" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> body</h3>
-					<div class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> body</h3>
+					<div class="tsd-signature tsd-kind-icon">body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/ReportDeadBody.ts#L33">core/lib/events/player/ReportDeadBody.ts:33</a></li>
-						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The body that the player reported, if any.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="canceled" class="tsd-anchor"></a>
 					<h3>canceled</h3>
 					<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from PlayerEvent.canceled</p>
+						<p>Inherited from CancelableEvent.canceled</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="emergency" class="tsd-anchor"></a>
-					<h3>emergency</h3>
-					<div class="tsd-signature tsd-kind-icon">emergency<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/ReportDeadBody.ts#L28">core/lib/events/player/ReportDeadBody.ts:28</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Whether or not the meeting called is an emergency.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="eventname" class="tsd-anchor"></a>
 					<h3>event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides PlayerEvent.eventName</p>
+						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/ReportDeadBody.ts#L23">core/lib/events/player/ReportDeadBody.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/ReportDeadBody.ts#L12">core/lib/events/player/ReportDeadBody.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="player" class="tsd-anchor"></a>
-					<h3>player</h3>
-					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="message" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> message</h3>
+					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">ReportDeadBodyMessage</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from PlayerEvent.player</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/PlayerEvent.ts#L9">core/lib/events/player/PlayerEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.protocolevent.html">ProtocolEvent</a>.<a href="../interfaces/core.protocolevent.html#message">message</a></p>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The player in question.</p>
+							<p>The message that this event originated from.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="player" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> player</h3>
+					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/core.playerevent.html">PlayerEvent</a>.<a href="../interfaces/core.playerevent.html#player">player</a></p>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The player that this event is associated with.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="room" class="tsd-anchor"></a>
-					<h3>room</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
 					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from PlayerEvent.room</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/RoomEvent.ts#L9">core/lib/events/RoomEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.roomevent.html">RoomEvent</a>.<a href="../interfaces/core.roomevent.html#room">room</a></p>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
@@ -261,14 +241,34 @@
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides PlayerEvent.eventName</p>
+						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/ReportDeadBody.ts#L22">core/lib/events/player/ReportDeadBody.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/ReportDeadBody.ts#L11">core/lib/events/player/ReportDeadBody.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="alteredbody" class="tsd-anchor"></a>
+					<h3>altered<wbr>Body</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> alteredBody<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/ReportDeadBody.ts#L27">core/lib/events/player/ReportDeadBody.ts:27</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="cancel" class="tsd-anchor"></a>
@@ -279,9 +279,49 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from PlayerEvent.cancel</p>
+								<p>Inherited from CancelableEvent.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setbody" class="tsd-anchor"></a>
+					<h3>set<wbr>Body</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Body<span class="tsd-signature-symbol">(</span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/ReportDeadBody.ts#L35">core/lib/events/player/ReportDeadBody.ts:35</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>body: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setemergency" class="tsd-anchor"></a>
+					<h3>set<wbr>Emergency</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Emergency<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/ReportDeadBody.ts#L31">core/lib/events/player/ReportDeadBody.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -386,23 +426,32 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.playerreportdeadbodyevent.html#canceled" class="tsd-kind-icon">canceled</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.playerreportdeadbodyevent.html#emergency" class="tsd-kind-icon">emergency</a>
-									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.playerreportdeadbodyevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.playerreportdeadbodyevent.html#message" class="tsd-kind-icon">message</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.playerreportdeadbodyevent.html#player" class="tsd-kind-icon">player</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.playerreportdeadbodyevent.html#room" class="tsd-kind-icon">room</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="core.playerreportdeadbodyevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.playerreportdeadbodyevent.html#alteredbody" class="tsd-kind-icon">altered<wbr>Body</a>
+									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.playerreportdeadbodyevent.html#cancel" class="tsd-kind-icon">cancel</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.playerreportdeadbodyevent.html#setbody" class="tsd-kind-icon">set<wbr>Body</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.playerreportdeadbodyevent.html#setemergency" class="tsd-kind-icon">set<wbr>Emergency</a>
 									</li>
 								</ul>
 							</li>
@@ -458,6 +507,7 @@
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>

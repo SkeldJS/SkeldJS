@@ -70,18 +70,11 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Emitted when a player requests to change their scene.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerEvent</a>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">CancelableEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">PlayerSceneChangeEvent</span>
@@ -90,14 +83,22 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/core.roomevent.html" class="tsd-signature-type" data-tsd-kind="Interface">RoomEvent</a></li>
+					<li><a href="../interfaces/core.playerevent.html" class="tsd-signature-type" data-tsd-kind="Interface">PlayerEvent</a></li>
+					<li><a href="../interfaces/core.protocolevent.html" class="tsd-signature-type" data-tsd-kind="Interface">ProtocolEvent</a></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="core.playerscenechangeevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.playerscenechangeevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -105,9 +106,11 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerscenechangeevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.playerscenechangeevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerscenechangeevent.html#player" class="tsd-kind-icon">player</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerscenechangeevent.html#room" class="tsd-kind-icon">room</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.playerscenechangeevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerscenechangeevent.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerscenechangeevent.html#player" class="tsd-kind-icon">player</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerscenechangeevent.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="core.playerscenechangeevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="core.playerscenechangeevent.html#eventnamee" class="tsd-kind-icon">event<wbr>Namee</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
@@ -119,29 +122,32 @@
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Scene<wbr>Change<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerSceneChangeEvent</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Scene<wbr>Change<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span>, message<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SceneChangeMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerSceneChangeEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from PlayerEvent.constructor</p>
+								<p>Overrides CancelableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/PlayerEvent.ts#L9">core/lib/events/player/PlayerEvent.ts:9</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/SceneChange.ts#L11">core/lib/events/player/SceneChange.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
 									<h5>player: <span class="tsd-signature-type">PlayerData</span></h5>
+								</li>
+								<li>
+									<h5>message: <a href="" class="tsd-signature-type" data-tsd-kind="Class">SceneChangeMessage</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerSceneChangeEvent</a></h4>
@@ -156,9 +162,9 @@
 					<h3>canceled</h3>
 					<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from PlayerEvent.canceled</p>
+						<p>Inherited from CancelableEvent.canceled</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -167,37 +173,44 @@
 					<h3>event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides PlayerEvent.eventName</p>
+						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/SceneChange.ts#L8">core/lib/events/player/SceneChange.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/SceneChange.ts#L11">core/lib/events/player/SceneChange.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="player" class="tsd-anchor"></a>
-					<h3>player</h3>
-					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="message" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> message</h3>
+					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">SceneChangeMessage</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from PlayerEvent.player</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/PlayerEvent.ts#L9">core/lib/events/player/PlayerEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.protocolevent.html">ProtocolEvent</a>.<a href="../interfaces/core.protocolevent.html#message">message</a></p>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The player in question.</p>
+							<p>The message that this event originated from.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="player" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> player</h3>
+					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/core.playerevent.html">PlayerEvent</a>.<a href="../interfaces/core.playerevent.html#player">player</a></p>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The player that this event is associated with.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="room" class="tsd-anchor"></a>
-					<h3>room</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
 					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from PlayerEvent.room</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/RoomEvent.ts#L9">core/lib/events/RoomEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.roomevent.html">RoomEvent</a>.<a href="../interfaces/core.roomevent.html#room">room</a></p>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
@@ -205,14 +218,24 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="eventname-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides PlayerEvent.eventName</p>
+						<p>Inherited from CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/player/SceneChange.ts#L7">core/lib/events/player/SceneChange.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/BasicEvent.ts#L2">events/lib/BasicEvent.ts:2</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="eventnamee" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Namee</h3>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Namee<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;player.scenechange&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/player/SceneChange.ts#L10">core/lib/events/player/SceneChange.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -228,9 +251,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from PlayerEvent.cancel</p>
+								<p>Inherited from CancelableEvent.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -326,7 +349,7 @@
 							<li class="current tsd-kind-class tsd-parent-kind-module">
 								<a href="core.playerscenechangeevent.html" class="tsd-kind-icon">Player<wbr>Scene<wbr>Change<wbr>Event</a>
 								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.playerscenechangeevent.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
@@ -335,14 +358,20 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.playerscenechangeevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.playerscenechangeevent.html#message" class="tsd-kind-icon">message</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.playerscenechangeevent.html#player" class="tsd-kind-icon">player</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.playerscenechangeevent.html#room" class="tsd-kind-icon">room</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 										<a href="core.playerscenechangeevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+										<a href="core.playerscenechangeevent.html#eventnamee" class="tsd-kind-icon">event<wbr>Namee</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.playerscenechangeevent.html#cancel" class="tsd-kind-icon">cancel</a>
@@ -399,10 +428,10 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>

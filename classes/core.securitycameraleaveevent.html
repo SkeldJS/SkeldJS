@@ -70,24 +70,25 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Emitted when a player goes off security cameras.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraSystemEvent</a>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">RevertableEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SecurityCameraLeaveEvent</span>
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/core.roomevent.html" class="tsd-signature-type" data-tsd-kind="Interface">RoomEvent</a></li>
+					<li><a href="../interfaces/core.securitycameraevent.html" class="tsd-signature-type" data-tsd-kind="Interface">SecurityCameraEvent</a></li>
+					<li><a href="../interfaces/core.protocolevent.html" class="tsd-signature-type" data-tsd-kind="Interface">ProtocolEvent</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -103,18 +104,19 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.securitycameraleaveevent.html#canceled" class="tsd-kind-icon">canceled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.securitycameraleaveevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.securitycameraleaveevent.html#message" class="tsd-kind-icon">message</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.securitycameraleaveevent.html#player" class="tsd-kind-icon">player</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.securitycameraleaveevent.html#room" class="tsd-kind-icon">room</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.securitycameraleaveevent.html#system" class="tsd-kind-icon">system</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.securitycameraleaveevent.html#reverted" class="tsd-kind-icon">reverted</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.securitycameraleaveevent.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.securitycameraleaveevent.html#security" class="tsd-kind-icon">security</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.securitycameraleaveevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.securitycameraleaveevent.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.securitycameraleaveevent.html#revert" class="tsd-kind-icon">revert</a></li>
 							</ul>
 						</section>
 					</div>
@@ -126,23 +128,26 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Security<wbr>Camera<wbr>Leave<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, system<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraSystem</a>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraLeaveEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Security<wbr>Camera<wbr>Leave<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span>, security<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraSystem</a>, message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RepairSystemMessage</a>, player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraLeaveEvent</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides SecurityCameraSystemEvent.constructor</p>
+								<p>Overrides RevertableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/securitycamerasystem/CamerasLeave.ts#L16">core/lib/events/securitycamerasystem/CamerasLeave.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/cameras/Leave.ts#L12">core/lib/events/cameras/Leave.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
-									<h5>system: <a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraSystem</a></h5>
+									<h5>security: <a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraSystem</a></h5>
+								</li>
+								<li>
+									<h5>message: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RepairSystemMessage</a></h5>
 								</li>
 								<li>
 									<h5>player: <span class="tsd-signature-type">PlayerData</span></h5>
@@ -155,52 +160,54 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="canceled" class="tsd-anchor"></a>
-					<h3>canceled</h3>
-					<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from SecurityCameraSystemEvent.canceled</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="eventname" class="tsd-anchor"></a>
 					<h3>event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides SecurityCameraSystemEvent.eventName</p>
+						<p>Overrides RevertableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/securitycamerasystem/CamerasLeave.ts#L11">core/lib/events/securitycamerasystem/CamerasLeave.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/cameras/Leave.ts#L12">core/lib/events/cameras/Leave.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="player" class="tsd-anchor"></a>
-					<h3>player</h3>
-					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+					<a name="message" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> message</h3>
+					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">RepairSystemMessage</a></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/securitycamerasystem/CamerasLeave.ts#L16">core/lib/events/securitycamerasystem/CamerasLeave.ts:16</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.protocolevent.html">ProtocolEvent</a>.<a href="../interfaces/core.protocolevent.html#message">message</a></p>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The player that went off cameras.</p>
+							<p>The message that this event originated from.</p>
 						</div>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="player" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> player</h3>
+					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="reverted" class="tsd-anchor"></a>
+					<h3>reverted</h3>
+					<div class="tsd-signature tsd-kind-icon">reverted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from RevertableEvent.reverted</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/RevertableEvent.ts#L4">events/lib/RevertableEvent.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="room" class="tsd-anchor"></a>
-					<h3>room</h3>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
 					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from SecurityCameraSystemEvent.room</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/RoomEvent.ts#L9">core/lib/events/RoomEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.roomevent.html">RoomEvent</a>.<a href="../interfaces/core.roomevent.html#room">room</a></p>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
@@ -208,30 +215,22 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="system" class="tsd-anchor"></a>
-					<h3>system</h3>
-					<div class="tsd-signature tsd-kind-icon">system<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraSystem</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="security" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> security</h3>
+					<div class="tsd-signature tsd-kind-icon">security<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">SecurityCameraSystem</a></div>
 					<aside class="tsd-sources">
-						<p>Inherited from SecurityCameraSystemEvent.system</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/securitycamerasystem/SecurityCameraSystemEvent.ts#L9">core/lib/events/securitycamerasystem/SecurityCameraSystemEvent.ts:9</a></li>
-						</ul>
+						<p>Implementation of <a href="../interfaces/core.securitycameraevent.html">SecurityCameraEvent</a>.<a href="../interfaces/core.securitycameraevent.html#security">security</a></p>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The security camera system in question.</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="eventname-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;security.cameras.leave&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides SecurityCameraSystemEvent.eventName</p>
+						<p>Overrides RevertableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/core/lib/events/securitycamerasystem/CamerasLeave.ts#L10">core/lib/events/securitycamerasystem/CamerasLeave.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/core/lib/events/cameras/Leave.ts#L11">core/lib/events/cameras/Leave.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -239,17 +238,17 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="cancel" class="tsd-anchor"></a>
-					<h3>cancel</h3>
+					<a name="revert" class="tsd-anchor"></a>
+					<h3>revert</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">cancel<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">revert<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from SecurityCameraSystemEvent.cancel</p>
+								<p>Inherited from RevertableEvent.revert</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bff1d6a/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/621fcc1/packages/events/lib/RevertableEvent.ts#L12">events/lib/RevertableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -348,26 +347,29 @@
 									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.securitycameraleaveevent.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.securitycameraleaveevent.html#canceled" class="tsd-kind-icon">canceled</a>
-									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.securitycameraleaveevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.securitycameraleaveevent.html#message" class="tsd-kind-icon">message</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.securitycameraleaveevent.html#player" class="tsd-kind-icon">player</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.securitycameraleaveevent.html#reverted" class="tsd-kind-icon">reverted</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.securitycameraleaveevent.html#room" class="tsd-kind-icon">room</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.securitycameraleaveevent.html#system" class="tsd-kind-icon">system</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.securitycameraleaveevent.html#security" class="tsd-kind-icon">security</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="core.securitycameraleaveevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.securitycameraleaveevent.html#cancel" class="tsd-kind-icon">cancel</a>
+										<a href="core.securitycameraleaveevent.html#revert" class="tsd-kind-icon">revert</a>
 									</li>
 								</ul>
 							</li>
