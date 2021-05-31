@@ -162,7 +162,7 @@ export class DoorsSystem extends SystemStatus<
         this._closeDoor(doorId, this.room.me, undefined);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         const doorId = amount & 0x1f;
 
         await this._openDoor(doorId, player, rpc);

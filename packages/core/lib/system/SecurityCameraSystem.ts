@@ -145,7 +145,7 @@ export class SecurityCameraSystem extends SystemStatus<
         await this.removePlayer(this.room.me);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         if (amount === 1) {
             await this._addPlayer(player, rpc);
         } else {

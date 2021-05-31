@@ -129,7 +129,7 @@ export class SwitchSystem extends SystemStatus<
         }
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         await this._setSwitch(amount, !this.actual[amount], player, rpc);
     }
 

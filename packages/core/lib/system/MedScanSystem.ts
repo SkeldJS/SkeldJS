@@ -126,7 +126,7 @@ export class MedScanSystem extends SystemStatus<
         await this.removeFromQueue(this.room.me);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
         const playerId = amount & 0x1f;
         const resolved = this.ship.room.getPlayerByPlayerId(playerId);
 

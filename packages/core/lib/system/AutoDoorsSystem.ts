@@ -2,6 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType, GameMap } from "@skeldjs/constant";
 import { MapDoors } from "@skeldjs/data";
 import { ExtractEventTypes } from "@skeldjs/events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
@@ -10,7 +11,6 @@ import { DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { PlayerData } from "../PlayerData";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
-import { RepairSystemMessage } from "@skeldjs/protocol";
 
 export interface AutoDoorsSystemData {
     dirtyBit: number;
@@ -171,10 +171,10 @@ export class AutoDoorsSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        this._closeDoor(doorId, this.room.me, undefined);
+        await this._closeDoor(doorId, this.room.me, undefined);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         const doorId = amount & 0x1f;
 
         await this._openDoor(doorId, player, rpc);

@@ -56,7 +56,7 @@ export class SabotageSystem extends SystemStatus<
         writer.float(this.cooldown);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
         const system = this.ship.systems[amount as SystemType] as SystemStatus;
 
         if (system) {

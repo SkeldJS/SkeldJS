@@ -222,7 +222,7 @@ export class LifeSuppSystem extends SystemStatus<
         this._repair(this.room.me, undefined);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {

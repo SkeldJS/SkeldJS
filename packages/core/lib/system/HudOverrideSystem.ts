@@ -131,7 +131,7 @@ export class HudOverrideSystem extends SystemStatus<
         await this._repair(this.room.me, undefined);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
         if (amount === 0) {
             await this._repair(player, rpc);
         }

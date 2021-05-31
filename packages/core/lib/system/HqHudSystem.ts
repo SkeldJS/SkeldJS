@@ -340,7 +340,7 @@ export class HqHudSystem extends SystemStatus<
         }
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
         const consoleId = amount & 0xf;
         const tags = amount & 0xf0;
 

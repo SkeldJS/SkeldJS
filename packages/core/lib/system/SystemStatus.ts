@@ -75,7 +75,7 @@ export class SystemStatus<
         void writer, spawn;
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage): Promise<void> {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined): Promise<void> {
         void player, amount, rpc;
     }
 
