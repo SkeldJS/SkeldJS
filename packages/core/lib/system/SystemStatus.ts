@@ -90,23 +90,19 @@ export class SystemStatus<
     async sabotage(): Promise<void> {}
     async repair(): Promise<void> {}
 
-    protected async _repairSystem(amount: number) {
+    protected async _sendRepair(amount: number) {
         if (!this.room.me?.control)
             return;
 
-        if (this.room.amhost) {
-            await this.HandleRepair(this.room.me, amount, undefined);
-        } else {
-            await this.room.broadcast([
-                new RpcMessage(
-                    this.ship.netid,
-                    new RepairSystemMessage(
-                        this.systemType,
-                        this.room.me.control.netid,
-                        amount
-                    )
+        await this.room.broadcast([
+            new RpcMessage(
+                this.ship.netid,
+                new RepairSystemMessage(
+                    this.systemType,
+                    this.room.me.control.netid,
+                    amount
                 )
-            ], true, this.room.host, []);
-        }
+            )
+        ], true, this.room.host, []);
     }
 }

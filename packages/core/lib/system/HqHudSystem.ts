@@ -244,7 +244,7 @@ export class HqHudSystem extends SystemStatus<
         if (this.room.amhost) {
             this._openConsole(consoleId, this.room.me, undefined);
         } else {
-            this._repairSystem(0x40 | consoleId);
+            this._sendRepair(0x40 | consoleId);
         }
     }
 
@@ -284,7 +284,7 @@ export class HqHudSystem extends SystemStatus<
         if (this.room.amhost) {
             await this._closeConsole(consoleId, this.room.me, undefined);
         } else {
-            await this._repairSystem(0x20 | consoleId);
+            await this._sendRepair(0x20 | consoleId);
         }
     }
 
@@ -318,7 +318,7 @@ export class HqHudSystem extends SystemStatus<
         if (this.room.amhost) {
             await this._completeConsole(consoleId, this.room.me, undefined);
         } else {
-            await this._repairSystem(0x10 | consoleId);
+            await this._sendRepair(0x10 | consoleId);
         }
     }
 
