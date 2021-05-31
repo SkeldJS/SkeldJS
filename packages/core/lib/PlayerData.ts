@@ -100,9 +100,9 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
     }
 
     /**
-     * The player's game data.
+     * The player's information.
      */
-    get data() {
+    get info() {
         if (this.playerId === undefined) return undefined;
 
         return this.room.gamedata?.players?.get(this.playerId);

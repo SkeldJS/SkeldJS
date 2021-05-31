@@ -4,6 +4,9 @@ import { Networkable } from "../../Networkable";
 import { RoomEvent } from "../RoomEvent";
 import { NetworkableEvent } from "./NetworkableEvent";
 
+/**
+ * Emitted when a component is despawned.
+ */
 export class NetworkableDespawnEvent extends BasicEvent implements RoomEvent, NetworkableEvent {
     static eventName = "component.despawn" as const;
     eventName = "component.despawn" as const;

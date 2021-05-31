@@ -7,6 +7,14 @@ import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
 import { PlayerEvent } from "./PlayerEvent";
 
+/**
+ * Emitted when a player reports a dead body of a player, telling the host to
+ * begin a meeting.
+ *
+ * This event is only emitted if the client is the host, see
+ * {@link PlayerStartMeetingEvent} to listen for a meeting being started regardless
+ * of whether the client is the host or not.
+ */
 export class PlayerReportDeadBodyEvent extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.reportbody" as const;
     eventName = "player.reportbody" as const;
@@ -17,6 +25,10 @@ export class PlayerReportDeadBodyEvent extends CancelableEvent implements RoomEv
         public readonly room: Hostable,
         public readonly player: PlayerData,
         public readonly message: ReportDeadBodyMessage|undefined,
+        /**
+         * The body that the player reported, or "emergency" if the player called
+         * an emergency meeting.
+         */
         public readonly body: PlayerData|"emergency"
     ) {
         super();
@@ -24,14 +36,24 @@ export class PlayerReportDeadBodyEvent extends CancelableEvent implements RoomEv
         this._alteredBody = body;
     }
 
+    /**
+     * The altered body that will be reported instead, if changed.
+     */
     get alteredBody() {
         return this._alteredBody;
     }
 
+    /**
+     * Set the report to be calling an emergency meeting.
+     */
     setEmergency() {
-        return this.setBody("emergency");
+        this.setBody("emergency");
     }
 
+    /**
+     * Change the body that will be reported.
+     * @param body The body for the player to report.
+     */
     setBody(body: PlayerData | "emergency") {
         this._alteredBody = body;
     }

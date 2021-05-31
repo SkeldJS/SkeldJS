@@ -80,6 +80,9 @@ export class CustomNetworkTransform extends Networkable<
         this.velocity ||= Vector2.null;
     }
 
+    /**
+     * That player that this component belongs to.
+     */
     get player() {
         return this.owner as PlayerData;
     }

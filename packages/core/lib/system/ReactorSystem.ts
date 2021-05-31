@@ -100,6 +100,11 @@ export class ReactorSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Add a completed console. (Same as a player placing their hand on a
+     * console)
+     * @param consoleid The ID of the console to add.
+     */
     async addConsole(consoleid: number) {
         if (this.room.amhost) {
             await this._addConsole(this.room.me, consoleid, undefined);
@@ -132,6 +137,11 @@ export class ReactorSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Remove a completed console. (Same as a player removing their hand from a
+     * console)
+     * @param consoleid The ID of the console to add.
+     */
     async removeConsole(consoleid: number) {
         if (this.room.amhost) {
             await this._removeConsole(this.room.me, consoleid, undefined);

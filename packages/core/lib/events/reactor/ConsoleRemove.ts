@@ -7,6 +7,9 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { ReactorEvent } from "./ReactorEvent";
 
+/**
+ * Emitted when a player places their hand on a reactor console.
+ */
 export class ReactorConsoleRemoveEvent extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
     static eventName = "reactor.consoles.remove" as const;
     eventName = "reactor.consoles.remove" as const;
@@ -17,6 +20,10 @@ export class ReactorConsoleRemoveEvent extends RevertableEvent implements RoomEv
         public readonly room: Hostable,
         public readonly reactor: ReactorSystem,
         public readonly message: RepairSystemMessage|undefined,
+        /**
+         * The player that removed their hand from the console. Only available
+         * if the client is the host.
+         */
         public readonly player: PlayerData|undefined,
         public readonly consoleId: number
     ) {
@@ -25,10 +32,17 @@ export class ReactorConsoleRemoveEvent extends RevertableEvent implements RoomEv
         this._alteredConsoleId = consoleId;
     }
 
+    /**
+     * The ID of the altered console that will be removed instead, if changed.
+     */
     get alteredConsoleId() {
         return this._alteredConsoleId;
     }
 
+    /**
+     * Change the console that the player removed their hand from.
+     * @param consoleId The ID of the console to set.
+     */
     setConsole(consoleId: number) {
         this._alteredConsoleId = consoleId;
     }

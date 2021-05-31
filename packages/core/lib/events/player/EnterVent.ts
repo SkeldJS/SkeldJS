@@ -8,6 +8,9 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
+/**
+ * Emitted when a player goes into a vent.
+ */
 export class PlayerEnterVentEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.entervent" as const;
     eventName = "player.entervent" as const;
@@ -16,6 +19,9 @@ export class PlayerEnterVentEvent extends BasicEvent implements RoomEvent, Playe
         public readonly room: Hostable,
         public readonly player: PlayerData,
         public readonly message: EnterVentMessage|undefined,
+        /**
+         * The ID of the vent that the player went into.
+         */
         public readonly ventid: number
     ) {
         super();

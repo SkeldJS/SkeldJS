@@ -8,6 +8,9 @@ import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
 import { TaskState } from "../../misc/PlayerInfo";
 
+/**
+ * Emitted when a player completes one of their tasks.
+ */
 export class PlayerCompleteTaskEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.completetask" as const;
     eventName = "player.completetask" as const;
@@ -16,6 +19,9 @@ export class PlayerCompleteTaskEvent extends BasicEvent implements RoomEvent, Pl
         public readonly room: Hostable,
         public readonly player: PlayerData,
         public readonly message: CompleteTaskMessage|undefined,
+        /**
+         * The state of the task that the player completed.
+         */
         public readonly task: TaskState
     ) {
         super();

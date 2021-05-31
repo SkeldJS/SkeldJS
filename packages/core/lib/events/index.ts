@@ -26,7 +26,6 @@ export * from "./networkable/Spawn";
 
 export * from "./oxygen/ConsoleComplete";
 export * from "./oxygen/ConsolesClear";
-export * from "./oxygen/ConsolesReset";
 
 export * from "./movingplatform/PlayerUpdate";
 

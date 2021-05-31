@@ -5,6 +5,9 @@ import { PlayerData } from "../../PlayerData";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
+/**
+ * Emitted when a player leaves the room.
+ */
 export class PlayerLeaveEvent extends BasicEvent implements RoomEvent, PlayerEvent {
     static eventName = "player.leave" as const;
     eventName = "player.leave" as const;

@@ -10,7 +10,6 @@ import { PlayerData } from "../PlayerData";
 import {
     O2ConsolesClearEvent,
     O2ConsoleCompleteEvent,
-    O2ConsolesResetEvent,
     SystemRepairEvent,
     SystemSabotageEvent
 } from "../events";
@@ -24,8 +23,7 @@ export interface LifeSuppSystemData {
 export type LifeSuppSystemEvents = SystemStatusEvents &
     ExtractEventTypes<[
         O2ConsolesClearEvent,
-        O2ConsoleCompleteEvent,
-        O2ConsolesResetEvent
+        O2ConsoleCompleteEvent
     ]>;
 
 /**
@@ -151,6 +149,9 @@ export class LifeSuppSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Clear the completed consoles. This is a host operation on official servers.
+     */
     async clearConsoles() {
         await this._clearConsoles(this.room.me, undefined);
     }
@@ -199,7 +200,7 @@ export class LifeSuppSystem extends SystemStatus<
         this.dirty = true;
 
         const ev = await this.emit(
-            new O2ConsolesResetEvent(
+            new O2ConsolesClearEvent(
                 this.room,
                 this,
                 rpc,

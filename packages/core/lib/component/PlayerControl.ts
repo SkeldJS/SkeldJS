@@ -212,7 +212,7 @@ export class PlayerControl extends Networkable<
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
-        if (!this.player.data?.taskStates)
+        if (!this.player.info?.taskStates)
             return;
 
         this._completeTask(rpc.taskidx);
@@ -222,7 +222,7 @@ export class PlayerControl extends Networkable<
                 this.room,
                 this.player,
                 rpc,
-                this.player.data.taskStates[rpc.taskidx]
+                this.player.info.taskStates[rpc.taskidx]
             )
         );
     }
@@ -240,8 +240,21 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Mark one of this player's tasks as completed.
+     * @param taskIdx The index of the task to complete. Note: this is not the
+     * task ID but instead the index of the task in the {@link PlayerInfo#taskIds}
+     * array.
+     *
+     * Emits a {@link PlayerCompleteTaskEvent | `player.completetask`} event.
+     *
+     * @example
+     * ```ts
+     * client.me.control.completeTask(0);
+     * ```
+     */
     completeTask(taskIdx: number) {
-        if (!this.player.data?.taskStates[taskIdx])
+        if (!this.player.info?.taskStates[taskIdx])
             return;
 
         this.emit(
@@ -249,7 +262,7 @@ export class PlayerControl extends Networkable<
                 this.room,
                 this.player,
                 undefined,
-                this.player.data.taskStates[taskIdx]
+                this.player.info.taskStates[taskIdx]
             )
         );
 
@@ -291,6 +304,14 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Change the room's settings. Use {@link Hostable#setSettings} to pass a
+     * partial game objects object. This is a host operation on official servers.
+     *
+     * Emits a {@link PlayerSyncSettingsEvent | `player.syncsettings`} event.
+     *
+     * @property settings The full game options object to update the settings to.
+     */
     async syncSettings(settings: GameOptions) {
         this._syncSettings(settings);
 
@@ -312,7 +333,7 @@ export class PlayerControl extends Networkable<
     private async _handleSetImpostors(rpc: SetInfectedMessage) {
         const impostors = rpc.impostors
             .map((id) => this.room.getPlayerByPlayerId(id))
-            .filter((player) => player && player.data) as PlayerData[];
+            .filter((player) => player && player.info) as PlayerData[];
 
         this._setImpostors(impostors);
 
@@ -332,9 +353,17 @@ export class PlayerControl extends Networkable<
     }
 
     private _setImpostors(impostors: PlayerData[]) {
-        for (const impostor of impostors) {
-            if (impostor.data) impostor.data.setImpostor(true);
-            this.room.gamedata?.update(impostor);
+        for (const [ , player ] of this.room.players) {
+            if (!player.info)
+                continue;
+
+            if (impostors.includes(player)) {
+                player.info.setImpostor(true);
+            } else {
+                if (player.info.isImpostor) {
+                    player.info.setImpostor(false);
+                }
+            }
         }
     }
 
@@ -349,6 +378,25 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Set the impostors of the room. Usually called straight after a game is
+     * started via the {@link InnerShipStatus#selectImpostors} method. This is
+     * a host operation on official servers.
+     *
+     * Will remove any existing impostors unless they are included in the array.
+     *
+     * Emits a {@link PlayerSetImpostorsEvent | `player.setimpostors`} event.
+     *
+     * @param impostors An array of impostors to set.
+     * @example
+     * ```ts
+     * // Set everyone with "Judas" in their name as the impostor.
+     * awiat client.me.control.setImpostors(
+     *   [...this.room.players.values()]
+     *     .filter(player => player.info.name.includes("Judas"))
+     * );
+     * ```
+     */
     async setImpostors(impostors: PlayerData[]) {
         this._setImpostors(impostors);
 
@@ -423,6 +471,11 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Request for the host to check a name for this player and append numbers if
+     * it's taken.
+     * @param name The name to request.
+     */
     async checkName(name: string) {
         await this._rpcCheckName(name);
     }
@@ -461,6 +514,14 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Update this player's name. This is a host operation on official servers.
+     * Use {@link PlayerControl#checkName} if you are calling this as not the host.
+     *
+     * Emits a {@link PlayerSetNameEvent | `player.setname`} event.
+     *
+     * @param name The name to set this player's name to.
+     */
     async setName(name: string) {
         const playerInfo = this.room.gamedata?.players.get(this.playerId);
         if (!playerInfo)
@@ -534,6 +595,12 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Request for the host to check a color for this player and change it if it's
+     * taken.
+     *
+     * @param color The color to request.
+     */
     async checkColor(color: Color) {
         await this._rpcCheckColor(color);
     }
@@ -572,6 +639,14 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Update this player's color. This is a host operation on official servers.
+     * Use {@link PlayerControl#checkColor} if you are calling this as not the host.
+     *
+     * Emits a {@link PlayerCheckNameEvent | `player.checkname`} event.
+     *
+     * @param color The color to set this player's name to.
+     */
     async setColor(color: Color) {
         const playerInfo = this.room.gamedata?.players.get(this.playerId);
         if (!playerInfo)
@@ -631,6 +706,14 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Update this player's hat. This is not a host operation unless the
+     * client does not own this player.
+     *
+     * Emits a {@link PlayerSetHatEvent | `player.sethat`} event.
+     *
+     * @param hat The hat to set this player's hat to.
+     */
     async setHat(hat: Hat) {
         const playerInfo = this.room.gamedata?.players.get(this.playerId);
         if (!playerInfo)
@@ -690,6 +773,14 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Update this player's skin. This is not a host operation unless the
+     * client does not own this player.
+     *
+     * Emits a {@link PlayerSetSkinEvent | `player.setskin`} event.
+     *
+     * @param skin The skin to set this player's skin to.
+     */
     async setSkin(skin: Skin) {
         const playerInfo = this.room.gamedata?.players.get(this.playerId);
         if (!playerInfo)
@@ -754,6 +845,13 @@ export class PlayerControl extends Networkable<
         ], true, this.room.host);
     }
 
+    /**
+     * Report the dead body of a player, telling the host to begin a meeting.
+     * Use {@link PlayerControl#startMeeting} if you are calling this as the
+     * host.
+     *
+     * Emits a {@link PlayerReportDeadBodyEvent `player.reportbody`} event.
+     */
     async reportDeadBody(body: PlayerData | "emergency") {
         const ev = await this.emit(
             new PlayerReportDeadBodyEvent(
@@ -775,8 +873,8 @@ export class PlayerControl extends Networkable<
         if (!victim || victim.playerId === undefined)
             return;
 
-        if (victim.data) {
-            victim.data.setDead(true);
+        if (victim.info) {
+            victim.info.setDead(true);
             this.room.gamedata?.update(victim.playerId);
         }
 
@@ -802,12 +900,25 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Murder another a player. This operation can only be called if the player
+     * is the impostor on official servers.
+     *
+     * Due to technical limitations, this operation cannot be canceled or reverted
+     * without advanced "breaking game", therefore it is out of scope of a single
+     * `.revert()` function on the event emitted.
+     *
+     * Emits a {@link PlayerMurderEvent | `player.murder`} event.
+     *
+     * @param victim The player to murder.
+     * @returns
+     */
     murderPlayer(victim: PlayerData) {
         if (victim.playerId === undefined)
             return;
 
-        if (victim.data) {
-            victim.data.setDead(true);
+        if (victim.info) {
+            victim.info.setDead(true);
             this.room.gamedata?.update(victim.playerId);
         }
 
@@ -843,6 +954,13 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Send a chat message as this player.
+     *
+     * Due to technical impossibilities, this event cannot be canceled or reverted.
+     *
+     * Emits a {@link PlayerSendChatEvent | `player.chat`} event.
+     */
     sendChat(message: string) {
         this.emit(
             new PlayerSendChatEvent(
@@ -867,6 +985,9 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Send a player chat note for this player, i.e. "player x voted, x remaining.".
+     */
     sendChatNote(player: PlayerData, type: ChatNoteType) {
         this._rpcSendChatNote(player, type);
     }
@@ -899,7 +1020,7 @@ export class PlayerControl extends Networkable<
             {
                 states: new Map(
                     [...this.room.players]
-                        .filter(([, player]) => player.data && player.spawned && player.playerId !== undefined)
+                        .filter(([, player]) => player.info && player.spawned && player.playerId !== undefined)
                         .map(([, player]) => {
                             return [
                                 player.playerId,
@@ -909,7 +1030,7 @@ export class PlayerControl extends Networkable<
                                     undefined,
                                     player === caller,
                                     false,
-                                    player.data?.isDead
+                                    player.info?.isDead
                                 ),
                             ];
                         })
@@ -946,6 +1067,16 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Start a meeting and begin the meeting routine. This is a host-only operation
+     * on official servers, see {@link PlayerControl#reportDeadBody} if you are calling
+     * this as not the host.
+     *
+     * Emits a {@link PlayerStartMeetingEvent | `player.startmeeting`} event.
+     *
+     * @param caller The player that called this meeting.
+     * @param body The body that was reported, or "emergency" if it is an emergency meeting.
+     */
     startMeeting(caller: PlayerData, body: PlayerData | "emergency") {
         this.emit(
             new PlayerStartMeetingEvent(
@@ -994,6 +1125,14 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Update this player's pet. This is not a host operation unless the
+     * client does not own this player.
+     *
+     * Emits a {@link PlayerSetPetEvent | `player.setpet`} event.
+     *
+     * @param pet The pet to set this player's pet to.
+     */
     async setPet(pet: Pet) {
         const playerInfo = this.room.gamedata?.players.get(this.playerId);
         if (!playerInfo)
@@ -1057,6 +1196,15 @@ export class PlayerControl extends Networkable<
         );
     }
 
+    /**
+     * Change the counter at the bottom of the screen while in the lobby,
+     * usually counting down from 5 to 1. This is a host-only operation
+     * on official servers.
+     *
+     * Emits a {@link PlayerSetStartCounterEvent | `player.setstartcounter`} event.
+     *
+     * @param counter The counter to set to.
+     */
     async setStartCounter(counter: number) {
         this._setStartCounter(counter);
 
@@ -1099,17 +1247,12 @@ export class PlayerControl extends Networkable<
         }
     }
 
-    private _rpcUsePlatform() {
-        this.room.stream.push(
-            new RpcMessage(
-                this.netid,
-                new UsePlatformMessage
-            )
-        );
-    }
-
+    /**
+     * Use the moving platfrom on the map, i.e. the one on Airship.
+     *
+     * Emits a {@link MovingPlatformPlayerUpdateEvent | `movingplatform.playerupdate`} event.
+     */
     usePlatform() {
         this._usePlatform();
-        this._rpcUsePlatform();
     }
 }

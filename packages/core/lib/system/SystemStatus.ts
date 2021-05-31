@@ -87,8 +87,34 @@ export class SystemStatus<
         void player, rpc;
     }
 
-    async sabotage(): Promise<void> {}
+    /**
+     * Fully repair this system.
+     */
     async repair(): Promise<void> {}
+
+    /**
+     * Sabotage this system.
+     */
+    async sabotage() {
+        if (!this.room.me?.control)
+            return;
+
+        if (this.room.amhost) {
+            await this.ship.systems[SystemType.Sabotage]
+                ?.HandleRepair(this.room.me, this.systemType, undefined);
+        } else {
+            await this.room.broadcast([
+                new RpcMessage(
+                    this.ship.netid,
+                    new RepairSystemMessage(
+                        SystemType.Sabotage,
+                        this.room.me.control.netid,
+                        this.systemType
+                    )
+                )
+            ], true, this.room.host, []);
+        }
+    }
 
     protected async _sendRepair(amount: number) {
         if (!this.room.me?.control)

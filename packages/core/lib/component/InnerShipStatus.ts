@@ -149,10 +149,15 @@ export class InnerShipStatus extends Networkable<
         }
     }
 
+    /**
+     * Randomly select players to be the Impostor. Called after a game is started
+     * and emits a {@link RoomSelectImpostorsEvent} which can be used to alter the
+     * results of this function.
+     */
     async selectImpostors() {
         const available = [...this.room.players.values()].filter(
             (player) =>
-                player.data && !player.data.isDisconnected && !player.data.isDead
+                player.info && !player.info.isDisconnected && !player.info.isDead
         );
         const max = available.length < 7 ? 1 : available.length < 9 ? 2 : 3;
         const impostors: PlayerData[] = [];

@@ -6,6 +6,10 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
+/**
+ * Emitted when a player (i.e. the host of the room) updates the impostor in the
+ * room.
+ */
 export class PlayerSetImpostorsEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setimpostors" as const;
     eventName = "player.setimpostors" as const;
@@ -17,6 +21,9 @@ export class PlayerSetImpostorsEvent extends BasicEvent implements RoomEvent, Pl
         public readonly room: Hostable,
         public readonly player: PlayerData,
         public readonly message: SetInfectedMessage|undefined,
+        /**
+         * The players that were made impostors.
+         */
         public readonly impostors: PlayerData[]
     ) {
         super();
@@ -25,13 +32,25 @@ export class PlayerSetImpostorsEvent extends BasicEvent implements RoomEvent, Pl
         this._isDirty = false;
     }
 
+    /**
+     * The changed impostors that will be set instead, if changed.
+     */
     get alteredImpostors() {
         return this._alteredImpostors;
     }
 
+    /**
+     * Whether the {@link SetImpostors#alteredImpostors} is different from
+     * {@link SetImpostors#impostors}.
+     */
     get isDirty() {
         return this._isDirty;
     }
+
+    /**
+     * Change the impostors that were set.
+     * @param impostors The impostors to set.
+     */
     setImpostors(impostors: PlayerData[]) {
         this._alteredImpostors = impostors;
         this._isDirty = true;

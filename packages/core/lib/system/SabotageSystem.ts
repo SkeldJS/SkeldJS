@@ -40,6 +40,9 @@ export class SabotageSystem extends SystemStatus<
         this.cooldown ??= 10000;
     }
 
+    /**
+     * Check whether any systems are currently sabotaged.
+     */
     get anySabotaged() {
         return Object.values(this.ship.systems).some(
             system => system?.sabotaged

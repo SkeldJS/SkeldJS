@@ -9,6 +9,10 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
+/**
+ * Emitted when a player casts a vote on another player or skips vote in a
+ * meeting.
+ */
 export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meeting.castvote" as const;
     eventName = "meeting.castvote" as const;
@@ -20,7 +24,13 @@ export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEven
         public readonly room: Hostable,
         public readonly meetinghud: MeetingHud,
         public readonly message: CastVoteMessage|undefined,
+        /**
+         * The player that cast the vote.
+         */
         public readonly voter: PlayerVoteState,
+        /**
+         * The player that the voter voted for.
+         */
         public readonly suspect: PlayerData|undefined
     ) {
         super();
@@ -29,22 +39,39 @@ export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEven
         this._alteredSuspect = suspect;
     }
 
+    /**
+     * Whether the voter skipped the vote.
+     */
     get didSkip() {
         return this._alteredSuspect === undefined;
     }
 
+    /**
+     * The altered player that will cast the vote instead, if changed.
+     */
     get alteredVoter() {
         return this._alteredVoter;
     }
 
+    /**
+     * The altered player that the voter voted for instead, if changed.
+     */
     get alteredSuspect() {
         return this._alteredSuspect;
     }
 
+    /**
+     * Change the player that cast the vote.
+     * @param voter The player to cast the vote.
+     */
     setVoter(voter: PlayerVoteState) {
         this._alteredVoter = voter;
     }
 
+    /**
+     * Change the player that the voter voted for.
+     * @param suspect The player for the voter to vote for.
+     */
     setSuspect(suspect: PlayerData) {
         this._alteredSuspect = suspect;
     }

@@ -7,6 +7,9 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
+/**
+ * Emitted when a player (i.e. the host of the room) sets the settings of the room.
+ */
 export class PlayerSyncSettingsEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.syncsettings" as const;
     eventName = "player.syncsettings" as const;
@@ -18,6 +21,9 @@ export class PlayerSyncSettingsEvent extends BasicEvent implements RoomEvent, Pl
         public readonly room: Hostable,
         public readonly player: PlayerData,
         public readonly message: SyncSettingsMessage|undefined,
+        /**
+         * The settings that were set.
+         */
         public readonly settings: GameOptions
     ) {
         super();
@@ -26,14 +32,25 @@ export class PlayerSyncSettingsEvent extends BasicEvent implements RoomEvent, Pl
         this._isDirty = false;
     }
 
+    /**
+     * The altered settings of the room that will be set, if changeed.
+     */
     get alteredSettings() {
         return this._alteredSettings;
     }
 
+    /**
+     * Whether the {@link PlayerSyncSettingsEvent#aleteredSettings} is different
+     * from the {@link PlayerSyncSettingsEvent#settings}.
+     */
     get isDirty() {
         return this._isDirty;
     }
 
+    /**
+     * Change the settings that were set.
+     * @param options The settings to set.
+     */
     setSettings(options: Partial<AllGameOptions>) {
         this._alteredSettings.patch(options);
         this._isDirty = true;

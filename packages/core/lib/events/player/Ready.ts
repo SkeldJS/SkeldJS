@@ -5,6 +5,12 @@ import { PlayerData } from "../../PlayerData";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
+/**
+ * Emitted when a player readies up to start the game.
+ *
+ * If a player fails to ready up within a specified time, they are kicked from
+ * the game.
+ */
 export class PlayerReadyEvent extends BasicEvent implements RoomEvent, PlayerEvent {
     static eventName = "player.ready" as const;
     eventName = "player.ready" as const;

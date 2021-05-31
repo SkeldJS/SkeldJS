@@ -118,6 +118,10 @@ export class DoorsSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Open a door by its ID.
+     * @param doorId The ID of the door to opne.
+     */
     async openDoor(doorId: number) {
         if (this.room.amhost) {
             await this._openDoor(doorId, this.room.me, undefined);
@@ -156,6 +160,10 @@ export class DoorsSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Close a door by its ID.
+     * @param doorId The ID of the door to close.
+     */
     async closeDoor(doorId: number) {
         this._closeDoor(doorId, this.room.me, undefined);
     }

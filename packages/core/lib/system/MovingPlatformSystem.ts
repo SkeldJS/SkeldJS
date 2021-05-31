@@ -52,6 +52,9 @@ export class MovingPlatformSystem extends SystemStatus<
         this.side ||= MovingPlatformSide.Right;
     }
 
+    /**
+     * The opposite side of the moving platform to move in.
+     */
     get oppositeSide() {
         return this.side === MovingPlatformSide.Left
             ? MovingPlatformSide.Right
@@ -124,6 +127,11 @@ export class MovingPlatformSystem extends SystemStatus<
         this.side = ev.alteredSide;
     }
 
+    /**
+     * Update the target of the moving platform.
+     * @param player The player to set.
+     * @param side The direction to move the moving platform in.
+     */
     async setTarget(player: PlayerDataResolvable, side: MovingPlatformSide) {
         const resolved = this.ship.room.resolvePlayer(player);
 
@@ -152,19 +160,13 @@ export class MovingPlatformSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Get on the moving platform as the client's player.
+     */
     async getOn() {
         if (!this.room.me?.control)
             return;
 
-        if (this.room.amhost) {
-            await this.setTarget(this.room.me, this.oppositeSide);
-        } else {
-            this.room.stream.push(
-                new RpcMessage(
-                    this.room.me.control.netid,
-                    new UsePlatformMessage
-                )
-            );
-        }
+        await this.setTarget(this.room.me, this.oppositeSide);
     }
 }

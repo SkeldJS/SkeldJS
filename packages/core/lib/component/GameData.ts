@@ -83,11 +83,16 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
         return super.owner as Hostable;
     }
 
+    /**
+     * Resolve some player identifier to a definite player info object.
+     * @param resolvable The player identifier to resolve.
+     * @returns A definite player info object.
+     */
     resolvePlayerData(resolvable: PlayerIDResolvable) {
         const resolved = this.room.resolvePlayerId(resolvable);
 
         if (!resolved)
-            return null;
+            return undefined;
 
         return this.players.get(resolved);
     }

@@ -8,6 +8,9 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { SystemEvent } from "./SystemEvent";
 
+/**
+ * Emitted when a player sabotages a system.
+ */
 export class SystemSabotageEvent extends RevertableEvent implements RoomEvent, SystemEvent, ProtocolEvent {
     static eventName = "system.sabotage" as const;
     eventName = "system.sabotage" as const;
@@ -16,7 +19,7 @@ export class SystemSabotageEvent extends RevertableEvent implements RoomEvent, S
         public readonly room: Hostable,
         public readonly system: AnySystem,
         public readonly message: RepairSystemMessage|undefined,
-        public readonly player?: PlayerData
+        public readonly player: PlayerData|undefined
     ) {
         super();
     }

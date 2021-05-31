@@ -8,6 +8,9 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
+/**
+ * Emitted when a player climbs a ladder on the map.
+ */
 export class PlayerClimbLadderEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.climbladder" as const;
     eventName = "player.climbladder" as const;
@@ -16,6 +19,9 @@ export class PlayerClimbLadderEvent extends BasicEvent implements RoomEvent, Pla
         public readonly room: Hostable,
         public readonly player: PlayerData,
         public readonly message: ClimbLadderMessage|undefined,
+        /**
+         * The ID of the ladder that the player climbed.
+         */
         public readonly ladderid: number
     ) {
         super();

@@ -8,6 +8,9 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { SystemEvent } from "./SystemEvent";
 
+/**
+ * Emitted when a player fully repairs a system.
+ */
 export class SystemRepairEvent extends RevertableEvent implements RoomEvent, SystemEvent, ProtocolEvent {
     static eventName = "system.repair" as const;
     eventName = "system.repair" as const;

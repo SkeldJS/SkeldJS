@@ -4,6 +4,9 @@ import { Networkable } from "../../Networkable";
 import { RoomEvent } from "../RoomEvent";
 import { NetworkableEvent } from "./NetworkableEvent";
 
+/**
+ * Emitted when a component is spawned.
+ */
 export class NetworkableSpawnEvent extends BasicEvent implements RoomEvent, NetworkableEvent {
     static eventName = "component.spawn" as const;
     eventName = "component.spawn" as const;

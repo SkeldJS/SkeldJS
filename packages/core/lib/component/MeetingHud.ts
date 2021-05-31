@@ -170,7 +170,8 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     }
 
     /**
-     * Close the meeting hud for all clients.
+     * Close the meeting hud for all clients. This is a host-only operation on
+     * official servers.
      */
     close() {
         this._close();
@@ -249,7 +250,9 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     }
 
     /**
-     * Cast a vote on behalf of a user (or yourself).
+     * Cast a vote on behalf of a user (or yourself). Casting for another player
+     * other than the player calling the function is a host-only operation on
+     * official servers.
      * @param voting The player who is voting.
      * @param suspect The player to vote for.
      * @example
@@ -341,6 +344,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
 
     /**
      * Remove someone's vote (usually due to the player they voted for getting disconnected).
+     * This is a host-only operation on official servers.
      * @param resolvable The player to remove the vote of.
      */
     async clearVote(voter: PlayerDataResolvable) {
@@ -417,7 +421,13 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
         );
     }
 
-    votingComplete(tie: boolean, exiled?: PlayerDataResolvable) {
+    /**
+     * End the meeting with specified results. This is a host-only operation
+     * on official servers.
+     * @param tie Whether this meeting resulted in a tie of votes.
+     * @param exiled The player that was ejected, if any.
+     */
+    votingComplete(tie: boolean = false, exiled?: PlayerDataResolvable) {
         const _exiled = exiled ? this.room.resolvePlayer(exiled) : undefined;
 
         const voteStates: number[] = new Array(this.room.players.size);

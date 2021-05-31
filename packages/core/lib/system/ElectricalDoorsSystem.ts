@@ -97,6 +97,10 @@ export class ElectricalDoorsSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Open a door by its ID. This is a host operation on official servers.
+     * @param doorId the ID of the door to open
+     */
     async openDoor(doorId: number) {
         await this._openDoor(doorId, this.room.me, undefined);
     }
@@ -131,6 +135,10 @@ export class ElectricalDoorsSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Close a door by its ID. This is a host operation on official servers.
+     * @param doorId The ID of the door to close.
+     */
     async closeDoor(doorId: number) {
         await this._closeDoor(doorId, this.room.me, undefined);
     }

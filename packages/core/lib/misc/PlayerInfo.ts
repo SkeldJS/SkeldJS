@@ -25,6 +25,9 @@ export class TaskState {
     }
 }
 
+/**
+ * Represents a player's information, name, color, hat, etc.
+ */
 export class PlayerInfo {
     constructor(
         public readonly gamedata: GameData,
@@ -39,25 +42,43 @@ export class PlayerInfo {
         public taskStates: TaskState[] = []
     ) {}
 
+    /**
+     * The player that this info is for.
+     */
     get player() {
         return this.gamedata.room.getPlayerByPlayerId(this.playerId);
     }
 
+    /**
+     * Whether this player has been flagged as disconnected.
+     */
     get isDisconnected() {
         return (this.flags & PlayerDataFlags.IsDisconnected)
             === PlayerDataFlags.IsDisconnected;
     }
 
+    /**
+     * Whether this player has been flagged as the impostor.
+     */
     get isImpostor() {
         return (this.flags & PlayerDataFlags.IsImpostor)
             === PlayerDataFlags.IsImpostor;
     }
 
+    /**
+     * Whether this player has been flagged as dead.
+     */
     get isDead() {
         return (this.flags & PlayerDataFlags.IsDead)
             === PlayerDataFlags.IsDead;
     }
 
+    /**
+     * Create a default player info object.
+     * @param gamedata The gamedata object that this player information belongs to.
+     * @param playerId The ID of the player.
+     * @returns A default player info object.
+     */
     static createDefault(gamedata: GameData, playerId: number) {
         return new PlayerInfo(gamedata, playerId, "", Color.Red, Hat.None, Pet.None, Skin.None, 0, [], []);
     }
@@ -93,6 +114,9 @@ export class PlayerInfo {
         writer.lwrite(false, this.taskStates || []);
     }
 
+    /**
+     * Clone the player info for another player.
+     */
     clone(playerId: number) {
         return new PlayerInfo(
             this.gamedata,
@@ -108,6 +132,9 @@ export class PlayerInfo {
         );
     }
 
+    /**
+     * Set whether this player is flagged as disconnected.
+     */
     setDisconnected(isDisconnected: boolean) {
         if (isDisconnected) {
             this.setFlags(this.flags | PlayerDataFlags.IsDisconnected);
@@ -116,6 +143,9 @@ export class PlayerInfo {
         }
     }
 
+    /**
+     * Set whether this player is flagged as an impostor.
+     */
     setImpostor(isImpostor: boolean) {
         if (isImpostor) {
             this.setFlags(this.flags | PlayerDataFlags.IsImpostor);
@@ -124,6 +154,9 @@ export class PlayerInfo {
         }
     }
 
+    /**
+     * Set whether this player is flagged as dead.
+     */
     setDead(isDead: boolean) {
         if (isDead) {
             this.setFlags(this.flags | PlayerDataFlags.IsDead);
@@ -132,46 +165,74 @@ export class PlayerInfo {
         }
     }
 
+    /**
+     * Set the name of this player.
+     */
     setName(name: string) {
         this.name = name;
         this.gamedata.update(this);
     }
 
+    /**
+     * Set the color of this player.
+     */
     setColor(color: Color) {
         this.color = color;
         this.gamedata.update(this);
     }
 
+    /**
+     * Set the hat of this player.
+     */
     setHat(hat: Hat) {
         this.hat = hat;
         this.gamedata.update(this);
     }
 
+    /**
+     * Set the pet of this player.
+     */
     setPet(pet: Pet) {
         this.pet = pet;
         this.gamedata.update(this);
     }
 
+    /**
+     * Set the skin of this player.
+     */
     setSkin(skin: Skin) {
         this.skin = skin;
         this.gamedata.update(this);
     }
 
+    /**
+     * Set the flags of this player.
+     */
     setFlags(flags: number) {
         this.flags = flags;
         this.gamedata.update(this);
     }
 
+    /**
+     * Set the tasks of this player.
+     * @param taskIds The IDs of each task.
+     */
     setTaskIds(taskIds: number[]) {
         this.taskIds = taskIds;
         this.gamedata.update(this);
     }
 
+    /**
+     * Set the task states of this player.
+     */
     setTaskStates(taskStates: TaskState[]) {
         this.taskStates = taskStates;
         this.gamedata.update(this);
     }
 
+    /**
+     * Mark a task of this player as completed.
+     */
     completeTask(state: TaskState) {
         state.completed = true;
         this.gamedata.update(this);

@@ -87,6 +87,10 @@ export class MedScanSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Add a player to the queue.
+     * @param player The player to add.
+     */
     async addToQueue(player: PlayerData) {
         if (player.playerId === undefined)
             return;
@@ -98,6 +102,9 @@ export class MedScanSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Join the queue as the client's player.
+     */
     async joinQueue() {
         if (!this.room.me)
             return;
@@ -122,6 +129,10 @@ export class MedScanSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Remove a player from the queue.
+     * @param player The player to remove.
+     */
     async removeFromQueue(player: PlayerData) {
         if (player.playerId === undefined)
             return;
@@ -133,6 +144,9 @@ export class MedScanSystem extends SystemStatus<
         }
     }
 
+    /**
+     * Leave the queue as the current player.
+     */
     async leaveQueue() {
         if (!this.room.me)
             return;

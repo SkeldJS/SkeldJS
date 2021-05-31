@@ -8,6 +8,13 @@ import { PlayerData } from "../PlayerData";
  * Represents a player's voting state.
  */
 export class PlayerVoteState {
+    /**
+     * Create a player vote state from a single byte.
+     * @param room The room that the vote state is for.
+     * @param playerId The ID of the player.
+     * @param byte The byte to create a vote state from.
+     * @returns A parsed vote state.
+     */
     static from(room: Hostable<any>, playerId: number, byte: number) {
         const state = new PlayerVoteState(
             room,
@@ -26,10 +33,16 @@ export class PlayerVoteState {
         public dead: boolean = false
     ) {}
 
+    /**
+     * The player that this vote state is for.
+     */
     get player() {
         return this.room.getPlayerByPlayerId(this.playerId);
     }
 
+    /**
+     * Whether this player skipped voting.
+     */
     get didSkip() {
         return this.voted && !this.votedFor;
     }

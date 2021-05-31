@@ -111,7 +111,10 @@ export class PlayerPhysics extends Networkable<
     }
 
     /**
-     * Enter a vent.
+     * Enter a vent on the map by its ID.
+     *
+     * Emits a {@link PlayerEnterVentEvent | `player.entervent`} event.
+     *
      * @param ventid The ID of the vent to enter.
      * @example
      *```typescript
@@ -158,7 +161,11 @@ export class PlayerPhysics extends Networkable<
     }
 
     /**
-     * Exit a vent (Does not have to be the same vent or in the same network as the vent you entered).
+     * Exit a vent (Does not have to be the same vent or in the same network
+     * as the vent you entered).
+     *
+     * Emits a {@link PlayerExitVentEvent | `player.exitvent`} event.
+     *
      * @param ventid The ID of the vent to exit.
      * @example
      *```typescript
@@ -208,10 +215,26 @@ export class PlayerPhysics extends Networkable<
         );
     }
 
-    climbLadder(ladderid: number) {
+    /**
+     * Climb a ladder on the map by its ID.
+     *
+     * Emits a {@link PlayerClimbLadderEvent | `player.climbladder`} event.
+     *
+     * @param ladderid The ID of the ladder to climb.
+     */
+    async climbLadder(ladderid: number) {
         this.ladderClimbSeqId++;
         if (this.ladderClimbSeqId > 255) this.ladderClimbSeqId = 0;
 
         this._rpcClimbLadder(ladderid);
+
+        await this.emit(
+            new PlayerClimbLadderEvent(
+                this.room,
+                this.player,
+                undefined,
+                ladderid
+            )
+        );
     }
 }

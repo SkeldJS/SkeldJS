@@ -6,6 +6,12 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
+/**
+ * Emitted when the current meeting closes.
+ *
+ * To listen for when a meeting actually ends and when a player gets ejected,
+ * see {@link MeetingHudVotingCompleteEvent}.
+ */
 export class MeetingHudCloseEvent extends CancelableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meeting.close" as const;
     eventName = "meeting.close" as const;

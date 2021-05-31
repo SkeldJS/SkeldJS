@@ -8,6 +8,10 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
+/**
+ * Emitted when a player's vote is cleared. Only emitted if the client is the
+ * host or if the client is the player having their vote cleared.
+ */
 export class MeetingHudClearVoteEvent extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meeting.clearvote" as const;
     eventName = "meeting.clearvote" as const;
@@ -16,6 +20,9 @@ export class MeetingHudClearVoteEvent extends BasicEvent implements RoomEvent, M
         public readonly room: Hostable,
         public readonly meetinghud: MeetingHud,
         public readonly message: ClearVoteMessage|undefined,
+        /**
+         * The player that had their vote cleared.
+         */
         public readonly player: PlayerVoteState
     ) {
         super();

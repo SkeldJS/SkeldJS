@@ -56,7 +56,7 @@ describe("PlayerData", () => {
         });
     });
 
-    describe("PlayerData#data", () => {
+    describe("PlayerData#info", () => {
         it("Should retrieve the player's game data (name, colour, hat, etc.).", async () => {
             const room = new Hostable;
             const player = await room.handleJoin(1013);
@@ -65,7 +65,7 @@ describe("PlayerData", () => {
 
             assert.ok(room.gamedata.players.get(player.playerId));
             assert.strictEqual(
-                player.data,
+                player.info,
                 room.gamedata.players.get(player.playerId)
             );
         });
