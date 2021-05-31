@@ -122,7 +122,11 @@ export class DoorsSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        await this._openDoor(doorId, this.room.me, undefined);
+        if (this.room.amhost) {
+            await this._openDoor(doorId, this.room.me, undefined);
+        } else {
+            await this._repairSystem(doorId);
+        }
     }
 
     private async _closeDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
