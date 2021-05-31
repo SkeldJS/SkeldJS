@@ -152,9 +152,6 @@ export class LifeSuppSystem extends SystemStatus<
     }
 
     async clearConsoles() {
-        if (!this.room.me)
-            return;
-
         await this._clearConsoles(this.room.me, undefined);
     }
 
@@ -187,9 +184,6 @@ export class LifeSuppSystem extends SystemStatus<
      * @param consoleId The ID of the console to mark as complete.
      */
     async completeConsole(consoleid: number) {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             await this._completeConsole(consoleid, this.room.me, undefined);
         } else {
@@ -220,9 +214,6 @@ export class LifeSuppSystem extends SystemStatus<
     }
 
     async repair() {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             this._repair(this.room.me, undefined);
         } else {
