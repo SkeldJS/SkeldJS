@@ -40,8 +40,7 @@ export type HqHudSystemEvents = SystemStatusEvents &
 export const HqHudSystemRepairTag = {
     CompleteConsole: 0x10,
     CloseConsole: 0x20,
-    OpenConsole: 0x40,
-    Sabotage: 0x80,
+    OpenConsole: 0x40
 } as const;
 
 /**
@@ -242,7 +241,11 @@ export class HqHudSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        this._openConsole(consoleId, this.room.me, undefined);
+        if (this.room.amhost) {
+            this._openConsole(consoleId, this.room.me, undefined);
+        } else {
+            this._repairSystem(0x40 | consoleId);
+        }
     }
 
     private async _closeConsole(consoleid: number, player: PlayerData, rpc: RepairSystemMessage|undefined) {
@@ -342,9 +345,9 @@ export class HqHudSystem extends SystemStatus<
 
     async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
         const consoleId = amount & 0xf;
-        const tags = amount & 0xf0;
+        const repairOperation = amount & 0xf0;
 
-        switch (tags) {
+        switch (repairOperation) {
             case HqHudSystemRepairTag.CompleteConsole:
                 await this._completeConsole(consoleId, player, rpc);
                 if (this.completed.size >= 2) {
@@ -356,9 +359,6 @@ export class HqHudSystem extends SystemStatus<
                 break;
             case HqHudSystemRepairTag.OpenConsole:
                 await this._openConsole(consoleId, player, rpc);
-                break;
-            case HqHudSystemRepairTag.Sabotage:
-                await this.HandleSabotage(player, rpc);
                 break;
         }
     }
