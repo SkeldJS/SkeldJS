@@ -88,7 +88,14 @@ export class MedScanSystem extends SystemStatus<
     }
 
     async addToQueue(player: PlayerData) {
-        await this._joinQueue(player, undefined);
+        if (player.playerId === undefined)
+            return;
+
+        if (this.room.amhost) {
+            await this._joinQueue(player, undefined);
+        } else {
+            await this._sendRepair(player.playerId | 0x80);
+        }
     }
 
     async joinQueue() {
@@ -116,7 +123,14 @@ export class MedScanSystem extends SystemStatus<
     }
 
     async removeFromQueue(player: PlayerData) {
-        await this._leaveQueue(player, undefined);
+        if (player.playerId === undefined)
+            return;
+
+        if (this.room.amhost) {
+            await this._leaveQueue(player, undefined);
+        } else {
+            await this._sendRepair(player.playerId | 0x40);
+        }
     }
 
     async leaveQueue() {
@@ -126,7 +140,7 @@ export class MedScanSystem extends SystemStatus<
         await this.removeFromQueue(this.room.me);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
         const playerId = amount & 0x1f;
         const resolved = this.ship.room.getPlayerByPlayerId(playerId);
 
