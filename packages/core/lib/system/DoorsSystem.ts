@@ -119,13 +119,10 @@ export class DoorsSystem extends SystemStatus<
     }
 
     async openDoor(doorId: number) {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             await this._openDoor(doorId, this.room.me, undefined);
         } else {
-            await this._repairSystem(doorId);
+            await this._sendRepair(doorId);
         }
     }
 
@@ -160,9 +157,6 @@ export class DoorsSystem extends SystemStatus<
     }
 
     async closeDoor(doorId: number) {
-        if (!this.room.me)
-            return;
-
         this._closeDoor(doorId, this.room.me, undefined);
     }
 
