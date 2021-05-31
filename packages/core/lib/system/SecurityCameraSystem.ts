@@ -105,7 +105,11 @@ export class SecurityCameraSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        await this.addPlayer(this.room.me);
+        if (this.room.amhost) {
+            await this.addPlayer(this.room.me);
+        } else {
+            await this._sendRepair(1);
+        }
     }
 
     private async _removePlayer(player: PlayerData, rpc: RepairSystemMessage|undefined) {
@@ -142,7 +146,11 @@ export class SecurityCameraSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        await this.removePlayer(this.room.me);
+        if (this.room.amhost) {
+            await this.removePlayer(this.room.me);
+        } else {
+            await this._sendRepair(0);
+        }
     }
 
     async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
