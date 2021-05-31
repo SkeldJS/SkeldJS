@@ -129,10 +129,6 @@ export class SwitchSystem extends SystemStatus<
         }
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
-        await this._setSwitch(amount, !this.actual[amount], player, rpc);
-    }
-
     private async _setSwitch(num: number, value: boolean, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
         if (this.actual[num] === value)
             return;
@@ -179,10 +175,10 @@ export class SwitchSystem extends SystemStatus<
      * }
      * ```
      */
-    setSwitch(num: number, value: boolean) {
+    async setSwitch(num: number, value: boolean) {
         if (this.actual[num] === value) return;
 
-        this.flip(num);
+        await this.flip(num);
     }
 
     /**
@@ -196,11 +192,15 @@ export class SwitchSystem extends SystemStatus<
      * }
      * ```
      */
-    flip(num: number) {
+    async flip(num: number) {
         if (!this.room.me)
             return;
 
-        this._setSwitch(num, !this.actual[num], this.room.me, undefined);
+        if (this.room.amhost) {
+            await this._setSwitch(num, !this.actual[num], this.room.me, undefined);
+        } else {
+            await this._sendRepair(num);
+        }
     }
 
     private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
@@ -225,7 +225,33 @@ export class SwitchSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        await this._repair(this.room.me, undefined);
+        if (this.room.amhost) {
+            await this._repair(this.room.me, undefined);
+        } else {
+            for (let i = 0; i < 5; i++) {
+                const actual = this.actual[i];
+                const expected = this.expected[i];
+
+                if (actual !== expected) {
+                    await this.flip(i);
+                }
+            }
+        }
+    }
+
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+        await this._setSwitch(amount, !this.actual[amount], player, rpc);
+    }
+
+    Detoriorate() {
+        if (this.sabotaged) {
+            if (this.brightness > 0) {
+                this.brightness -= 15;
+                if (this.brightness < 0)
+                    this.brightness = 0;
+                this.dirty = true;
+            }
+        }
     }
 
     /**
@@ -268,16 +294,5 @@ export class SwitchSystem extends SystemStatus<
             (~~switches[3] << 3) |
             (~~switches[4] << 4)
         );
-    }
-
-    Detoriorate() {
-        if (this.sabotaged) {
-            if (this.brightness > 0) {
-                this.brightness -= 15;
-                if (this.brightness < 0)
-                    this.brightness = 0;
-                this.dirty = true;
-            }
-        }
     }
 }
