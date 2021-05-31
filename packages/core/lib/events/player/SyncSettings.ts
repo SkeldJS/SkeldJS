@@ -40,8 +40,8 @@ export class PlayerSyncSettingsEvent extends BasicEvent implements RoomEvent, Pl
     }
 
     /**
-     * Whether the {@link PlayerSyncSettingsEvent#aleteredSettings} is different
-     * from the {@link PlayerSyncSettingsEvent#settings}.
+     * Whether the {@link PlayerSyncSettingsEvent.alteredSettings} is different
+     * from the {@link PlayerSyncSettingsEvent.settings}.
      */
     get isDirty() {
         return this._isDirty;

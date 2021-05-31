@@ -40,8 +40,8 @@ export class PlayerSetImpostorsEvent extends BasicEvent implements RoomEvent, Pl
     }
 
     /**
-     * Whether the {@link SetImpostors#alteredImpostors} is different from
-     * {@link SetImpostors#impostors}.
+     * Whether the {@link PlayerSetImpostorsEvent.alteredImpostors} is different from
+     * {@link PlayerSetImpostorsEvent.impostors}.
      */
     get isDirty() {
         return this._isDirty;

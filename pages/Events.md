@@ -110,7 +110,6 @@ client.on("player.setname", ev => {
 ### Oxygen
 * {@link O2ConsoleCompleteEvent | `o2.consoles.complete`}
 * {@link O2ConsolesClearEvent | `o2.consoles.clear`}
-* {@link O2ConsolesResetEvent | `o2.consoles.reset`}
 
 ### Players
 * {@link PlayerCheckColorEvent | `player.checkcolor`}

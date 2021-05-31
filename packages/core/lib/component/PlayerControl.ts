@@ -243,7 +243,7 @@ export class PlayerControl extends Networkable<
     /**
      * Mark one of this player's tasks as completed.
      * @param taskIdx The index of the task to complete. Note: this is not the
-     * task ID but instead the index of the task in the {@link PlayerInfo#taskIds}
+     * task ID but instead the index of the task in the {@link PlayerInfo.taskIds}
      * array.
      *
      * Emits a {@link PlayerCompleteTaskEvent | `player.completetask`} event.
@@ -305,7 +305,7 @@ export class PlayerControl extends Networkable<
     }
 
     /**
-     * Change the room's settings. Use {@link Hostable#setSettings} to pass a
+     * Change the room's settings. Use {@link Hostable.setSettings} to pass a
      * partial game objects object. This is a host operation on official servers.
      *
      * Emits a {@link PlayerSyncSettingsEvent | `player.syncsettings`} event.
@@ -380,7 +380,7 @@ export class PlayerControl extends Networkable<
 
     /**
      * Set the impostors of the room. Usually called straight after a game is
-     * started via the {@link InnerShipStatus#selectImpostors} method. This is
+     * started via the {@link InnerShipStatus.selectImpostors} method. This is
      * a host operation on official servers.
      *
      * Will remove any existing impostors unless they are included in the array.
@@ -516,7 +516,7 @@ export class PlayerControl extends Networkable<
 
     /**
      * Update this player's name. This is a host operation on official servers.
-     * Use {@link PlayerControl#checkName} if you are calling this as not the host.
+     * Use {@link PlayerControl.checkName} if you are calling this as not the host.
      *
      * Emits a {@link PlayerSetNameEvent | `player.setname`} event.
      *
@@ -641,7 +641,7 @@ export class PlayerControl extends Networkable<
 
     /**
      * Update this player's color. This is a host operation on official servers.
-     * Use {@link PlayerControl#checkColor} if you are calling this as not the host.
+     * Use {@link PlayerControl.checkColor} if you are calling this as not the host.
      *
      * Emits a {@link PlayerCheckNameEvent | `player.checkname`} event.
      *
@@ -847,7 +847,7 @@ export class PlayerControl extends Networkable<
 
     /**
      * Report the dead body of a player, telling the host to begin a meeting.
-     * Use {@link PlayerControl#startMeeting} if you are calling this as the
+     * Use {@link PlayerControl.startMeeting} if you are calling this as the
      * host.
      *
      * Emits a {@link PlayerReportDeadBodyEvent `player.reportbody`} event.
@@ -1069,7 +1069,7 @@ export class PlayerControl extends Networkable<
 
     /**
      * Start a meeting and begin the meeting routine. This is a host-only operation
-     * on official servers, see {@link PlayerControl#reportDeadBody} if you are calling
+     * on official servers, see {@link PlayerControl.reportDeadBody} if you are calling
      * this as not the host.
      *
      * Emits a {@link PlayerStartMeetingEvent | `player.startmeeting`} event.
