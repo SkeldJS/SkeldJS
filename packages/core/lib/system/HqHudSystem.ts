@@ -281,7 +281,11 @@ export class HqHudSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        await this._closeConsole(consoleId, this.room.me, undefined);
+        if (this.room.amhost) {
+            await this._closeConsole(consoleId, this.room.me, undefined);
+        } else {
+            await this._repairSystem(0x20 | consoleId);
+        }
     }
 
     private async _completeConsole(consoleid: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
@@ -308,10 +312,14 @@ export class HqHudSystem extends SystemStatus<
      * @param consoleId The ID of the console to mark as completed.
      */
     async completeConsole(consoleId: number) {
-        if (!this.ship.room.me)
+        if (!this.room.me)
             return;
 
-        await this._completeConsole(consoleId, this.room.me, undefined);
+        if (this.room.amhost) {
+            await this._completeConsole(consoleId, this.room.me, undefined);
+        } else {
+            await this._repairSystem(0x10 | consoleId);
+        }
     }
 
     private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
