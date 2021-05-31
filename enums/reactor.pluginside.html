@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ReactorMessageTag | SkeldJS</title>
+	<title>PluginSide | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/client.html">client</a>
+					<a href="../modules/reactor.html">reactor</a>
 				</li>
 				<li>
-					<a href="client.reactormessagetag.html">ReactorMessageTag</a>
+					<a href="reactor.pluginside.html">PluginSide</a>
 				</li>
 			</ul>
-			<h1>Enumeration ReactorMessageTag</h1>
+			<h1>Enumeration PluginSide</h1>
 		</div>
 	</div>
 </header>
@@ -77,9 +77,8 @@
 						<section class="tsd-index-section ">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.reactormessagetag.html#handshake" class="tsd-kind-icon">Handshake</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.reactormessagetag.html#moddeclaration" class="tsd-kind-icon">Mod<wbr>Declaration</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="client.reactormessagetag.html#plugindeclaration" class="tsd-kind-icon">Plugin<wbr>Declaration</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="reactor.pluginside.html#both" class="tsd-kind-icon">Both</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="reactor.pluginside.html#clientside" class="tsd-kind-icon">Clientside</a></li>
 							</ul>
 						</section>
 					</div>
@@ -88,32 +87,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="handshake" class="tsd-anchor"></a>
-					<h3>Handshake</h3>
-					<div class="tsd-signature tsd-kind-icon">Handshake<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
+					<a name="both" class="tsd-anchor"></a>
+					<h3>Both</h3>
+					<div class="tsd-signature tsd-kind-icon">Both<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/870b583/packages/client/lib/reactor/packets/ReactorMessage.ts#L7">client/lib/reactor/packets/ReactorMessage.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/reactor/lib/packets/ReactorModDeclaration.ts#L7">reactor/lib/packets/ReactorModDeclaration.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="moddeclaration" class="tsd-anchor"></a>
-					<h3>Mod<wbr>Declaration</h3>
-					<div class="tsd-signature tsd-kind-icon">Mod<wbr>Declaration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
+					<a name="clientside" class="tsd-anchor"></a>
+					<h3>Clientside</h3>
+					<div class="tsd-signature tsd-kind-icon">Clientside<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/870b583/packages/client/lib/reactor/packets/ReactorMessage.ts#L8">client/lib/reactor/packets/ReactorMessage.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="plugindeclaration" class="tsd-anchor"></a>
-					<h3>Plugin<wbr>Declaration</h3>
-					<div class="tsd-signature tsd-kind-icon">Plugin<wbr>Declaration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/870b583/packages/client/lib/reactor/packets/ReactorMessage.ts#L9">client/lib/reactor/packets/ReactorMessage.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/reactor/lib/packets/ReactorModDeclaration.ts#L8">reactor/lib/packets/ReactorModDeclaration.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -152,7 +141,7 @@
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -179,6 +168,9 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html">protocol</a>
 					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/reactor.html">reactor</a>
+					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/state.html">state</a>
 					</li>
@@ -192,77 +184,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
-						<ul>
-							<li class=" tsd-kind-enum tsd-parent-kind-module">
-								<a href="client.pluginside.html" class="tsd-kind-icon">Plugin<wbr>Side</a>
-							</li>
-							<li class="current tsd-kind-enum tsd-parent-kind-module">
-								<a href="client.reactormessagetag.html" class="tsd-kind-icon">Reactor<wbr>Message<wbr>Tag</a>
-								<ul>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.reactormessagetag.html#handshake" class="tsd-kind-icon">Handshake</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.reactormessagetag.html#moddeclaration" class="tsd-kind-icon">Mod<wbr>Declaration</a>
-									</li>
-									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-										<a href="client.reactormessagetag.html#plugindeclaration" class="tsd-kind-icon">Plugin<wbr>Declaration</a>
-									</li>
-								</ul>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.basereactormessage.html" class="tsd-kind-icon">Base<wbr>Reactor<wbr>Message</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.clientconnectevent.html" class="tsd-kind-icon">Client<wbr>Connect<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.clientdisconnectevent.html" class="tsd-kind-icon">Client<wbr>Disconnect<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.clientevent.html" class="tsd-kind-icon">Client<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.clientidentifyevent.html" class="tsd-kind-icon">Client<wbr>Identify<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.clientjoinevent.html" class="tsd-kind-icon">Client<wbr>Join<wbr>Event</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.modinfo.html" class="tsd-kind-icon">Mod<wbr>Info</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.moddedhellopacket.html" class="tsd-kind-icon">Modded<wbr>Hello<wbr>Packet</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.reactorhandshakemessage.html" class="tsd-kind-icon">Reactor<wbr>Handshake<wbr>Message</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.reactormessage.html" class="tsd-kind-icon">Reactor<wbr>Message</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.reactormoddeclarationmessage.html" class="tsd-kind-icon">Reactor<wbr>Mod<wbr>Declaration<wbr>Message</a>
-							</li>
-							<li class=" tsd-kind-class tsd-parent-kind-module">
-								<a href="../classes/client.skeldjsclient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/client.clientconfig.html" class="tsd-kind-icon">Client<wbr>Config</a>
-							</li>
-							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/client.sentpacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
-							</li>
-							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-								<a href="../modules/client.html#skeldjsclientevents" class="tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html" class="tsd-kind-icon">constant</a>
 					</li>
@@ -287,6 +211,44 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
 					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="../modules/reactor.html" class="tsd-kind-icon">reactor</a>
+						<ul>
+							<li class="current tsd-kind-enum tsd-parent-kind-module">
+								<a href="reactor.pluginside.html" class="tsd-kind-icon">Plugin<wbr>Side</a>
+								<ul>
+									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+										<a href="reactor.pluginside.html#both" class="tsd-kind-icon">Both</a>
+									</li>
+									<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+										<a href="reactor.pluginside.html#clientside" class="tsd-kind-icon">Clientside</a>
+									</li>
+								</ul>
+							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="reactor.reactormessagetag.html" class="tsd-kind-icon">Reactor<wbr>Message<wbr>Tag</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/reactor.basereactormessage.html" class="tsd-kind-icon">Base<wbr>Reactor<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/reactor.moddedhellopacket.html" class="tsd-kind-icon">Modded<wbr>Hello<wbr>Packet</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/reactor.reactorhandshakemessage.html" class="tsd-kind-icon">Reactor<wbr>Handshake<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/reactor.reactormessage.html" class="tsd-kind-icon">Reactor<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/reactor.reactormoddeclarationmessage.html" class="tsd-kind-icon">Reactor<wbr>Mod<wbr>Declaration<wbr>Message</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
 					</li>

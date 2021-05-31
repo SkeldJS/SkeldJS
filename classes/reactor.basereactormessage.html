@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DisconnectPacket | SkeldJS</title>
+	<title>BaseReactorMessage | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/protocol.html">protocol</a>
+					<a href="../modules/reactor.html">reactor</a>
 				</li>
 				<li>
-					<a href="protocol.disconnectpacket.html">DisconnectPacket</a>
+					<a href="reactor.basereactormessage.html">BaseReactorMessage</a>
 				</li>
 			</ul>
-			<h1>Class DisconnectPacket</h1>
+			<h1>Class BaseReactorMessage</h1>
 		</div>
 	</div>
 </header>
@@ -74,10 +74,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="" class="tsd-signature-type" data-tsd-kind="Class">BaseRootPacket</a>
+						<span class="tsd-signature-type">BaseMessage</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">DisconnectPacket</span>
+								<span class="target">BaseReactorMessage</span>
 							</li>
 						</ul>
 					</li>
@@ -87,157 +87,112 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="protocol.disconnectpacket.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="reactor.basereactormessage.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.disconnectpacket.html#message" class="tsd-kind-icon">message</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.disconnectpacket.html#reason" class="tsd-kind-icon">reason</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.disconnectpacket.html#showreason" class="tsd-kind-icon">show<wbr>Reason</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="protocol.disconnectpacket.html#tag" class="tsd-kind-icon">tag</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="protocol.disconnectpacket.html#type" class="tsd-kind-icon">type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="protocol.disconnectpacket.html#tag-1" class="tsd-kind-icon">tag</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="protocol.disconnectpacket.html#type-1" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="reactor.basereactormessage.html#tag" class="tsd-kind-icon">tag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="reactor.basereactormessage.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="reactor.basereactormessage.html#tag-1" class="tsd-kind-icon">tag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="reactor.basereactormessage.html#type-1" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="protocol.disconnectpacket.html#canceled" class="tsd-kind-icon">canceled</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="reactor.basereactormessage.html#canceled" class="tsd-kind-icon">canceled</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="protocol.disconnectpacket.html#serialize" class="tsd-kind-icon">Serialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="protocol.disconnectpacket.html#cancel" class="tsd-kind-icon">cancel</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="protocol.disconnectpacket.html#deserialize" class="tsd-kind-icon">Deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="reactor.basereactormessage.html#serialize" class="tsd-kind-icon">Serialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="reactor.basereactormessage.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="reactor.basereactormessage.html#deserialize" class="tsd-kind-icon">Deserialize</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Disconnect<wbr>Packet<span class="tsd-signature-symbol">(</span>reason<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">DisconnectReason</a>, message<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, showReason<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">DisconnectPacket</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Reactor<wbr>Message<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BaseReactorMessage</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides BaseRootPacket.constructor</p>
+								<p>Inherited from BaseMessage.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/Disconnect.ts#L12">protocol/lib/packets/option/Disconnect.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/BaseMessage.ts#L11">protocol/lib/packets/BaseMessage.ts:11</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> reason: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">DisconnectReason</a></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> message: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> showReason: <span class="tsd-signature-type">boolean</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">DisconnectPacket</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">BaseReactorMessage</span></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="message" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> message</h3>
-					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="tag" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> tag</h3>
+					<div class="tsd-signature tsd-kind-icon">tag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from BaseMessage.tag</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/Disconnect.ts#L11">protocol/lib/packets/option/Disconnect.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="reason" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> reason</h3>
-					<div class="tsd-signature tsd-kind-icon">reason<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">DisconnectReason</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/Disconnect.ts#L10">protocol/lib/packets/option/Disconnect.ts:10</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="showreason" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> show<wbr>Reason</h3>
-					<div class="tsd-signature tsd-kind-icon">show<wbr>Reason<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/Disconnect.ts#L12">protocol/lib/packets/option/Disconnect.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/BaseMessage.ts#L9">protocol/lib/packets/BaseMessage.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-					<a name="tag" class="tsd-anchor"></a>
-					<h3>tag</h3>
-					<div class="tsd-signature tsd-kind-icon">tag<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.sendoption.html#disconnect" class="tsd-signature-type" data-tsd-kind="Enumeration member">Disconnect</a><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides BaseRootPacket.tag</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/Disconnect.ts#L8">protocol/lib/packets/option/Disconnect.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="type" class="tsd-anchor"></a>
 					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;option&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;reactor&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from BaseRootPacket.type</p>
+						<p>Overrides BaseMessage.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/BaseRootPacket.ts#L5">protocol/lib/packets/option/BaseRootPacket.ts:5</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-					<a name="tag-1" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> tag</h3>
-					<div class="tsd-signature tsd-kind-icon">tag<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.sendoption.html#disconnect" class="tsd-signature-type" data-tsd-kind="Enumeration member">Disconnect</a><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides BaseRootPacket.tag</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/Disconnect.ts#L7">protocol/lib/packets/option/Disconnect.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/reactor/lib/packets/BaseReactorMessage.ts#L5">reactor/lib/packets/BaseReactorMessage.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+					<a name="tag-1" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> tag</h3>
+					<div class="tsd-signature tsd-kind-icon">tag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from BaseMessage.tag</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/BaseMessage.ts#L6">protocol/lib/packets/BaseMessage.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="type-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;option&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;reactor&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from BaseRootPacket.type</p>
+						<p>Overrides BaseMessage.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/BaseRootPacket.ts#L4">protocol/lib/packets/option/BaseRootPacket.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/reactor/lib/packets/BaseReactorMessage.ts#L4">reactor/lib/packets/BaseReactorMessage.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="canceled" class="tsd-anchor"></a>
 					<h3>canceled</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> canceled<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
@@ -252,26 +207,32 @@
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="serialize" class="tsd-anchor"></a>
 					<h3>Serialize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">Serialize<span class="tsd-signature-symbol">(</span>writer<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Serialize<span class="tsd-signature-symbol">(</span>writer<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, decoder<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides BaseRootPacket.Serialize</p>
+								<p>Inherited from BaseMessage.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/Disconnect.ts#L53">protocol/lib/packets/option/Disconnect.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/BaseMessage.ts#L30">protocol/lib/packets/BaseMessage.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>writer: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a></h5>
+								</li>
+								<li>
+									<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
+								</li>
+								<li>
+									<h5>decoder: <a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -287,7 +248,7 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from BaseRootPacket.cancel</p>
+								<p>Inherited from BaseMessage.cancel</p>
 								<ul>
 									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/BaseMessage.ts#L38">protocol/lib/packets/BaseMessage.ts:38</a></li>
 								</ul>
@@ -296,18 +257,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
 					<a name="deserialize" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> Deserialize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">Deserialize<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">DisconnectPacket</a></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">Deserialize<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, decoder<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BaseMessage</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides BaseRootPacket.Deserialize</p>
+								<p>Inherited from BaseMessage.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/option/Disconnect.ts#L26">protocol/lib/packets/option/Disconnect.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/protocol/lib/packets/BaseMessage.ts#L21">protocol/lib/packets/BaseMessage.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -315,8 +276,14 @@
 								<li>
 									<h5>reader: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a></h5>
 								</li>
+								<li>
+									<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
+								</li>
+								<li>
+									<h5>decoder: <a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">DisconnectPacket</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">BaseMessage</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -379,10 +346,10 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html">pathfinding</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/protocol.html">protocol</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/reactor.html">reactor</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -422,59 +389,68 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-module">
-						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
+						<a href="../modules/reactor.html" class="tsd-kind-icon">reactor</a>
 						<ul>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/reactor.pluginside.html" class="tsd-kind-icon">Plugin<wbr>Side</a>
+							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/reactor.reactormessagetag.html" class="tsd-kind-icon">Reactor<wbr>Message<wbr>Tag</a>
+							</li>
 							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="protocol.disconnectpacket.html" class="tsd-kind-icon">Disconnect<wbr>Packet</a>
+								<a href="reactor.basereactormessage.html" class="tsd-kind-icon">Base<wbr>Reactor<wbr>Message</a>
 								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-										<a href="protocol.disconnectpacket.html#constructor" class="tsd-kind-icon">constructor</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="protocol.disconnectpacket.html#message" class="tsd-kind-icon">message</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="protocol.disconnectpacket.html#reason" class="tsd-kind-icon">reason</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="protocol.disconnectpacket.html#showreason" class="tsd-kind-icon">show<wbr>Reason</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-										<a href="protocol.disconnectpacket.html#tag" class="tsd-kind-icon">tag</a>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+										<a href="reactor.basereactormessage.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="protocol.disconnectpacket.html#type" class="tsd-kind-icon">type</a>
+										<a href="reactor.basereactormessage.html#tag" class="tsd-kind-icon">tag</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-										<a href="protocol.disconnectpacket.html#tag-1" class="tsd-kind-icon">tag</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+										<a href="reactor.basereactormessage.html#type" class="tsd-kind-icon">type</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-										<a href="protocol.disconnectpacket.html#type-1" class="tsd-kind-icon">type</a>
+										<a href="reactor.basereactormessage.html#tag-1" class="tsd-kind-icon">tag</a>
 									</li>
-									<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-										<a href="protocol.disconnectpacket.html#canceled" class="tsd-kind-icon">canceled</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+										<a href="reactor.basereactormessage.html#type-1" class="tsd-kind-icon">type</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-										<a href="protocol.disconnectpacket.html#serialize" class="tsd-kind-icon">Serialize</a>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="reactor.basereactormessage.html#canceled" class="tsd-kind-icon">canceled</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="protocol.disconnectpacket.html#cancel" class="tsd-kind-icon">cancel</a>
+										<a href="reactor.basereactormessage.html#serialize" class="tsd-kind-icon">Serialize</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-										<a href="protocol.disconnectpacket.html#deserialize" class="tsd-kind-icon">Deserialize</a>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="reactor.basereactormessage.html#cancel" class="tsd-kind-icon">cancel</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-static">
+										<a href="reactor.basereactormessage.html#deserialize" class="tsd-kind-icon">Deserialize</a>
 									</li>
 								</ul>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="reactor.moddedhellopacket.html" class="tsd-kind-icon">Modded<wbr>Hello<wbr>Packet</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="reactor.reactorhandshakemessage.html" class="tsd-kind-icon">Reactor<wbr>Handshake<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="reactor.reactormessage.html" class="tsd-kind-icon">Reactor<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="reactor.reactormoddeclarationmessage.html" class="tsd-kind-icon">Reactor<wbr>Mod<wbr>Declaration<wbr>Message</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-module">
-						<a href="../modules/reactor.html" class="tsd-kind-icon">reactor</a>
-					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
 					</li>
@@ -503,23 +479,21 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 			</ul>
 		</div>
 	</div>
