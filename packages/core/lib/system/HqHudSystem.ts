@@ -312,9 +312,6 @@ export class HqHudSystem extends SystemStatus<
      * @param consoleId The ID of the console to mark as completed.
      */
     async completeConsole(consoleId: number) {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             await this._completeConsole(consoleId, this.room.me, undefined);
         } else {
@@ -340,9 +337,6 @@ export class HqHudSystem extends SystemStatus<
     }
 
     async repair() {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             await this._repair(this.room.me, undefined);
         } else {
