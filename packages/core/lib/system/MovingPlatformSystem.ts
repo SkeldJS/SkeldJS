@@ -153,9 +153,18 @@ export class MovingPlatformSystem extends SystemStatus<
     }
 
     async getOn() {
-        if (!this.room.me)
+        if (!this.room.me?.control)
             return;
 
-        await this.setTarget(this.room.me, this.oppositeSide);
+        if (this.room.amhost) {
+            await this.setTarget(this.room.me, this.oppositeSide);
+        } else {
+            this.room.stream.push(
+                new RpcMessage(
+                    this.room.me.control.netid,
+                    new UsePlatformMessage
+                )
+            );
+        }
     }
 }
