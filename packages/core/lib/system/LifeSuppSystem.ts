@@ -190,7 +190,11 @@ export class LifeSuppSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        await this._completeConsole(consoleid, this.room.me, undefined);
+        if (this.room.amhost) {
+            await this._completeConsole(consoleid, this.room.me, undefined);
+        } else {
+            await this._sendRepair(0x40 | consoleid);
+        }
     }
 
     private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
@@ -219,7 +223,11 @@ export class LifeSuppSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        this._repair(this.room.me, undefined);
+        if (this.room.amhost) {
+            this._repair(this.room.me, undefined);
+        } else {
+            await this._sendRepair(0x10);
+        }
     }
 
     async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
