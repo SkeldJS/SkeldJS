@@ -125,9 +125,6 @@ export class HudOverrideSystem extends SystemStatus<
     }
 
     async repair() {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             await this._repair(this.room.me, undefined);
         } else {
