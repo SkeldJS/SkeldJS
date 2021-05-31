@@ -76,7 +76,7 @@ export class ReactorSystem extends SystemStatus<
         }
     }
 
-    private async _addConsole(player: PlayerData, consoleid: number, rpc: RepairSystemMessage|undefined) {
+    private async _addConsole(player: PlayerData|undefined, consoleid: number, rpc: RepairSystemMessage|undefined) {
         this.completed.add(consoleid);
         this.dirty = true;
 
@@ -101,9 +101,6 @@ export class ReactorSystem extends SystemStatus<
     }
 
     async addConsole(consoleid: number) {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             await this._addConsole(this.room.me, consoleid, undefined);
         } else {
@@ -111,7 +108,7 @@ export class ReactorSystem extends SystemStatus<
         }
     }
 
-    private async _removeConsole(player: PlayerData, consoleid: number, rpc: RepairSystemMessage|undefined) {
+    private async _removeConsole(player: PlayerData|undefined, consoleid: number, rpc: RepairSystemMessage|undefined) {
         this.completed.delete(consoleid);
         this.dirty = true;
 
@@ -136,9 +133,6 @@ export class ReactorSystem extends SystemStatus<
     }
 
     async removeConsole(consoleid: number) {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             await this._removeConsole(this.room.me, consoleid, undefined);
         } else {
@@ -146,7 +140,7 @@ export class ReactorSystem extends SystemStatus<
         }
     }
 
-    private async _repair(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
         const oldTimer = this.timer;
         const oldCompleted = this.completed;
         this.timer = 10000;
@@ -169,9 +163,6 @@ export class ReactorSystem extends SystemStatus<
     }
 
     async repair() {
-        if (!this.room.me)
-            return;
-
         if (this.room.amhost) {
             await this._repair(this.room.me, undefined);
         } else {
