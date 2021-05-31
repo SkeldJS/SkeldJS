@@ -33,13 +33,13 @@ export class RpcMessage extends BaseGameDataMessage {
         const rpcMessages = decoder.types.get("rpc");
 
         if (!rpcMessages)
-            return new RpcMessage(netid, new BaseRpcMessage());
+            return new RpcMessage(netid, new BaseRpcMessage);
 
         const mreader = reader.bytes(reader.left);
         const rpcMessageClass = rpcMessages.get(callid);
 
         if (!rpcMessageClass)
-            return new RpcMessage(netid, new BaseRpcMessage());
+            return new RpcMessage(netid, new BaseRpcMessage);
 
         const rpc = rpcMessageClass.Deserialize(mreader, direction, decoder);
 

@@ -120,7 +120,7 @@ function transformer(tokens: ParseToken[], tagName?: string) {
 
 function construct(part: ParsePart | ParsePart[]) {
     if (Array.isArray(part)) {
-        const doc = new DocElement();
+        const doc = new DocElement;
         for (let i = 0; i < part.length; i++) {
             doc.children.push(construct(part[i]));
         }

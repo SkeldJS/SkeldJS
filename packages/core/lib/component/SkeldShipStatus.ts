@@ -83,7 +83,7 @@ export class SkeldShipStatus extends InnerShipStatus {
         this.systems = {
             [SystemType.Reactor]: new ReactorSystem(this, {
                 timer: 10000,
-                completed: new Set(),
+                completed: new Set,
             }),
             [SystemType.Electrical]: new SwitchSystem(this, {
                 expected: [false, false, false, false, false],
@@ -92,13 +92,13 @@ export class SkeldShipStatus extends InnerShipStatus {
             }),
             [SystemType.O2]: new LifeSuppSystem(this, {
                 timer: 10000,
-                completed: new Set(),
+                completed: new Set,
             }),
             [SystemType.MedBay]: new MedScanSystem(this, {
                 queue: [],
             }),
             [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set(),
+                players: new Set,
             }),
             [SystemType.Communications]: new HudOverrideSystem(this, {
                 sabotaged: false,

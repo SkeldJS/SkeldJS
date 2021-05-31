@@ -157,7 +157,9 @@ export class GameOptions implements AllGameOptions {
     }
 
     static Deserialize(reader: HazelReader) {
-        return new GameOptions().Deserialize(reader);
+        const gameOptions = new GameOptions;
+        gameOptions.Deserialize(reader);
+        return gameOptions;
     }
 
     Deserialize(reader: HazelReader) {

@@ -87,7 +87,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     Deserialize(reader: HazelReader, spawn: boolean = false) {
         if (spawn) {
             this.dirtyBit = 0;
-            this.states = new Map();
+            this.states = new Map;
 
             for (let i = 0; i < this.states.size; i++) {
                 this.states.set(
@@ -165,7 +165,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
 
     private _rpcClose() {
         this.room.stream.push(
-            new RpcMessage(this.netid, new CloseMessage())
+            new RpcMessage(this.netid, new CloseMessage)
         );
     }
 
@@ -331,7 +331,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
             [
                 new RpcMessage(
                     this.netid,
-                    new ClearVoteMessage()
+                    new ClearVoteMessage
                 ),
             ],
             true,

@@ -47,7 +47,7 @@ export class VoteBanSystem extends Networkable<
     ) {
         super(room, netid, ownerid, data);
 
-        this.voted = new Map();
+        this.voted ||= new Map;
     }
 
     get owner() {

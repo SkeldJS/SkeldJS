@@ -8,7 +8,7 @@ import { TestComponent, TestEvents, alphabet, TestEvent } from "./tests.spec";
 describe("Heritable", () => {
     describe("Heritable#ctr", () => {
         it("Should create an identifiable heritable object belonging to a room.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const heritable = new Heritable(room, 1013);
 
             assert.strictEqual(heritable.id, 1013);
@@ -22,7 +22,7 @@ describe("Heritable", () => {
             let was_called1 = false;
             let was_called2 = false;
 
-            const room = new Hostable<HostableEvents & TestEvents>();
+            const room: Hostable<HostableEvents & TestEvents> = new Hostable;
             const heritable = new Heritable<HeritableEvents & TestEvents>(
                 room,
                 1013
@@ -49,7 +49,7 @@ describe("Heritable", () => {
 
     describe("Heritable#getComponent", () => {
         it("Should get a component of the object by the class of the component.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const heritable = new Heritable(room, 1013);
             const component = new TestComponent(room, 1, 1013);
 
@@ -63,7 +63,7 @@ describe("Heritable", () => {
         });
 
         it("Should get a component of the object by the net ID of the component.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const heritable = new Heritable(room, 1013);
             const component = new TestComponent(room, 1, 1013);
 

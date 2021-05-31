@@ -82,7 +82,7 @@ export class Grid {
         readonly density: number
     ) {
         this.nodes = nodes;
-        this.dirty = new Set();
+        this.dirty = new Set;
         this.pathid = 0;
     }
 

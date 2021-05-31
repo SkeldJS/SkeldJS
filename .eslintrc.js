@@ -24,6 +24,7 @@ module.exports = {
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-unused-vars": ["error", { "args": "none" } ],
+        "new-parens": ["error", "never"],
         "no-case-declarations": "off",
         "no-fallthrough": "off",
         "semi": ["error", "always"]

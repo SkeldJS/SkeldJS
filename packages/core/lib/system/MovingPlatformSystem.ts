@@ -145,7 +145,7 @@ export class MovingPlatformSystem extends SystemStatus<
                 this.ship.room.stream.push(
                     new RpcMessage(
                         this.target.control.netid,
-                        new UsePlatformMessage()
+                        new UsePlatformMessage
                     )
                 );
             }

@@ -25,7 +25,7 @@ describe("EventEmitter", () => {
     describe("EventEmitter#emit", () => {
         it("Should emit an event with provided data.", async () => {
             let didreceive = false;
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
 
             emitter.on("hello.123", async (ev) => {
                 assert.strictEqual(ev.alphabet, 5);
@@ -38,7 +38,7 @@ describe("EventEmitter", () => {
 
         it("Should detect when events are cancelled by listeners.", async () => {
             let didreceive = false;
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
 
             emitter.on("hello.123", async (ev) => {
                 assert.strictEqual(ev.alphabet, 5);
@@ -58,7 +58,7 @@ describe("EventEmitter", () => {
 
     describe("EventEmitter#on", () => {
         it("Should add a listener and return a function removing it.", () => {
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
             const listeners = emitter.getListeners("hello.123");
 
             const off = emitter.on("hello.123", async (ev) => {
@@ -73,7 +73,7 @@ describe("EventEmitter", () => {
 
     describe("EventEmitter#once", () => {
         it("Should only listen to an event once, before being removed.", () => {
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
             const listeners = emitter.getListeners("hello.123");
 
             emitter.once("hello.123", async (ev) => {
@@ -88,7 +88,7 @@ describe("EventEmitter", () => {
 
     describe("EventEmitter#wait", () => {
         it("Should wait until an event is called.", async () => {
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
             const listeners = emitter.getListeners("hello.123");
 
             (async () => {
@@ -108,7 +108,7 @@ describe("EventEmitter", () => {
 
     describe("EventEmitter#off", () => {
         it("Should remove a single listener for an event.", () => {
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
             const listeners = emitter.getListeners("hello.123");
 
             async function response(ev: TestEvent) {
@@ -124,7 +124,7 @@ describe("EventEmitter", () => {
 
     describe("EventEmitter#getListeners", () => {
         it("Should get all listeners for an event.", () => {
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
             const listeners = emitter.getListeners("hello.123");
 
             async function response(ev: TestEvent) {
@@ -139,7 +139,7 @@ describe("EventEmitter", () => {
     describe("EventEmitter#removeListeners", () => {
         it("Should remove all listeners from an event.", async () => {
             let didreceive = false;
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
             const listeners = emitter.getListeners("hello.123");
 
             emitter.on("hello.123", async (ev) => {
@@ -160,7 +160,7 @@ describe("EventEmitter", () => {
     describe("EventEmitter#removeAllListeners", () => {
         it("Should remove all listeners from all events.", async () => {
             let didreceive = false;
-            const emitter = new EventEmitter<TestEvents>();
+            const emitter: EventEmitter<TestEvents> = new EventEmitter;
             const listeners = emitter.getListeners("hello.123");
 
             emitter.on("hello.123", async (ev) => {

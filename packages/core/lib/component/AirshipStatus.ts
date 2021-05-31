@@ -65,7 +65,7 @@ export class AirshipStatus extends InnerShipStatus {
                 brightness: 100,
             }),
             [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set(),
+                players: new Set,
             }),
             [SystemType.Communications]: new HudOverrideSystem(this, {
                 sabotaged: false,

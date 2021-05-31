@@ -14,7 +14,7 @@ export class FakeSpawnMessage extends BaseGameDataMessage {
 describe("GameDataMessage", () => {
     describe("GameDataMessage#Deserialize", () => {
         it("Should deserialize a alter game root message.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             const reader = HazelReader.from(
                 "48daca8c21000403feffffff0f00025e1000010100076861696c657920076d020000005f010001001e000404e9ad02010360020001000061000001620a00010100c27ab286ff7fff7f0c000402feffffff0f000163000001",
@@ -42,13 +42,13 @@ describe("GameDataMessage", () => {
 
     describe("GameDataMessage#Serialize", () => {
         it("Should serialize a alter game root message.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             const writer = HazelWriter.alloc(0);
             const packet = new GameDataMessage("GITWMF", [
-                new FakeSpawnMessage(),
-                new FakeSpawnMessage(),
-                new FakeSpawnMessage(),
+                new FakeSpawnMessage,
+                new FakeSpawnMessage,
+                new FakeSpawnMessage,
             ]);
 
             packet.Serialize(writer, MessageDirection.Clientbound, decoder);

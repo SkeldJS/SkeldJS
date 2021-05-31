@@ -194,7 +194,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
     pause() {
         this._paused = true;
-        this.emit(new PathfinderPauseEvent());
+        this.emit(new PathfinderPauseEvent);
     }
 
     start() {
@@ -211,7 +211,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         this.emit(new PathfinderStopEvent(reached));
         if (reached) {
-            this.emit(new PathfinderEndEvent());
+            this.emit(new PathfinderEndEvent);
         }
     }
 

@@ -22,7 +22,7 @@ export class TestMessage extends BaseMessage {
 describe("PacketDecoder", () => {
     describe("PacketDecoder#register", () => {
         it("Should register a message with a type and a tag", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             decoder.register(TestMessage);
 
@@ -32,7 +32,7 @@ describe("PacketDecoder", () => {
 
     describe("PacketDecoder#getListeners", () => {
         it("Should retrieve all listeners for a message.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             const listeners = decoder.getListeners(TestMessage);
 
@@ -48,7 +48,7 @@ describe("PacketDecoder", () => {
 
     describe("PacketDecoder#on and PacketDecoder#off", () => {
         it("Should listen for a message to be emitted and should be able to remove it.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             let did_recv = false;
 
@@ -74,7 +74,7 @@ describe("PacketDecoder", () => {
         });
 
         it("Should listen to several messages to be emitted and should be able to remove them.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             let recv = 0;
 
@@ -141,7 +141,7 @@ describe("PacketDecoder", () => {
         });
 
         it("Should return a function that removes the listener.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             assert.strictEqual(decoder.getListeners(StartGameMessage).size, 0);
 
@@ -159,7 +159,7 @@ describe("PacketDecoder", () => {
 
     describe("PacketDecoder#once", () => {
         it("Should listen to a message exactly once.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             let did_recv = false;
 
@@ -184,7 +184,7 @@ describe("PacketDecoder", () => {
         });
 
         it("Should listen to any of several messages exactly once.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             let recv = 0;
 
@@ -228,7 +228,7 @@ describe("PacketDecoder", () => {
 
     describe("PacketDecoder#wait", () => {
         it("Should asynchronously wait for a message to be emitted.", async () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             (async () => {
                 await sleep(100);
@@ -251,7 +251,7 @@ describe("PacketDecoder", () => {
 
     describe("PacketDecoder#waitf", () => {
         it("Should asynchronously wait for a message to be emitted with a filter.", async () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             (async () => {
                 await sleep(100);
@@ -293,7 +293,7 @@ describe("PacketDecoder", () => {
                 "hex"
             );
 
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             let recv = 0;
             decoder.on([SpawnMessage, RpcMessage, DataMessage], () => {
@@ -313,7 +313,7 @@ describe("PacketDecoder", () => {
                 "hex"
             );
 
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             const parsed = decoder.parse(buffer);
 
@@ -324,7 +324,7 @@ describe("PacketDecoder", () => {
 
         it("Should return null on an invalid message send option.", () => {
             const buffer = Buffer.from("69");
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             const parsed = decoder.parse(buffer);
 

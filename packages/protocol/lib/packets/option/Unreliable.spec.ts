@@ -10,7 +10,7 @@ import { UnreliablePacket } from "./Unreliable";
 describe("UnreliablePacket", () => {
     describe("UnreliablePacket#Deserialize", () => {
         it("Should deserialize an unreliable packet.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             const reader = HazelReader.from(
                 "12000546e43c8c0b0001050500f67b1186ff7fff7f",
@@ -30,7 +30,7 @@ describe("UnreliablePacket", () => {
 
     describe("UnreliablePacket#Serialize", () => {
         it("Should serialize an unreliable packet.", () => {
-            const decoder = new PacketDecoder();
+            const decoder = new PacketDecoder;
 
             const writer = HazelWriter.alloc(0);
             const packet = new UnreliablePacket([

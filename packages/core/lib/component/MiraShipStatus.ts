@@ -53,7 +53,7 @@ export class MiraShipStatus extends InnerShipStatus {
         this.systems = {
             [SystemType.Reactor]: new ReactorSystem(this, {
                 timer: 10000,
-                completed: new Set(),
+                completed: new Set,
             }),
             [SystemType.Electrical]: new SwitchSystem(this, {
                 expected: [false, false, false, false, false],
@@ -62,7 +62,7 @@ export class MiraShipStatus extends InnerShipStatus {
             }),
             [SystemType.O2]: new LifeSuppSystem(this, {
                 timer: 10000,
-                completed: new Set(),
+                completed: new Set,
             }),
             [SystemType.MedBay]: new MedScanSystem(this, {
                 queue: [],

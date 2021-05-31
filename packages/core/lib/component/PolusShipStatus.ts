@@ -93,14 +93,14 @@ export class PolusShipStatus extends InnerShipStatus {
                 queue: [],
             }),
             [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set(),
+                players: new Set,
             }),
             [SystemType.Communications]: new HudOverrideSystem(this, {
                 sabotaged: false,
             }),
             [SystemType.Doors]: new DoorsSystem(this, {
                 doors: [],
-                cooldowns: new Map(),
+                cooldowns: new Map,
             }),
             [SystemType.Sabotage]: new SabotageSystem(this, {
                 cooldown: 0,
@@ -115,7 +115,7 @@ export class PolusShipStatus extends InnerShipStatus {
             }),
             [SystemType.Laboratory]: new ReactorSystem(this, {
                 timer: 10000,
-                completed: new Set(),
+                completed: new Set,
             }),
         };
 

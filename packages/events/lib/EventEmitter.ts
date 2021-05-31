@@ -30,7 +30,7 @@ export class EventEmitter<Events extends EventData> {
     >;
 
     constructor() {
-        this.listeners = new Map();
+        this.listeners = new Map;
     }
 
     async emit<Event extends BasicEvent>(
@@ -104,7 +104,7 @@ export class EventEmitter<Events extends EventData> {
     getListeners<Event extends BasicEvent = BasicEvent>(event: string): Set<Listener<Event>> {
         const listeners = this.listeners.get(event);
         if (!listeners) {
-            this.listeners.set(event, new Set());
+            this.listeners.set(event, new Set);
             return this.getListeners(event);
         }
         return listeners as Set<Listener<Event>>;

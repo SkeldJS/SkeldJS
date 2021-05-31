@@ -60,7 +60,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
     /**
      * The players in the game data.
      */
-    players: Map<number, PlayerInfo>;
+    players!: Map<number, PlayerInfo>;
 
     constructor(
         room: Hostable<any>,
@@ -70,7 +70,13 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
     ) {
         super(room, netid, ownerid, data);
 
-        this.players ||= new Map;
+        if (!this.players) {
+            this.players = new Map;
+
+            for (const [, player] of this.room.players) {
+                if (player.playerId) this.add(player.playerId);
+            }
+        }
     }
 
     get owner() {
@@ -87,7 +93,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
-        if (!this.players) this.players = new Map();
+        if (!this.players) this.players = new Map;
 
         if (spawn) {
             const num_players = reader.upacked();

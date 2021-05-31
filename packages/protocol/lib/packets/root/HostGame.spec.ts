@@ -48,7 +48,7 @@ describe("HostGameMessage", () => {
         it("Should serialize a server-bound host game root message.", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new HostGameMessage(
-                new GameOptions(),
+                new GameOptions,
                 QuickChatMode.FreeChat
             );
 

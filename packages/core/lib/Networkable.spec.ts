@@ -11,7 +11,7 @@ import { alphabet, TestComponent, TestEvent, TestEvents } from "./tests.spec";
 describe("Networkable", () => {
     describe("Networkable#ctr", () => {
         it("Should instantiate a component with a room, netid, ownerid.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new Networkable(room, 1, -2);
 
             assert.strictEqual(component.room, room);
@@ -20,7 +20,7 @@ describe("Networkable", () => {
         });
 
         it("Should also accept a data argument as an object to pass in information about the component.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new TestComponent(room, 1, -2, {
                 dataParam: 5,
             });
@@ -32,7 +32,7 @@ describe("Networkable", () => {
         });
 
         it("Should also accept a data argument as a buffer to pass in information about the component.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
 
             const buffer = HazelReader.from("05", "hex");
             const component = new TestComponent(room, 1, -2, buffer);
@@ -46,7 +46,7 @@ describe("Networkable", () => {
 
     describe("Networkable#emit", () => {
         it("Should emit an event that propagates through its owner.", async () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const object = new Heritable<HeritableEvents & TestEvents>(room, 1);
             room.objects.set(1, object);
             const component = new TestComponent(room, 1, 1);
@@ -66,7 +66,7 @@ describe("Networkable", () => {
 
     describe("Networkable#owner", () => {
         it("Should return the owner object of the networkable from the room it belongs to.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new Networkable(room, 1, -2);
 
             assert.strictEqual(component.owner, room);
@@ -75,7 +75,7 @@ describe("Networkable", () => {
 
     describe("Networkable#Deserialize", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new Networkable(room, 1, -2);
 
             const reader = HazelReader.from(Buffer.alloc(0));
@@ -88,7 +88,7 @@ describe("Networkable", () => {
 
     describe("Networkable#Serialize", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new Networkable(room, 1, -2);
 
             const writer = HazelWriter.alloc(0);
@@ -99,7 +99,7 @@ describe("Networkable", () => {
 
     describe("Networkable#Preserialize", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new Networkable(room, 1, -2);
 
             assert.doesNotThrow(() => {
@@ -110,7 +110,7 @@ describe("Networkable", () => {
 
     describe("Networkable#FixedUpdate", () => {
         it("Should do nothing.", () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new Networkable(room, 1, -2);
 
             assert.doesNotThrow(() => {
@@ -121,7 +121,7 @@ describe("Networkable", () => {
 
     describe("Networkable#spawn", () => {
         it("Should spawn itself in the room that it belongs to.", async () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new Networkable(room, 1, -2);
 
             await component.spawn();
@@ -133,7 +133,7 @@ describe("Networkable", () => {
 
     describe("Networkable#despawn", () => {
         it("Should despawn itself in the room that it belongs to.", async () => {
-            const room = new Hostable();
+            const room = new Hostable;
             const component = new Networkable(room, 1, -2);
 
             await component.spawn();

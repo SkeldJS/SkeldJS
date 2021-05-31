@@ -130,8 +130,8 @@ export class PacketDecoder<SenderType = any> {
      * Reset the packet decoder, removing all custom packets and removing listeners.
      */
     reset() {
-        this.listeners = new Map();
-        this.types = new Map();
+        this.listeners = new Map;
+        this.types = new Map;
 
         this.register(
             AcknowledgePacket,
@@ -213,7 +213,7 @@ export class PacketDecoder<SenderType = any> {
             return classes;
         }
 
-        this.types.set(type, new Map());
+        this.types.set(type, new Map);
         return this.getClasses(type);
     }
 
@@ -329,7 +329,7 @@ export class PacketDecoder<SenderType = any> {
 
         if (listeners) return listeners;
 
-        this.listeners.set(messageClass, new Set());
+        this.listeners.set(messageClass, new Set);
 
         return this.getListeners(messageClass);
     }

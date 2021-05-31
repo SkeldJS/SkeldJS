@@ -53,7 +53,7 @@ describe("DisconnectPacket", () => {
     describe("DisconnectPacket#Serialize", () => {
         it("Should serialize a disconnect packet with no extra data.", () => {
             const writer = HazelWriter.alloc(0);
-            const packet = new DisconnectPacket();
+            const packet = new DisconnectPacket;
 
             packet.Serialize(writer);
 

@@ -32,12 +32,12 @@ export class ReactorMessage extends BaseRootMessage {
     ) {
         const reactorMessages = decoder.types.get("reactor");
 
-        if (!reactorMessages) return new ReactorMessage();
+        if (!reactorMessages) return new ReactorMessage;
 
         const tag = reader.uint8();
         const reactorMessageClass = reactorMessages.get(tag);
 
-        if (!reactorMessageClass) return new ReactorMessage();
+        if (!reactorMessageClass) return new ReactorMessage;
 
         const reactor = reactorMessageClass.Deserialize(
             reader,

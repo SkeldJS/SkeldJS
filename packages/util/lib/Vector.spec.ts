@@ -16,7 +16,7 @@ describe("Vector2", () => {
 
     describe("Vector2#ctr", () => {
         it("Should create a vector from nothing.", () => {
-            const vector = new Vector2();
+            const vector = new Vector2;
 
             assert.strictEqual(vector.x, 0);
             assert.strictEqual(vector.y, 0);

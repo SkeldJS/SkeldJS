@@ -145,6 +145,8 @@ export class Hostable<
      */
     netobjects: Map<number, Networkable>;
 
+    registeredPrefabs: Map<SpawnType, typeof Networkable[]>;
+
     /**
      * The current message stream to be sent to the server on fixed update.
      */
@@ -200,11 +202,12 @@ export class Hostable<
         this.counter = -1;
         this.privacy = "private";
 
-        this.settings = new GameOptions();
+        this.settings = new GameOptions;
 
-        this.objects = new Map();
-        this.players = new Map();
-        this.netobjects = new Map();
+        this.objects = new Map;
+        this.players = new Map;
+        this.netobjects = new Map;
+        this.registeredPrefabs = new Map;
         this.stream = [];
 
         this.objects.set(-2, this as Heritable<any>);
@@ -214,7 +217,7 @@ export class Hostable<
         this._destroyed = false;
         this._started = false;
 
-        this.decoder = new PacketDecoder();
+        this.decoder = new PacketDecoder;
 
         this.last_fixed_update = 0;
 
@@ -649,10 +652,6 @@ export class Hostable<
         }
     }
 
-    private async _addPlayer(player: PlayerData) {
-        await player.emit(new PlayerJoinEvent(this, player));
-    }
-
     /**
      * Handle when a client joins the game.
      * @param clientid The ID of the client that joined the game.
@@ -664,13 +663,9 @@ export class Hostable<
         this.players.set(clientid, player);
         this.objects.set(clientid, player as Heritable<any>);
 
-        await this._addPlayer(player);
+        player.emit(new PlayerJoinEvent(this, player));
 
         return player;
-    }
-
-    private _removePlayer(player: PlayerData) {
-        player.emit(new PlayerLeaveEvent(this, player));
     }
 
     /**
@@ -701,7 +696,10 @@ export class Hostable<
         this.players.delete(player.id);
         this.objects.delete(player.id);
 
-        this._removePlayer(player);
+        this.emit(
+            new PlayerLeaveEvent(this, player)
+        );
+
         return player;
     }
 
@@ -782,6 +780,13 @@ export class Hostable<
         }
     }
 
+    /**
+     * Start a game.
+     */
+    async requestStartGame() {
+        await this.broadcast([], true, undefined, [new StartGameMessage(this.code)]);
+    }
+
     private async _endGame(reason: GameOverReason) {
         this._started = false;
         await this.emit(new RoomGameEndEvent(this, reason));
@@ -793,42 +798,6 @@ export class Hostable<
      */
     async handleEnd(reason: GameOverReason) {
         await this._endGame(reason);
-    }
-
-    /**
-     * Begin a "Game starts in X" countdown from 5 to 0 (Usually before starting a game).
-     */
-    async beginCountdown() {
-        if (!this.me) return;
-
-        const control = this.me.control;
-
-        if (!control) return;
-
-        control.setStartCounter(5);
-        await sleep(1000);
-        control.setStartCounter(4);
-        await sleep(1000);
-        control.setStartCounter(3);
-        await sleep(1000);
-        control.setStartCounter(2);
-        await sleep(1000);
-        control.setStartCounter(1);
-        await sleep(1000);
-        control.setStartCounter(0);
-
-        sleep(1000).then(() => {
-            if (!this.me) return;
-
-            control.setStartCounter(-1);
-        });
-    }
-
-    /**
-     * Start a game.
-     */
-    async requestStartGame() {
-        await this.broadcast([], true, undefined, [new StartGameMessage(this.code)]);
     }
 
     /**
@@ -963,7 +932,7 @@ export class Hostable<
                     this.getNextNetId(),
                     ownerid,
                     {
-                        states: new Map(),
+                        states: new Map,
                     }
                 );
 
@@ -981,7 +950,7 @@ export class Hostable<
                 break;
             case SpawnType.GameData:
                 const gamedata = new GameData(this, this.getNextNetId(), ownerid, {
-                    players: new Map(),
+                    players: new Map,
                 });
 
                 for (const [, player] of this.players) {
@@ -993,7 +962,7 @@ export class Hostable<
                     this.getNextNetId(),
                     ownerid,
                     {
-                        voted: new Map(),
+                        voted: new Map,
                     }
                 );
 

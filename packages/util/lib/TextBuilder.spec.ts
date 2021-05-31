@@ -5,7 +5,7 @@ import { TextBuilder } from "./TextBuilder";
 describe("TextBuilder", () => {
     describe("TextBuilder#reset", () => {
         it("Should reset a text builder to a blank string.", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             builder.text("hello").reset();
 
@@ -15,7 +15,7 @@ describe("TextBuilder", () => {
 
     describe("TextBuilder#clear", () => {
         it("Should clear all applied styles.", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             builder
                 .text("hello ")
@@ -33,7 +33,7 @@ describe("TextBuilder", () => {
 
     describe("TextBuilder#link", () => {
         it("Should construct formatted hyperlink text.", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             builder
                 .link("https://github.com/SkeldJS/SkeldJS")
@@ -47,7 +47,7 @@ describe("TextBuilder", () => {
         });
 
         it("Should throw on an invalid link.", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             assert.throws(() => {
                 builder.link("github.com").text("Hosted on GitHub").clear();
@@ -57,7 +57,7 @@ describe("TextBuilder", () => {
 
     describe("TextBuilder#url", () => {
         it("Should use URL as an alias for #link.", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             builder
                 .url("https://github.com/SkeldJS/SkeldJS")
@@ -73,7 +73,7 @@ describe("TextBuilder", () => {
 
     describe("TextBuilder#color", () => {
         it("Should construct formatted coloured text in RGBA.", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             builder
                 .text("Merry ")
@@ -88,7 +88,7 @@ describe("TextBuilder", () => {
         });
 
         it("Should construct formatted coloured text in hex.", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             builder.text("Merry ").color("00ff00ff").text("christmas").clear();
 
@@ -99,7 +99,7 @@ describe("TextBuilder", () => {
         });
 
         it("Should pad the start of a hex code with 0s.", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             builder.text("Skeldjs > ").color("ffff").text("NodePolus").clear();
 
@@ -110,7 +110,7 @@ describe("TextBuilder", () => {
         });
 
         it("Should replace invalid hex characters with 0s", () => {
-            const builder = new TextBuilder();
+            const builder = new TextBuilder;
 
             builder.text("Lorem ").color("gg00ff").text("Ipsum").clear();
 
@@ -120,8 +120,8 @@ describe("TextBuilder", () => {
 
     describe("TextBuilder#append", () => {
         it("Should append a second text builder or string onto the end.", () => {
-            const builder = new TextBuilder();
-            const builder2 = new TextBuilder();
+            const builder = new TextBuilder;
+            const builder2 = new TextBuilder;
 
             builder2.text("Ipsum");
 

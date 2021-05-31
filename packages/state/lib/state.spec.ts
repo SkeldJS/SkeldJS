@@ -5,7 +5,7 @@ import { SkeldjsStateManager } from "./state";
 describe("SkeldjsStateManager", () => {
     describe("#handleMessage", () => {
         it("Should handle a raw data buffer, deserialise and update state accordingly.", async () => {
-            const state = new SkeldjsStateManager();
+            const state = new SkeldjsStateManager;
             await state.handleInboundMessage(
                 Buffer.from("0100010400007338818c", "hex")
             );
