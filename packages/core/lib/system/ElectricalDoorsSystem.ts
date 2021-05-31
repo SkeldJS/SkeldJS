@@ -98,9 +98,6 @@ export class ElectricalDoorsSystem extends SystemStatus<
     }
 
     async openDoor(doorId: number) {
-        if (!this.room.me)
-            return;
-
         await this._openDoor(doorId, this.room.me, undefined);
     }
 
@@ -135,9 +132,6 @@ export class ElectricalDoorsSystem extends SystemStatus<
     }
 
     async closeDoor(doorId: number) {
-        if (!this.room.me)
-            return;
-
-        this._closeDoor(doorId, this.room.me, undefined);
+        await this._closeDoor(doorId, this.room.me, undefined);
     }
 }
