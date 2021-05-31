@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
 
 import { BasicEvent, EventEmitter } from "@skeldjs/events";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
@@ -89,4 +89,24 @@ export class SystemStatus<
 
     async sabotage(): Promise<void> {}
     async repair(): Promise<void> {}
+
+    protected async _repairSystem(amount: number) {
+        if (!this.room.me?.control)
+            return;
+
+        if (this.room.amhost) {
+            await this.HandleRepair(this.room.me, amount, undefined);
+        } else {
+            await this.room.broadcast([
+                new RpcMessage(
+                    this.ship.netid,
+                    new RepairSystemMessage(
+                        this.systemType,
+                        this.room.me.control.netid,
+                        amount
+                    )
+                )
+            ], true, this.room.host, []);
+        }
+    }
 }

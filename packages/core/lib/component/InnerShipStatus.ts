@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseRpcMessage, RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
+import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
 
 import {
     AutoDoorsSystemEvents,
@@ -146,26 +146,6 @@ export class InnerShipStatus extends Networkable<
 
         if (system && player) {
             await system.HandleRepair(player, rpc.amount, rpc);
-        }
-    }
-
-    async repairSystem(system: SystemStatus, amount: number) {
-        if (!this.room.me?.control)
-            return;
-
-        if (this.room.amhost) {
-            await system.HandleRepair(this.room.me, amount, undefined);
-        } else {
-            await this.room.broadcast([
-                new RpcMessage(
-                    this.netid,
-                    new RepairSystemMessage(
-                        system.systemType,
-                        this.room.me.control.netid,
-                        amount
-                    )
-                )
-            ], true, this.room.host, []);
         }
     }
 
