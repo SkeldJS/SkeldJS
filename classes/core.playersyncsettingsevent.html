@@ -70,6 +70,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Emitted when a player (i.e. the host of the room) sets the settings of the room.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -141,7 +148,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BasicEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/SyncSettings.ts#L15">core/lib/events/player/SyncSettings.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/SyncSettings.ts#L18">core/lib/events/player/SyncSettings.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -173,7 +180,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BasicEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/SyncSettings.ts#L12">core/lib/events/player/SyncSettings.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/SyncSettings.ts#L15">core/lib/events/player/SyncSettings.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -199,7 +206,7 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The player that this event is associated with.</p>
+							<p>The player that this event is for.</p>
 						</div>
 					</div>
 				</section>
@@ -230,7 +237,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BasicEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/SyncSettings.ts#L11">core/lib/events/player/SyncSettings.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/SyncSettings.ts#L14">core/lib/events/player/SyncSettings.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -247,9 +254,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/SyncSettings.ts#L29">core/lib/events/player/SyncSettings.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/SyncSettings.ts#L38">core/lib/events/player/SyncSettings.ts:38</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The altered settings of the room that will be set, if changeed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">GameOptions</span></h4>
 						</li>
 					</ul>
@@ -264,9 +276,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/SyncSettings.ts#L33">core/lib/events/player/SyncSettings.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/SyncSettings.ts#L46">core/lib/events/player/SyncSettings.ts:46</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether the <a href="core.playersyncsettingsevent.html#alteredsettings">PlayerSyncSettingsEvent.alteredSettings</a> is different
+									from the <a href="core.playersyncsettingsevent.html#settings">PlayerSyncSettingsEvent.settings</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -284,13 +302,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/SyncSettings.ts#L37">core/lib/events/player/SyncSettings.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/SyncSettings.ts#L54">core/lib/events/player/SyncSettings.ts:54</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Change the settings that were set.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>options: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AllGameOptions</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The settings to set.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

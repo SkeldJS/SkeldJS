@@ -70,6 +70,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Emitted when a player flips a switch while Electrical is sabotaged.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -146,7 +153,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides RevertableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/electrical/SwitchFlip.ts#L15">core/lib/events/electrical/SwitchFlip.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/electrical/SwitchFlip.ts#L18">core/lib/events/electrical/SwitchFlip.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -184,7 +191,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides RevertableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/electrical/SwitchFlip.ts#L12">core/lib/events/electrical/SwitchFlip.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/electrical/SwitchFlip.ts#L15">core/lib/events/electrical/SwitchFlip.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -222,7 +229,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from RevertableEvent.reverted</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/events/lib/RevertableEvent.ts#L4">events/lib/RevertableEvent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/events/lib/RevertableEvent.ts#L4">events/lib/RevertableEvent.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -253,6 +260,11 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/core.electricalevent.html">ElectricalEvent</a>.<a href="../interfaces/core.electricalevent.html#switchsystem">switchsystem</a></p>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The electrical system that the event is for.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="eventname-1" class="tsd-anchor"></a>
@@ -261,7 +273,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides RevertableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/electrical/SwitchFlip.ts#L11">core/lib/events/electrical/SwitchFlip.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/electrical/SwitchFlip.ts#L14">core/lib/events/electrical/SwitchFlip.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -278,9 +290,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/electrical/SwitchFlip.ts#L35">core/lib/events/electrical/SwitchFlip.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/electrical/SwitchFlip.ts#L54">core/lib/events/electrical/SwitchFlip.ts:54</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The alternate value of the switch, if changed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -295,9 +312,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/electrical/SwitchFlip.ts#L31">core/lib/events/electrical/SwitchFlip.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/electrical/SwitchFlip.ts#L47">core/lib/events/electrical/SwitchFlip.ts:47</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The ID of the alternate switch to flip, if changed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -316,7 +338,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from RevertableEvent.revert</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/events/lib/RevertableEvent.ts#L12">events/lib/RevertableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/events/lib/RevertableEvent.ts#L12">events/lib/RevertableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -333,13 +355,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/electrical/SwitchFlip.ts#L43">core/lib/events/electrical/SwitchFlip.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/electrical/SwitchFlip.ts#L70">core/lib/events/electrical/SwitchFlip.ts:70</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set whether the switch is flipped.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>flipped: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Whether the switch is flipped.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -356,13 +386,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/electrical/SwitchFlip.ts#L39">core/lib/events/electrical/SwitchFlip.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/electrical/SwitchFlip.ts#L62">core/lib/events/electrical/SwitchFlip.ts:62</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Change the switch that was flipped.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>switchId: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the switch to flip (from left-to-right, starting at 0).</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

@@ -70,6 +70,16 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Emitted when the room picks which impostors will be selected, after the game
+						is started. Can be canceled to avoid choosing and setting impostors altogether.</p>
+					</div>
+					<p>Mainly emitted in order to allow overriding of the default impostor
+					selection in SkeldJS.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -138,7 +148,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides CancelableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/room/SelectImpostors.ts#L10">core/lib/events/room/SelectImpostors.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/room/SelectImpostors.ts#L17">core/lib/events/room/SelectImpostors.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -164,7 +174,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from CancelableEvent.canceled</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -175,7 +185,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/room/SelectImpostors.ts#L8">core/lib/events/room/SelectImpostors.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/room/SelectImpostors.ts#L15">core/lib/events/room/SelectImpostors.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -206,7 +216,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/room/SelectImpostors.ts#L7">core/lib/events/room/SelectImpostors.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/room/SelectImpostors.ts#L14">core/lib/events/room/SelectImpostors.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -223,9 +233,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/room/SelectImpostors.ts#L21">core/lib/events/room/SelectImpostors.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/room/SelectImpostors.ts#L34">core/lib/events/room/SelectImpostors.ts:34</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The altered impostor list that will be used instead, if changed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
@@ -244,7 +259,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from CancelableEvent.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -261,13 +276,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/room/SelectImpostors.ts#L25">core/lib/events/room/SelectImpostors.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/room/SelectImpostors.ts#L42">core/lib/events/room/SelectImpostors.ts:42</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Change the players that were selected.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>impostors: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The players to select.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

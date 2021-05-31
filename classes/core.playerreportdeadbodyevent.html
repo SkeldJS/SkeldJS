@@ -70,6 +70,17 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Emitted when a player reports a dead body of a player, telling the host to
+						begin a meeting.</p>
+					</div>
+					<p>This event is only emitted if the client is the host, see
+						<a href="core.playerstartmeetingevent.html">PlayerStartMeetingEvent</a> to listen for a meeting being started regardless
+					of whether the client is the host or not.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -143,7 +154,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides CancelableEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/ReportDeadBody.ts#L14">core/lib/events/player/ReportDeadBody.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/ReportDeadBody.ts#L22">core/lib/events/player/ReportDeadBody.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -182,7 +193,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from CancelableEvent.canceled</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,7 +204,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/ReportDeadBody.ts#L12">core/lib/events/player/ReportDeadBody.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/ReportDeadBody.ts#L20">core/lib/events/player/ReportDeadBody.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +230,7 @@
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The player that this event is associated with.</p>
+							<p>The player that this event is for.</p>
 						</div>
 					</div>
 				</section>
@@ -243,7 +254,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides CancelableEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/ReportDeadBody.ts#L11">core/lib/events/player/ReportDeadBody.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/ReportDeadBody.ts#L19">core/lib/events/player/ReportDeadBody.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -260,9 +271,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/ReportDeadBody.ts#L27">core/lib/events/player/ReportDeadBody.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/ReportDeadBody.ts#L42">core/lib/events/player/ReportDeadBody.ts:42</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The altered body that will be reported instead, if changed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></h4>
 						</li>
 					</ul>
@@ -281,7 +297,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from CancelableEvent.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -298,13 +314,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/ReportDeadBody.ts#L35">core/lib/events/player/ReportDeadBody.ts:35</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/ReportDeadBody.ts#L57">core/lib/events/player/ReportDeadBody.ts:57</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Change the body that will be reported.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>body: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The body for the player to report.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -321,9 +345,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/b0ddaaf/packages/core/lib/events/player/ReportDeadBody.ts#L31">core/lib/events/player/ReportDeadBody.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a78997e/packages/core/lib/events/player/ReportDeadBody.ts#L49">core/lib/events/player/ReportDeadBody.ts:49</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the report to be calling an emergency meeting.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
