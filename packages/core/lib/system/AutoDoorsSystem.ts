@@ -174,12 +174,6 @@ export class AutoDoorsSystem extends SystemStatus<
         await this._closeDoor(doorId, this.room.me, undefined);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
-        const doorId = amount & 0x1f;
-
-        await this._openDoor(doorId, player, rpc);
-    }
-
     Detoriorate(delta: number) {
         for (const door of this.doors) {
             if (!door.isOpen && door.DoUpdate(delta)) {
