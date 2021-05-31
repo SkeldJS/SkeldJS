@@ -100,11 +100,15 @@ export class ReactorSystem extends SystemStatus<
         }
     }
 
-    async addConsole(consoleId: number) {
+    async addConsole(consoleid: number) {
         if (!this.room.me)
             return;
 
-        await this._addConsole(this.room.me, consoleId, undefined);
+        if (this.room.amhost) {
+            await this._addConsole(this.room.me, consoleid, undefined);
+        } else {
+            await this._sendRepair(0x40 | consoleid);
+        }
     }
 
     private async _removeConsole(player: PlayerData, consoleid: number, rpc: RepairSystemMessage|undefined) {
@@ -131,11 +135,15 @@ export class ReactorSystem extends SystemStatus<
         }
     }
 
-    async removeConsole(consoleId: number) {
+    async removeConsole(consoleid: number) {
         if (!this.room.me)
             return;
 
-        await this._removeConsole(this.room.me, consoleId, undefined);
+        if (this.room.amhost) {
+            await this._removeConsole(this.room.me, consoleid, undefined);
+        } else {
+            await this._sendRepair(0x20 | consoleid);
+        }
     }
 
     private async _repair(player: PlayerData, rpc: RepairSystemMessage|undefined) {
@@ -164,7 +172,11 @@ export class ReactorSystem extends SystemStatus<
         if (!this.room.me)
             return;
 
-        await this._repair(this.room.me, undefined);
+        if (this.room.amhost) {
+            await this._repair(this.room.me, undefined);
+        } else {
+            await this._sendRepair(0x10);
+        }
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -175,7 +187,7 @@ export class ReactorSystem extends SystemStatus<
             await this._addConsole(player, consoleId, rpc);
         } else if (amount & 0x20) {
             await this._removeConsole(player, consoleId, rpc);
-        } else if (amount & 0x1) {
+        } else if (amount & 0x10) {
             await this._repair(player, rpc);
         }
 
