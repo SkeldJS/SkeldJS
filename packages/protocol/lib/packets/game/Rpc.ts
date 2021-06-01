@@ -18,6 +18,14 @@ export class RpcMessage extends BaseGameDataMessage {
         this.data = data;
     }
 
+    get canceled() {
+        return this.data.canceled;
+    }
+
+    cancel() {
+        this.data.cancel();
+    }
+
     get children() {
         return [this.data];
     }
