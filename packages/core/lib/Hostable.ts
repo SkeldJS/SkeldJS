@@ -223,7 +223,7 @@ export class Hostable<
 
         if (options.doFixedUpdate) {
             this._interval = setInterval(
-                this.FixedUpdate.bind(this),
+                () => this.FixedUpdate(),
                 Hostable.FixedUpdateInterval
             );
         }
