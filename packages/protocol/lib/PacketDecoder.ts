@@ -110,14 +110,15 @@ export interface Deserializable {
 }
 
 export class PacketDecoder<SenderType = any> {
-    listeners!: Map<
-        Deserializable,
-        Set<
-            (
-                message: Serializable,
-                direction: MessageDirection,
-                sender: SenderType
-            ) => void
+    listeners!: Map<string,
+        Map<number,
+            Set<
+                (
+                    message: Serializable,
+                    direction: MessageDirection,
+                    sender: SenderType
+                ) => void
+            >
         >
     >;
     types!: Map<string, Map<number, Deserializable>>;
@@ -325,13 +326,23 @@ export class PacketDecoder<SenderType = any> {
             sender: SenderType
         ) => void
     > {
-        const listeners = this.listeners.get(messageClass);
+        const typeListeners = this.listeners.get(messageClass.type);
 
-        if (listeners) return listeners;
+        if (!typeListeners) {
+            this.listeners.set(messageClass.type, new Map);
 
-        this.listeners.set(messageClass, new Set);
+            return this.getListeners(messageClass);
+        }
 
-        return this.getListeners(messageClass);
+        const tagListeners = typeListeners.get(messageClass.tag);
+
+        if (!tagListeners) {
+            typeListeners.set(messageClass.tag, new Set);
+
+            return this.getListeners(messageClass);
+        }
+
+        return tagListeners;
     }
 
     /**
