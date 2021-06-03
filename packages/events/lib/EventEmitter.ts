@@ -51,7 +51,7 @@ export class EventEmitter<Events extends EventData> {
         const listeners = this.getListeners<Event>(event.eventName);
 
         for (const listener of listeners) {
-            listener(event);
+            await listener(event);
         }
 
         return event;
