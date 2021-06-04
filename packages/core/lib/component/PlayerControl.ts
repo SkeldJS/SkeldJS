@@ -481,7 +481,7 @@ export class PlayerControl extends Networkable<
     }
 
     private async _handleSetName(rpc: SetNameMessage) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -523,7 +523,7 @@ export class PlayerControl extends Networkable<
      * @param name The name to set this player's name to.
      */
     async setName(name: string) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -606,7 +606,7 @@ export class PlayerControl extends Networkable<
     }
 
     private async _handleSetColor(rpc: SetColorMessage) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -648,7 +648,7 @@ export class PlayerControl extends Networkable<
      * @param color The color to set this player's name to.
      */
     async setColor(color: Color) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -673,7 +673,7 @@ export class PlayerControl extends Networkable<
     }
 
     private async _handleSetHat(rpc: SetHatMessage) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -715,7 +715,7 @@ export class PlayerControl extends Networkable<
      * @param hat The hat to set this player's hat to.
      */
     async setHat(hat: Hat) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -740,7 +740,7 @@ export class PlayerControl extends Networkable<
     }
 
     private async _handleSetSkin(rpc: SetSkinMessage) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -782,7 +782,7 @@ export class PlayerControl extends Networkable<
      * @param skin The skin to set this player's skin to.
      */
     async setSkin(skin: Skin) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -1092,7 +1092,7 @@ export class PlayerControl extends Networkable<
     }
 
     private async _handleSetPet(rpc: SetPetMessage) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -1134,7 +1134,7 @@ export class PlayerControl extends Networkable<
      * @param pet The pet to set this player's pet to.
      */
     async setPet(pet: Pet) {
-        const playerInfo = this.room.gamedata?.players.get(this.playerId);
+        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 

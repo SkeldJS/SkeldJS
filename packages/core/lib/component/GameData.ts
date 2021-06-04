@@ -83,6 +83,14 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
         return super.owner as Hostable;
     }
 
+    async getOrCreate(playerId: number) {
+        const has = this.players.get(playerId);
+        if (has)
+            return has;
+
+        return await this.add(playerId);
+    }
+
     /**
      * Resolve some player identifier to a definite player info object.
      * @param resolvable The player identifier to resolve.
