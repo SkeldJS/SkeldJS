@@ -57,6 +57,7 @@ export class ModdedHelloPacket extends BaseRootPacket {
 
     Serialize(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
+        writer.uint8(0);
         writer.write(this.clientver);
         writer.string(this.username);
         writer.uint32(this.token);
