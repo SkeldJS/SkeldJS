@@ -6690,6 +6690,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/get-auth-token", "workspace:packages/get-auth-token"],
             ["@skeldjs/pathfinding", "workspace:packages/pathfinding"],
             ["@skeldjs/protocol", "workspace:packages/protocol"],
+            ["@skeldjs/reactor", "workspace:packages/reactor"],
             ["@skeldjs/util", "workspace:packages/util"],
             ["@types/node", "npm:15.0.1"]
           ],

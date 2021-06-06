@@ -5772,6 +5772,7 @@ resolve@^1.1.6:
     "@skeldjs/get-auth-token": "workspace:packages/get-auth-token"
     "@skeldjs/pathfinding": "workspace:packages/pathfinding"
     "@skeldjs/protocol": "workspace:packages/protocol"
+    "@skeldjs/reactor": "workspace:packages/reactor"
     "@skeldjs/util": "workspace:packages/util"
     "@types/node": ^15.0.1
   languageName: unknown
