@@ -16,7 +16,7 @@ export class SetTasksMessage extends BaseRpcMessage {
         this.taskids = taskids;
     }
 
-    static Detaskidslize(reader: HazelReader) {
+    static Deserialize(reader: HazelReader) {
         const playerid = reader.uint8();
         const tasks = reader.list((r) => r.uint8());
 
