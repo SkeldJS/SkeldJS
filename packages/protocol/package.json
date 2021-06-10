@@ -7,7 +7,7 @@
     "types": "./dist/index.d.ts"
   },
   "scripts": {
-    "build": "tsc -p ./",
+    "build": "rm -r ./dist && tsc -p ./",
     "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
@@ -23,6 +23,7 @@
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [
-    "dist"
+    "dist",
+    "!./dist/**/*.spec.*"
   ]
 }
