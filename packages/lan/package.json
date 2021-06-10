@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/lan",
-  "version": "2.10.9",
+  "version": "2.10.10",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {

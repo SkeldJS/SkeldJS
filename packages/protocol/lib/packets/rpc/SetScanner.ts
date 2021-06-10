@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetScanner extends BaseRpcMessage {
-    static tag = RpcMessageTag.StartMeeting as const;
-    tag = RpcMessageTag.StartMeeting as const;
+    static tag = RpcMessageTag.SetScanner as const;
+    tag = RpcMessageTag.SetScanner as const;
 
     scanning: boolean;
     sequenceid: number;
