@@ -18,7 +18,7 @@ export class VotingCompleteMessage extends BaseRpcMessage {
         this.tie = tie;
     }
 
-    static Deexiledidize(reader: HazelReader) {
+    static Deserialize(reader: HazelReader) {
         const states = reader.list((r) => r.uint8());
         const exiled = reader.uint8();
         const tie = reader.bool();
