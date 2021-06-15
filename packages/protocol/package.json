@@ -1,13 +1,13 @@
 {
   "name": "@skeldjs/protocol",
-  "version": "2.10.11",
+  "version": "2.10.12",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
     "types": "./dist/index.d.ts"
   },
   "scripts": {
-    "build": "rm -r ./dist && tsc -p ./",
+    "build": "rm -rf ./dist && tsc -p ./",
     "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
