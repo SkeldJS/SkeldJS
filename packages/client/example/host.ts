@@ -9,7 +9,7 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
     );
 } else {
     (async () => {
-        const client = new skeldjs.SkeldjsClient("2021.4.2.0");
+        const client = new skeldjs.SkeldjsClient("2021.4.25");
 
         console.log("Connecting to server..");
         await client.connect("127.0.0.1", "weakeyes", 0);

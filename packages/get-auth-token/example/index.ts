@@ -3,7 +3,7 @@ import { Int2Code } from "@skeldjs/util";
 import { authTokenHook } from "../index";
 
 (async () => {
-    const client = new SkeldjsClient("2021.4.2.0");
+    const client = new SkeldjsClient("2021.4.25");
 
     authTokenHook(client, {
         exe_path:

@@ -2,15 +2,34 @@ import { RpcMessageTag } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
+export class VoteState {
+    constructor(
+        public readonly playerId: number,
+        public readonly votedForId: number
+    ) {}
+
+    static Deserialize(reader: HazelReader) {
+        const [ playerId, mreader ] = reader.message();
+        const votedForId = mreader.uint8();
+        return new VoteState(playerId, votedForId);
+    }
+
+    Serialize(writer: HazelWriter) {
+        writer.begin(this.playerId);
+        writer.uint8(this.votedForId);
+        writer.end();
+    }
+}
+
 export class VotingCompleteMessage extends BaseRpcMessage {
     static tag = RpcMessageTag.VotingComplete as const;
     tag = RpcMessageTag.VotingComplete as const;
 
-    states: number[];
+    states: VoteState[];
     exiledid: number;
     tie: boolean;
 
-    constructor(states: number[], exiledid: number, tie: boolean) {
+    constructor(states: VoteState[], exiledid: number, tie: boolean) {
         super();
 
         this.states = states;
@@ -19,7 +38,7 @@ export class VotingCompleteMessage extends BaseRpcMessage {
     }
 
     static Deserialize(reader: HazelReader) {
-        const states = reader.list((r) => r.uint8());
+        const states = reader.lread(reader.packed(), VoteState);
         const exiled = reader.uint8();
         const tie = reader.bool();
 
@@ -27,7 +46,7 @@ export class VotingCompleteMessage extends BaseRpcMessage {
     }
 
     Serialize(writer: HazelWriter) {
-        writer.list(true, this.states, (s) => writer.uint8(s));
+        writer.lwrite(true, this.states);
         writer.uint8(this.exiledid);
         writer.bool(this.tie);
     }

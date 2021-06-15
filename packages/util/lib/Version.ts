@@ -16,7 +16,7 @@ export class VersionInfo {
      * ```ts
      * const version = VersionInfo.from(50532300);
      *
-     * console.log(version.toString()); // => 2021.4.2.0
+     * console.log(version.toString()); // => 2021.4.25
      * ```
      */
     static from(version: number): VersionInfo;
@@ -27,7 +27,7 @@ export class VersionInfo {
      * ```ts
      * const version = VersionInfo.from("2021.4.2s");
      *
-     * console.log(version.toString()); // => 2021.4.2.0
+     * console.log(version.toString()); // => 2021.4.25
      * ```
      */
     static from(version: string): VersionInfo;
@@ -107,7 +107,7 @@ export class VersionInfo {
      * ```ts
      * const version = new VersionInfo(2021, 4, 2);
      *
-     * console.log(version.toString()); // => 2021.4.2.0
+     * console.log(version.toString()); // => 2021.4.25
      * ```
      */
     toString() {

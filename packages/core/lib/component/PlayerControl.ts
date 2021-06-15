@@ -59,8 +59,9 @@ import {
     PlayerSyncSettingsEvent
 } from "../events";
 import { MeetingHud } from "./MeetingHud";
-import { PlayerVoteState } from "../misc/PlayerVoteState";
+import { VoteStateSpecialId } from "../misc/PlayerVoteState";
 import { MovingPlatformSide, MovingPlatformSystem } from "../system/MovingPlatformSystem";
+import { PlayerVoteArea } from "../misc/PlayerVoteArea";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -1023,18 +1024,16 @@ export class PlayerControl extends Networkable<
                         .filter(([, player]) => player.info && player.spawned && player.playerId !== undefined)
                         .map(([, player]) => {
                             return [
-                                player.playerId,
-                                new PlayerVoteState(
+                                player.playerId!,
+                                new PlayerVoteArea(
                                     this.room,
                                     player.playerId!,
-                                    undefined,
-                                    player === caller,
-                                    false,
-                                    player.info?.isDead
+                                    VoteStateSpecialId.NotVoted,
+                                    caller === player
                                 ),
                             ];
                         })
-                ) as Map<number, PlayerVoteState>,
+                ) as Map<number, PlayerVoteArea>,
             }
         );
 

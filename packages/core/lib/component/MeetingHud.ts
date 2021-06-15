@@ -8,13 +8,15 @@ import {
     ClearVoteMessage,
     CloseMessage,
     RpcMessage,
+    VoteState,
     VotingCompleteMessage,
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
-import { PlayerVoteState } from "../misc/PlayerVoteState";
+import { PlayerVoteState, VoteStateSpecialId } from "../misc/PlayerVoteState";
+import { PlayerVoteArea } from "../misc/PlayerVoteArea";
 import { Heritable } from "../Heritable";
 
 import {
@@ -23,10 +25,11 @@ import {
     MeetingHudClearVoteEvent,
     MeetingHudVotingCompleteEvent,
 } from "../events";
+
 import { PlayerData } from "../PlayerData";
 
 export interface MeetingHudData {
-    states: Map<number, PlayerVoteState>;
+    states: Map<number, PlayerVoteArea>;
     tie?: boolean;
     exilied?: PlayerData;
 }
@@ -56,7 +59,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     /**
      * The vote states in the meeting hud.
      */
-    states: Map<number, PlayerVoteState>;
+    states: Map<number, PlayerVoteArea>;
 
     /**
      * Whether the vote resulted in a tie.
@@ -88,24 +91,19 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
         if (spawn) {
             this.dirtyBit = 0;
             this.states = new Map;
+        }
 
-            for (let i = 0; i < this.states.size; i++) {
-                this.states.set(
-                    i,
-                    PlayerVoteState.Deserialize(reader, this.room, i)
-                );
-            }
-        } else {
-            const mask = reader.upacked();
+        while (reader.left) {
+            const [ playerId, mreader ] = reader.message();
+            const player = this.room.getPlayerByPlayerId(playerId);
 
-            for (let i = 0; i < this.states.size; i++) {
-                if (mask & (1 << i)) {
-                    this.states.set(
-                        i,
-                        PlayerVoteState.Deserialize(reader, this.room, i)
-                    );
-                }
-            }
+            if (!player)
+                return;
+
+            this.states.set(
+                playerId,
+                PlayerVoteArea.Deserialize(mreader, this.room, playerId)
+            );
         }
     }
 
@@ -194,7 +192,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                     this.room,
                     this,
                     rpc,
-                    voter,
+                    player,
                     suspect
                 )
             );
@@ -211,7 +209,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
 
                 const states = [...this.states];
 
-                if (states.every(([, state]) => state.voted && !state.dead)) {
+                if (states.every(([, state]) => state.hasVoted && !state.isDead)) {
                     let tie = false;
                     let exiled: PlayerData|undefined;
                     let exiled_votes = 0;
@@ -242,11 +240,11 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
         }
     }
 
-    private _castVote(voting: PlayerVoteState, suspect?: PlayerData) {
-        if (suspect) voting.votedFor = suspect;
-
-        voting.voted = true;
-        this.dirtyBit |= 1 << voting.playerId;
+    private _castVote(voting: PlayerVoteArea, suspect?: PlayerData) {
+        if (suspect) {
+            voting.votedForId = suspect.playerId!;
+            voting.dirty = true;
+        }
     }
 
     /**
@@ -285,7 +283,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                         this.room,
                         this,
                         undefined,
-                        votingState,
+                        player,
                         _suspect
                     )
                 );
@@ -306,7 +304,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
         if (player && player.playerId !== undefined) {
             const voter = this.states.get(player.playerId);
 
-            if (voter?.voted) {
+            if (voter?.hasVoted) {
                 this._clearVote(voter);
 
                 await this.emit(
@@ -314,22 +312,21 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                         this.room,
                         this,
                         rpc,
-                        voter
+                        voter.player!
                     )
                 );
             }
         }
     }
 
-    private _clearVote(voter: PlayerVoteState) {
-        if (voter.voted) {
-            voter.votedFor = undefined;
-            voter.voted = false;
-            this.dirtyBit |= 1 << voter.playerId;
+    private _clearVote(voter: PlayerVoteArea) {
+        if (voter.hasVoted) {
+            voter.votedForId = VoteStateSpecialId.NotVoted;
+            voter.dirty = true;
         }
     }
 
-    private async _rpcClearVote(voter: PlayerVoteState) {
+    private async _rpcClearVote(voter: PlayerVoteArea) {
         await this.room.broadcast(
             [
                 new RpcMessage(
@@ -360,7 +357,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                         this.room,
                         this,
                         undefined,
-                        _voter
+                        _voter.player!
                     )
                 );
                 await this._rpcClearVote(_voter);
@@ -374,7 +371,11 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.exiledid);
 
-        this._votingComplete(rpc.states, rpc.tie, exiled);
+        const playerStates = rpc.states.map((state, i) => {
+            return new PlayerVoteState(this.room, state.playerId, state.votedForId);
+        });
+
+        this._votingComplete(playerStates, rpc.tie, exiled);
 
         await this.emit(
             new MeetingHudVotingCompleteEvent(
@@ -382,26 +383,21 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                 this,
                 rpc,
                 rpc.tie,
-                new Map(
-                    rpc.states.map((state, i) => [
-                        i,
-                        PlayerVoteState.from(this.room, i, state),
-                    ])
-                ),
+                new Map(playerStates.map(state => [ state.playerId, state ])),
                 exiled
             )
         );
     }
 
     private _votingComplete(
-        states: number[],
+        states: PlayerVoteState[],
         tie: boolean,
         exiled?: PlayerData
     ) {
         for (let i = 0; i < states.length; i++) {
             const state = this.states.get(i);
             if (state) {
-                state.patch(states[i]);
+                state.votedForId = states[i].votedForId;
             }
         }
         this.tie = tie;
@@ -409,14 +405,15 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     }
 
     private _rpcVotingComplete(
-        states: number[],
+        states: PlayerVoteState[],
         tie: boolean,
         exiled?: PlayerData
     ) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                new VotingCompleteMessage(states, exiled ? exiled.playerId ?? 0 : 0, tie)
+                new VotingCompleteMessage(
+                    states.map(state => new VoteState(state.playerId, state.votedForId)), exiled ? exiled.playerId ?? 0 : 0, tie)
             )
         );
     }
@@ -430,9 +427,9 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     votingComplete(tie: boolean = false, exiled?: PlayerDataResolvable) {
         const _exiled = exiled ? this.room.resolvePlayer(exiled) : undefined;
 
-        const voteStates: number[] = new Array(this.room.players.size);
-        for (const [ playerid, state ] of this.states) {
-            voteStates[playerid] = state.byte;
+        const voteStates: PlayerVoteState[] = new Array(this.room.players.size);
+        for (const [ playerId, state ] of this.states) {
+            voteStates[playerId] = new PlayerVoteState(this.room, playerId, state.votedForId);
         }
 
         this._votingComplete(voteStates, tie, _exiled);
@@ -444,7 +441,8 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                 this,
                 undefined,
                 tie,
-                this.states,
+                new Map(voteStates.map(vote =>
+                    [ vote.playerId, vote ])),
                 _exiled
             )
         );

@@ -1,7 +1,7 @@
 import * as skeldjs from "../index";
 
 (async () => {
-    const client = new skeldjs.SkeldjsClient("2021.4.2.0");
+    const client = new skeldjs.SkeldjsClient("2021.4.25");
 
     console.log("Connecting..");
     await client.connect("127.0.0.1", "weakeyes", parseInt(process.argv[2]));

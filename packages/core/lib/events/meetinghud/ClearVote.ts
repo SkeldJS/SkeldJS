@@ -3,7 +3,7 @@ import { ClearVoteMessage } from "@skeldjs/protocol";
 
 import { MeetingHud } from "../../component";
 import { Hostable } from "../../Hostable";
-import { PlayerVoteState } from "../../misc/PlayerVoteState";
+import { PlayerData } from "../../PlayerData";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
@@ -23,7 +23,7 @@ export class MeetingHudClearVoteEvent extends BasicEvent implements RoomEvent, M
         /**
          * The player that had their vote cleared.
          */
-        public readonly player: PlayerVoteState
+        public readonly player: PlayerData
     ) {
         super();
     }

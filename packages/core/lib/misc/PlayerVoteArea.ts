@@ -1,21 +1,18 @@
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { Hostable } from "../Hostable";
+import { VoteStateSpecialId } from "./PlayerVoteState";
 
-export enum VoteStateSpecialId {
-    IsDead = 252,
-    SkippedVote = 253,
-    MissedVote = 254,
-    NotVoted = 255
-}
+export class PlayerVoteArea {
+    dirty: boolean;
 
-/**
- * Represents a player's voting state.
- */
-export class PlayerVoteState {
     constructor(
         private room: Hostable<any>,
         public playerId: number,
-        public votedForId: number
-    ) {}
+        public votedForId: number,
+        public didReport: boolean
+    ) {
+        this.dirty = false;
+    }
 
     /**
      * The player that this vote state is for.
@@ -58,5 +55,17 @@ export class PlayerVoteState {
      */
     get votedFor() {
         return this.room.getPlayerByPlayerId(this.votedForId);
+    }
+
+    static Deserialize(reader: HazelReader, room: Hostable<any>, playerId: number) {
+        const votedForId = reader.uint8();
+        const didReport = reader.bool();
+
+        return new PlayerVoteArea(room ,playerId, votedForId, didReport);
+    }
+
+    Serialize(writer: HazelWriter) {
+        writer.uint8(this.votedForId);
+        writer.bool(this.didReport);
     }
 }

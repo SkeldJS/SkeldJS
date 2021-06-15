@@ -3,7 +3,6 @@ import { CastVoteMessage } from "@skeldjs/protocol";
 
 import { MeetingHud } from "../../component";
 import { Hostable } from "../../Hostable";
-import { PlayerVoteState } from "../../misc/PlayerVoteState";
 import { PlayerData } from "../../PlayerData";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
@@ -17,7 +16,7 @@ export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEven
     static eventName = "meeting.castvote" as const;
     eventName = "meeting.castvote" as const;
 
-    private _alteredVoter: PlayerVoteState;
+    private _alteredVoter: PlayerData;
     private _alteredSuspect: PlayerData|undefined;
 
     constructor(
@@ -27,7 +26,7 @@ export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEven
         /**
          * The player that cast the vote.
          */
-        public readonly voter: PlayerVoteState,
+        public readonly voter: PlayerData,
         /**
          * The player that the voter voted for.
          */
@@ -64,7 +63,7 @@ export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEven
      * Change the player that cast the vote.
      * @param voter The player to cast the vote.
      */
-    setVoter(voter: PlayerVoteState) {
+    setVoter(voter: PlayerData) {
         this._alteredVoter = voter;
     }
 

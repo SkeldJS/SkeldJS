@@ -172,7 +172,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * @param options Additional client options.
      * @example
      *```typescript
-     * const client = new SkeldjsClient("2021.3.5.0");
+     * const client = new SkeldjsClient("2021.4.25");
      * ```
      */
     constructor(
@@ -704,7 +704,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * @example
 	 *```typescript
      * // Search for games and join a random one.
-     * const client = new SkeldjsClient("2021.3.5.0");
+     * const client = new SkeldjsClient("2021.4.25");
 
      * await client.connect("EU", "weakeyes");
 

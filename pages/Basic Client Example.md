@@ -8,9 +8,9 @@ import * as skeldjs from "@skeldjs/client";
 
 (async () => { // Wrapper block for 'await' syntax, as top-level awaits are experimental.
     /*
-    Create a new SkeldJS/Among Us client, with 2021.4.2.0 being the latest Among Us version.
+    Create a new SkeldJS/Among Us client, with 2021.4.25 being the latest Among Us version.
     */
-    const client = new skeldjs.SkeldjsClient("2021.4.2.0");
+    const client = new skeldjs.SkeldjsClient("2021.4.25");
 
     /*
     Connect to Among Us on Europe servers, with a username of 'weakeyes'.

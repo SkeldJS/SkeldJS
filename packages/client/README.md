@@ -9,7 +9,7 @@ You can view auto-updating documentation for this package hosted at github pages
 ## Basic Usage
 ### Join a game
 ```ts
-const client = new SkeldjsClient("2021.3.5.0");
+const client = new SkeldjsClient("2021.4.25");
 
 await client.connect("EU", "weakeyes");
 
@@ -21,7 +21,7 @@ await client.me.control.checkColor(ColorID.Blue);
 
 ### Host a game
 ```ts
-const client = new SkeldjsClient("2021.3.5.0");
+const client = new SkeldjsClient("2021.4.25");
 
 await client.connect("EU", "weakeyes");
 
@@ -59,7 +59,7 @@ client.on("player.setname", async ev => {
 
 ### Search for games and join a random one
 ```ts
-const client = new SkeldjsClient("2021.3.5.0");
+const client = new SkeldjsClient("2021.4.25");
 
 await client.connect("EU", "weakeyes");
 
