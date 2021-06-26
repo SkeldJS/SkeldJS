@@ -7,7 +7,7 @@
     "types": "./dist/index.d.ts"
   },
   "scripts": {
-    "build": "rm -r ./dist && tsc -p ./",
+    "build": "rm -rf ./dist && tsc -p ./",
     "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
