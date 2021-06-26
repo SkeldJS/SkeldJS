@@ -70,7 +70,6 @@
   },
   "exclude": ["dist", "**/*.d.ts", "**/*.spec.ts", "test", "docs"],
   "ts-node": {
-    "transpileOnly": true,
-    "transpiler": "ts-node/transpilers/swc-experimental"
+    "transpileOnly": true
   }
 }

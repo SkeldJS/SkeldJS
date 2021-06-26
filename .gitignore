@@ -137,7 +137,7 @@ temp/
 # https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
 
 .yarn/*
-!.yarn/cache
+# !.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
@@ -150,3 +150,4 @@ js
 docs
 frames
 test
+.yarn/cache

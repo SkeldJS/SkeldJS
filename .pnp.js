@@ -114,8 +114,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@istanbuljs/nyc-config-typescript", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.0.1"],
             ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=33276a&locator=skeldjs%40workspace%3A."],
-            ["@swc/core", "npm:1.2.59"],
-            ["@swc/helpers", "npm:0.2.12"],
             ["@types/expect", "npm:24.3.0"],
             ["@types/lunr", "npm:2.3.3"],
             ["@types/mocha", "npm:8.2.0"],
@@ -484,26 +482,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["@napi-rs/triples", [
-        ["npm:1.0.2", {
-          "packageLocation": "./.yarn/cache/@napi-rs-triples-npm-1.0.2-0e239cf757-72fbc29c14.zip/node_modules/@napi-rs/triples/",
-          "packageDependencies": [
-            ["@napi-rs/triples", "npm:1.0.2"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@node-rs/helper", [
-        ["npm:1.1.0", {
-          "packageLocation": "./.yarn/cache/@node-rs-helper-npm-1.1.0-37fafb65dd-b4cf30440f.zip/node_modules/@node-rs/helper/",
-          "packageDependencies": [
-            ["@node-rs/helper", "npm:1.1.0"],
-            ["@napi-rs/triples", "npm:1.0.2"],
-            ["tslib", "npm:2.2.0"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["@nodelib/fs.scandir", [
         ["npm:2.1.3", {
           "packageLocation": "./.yarn/cache/@nodelib-fs.scandir-npm-2.1.3-92e0b8f0d5-1f100655dd.zip/node_modules/@nodelib/fs.scandir/",
@@ -771,125 +749,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@types/typedoc",
             "typedoc"
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/cache/@swc-core-npm-1.2.59-a81145d9be-e41da42c57.zip/node_modules/@swc/core/",
-          "packageDependencies": [
-            ["@swc/core", "npm:1.2.59"],
-            ["@node-rs/helper", "npm:1.1.0"],
-            ["@swc/core-android-arm64", "npm:1.2.59"],
-            ["@swc/core-darwin-arm64", "npm:1.2.59"],
-            ["@swc/core-darwin-x64", "npm:1.2.59"],
-            ["@swc/core-freebsd-x64", "npm:1.2.59"],
-            ["@swc/core-linux-arm-gnueabihf", "npm:1.2.59"],
-            ["@swc/core-linux-arm64-gnu", "npm:1.2.59"],
-            ["@swc/core-linux-x64-gnu", "npm:1.2.59"],
-            ["@swc/core-linux-x64-musl", "npm:1.2.59"],
-            ["@swc/core-win32-ia32-msvc", "npm:1.2.59"],
-            ["@swc/core-win32-x64-msvc", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-android-arm64", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-android-arm64-npm-1.2.59-a9c812077e/node_modules/@swc/core-android-arm64/",
-          "packageDependencies": [
-            ["@swc/core-android-arm64", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-darwin-arm64", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-darwin-arm64-npm-1.2.59-b7cfc2e134/node_modules/@swc/core-darwin-arm64/",
-          "packageDependencies": [
-            ["@swc/core-darwin-arm64", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-darwin-x64", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-darwin-x64-npm-1.2.59-724af20a57/node_modules/@swc/core-darwin-x64/",
-          "packageDependencies": [
-            ["@swc/core-darwin-x64", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-freebsd-x64", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-freebsd-x64-npm-1.2.59-6197a47216/node_modules/@swc/core-freebsd-x64/",
-          "packageDependencies": [
-            ["@swc/core-freebsd-x64", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-linux-arm-gnueabihf", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm-gnueabihf-npm-1.2.59-a34cfd4fac/node_modules/@swc/core-linux-arm-gnueabihf/",
-          "packageDependencies": [
-            ["@swc/core-linux-arm-gnueabihf", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-linux-arm64-gnu", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-linux-arm64-gnu-npm-1.2.59-5593878bda/node_modules/@swc/core-linux-arm64-gnu/",
-          "packageDependencies": [
-            ["@swc/core-linux-arm64-gnu", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-linux-x64-gnu", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-linux-x64-gnu-npm-1.2.59-043829bf17/node_modules/@swc/core-linux-x64-gnu/",
-          "packageDependencies": [
-            ["@swc/core-linux-x64-gnu", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-linux-x64-musl", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-linux-x64-musl-npm-1.2.59-6f83d60547/node_modules/@swc/core-linux-x64-musl/",
-          "packageDependencies": [
-            ["@swc/core-linux-x64-musl", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-win32-ia32-msvc", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-win32-ia32-msvc-npm-1.2.59-139bc22666/node_modules/@swc/core-win32-ia32-msvc/",
-          "packageDependencies": [
-            ["@swc/core-win32-ia32-msvc", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/core-win32-x64-msvc", [
-        ["npm:1.2.59", {
-          "packageLocation": "./.yarn/unplugged/@swc-core-win32-x64-msvc-npm-1.2.59-1f81341f40/node_modules/@swc/core-win32-x64-msvc/",
-          "packageDependencies": [
-            ["@swc/core-win32-x64-msvc", "npm:1.2.59"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
-      ["@swc/helpers", [
-        ["npm:0.2.12", {
-          "packageLocation": "./.yarn/cache/@swc-helpers-npm-0.2.12-27c9e328f1-8898fdd5ce.zip/node_modules/@swc/helpers/",
-          "packageDependencies": [
-            ["@swc/helpers", "npm:0.2.12"]
           ],
           "linkType": "HARD",
         }]
@@ -6264,8 +6123,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["skeldjs", "workspace:."],
             ["@istanbuljs/nyc-config-typescript", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.0.1"],
             ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=33276a&locator=skeldjs%40workspace%3A."],
-            ["@swc/core", "npm:1.2.59"],
-            ["@swc/helpers", "npm:0.2.12"],
             ["@types/expect", "npm:24.3.0"],
             ["@types/lunr", "npm:2.3.3"],
             ["@types/mocha", "npm:8.2.0"],
@@ -6877,13 +6734,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tslib-npm-1.14.1-102499115e-f44fe7f216.zip/node_modules/tslib/",
           "packageDependencies": [
             ["tslib", "npm:1.14.1"]
-          ],
-          "linkType": "HARD",
-        }],
-        ["npm:2.2.0", {
-          "packageLocation": "./.yarn/cache/tslib-npm-2.2.0-e83a07daa5-2d35468c47.zip/node_modules/tslib/",
-          "packageDependencies": [
-            ["tslib", "npm:2.2.0"]
           ],
           "linkType": "HARD",
         }]

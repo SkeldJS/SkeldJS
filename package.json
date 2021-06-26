@@ -38,8 +38,6 @@
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@strictsoftware/typedoc-plugin-monorepo": "patch:@strictsoftware/typedoc-plugin-monorepo@^0.4.2#./typedoc-plugin-monorepo-pr-11.diff",
-    "@swc/core": "^1.2.59",
-    "@swc/helpers": "^0.2.12",
     "@types/expect": "^24.3.0",
     "@types/lunr": "^2",
     "@types/mocha": "^8.2.0",
