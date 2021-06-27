@@ -84,7 +84,7 @@ export class HazelBuffer {
      * ```
      */
     get left() {
-        return this.size - this._cursor;
+        return Math.max(this.size - this._cursor, 0);
     }
 
     *[Symbol.iterator]() {

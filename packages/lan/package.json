@@ -11,6 +11,10 @@
     "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
+  "devDependencies": {
+    "@types/node": "^14.14.16",
+    "typescript": "latest"
+  },
   "license": "GPL-3.0-only",
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [

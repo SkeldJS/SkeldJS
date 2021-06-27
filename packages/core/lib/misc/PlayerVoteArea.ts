@@ -54,6 +54,9 @@ export class PlayerVoteArea {
      * The player that this player voted for, if any.
      */
     get votedFor() {
+        if (this.votedForId >= VoteStateSpecialId.IsDead)
+            return undefined;
+
         return this.room.getPlayerByPlayerId(this.votedForId);
     }
 

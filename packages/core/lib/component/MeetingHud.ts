@@ -93,35 +93,47 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
             this.states = new Map;
         }
 
-        while (reader.left) {
+        const numVotes = reader.packed();
+        for (let i = 0; i < numVotes; i++) {
             const [ playerId, mreader ] = reader.message();
             const player = this.room.getPlayerByPlayerId(playerId);
 
             if (!player)
-                return;
+                continue;
 
-            this.states.set(
-                playerId,
-                PlayerVoteArea.Deserialize(mreader, this.room, playerId)
-            );
+            const oldState = this.states.get(playerId);
+            const newState = PlayerVoteArea.Deserialize(mreader, this.room, playerId);
+
+            this.states.set(playerId, newState);
+
+            if (!oldState?.votedFor && newState.hasVoted) {
+                this.emit(
+                    new MeetingHudVoteCastEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        player,
+                        newState.votedFor
+                    )
+                );
+            } else if (oldState?.votedFor && !newState.hasVoted) {
+                this.emit(
+                    new MeetingHudClearVoteEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        player
+                    )
+                );
+            }
         }
     }
 
     Serialize(writer: HazelWriter, spawn: boolean = false) {
-        if (spawn) {
-            for (const [, state] of this.states) {
-                state.Serialize(writer);
-            }
-        } else {
-            writer.upacked(this.dirtyBit);
-
-            for (const [playerId, state] of this.states) {
-                if (this.dirtyBit & (1 << playerId)) {
-                    state.Serialize(writer);
-                }
-            }
+        writer.upacked(this.states.size);
+        for (const [, state] of this.states) {
+            state.Serialize(writer);
         }
-        this.dirtyBit = 0;
         return true;
     }
 
@@ -184,7 +196,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        if (player && voter && (suspect || rpc.suspectid === 0xff)) {
+        if (this.room.amhost && player && voter && (suspect || rpc.suspectid === 0xff)) {
             this._castVote(voter, suspect);
 
             const ev = await this.emit(

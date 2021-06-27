@@ -1010,7 +1010,9 @@ export class PlayerControl extends Networkable<
             )
         );
 
-        this._startMeeting(this.player);
+        if (this.room.amhost) {
+            this._startMeeting(this.player);
+        }
     }
 
     private _startMeeting(caller: PlayerData) {

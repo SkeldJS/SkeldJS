@@ -360,7 +360,7 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
      * @example
      *```typescript
      * // Complete all of a player's tasks.
-     * for (let i = 0; i < player.data.tasks.length; i++) {
+     * for (let i = 0; i < player.info.tasks.length; i++) {
      *   room.gamedata.completeTask(player, i);
      * }
      * ```
