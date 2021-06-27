@@ -292,7 +292,9 @@ export class Hostable<
                     const reader = HazelReader.from(spawn_component.data);
                     component.Deserialize(reader, true);
 
-                    if (this.netobjects.get(component.netid)) continue;
+                    this._incr_netid = spawn_component.netid;
+                    if (this.netobjects.get(component.netid))
+                        continue;
 
                     this.spawnComponent(component);
                 }
