@@ -427,6 +427,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/lan@workspace:packages/lan"
   dependencies:
+    "@skeldjs/events": "workspace:packages/events"
     "@types/node": ^14.14.16
     typescript: latest
   languageName: unknown
@@ -5636,6 +5637,7 @@ resolve@^1.1.6:
     "@skeldjs/client": "workspace:packages/client"
     "@skeldjs/constant": "workspace:packages/constant"
     "@skeldjs/get-auth-token": "workspace:packages/get-auth-token"
+    "@skeldjs/lan": "workspace:packages/lan"
     "@skeldjs/pathfinding": "workspace:packages/pathfinding"
     "@skeldjs/protocol": "workspace:packages/protocol"
     "@skeldjs/reactor": "workspace:packages/reactor"

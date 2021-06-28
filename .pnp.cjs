@@ -624,6 +624,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/lan/",
           "packageDependencies": [
             ["@skeldjs/lan", "workspace:packages/lan"],
+            ["@skeldjs/events", "workspace:packages/events"],
             ["@types/node", "npm:14.14.16"],
             ["typescript", "patch:typescript@npm%3A4.2.4#~builtin<compat/typescript>::version=4.2.4&hash=d8b4e7"]
           ],
@@ -6544,6 +6545,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@skeldjs/client", "workspace:packages/client"],
             ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/get-auth-token", "workspace:packages/get-auth-token"],
+            ["@skeldjs/lan", "workspace:packages/lan"],
             ["@skeldjs/pathfinding", "workspace:packages/pathfinding"],
             ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/reactor", "workspace:packages/reactor"],
