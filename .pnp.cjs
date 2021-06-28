@@ -670,7 +670,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/reactor/",
           "packageDependencies": [
             ["@skeldjs/reactor", "workspace:packages/reactor"],
-            ["@skeldjs/client", "workspace:packages/client"],
             ["@skeldjs/constant", "workspace:packages/constant"],
             ["@skeldjs/protocol", "workspace:packages/protocol"],
             ["@skeldjs/util", "workspace:packages/util"],
