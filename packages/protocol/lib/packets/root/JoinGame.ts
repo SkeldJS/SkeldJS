@@ -85,7 +85,7 @@ export class JoinGameMessage extends BaseRootMessage {
                 }
             }
         } else {
-            writer.int32(this.code);
+            writer.int32(this.code ?? this.error);
         }
     }
 }

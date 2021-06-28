@@ -571,7 +571,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         await this.send(
-            new ReliablePacket(this.getNextNonce(), [new JoinGameMessage(code)])
+            new ReliablePacket(
+                this.getNextNonce(),
+                [
+                    new JoinGameMessage(code)
+                ]
+            )
         );
 
         const { message } = await Promise.race([
