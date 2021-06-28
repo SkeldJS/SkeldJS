@@ -12,7 +12,7 @@
     "watch": "tsc -w -p ./",
     "prepack": "yarn build",
     "postinstall": "yarn build:colliders",
-    "build:colliders": "node dist/build.js"
+    "build:colliders": "ts-node build.js"
   },
   "dependencies": {
     "@skeldjs/client": "workspace:*",
