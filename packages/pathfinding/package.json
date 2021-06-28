@@ -12,7 +12,7 @@
     "watch": "tsc -w -p ./",
     "prepack": "yarn build",
     "postinstall": "yarn build:colliders",
-    "build:colliders": "ts-node build.js"
+    "build:colliders": "ts-node build.ts"
   },
   "dependencies": {
     "@skeldjs/client": "workspace:*",
@@ -28,6 +28,7 @@
     "@types/heap": "^0.2.28",
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.16",
+    "ts-node": "latest",
     "typescript": "latest"
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",

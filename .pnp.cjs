@@ -696,6 +696,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mocha", "npm:8.2.2"],
             ["@types/node", "npm:14.17.4"],
             ["heap", "npm:0.2.6"],
+            ["ts-node", "virtual:fac710c26856c77bef78364971beb12f8e3b631f8219661dc49afeca70fde3b2d90ef9adbeeb007d258a5fb8a7aa91eb899beb62ea14ffd3f337a641d31d12f0#npm:10.0.0"],
             ["typescript", "patch:typescript@npm%3A4.3.4#~builtin<compat/typescript>::version=4.3.4&hash=d8b4e7"]
           ],
           "linkType": "SOFT",
@@ -817,6 +818,42 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@tootallnate-once-npm-1.1.2-0517220057-e1fb1bbbc1.zip/node_modules/@tootallnate/once/",
           "packageDependencies": [
             ["@tootallnate/once", "npm:1.1.2"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tsconfig/node10", [
+        ["npm:1.0.8", {
+          "packageLocation": "./.yarn/cache/@tsconfig-node10-npm-1.0.8-90a8cce25d-b8d5fffbc6.zip/node_modules/@tsconfig/node10/",
+          "packageDependencies": [
+            ["@tsconfig/node10", "npm:1.0.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tsconfig/node12", [
+        ["npm:1.0.9", {
+          "packageLocation": "./.yarn/cache/@tsconfig-node12-npm-1.0.9-780563856d-a01b2400ab.zip/node_modules/@tsconfig/node12/",
+          "packageDependencies": [
+            ["@tsconfig/node12", "npm:1.0.9"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tsconfig/node14", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/@tsconfig-node14-npm-1.0.1-3ecac58e68-976345e896.zip/node_modules/@tsconfig/node14/",
+          "packageDependencies": [
+            ["@tsconfig/node14", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@tsconfig/node16", [
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/@tsconfig-node16-npm-1.0.1-0fb4cd7d44-5fdfd91e48.zip/node_modules/@tsconfig/node16/",
+          "packageDependencies": [
+            ["@tsconfig/node16", "npm:1.0.1"]
           ],
           "linkType": "HARD",
         }]
@@ -6796,6 +6833,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["ts-node", [
+        ["npm:10.0.0", {
+          "packageLocation": "./.yarn/cache/ts-node-npm-10.0.0-9c3d77d0a0-96d633774e.zip/node_modules/ts-node/",
+          "packageDependencies": [
+            ["ts-node", "npm:10.0.0"]
+          ],
+          "linkType": "SOFT",
+        }],
         ["npm:7.0.1", {
           "packageLocation": "./.yarn/cache/ts-node-npm-7.0.1-dfa4b9e69b-07ed6ea180.zip/node_modules/ts-node/",
           "packageDependencies": [
@@ -6832,6 +6876,39 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["yn", "npm:3.1.1"]
           ],
           "packagePeers": [
+            "@types/typescript",
+            "typescript"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:fac710c26856c77bef78364971beb12f8e3b631f8219661dc49afeca70fde3b2d90ef9adbeeb007d258a5fb8a7aa91eb899beb62ea14ffd3f337a641d31d12f0#npm:10.0.0", {
+          "packageLocation": "./.yarn/__virtual__/ts-node-virtual-e24ac4c220/0/cache/ts-node-npm-10.0.0-9c3d77d0a0-96d633774e.zip/node_modules/ts-node/",
+          "packageDependencies": [
+            ["ts-node", "virtual:fac710c26856c77bef78364971beb12f8e3b631f8219661dc49afeca70fde3b2d90ef9adbeeb007d258a5fb8a7aa91eb899beb62ea14ffd3f337a641d31d12f0#npm:10.0.0"],
+            ["@swc/core", null],
+            ["@swc/wasm", null],
+            ["@tsconfig/node10", "npm:1.0.8"],
+            ["@tsconfig/node12", "npm:1.0.9"],
+            ["@tsconfig/node14", "npm:1.0.1"],
+            ["@tsconfig/node16", "npm:1.0.1"],
+            ["@types/node", "npm:14.17.4"],
+            ["@types/swc__core", null],
+            ["@types/swc__wasm", null],
+            ["@types/typescript", null],
+            ["arg", "npm:4.1.3"],
+            ["create-require", "npm:1.1.1"],
+            ["diff", "npm:4.0.2"],
+            ["make-error", "npm:1.3.6"],
+            ["source-map-support", "npm:0.5.19"],
+            ["typescript", "patch:typescript@npm%3A4.3.4#~builtin<compat/typescript>::version=4.3.4&hash=d8b4e7"],
+            ["yn", "npm:3.1.1"]
+          ],
+          "packagePeers": [
+            "@swc/core",
+            "@swc/wasm",
+            "@types/node",
+            "@types/swc__core",
+            "@types/swc__wasm",
             "@types/typescript",
             "typescript"
           ],
