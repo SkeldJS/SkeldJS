@@ -1083,9 +1083,10 @@ export class Hostable<
      * const player = room.getPlayerByPlayerId(1);
      * ```
      */
-    getPlayerByPlayerId(playerId: number) {
+    getPlayerByPlayerId(playerId: number): PlayerData|undefined {
         for (const [, player] of this.players) {
-            if (player.playerId === playerId) return player;
+            if (player.playerId === playerId)
+                return player;
         }
 
         return undefined;
