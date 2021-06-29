@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/pathfinding",
-  "version": "2.10.15",
+  "version": "2.10.16-0",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -35,5 +35,6 @@
   "files": [
     "dist",
     "data/colliders/*"
-  ]
+  ],
+  "stableVersion": "2.10.15"
 }
