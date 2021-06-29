@@ -1,15 +1,15 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SpawnType } from "@skeldjs/constant";
-
+import { BaseRpcMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { Hostable } from "./Hostable";
 
 import { NetworkableDespawnEvent, NetworkableSpawnEvent } from "./events";
-import { BaseRpcMessage } from "@skeldjs/protocol";
+import { PlayerData } from "./PlayerData";
 
-export type NetworkableEvents = ExtractEventTypes<
-    [NetworkableSpawnEvent, NetworkableDespawnEvent]
+export type NetworkableEvents<RoomType extends Hostable = Hostable> = ExtractEventTypes<
+    [NetworkableSpawnEvent<RoomType>, NetworkableDespawnEvent<RoomType>]
 >;
 
 /**
@@ -19,7 +19,8 @@ export type NetworkableEvents = ExtractEventTypes<
  */
 export class Networkable<
     DataT = any,
-    T extends NetworkableEvents = NetworkableEvents
+    T extends NetworkableEvents = NetworkableEvents,
+    RoomType extends Hostable = Hostable
 > extends EventEmitter<T> {
     static type: SpawnType;
     /**
@@ -36,7 +37,7 @@ export class Networkable<
     /**
      * The room that this component belongs to.
      */
-    room: Hostable;
+    room: RoomType;
 
     /**
      * The net ID of this component.
@@ -54,7 +55,7 @@ export class Networkable<
     dirtyBit: number = 0;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | DataT
@@ -86,8 +87,8 @@ export class Networkable<
         return super.emit(event);
     }
 
-    get owner() {
-        return this.room.objects.get(this.ownerid);
+    get owner(): Hostable|PlayerData<RoomType> {
+        return this.room.objects.get(this.ownerid) as Hostable|PlayerData<RoomType>;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function

@@ -11,13 +11,13 @@ import { PlayerData } from "../../PlayerData";
  * Emitted when a player requests to have their name set. Only emitted if the
  * client is the host.
  */
-export class PlayerCheckNameEvent extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCheckNameEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.checkname" as const;
     eventName = "player.checkname" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: CheckNameMessage|undefined,
         /**
          * The original name that the player asked for.

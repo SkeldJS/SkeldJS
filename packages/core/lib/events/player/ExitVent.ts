@@ -11,13 +11,13 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player leaves a vent.
  */
-export class PlayerExitVentEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerExitVentEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.exitvent" as const;
     eventName = "player.exitvent" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: ExitVentMessage|undefined,
         /**
          * The ID of the vent that the player left.

@@ -9,22 +9,24 @@ import { SecurityCameraJoinEvent, SecurityCameraLeaveEvent } from "../events";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { Hostable } from "../Hostable";
 
 export interface SecurityCameraSystemData {
     players: Set<PlayerData>;
 }
 
-export type SecurityCameraSystemEvents = SystemStatusEvents &
-    ExtractEventTypes<[SecurityCameraJoinEvent, SecurityCameraLeaveEvent]>;
+export type SecurityCameraSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+    ExtractEventTypes<[SecurityCameraJoinEvent<RoomType>, SecurityCameraLeaveEvent<RoomType>]>;
 
 /**
  * Represents a system responsible for handling players entering and leaving security cameras.
  *
  * See {@link SecurityCameraSystemEvents} for events to listen to.
  */
-export class SecurityCameraSystem extends SystemStatus<
+export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     SecurityCameraSystemData,
-    SecurityCameraSystemEvents
+    SecurityCameraSystemEvents,
+    RoomType
 > implements SecurityCameraSystemData {
     static systemType = SystemType.Security as const;
     systemType = SystemType.Security as const;
@@ -35,7 +37,7 @@ export class SecurityCameraSystem extends SystemStatus<
     players: Set<PlayerData>;
 
     constructor(
-        ship: InnerShipStatus,
+        ship: InnerShipStatus<RoomType>,
         data?: HazelReader | SecurityCameraSystemData
     ) {
         super(ship, data);

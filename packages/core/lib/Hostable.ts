@@ -56,7 +56,7 @@ import {
 } from "./component";
 
 import { Heritable, HeritableEvents } from "./Heritable";
-import { Networkable } from "./Networkable";
+import { Networkable, NetworkableEvents } from "./Networkable";
 import { PlayerData, PlayerDataEvents } from "./PlayerData";
 
 import { SpawnPrefabs } from "./prefabs";
@@ -92,58 +92,59 @@ export interface SpawnObject {
     components: Networkable<any, any>[];
 }
 
-export type AnyNetworkable =
-    | AirshipStatus
-    | AprilShipStatus
-    | CustomNetworkTransform
-    | GameData
-    | MiraShipStatus
-    | LobbyBehaviour
-    | MeetingHud
-    | PolusShipStatus
-    | PlayerControl
-    | PlayerPhysics
-    | SkeldShipStatus
-    | VoteBanSystem;
+export type AnyNetworkable<RoomType extends Hostable = Hostable> =
+    | AirshipStatus<RoomType>
+    | AprilShipStatus<RoomType>
+    | CustomNetworkTransform<RoomType>
+    | GameData<RoomType>
+    | MiraShipStatus<RoomType>
+    | LobbyBehaviour<RoomType>
+    | MeetingHud<RoomType>
+    | PolusShipStatus<RoomType>
+    | PlayerControl<RoomType>
+    | PlayerPhysics<RoomType>
+    | SkeldShipStatus<RoomType>
+    | VoteBanSystem<RoomType>;
 
-export type HostableEvents = HeritableEvents &
-    PlayerDataEvents &
-    GameDataEvents &
-    LobbyBehaviourEvents &
-    MeetingHudEvents &
-    ShipStatusEvents &
-    VoteBanSystemEvents &
+export type HostableEvents<RoomType extends Hostable = Hostable> = HeritableEvents<RoomType> &
+    PlayerDataEvents<RoomType> &
+    GameDataEvents<RoomType> &
+    LobbyBehaviourEvents<RoomType> &
+    MeetingHudEvents<RoomType> &
+    ShipStatusEvents<RoomType> &
+    VoteBanSystemEvents<RoomType> &
     ExtractEventTypes<
         [
-            RoomGameStartEvent,
-            RoomGameEndEvent,
-            RoomFixedUpdateEvent,
-            RoomSetPrivacyEvent
+            RoomGameStartEvent<RoomType>,
+            RoomGameEndEvent<RoomType>,
+            RoomFixedUpdateEvent<RoomType>,
+            RoomSetPrivacyEvent<RoomType>
         ]
     >;
 
+export type GetHostableEvents<T extends Hostable<HostableEvents>> = T extends Hostable<infer X> ? X : never;
 /**
  * Represents an object capable of hosting games.
  *
  * See {@link HostableEvents} for events to listen to.
  */
-export class Hostable<
-    T extends HostableEvents = HostableEvents
-> extends Heritable<T> {
+export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
+    room: this;
+
     /**
      * The objects in the room.
      */
-    objects: Map<number, Heritable<any>>;
+    objects: Map<number, Heritable<any, this>>;
 
     /**
      * The players in the room.
      */
-    players: Map<number, PlayerData>;
+    players: Map<number, PlayerData<this>>;
 
     /**
      * The networkable components in the room.
      */
-    netobjects: Map<number, Networkable>;
+    netobjects: Map<number, Networkable<any, NetworkableEvents, this>>;
 
     registeredPrefabs: Map<SpawnType, typeof Networkable[]>;
 
@@ -195,7 +196,7 @@ export class Hostable<
     protected _interval?: NodeJS.Timeout;
 
     constructor(public options: HostableOptions = {}) {
-        super(null as unknown as Hostable<any>, -2);
+        super(null as unknown as this, -2);
 
         this.code = 0;
         this.hostid = -1;
@@ -210,7 +211,7 @@ export class Hostable<
         this.registeredPrefabs = new Map;
         this.stream = [];
 
-        this.objects.set(-2, this as Heritable<any>);
+        this.objects.set(-2, this as Heritable<HeritableEvents, this>);
         this.room = this;
 
         this._incr_netid = 0;
@@ -296,7 +297,7 @@ export class Hostable<
                     if (this.netobjects.get(component.netid))
                         continue;
 
-                    this.spawnComponent(component);
+                    this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
                 }
             }
         });
@@ -398,7 +399,7 @@ export class Hostable<
     /**
      * The shipstatus object for the room.
      */
-    get shipstatus() {
+    get shipstatus(): SkeldShipStatus<this>|MiraShipStatus<this>|PolusShipStatus<this>|AprilShipStatus<this>|AirshipStatus<this>|undefined {
         return this.getComponent<
             | SkeldShipStatus
             | MiraShipStatus
@@ -411,35 +412,35 @@ export class Hostable<
             PolusShipStatus,
             AprilShipStatus,
             AirshipStatus,
-        ]);
+        ]) as SkeldShipStatus<this>|MiraShipStatus<this>|PolusShipStatus<this>|AprilShipStatus<this>|AirshipStatus<this>|undefined;
     }
 
     /**
      * The meeting hud object for the room.
      */
     get meetinghud() {
-        return this.getComponent(MeetingHud);
+        return this.getComponent(MeetingHud) as MeetingHud<this>;
     }
 
     /**
      * The lobby behaviour object for the room.
      */
     get lobbybehaviour() {
-        return this.getComponent(LobbyBehaviour);
+        return this.getComponent(LobbyBehaviour) as LobbyBehaviour<this>;
     }
 
     /**
      * The game data object for the room.
      */
-    get gamedata() {
-        return this.getComponent(GameData);
+    get gamedata(): GameData<this> {
+        return this.getComponent(GameData) as GameData<this>;
     }
 
     /**
      * The vote ban system object for the room.
      */
     get votebansystem() {
-        return this.getComponent(VoteBanSystem);
+        return this.getComponent(VoteBanSystem) as VoteBanSystem<this>;
     }
 
     async broadcast(
@@ -661,9 +662,9 @@ export class Hostable<
     async handleJoin(clientid: number) {
         if (this.objects.has(clientid)) return null;
 
-        const player: PlayerData = new PlayerData(this, clientid);
+        const player: PlayerData<this> = new PlayerData(this, clientid);
         this.players.set(clientid, player);
-        this.objects.set(clientid, player as Heritable<any>);
+        this.objects.set(clientid, player);
 
         player.emit(new PlayerJoinEvent(this, player));
 
@@ -692,7 +693,7 @@ export class Hostable<
         for (let i = 0; i < player.components.length; i++) {
             const component = player.components[i];
 
-            if (component) await this.despawnComponent(component);
+            if (component) this.despawnComponent(component);
         }
 
         this.players.delete(player.id);
@@ -757,8 +758,8 @@ export class Hostable<
             }
 
             if (this.lobbybehaviour)
-                await this.despawnComponent(
-                    this.lobbybehaviour as Networkable<any, any>
+                this.despawnComponent(
+                    this.lobbybehaviour
                 );
 
             const ship_prefabs = [
@@ -839,7 +840,7 @@ export class Hostable<
      * this.spawnComponent(meetinghud);
      * ```
      */
-    spawnComponent(component: Networkable<any, any>) {
+    spawnComponent(component: Networkable<any, NetworkableEvents, this>) {
         if (this.netobjects.get(component.netid)) {
             return;
         }
@@ -848,7 +849,7 @@ export class Hostable<
         component.owner?.components.push(component);
 
         component.emit(
-            new NetworkableSpawnEvent(this, component as AnyNetworkable)
+            new NetworkableSpawnEvent(this, component)
         );
     }
 
@@ -856,7 +857,7 @@ export class Hostable<
         this.netobjects.delete(component.netid);
 
         component.emit(
-            new NetworkableDespawnEvent(this, component as AnyNetworkable)
+            new NetworkableDespawnEvent(this, component)
         );
         component.owner?.components.splice(
             component.owner.components.indexOf(component),
@@ -873,7 +874,7 @@ export class Hostable<
      * room.despawnComponent(room.meetinghud);
      * ```
      */
-    despawnComponent(component: Networkable<any, any>) {
+    despawnComponent(component: Networkable<any, NetworkableEvents, this>) {
         this._despawnComponent(component);
 
         this.stream.push(new DespawnMessage(component.netid));
@@ -925,7 +926,7 @@ export class Hostable<
                     ownerid
                 );
 
-                object.components.push(shipstatus as Networkable<any, any>);
+                object.components.push(shipstatus);
                 break;
             }
             case SpawnType.MeetingHud:
@@ -938,7 +939,7 @@ export class Hostable<
                     }
                 );
 
-                object.components.push(meetinghud as Networkable<any, any>);
+                object.components.push(meetinghud);
                 break;
             case SpawnType.LobbyBehaviour:
                 const lobbybehaviour = new LobbyBehaviour(
@@ -948,7 +949,7 @@ export class Hostable<
                     {}
                 );
 
-                object.components.push(lobbybehaviour as Networkable<any, any>);
+                object.components.push(lobbybehaviour);
                 break;
             case SpawnType.GameData:
                 const gamedata = new GameData(this, this.getNextNetId(), ownerid, {
@@ -968,8 +969,8 @@ export class Hostable<
                     }
                 );
 
-                object.components.push(gamedata as Networkable<any, any>);
-                object.components.push(votebansystem as Networkable<any, any>);
+                object.components.push(gamedata);
+                object.components.push(votebansystem);
                 break;
             case SpawnType.Player:
                 const playerId = this.getAvailablePlayerID();
@@ -1006,9 +1007,9 @@ export class Hostable<
                     }
                 );
 
-                object.components.push(control as Networkable<any, any>);
-                object.components.push(physics as Networkable<any, any>);
-                object.components.push(transform as Networkable<any, any>);
+                object.components.push(control);
+                object.components.push(physics);
+                object.components.push(transform);
                 break;
             case SpawnType.Headquarters:
                 const headquarters = new MiraShipStatus(
@@ -1017,7 +1018,7 @@ export class Hostable<
                     ownerid
                 );
 
-                object.components.push(headquarters as Networkable<any, any>);
+                object.components.push(headquarters);
                 break;
             case SpawnType.PlanetMap:
                 const planetmap = new PolusShipStatus(
@@ -1026,7 +1027,7 @@ export class Hostable<
                     ownerid
                 );
 
-                object.components.push(planetmap as Networkable<any, any>);
+                object.components.push(planetmap);
                 break;
             case SpawnType.AprilShipStatus:
                 const aprilshipstatus = new AprilShipStatus(
@@ -1036,7 +1037,7 @@ export class Hostable<
                 );
 
                 object.components.push(
-                    aprilshipstatus as Networkable<any, any>
+                    aprilshipstatus
                 );
                 break;
             case SpawnType.Airship:
@@ -1046,12 +1047,12 @@ export class Hostable<
                     ownerid
                 );
 
-                object.components.push(airship as Networkable<any, any>);
+                object.components.push(airship);
                 break;
         }
 
         for (const component of object.components) {
-            this.spawnComponent(component);
+            this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
         }
 
         this.stream.push(
@@ -1083,7 +1084,7 @@ export class Hostable<
      * const player = room.getPlayerByPlayerId(1);
      * ```
      */
-    getPlayerByPlayerId(playerId: number): PlayerData|undefined {
+    getPlayerByPlayerId(playerId: number): PlayerData<this>|undefined {
         for (const [, player] of this.players) {
             if (player.playerId === playerId)
                 return player;
@@ -1153,3 +1154,13 @@ export class Hostable<
      */
     static FixedUpdateInterval = 1 / 50;
 }
+
+class MyHostable extends Hostable<HostableEvents<MyHostable>> {
+    poo() {}
+}
+
+const a = new MyHostable;
+
+a.players.get(50)?.on("player.setname", ev => {
+    ev.room.poo;
+}); 

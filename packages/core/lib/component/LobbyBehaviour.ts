@@ -4,21 +4,21 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
-import { Heritable } from "../Heritable";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface LobbyBehaviourData {}
 
-export type LobbyBehaviourEvents = NetworkableEvents & ExtractEventTypes<[]>;
+export type LobbyBehaviourEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for the Lobby map.
  *
  * See {@link LobbyBehaviourEvents} for events to listen to.
  */
-export class LobbyBehaviour extends Networkable<
+export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networkable<
     LobbyBehaviourData,
-    LobbyBehaviourEvents
+    LobbyBehaviourEvents<RoomType>,
+    RoomType
 > {
     static type = SpawnType.LobbyBehaviour as const;
     type = SpawnType.LobbyBehaviour as const;
@@ -27,7 +27,7 @@ export class LobbyBehaviour extends Networkable<
     classname = "LobbyBehaviour" as const;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelBuffer | LobbyBehaviourData
@@ -36,6 +36,6 @@ export class LobbyBehaviour extends Networkable<
     }
 
     get owner() {
-        return super.owner as Heritable;
+        return super.owner as RoomType;
     }
 }

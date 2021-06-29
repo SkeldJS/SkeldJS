@@ -2,11 +2,11 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { Hostable } from "../Hostable";
 import { VoteStateSpecialId } from "./PlayerVoteState";
 
-export class PlayerVoteArea {
+export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
     dirty: boolean;
 
     constructor(
-        private room: Hostable<any>,
+        public readonly room: RoomType,
         public playerId: number,
         public votedForId: number,
         public didReport: boolean
@@ -60,7 +60,7 @@ export class PlayerVoteArea {
         return this.room.getPlayerByPlayerId(this.votedForId);
     }
 
-    static Deserialize(reader: HazelReader, room: Hostable<any>, playerId: number) {
+    static Deserialize<RoomType extends Hostable = Hostable>(reader: HazelReader, room: RoomType, playerId: number) {
         const votedForId = reader.uint8();
         const didReport = reader.bool();
 

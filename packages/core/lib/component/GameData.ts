@@ -29,12 +29,12 @@ export interface GameDataData {
     players: Map<number, PlayerInfo>;
 }
 
-export type GameDataEvents = NetworkableEvents &
+export type GameDataEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     ExtractEventTypes<
         [
-            GameDataAddPlayerEvent,
-            GameDataRemovePlayerEvent,
-            GameDataSetTasksEvent
+            GameDataAddPlayerEvent<RoomType>,
+            GameDataRemovePlayerEvent<RoomType>,
+            GameDataSetTasksEvent<RoomType>
         ]
     >;
 
@@ -50,7 +50,7 @@ export type PlayerIDResolvable =
  *
  * See {@link GameDataEvents} for events to listen to.
  */
-export class GameData extends Networkable<GameDataData, GameDataEvents> implements GameDataData {
+export class GameData<RoomType extends Hostable = Hostable> extends Networkable<GameDataData, GameDataEvents<RoomType>, RoomType> implements GameDataData {
     static type = SpawnType.GameData as const;
     type = SpawnType.GameData as const;
 
@@ -60,10 +60,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
     /**
      * The players in the game data.
      */
-    players!: Map<number, PlayerInfo>;
+    players!: Map<number, PlayerInfo<RoomType>>;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | GameDataData
@@ -80,10 +80,10 @@ export class GameData extends Networkable<GameDataData, GameDataEvents> implemen
     }
 
     get owner() {
-        return super.owner as Hostable;
+        return super.owner as RoomType;
     }
 
-    async getOrCreate(playerId: number) {
+    async getOrCreate(playerId: number): Promise<PlayerInfo<RoomType>> {
         const has = this.players.get(playerId);
         if (has)
             return has;

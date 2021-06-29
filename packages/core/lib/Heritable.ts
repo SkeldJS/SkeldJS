@@ -14,7 +14,7 @@ type NetworkableConstructor<T> = {
     classname: string;
 };
 
-export type HeritableEvents = NetworkableEvents & ExtractEventTypes<[]>;
+export type HeritableEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a basic identifiable entity with components.
@@ -22,12 +22,13 @@ export type HeritableEvents = NetworkableEvents & ExtractEventTypes<[]>;
  * See {@link HeritableEvents} for events to listen to.
  */
 export class Heritable<
-    T extends HeritableEvents = HeritableEvents
+    T extends HeritableEvents = HeritableEvents,
+    RoomType extends Hostable = Hostable
 > extends EventEmitter<T> {
     /**
      * The room that this object belongs to.
      */
-    room: Hostable<any>;
+    room: RoomType;
 
     /**
      * The ID of the object.
@@ -37,9 +38,9 @@ export class Heritable<
     /**
      * The components for this object.
      */
-    components: (Networkable<any, any> | null)[];
+    components: (Networkable<any, any, RoomType> | null)[];
 
-    constructor(room: Hostable<any>, id: number) {
+    constructor(room: RoomType, id: number) {
         super();
 
         this.id = id;

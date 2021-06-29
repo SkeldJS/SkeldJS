@@ -11,13 +11,13 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player goes into a vent.
  */
-export class PlayerEnterVentEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerEnterVentEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.entervent" as const;
     eventName = "player.entervent" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: EnterVentMessage|undefined,
         /**
          * The ID of the vent that the player went into.

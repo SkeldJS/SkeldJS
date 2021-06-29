@@ -11,21 +11,21 @@ import { PlayerData } from "../../PlayerData";
 /**
  * Emitted when a player closes a communications console on Mira HQ.
  */
-export class HqHudConsoleCloseEvent extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
+export class HqHudConsoleCloseEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
     static eventName = "hqhud.consoles.close" as const;
     eventName = "hqhud.consoles.close" as const;
 
     private _alteredConsoleId: number;
-    private _atleredPlayer: PlayerData;
+    private _alteredPlayer: PlayerData;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly hqhud: HqHudSystem,
+        public readonly room: RoomType,
+        public readonly hqhud: HqHudSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that closed the console.
          */
-        public readonly player: PlayerData,
+        public readonly player: PlayerData<RoomType>,
         /**
          * The ID of the console that was closed.
          */
@@ -34,7 +34,7 @@ export class HqHudConsoleCloseEvent extends RevertableEvent implements RoomEvent
         super();
 
         this._alteredConsoleId = consoleId;
-        this._atleredPlayer = player;
+        this._alteredPlayer = player;
     }
 
     /**
@@ -48,7 +48,7 @@ export class HqHudConsoleCloseEvent extends RevertableEvent implements RoomEvent
      * The alterenate player that will close the console, if changed.
      */
     get alteredPlayer() {
-        return this._atleredPlayer;
+        return this._alteredPlayer;
     }
 
     /**
@@ -64,6 +64,6 @@ export class HqHudConsoleCloseEvent extends RevertableEvent implements RoomEvent
      * @param player The player to close the console.
      */
     setPlayer(player: PlayerData) {
-        this._atleredPlayer = player;
+        this._alteredPlayer = player;
     }
 }

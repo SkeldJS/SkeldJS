@@ -5,6 +5,7 @@ import { SystemType } from "@skeldjs/constant";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { SystemStatusEvents } from "./events";
+import { Hostable } from "../Hostable";
 
 export const DeconState = {
     Enter: 0x1,
@@ -18,16 +19,17 @@ export interface DeconSystemData {
     state: number;
 }
 
-export type DeconSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
+export type DeconSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for the decontamination doors.
  *
  * See {@link DeconSystemEvents} for events to listen to.
  */
-export class DeconSystem extends SystemStatus<
+export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     DeconSystemData,
-    DeconSystemEvents
+    DeconSystemEvents,
+    RoomType
 > implements DeconSystemData {
     static systemType = SystemType.Decontamination as const;
     systemType = SystemType.Decontamination as const;
@@ -42,7 +44,7 @@ export class DeconSystem extends SystemStatus<
      */
     state: number;
 
-    constructor(ship: InnerShipStatus, data?: HazelReader | DeconSystemData) {
+    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | DeconSystemData) {
         super(ship, data);
 
         this.timer ??= 10000;

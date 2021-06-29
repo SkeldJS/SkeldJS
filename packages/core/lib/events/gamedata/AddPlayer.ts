@@ -8,17 +8,17 @@ import { GameDataEvent } from "./GameDataEvent";
 /**
  * Emitted when a player is added to gamedata.
  */
-export class GameDataAddPlayerEvent extends RevertableEvent implements RoomEvent, GameDataEvent {
+export class GameDataAddPlayerEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, GameDataEvent {
     static eventName = "gamedata.addplayer" as const;
     eventName = "gamedata.addplayer" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly gamedata: GameData,
+        public readonly room: RoomType,
+        public readonly gamedata: GameData<RoomType>,
         /**
          * The player information that was added.
          */
-        public readonly player: PlayerInfo
+        public readonly player: PlayerInfo<RoomType>
     ) {
         super();
     }

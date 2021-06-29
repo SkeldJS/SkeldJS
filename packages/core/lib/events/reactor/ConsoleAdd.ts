@@ -10,21 +10,21 @@ import { ReactorEvent } from "./ReactorEvent";
 /**
  * Emitted when a player places their hand on a reactor console.
  */
-export class ReactorConsoleAddEvent extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
+export class ReactorConsoleAddEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
     static eventName = "reactor.consoles.add" as const;
     eventName = "reactor.consoles.add" as const;
 
     private _alteredConsoleId: number;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly reactor: ReactorSystem,
+        public readonly room: RoomType,
+        public readonly reactor: ReactorSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that placed their hand on the console. Only available
          * if the client is the host.
          */
-        public readonly player: PlayerData|undefined,
+        public readonly player: PlayerData<RoomType>|undefined,
         /**
          * The ID of the console that the player placed their hand on.
          */

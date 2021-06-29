@@ -6,7 +6,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { InnerShipStatus } from "../component";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { PlayerDataResolvable } from "../Hostable";
+import { Hostable, PlayerDataResolvable } from "../Hostable";
 import { NetworkUtils } from "../utils/net";
 import { MovingPlatformPlayerUpdateEvent } from "../events";
 import { SystemStatusEvents } from "./events";
@@ -22,17 +22,18 @@ export enum MovingPlatformSide {
     Left,
 }
 
-export type MovingPlatformSystemEvents = SystemStatusEvents &
-    ExtractEventTypes<[MovingPlatformPlayerUpdateEvent]>;
+export type MovingPlatformSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+    ExtractEventTypes<[MovingPlatformPlayerUpdateEvent<RoomType>]>;
 
 /**
  * Represents a system for doors that must be manually opened.
  *
  * See {@link MovingPlatformSystemEvents} for events to listen to.
  */
-export class MovingPlatformSystem extends SystemStatus<
+export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     MovingPlatformSystemData,
-    MovingPlatformSystemEvents
+    MovingPlatformSystemEvents,
+    RoomType
 > implements MovingPlatformSystemData {
     static systemType = SystemType.Decontamination as const;
     systemType = SystemType.Decontamination as const;
@@ -42,7 +43,7 @@ export class MovingPlatformSystem extends SystemStatus<
     side: MovingPlatformSide;
 
     constructor(
-        ship: InnerShipStatus,
+        ship: InnerShipStatus<RoomType>,
         data?: HazelReader | MovingPlatformSystemData
     ) {
         super(ship, data);

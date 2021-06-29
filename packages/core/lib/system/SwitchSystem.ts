@@ -12,6 +12,7 @@ import {
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { Hostable } from "../Hostable";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
@@ -21,9 +22,9 @@ export interface SwitchSystemData {
     brightness: number;
 }
 
-export type SwitchSystemEvents = SystemStatusEvents &
+export type SwitchSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
-        ElectricalSwitchFlipEvent
+        ElectricalSwitchFlipEvent<RoomType>
     ]>;
 
 /**
@@ -31,9 +32,10 @@ export type SwitchSystemEvents = SystemStatusEvents &
  *
  * See {@link SwitchSystemEvents} for events to listen to.
  */
-export class SwitchSystem extends SystemStatus<
+export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     SwitchSystemData,
-    SwitchSystemEvents
+    SwitchSystemEvents,
+    RoomType
 > implements SwitchSystemData {
     static systemType = SystemType.Electrical as const;
     systemType = SystemType.Electrical as const;
@@ -61,7 +63,7 @@ export class SwitchSystem extends SystemStatus<
             || this.actual[4] !== this.expected[4];
     }
 
-    constructor(ship: InnerShipStatus, data?: HazelReader | SwitchSystemData) {
+    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | SwitchSystemData) {
         super(ship, data);
 
         this.expected ||= [false, false, false, false, false];

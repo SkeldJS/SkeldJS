@@ -11,15 +11,15 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player has their player color updated.
  */
-export class PlayerSetColorEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetColorEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setcolor" as const;
     eventName = "player.setcolor" as const;
 
     private _alteredColor: Color;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SetColorMessage|undefined,
         /**
          * The color that the player had before.

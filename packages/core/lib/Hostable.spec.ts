@@ -9,7 +9,6 @@ import assert from "assert";
 import { MeetingHud } from "./component";
 
 import { Hostable } from "./Hostable";
-import { PlayerVoteState } from "./misc/PlayerVoteState";
 
 export class TestHost extends Hostable {
     get amhost() {
@@ -214,19 +213,6 @@ describe("Hostable", () => {
                 room.resolvePlayerId(playerData),
                 player.playerId
             );
-        });
-
-        it("Should resolve a player vote state to a player ID.", () => {
-            const state = new PlayerVoteState(
-                room,
-                player.playerId,
-                undefined,
-                false,
-                false,
-                false
-            );
-
-            assert.strictEqual(room.resolvePlayerId(state), player.playerId);
         });
     });
 

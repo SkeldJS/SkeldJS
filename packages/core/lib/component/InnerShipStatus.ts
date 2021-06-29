@@ -33,22 +33,22 @@ export interface ShipStatusData {
     systems: AllSystems;
 }
 
-export type ShipStatusEvents = NetworkableEvents &
-    DoorsSystemEvents &
-    SystemStatusEvents &
-    AutoDoorsSystemEvents &
-    DeconSystemEvents &
-    ElectricalDoorsSystemEvents &
-    HqHudSystemEvents &
-    HudOverrideSystemEvents &
-    LifeSuppSystemEvents &
-    MedScanSystemEvents &
-    MovingPlatformSystemEvents &
-    ReactorSystemEvents &
-    SabotageSystemEvents &
-    SecurityCameraSystemEvents &
-    SwitchSystemEvents &
-    ExtractEventTypes<[ RoomSelectImpostorsEvent ]>;
+export type ShipStatusEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
+    DoorsSystemEvents<RoomType> &
+    SystemStatusEvents<RoomType> &
+    AutoDoorsSystemEvents<RoomType> &
+    DeconSystemEvents<RoomType> &
+    ElectricalDoorsSystemEvents<RoomType> &
+    HqHudSystemEvents<RoomType> &
+    HudOverrideSystemEvents<RoomType> &
+    LifeSuppSystemEvents<RoomType> &
+    MedScanSystemEvents<RoomType> &
+    MovingPlatformSystemEvents<RoomType> &
+    ReactorSystemEvents<RoomType> &
+    SabotageSystemEvents<RoomType> &
+    SecurityCameraSystemEvents<RoomType> &
+    SwitchSystemEvents<RoomType> &
+    ExtractEventTypes<[ RoomSelectImpostorsEvent<RoomType> ]>;
 
 export type ShipStatusType =
     | SpawnType.ShipStatus
@@ -64,9 +64,10 @@ export type ShipStatusClassname =
     | "AprilShipStatus"
     | "Airship";
 
-export class InnerShipStatus extends Networkable<
+export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Networkable<
     ShipStatusData,
-    ShipStatusEvents
+    ShipStatusEvents<RoomType>,
+    RoomType
 > {
     static type: ShipStatusType;
     type!: ShipStatusType;
@@ -79,12 +80,16 @@ export class InnerShipStatus extends Networkable<
     systems!: AllSystems;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | ShipStatusData
     ) {
         super(room, netid, ownerid, data);
+    }
+
+    get owner() {
+        return super.owner as RoomType;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function

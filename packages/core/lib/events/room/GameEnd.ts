@@ -6,12 +6,12 @@ import { RoomEvent } from "../RoomEvent";
 /**
  * Emitted when a game ends.
  */
-export class RoomGameEndEvent extends BasicEvent implements RoomEvent {
+export class RoomGameEndEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent {
     static eventName = "room.gameend" as const;
     eventName = "room.gameend" as const;
 
     constructor(
-        public readonly room: Hostable,
+        public readonly room: RoomType,
         /**
          * The reason for why the game ended.
          */

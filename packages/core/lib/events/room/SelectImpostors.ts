@@ -10,18 +10,18 @@ import { RoomEvent } from "../RoomEvent";
  * Mainly emitted in order to allow overriding of the default impostor
  * selection in SkeldJS.
  */
-export class RoomSelectImpostorsEvent extends CancelableEvent implements RoomEvent {
+export class RoomSelectImpostorsEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent {
     static eventName = "room.selectimpostors" as const;
     eventName = "room.selectimpostors" as const;
 
     private _alteredImpostors: PlayerData[];
 
     constructor(
-        public readonly room: Hostable,
+        public readonly room: RoomType,
         /**
          * The players that were chosen to be impostors.
          */
-        public readonly impostors: PlayerData[]
+        public readonly impostors: PlayerData<RoomType>[]
     ) {
         super();
 

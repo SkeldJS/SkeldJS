@@ -17,7 +17,6 @@ import { Networkable, NetworkableEvents } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { PlayerVoteState, VoteStateSpecialId } from "../misc/PlayerVoteState";
 import { PlayerVoteArea } from "../misc/PlayerVoteArea";
-import { Heritable } from "../Heritable";
 
 import {
     MeetingHudCloseEvent,
@@ -34,17 +33,17 @@ export interface MeetingHudData {
     exilied?: PlayerData;
 }
 
-export type MeetingHudEvents = NetworkableEvents &
+export type MeetingHudEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     ExtractEventTypes<
         [
-            MeetingHudVoteCastEvent,
-            MeetingHudClearVoteEvent,
-            MeetingHudVotingCompleteEvent,
-            MeetingHudCloseEvent
+            MeetingHudVoteCastEvent<RoomType>,
+            MeetingHudClearVoteEvent<RoomType>,
+            MeetingHudVotingCompleteEvent<RoomType>,
+            MeetingHudCloseEvent<RoomType>
         ]
     >;
 
-export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> implements MeetingHudData {
+export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkable<MeetingHudData, MeetingHudEvents<RoomType>, RoomType> implements MeetingHudData {
     static type = SpawnType.MeetingHud as const;
     type = SpawnType.MeetingHud as const;
 
@@ -59,7 +58,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     /**
      * The vote states in the meeting hud.
      */
-    states: Map<number, PlayerVoteArea>;
+    states: Map<number, PlayerVoteArea<RoomType>>;
 
     /**
      * Whether the vote resulted in a tie.
@@ -69,10 +68,10 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     /**
      * The player that was exiled, if any.
      */
-    exiled?: PlayerData;
+    exiled?: PlayerData<RoomType>;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | MeetingHudData
@@ -84,7 +83,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     }
 
     get owner() {
-        return super.owner as Heritable;
+        return super.owner as RoomType;
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
@@ -252,7 +251,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
         }
     }
 
-    private _castVote(voting: PlayerVoteArea, suspect?: PlayerData) {
+    private _castVote(voting: PlayerVoteArea<RoomType>, suspect?: PlayerData<RoomType>) {
         if (suspect) {
             voting.votedForId = suspect.playerId!;
             voting.dirty = true;
@@ -331,14 +330,14 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
         }
     }
 
-    private _clearVote(voter: PlayerVoteArea) {
+    private _clearVote(voter: PlayerVoteArea<RoomType>) {
         if (voter.hasVoted) {
             voter.votedForId = VoteStateSpecialId.NotVoted;
             voter.dirty = true;
         }
     }
 
-    private async _rpcClearVote(voter: PlayerVoteArea) {
+    private async _rpcClearVote(voter: PlayerVoteArea<RoomType>) {
         await this.room.broadcast(
             [
                 new RpcMessage(
@@ -402,9 +401,9 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     }
 
     private _votingComplete(
-        states: PlayerVoteState[],
+        states: PlayerVoteState<RoomType>[],
         tie: boolean,
-        exiled?: PlayerData
+        exiled?: PlayerData<RoomType>
     ) {
         for (let i = 0; i < states.length; i++) {
             const state = this.states.get(i);
@@ -417,9 +416,9 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     }
 
     private _rpcVotingComplete(
-        states: PlayerVoteState[],
+        states: PlayerVoteState<RoomType>[],
         tie: boolean,
-        exiled?: PlayerData
+        exiled?: PlayerData<RoomType>
     ) {
         this.room.stream.push(
             new RpcMessage(
@@ -439,7 +438,7 @@ export class MeetingHud extends Networkable<MeetingHudData, MeetingHudEvents> im
     votingComplete(tie: boolean = false, exiled?: PlayerDataResolvable) {
         const _exiled = exiled ? this.room.resolvePlayer(exiled) : undefined;
 
-        const voteStates: PlayerVoteState[] = new Array(this.room.players.size);
+        const voteStates: PlayerVoteState<RoomType>[] = new Array(this.room.players.size);
         for (const [ playerId, state ] of this.states) {
             voteStates[playerId] = new PlayerVoteState(this.room, playerId, state.votedForId);
         }

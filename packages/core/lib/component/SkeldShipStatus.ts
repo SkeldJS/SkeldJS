@@ -1,4 +1,5 @@
 import { HazelReader } from "@skeldjs/util";
+import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
@@ -16,14 +17,13 @@ import {
 
 import { Hostable } from "../Hostable";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
-import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 
 /**
  * Represents a room object for the The Skeld map.
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class SkeldShipStatus extends InnerShipStatus {
+export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
     static type = SpawnType.ShipStatus as const;
     type = SpawnType.ShipStatus as const;
 
@@ -41,18 +41,18 @@ export class SkeldShipStatus extends InnerShipStatus {
     }
 
     systems!: {
-        [SystemType.Reactor]: ReactorSystem;
-        [SystemType.Electrical]: SwitchSystem;
-        [SystemType.O2]: LifeSuppSystem;
-        [SystemType.MedBay]: MedScanSystem;
-        [SystemType.Security]: SecurityCameraSystem;
-        [SystemType.Communications]: HudOverrideSystem;
-        [SystemType.Doors]: AutoDoorsSystem;
-        [SystemType.Sabotage]: SabotageSystem;
+        [SystemType.Reactor]: ReactorSystem<RoomType>;
+        [SystemType.Electrical]: SwitchSystem<RoomType>;
+        [SystemType.O2]: LifeSuppSystem<RoomType>;
+        [SystemType.MedBay]: MedScanSystem<RoomType>;
+        [SystemType.Security]: SecurityCameraSystem<RoomType>;
+        [SystemType.Communications]: HudOverrideSystem<RoomType>;
+        [SystemType.Doors]: AutoDoorsSystem<RoomType>;
+        [SystemType.Sabotage]: SabotageSystem<RoomType>;
     };
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | ShipStatusData

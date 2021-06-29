@@ -10,7 +10,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * Emitted when a player (i.e. the host of the room) updates the impostor in the
  * room.
  */
-export class PlayerSetImpostorsEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetImpostorsEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setimpostors" as const;
     eventName = "player.setimpostors" as const;
 
@@ -18,13 +18,13 @@ export class PlayerSetImpostorsEvent extends BasicEvent implements RoomEvent, Pl
     private _isDirty: boolean;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SetInfectedMessage|undefined,
         /**
          * The players that were made impostors.
          */
-        public readonly impostors: PlayerData[]
+        public readonly impostors: PlayerData<RoomType>[]
     ) {
         super();
 

@@ -8,15 +8,16 @@ import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { SystemStatusEvents } from "./events";
 import { MedScanJoinQueueEvent, MedScanLeaveQueueEvent } from "../events";
+import { Hostable } from "../Hostable";
 
 export interface MedScanSystemData {
     queue: PlayerData[];
 }
 
-export type MedScanSystemEvents = SystemStatusEvents &
+export type MedScanSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
-        MedScanJoinQueueEvent,
-        MedScanLeaveQueueEvent
+        MedScanJoinQueueEvent<RoomType>,
+        MedScanLeaveQueueEvent<RoomType>
     ]>;
 
 /**
@@ -24,9 +25,10 @@ export type MedScanSystemEvents = SystemStatusEvents &
  *
  * See {@link MedScanSystemEvents} for events to listen to.
  */
-export class MedScanSystem extends SystemStatus<
+export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     MedScanSystemData,
-    MedScanSystemEvents
+    MedScanSystemEvents,
+    RoomType
 > implements MedScanSystemData {
     static systemType = SystemType.MedBay as const;
     systemType = SystemType.MedBay as const;
@@ -36,7 +38,7 @@ export class MedScanSystem extends SystemStatus<
      */
     queue: PlayerData[];
 
-    constructor(ship: InnerShipStatus, data?: HazelReader | MedScanSystemData) {
+    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | MedScanSystemData) {
         super(ship, data);
 
         this.queue ||= [];

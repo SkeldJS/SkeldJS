@@ -7,21 +7,23 @@ import { PlayerData } from "../PlayerData";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { Hostable } from "../Hostable";
 
 export interface SabotageSystemData {
     cooldown: number;
 }
 
-export type SabotageSystemEvents = SystemStatusEvents & ExtractEventTypes<[]>;
+export type SabotageSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling system sabotages.
  *
  * See {@link SabotageSystemEvents} for events to listen to.
  */
-export class SabotageSystem extends SystemStatus<
+export class SabotageSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     SabotageSystemData,
-    SabotageSystemEvents
+    SabotageSystemEvents,
+    RoomType
 > implements SabotageSystemData {
     static systemType = SystemType.Sabotage as const;
     systemType = SystemType.Sabotage as const;
@@ -32,7 +34,7 @@ export class SabotageSystem extends SystemStatus<
     cooldown: number;
 
     constructor(
-        ship: InnerShipStatus,
+        ship: InnerShipStatus<RoomType>,
         data?: HazelReader | SabotageSystemData
     ) {
         super(ship, data);

@@ -12,25 +12,25 @@ import { DoorsEvent } from "./DoorsEvent";
 /**
  * Emitted when a player closes a specific door.
  */
-export class DoorsDoorCloseEvent extends RevertableEvent implements RoomEvent, DoorsEvent, ProtocolEvent {
+export class DoorsDoorCloseEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, DoorsEvent, ProtocolEvent {
     static eventName = "doors.close" as const;
     eventName = "doors.close" as const;
 
     private _alteredDoor: Door;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly doorsystem: AutoDoorsSystem|DoorsSystem|ElectricalDoorsSystem,
+        public readonly room: RoomType,
+        public readonly doorsystem: AutoDoorsSystem<RoomType>|DoorsSystem<RoomType>|ElectricalDoorsSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that closed the door. Only available if the client is the
          * host.
          */
-        public readonly player: PlayerData|undefined,
+        public readonly player: PlayerData<RoomType>|undefined,
         /**
          * The door that the player closed.
          */
-        public readonly door: Door
+        public readonly door: Door<RoomType>
     ) {
         super();
 

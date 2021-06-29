@@ -11,21 +11,21 @@ import { PlayerData } from "../../PlayerData";
 /**
  * Emitted when a player completes a console while communications is sabotaged on Mira HQ.
  */
-export class HqHudConsoleCompleteEvent extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
+export class HqHudConsoleCompleteEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
     static eventName = "hqhud.consoles.complete" as const;
     eventName = "hqhud.consoles.complete" as const;
 
     private _alteredConsoleId: number;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly hqhud: HqHudSystem,
+        public readonly room: RoomType,
+        public readonly hqhud: HqHudSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that completed the console. Only availabe if the client
          * is the host.
          */
-        public readonly player: PlayerData|undefined,
+        public readonly player: PlayerData<RoomType>|undefined,
         /**
          * The ID of the console that was completed.
          */

@@ -12,13 +12,13 @@ import { PlayerData } from "../../PlayerData";
  * Emitted when a player requests to have their color set. Only emitted if the
  * client is the host.
  */
-export class PlayerCheckColorEvent extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCheckColorEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.checkcolor" as const;
     eventName = "player.checkcolor" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: CheckColorMessage|undefined,
         /**
          * The original color that the player asked for.

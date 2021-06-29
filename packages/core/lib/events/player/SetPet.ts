@@ -11,15 +11,15 @@ import { PlayerData } from "../../PlayerData";
 /**
  * Emitted when a player has their player pet updated.
  */
-export class PlayerSetPetEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetPetEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setpet" as const;
     eventName = "player.setpet" as const;
 
     private _alteredPet: Pet;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SetPetMessage|undefined,
         /**
          * The pet that hte player had before.

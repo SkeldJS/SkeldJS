@@ -12,13 +12,13 @@ import { MeetingHudEvent } from "./MeetingHudEvent";
  * To listen for when a meeting actually ends and when a player gets ejected,
  * see {@link MeetingHudVotingCompleteEvent}.
  */
-export class MeetingHudCloseEvent extends CancelableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudCloseEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meeting.close" as const;
     eventName = "meeting.close" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly meetinghud: MeetingHud,
+        public readonly room: RoomType,
+        public readonly meetinghud: MeetingHud<RoomType>,
         public readonly message: CloseMessage
     ) {
         super();

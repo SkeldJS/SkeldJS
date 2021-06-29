@@ -8,17 +8,19 @@ import { InnerShipStatus } from "../component";
 import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";
+import { Hostable } from "../Hostable";
 
 export class SystemStatus<
     DataT = any,
-    T extends SystemStatusEvents = SystemStatusEvents
+    T extends SystemStatusEvents = SystemStatusEvents,
+    RoomType extends Hostable<any> = Hostable<any> 
 > extends EventEmitter<T> {
     static systemType: SystemType;
     systemType!: SystemType;
 
     private _dirty: boolean;
 
-    constructor(protected ship: InnerShipStatus, data?: HazelReader | DataT) {
+    constructor(protected ship: InnerShipStatus<RoomType>, data?: HazelReader | DataT) {
         super();
 
         if (data) {

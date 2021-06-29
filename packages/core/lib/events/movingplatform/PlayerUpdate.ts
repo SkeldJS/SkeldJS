@@ -11,7 +11,7 @@ import { MovingPlatformEvent } from "./MovingPlatformEvent";
  * Emitted when the player on a moving platform is updated. This is also when
  * the moving platform moves left or right.
  */
-export class MovingPlatformPlayerUpdateEvent extends RevertableEvent implements RoomEvent, MovingPlatformEvent, ProtocolEvent {
+export class MovingPlatformPlayerUpdateEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, MovingPlatformEvent, ProtocolEvent {
     static eventName = "movingplatform.updateplayer" as const;
     eventName = "movingplatform.updateplayer" as const;
 
@@ -19,13 +19,13 @@ export class MovingPlatformPlayerUpdateEvent extends RevertableEvent implements 
     private _alteredSide: MovingPlatformSide
 
     constructor(
-        public readonly room: Hostable,
-        public readonly movingplatform: MovingPlatformSystem,
+        public readonly room: RoomType,
+        public readonly movingplatform: MovingPlatformSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player on the moving platform, if any.
          */
-        public readonly player: PlayerData|undefined,
+        public readonly player: PlayerData<RoomType>|undefined,
         /**
          * The direction that the moving platform is moving in.
          */

@@ -11,14 +11,15 @@ import { DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { PlayerData } from "../PlayerData";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
+import { Hostable } from "../Hostable";
 
 export interface AutoDoorsSystemData {
     dirtyBit: number;
     doors: boolean[];
 }
 
-export type AutoDoorsSystemEvents = SystemStatusEvents &
-    DoorEvents &
+export type AutoDoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
+    DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
 /**
@@ -26,9 +27,10 @@ export type AutoDoorsSystemEvents = SystemStatusEvents &
  *
  * See {@link AutoDoorsSystemEvents} for events to listen to.
  */
-export class AutoDoorsSystem extends SystemStatus<
+export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     AutoDoorsSystemData,
-    AutoDoorsSystemEvents
+    AutoDoorsSystemEvents,
+    RoomType
 > {
     static systemType = SystemType.Doors as const;
     systemType = SystemType.Doors as const;
@@ -41,10 +43,10 @@ export class AutoDoorsSystem extends SystemStatus<
     /**
      * The doors in the map.
      */
-    doors: AutoOpenDoor[];
+    doors: AutoOpenDoor<RoomType>[];
 
     constructor(
-        ship: InnerShipStatus,
+        ship: InnerShipStatus<RoomType>,
         data?: HazelReader | AutoDoorsSystemData
     ) {
         super(ship, data);

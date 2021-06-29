@@ -21,7 +21,7 @@ import {
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class AirshipStatus extends InnerShipStatus {
+export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
     static type = SpawnType.Airship as const;
     type = SpawnType.Airship as const;
 
@@ -39,17 +39,17 @@ export class AirshipStatus extends InnerShipStatus {
     }
 
     systems!: {
-        [SystemType.Electrical]: SwitchSystem;
-        [SystemType.Security]: SecurityCameraSystem;
-        [SystemType.Communications]: HudOverrideSystem;
-        [SystemType.Sabotage]: SabotageSystem;
-        [SystemType.GapRoom]: MovingPlatformSystem;
-        [SystemType.Decontamination]: ElectricalDoorsSystem;
-        [SystemType.Decontamination2]: AutoDoorsSystem;
+        [SystemType.Electrical]: SwitchSystem<RoomType>;
+        [SystemType.Security]: SecurityCameraSystem<RoomType>;
+        [SystemType.Communications]: HudOverrideSystem<RoomType>;
+        [SystemType.Sabotage]: SabotageSystem<RoomType>;
+        [SystemType.GapRoom]: MovingPlatformSystem<RoomType>;
+        [SystemType.Decontamination]: ElectricalDoorsSystem<RoomType>;
+        [SystemType.Decontamination2]: AutoDoorsSystem<RoomType>;
     };
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | ShipStatusData

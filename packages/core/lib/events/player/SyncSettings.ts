@@ -10,7 +10,7 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player (i.e. the host of the room) sets the settings of the room.
  */
-export class PlayerSyncSettingsEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSyncSettingsEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.syncsettings" as const;
     eventName = "player.syncsettings" as const;
 
@@ -18,8 +18,8 @@ export class PlayerSyncSettingsEvent extends BasicEvent implements RoomEvent, Pl
     private _isDirty: boolean;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SyncSettingsMessage|undefined,
         /**
          * The settings that were set.

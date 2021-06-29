@@ -8,12 +8,13 @@ import { SystemRepairEvent, SystemSabotageEvent } from "../events";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { Hostable } from "../Hostable";
 
 export interface HudOverrideSystemData {
     sabotaged: boolean;
 }
 
-export type HudOverrideSystemEvents = SystemStatusEvents &
+export type HudOverrideSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[]>;
 
 /**
@@ -21,9 +22,10 @@ export type HudOverrideSystemEvents = SystemStatusEvents &
  *
  * See {@link HudOverrideSystemEvents} for events to listen to.
  */
-export class HudOverrideSystem extends SystemStatus<
+export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     HudOverrideSystemData,
-    HudOverrideSystemEvents
+    HudOverrideSystemEvents,
+    RoomType
 > implements HudOverrideSystemData {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
@@ -38,7 +40,7 @@ export class HudOverrideSystem extends SystemStatus<
     }
 
     constructor(
-        ship: InnerShipStatus,
+        ship: InnerShipStatus<RoomType>,
         data?: HazelReader | HudOverrideSystemData
     ) {
         super(ship, data);

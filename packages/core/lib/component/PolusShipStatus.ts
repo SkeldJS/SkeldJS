@@ -1,4 +1,5 @@
 import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
+import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 import { HazelReader } from "@skeldjs/util";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
@@ -17,14 +18,13 @@ import {
 } from "../system";
 
 import { Door } from "../misc/Door";
-import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 
 /**
  * Represents a room object for the Polus map.
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class PolusShipStatus extends InnerShipStatus {
+export class PolusShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
     static type = SpawnType.PlanetMap as const;
     type = SpawnType.PlanetMap as const;
 
@@ -43,19 +43,19 @@ export class PolusShipStatus extends InnerShipStatus {
     }
 
     systems!: {
-        [SystemType.Electrical]: SwitchSystem;
-        [SystemType.MedBay]: MedScanSystem;
-        [SystemType.Security]: SecurityCameraSystem;
-        [SystemType.Communications]: HudOverrideSystem;
-        [SystemType.Doors]: DoorsSystem;
-        [SystemType.Sabotage]: SabotageSystem;
-        [SystemType.Decontamination]: DeconSystem;
-        [SystemType.Decontamination2]: DeconSystem;
-        [SystemType.Laboratory]: ReactorSystem;
+        [SystemType.Electrical]: SwitchSystem<RoomType>;
+        [SystemType.MedBay]: MedScanSystem<RoomType>;
+        [SystemType.Security]: SecurityCameraSystem<RoomType>;
+        [SystemType.Communications]: HudOverrideSystem<RoomType>;
+        [SystemType.Doors]: DoorsSystem<RoomType>;
+        [SystemType.Sabotage]: SabotageSystem<RoomType>;
+        [SystemType.Decontamination]: DeconSystem<RoomType>;
+        [SystemType.Decontamination2]: DeconSystem<RoomType>;
+        [SystemType.Laboratory]: ReactorSystem<RoomType>;
     };
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | ShipStatusData

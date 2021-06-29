@@ -12,15 +12,15 @@ import { PlayerEvent } from "./PlayerEvent";
  * Emitted when a player snaps to a position, without lerping. Typically emitted
  * when the player is moves between vents.
  */
-export class PlayerSnapToEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSnapToEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.snapto" as const;
     eventName = "player.snapto" as const;
 
     private _alteredPosition: Vector2;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SnapToMessage,
         /**
          * The old position of the player.

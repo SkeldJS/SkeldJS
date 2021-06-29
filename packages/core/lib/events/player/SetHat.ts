@@ -11,15 +11,15 @@ import { PlayerData } from "../../PlayerData";
 /**
  * Emitted when a player has their player hat updated.
  */
-export class PlayerSetHatEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetHatEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.sethat" as const;
     eventName = "player.sethat" as const;
 
     private _atleredHat: Hat;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SetHatMessage|undefined,
         /**
          * The hat that the player had before.

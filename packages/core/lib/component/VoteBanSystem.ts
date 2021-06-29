@@ -1,9 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { PlayerDataResolvable, Hostable } from "../Hostable";
-import { Heritable } from "../Heritable";
 import {
     AddVoteMessage,
     BaseRpcMessage,
@@ -11,22 +8,26 @@ import {
     RpcMessage,
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
+
+import { Networkable, NetworkableEvents } from "../Networkable";
+import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
 export interface VoteBanSystemData {
     voted: Map<number, [PlayerData, PlayerData, PlayerData]>;
 }
 
-export type VoteBanSystemEvents = NetworkableEvents & ExtractEventTypes<[]>;
+export type VoteBanSystemEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for handling vote kicks.
  *
  * See {@link VoteBanSystemEvents} for events to listen to.
  */
-export class VoteBanSystem extends Networkable<
+export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Networkable<
     VoteBanSystemData,
-    VoteBanSystemEvents
+    VoteBanSystemEvents,
+    RoomType
 > {
     static type = SpawnType.GameData;
     type = SpawnType.GameData;
@@ -37,10 +38,10 @@ export class VoteBanSystem extends Networkable<
     /**
      * The accumulated votes.
      */
-    voted: Map<number, [PlayerData|undefined, PlayerData|undefined, PlayerData|undefined]>;
+    voted: Map<number, [PlayerData<RoomType>|undefined, PlayerData<RoomType>|undefined, PlayerData<RoomType>|undefined]>;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | VoteBanSystemData
@@ -51,7 +52,7 @@ export class VoteBanSystem extends Networkable<
     }
 
     get owner() {
-        return super.owner as Heritable;
+        return super.owner as RoomType;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -103,7 +104,7 @@ export class VoteBanSystem extends Networkable<
         }
     }
 
-    private _addVote(voter: PlayerData, target: PlayerData) {
+    private _addVote(voter: PlayerData<RoomType>, target: PlayerData) {
         const voted = this.voted.get(target.id);
         if (voted) {
             const next = voted.indexOf(undefined);

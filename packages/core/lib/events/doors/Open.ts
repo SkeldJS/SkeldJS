@@ -14,25 +14,25 @@ import { DoorsEvent } from "./DoorsEvent";
  * the doors on Polus, or opened automatically after some time, i.e. the doors
  * on The Skeld.
  */
-export class DoorsDoorOpenEvent extends RevertableEvent implements RoomEvent, DoorsEvent, ProtocolEvent {
+export class DoorsDoorOpenEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, DoorsEvent, ProtocolEvent {
     static eventName = "doors.open" as const;
     eventName = "doors.open" as const;
 
     private _alteredDoor: Door;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly doorsystem: AutoDoorsSystem|DoorsSystem|ElectricalDoorsSystem,
+        public readonly room: RoomType,
+        public readonly doorsystem: AutoDoorsSystem<RoomType>|DoorsSystem<RoomType>|ElectricalDoorsSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that opened the door. Only available if the client is the
          * host.
          */
-        public readonly player: PlayerData|undefined,
+        public readonly player: PlayerData<RoomType>|undefined,
         /**
          * The door that the player opened.
          */
-        public readonly door: Door
+        public readonly door: Door<RoomType>
     ) {
         super();
 

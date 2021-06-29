@@ -22,18 +22,18 @@ import {
 } from "./events";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-export type PlayerDataEvents = HeritableEvents &
-    PlayerControlEvents &
-    PlayerPhysicsEvents &
-    CustomNetworkTransformEvents &
+export type PlayerDataEvents<RoomType extends Hostable = Hostable> = HeritableEvents<RoomType> &
+    PlayerControlEvents<RoomType> &
+    PlayerPhysicsEvents<RoomType> &
+    CustomNetworkTransformEvents<RoomType> &
     ExtractEventTypes<
         [
-            PlayerReadyEvent,
-            PlayerJoinEvent,
-            PlayerLeaveEvent,
-            PlayerSetHostEvent,
-            PlayerSceneChangeEvent,
-            PlayerSpawnEvent
+            PlayerReadyEvent<RoomType>,
+            PlayerJoinEvent<RoomType>,
+            PlayerLeaveEvent<RoomType>,
+            PlayerSetHostEvent<RoomType>,
+            PlayerSceneChangeEvent<RoomType>,
+            PlayerSpawnEvent<RoomType>
         ]
     >;
 
@@ -42,7 +42,7 @@ export type PlayerDataEvents = HeritableEvents &
  *
  * See {@link PlayerDataEvents} for events to listen to.
  */
-export class PlayerData extends Heritable<PlayerDataEvents> {
+export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<PlayerDataEvents<RoomType>, RoomType> {
     /**
      * Whether or not this player is readied up to start the game.
      */
@@ -63,7 +63,7 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
      */
     stream: BaseGameDataMessage[];
 
-    constructor(room: Hostable<any>, clientid: number) {
+    constructor(room: RoomType, clientid: number) {
         super(room, clientid);
 
         this.stream = [];
@@ -81,22 +81,22 @@ export class PlayerData extends Heritable<PlayerDataEvents> {
     /**
      * The player's control component.
      */
-    get control() {
-        return this.getComponent(PlayerControl);
+    get control(): PlayerControl<RoomType> {
+        return this.getComponent(PlayerControl) as PlayerControl<RoomType>;
     }
 
     /**
      * The player's physics component.
      */
-    get physics() {
-        return this.getComponent(PlayerPhysics);
+    get physics(): PlayerPhysics<RoomType> {
+        return this.getComponent(PlayerPhysics) as PlayerPhysics<RoomType>;
     }
 
     /**
      * The player's movement component.
      */
-    get transform() {
-        return this.getComponent(CustomNetworkTransform);
+    get transform(): CustomNetworkTransform<RoomType> {
+        return this.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType>;
     }
 
     /**

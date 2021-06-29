@@ -10,20 +10,20 @@ import { O2Event } from "./O2Event";
 /**
  * Emitted when a oxygen console is completed.
  */
-export class O2ConsoleCompleteEvent extends RevertableEvent implements RoomEvent, O2Event, ProtocolEvent {
+export class O2ConsoleCompleteEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, O2Event, ProtocolEvent {
     static eventName = "o2.consoles.complete" as const;
     eventName = "o2.consoles.complete" as const;
 
     private _alteredConsoleId: number;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly oxygen: LifeSuppSystem,
+        public readonly room: RoomType,
+        public readonly oxygen: LifeSuppSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that completed the console. Only available is the client is the host.
          */
-        public readonly player: PlayerData|undefined,
+        public readonly player: PlayerData<RoomType>|undefined,
         /**
          * The ID of the console that was completed.
          */

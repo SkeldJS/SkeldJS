@@ -8,17 +8,18 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { ReactorConsoleAddEvent, ReactorConsoleRemoveEvent, ReactorConsolesResetEvent } from "../events";
+import { Hostable } from "../Hostable";
 
 export interface ReactorSystemData {
     timer: number;
     completed: Set<number>;
 }
 
-export type ReactorSystemEvents = SystemStatusEvents &
+export type ReactorSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
-        ReactorConsoleAddEvent,
-        ReactorConsoleRemoveEvent,
-        ReactorConsolesResetEvent
+        ReactorConsoleAddEvent<RoomType>,
+        ReactorConsoleRemoveEvent<RoomType>,
+        ReactorConsolesResetEvent<RoomType>
     ]>;
 
 /**
@@ -27,9 +28,10 @@ export type ReactorSystemEvents = SystemStatusEvents &
  * See {@link ReactorSystemEvents} for events to listen to.
  */
 
-export class ReactorSystem extends SystemStatus<
+export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     ReactorSystemData,
-    ReactorSystemEvents
+    ReactorSystemEvents,
+    RoomType
 > implements ReactorSystemData {
     static systemType = SystemType.Reactor as const;
     systemType = SystemType.Reactor as const;
@@ -44,7 +46,7 @@ export class ReactorSystem extends SystemStatus<
      */
     completed: Set<number>;
 
-    constructor(ship: InnerShipStatus, data?: HazelReader | ReactorSystemData) {
+    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | ReactorSystemData) {
         super(ship, data);
 
         this.timer ??= 10000;

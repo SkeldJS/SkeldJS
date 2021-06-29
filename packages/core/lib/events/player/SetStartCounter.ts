@@ -11,15 +11,15 @@ import { PlayerData } from "../../PlayerData";
  * Emitted when a player (i.e. the host of the room) sets the starting counter
  * located above the game code while in the lobby.
  */
-export class PlayerSetStartCounterEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetStartCounterEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setstartcounter" as const;
     eventName = "player.setstartcounter" as const;
 
     private _alteredCounter: number;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SetStartCounterMessage|undefined,
         /**
          * The old value of the counter.

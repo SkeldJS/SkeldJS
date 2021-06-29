@@ -1,6 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { Color, Hat, Pet, PlayerDataFlags, Skin } from "@skeldjs/constant";
 import { GameData } from "../component";
+import { Hostable } from "../Hostable";
 
 export class TaskState {
     constructor(
@@ -28,9 +29,9 @@ export class TaskState {
 /**
  * Represents a player's information, name, color, hat, etc.
  */
-export class PlayerInfo {
+export class PlayerInfo<RoomType extends Hostable = Hostable> {
     constructor(
-        public readonly gamedata: GameData,
+        public readonly gamedata: GameData<RoomType>,
         public playerId: number,
         public name = "",
         public color = -1,
@@ -79,11 +80,11 @@ export class PlayerInfo {
      * @param playerId The ID of the player.
      * @returns A default player info object.
      */
-    static createDefault(gamedata: GameData, playerId: number) {
+    static createDefault<RoomType extends Hostable = Hostable>(gamedata: GameData<RoomType>, playerId: number) {
         return new PlayerInfo(gamedata, playerId, "", Color.Red, Hat.None, Pet.None, Skin.None, 0, [], []);
     }
 
-    static Deserialize(reader: HazelReader, gamedata: GameData, playerId: number) {
+    static Deserialize<RoomType extends Hostable = Hostable>(reader: HazelReader, gamedata: GameData<RoomType>, playerId: number) {
         const player = this.createDefault(gamedata, playerId);
         player.Deserialize(reader);
         return player;

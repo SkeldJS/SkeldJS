@@ -13,13 +13,13 @@ import { PlayerEvent } from "./PlayerEvent";
  * A player does not necessarily have to change their scene, and they will
  * simply not spawn while recieving all game packets and events.
  */
-export class PlayerSceneChangeEvent extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSceneChangeEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventNamee = "player.scenechange" as const;
     eventName = "player.scenechange" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SceneChangeMessage
     ) {
         super();

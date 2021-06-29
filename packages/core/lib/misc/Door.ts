@@ -3,9 +3,10 @@ import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem} from "../system";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
+import { Hostable } from "../Hostable";
 
-export type DoorEvents = ExtractEventTypes<
-    [DoorsDoorOpenEvent, DoorsDoorCloseEvent]
+export type DoorEvents<RoomType extends Hostable = Hostable> = ExtractEventTypes<
+    [DoorsDoorOpenEvent<RoomType>, DoorsDoorCloseEvent<RoomType>]
 >;
 
 /**
@@ -13,11 +14,11 @@ export type DoorEvents = ExtractEventTypes<
  *
  * See {@link DoorEvents} for events to listen to.
  */
-export class Door extends EventEmitter<DoorEvents> {
+export class Door<RoomType extends Hostable = Hostable> extends EventEmitter<DoorEvents> {
     isOpen: boolean;
 
     constructor(
-        protected system: AutoDoorsSystem|DoorsSystem|ElectricalDoorsSystem,
+        protected system: AutoDoorsSystem<RoomType>|DoorsSystem<RoomType>|ElectricalDoorsSystem<RoomType>,
         readonly id: number,
         isOpen: boolean
     ) {

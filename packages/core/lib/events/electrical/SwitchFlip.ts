@@ -10,7 +10,7 @@ import { ElectricalEvent } from "./ElectricalEvent";
 /**
  * Emitted when a player flips a switch while Electrical is sabotaged.
  */
-export class ElectricalSwitchFlipEvent extends RevertableEvent implements RoomEvent, ElectricalEvent, ProtocolEvent {
+export class ElectricalSwitchFlipEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, ElectricalEvent, ProtocolEvent {
     static eventName = "electrical.switchflip" as const;
     eventName = "electrical.switchflip" as const;
 
@@ -18,14 +18,14 @@ export class ElectricalSwitchFlipEvent extends RevertableEvent implements RoomEv
     private _alteredFlipped: boolean;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly switchsystem: SwitchSystem,
+        public readonly room: RoomType,
+        public readonly switchsystem: SwitchSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that flipped the switch. Only available if the client is
          * the host.
          */
-        public readonly player: PlayerData|undefined,
+        public readonly player: PlayerData<RoomType>|undefined,
         /**
          * The ID of the switch that was flipped (from left-to-right, starting at 0).
          */

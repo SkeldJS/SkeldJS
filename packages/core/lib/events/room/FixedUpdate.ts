@@ -7,12 +7,12 @@ import { RoomEvent } from "../RoomEvent";
 /**
  * Emitted when the room completes a fixed update cycle. (Every 20ms)
  */
-export class RoomFixedUpdateEvent extends CancelableEvent implements RoomEvent {
+export class RoomFixedUpdateEvent<RoomType extends Hostable = Hostable>extends CancelableEvent implements RoomEvent {
     static eventName = "room.fixedupdate" as const;
     eventName = "room.fixedupdate" as const;
 
     constructor(
-        public readonly room: Hostable,
+        public readonly room: RoomType,
         /**
          * The game data stream that the room will broadcast.
          */

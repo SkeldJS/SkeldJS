@@ -11,19 +11,19 @@ import { ReactorEvent } from "./ReactorEvent";
  * Emitted when the reactor consoles are reset, i.e. when reactor is fully
  * repaired.
  */
-export class ReactorConsolesResetEvent extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
+export class ReactorConsolesResetEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
     static eventName = "reactor.consoles.reset" as const;
     eventName = "reactor.consoles.reset" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly reactor: ReactorSystem,
+        public readonly room: RoomType,
+        public readonly reactor: ReactorSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that reset the consoles (repaired reactor). Only available
          * if the client is the host.
          */
-        public readonly player: PlayerData|undefined
+        public readonly player: PlayerData<RoomType>|undefined
     ) {
         super();
     }

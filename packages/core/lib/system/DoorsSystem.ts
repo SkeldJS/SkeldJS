@@ -9,14 +9,15 @@ import { Door, DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
+import { Hostable } from "../Hostable";
 
 export interface DoorsSystemData {
     cooldowns: Map<number, number>;
     doors: boolean[];
 }
 
-export type DoorsSystemEvents = SystemStatusEvents &
-    DoorEvents &
+export type DoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
+    DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
 /**
@@ -24,9 +25,10 @@ export type DoorsSystemEvents = SystemStatusEvents &
  *
  * See {@link DoorsSystemEvents} for events to listen to.
  */
-export class DoorsSystem extends SystemStatus<
+export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     DoorsSystemData,
-    DoorsSystemEvents
+    DoorsSystemEvents,
+    RoomType
 > {
     static systemType = SystemType.Doors as const;
     systemType = SystemType.Doors as const;
@@ -41,7 +43,7 @@ export class DoorsSystem extends SystemStatus<
      */
     doors: Door[];
 
-    constructor(ship: InnerShipStatus, data?: HazelReader | DoorsSystemData) {
+    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | DoorsSystemData) {
         super(ship, data);
 
         this.cooldowns ||= new Map;

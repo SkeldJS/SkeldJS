@@ -12,7 +12,7 @@ import { MeetingHudEvent } from "./MeetingHudEvent";
  * Emitted when a player casts a vote on another player or skips vote in a
  * meeting.
  */
-export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudVoteCastEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meeting.castvote" as const;
     eventName = "meeting.castvote" as const;
 
@@ -20,17 +20,17 @@ export class MeetingHudVoteCastEvent extends RevertableEvent implements RoomEven
     private _alteredSuspect: PlayerData|undefined;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly meetinghud: MeetingHud,
+        public readonly room: RoomType,
+        public readonly meetinghud: MeetingHud<RoomType>,
         public readonly message: CastVoteMessage|undefined,
         /**
          * The player that cast the vote.
          */
-        public readonly voter: PlayerData,
+        public readonly voter: PlayerData<RoomType>,
         /**
          * The player that the voter voted for.
          */
-        public readonly suspect: PlayerData|undefined
+        public readonly suspect: PlayerData<RoomType>|undefined
     ) {
         super();
 

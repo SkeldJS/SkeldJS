@@ -19,7 +19,7 @@ import {
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class MiraShipStatus extends InnerShipStatus {
+export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
     static type = SpawnType.Headquarters as const;
     type = SpawnType.Headquarters as const;
 
@@ -27,17 +27,17 @@ export class MiraShipStatus extends InnerShipStatus {
     classname = "Headquarters" as const;
 
     systems!: {
-        [SystemType.Reactor]: ReactorSystem;
-        [SystemType.Electrical]: SwitchSystem;
-        [SystemType.O2]: LifeSuppSystem;
-        [SystemType.MedBay]: MedScanSystem;
-        [SystemType.Communications]: HqHudSystem;
-        [SystemType.Sabotage]: SabotageSystem;
-        [SystemType.Decontamination]: DeconSystem;
+        [SystemType.Reactor]: ReactorSystem<RoomType>;
+        [SystemType.Electrical]: SwitchSystem<RoomType>;
+        [SystemType.O2]: LifeSuppSystem<RoomType>;
+        [SystemType.MedBay]: MedScanSystem<RoomType>;
+        [SystemType.Communications]: HqHudSystem<RoomType>;
+        [SystemType.Sabotage]: SabotageSystem<RoomType>;
+        [SystemType.Decontamination]: DeconSystem<RoomType>;
     };
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | ShipStatusData
@@ -46,7 +46,7 @@ export class MiraShipStatus extends InnerShipStatus {
     }
 
     get owner() {
-        return super.owner as Hostable;
+        return super.owner as RoomType;
     }
 
     Setup() {

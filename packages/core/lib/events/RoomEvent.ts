@@ -1,8 +1,8 @@
 import { Hostable } from "../Hostable";
 
-export interface RoomEvent {
+export interface RoomEvent<RoomType extends Hostable = Hostable> {
     /**
      * The room or client that the event came from.
      */
-    room: Hostable;
+    room: RoomType;
 }

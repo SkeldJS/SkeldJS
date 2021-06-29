@@ -11,15 +11,15 @@ import { PlayerData } from "../../PlayerData";
 /**
  * Emitted when a player has their player skin updated.
  */
-export class PlayerSetSkinEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetSkinEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setskin" as const;
     eventName = "player.setskin" as const;
 
     private _alteredSkin: Skin;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SetSkinMessage|undefined,
         /**
          * The skin that the player had before.

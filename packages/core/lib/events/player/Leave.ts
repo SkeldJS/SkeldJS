@@ -8,13 +8,13 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player leaves the room.
  */
-export class PlayerLeaveEvent extends BasicEvent implements RoomEvent, PlayerEvent {
+export class PlayerLeaveEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent {
     static eventName = "player.leave" as const;
     eventName = "player.leave" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>
     ) {
         super();
     }

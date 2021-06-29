@@ -7,13 +7,13 @@ import { NetworkableEvent } from "./NetworkableEvent";
 /**
  * Emitted when a component is spawned.
  */
-export class NetworkableSpawnEvent extends BasicEvent implements RoomEvent, NetworkableEvent {
+export class NetworkableSpawnEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, NetworkableEvent {
     static eventName = "component.spawn" as const;
     eventName = "component.spawn" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly networkable: Networkable
+        public readonly room: RoomType,
+        public readonly networkable: Networkable<RoomType>
     ) {
         super();
     }

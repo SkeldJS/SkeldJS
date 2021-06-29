@@ -8,14 +8,14 @@ import { RoomEvent } from "../RoomEvent";
 /**
  * Emitted when the privacy of the room is updated.
  */
-export class RoomSetPrivacyEvent extends BasicEvent implements RoomEvent, ProtocolEvent {
+export class RoomSetPrivacyEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, ProtocolEvent {
     static eventName = "room.setprivacy" as const;
     eventName = "room.setprivacy" as const;
 
     private _alteredPrivacy: PrivacyType;
 
     constructor(
-        public readonly room: Hostable,
+        public readonly room: RoomType,
         public readonly message: AlterGameMessage|undefined,
         /**
          * The old privacy of the room.

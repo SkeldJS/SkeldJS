@@ -25,10 +25,10 @@ export interface CustomNetworkTransformData {
     velocity: Vector2;
 }
 
-export type CustomNetworkTransformEvents = NetworkableEvents &
+export type CustomNetworkTransformEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     ExtractEventTypes<[
-        PlayerMoveEvent,
-        PlayerSnapToEvent
+        PlayerMoveEvent<RoomType>,
+        PlayerSnapToEvent<RoomType>
     ]>;
 
 /**
@@ -36,9 +36,10 @@ export type CustomNetworkTransformEvents = NetworkableEvents &
  *
  * See {@link CustomNetworkTransformEvents} for events to listen to.
  */
-export class CustomNetworkTransform extends Networkable<
+export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extends Networkable<
     CustomNetworkTransformData,
-    CustomNetworkTransformEvents
+    CustomNetworkTransformEvents<RoomType>,
+    RoomType
 > implements CustomNetworkTransformData {
     static type = SpawnType.Player as const;
     type = SpawnType.Player as const;
@@ -67,7 +68,7 @@ export class CustomNetworkTransform extends Networkable<
     velocity: Vector2;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | CustomNetworkTransformData
@@ -84,7 +85,7 @@ export class CustomNetworkTransform extends Networkable<
      * That player that this component belongs to.
      */
     get player() {
-        return this.owner as PlayerData;
+        return this.owner as PlayerData<RoomType>;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

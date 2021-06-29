@@ -9,13 +9,14 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { PlayerData } from "../PlayerData";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
+import { Hostable } from "../Hostable";
 
 export interface ElectricalDoorsSystemData {
     doors: boolean[];
 }
 
-export type ElectricalDoorsSystemEvents = SystemStatusEvents &
-    DoorEvents &
+export type ElectricalDoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
+    DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
 /**
@@ -23,9 +24,10 @@ export type ElectricalDoorsSystemEvents = SystemStatusEvents &
  *
  * See {@link ElectricalDoorsSystemEvents} for events to listen to.
  */
-export class ElectricalDoorsSystem extends SystemStatus<
+export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     ElectricalDoorsSystemData,
-    ElectricalDoorsSystemEvents
+    ElectricalDoorsSystemEvents,
+    RoomType
 > {
     static systemType = SystemType.Decontamination as const;
     systemType = SystemType.Decontamination as const;
@@ -33,10 +35,10 @@ export class ElectricalDoorsSystem extends SystemStatus<
     /**
      * The doors in the map.
      */
-    doors!: Door[];
+    doors!: Door<RoomType>[];
 
     constructor(
-        ship: InnerShipStatus,
+        ship: InnerShipStatus<RoomType>,
         data?: HazelReader | ElectricalDoorsSystemData
     ) {
         super(ship, data);

@@ -11,7 +11,7 @@ import { PlayerData } from "../../PlayerData";
 /**
  * Emitted when a player opens a communications console on Mira HQ.
  */
-export class HqHudConsoleOpenEvent extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
+export class HqHudConsoleOpenEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
     static eventName = "hqhud.consoles.open" as const;
     eventName = "hqhud.consoles.open" as const;
 
@@ -19,13 +19,13 @@ export class HqHudConsoleOpenEvent extends RevertableEvent implements RoomEvent,
     private _atleredPlayer: PlayerData;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly hqhud: HqHudSystem,
+        public readonly room: RoomType,
+        public readonly hqhud: HqHudSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that opened the console.
          */
-        public readonly player: PlayerData,
+        public readonly player: PlayerData<RoomType>,
         /**
          * The ID of the console that was opened.
          */

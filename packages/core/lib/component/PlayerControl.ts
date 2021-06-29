@@ -68,23 +68,23 @@ export interface PlayerControlData {
     playerId: number;
 }
 
-export type PlayerControlEvents = NetworkableEvents &
+export type PlayerControlEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     ExtractEventTypes<
         [
-            PlayerCheckColorEvent,
-            PlayerCheckNameEvent,
-            PlayerMurderEvent,
-            PlayerReportDeadBodyEvent,
-            PlayerSendChatEvent,
-            PlayerSetColorEvent,
-            PlayerSetHatEvent,
-            PlayerSetImpostorsEvent,
-            PlayerSetNameEvent,
-            PlayerSetPetEvent,
-            PlayerSetSkinEvent,
-            PlayerSetStartCounterEvent,
-            PlayerStartMeetingEvent,
-            PlayerSyncSettingsEvent
+            PlayerCheckColorEvent<RoomType>,
+            PlayerCheckNameEvent<RoomType>,
+            PlayerMurderEvent<RoomType>,
+            PlayerReportDeadBodyEvent<RoomType>,
+            PlayerSendChatEvent<RoomType>,
+            PlayerSetColorEvent<RoomType>,
+            PlayerSetHatEvent<RoomType>,
+            PlayerSetImpostorsEvent<RoomType>,
+            PlayerSetNameEvent<RoomType>,
+            PlayerSetPetEvent<RoomType>,
+            PlayerSetSkinEvent<RoomType>,
+            PlayerSetStartCounterEvent<RoomType>,
+            PlayerStartMeetingEvent<RoomType>,
+            PlayerSyncSettingsEvent<RoomType>
         ]
     >;
 
@@ -93,9 +93,10 @@ export type PlayerControlEvents = NetworkableEvents &
  *
  * See {@link PlayerControlEvents} for events to listen to.
  */
-export class PlayerControl extends Networkable<
+export class PlayerControl<RoomType extends Hostable = Hostable> extends Networkable<
     PlayerControlData,
-    PlayerControlEvents
+    PlayerControlEvents<RoomType>,
+    RoomType
 > implements PlayerControlData {
     static type = SpawnType.Player as const;
     type = SpawnType.Player as const;
@@ -116,7 +117,7 @@ export class PlayerControl extends Networkable<
     playerId: number;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | PlayerControlData
@@ -128,7 +129,7 @@ export class PlayerControl extends Networkable<
     }
 
     get player() {
-        return this.owner as PlayerData;
+        return this.owner as PlayerData<RoomType>;
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {

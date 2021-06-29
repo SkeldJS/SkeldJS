@@ -8,19 +8,19 @@ import { GameDataEvent } from "./GameDataEvent";
 /**
  * Emitted when a player's tasks are set.
  */
-export class GameDataSetTasksEvent extends BasicEvent implements RoomEvent, GameDataEvent {
+export class GameDataSetTasksEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, GameDataEvent {
     static eventName = "gamedata.settasks" as const;
     eventName = "gamedata.settasks" as const;
 
     private _alteredTasks: number[];
 
     constructor(
-        public readonly room: Hostable,
-        public readonly gamedata: GameData,
+        public readonly room: RoomType,
+        public readonly gamedata: GameData<RoomType>,
         /**
          * Information about the player that had their tasks set.
          */
-        public readonly player: PlayerInfo,
+        public readonly player: PlayerInfo<RoomType>,
         /**
          * The player's old tasks.
          */

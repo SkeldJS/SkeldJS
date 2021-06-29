@@ -10,20 +10,20 @@ import { MedScanEvent } from "./MedScanEvent";
 /**
  * Emitted when a player joins the queue for a med scan.
  */
-export class MedScanJoinQueueEvent extends RevertableEvent implements RoomEvent, MedScanEvent, ProtocolEvent {
+export class MedScanJoinQueueEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, MedScanEvent, ProtocolEvent {
     static eventName = "medscan.joinqueue" as const;
     eventName = "medscan.joinqueue" as const;
 
     private _alteredPlayer: PlayerData;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly medscan: MedScanSystem,
+        public readonly room: RoomType,
+        public readonly medscan: MedScanSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that joined the queue.
          */
-        public readonly player: PlayerData
+        public readonly player: PlayerData<RoomType>
     ) {
         super();
 

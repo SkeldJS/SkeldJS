@@ -10,15 +10,15 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player has their player name updated.
  */
-export class PlayerSetNameEvent extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetNameEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setname" as const;
     eventName = "player.setname" as const;
 
     private _alteredName: string;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: SetNameMessage|undefined,
         /**
          * The name that the player had before.

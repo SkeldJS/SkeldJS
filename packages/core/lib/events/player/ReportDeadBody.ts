@@ -1,10 +1,10 @@
 import { CancelableEvent } from "@skeldjs/events";
 import { ReportDeadBodyMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
-import { ProtocolEvent } from "../ProtocolEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
+import { RoomEvent } from "../RoomEvent";
+import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
@@ -15,21 +15,21 @@ import { PlayerEvent } from "./PlayerEvent";
  * {@link PlayerStartMeetingEvent} to listen for a meeting being started regardless
  * of whether the client is the host or not.
  */
-export class PlayerReportDeadBodyEvent extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerReportDeadBodyEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.reportbody" as const;
     eventName = "player.reportbody" as const;
 
     private _alteredBody: PlayerData|"emergency";
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData,
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>,
         public readonly message: ReportDeadBodyMessage|undefined,
         /**
          * The body that the player reported, or "emergency" if the player called
          * an emergency meeting.
          */
-        public readonly body: PlayerData|"emergency"
+        public readonly body: PlayerData<RoomType>|"emergency"
     ) {
         super();
 

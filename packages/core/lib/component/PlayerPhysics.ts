@@ -26,9 +26,9 @@ export interface PlayerPhysicsData {
     ventid: number;
 }
 
-export type PlayerPhysicsEvents = NetworkableEvents &
+export type PlayerPhysicsEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     ExtractEventTypes<
-        [PlayerEnterVentEvent, PlayerExitVentEvent, PlayerClimbLadderEvent]
+        [PlayerEnterVentEvent<RoomType>, PlayerExitVentEvent<RoomType>, PlayerClimbLadderEvent<RoomType>]
     >;
 
 /**
@@ -36,9 +36,10 @@ export type PlayerPhysicsEvents = NetworkableEvents &
  *
  * See {@link PlayerPhysicsEvents} for events to listen to.
  */
-export class PlayerPhysics extends Networkable<
+export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Networkable<
     PlayerPhysicsData,
-    PlayerPhysicsEvents
+    PlayerPhysicsEvents,
+    RoomType
 > implements PlayerPhysicsData {
     static type = SpawnType.Player as const;
     type = SpawnType.Player as const;
@@ -54,7 +55,7 @@ export class PlayerPhysics extends Networkable<
     private ladderClimbSeqId: number;
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | PlayerPhysicsData
@@ -66,7 +67,7 @@ export class PlayerPhysics extends Networkable<
     }
 
     get player() {
-        return this.owner as PlayerData;
+        return this.owner as PlayerData<RoomType>;
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {

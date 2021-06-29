@@ -1,3 +1,4 @@
+import { Hostable } from "../Hostable";
 import { AutoDoorsSystem } from "../system";
 import { Door } from "./Door";
 
@@ -6,11 +7,11 @@ import { Door } from "./Door";
  *
  * See {@link DoorEvents} for events to listen to.
  */
-export class AutoOpenDoor extends Door {
+export class AutoOpenDoor<RoomType extends Hostable = Hostable> extends Door {
     timer: number;
 
     constructor(
-        protected system: AutoDoorsSystem,
+        protected system: AutoDoorsSystem<RoomType>,
         readonly id: number,
         isOpen: boolean
     ) {

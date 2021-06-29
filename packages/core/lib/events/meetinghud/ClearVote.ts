@@ -11,18 +11,18 @@ import { MeetingHudEvent } from "./MeetingHudEvent";
 /**
  * Emitted when a player's vote is cleared.
  */
-export class MeetingHudClearVoteEvent extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudClearVoteEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meeting.clearvote" as const;
     eventName = "meeting.clearvote" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly meetinghud: MeetingHud,
+        public readonly room: RoomType,
+        public readonly meetinghud: MeetingHud<RoomType>,
         public readonly message: ClearVoteMessage|undefined,
         /**
          * The player that had their vote cleared.
          */
-        public readonly player: PlayerData
+        public readonly player: PlayerData<RoomType>
     ) {
         super();
     }

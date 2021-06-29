@@ -14,15 +14,15 @@ import { PlayerEvent } from "./PlayerEvent";
  * A server implementation may implement this by overriding the functions in
  * {@link Hostable} responsible for updating the host.
  */
-export class PlayerSetHostEvent extends BasicEvent implements RoomEvent, PlayerEvent {
+export class PlayerSetHostEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent {
     static eventName = "player.sethost" as const;
     eventName = "player.sethost" as const;
 
     private _alteredHost: PlayerData;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly player: PlayerData
+        public readonly room: RoomType,
+        public readonly player: PlayerData<RoomType>
     ) {
         super();
 

@@ -14,16 +14,17 @@ import {
     SystemSabotageEvent
 } from "../events";
 import { SystemStatusEvents } from "./events";
+import { Hostable } from "../Hostable";
 
 export interface LifeSuppSystemData {
     timer: number;
     completed: Set<number>;
 }
 
-export type LifeSuppSystemEvents = SystemStatusEvents &
+export type LifeSuppSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
-        O2ConsolesClearEvent,
-        O2ConsoleCompleteEvent
+        O2ConsolesClearEvent<RoomType>,
+        O2ConsoleCompleteEvent<RoomType>
     ]>;
 
 /**
@@ -31,9 +32,10 @@ export type LifeSuppSystemEvents = SystemStatusEvents &
  *
  * See {@link LifeSuppSystemEvents} for events to listen to.
  */
-export class LifeSuppSystem extends SystemStatus<
+export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     LifeSuppSystemData,
-    LifeSuppSystemEvents
+    LifeSuppSystemEvents,
+    RoomType
 > implements LifeSuppSystemData {
     static systemType = SystemType.O2 as const;
     systemType = SystemType.O2 as const;
@@ -51,7 +53,7 @@ export class LifeSuppSystem extends SystemStatus<
     completed: Set<number>;
 
     constructor(
-        ship: InnerShipStatus,
+        ship: InnerShipStatus<RoomType>,
         data?: HazelReader | LifeSuppSystemData
     ) {
         super(ship, data);

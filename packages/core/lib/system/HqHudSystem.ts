@@ -16,6 +16,7 @@ import {
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { Hostable } from "../Hostable";
 
 export interface UserConsolePair {
     playerid: number;
@@ -27,13 +28,13 @@ export interface HqHudSystemData {
     completed: Set<number>;
 }
 
-export type HqHudSystemEvents = SystemStatusEvents &
+export type HqHudSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<
         [
-            HqHudConsolesResetEvent,
-            HqHudConsoleOpenEvent,
-            HqHudConsoleCloseEvent,
-            HqHudConsoleCompleteEvent
+            HqHudConsolesResetEvent<RoomType>,
+            HqHudConsoleOpenEvent<RoomType>,
+            HqHudConsoleCloseEvent<RoomType>,
+            HqHudConsoleCompleteEvent<RoomType>
         ]
     >;
 
@@ -48,9 +49,10 @@ export const HqHudSystemRepairTag = {
  *
  * See {@link HqHudSystemEvents} for events to listen to.
  */
-export class HqHudSystem extends SystemStatus<
+export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
     HqHudSystemData,
-    HqHudSystemEvents
+    HqHudSystemEvents,
+    RoomType
 > implements HqHudSystemData {
     static systemType = SystemType.Communications as const;
     systemType = SystemType.Communications as const;
@@ -74,7 +76,7 @@ export class HqHudSystem extends SystemStatus<
         return this.completed.size < 2;
     }
 
-    constructor(ship: InnerShipStatus, data?: HazelReader | HqHudSystemData) {
+    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | HqHudSystemData) {
         super(ship, data);
 
         this.timer ??= 10000;

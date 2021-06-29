@@ -11,13 +11,13 @@ import { MeetingHudEvent } from "./MeetingHudEvent";
 /**
  * Emitted when a meeting is finished, and when the ejected player is determined.
  */
-export class MeetingHudVotingCompleteEvent extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudVotingCompleteEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meeting.votingcomplete" as const;
     eventName = "meeting.votingcomplete" as const;
 
     constructor(
-        public readonly room: Hostable,
-        public readonly meetinghud: MeetingHud,
+        public readonly room: RoomType,
+        public readonly meetinghud: MeetingHud<RoomType>,
         public readonly message: VotingCompleteMessage|undefined,
         /**
          * Whether a tie was reached in votes.
@@ -26,12 +26,12 @@ export class MeetingHudVotingCompleteEvent extends BasicEvent implements RoomEve
         /**
          * The voting state of every player in the meeting.
          */
-        public readonly voteStates: Map<number, PlayerVoteState>,
+        public readonly voteStates: Map<number, PlayerVoteState<RoomType>>,
         /**
          * The player that was ejected. Undefined if a tie was reached
          * or if players voted to skip.
          */
-        public readonly ejected?: PlayerData
+        public readonly ejected?: PlayerData<RoomType>
     ) {
         super();
     }

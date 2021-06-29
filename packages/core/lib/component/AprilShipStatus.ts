@@ -23,7 +23,7 @@ import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class AprilShipStatus extends InnerShipStatus {
+export class AprilShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
     static type = SpawnType.AprilShipStatus as const;
     type = SpawnType.AprilShipStatus as const;
 
@@ -41,18 +41,18 @@ export class AprilShipStatus extends InnerShipStatus {
     }
 
     systems!: {
-        [SystemType.Reactor]: ReactorSystem;
-        [SystemType.Electrical]: SwitchSystem;
-        [SystemType.O2]: LifeSuppSystem;
-        [SystemType.MedBay]: MedScanSystem;
-        [SystemType.Security]: SecurityCameraSystem;
-        [SystemType.Communications]: HudOverrideSystem;
-        [SystemType.Doors]: AutoDoorsSystem;
-        [SystemType.Sabotage]: SabotageSystem;
+        [SystemType.Reactor]: ReactorSystem<RoomType>;
+        [SystemType.Electrical]: SwitchSystem<RoomType>;
+        [SystemType.O2]: LifeSuppSystem<RoomType>;
+        [SystemType.MedBay]: MedScanSystem<RoomType>;
+        [SystemType.Security]: SecurityCameraSystem<RoomType>;
+        [SystemType.Communications]: HudOverrideSystem<RoomType>;
+        [SystemType.Doors]: AutoDoorsSystem<RoomType>;
+        [SystemType.Sabotage]: SabotageSystem<RoomType>;
     };
 
     constructor(
-        room: Hostable<any>,
+        room: RoomType,
         netid: number,
         ownerid: number,
         data?: HazelReader | ShipStatusData
