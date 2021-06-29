@@ -1,4 +1,4 @@
-import { Hostable, HostableEvents, HostableOptions } from "@skeldjs/core";
+import { Heritable, Hostable, HostableEvents, HostableOptions } from "@skeldjs/core";
 
 import {
     HostGameMessage,
@@ -99,7 +99,7 @@ export class SkeldjsStateManager<
 
     protected _reset() {
         this.objects.clear();
-        this.objects.set(-2, this);
+        this.objects.set(-2, this as Heritable<any, this>);
         this.players.clear();
         this.netobjects.clear();
         this.stream = [];

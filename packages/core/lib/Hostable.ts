@@ -63,8 +63,8 @@ import { SpawnPrefabs } from "./prefabs";
 import { HostableOptions } from "./misc/HostableOptions";
 
 import {
-    NetworkableDespawnEvent,
-    NetworkableSpawnEvent,
+    ComponentDespawnEvent,
+    ComponentSpawnEvent,
     PlayerJoinEvent,
     PlayerLeaveEvent,
     PlayerSceneChangeEvent,
@@ -849,7 +849,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
         component.owner?.components.push(component);
 
         component.emit(
-            new NetworkableSpawnEvent(this, component)
+            new ComponentSpawnEvent(this, component)
         );
     }
 
@@ -857,7 +857,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
         this.netobjects.delete(component.netid);
 
         component.emit(
-            new NetworkableDespawnEvent(this, component)
+            new ComponentDespawnEvent(this, component)
         );
         component.owner?.components.splice(
             component.owner.components.indexOf(component),

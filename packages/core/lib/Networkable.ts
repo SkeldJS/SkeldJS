@@ -5,11 +5,11 @@ import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { Hostable } from "./Hostable";
 
-import { NetworkableDespawnEvent, NetworkableSpawnEvent } from "./events";
+import { ComponentDespawnEvent, ComponentSpawnEvent } from "./events";
 import { PlayerData } from "./PlayerData";
 
 export type NetworkableEvents<RoomType extends Hostable = Hostable> = ExtractEventTypes<
-    [NetworkableSpawnEvent<RoomType>, NetworkableDespawnEvent<RoomType>]
+    [ComponentSpawnEvent<RoomType>, ComponentDespawnEvent<RoomType>]
 >;
 
 /**

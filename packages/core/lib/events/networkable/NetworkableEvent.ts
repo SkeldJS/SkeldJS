@@ -4,5 +4,5 @@ export interface NetworkableEvent {
     /**
      * The component that this event is for.
      */
-    networkable: Networkable;
+    component: Networkable;
 }
