@@ -82,6 +82,5 @@
     "packages/*",
     "test"
   ],
-  "version": "2.10.17-0",
-  "stableVersion": "2.10.16"
+  "version": "2.10.18"
 }

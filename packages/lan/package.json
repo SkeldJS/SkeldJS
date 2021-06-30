@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/lan",
-  "version": "2.10.16-0",
+  "version": "2.10.18",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -22,6 +22,5 @@
   ],
   "dependencies": {
     "@skeldjs/events": "workspace:packages/events"
-  },
-  "stableVersion": "2.10.15"
+  }
 }
