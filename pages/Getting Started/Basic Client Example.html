@@ -79,9 +79,9 @@
 
 <span style="color: #000000">(</span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> { </span><span style="color: #008000">// Wrapper block for &#039;await&#039; syntax, as top-level awaits are experimental.</span>
 <span style="color: #000000">    </span><span style="color: #008000">/*</span>
-<span style="color: #008000">    Create a new SkeldJS/Among Us client, with 2021.4.2.0 being the latest Among Us version.</span>
+<span style="color: #008000">    Create a new SkeldJS/Among Us client, with 2021.4.25 being the latest Among Us version.</span>
 <span style="color: #008000">    */</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">client</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #001080">skeldjs</span><span style="color: #000000">.</span><span style="color: #795E26">SkeldjsClient</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2021.4.2.0&quot;</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">client</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #001080">skeldjs</span><span style="color: #000000">.</span><span style="color: #795E26">SkeldjsClient</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2021.4.25&quot;</span><span style="color: #000000">);</span>
 
 <span style="color: #000000">    </span><span style="color: #008000">/*</span>
 <span style="color: #008000">    Connect to Among Us on Europe servers, with a username of &#039;weakeyes&#039;.</span>
@@ -110,7 +110,7 @@
 <span style="color: #000000">        </span><span style="color: #008000">/*</span>
 <span style="color: #008000">        Log to the console the player that moved and also where they moved to.</span>
 <span style="color: #008000">        */</span>
-<span style="color: #000000">        </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">data</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;moved to&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">position</span><span style="color: #000000">);</span>
+<span style="color: #000000">        </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">info</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;moved to&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">position</span><span style="color: #000000">);</span>
 <span style="color: #000000">    });</span>
 <span style="color: #000000">})();</span>
 
@@ -148,7 +148,7 @@
 						<span>API</span>
 					</li>
 					<li class=" ">
-						<a href="../../modules.html">Exports</a>
+						<a href="../../modules.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../modules/client.html">client</a>
@@ -249,14 +249,15 @@
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 			</ul>
 		</div>
 	</div>

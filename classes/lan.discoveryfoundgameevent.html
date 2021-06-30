@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>NetworkableSpawnEvent | SkeldJS</title>
+	<title>DiscoveryFoundGameEvent | SkeldJS</title>
 	<meta name="description" content="Documentation for SkeldJS">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,13 +57,13 @@
 					<a href="../modules.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/core.html">core</a>
+					<a href="../modules/lan.html">lan</a>
 				</li>
 				<li>
-					<a href="core.networkablespawnevent.html">NetworkableSpawnEvent</a>
+					<a href="lan.discoveryfoundgameevent.html">DiscoveryFoundGameEvent</a>
 				</li>
 			</ul>
-			<h1>Class NetworkableSpawnEvent</h1>
+			<h1>Class DiscoveryFoundGameEvent</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Emitted when a component is spawned.</p>
+						<p>Emitted when a game is found while searching for a local game with <a href="lan.landiscovery.html">LanDiscovery</a>.</p>
 					</div>
 				</div>
 			</section>
@@ -84,17 +84,10 @@
 						<a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">NetworkableSpawnEvent</span>
+								<span class="target">DiscoveryFoundGameEvent</span>
 							</li>
 						</ul>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implements</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/core.roomevent.html" class="tsd-signature-type" data-tsd-kind="Interface">RoomEvent</a></li>
-					<li><a href="../interfaces/core.networkableevent.html" class="tsd-signature-type" data-tsd-kind="Interface">NetworkableEvent</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -104,16 +97,19 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="core.networkablespawnevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="lan.discoveryfoundgameevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.networkablespawnevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.networkablespawnevent.html#networkable" class="tsd-kind-icon">networkable</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.networkablespawnevent.html#room" class="tsd-kind-icon">room</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.networkablespawnevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="lan.discoveryfoundgameevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="lan.discoveryfoundgameevent.html#gamecode" class="tsd-kind-icon">game<wbr>Code</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="lan.discoveryfoundgameevent.html#ip" class="tsd-kind-icon">ip</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="lan.discoveryfoundgameevent.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="lan.discoveryfoundgameevent.html#playercount" class="tsd-kind-icon">player<wbr>Count</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="lan.discoveryfoundgameevent.html#port" class="tsd-kind-icon">port</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="lan.discoveryfoundgameevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a></li>
 							</ul>
 						</section>
 					</div>
@@ -125,26 +121,32 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Networkable<wbr>Spawn<wbr>Event<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span>, networkable<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">NetworkableSpawnEvent</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Discovery<wbr>Found<wbr>Game<wbr>Event<span class="tsd-signature-symbol">(</span>ip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, playerCount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DiscoveryFoundGameEvent</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides BasicEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/events/networkable/Spawn.ts#L12">core/lib/events/networkable/Spawn.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/lan/lib/events/FoundGame.ts#L13">lan/lib/events/FoundGame.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>ip: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>networkable: <span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>port: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>playerCount: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">NetworkableSpawnEvent</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">DiscoveryFoundGameEvent</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -154,48 +156,65 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="eventname" class="tsd-anchor"></a>
 					<h3>event<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;discovery.foundgame&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides BasicEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/events/networkable/Spawn.ts#L12">core/lib/events/networkable/Spawn.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/lan/lib/events/FoundGame.ts#L8">lan/lib/events/FoundGame.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="networkable" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> networkable</h3>
-					<div class="tsd-signature tsd-kind-icon">networkable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="gamecode" class="tsd-anchor"></a>
+					<h3>game<wbr>Code</h3>
+					<div class="tsd-signature tsd-kind-icon">game<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/core.networkableevent.html">NetworkableEvent</a>.<a href="../interfaces/core.networkableevent.html#networkable">networkable</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/lan/lib/events/FoundGame.ts#L13">lan/lib/events/FoundGame.ts:13</a></li>
+						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The component that this event is for.</p>
+							<p>The game code that you should use to join this game, hardcoded at 0x20 (32).</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="room" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
-					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HostableEvents</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="ip" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> ip</h3>
+					<div class="tsd-signature tsd-kind-icon">ip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/core.roomevent.html">RoomEvent</a>.<a href="../interfaces/core.roomevent.html#room">room</a></p>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The room or client that the event came from.</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="name" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="playercount" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> player<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">player<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="port" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> port</h3>
+					<div class="tsd-signature tsd-kind-icon">port<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 					<a name="eventname-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> event<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">event<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;discovery.foundgame&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<p>Overrides BasicEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/events/networkable/Spawn.ts#L11">core/lib/events/networkable/Spawn.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/lan/lib/events/FoundGame.ts#L7">lan/lib/events/FoundGame.ts:7</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +251,7 @@
 						<span>API</span>
 					</li>
 					<li class=" ">
-						<a href="../modules.html">Exports</a>
+						<a href="../modules.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -240,7 +259,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html">constant</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/core.html">core</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -252,7 +271,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -283,35 +302,9 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/constant.html" class="tsd-kind-icon">constant</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
-						<ul>
-							<li class="current tsd-kind-class tsd-parent-kind-module">
-								<a href="core.networkablespawnevent.html" class="tsd-kind-icon">Networkable<wbr>Spawn<wbr>Event</a>
-								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-										<a href="core.networkablespawnevent.html#constructor" class="tsd-kind-icon">constructor</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-										<a href="core.networkablespawnevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.networkablespawnevent.html#networkable" class="tsd-kind-icon">networkable</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.networkablespawnevent.html#room" class="tsd-kind-icon">room</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-										<a href="core.networkablespawnevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/data.html" class="tsd-kind-icon">data</a>
 					</li>
@@ -321,9 +314,50 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
 					</li>
-					<li class=" tsd-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>
+						<ul>
+							<li class="current tsd-kind-class tsd-parent-kind-module">
+								<a href="lan.discoveryfoundgameevent.html" class="tsd-kind-icon">Discovery<wbr>Found<wbr>Game<wbr>Event</a>
+								<ul>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+										<a href="lan.discoveryfoundgameevent.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+										<a href="lan.discoveryfoundgameevent.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="lan.discoveryfoundgameevent.html#gamecode" class="tsd-kind-icon">game<wbr>Code</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="lan.discoveryfoundgameevent.html#ip" class="tsd-kind-icon">ip</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="lan.discoveryfoundgameevent.html#name" class="tsd-kind-icon">name</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="lan.discoveryfoundgameevent.html#playercount" class="tsd-kind-icon">player<wbr>Count</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="lan.discoveryfoundgameevent.html#port" class="tsd-kind-icon">port</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
+										<a href="lan.discoveryfoundgameevent.html#eventname-1" class="tsd-kind-icon">event<wbr>Name</a>
+									</li>
+								</ul>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="lan.landiscovery.html" class="tsd-kind-icon">Lan<wbr>Discovery</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/lan.html#landiscoveryevents" class="tsd-kind-icon">Lan<wbr>Discovery<wbr>Events</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
@@ -365,10 +399,11 @@
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>

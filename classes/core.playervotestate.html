@@ -63,7 +63,7 @@
 					<a href="core.playervotestate.html">PlayerVoteState</a>
 				</li>
 			</ul>
-			<h1>Class PlayerVoteState</h1>
+			<h1>Class PlayerVoteState&lt;RoomType&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -76,6 +76,14 @@
 						<p>Represents a player&#39;s voting state.</p>
 					</div>
 				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>RoomType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span></h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
@@ -92,34 +100,26 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="core.playervotestate.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter"><a href="core.playervotestate.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playervotestate.html#dead" class="tsd-kind-icon">dead</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playervotestate.html#playerid" class="tsd-kind-icon">player<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playervotestate.html#reported" class="tsd-kind-icon">reported</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playervotestate.html#voted" class="tsd-kind-icon">voted</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playervotestate.html#votedfor" class="tsd-kind-icon">voted<wbr>For</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playervotestate.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playervotestate.html#votedforid" class="tsd-kind-icon">voted<wbr>For<wbr>Id</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.playervotestate.html#byte" class="tsd-kind-icon">byte</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.playervotestate.html#didmissvote" class="tsd-kind-icon">did<wbr>Miss<wbr>Vote</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.playervotestate.html#didskip" class="tsd-kind-icon">did<wbr>Skip</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.playervotestate.html#hasvoted" class="tsd-kind-icon">has<wbr>Voted</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.playervotestate.html#isdead" class="tsd-kind-icon">is<wbr>Dead</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.playervotestate.html#player" class="tsd-kind-icon">player</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Methods</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.playervotestate.html#serialize" class="tsd-kind-icon">Serialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.playervotestate.html#patch" class="tsd-kind-icon">patch</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="core.playervotestate.html#deserialize" class="tsd-kind-icon">Deserialize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="core.playervotestate.html#from" class="tsd-kind-icon">from</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.playervotestate.html#votedfor" class="tsd-kind-icon">voted<wbr>For</a></li>
 							</ul>
 						</section>
 					</div>
@@ -127,54 +127,44 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Vote<wbr>State<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, playerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, votedFor<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PlayerData</span>, reported<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, voted<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, dead<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerVoteState</span></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Vote<wbr>State&lt;RoomType&gt;<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoomType</span>, playerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, votedForId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerVoteState</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/misc/PlayerVoteState.ts#L25">core/lib/misc/PlayerVoteState.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/core/lib/misc/PlayerVoteState.ts#L13">core/lib/misc/PlayerVoteState.ts:13</a></li>
 								</ul>
 							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>RoomType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>room: <span class="tsd-signature-type">RoomType</span></h5>
 								</li>
 								<li>
 									<h5>playerId: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> votedFor: <span class="tsd-signature-type">PlayerData</span></h5>
-								</li>
-								<li>
-									<h5>reported: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
-								</li>
-								<li>
-									<h5>voted: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
-								</li>
-								<li>
-									<h5>dead: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<h5>votedForId: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerVoteState</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerVoteState</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="dead" class="tsd-anchor"></a>
-					<h3>dead</h3>
-					<div class="tsd-signature tsd-kind-icon">dead<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="playerid" class="tsd-anchor"></a>
 					<h3>player<wbr>Id</h3>
@@ -183,23 +173,16 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="reported" class="tsd-anchor"></a>
-					<h3>reported</h3>
-					<div class="tsd-signature tsd-kind-icon">reported<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+					<a name="room" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
+					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RoomType</span></div>
 					<aside class="tsd-sources">
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="voted" class="tsd-anchor"></a>
-					<h3>voted</h3>
-					<div class="tsd-signature tsd-kind-icon">voted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="votedfor" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> voted<wbr>For</h3>
-					<div class="tsd-signature tsd-kind-icon">voted<wbr>For<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span></div>
+					<a name="votedforid" class="tsd-anchor"></a>
+					<h3>voted<wbr>For<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">voted<wbr>For<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 					</aside>
 				</section>
@@ -207,19 +190,24 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="byte" class="tsd-anchor"></a>
-					<h3>byte</h3>
+					<a name="didmissvote" class="tsd-anchor"></a>
+					<h3>did<wbr>Miss<wbr>Vote</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> byte<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> didMissVote<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/misc/PlayerVoteState.ts#L50">core/lib/misc/PlayerVoteState.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/core/lib/misc/PlayerVoteState.ts#L37">core/lib/misc/PlayerVoteState.ts:37</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether this player didn&#39;t vote by the end of the meeting.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -233,7 +221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/misc/PlayerVoteState.ts#L46">core/lib/misc/PlayerVoteState.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/core/lib/misc/PlayerVoteState.ts#L44">core/lib/misc/PlayerVoteState.ts:44</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -246,16 +234,60 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="player" class="tsd-anchor"></a>
-					<h3>player</h3>
+					<a name="hasvoted" class="tsd-anchor"></a>
+					<h3>has<wbr>Voted</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> player<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> hasVoted<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/misc/PlayerVoteState.ts#L39">core/lib/misc/PlayerVoteState.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/core/lib/misc/PlayerVoteState.ts#L51">core/lib/misc/PlayerVoteState.ts:51</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether this player has either voted for a player or voted to skip.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="isdead" class="tsd-anchor"></a>
+					<h3>is<wbr>Dead</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isDead<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/core/lib/misc/PlayerVoteState.ts#L30">core/lib/misc/PlayerVoteState.ts:30</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Whether the player that this state represents is dead.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="player" class="tsd-anchor"></a>
+					<h3>player</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> player<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/core/lib/misc/PlayerVoteState.ts#L23">core/lib/misc/PlayerVoteState.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -263,129 +295,29 @@
 									<p>The player that this vote state is for.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="serialize" class="tsd-anchor"></a>
-					<h3>Serialize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">Serialize<span class="tsd-signature-symbol">(</span>writer<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="votedfor" class="tsd-anchor"></a>
+					<h3>voted<wbr>For</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> votedFor<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/misc/PlayerVoteState.ts#L78">core/lib/misc/PlayerVoteState.ts:78</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>writer: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="patch" class="tsd-anchor"></a>
-					<h3>patch</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">patch<span class="tsd-signature-symbol">(</span>byte<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/misc/PlayerVoteState.ts#L59">core/lib/misc/PlayerVoteState.ts:59</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>byte: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="deserialize" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> Deserialize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">Deserialize<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a>, room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, playerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerVoteState</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/misc/PlayerVoteState.ts#L68">core/lib/misc/PlayerVoteState.ts:68</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>reader: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a></h5>
-								</li>
-								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5>playerId: <span class="tsd-signature-type">number</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerVoteState</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="from" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> from</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, playerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, byte<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerVoteState</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/2c8cdea/packages/core/lib/misc/PlayerVoteState.ts#L18">core/lib/misc/PlayerVoteState.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/96c68e8/packages/core/lib/misc/PlayerVoteState.ts#L59">core/lib/misc/PlayerVoteState.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a player vote state from a single byte.</p>
+									<p>The player that this player voted for, if any.</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The room that the vote state is for.</p>
-									</div>
-								</li>
-								<li>
-									<h5>playerId: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The ID of the player.</p>
-									</div>
-								</li>
-								<li>
-									<h5>byte: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The byte to create a vote state from.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerVoteState</span></h4>
-							<p>A parsed vote state.</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -422,7 +354,7 @@
 						<span>API</span>
 					</li>
 					<li class=" ">
-						<a href="../modules.html">Exports</a>
+						<a href="../modules.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/client.html">client</a>
@@ -478,47 +410,38 @@
 					<li class="current tsd-kind-module">
 						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
 						<ul>
-							<li class="current tsd-kind-class tsd-parent-kind-module">
+							<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 								<a href="core.playervotestate.html" class="tsd-kind-icon">Player<wbr>Vote<wbr>State</a>
 								<ul>
-									<li class=" tsd-kind-constructor tsd-parent-kind-class">
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
 										<a href="core.playervotestate.html#constructor" class="tsd-kind-icon">constructor</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.playervotestate.html#dead" class="tsd-kind-icon">dead</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.playervotestate.html#playerid" class="tsd-kind-icon">player<wbr>Id</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.playervotestate.html#reported" class="tsd-kind-icon">reported</a>
+										<a href="core.playervotestate.html#room" class="tsd-kind-icon">room</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.playervotestate.html#voted" class="tsd-kind-icon">voted</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.playervotestate.html#votedfor" class="tsd-kind-icon">voted<wbr>For</a>
+										<a href="core.playervotestate.html#votedforid" class="tsd-kind-icon">voted<wbr>For<wbr>Id</a>
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-										<a href="core.playervotestate.html#byte" class="tsd-kind-icon">byte</a>
+										<a href="core.playervotestate.html#didmissvote" class="tsd-kind-icon">did<wbr>Miss<wbr>Vote</a>
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 										<a href="core.playervotestate.html#didskip" class="tsd-kind-icon">did<wbr>Skip</a>
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.playervotestate.html#hasvoted" class="tsd-kind-icon">has<wbr>Voted</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.playervotestate.html#isdead" class="tsd-kind-icon">is<wbr>Dead</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 										<a href="core.playervotestate.html#player" class="tsd-kind-icon">player</a>
 									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="core.playervotestate.html#serialize" class="tsd-kind-icon">Serialize</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="core.playervotestate.html#patch" class="tsd-kind-icon">patch</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-										<a href="core.playervotestate.html#deserialize" class="tsd-kind-icon">Deserialize</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-										<a href="core.playervotestate.html#from" class="tsd-kind-icon">from</a>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.playervotestate.html#votedfor" class="tsd-kind-icon">voted<wbr>For</a>
 									</li>
 								</ul>
 							</li>
@@ -575,18 +498,14 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 		</div>
 	</div>
