@@ -54,7 +54,7 @@
     "prettier": "^2.2.1",
     "ts-mocha": "^8.0.0",
     "ts-node": "^9.1.1",
-    "typedoc": "^0.20.35",
+    "typedoc": "^0.21.2",
     "typedoc-plugin-external-module-map": "^1.2.1",
     "typedoc-plugin-no-inherit": "^1.2.0",
     "typedoc-plugin-pages": "patch:typedoc-plugin-pages@^1.1.0#./typedoc-plugin-pages-pr-41.diff",

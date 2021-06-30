@@ -104,8 +104,8 @@ client.on("player.setname", ev => {
 * {@link MovingPlatformPlayerUpdateEvent | `movingplatform.updateplayer`}
 
 ### Components
-* {@link NetworkableDespawnEvent | `component.despawn`}
-* {@link NetworkableSpawnEvent | `component.spawn`}
+* {@link ComponentDespawnEvent | `component.despawn`}
+* {@link ComponentSpawnEvent | `component.spawn`}
 
 ### Oxygen
 * {@link O2ConsoleCompleteEvent | `o2.consoles.complete`}
