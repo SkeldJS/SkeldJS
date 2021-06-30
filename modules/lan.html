@@ -80,7 +80,7 @@
 					<p>The LAN discovery class is separate from the skeldjs client class, giving you a class to listen for whenever a game is found.</p>
 					<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">lanDiscovery</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #001080">LanDiscovery</span><span style="color: #000000">;</span>
 
-<span style="color: #001080">lanDiscovery</span><span style="color: #000000">.</span><span style="color: #795E26">begin</span><span style="color: #000000">(); </span><span style="color: #008000">// Start listening for games hosted locally</span>
+<span style="color: #001080">lanDiscovery</span><span style="color: #000000">.</span><span style="color: #795E26">begin</span><span style="color: #000000">(); </span><span style="color: #008000">// start listening for games hosted locally</span>
 
 <span style="color: #001080">lanDiscovery</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;discovery.foundgame&quot;</span><span style="color: #000000">, </span><span style="color: #001080">foundGame</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> { </span><span style="color: #008000">// emitted whenever a game is found</span>
 <span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Found game: &quot;</span><span style="color: #000000"> + </span><span style="color: #001080">foundGame</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000"> + </span><span style="color: #A31515">&quot; @ &quot;</span><span style="color: #000000"> + </span><span style="color: #001080">foundGame</span><span style="color: #000000">.</span><span style="color: #001080">ip</span><span style="color: #000000"> + </span><span style="color: #A31515">&quot;:&quot;</span><span style="color: #000000"> + </span><span style="color: #001080">foundGame</span><span style="color: #000000">.</span><span style="color: #001080">port</span><span style="color: #000000">);</span>
@@ -144,7 +144,7 @@
 					<div class="tsd-signature tsd-kind-icon">Lan<wbr>Discovery<wbr>Events<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">ExtractEventTypes</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">DiscoveryFoundGameEvent</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/fba3399/packages/lan/lib/LanDiscovery.ts#L8">lan/lib/LanDiscovery.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d8a301d/packages/lan/lib/LanDiscovery.ts#L8">lan/lib/LanDiscovery.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
