@@ -28,7 +28,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: yarn
-    - run: yarn build-all
     - run: yarn docs
 
     - name: GH Pages deploy
