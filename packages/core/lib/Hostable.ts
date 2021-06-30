@@ -709,7 +709,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
     /**
      * Handle when the game is started.
      */
-    protected async _handleStart() {
+    async handleStart() {
         if (this._started) return;
         this._started = true;
 
@@ -807,6 +807,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      * End the current game.
      */
     async endGame(reason: GameOverReason) {
+        // todo: send root EndGame message
         return await this.handleEnd(reason);
     }
 
@@ -1154,13 +1155,3 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      */
     static FixedUpdateInterval = 1 / 50;
 }
-
-class MyHostable extends Hostable<HostableEvents<MyHostable>> {
-    poo() {}
-}
-
-const a = new MyHostable;
-
-a.players.get(50)?.on("player.setname", ev => {
-    ev.room.poo;
-}); 

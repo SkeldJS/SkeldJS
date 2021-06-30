@@ -9,6 +9,7 @@ import {
     JoinedGameMessage,
     MessageDirection,
     GameOptions,
+    EndGameMessage,
 } from "@skeldjs/protocol";
 
 import { HazelReader } from "@skeldjs/util";
@@ -46,7 +47,16 @@ export class SkeldjsStateManager<
                 direction === MessageDirection.Clientbound &&
                 message.code === this.code
             ) {
-                await this._handleStart();
+                await this.handleStart();
+            }
+        });
+
+        this.decoder.on(EndGameMessage, async (message, direction) => {
+            if (
+                direction === MessageDirection.Clientbound &&
+                message.code === this.code
+            ) {
+                await this.handleEnd(message.reason);
             }
         });
 
