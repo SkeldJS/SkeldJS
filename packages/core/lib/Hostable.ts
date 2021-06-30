@@ -792,6 +792,12 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
 
     private async _endGame(reason: GameOverReason) {
         this._started = false;
+        this.players.clear();
+        for (const [ objid ] of this.objects) {
+            if (objid > -2) {
+                this.objects.delete(objid);
+            }
+        }
         await this.emit(new RoomGameEndEvent(this, reason));
     }
 

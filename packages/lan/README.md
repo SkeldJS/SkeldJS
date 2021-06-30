@@ -11,7 +11,7 @@ The LAN discovery class is separate from the skeldjs client class, giving you a 
 ```ts
 const lanDiscovery = new LanDiscovery;
 
-lanDiscovery.begin(); // Start listening for games hosted locally
+lanDiscovery.begin(); // start listening for games hosted locally
 
 lanDiscovery.on("discovery.foundgame", foundGame => { // emitted whenever a game is found
     console.log("Found game: " + foundGame.name + " @ " + foundGame.ip + ":" + foundGame.port);

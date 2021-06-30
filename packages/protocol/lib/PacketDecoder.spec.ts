@@ -300,7 +300,7 @@ describe("PacketDecoder", () => {
                 recv++;
             });
 
-            await decoder.write(buffer);
+            await decoder.write(buffer, MessageDirection.Serverbound, undefined);
 
             assert.strictEqual(recv, 10);
         });
