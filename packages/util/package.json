@@ -6,6 +6,7 @@
   "publishConfig": {
     "types": "./dist/index.d.ts"
   },
+  "license": "GPL-3.0-only",
   "scripts": {
     "build": "rm -rf ./dist && tsc -p ./",
     "watch": "tsc -w -p ./",
@@ -16,7 +17,6 @@
     "@types/node": "^14.14.16",
     "typescript": "latest"
   },
-  "license": "GPL-3.0-only",
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "files": [
     "dist"

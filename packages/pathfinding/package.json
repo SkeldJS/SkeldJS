@@ -10,8 +10,7 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc -p ./",
     "watch": "tsc -w -p ./",
-    "prepack": "yarn build",
-    "postinstall": "yarn build:colliders",
+    "prepack": "yarn build && yarn build:colliders",
     "build:colliders": "ts-node build.ts"
   },
   "dependencies": {
@@ -34,6 +33,6 @@
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [
     "dist",
-    "data/colliders/*"
+    "data/build/*"
   ]
 }
