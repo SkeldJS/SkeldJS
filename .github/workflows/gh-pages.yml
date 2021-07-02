@@ -29,10 +29,12 @@ jobs:
 
     - run: yarn
     - run: yarn docs
+    - run: echo ""
 
     - name: GH Pages deploy
       uses: Cecilapp/GitHub-Pages-deploy@3.1.0
       with:
         email: essmale2005@gmail.com
         build_dir: docs
+        cname: skeld.js.org
         branch: gh-pages
