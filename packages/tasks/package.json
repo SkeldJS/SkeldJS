@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/tasks",
-  "version": "2.10.20",
+  "version": "2.10.21",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
