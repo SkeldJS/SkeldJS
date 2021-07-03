@@ -2,7 +2,7 @@
 
 This package contains a text building API for the [Rich Text formatter used in Among Us](http://digitalnativestudios.com/textmeshpro/docs/rich-text), and while you can install it on its own with `npm install --save @skeldjs/text` or `yarn add @skeldjs/text`, it is one package of a bigger project, [skeldjs](https://github.com/skeldjs/SkeldJS).
 
-You can view auto-updating documentation for this package hosted at github pages at https://skeldjs.github.io/SkeldJS/modules/text.html
+You can view auto-updating documentation for this package hosted at github pages at https://skeld.js.org/SkeldJS/modules/text.html
 
 ## Basic Usage
 
