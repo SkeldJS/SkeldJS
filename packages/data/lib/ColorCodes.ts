@@ -85,7 +85,7 @@ export const ColorCodes = {
         shadowHex: "de92b3",
         shadowRGB: [222, 146, 179]
     },
-    [Color.Tan]: {
+    [Color.Banana]: {
         highlightHex: "ffffbe",
         highlightRGB: [255, 255, 190],
         shadowHex: "d2bc89",
