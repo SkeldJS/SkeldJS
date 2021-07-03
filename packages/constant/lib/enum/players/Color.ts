@@ -5,10 +5,16 @@ export enum Color {
     Pink,
     Orange,
     Yellow,
-    Grey,
+    Black,
     White,
     Purple,
     Brown,
     Cyan,
     LightGreen,
+    Maroon,
+    Rose,
+    Banana,
+    Gray,
+    Tan,
+    Sunset
 }
