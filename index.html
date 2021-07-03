@@ -99,6 +99,7 @@
 				<ul>
 					<li><strong>Pathfinding</strong> - A* pathfinding implementation to get around the map, abstracted to be a seamless addition to the client package.</li>
 					<li><strong>Task Manager</strong> - A tool used for managing task completion in the correct order.</li>
+					<li><strong>Reactor</strong> - Implementation of the Reactor modded handshake for skeldjs.</li>
 				</ul>
 				<p>You can view auto-updating documentation for all packages hosted at github pages at <a href="https://skeldjs.github.io/SkeldJS">https://skeldjs.github.io/SkeldJS</a>.</p>
 				<a href="#discord-server" id="discord-server" style="color: inherit; text-decoration: none;">
@@ -130,9 +131,11 @@
 				</a>
 				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> --</span><span style="color: #001080">save</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">pathfinding</span>
 <span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> --</span><span style="color: #001080">save</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">tasks</span>
+<span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> --</span><span style="color: #001080">save</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">reactor</span>
 <span style="color: #001080">or</span>
 <span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">pathfinding</span>
 <span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">tasks</span>
+<span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> @</span><span style="color: #001080">skeldjs</span><span style="color: #000000">/</span><span style="color: #001080">reactor</span>
 </code></pre>
 				<a href="#to-install-utility-packages" id="to-install-utility-packages" style="color: inherit; text-decoration: none;">
 					<h3>To install utility packages</h3>
@@ -159,6 +162,7 @@
 				</blockquote>
 				<p>The following resources have been extremely useful in developing this project, and I suggest that you give the repositories a star where applicable.</p>
 				<ul>
+					<li><a href="https://github.com/miniduikboot/Mini.Dumper">https://github.com/miniduikboot/Mini.Dumper</a> Very helpful Among Us mod for dumping general game information, used extensively for <code>@skeldjs/data</code> and colliders for <code>@skeldjs/pathfinding</code>.</li>
 					<li><a href="https://sus.wiki">https://sus.wiki</a> Easily the most useful resource to me, a wiki covering the entire among us protocol and basic flows.</li>
 					<li><a href="https://wireshark.org">https://wireshark.org</a> Tool for capturing individual game packets.<ul>
 							<li><a href="https://github.com/cybershard/wireshark-amongus">https://github.com/cybershard/wireshark-amongus</a> Plugin for wireshark for quickly filtering and deserializing among us packets, extremely useful for quickly debugging issues.</li>
