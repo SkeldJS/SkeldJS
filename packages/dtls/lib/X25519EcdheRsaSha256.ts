@@ -852,7 +852,7 @@ export class X25519EcdheRsaSha256 {
         const sha256 = crypto.createHash("sha256");
         const parameterDigest = sha256.update(keyParameters).digest();
 
-        const verifier = crypto.createVerify("id-rsassa-pkcs1-v1_5-with-sha3-256");
+        const verifier = crypto.createVerify("RSA-SHA1");
         verifier.update(parameterDigest);
 
         const key =
