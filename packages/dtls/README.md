@@ -36,3 +36,6 @@ This is NOT `aes-128-gcm`. Why does it work? Who knows.
 
 
 ![image](https://user-images.githubusercontent.com/60631511/124619267-6826aa80-de70-11eb-87ce-e5c84d2327b6.png)
+
+Lots of helpful debugging with help from https://github.com/auproximity/GetAuthToken,
+as well as [Impostor](https://github.com/Impostor/Impostor).
