@@ -20,4 +20,19 @@ You can install it with `@skeldjs/dtls`, and it provides a `DtlsSocket` library.
 
 Feel free to ruin the rest of my days with issues, if you encounter issues.
 
+Some highlights:
+https://github.com/SkeldJS/SkeldJS/blob/97a7154de35c786864ae9d1823dfbbbcea365fde/packages/dtls/lib/X25519EcdheRsaSha256.ts#L865
+I couldn't find an alternative for `RSAPKCS1SignatureDeformatter` in nodejs, and whatever I tried didn't work.
+
+https://github.com/SkeldJS/SkeldJS/blob/97a7154de35c786864ae9d1823dfbbbcea365fde/packages/dtls/lib/X25519EcdheRsaSha256.ts#L49
+BigInt BigInt BigInt BigInt BigInt BigInt BigInt BigInt BigInt BigInt BigInt BigInt
+
+https://github.com/SkeldJS/SkeldJS/blob/282c311c5539b8230bcabee7c5aae3dcb02da056/packages/dtls/lib/DtlsSocket.ts#L502
+https://github.com/willardf/Hazel-Networking/blob/2a4a13eeb77b969743d656e114cd2de6479499e6/Hazel/Dtls/PrfSha256.cs#L11
+master secert
+
+https://github.com/SkeldJS/SkeldJS/blob/97a7154de35c786864ae9d1823dfbbbcea365fde/packages/dtls/lib/AeadAes128Gcm.ts#L29
+This is NOT `aes-128-gcm`. Why does it work? Who knows.
+
+
 ![image](https://user-images.githubusercontent.com/60631511/124619267-6826aa80-de70-11eb-87ce-e5c84d2327b6.png)
