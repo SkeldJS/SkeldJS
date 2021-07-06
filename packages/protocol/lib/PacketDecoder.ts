@@ -110,7 +110,7 @@ export interface Deserializable {
 }
 
 export class PacketDecoder<SenderType = any> {
-    listeners!: Map<string,
+    listeners: Map<string,
         Map<number,
             Set<
                 (
@@ -121,9 +121,12 @@ export class PacketDecoder<SenderType = any> {
             >
         >
     >;
-    types!: Map<string, Map<number, Deserializable>>;
+    types: Map<string, Map<number, Deserializable>>;
 
     constructor() {
+        this.listeners = new Map;
+        this.types = new Map;
+
         this.reset();
     }
 
@@ -131,8 +134,8 @@ export class PacketDecoder<SenderType = any> {
      * Reset the packet decoder, removing all custom packets and removing listeners.
      */
     reset() {
-        this.listeners = new Map;
-        this.types = new Map;
+        this.listeners.clear();
+        this.types.clear();
 
         this.register(
             AcknowledgePacket,
@@ -205,6 +208,11 @@ export class PacketDecoder<SenderType = any> {
             UsePlatformMessage,
             VotingCompleteMessage
         );
+    }
+
+    clear() {
+        this.listeners.clear();
+        this.types.clear();
     }
 
     private getClasses(type: string): Map<number, Deserializable> {

@@ -40,7 +40,6 @@ import {
 } from "@skeldjs/protocol";
 
 import { Code2Int, VersionInfo, HazelWriter } from "@skeldjs/util";
-
 import { PlayerData, RoomID } from "@skeldjs/core";
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -53,31 +52,9 @@ import {
     ClientIdentifyEvent,
     ClientJoinEvent,
 } from "./events";
+import { AuthClient } from "./AuthClient";
 
 const lookupDns = util.promisify(dns.lookup);
-
-const ServerCertificate = `
------BEGIN CERTIFICATE-----
-MIIDbTCCAlWgAwIBAgIUf8xD1G/d5NK1MTjQAYGqd1AmBvcwDQYJKoZIhvcNAQEL
-BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
-GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAgFw0yMTAyMDIxNzE4MDFaGA8yMjk0
-MTExODE3MTgwMVowRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUx
-ITAfBgNVBAoMGEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDCCASIwDQYJKoZIhvcN
-AQEBBQADggEPADCCAQoCggEBAL7GFDbZdXwPYXeHWRi2GfAXkaLCgxuSADfa1pI2
-vJkvgMTK1miSt3jNSg/o6VsjSOSL461nYmGCF6Ho3fMhnefOhKaaWu0VxF0GR1bd
-e836YWzhWINQRwmoVD/Wx1NUjLRlTa8g/W3eE5NZFkWI70VOPRJpR9SqjNHwtPbm
-Ki41PVgJIc3m/7cKOEMrMYNYoc6E9ehwLdJLQ5olJXnMoGjHo2d59hC8KW2V1dY9
-sacNPUjbFZRWeQ0eJ7kbn8m3a5EuF34VEC7DFcP4NCWWI7HO5/KYE+mUNn0qxgua
-r32qFnoaKZr9dXWRWJSm2XecBgqQmeF/90gdbohNNHGC/iMCAwEAAaNTMFEwHQYD
-VR0OBBYEFAJAdUS5AZE3U3SPQoG06Ahq3wBbMB8GA1UdIwQYMBaAFAJAdUS5AZE3
-U3SPQoG06Ahq3wBbMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEB
-ALUoaAEuJf4kQ1bYVA2ax2QipkUM8PL9zoNiDjUw6ZlwMFi++XCQm8XDap45aaeZ
-MnXGBqIBWElezoH6BNSbdGwci/ZhxXHG/qdHm7zfCTNaLBe2+sZkGic1x6bZPFtK
-ZUjGy7LmxsXOxqGMgPhAV4JbN1+LTmOkOutfHiXKe4Z1zu09mOo9sWfGCkbIyERX
-QQILBYSIkg3hU4R4xMOjvxcDrOZja6fSNyi2sgidTfe5OCKC2ovU7OmsQqzb7mFv
-e+7kpIUp6AZNc49n6GWtGeOoL7JUAqMOIO+R++YQN7/dgaGDPuu0PpmgI2gPLNW1
-ZwHJ755zQQRX528xg9vfykY=
------END CERTIFICATE-----` as const;
 
 export interface SentPacket {
     nonce: number;
@@ -105,12 +82,16 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     options: ClientConfig;
 
-    auth: any;
-
     /**
      * The datagram socket for the client.
      */
     socket?: dgram.Socket;
+
+    /**
+     * Auth client responsible for getting an authentication token from the
+     * connected-to server.
+     */
+    auth: AuthClient;
 
     /**
      * The IP of the server that the client is currently connected to.
@@ -182,6 +163,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         super({ doFixedUpdate: true });
 
         this.options = options;
+
+        this.auth = new AuthClient(this);
 
         if (version instanceof VersionInfo) {
             this.version = version;
@@ -274,23 +257,17 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     async connect(
         host: "NA" | "EU" | "AS",
         username?: string,
-        token?: number,
-        port?: number,
-        pem?: string
+        port?: number
     ): Promise<void>;
     async connect(
         host: string,
         username?: string,
-        token?: number,
-        port?: number,
-        pem?: string
+        port?: number
     ): Promise<void>;
     async connect(
         host: string,
         username?: string,
-        token?: number,
-        port: number = 22023,
-        pem = ServerCertificate
+        port: number = 22023
     ) {
         await this.disconnect();
 
@@ -298,9 +275,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             return await this.connect(
                 MatchmakingServers[host as "NA"|"EU"|"AS"][0],
                 username,
-                token,
-                22023,
-                pem
+                22023
             );
         }
 
@@ -308,7 +283,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.ip = ip.address;
         this.port = port;
-        this.token = token;
+        this.token = await this.auth.getAuthToken(this.ip, this.port + 2);
 
         this.socket = dgram.createSocket("udp4");
         this.connected = true;
@@ -567,7 +542,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         if (this.me && this.code !== code) {
             const username = this.username;
             await this.disconnect();
-            await this.connect(this.ip, username, this.token, this.port);
+            await this.connect(this.ip, username, this.port);
         }
 
         await this.send(
@@ -604,7 +579,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 await this.connect(
                     message.ip,
                     username,
-                    this.token,
                     message.port
                 );
 
@@ -683,7 +657,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 await this.connect(
                     message.ip,
                     username,
-                    this.token,
                     message.port
                 );
 

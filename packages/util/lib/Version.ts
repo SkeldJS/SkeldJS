@@ -25,7 +25,7 @@ export class VersionInfo {
      * @param version The formatted string.
      * @example
      * ```ts
-     * const version = VersionInfo.from("2021.4.2s");
+     * const version = VersionInfo.from("2021.4.25s");
      *
      * console.log(version.toString()); // => 2021.4.25
      * ```

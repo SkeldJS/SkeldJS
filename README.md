@@ -8,7 +8,6 @@
 [![Build](https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22)
 [![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://skeld.js.org/SkeldJS)
 
-## Read [here](https://skeld.js.org/SkeldJS/pages/Information/Client%20Authentication) if you are using or plan to use the @skeldjs/client package on official servers.
 
 ## The SkeldJS server has been removed in favour of my other project, [Hindenburg](https://github.com/edqx/Hindenburg)
 

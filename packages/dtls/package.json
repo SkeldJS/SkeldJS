@@ -1,0 +1,32 @@
+{
+  "name": "@skeldjs/dtls",
+  "version": "2.10.22",
+  "main": "./dist/index.js",
+  "types": "./index.ts",
+  "publishConfig": {
+    "types": "./dist/index.d.ts"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist && tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "prepack": "yarn build"
+  },
+  "license": "GPL-3.0-only",
+  "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
+  "dependencies": {
+    "@fidm/x509": "^1.2.1",
+    "@skeldjs/util": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.41",
+    "typescript": "latest"
+  },
+  "dependenciesMeta": {
+    "node-aes-gcm": {
+      "unplugged": false
+    }
+  },
+  "files": [
+    "dist"
+  ]
+}
