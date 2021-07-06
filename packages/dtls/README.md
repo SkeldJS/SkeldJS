@@ -19,3 +19,5 @@ of how bad this is.
 You can install it with `@skeldjs/dtls`, and it provides a `DtlsSocket` library.
 
 Feel free to ruin the rest of my days with issues, if you encounter issues.
+
+![image](https://user-images.githubusercontent.com/60631511/124619267-6826aa80-de70-11eb-87ce-e5c84d2327b6.png)
