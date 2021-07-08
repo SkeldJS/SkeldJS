@@ -158,14 +158,16 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     constructor(
         version: string | number | VersionInfo,
-        options: ClientConfig = {
-            allowHost: true,
-            language: GameKeyword.English
-        }
+        options: Partial<ClientConfig> = {}
     ) {
         super({ doFixedUpdate: true });
 
-        this.options = options;
+        this.options = {
+            doFixedUpdate: true,
+            allowHost: true,
+            language: GameKeyword.English,
+            ...options
+        };
 
         this.auth = new AuthClient(this);
 
