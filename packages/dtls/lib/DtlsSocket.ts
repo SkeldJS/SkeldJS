@@ -121,7 +121,7 @@ export class DtlsSocket extends EventEmitter {
     }
 
     async connect(ip: string, port: number) {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve, reject) => {
             if (this.socket) {
                 this.socket.close();
             }
@@ -133,7 +133,11 @@ export class DtlsSocket extends EventEmitter {
                 this.handleRecv(reader);
             });
 
-            this.socket.connect(port, ip, resolve);
+            try {
+                this.socket.connect(port, ip, resolve);
+            } catch (e) {
+                reject(e);
+            }
         });
     }
 
