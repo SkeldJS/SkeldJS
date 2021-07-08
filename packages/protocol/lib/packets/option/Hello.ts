@@ -1,4 +1,4 @@
-import { SendOption } from "@skeldjs/constant";
+import { GameKeyword, QuickChatMode, SendOption } from "@skeldjs/constant";
 import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
 
 import { BaseRootPacket } from "./BaseRootPacket";
@@ -7,23 +7,15 @@ export class HelloPacket extends BaseRootPacket {
     static tag = SendOption.Hello as const;
     tag = SendOption.Hello as const;
 
-    readonly nonce: number;
-    readonly clientver: VersionInfo;
-    readonly username: string;
-    readonly token: number;
-
     constructor(
-        nonce: number,
-        clientver: VersionInfo,
-        username: string,
-        token: number
+        public readonly nonce: number,
+        public readonly clientver: VersionInfo,
+        public readonly username: string,
+        public readonly token: number,
+        public readonly language: GameKeyword,
+        public readonly chatMode: QuickChatMode
     ) {
         super();
-
-        this.nonce = nonce;
-        this.clientver = clientver;
-        this.username = username;
-        this.token = token;
     }
 
     static Deserialize(reader: HazelReader) {
@@ -32,8 +24,10 @@ export class HelloPacket extends BaseRootPacket {
         const clientver = reader.read(VersionInfo);
         const username = reader.string();
         const token = reader.uint32();
+        const language = reader.uint32();
+        const chatMode = reader.uint8();
 
-        return new HelloPacket(nonce, clientver, username, token);
+        return new HelloPacket(nonce, clientver, username, token, language, chatMode);
     }
 
     Serialize(writer: HazelWriter) {
@@ -42,5 +36,7 @@ export class HelloPacket extends BaseRootPacket {
         writer.write(this.clientver);
         writer.string(this.username);
         writer.uint32(this.token);
+        writer.uint32(this.language);
+        writer.uint8(this.chatMode);
     }
 }
