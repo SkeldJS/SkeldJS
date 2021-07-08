@@ -42,12 +42,7 @@ export class AuthClient {
     }
 
     async getAuthToken(ip: string, port: number) {
-        try {
-            await this.socket.connect(ip, port);
-        } catch (e) {
-            return 0;
-        }
-
+        await this.socket.connect(ip, port);
         this.socket.restartConnection();
 
         const helloWriter = HazelWriter.alloc(11);
@@ -64,7 +59,7 @@ export class AuthClient {
         this.socket?.send(helloWriter.buffer);
 
         const tokenResponse = await Promise.race([
-            await this.decoder.wait(TokenResponseMessage),
+            this.decoder.wait(TokenResponseMessage),
             sleep(5000)
         ]);
 
