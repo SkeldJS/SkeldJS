@@ -102,6 +102,7 @@
 							<h3>Enumerations</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/protocol.messagedirection.html" class="tsd-kind-icon">Message<wbr>Direction</a></li>
+								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/protocol.ventilationstate.html" class="tsd-kind-icon">Ventilation<wbr>State</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -115,6 +116,7 @@
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.baserootmessage.html" class="tsd-kind-icon">Base<wbr>Root<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.baserootpacket.html" class="tsd-kind-icon">Base<wbr>Root<wbr>Packet</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.baserpcmessage.html" class="tsd-kind-icon">Base<wbr>Rpc<wbr>Message</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.basesystemmessage.html" class="tsd-kind-icon">Base<wbr>System<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.castvotemessage.html" class="tsd-kind-icon">Cast<wbr>Vote<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.checkcolormessage.html" class="tsd-kind-icon">Check<wbr>Color<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.checknamemessage.html" class="tsd-kind-icon">Check<wbr>Name<wbr>Message</a></li>
@@ -174,7 +176,9 @@
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.startmeetingmessage.html" class="tsd-kind-icon">Start<wbr>Meeting<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.syncsettingsmessage.html" class="tsd-kind-icon">Sync<wbr>Settings<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.unreliablepacket.html" class="tsd-kind-icon">Unreliable<wbr>Packet</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.updatesystemmessage.html" class="tsd-kind-icon">Update<wbr>System<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.useplatformmessage.html" class="tsd-kind-icon">Use<wbr>Platform<wbr>Message</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.ventilationsystemmessage.html" class="tsd-kind-icon">Ventilation<wbr>System<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.votestate.html" class="tsd-kind-icon">Vote<wbr>State</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.votingcompletemessage.html" class="tsd-kind-icon">Voting<wbr>Complete<wbr>Message</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/protocol.waitforhostmessage.html" class="tsd-kind-icon">Wait<wbr>For<wbr>Host<wbr>Message</a></li>
@@ -207,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">Game<wbr>Counts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">GameMap</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/protocol/lib/packets/root/GetGameList.ts#L14">protocol/lib/packets/root/GetGameList.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/protocol/lib/packets/root/GetGameList.ts#L14">protocol/lib/packets/root/GetGameList.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -217,7 +221,7 @@
 					<div class="tsd-signature tsd-kind-icon">Get<wbr>Serialized&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol"> extends </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> ? </span><span class="tsd-signature-type">X</span><span class="tsd-signature-symbol"> : </span><span class="tsd-signature-type">never</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/protocol/lib/PacketDecoder.ts#L93">protocol/lib/PacketDecoder.ts:93</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/protocol/lib/PacketDecoder.ts#L98">protocol/lib/PacketDecoder.ts:98</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -233,7 +237,7 @@
 					<div class="tsd-signature tsd-kind-icon">Missing<wbr>Packets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/protocol/lib/packets/option/Acknowledge.ts#L6">protocol/lib/packets/option/Acknowledge.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/protocol/lib/packets/option/Acknowledge.ts#L6">protocol/lib/packets/option/Acknowledge.ts:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -350,6 +354,9 @@
 							<li class=" tsd-kind-enum tsd-parent-kind-module">
 								<a href="../enums/protocol.messagedirection.html" class="tsd-kind-icon">Message<wbr>Direction</a>
 							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/protocol.ventilationstate.html" class="tsd-kind-icon">Ventilation<wbr>State</a>
+							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/protocol.acknowledgepacket.html" class="tsd-kind-icon">Acknowledge<wbr>Packet</a>
 							</li>
@@ -373,6 +380,9 @@
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/protocol.baserpcmessage.html" class="tsd-kind-icon">Base<wbr>Rpc<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/protocol.basesystemmessage.html" class="tsd-kind-icon">Base<wbr>System<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/protocol.castvotemessage.html" class="tsd-kind-icon">Cast<wbr>Vote<wbr>Message</a>
@@ -552,7 +562,13 @@
 								<a href="../classes/protocol.unreliablepacket.html" class="tsd-kind-icon">Unreliable<wbr>Packet</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/protocol.updatesystemmessage.html" class="tsd-kind-icon">Update<wbr>System<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/protocol.useplatformmessage.html" class="tsd-kind-icon">Use<wbr>Platform<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/protocol.ventilationsystemmessage.html" class="tsd-kind-icon">Ventilation<wbr>System<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/protocol.votestate.html" class="tsd-kind-icon">Vote<wbr>State</a>

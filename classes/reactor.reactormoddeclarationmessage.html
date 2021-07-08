@@ -96,12 +96,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="reactor.reactormoddeclarationmessage.html#modid" class="tsd-kind-icon">modid</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="reactor.reactormoddeclarationmessage.html#netid" class="tsd-kind-icon">netid</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="reactor.reactormoddeclarationmessage.html#side" class="tsd-kind-icon">side</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="reactor.reactormoddeclarationmessage.html#mod" class="tsd-kind-icon">mod</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="reactor.reactormoddeclarationmessage.html#netid" class="tsd-kind-icon">net<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="reactor.reactormoddeclarationmessage.html#tag" class="tsd-kind-icon">tag</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="reactor.reactormoddeclarationmessage.html#type" class="tsd-kind-icon">type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="reactor.reactormoddeclarationmessage.html#version" class="tsd-kind-icon">version</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="reactor.reactormoddeclarationmessage.html#tag-1" class="tsd-kind-icon">tag</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="reactor.reactormoddeclarationmessage.html#type-1" class="tsd-kind-icon">type</a></li>
 							</ul>
@@ -129,29 +127,23 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Reactor<wbr>Mod<wbr>Declaration<wbr>Message<span class="tsd-signature-symbol">(</span>netid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, modid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, side<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PluginSide</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactorModDeclarationMessage</span></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Reactor<wbr>Mod<wbr>Declaration<wbr>Message<span class="tsd-signature-symbol">(</span>netId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, mod<span class="tsd-signature-symbol">: </span><a href="reactor.reactormod.html" class="tsd-signature-type" data-tsd-kind="Class">ReactorMod</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactorModDeclarationMessage</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides BaseReactorMessage.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L18">reactor/lib/packets/ReactorModDeclaration.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/reactor/lib/packets/ReactorModDeclaration.ts#L9">reactor/lib/packets/ReactorModDeclaration.ts:9</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>netid: <span class="tsd-signature-type">number</span></h5>
+									<h5>netId: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>modid: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>version: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>side: <span class="tsd-signature-type">PluginSide</span></h5>
+									<h5>mod: <a href="reactor.reactormod.html" class="tsd-signature-type" data-tsd-kind="Class">ReactorMod</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactorModDeclarationMessage</span></h4>
@@ -162,33 +154,17 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="modid" class="tsd-anchor"></a>
-					<h3>modid</h3>
-					<div class="tsd-signature tsd-kind-icon">modid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="mod" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> mod</h3>
+					<div class="tsd-signature tsd-kind-icon">mod<span class="tsd-signature-symbol">:</span> <a href="reactor.reactormod.html" class="tsd-signature-type" data-tsd-kind="Class">ReactorMod</a></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L16">reactor/lib/packets/ReactorModDeclaration.ts:16</a></li>
-						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="netid" class="tsd-anchor"></a>
-					<h3>netid</h3>
-					<div class="tsd-signature tsd-kind-icon">netid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> net<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">net<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L15">reactor/lib/packets/ReactorModDeclaration.ts:15</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="side" class="tsd-anchor"></a>
-					<h3>side</h3>
-					<div class="tsd-signature tsd-kind-icon">side<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PluginSide</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L18">reactor/lib/packets/ReactorModDeclaration.ts:18</a></li>
-						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
@@ -198,7 +174,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BaseReactorMessage.tag</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L13">reactor/lib/packets/ReactorModDeclaration.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/reactor/lib/packets/ReactorModDeclaration.ts#L9">reactor/lib/packets/ReactorModDeclaration.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -209,17 +185,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseReactorMessage.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/BaseReactorMessage.ts#L5">reactor/lib/packets/BaseReactorMessage.ts:5</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="version" class="tsd-anchor"></a>
-					<h3>version</h3>
-					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L17">reactor/lib/packets/ReactorModDeclaration.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/reactor/lib/packets/BaseReactorMessage.ts#L5">reactor/lib/packets/BaseReactorMessage.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -230,7 +196,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BaseReactorMessage.tag</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L12">reactor/lib/packets/ReactorModDeclaration.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/reactor/lib/packets/ReactorModDeclaration.ts#L8">reactor/lib/packets/ReactorModDeclaration.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -241,7 +207,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseReactorMessage.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/BaseReactorMessage.ts#L4">reactor/lib/packets/BaseReactorMessage.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/reactor/lib/packets/BaseReactorMessage.ts#L4">reactor/lib/packets/BaseReactorMessage.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -258,7 +224,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/protocol/lib/packets/BaseMessage.ts#L17">protocol/lib/packets/BaseMessage.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/protocol/lib/packets/BaseMessage.ts#L17">protocol/lib/packets/BaseMessage.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -279,7 +245,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseReactorMessage.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L43">reactor/lib/packets/ReactorModDeclaration.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/reactor/lib/packets/ReactorModDeclaration.ts#L24">reactor/lib/packets/ReactorModDeclaration.ts:24</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -303,7 +269,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from BaseReactorMessage.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/protocol/lib/packets/BaseMessage.ts#L38">protocol/lib/packets/BaseMessage.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/protocol/lib/packets/BaseMessage.ts#L38">protocol/lib/packets/BaseMessage.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -321,7 +287,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseReactorMessage.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/27d1ff9/packages/reactor/lib/packets/ReactorModDeclaration.ts#L34">reactor/lib/packets/ReactorModDeclaration.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0d76c79/packages/reactor/lib/packets/ReactorModDeclaration.ts#L18">reactor/lib/packets/ReactorModDeclaration.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -448,7 +414,7 @@
 						<a href="../modules/reactor.html" class="tsd-kind-icon">reactor</a>
 						<ul>
 							<li class=" tsd-kind-enum tsd-parent-kind-module">
-								<a href="../enums/reactor.pluginside.html" class="tsd-kind-icon">Plugin<wbr>Side</a>
+								<a href="../enums/reactor.modpluginside.html" class="tsd-kind-icon">Mod<wbr>Plugin<wbr>Side</a>
 							</li>
 							<li class=" tsd-kind-enum tsd-parent-kind-module">
 								<a href="../enums/reactor.reactormessagetag.html" class="tsd-kind-icon">Reactor<wbr>Message<wbr>Tag</a>
@@ -460,10 +426,16 @@
 								<a href="reactor.moddedhellopacket.html" class="tsd-kind-icon">Modded<wbr>Hello<wbr>Packet</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="reactor.reactorclient.html" class="tsd-kind-icon">Reactor<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="reactor.reactorhandshakemessage.html" class="tsd-kind-icon">Reactor<wbr>Handshake<wbr>Message</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="reactor.reactormessage.html" class="tsd-kind-icon">Reactor<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="reactor.reactormod.html" class="tsd-kind-icon">Reactor<wbr>Mod</a>
 							</li>
 							<li class="current tsd-kind-class tsd-parent-kind-module">
 								<a href="reactor.reactormoddeclarationmessage.html" class="tsd-kind-icon">Reactor<wbr>Mod<wbr>Declaration<wbr>Message</a>
@@ -472,22 +444,16 @@
 										<a href="reactor.reactormoddeclarationmessage.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="reactor.reactormoddeclarationmessage.html#modid" class="tsd-kind-icon">modid</a>
+										<a href="reactor.reactormoddeclarationmessage.html#mod" class="tsd-kind-icon">mod</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="reactor.reactormoddeclarationmessage.html#netid" class="tsd-kind-icon">netid</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="reactor.reactormoddeclarationmessage.html#side" class="tsd-kind-icon">side</a>
+										<a href="reactor.reactormoddeclarationmessage.html#netid" class="tsd-kind-icon">net<wbr>Id</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 										<a href="reactor.reactormoddeclarationmessage.html#tag" class="tsd-kind-icon">tag</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="reactor.reactormoddeclarationmessage.html#type" class="tsd-kind-icon">type</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="reactor.reactormoddeclarationmessage.html#version" class="tsd-kind-icon">version</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="reactor.reactormoddeclarationmessage.html#tag-1" class="tsd-kind-icon">tag</a>
