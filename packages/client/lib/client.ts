@@ -164,6 +164,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.options = {
             doFixedUpdate: true,
+            attemptAuth: true,
             allowHost: true,
             language: GameKeyword.English,
             ...options
@@ -292,7 +293,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.ip = ip.address;
         this.port = port;
-        this.token = await this.auth.getAuthToken(this.ip, this.port + 2);
+
+        this.token = this.options.attemptAuth
+            ? await this.auth.getAuthToken(this.ip, this.port + 2)
+            : 0;
 
         this.socket = dgram.createSocket("udp4");
         this.connected = true;
