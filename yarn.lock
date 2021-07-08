@@ -530,7 +530,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/reactor@workspace:packages/reactor"
   dependencies:
-    "@skeldjs/client": "workspace:packages/client"
+    "@skeldjs/client": "workspace:*"
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/protocol": "workspace:*"
     "@skeldjs/util": "workspace:*"
