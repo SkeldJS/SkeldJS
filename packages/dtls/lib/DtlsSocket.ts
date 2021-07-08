@@ -128,17 +128,19 @@ export class DtlsSocket extends EventEmitter {
 
             this.socket = dgram.createSocket("udp4");
 
-            this.socket.on("error", err => {
-                reject(err);
-            });
-
             this.socket.on("message", msg => {
                 const reader = HazelReader.from(msg);
                 this.handleRecv(reader);
             });
 
             try {
-                this.socket.connect(port, ip, resolve);
+                this.socket.on("error", err => {
+                    reject(err);
+                });
+
+                this.socket.on("connect", resolve);
+
+                this.socket.connect(port, ip);
             } catch (e) {
                 reject(e);
             }
