@@ -81,10 +81,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {
         "name": "@skeldjs/util",
         "reference": "workspace:packages/util"
-      },
-      {
-        "name": "test",
-        "reference": "workspace:test"
       }
     ],
     "enableTopLevelFallback": true,
@@ -105,8 +101,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@skeldjs/tasks", ["workspace:packages/tasks"]],
       ["@skeldjs/text", ["workspace:packages/text"]],
       ["@skeldjs/util", ["workspace:packages/util"]],
-      ["skeldjs", ["workspace:."]],
-      ["test", ["workspace:test"]]
+      ["skeldjs", ["workspace:."]]
     ],
     "fallbackPool": [
     ],
@@ -5759,24 +5754,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["yallist", "npm:4.0.0"]
           ],
           "linkType": "HARD",
-        }]
-      ]],
-      ["test", [
-        ["workspace:test", {
-          "packageLocation": "./test/",
-          "packageDependencies": [
-            ["test", "workspace:test"],
-            ["@skeldjs/client", "workspace:packages/client"],
-            ["@skeldjs/constant", "workspace:packages/constant"],
-            ["@skeldjs/get-auth-token", "workspace:packages/get-auth-token"],
-            ["@skeldjs/lan", "workspace:packages/lan"],
-            ["@skeldjs/pathfinding", "workspace:packages/pathfinding"],
-            ["@skeldjs/protocol", "workspace:packages/protocol"],
-            ["@skeldjs/reactor", "workspace:packages/reactor"],
-            ["@skeldjs/util", "workspace:packages/util"],
-            ["@types/node", "npm:15.12.5"]
-          ],
-          "linkType": "SOFT",
         }]
       ]],
       ["test-exclude", [

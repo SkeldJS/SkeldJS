@@ -79,8 +79,7 @@
     "*.ts": "eslint packages/**/*.ts"
   },
   "workspaces": [
-    "packages/*",
-    "test"
+    "packages/*"
   ],
   "version": "2.11.0"
 }
