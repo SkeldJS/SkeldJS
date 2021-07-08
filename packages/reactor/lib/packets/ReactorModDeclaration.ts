@@ -22,6 +22,7 @@ export class ReactorModDeclarationMessage extends BaseReactorMessage {
     }
 
     Serialize(writer: HazelWriter) {
+        writer.upacked(this.netId);
         writer.write(this.mod);
     }
 }
