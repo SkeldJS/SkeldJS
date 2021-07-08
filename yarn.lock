@@ -530,12 +530,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/reactor@workspace:packages/reactor"
   dependencies:
-    "@skeldjs/constant": "workspace:packages/constant"
-    "@skeldjs/protocol": "workspace:packages/protocol"
-    "@skeldjs/util": "workspace:packages/util"
+    "@skeldjs/client": "workspace:packages/client"
+    "@skeldjs/constant": "workspace:*"
+    "@skeldjs/protocol": "workspace:*"
+    "@skeldjs/util": "workspace:*"
     "@types/mocha": ^8.2.0
     "@types/node": ^14.14.16
     typescript: latest
+  peerDependencies:
+    "@skeldjs/client": "*"
   languageName: unknown
   linkType: soft
 
