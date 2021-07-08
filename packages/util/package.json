@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/util",
-  "version": "2.11.6",
+  "version": "2.11.7",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {

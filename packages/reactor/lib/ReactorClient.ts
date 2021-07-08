@@ -1,6 +1,6 @@
 import { QuickChatMode, SkeldjsClient } from "@skeldjs/client";
 import { AcknowledgePacket, ReliablePacket } from "@skeldjs/protocol";
-import { ModdedHelloPacket, ReactorMessage, ReactorModDeclarationMessage } from "./packets";
+import { ModdedHelloPacket, ReactorHandshakeMessage, ReactorMessage, ReactorModDeclarationMessage } from "./packets";
 import { ReactorMod } from "./ReactorMod";
 
 export class ReactorClient {
@@ -10,6 +10,13 @@ export class ReactorClient {
         public readonly client: SkeldjsClient
     ) {
         this.mods = new Map;
+
+        client.decoder.register(
+            ModdedHelloPacket,
+            ReactorHandshakeMessage,
+            ReactorMessage,
+            ReactorModDeclarationMessage
+        );
 
         client.on("client.identify", async identify => {
             identify.cancel();
