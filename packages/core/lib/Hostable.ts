@@ -735,10 +735,10 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
             ]);
 
             const removes = [];
-            for (const [clientId, player] of this.players) {
+            for (const [clientid, player] of this.players) {
                 if (!player.isReady) {
                     await this.handleLeave(player);
-                    removes.push(clientId);
+                    removes.push(clientid);
                 }
             }
 

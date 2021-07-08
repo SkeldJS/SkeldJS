@@ -1,5 +1,7 @@
 ## @skeldjs/get-auth-token
 
+### Deprecated in favour of using @skeldjs/client by itself, which has been updated to use @skeldjs/dtls.
+
 A simple node.js adaptor for the [GetAuthToken](https://github.com/auproximity/GetAuthToken) program.
 
 You can view auto-updating documentation for this package hosted at github pages at https://skeld.js.org/SkeldJS/modules/get_auth_token.html

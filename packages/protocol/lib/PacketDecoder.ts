@@ -68,9 +68,14 @@ import {
     SnapToMessage,
     StartMeetingMessage,
     SyncSettingsMessage,
+    UpdateSystemMessage,
     UsePlatformMessage,
     VotingCompleteMessage
 } from "./packets/rpc";
+
+import {
+    VentilationSystemMessage
+} from "./packets/system";
 
 export enum MessageDirection {
     Clientbound,
@@ -205,8 +210,13 @@ export class PacketDecoder<SenderType = any> {
             SnapToMessage,
             StartMeetingMessage,
             SyncSettingsMessage,
+            UpdateSystemMessage,
             UsePlatformMessage,
             VotingCompleteMessage
+        );
+
+        this.register(
+            VentilationSystemMessage
         );
     }
 
