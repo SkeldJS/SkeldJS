@@ -158,7 +158,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     constructor(
         version: string | number | VersionInfo,
-        options: ClientConfig = { allowHost: true }
+        options: ClientConfig = {
+            allowHost: true,
+            language: GameKeyword.English
+        }
     ) {
         super({ doFixedUpdate: true });
 
@@ -216,6 +219,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     getNextNonce() {
         this._nonce++;
 
+        return this._nonce;
+    }
+
+    getLastNonce() {
         return this._nonce;
     }
 
@@ -290,7 +297,13 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
 
-        const ev = await this.emit(new ClientConnectEvent(this, this.ip, this.port));
+        const ev = await this.emit(
+            new ClientConnectEvent(
+                this,
+                this.ip,
+                this.port
+            )
+        );
 
         if (!ev.canceled) {
             if (typeof username === "string") {
@@ -347,10 +360,28 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * await client.identify("weakeyes");
      * ```
      */
-    async identify(username: string, token?: number) {
+    async identify(username: string, token: number = 0) {
+        const ev = await this.emit(
+            new ClientIdentifyEvent(
+                this,
+                username,
+                token
+            )
+        );
+
+        if (ev.canceled)
+            return;
+
         const nonce = this.getNextNonce();
         await this.send(
-            new HelloPacket(nonce, this.version, username, token || 0)
+            new HelloPacket(
+                nonce,
+                this.version,
+                username,
+                token,
+                GameKeyword.English,
+                QuickChatMode.FreeChat
+            )
         );
 
         await this.decoder.waitf(AcknowledgePacket, ack => ack.nonce ===  nonce);
