@@ -27,7 +27,7 @@ export class RpcMessage extends BaseGameDataMessage {
     }
 
     get children() {
-        return [this.data];
+        return [ this.data ];
     }
 
     static Deserialize(

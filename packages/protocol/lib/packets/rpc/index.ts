@@ -29,5 +29,6 @@ export * from "./SetTasks";
 export * from "./SnapTo";
 export * from "./StartMeeting";
 export * from "./SyncSettings";
+export * from "./UpdateSystemMessage";
 export * from "./UsePlatform";
 export * from "./VotingComplete";
