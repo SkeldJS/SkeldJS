@@ -31,4 +31,7 @@ export enum RpcMessageTag {
     SetTasks,
     ClimbLadder = 31,
     UsePlatform,
+    SendQuickChat,
+    BootFromVent,
+    UpdateSystem
 }
