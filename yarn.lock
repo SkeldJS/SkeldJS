@@ -4912,22 +4912,6 @@ resolve@^1.1.6:
   languageName: node
   linkType: hard
 
-"test@workspace:test":
-  version: 0.0.0-use.local
-  resolution: "test@workspace:test"
-  dependencies:
-    "@skeldjs/client": "workspace:packages/client"
-    "@skeldjs/constant": "workspace:packages/constant"
-    "@skeldjs/get-auth-token": "workspace:packages/get-auth-token"
-    "@skeldjs/lan": "workspace:packages/lan"
-    "@skeldjs/pathfinding": "workspace:packages/pathfinding"
-    "@skeldjs/protocol": "workspace:packages/protocol"
-    "@skeldjs/reactor": "workspace:packages/reactor"
-    "@skeldjs/util": "workspace:packages/util"
-    "@types/node": ^15.0.1
-  languageName: unknown
-  linkType: soft
-
 "text-table@npm:^0.2.0":
   version: 0.2.0
   resolution: "text-table@npm:0.2.0"
