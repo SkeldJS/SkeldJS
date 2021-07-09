@@ -1,10 +1,13 @@
+import { QuickChatMode } from "@skeldjs/constant";
 import * as skeldjs from "../index";
 
 (async () => {
-    const client = new skeldjs.SkeldjsClient("2021.4.25");
+    const client = new skeldjs.SkeldjsClient("2021.6.30", {
+        chatMode: QuickChatMode.QuickChat
+    });
 
     console.log("Connecting..");
-    await client.connect("127.0.0.1", "weakeyes", parseInt(process.argv[2]));
+    await client.connect(process.argv[2], "weakeyes");
 
     await client.joinGame(process.argv[3]);
     console.log("Joined game.");

@@ -25,4 +25,4 @@ export const DisconnectMessages = {
         "The server stopped this game. Possibly due to inactivity.",
     [DisconnectReason.ServerFull]:
         "The Among Us servers are overloaded. Sorry! Please try again later!",
-};
+} as Record<number, string>;
