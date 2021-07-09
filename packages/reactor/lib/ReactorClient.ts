@@ -1,4 +1,4 @@
-import { QuickChatMode, SkeldjsClient } from "@skeldjs/client";
+import { SkeldjsClient } from "@skeldjs/client";
 import { AcknowledgePacket, ReliablePacket } from "@skeldjs/protocol";
 import { ModdedHelloPacket, ReactorHandshakeMessage, ReactorMessage, ReactorModDeclarationMessage } from "./packets";
 import { ReactorMod } from "./ReactorMod";
@@ -30,7 +30,7 @@ export class ReactorClient {
                     identify.username,
                     identify.token,
                     client.options.language,
-                    QuickChatMode.FreeChat,
+                    client.options.chatMode,
                     1,
                     this.mods.size
                 )

@@ -1,4 +1,4 @@
-import { GameKeyword, HostableOptions } from "@skeldjs/core";
+import { GameKeyword, HostableOptions, QuickChatMode } from "@skeldjs/core";
 
 export interface ClientConfig extends HostableOptions {
     /**
@@ -15,4 +15,10 @@ export interface ClientConfig extends HostableOptions {
      * The client's language. Used to localise messages from the server.
      */
     language: GameKeyword;
+
+    /**
+     * The quick chat mode for the client. The server prevents you from joining
+     * rooms with a quick chat mode if the client has free chat enbled.
+     */
+    chatMode: QuickChatMode;
 }

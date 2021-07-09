@@ -167,6 +167,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             attemptAuth: true,
             allowHost: true,
             language: GameKeyword.English,
+            chatMode: QuickChatMode.FreeChat,
             ...options
         };
 
@@ -385,8 +386,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 this.version,
                 username,
                 token,
-                GameKeyword.English,
-                QuickChatMode.FreeChat
+                this.options.language,
+                this.options.chatMode
             )
         );
 
