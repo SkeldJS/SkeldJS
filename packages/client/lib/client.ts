@@ -598,8 +598,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 (message) => message.error !== undefined
             ),
             this.decoder.wait(RedirectMessage),
-            this.decoder.wait(JoinedGameMessage),
-            this.decoder.wait(DisconnectPacket),
+            this.decoder.wait(JoinedGameMessage)
         ]);
 
         switch (message.tag) {
@@ -608,7 +607,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     "Join error: Failed to join game, code: " +
                         message.error +
                         " (Message: " +
-                        DisconnectMessages[message.error as keyof typeof DisconnectMessages] +
+                        (DisconnectMessages[message.error || DisconnectReason.None] || message.message) +
                         ")"
                 );
             case RootMessageTag.Redirect:
@@ -627,15 +626,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 }
 
                 return this.code;
-            case SendOption.Disconnect:
-                throw new Error(
-                    "Join error: Failed to join game, code: " +
-                        message.reason +
-                        " (Message: " +
-                        DisconnectMessages[message.reason as keyof typeof DisconnectMessages] +
-                        ")"
-                );
-                break;
         }
     }
 
@@ -685,7 +675,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     "Join error: Failed to create game, code: " +
                         message.error +
                         " (Message: " +
-                        DisconnectMessages[message.error as keyof typeof DisconnectMessages] +
+                        (DisconnectMessages[message.error || DisconnectReason.None] || message.message) +
                         ")"
                 );
             case RootMessageTag.Redirect:
@@ -708,6 +698,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 } else {
                     return message.code;
                 }
+                break;
         }
     }
 
