@@ -92,6 +92,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#allowhost" class="tsd-kind-icon">allow<wbr>Host</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#attemptauth" class="tsd-kind-icon">attempt<wbr>Auth</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#chatmode" class="tsd-kind-icon">chat<wbr>Mode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="client.clientconfig.html#dofixedupdate" class="tsd-kind-icon">do<wbr>Fixed<wbr>Update</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#language" class="tsd-kind-icon">language</a></li>
 							</ul>
@@ -107,7 +108,7 @@
 					<div class="tsd-signature tsd-kind-icon">allow<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d8cd9e2/packages/client/lib/interface/ClientConfig.ts#L7">client/lib/interface/ClientConfig.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/055259d/packages/client/lib/interface/ClientConfig.ts#L7">client/lib/interface/ClientConfig.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -122,12 +123,28 @@
 					<div class="tsd-signature tsd-kind-icon">attempt<wbr>Auth<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d8cd9e2/packages/client/lib/interface/ClientConfig.ts#L12">client/lib/interface/ClientConfig.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/055259d/packages/client/lib/interface/ClientConfig.ts#L12">client/lib/interface/ClientConfig.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Whether to attempt to authorise with the server to connect to.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="chatmode" class="tsd-anchor"></a>
+					<h3>chat<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">chat<wbr>Mode<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">QuickChatMode</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/055259d/packages/client/lib/interface/ClientConfig.ts#L23">client/lib/interface/ClientConfig.ts:23</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The quick chat mode for the client. The server prevents you from joining
+							rooms with a quick chat mode if the client has free chat enbled.</p>
 						</div>
 					</div>
 				</section>
@@ -138,7 +155,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from HostableOptions.doFixedUpdate</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d8cd9e2/packages/core/lib/misc/HostableOptions.ts#L6">core/lib/misc/HostableOptions.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/055259d/packages/core/lib/misc/HostableOptions.ts#L6">core/lib/misc/HostableOptions.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -158,7 +175,7 @@
 					<div class="tsd-signature tsd-kind-icon">language<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">GameKeyword</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d8cd9e2/packages/client/lib/interface/ClientConfig.ts#L17">client/lib/interface/ClientConfig.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/055259d/packages/client/lib/interface/ClientConfig.ts#L17">client/lib/interface/ClientConfig.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -285,6 +302,9 @@
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="client.clientconfig.html#attemptauth" class="tsd-kind-icon">attempt<wbr>Auth</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="client.clientconfig.html#chatmode" class="tsd-kind-icon">chat<wbr>Mode</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a href="client.clientconfig.html#dofixedupdate" class="tsd-kind-icon">do<wbr>Fixed<wbr>Update</a>
