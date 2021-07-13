@@ -1,7 +1,7 @@
 export enum GameKeyword {
     All = 0,
     Other = 1,
-    Spanish = 2,
+    SpanishAmericas = 2,
     Korean = 4,
     Russian = 8,
     Portuguese = 16,
@@ -9,4 +9,14 @@ export enum GameKeyword {
     Filipino = 64,
     Polish = 128,
     English = 256,
+    Japanese = 512,
+    Spanish = 1024,
+    PortugueseBrazil = 2048,
+    Dutch = 4096,
+    French = 8192,
+    German = 16384,
+    Italian = 32768,
+    ChineseSimplified = 65536,
+    ChineseTraditional = 131072,
+    Irish = 262144
 }
