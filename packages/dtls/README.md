@@ -9,7 +9,7 @@ NEVER do I want to set foot into dtls territory again. Over 30 hours of grueling
 painful debugging.
 
 Only does cipher suite TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256, feel free to add
-it yourself, I personally will not. Ever.
+another yourself, I personally will not. Ever.
 
 Also only does curve x25519, which is perhaps the bane of my existence.
 
