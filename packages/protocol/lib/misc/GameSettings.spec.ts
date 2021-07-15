@@ -1,12 +1,11 @@
 import assert from "assert";
 
-import { GameOptions } from "./GameOptions";
+import { GameSettings } from "./GameSettings";
 
-
-describe("GameOptions", () => {
-    describe("GameOptions#isValid", () => {
-        const isValid = GameOptions.isValid(
-            new GameOptions({
+describe("GameSettings", () => {
+    describe("GameSettings#isValid", () => {
+        const isValid = GameSettings.isValid(
+            new GameSettings({
                 version: 2,
                 maxPlayers: 10,
                 keywords: 256,

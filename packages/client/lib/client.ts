@@ -18,7 +18,7 @@ import {
     AcknowledgePacket,
     BaseRootMessage,
     DisconnectPacket,
-    GameOptions,
+    GameSettings,
     HelloPacket,
     BaseGameDataMessage,
     GameDataToMessage,
@@ -33,7 +33,7 @@ import {
     PingPacket,
     MessageDirection,
     HostGameMessage,
-    AllGameOptions,
+    AllGameSettings,
     GetGameListMessage,
     GameListing,
     RemovePlayerMessage,
@@ -645,11 +645,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * ```
      */
     async createGame(
-        host_settings: Partial<AllGameOptions> = {},
+        host_settings: Partial<AllGameSettings> = {},
         doJoin: boolean = true,
         chatMode: QuickChatMode = QuickChatMode.FreeChat
     ): Promise<number> {
-        const settings = new GameOptions({
+        const settings = new GameSettings({
             ...host_settings,
             version: 2,
         });
@@ -738,7 +738,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             );
         }
 
-        const options = new GameOptions({
+        const options = new GameSettings({
             map: maps,
             numImpostors: 0,
             keywords: GameKeyword.English,
