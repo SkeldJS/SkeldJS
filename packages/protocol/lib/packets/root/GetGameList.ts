@@ -7,7 +7,7 @@ import {
 
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 
-import { GameOptions, GameListing } from "../../misc";
+import { GameSettings, GameListing } from "../../misc";
 import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -17,16 +17,16 @@ export class GetGameListMessage extends BaseRootMessage {
     static tag = RootMessageTag.GetGameListV2 as const;
     tag = RootMessageTag.GetGameListV2 as const;
 
-    readonly options!: GameOptions;
+    readonly options!: GameSettings;
     readonly quickchat!: QuickChatMode;
 
     readonly gameCounts?: GameCounts;
     readonly gameList!: GameListing[];
 
-    constructor(options: GameOptions, quickchat: QuickChatMode);
+    constructor(options: GameSettings, quickchat: QuickChatMode);
     constructor(gameList: GameListing[], gameCounts?: GameCounts);
     constructor(
-        arg0: GameOptions | GameListing[],
+        arg0: GameSettings | GameListing[],
         arg1?: QuickChatMode | GameCounts
     ) {
         super();
@@ -35,7 +35,7 @@ export class GetGameListMessage extends BaseRootMessage {
             this.gameList = arg0 as GameListing[];
             this.gameCounts = arg1 as GameCounts;
         } else {
-            this.options = arg0 as GameOptions;
+            this.options = arg0 as GameSettings;
             this.quickchat = arg1 as QuickChatMode;
         }
     }
@@ -68,7 +68,7 @@ export class GetGameListMessage extends BaseRootMessage {
             return new GetGameListMessage(gameList, gameCounts);
         } else {
             reader.upacked(); // Skip hard-coded value at 0x02
-            const options = GameOptions.Deserialize(reader);
+            const options = GameSettings.Deserialize(reader);
             const quickchat = reader.uint8();
 
             return new GetGameListMessage(options, quickchat);

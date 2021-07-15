@@ -6,7 +6,7 @@ import {
 } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 
-export interface AllGameOptions {
+export interface AllGameSettings {
     version: number;
     maxPlayers: number;
     keywords: GameKeyword;
@@ -31,8 +31,8 @@ export interface AllGameOptions {
     taskbarUpdates: TaskBarUpdate;
 }
 
-export class GameOptions implements AllGameOptions {
-    static isValid(options: GameOptions) {
+export class GameSettings implements AllGameSettings {
+    static isValid(options: GameSettings) {
         if (options.maxPlayers < 4 || options.maxPlayers > 10) {
             return false;
         }
@@ -127,11 +127,11 @@ export class GameOptions implements AllGameOptions {
     anonymousVotes!: boolean;
     taskbarUpdates!: TaskBarUpdate;
 
-    constructor(options: Partial<AllGameOptions> = {}) {
+    constructor(options: Partial<AllGameSettings> = {}) {
         this.patch(options);
     }
 
-    patch(options: Partial<AllGameOptions>) {
+    patch(options: Partial<AllGameSettings>) {
         this.version = options.version ?? 4;
         this.maxPlayers = options.maxPlayers ?? 10;
         this.keywords = options.keywords ?? GameKeyword.Other;
@@ -157,7 +157,7 @@ export class GameOptions implements AllGameOptions {
     }
 
     static Deserialize(reader: HazelReader) {
-        const gameOptions = new GameOptions;
+        const gameOptions = new GameSettings;
         gameOptions.Deserialize(reader);
         return gameOptions;
     }

@@ -6,7 +6,7 @@ import {
 } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import assert from "assert";
-import { GameListing, GameOptions } from "../../misc";
+import { GameListing, GameSettings } from "../../misc";
 import { MessageDirection } from "../../PacketDecoder";
 
 import { GetGameListMessage } from "./GetGameList";
@@ -91,7 +91,7 @@ describe("GetGameListMessage", () => {
         it("Should serialize a server-bound get game list root message.", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new GetGameListMessage(
-                new GameOptions({
+                new GameSettings({
                     map: GameMap.TheSkeld,
                     keywords: GameKeyword.English,
                     numImpostors: 2,

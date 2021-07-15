@@ -1,6 +1,6 @@
 import {
     SpawnMessage,
-    GameOptions,
+    GameSettings,
     BaseGameDataMessage,
     BaseRootMessage,
     DataMessage,
@@ -13,7 +13,7 @@ import {
     RpcMessage,
     SceneChangeMessage,
     ReadyMessage,
-    AllGameOptions,
+    AllGameSettings
 } from "@skeldjs/protocol";
 
 import {
@@ -21,7 +21,7 @@ import {
     HazelReader,
     HazelWriter,
     sleep,
-    Vector2,
+    Vector2
 } from "@skeldjs/util";
 
 import {
@@ -29,7 +29,7 @@ import {
     AlterGameTag,
     GameOverReason,
     SpawnType,
-    SpawnFlag,
+    SpawnFlag
 } from "@skeldjs/constant";
 
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -168,7 +168,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
     /**
      * The settings of the room.
      */
-    settings: GameOptions;
+    settings: GameSettings;
 
     /**
      * The current start counter for the room.
@@ -203,7 +203,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
         this.counter = -1;
         this.privacy = "private";
 
-        this.settings = new GameOptions;
+        this.settings = new GameSettings;
 
         this.objects = new Map;
         this.players = new Map;
@@ -617,7 +617,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      * });
      * ```
      */
-    setSettings(settings: Partial<AllGameOptions>) {
+    setSettings(settings: Partial<AllGameSettings>) {
         this.settings.patch(settings);
 
         if (this.amhost) {

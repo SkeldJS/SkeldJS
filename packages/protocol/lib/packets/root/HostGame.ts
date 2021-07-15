@@ -1,7 +1,7 @@
 import { QuickChatMode, RootMessageTag } from "@skeldjs/constant";
 import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
 
-import { GameOptions } from "../../misc";
+import { GameSettings } from "../../misc";
 import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -10,13 +10,13 @@ export class HostGameMessage extends BaseRootMessage {
     tag = RootMessageTag.HostGame as const;
 
     readonly code!: number;
-    readonly options!: GameOptions;
+    readonly options!: GameSettings;
     readonly quickchat!: QuickChatMode;
 
     constructor(code: string | number);
-    constructor(options: GameOptions, quickchat: QuickChatMode);
+    constructor(options: GameSettings, quickchat: QuickChatMode);
     constructor(
-        options: GameOptions | string | number,
+        options: GameSettings | string | number,
         quickchat?: QuickChatMode
     ) {
         super();
@@ -37,7 +37,7 @@ export class HostGameMessage extends BaseRootMessage {
 
             return new HostGameMessage(code);
         } else {
-            const gameOptions = GameOptions.Deserialize(reader);
+            const gameOptions = GameSettings.Deserialize(reader);
             const quickChat = reader.uint8();
 
             return new HostGameMessage(gameOptions, quickChat);

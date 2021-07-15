@@ -8,7 +8,7 @@ import {
     GameDataToMessage,
     JoinedGameMessage,
     MessageDirection,
-    GameOptions,
+    GameSettings,
     EndGameMessage,
 } from "@skeldjs/protocol";
 
@@ -115,7 +115,7 @@ export class SkeldjsStateManager<
         this.stream = [];
         this.code = 0;
         this.hostid = 0;
-        this.settings = new GameOptions;
+        this.settings = new GameSettings;
         this.counter = -1;
         this.privacy = "private";
     }

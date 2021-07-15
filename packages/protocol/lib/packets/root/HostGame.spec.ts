@@ -1,7 +1,7 @@
 import { QuickChatMode, RootMessageTag } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import assert from "assert";
-import { GameOptions } from "../../misc";
+import { GameSettings } from "../../misc";
 
 import { MessageDirection } from "../../PacketDecoder";
 import { HostGameMessage } from "./HostGame";
@@ -48,7 +48,7 @@ describe("HostGameMessage", () => {
         it("Should serialize a server-bound host game root message.", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new HostGameMessage(
-                new GameOptions,
+                new GameSettings,
                 QuickChatMode.FreeChat
             );
 

@@ -1,7 +1,13 @@
 import { SkeldjsClient } from "@skeldjs/client";
 import { AcknowledgePacket, ReliablePacket } from "@skeldjs/protocol";
-import { ModdedHelloPacket, ReactorHandshakeMessage, ReactorMessage, ReactorModDeclarationMessage } from "./packets";
 import { ReactorMod } from "./ReactorMod";
+
+import {
+    ModdedHelloPacket,
+    ReactorHandshakeMessage,
+    ReactorMessage,
+    ReactorModDeclarationMessage
+} from "./packets";
 
 export class ReactorClient {
     mods: Map<string, ReactorMod>;

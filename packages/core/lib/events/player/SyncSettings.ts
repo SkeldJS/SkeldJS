@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { AllGameOptions, GameOptions, SyncSettingsMessage } from "@skeldjs/protocol";
+import { AllGameSettings, GameSettings, SyncSettingsMessage } from "@skeldjs/protocol";
 
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
@@ -14,7 +14,7 @@ export class PlayerSyncSettingsEvent<RoomType extends Hostable = Hostable> exten
     static eventName = "player.syncsettings" as const;
     eventName = "player.syncsettings" as const;
 
-    private _alteredSettings: GameOptions;
+    private _alteredSettings: GameSettings;
     private _isDirty: boolean;
 
     constructor(
@@ -24,11 +24,11 @@ export class PlayerSyncSettingsEvent<RoomType extends Hostable = Hostable> exten
         /**
          * The settings that were set.
          */
-        public readonly settings: GameOptions
+        public readonly settings: GameSettings
     ) {
         super();
 
-        this._alteredSettings = new GameOptions(settings);
+        this._alteredSettings = new GameSettings(settings);
         this._isDirty = false;
     }
 
@@ -49,10 +49,10 @@ export class PlayerSyncSettingsEvent<RoomType extends Hostable = Hostable> exten
 
     /**
      * Change the settings that were set.
-     * @param options The settings to set.
+     * @param settings The settings to set.
      */
-    setSettings(options: Partial<AllGameOptions>) {
-        this._alteredSettings.patch(options);
+    setSettings(settings: Partial<AllGameSettings>) {
+        this._alteredSettings.patch(settings);
         this._isDirty = true;
     }
 }

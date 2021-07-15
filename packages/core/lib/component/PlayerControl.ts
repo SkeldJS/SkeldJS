@@ -5,7 +5,7 @@ import {
     CheckNameMessage,
     CompleteTaskMessage,
     ComponentSpawnData,
-    GameOptions,
+    GameSettings,
     MurderPlayerMessage,
     ReportDeadBodyMessage,
     RpcMessage,
@@ -273,17 +273,17 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSyncSettings(rpc: SyncSettingsMessage) {
-        if (!rpc.options)
+        if (!rpc.settings)
             return;
 
-        this._syncSettings(rpc.options);
+        this._syncSettings(rpc.settings);
 
         const ev = await this.emit(
             new PlayerSyncSettingsEvent(
                 this.room,
                 this.player,
                 rpc,
-                rpc.options
+                rpc.settings
             )
         );
 
@@ -293,11 +293,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _syncSettings(settings: GameOptions) {
+    private _syncSettings(settings: GameSettings) {
         this.room.settings.patch(settings);
     }
 
-    private async _rpcSyncSettings(settings: GameOptions) {
+    private async _rpcSyncSettings(settings: GameSettings) {
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
@@ -312,9 +312,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link PlayerSyncSettingsEvent | `player.syncsettings`} event.
      *
-     * @property settings The full game options object to update the settings to.
+     * @property settings The full game settings object to update the settings to.
      */
-    async syncSettings(settings: GameOptions) {
+    async syncSettings(settings: GameSettings) {
         this._syncSettings(settings);
 
         const ev = await this.emit(
