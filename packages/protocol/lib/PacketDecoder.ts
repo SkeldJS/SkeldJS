@@ -114,19 +114,16 @@ export interface Deserializable {
     ): Serializable;
 }
 
+export type MessageMapKey = `${string}:${number}`;
+
 export class PacketDecoder<SenderType = any> {
-    listeners: Map<string,
-        Map<number,
-            Set<
-                (
-                    message: Serializable,
-                    direction: MessageDirection,
-                    sender: SenderType
-                ) => void
-            >
-        >
+    listeners: Map<MessageMapKey, Set<(
+            message: Serializable,
+            direction: MessageDirection,
+            sender: SenderType
+        ) => void>
     >;
-    types: Map<string, Map<number, Deserializable>>;
+    types: Map<MessageMapKey, Deserializable>;
 
     constructor() {
         this.listeners = new Map;
@@ -225,26 +222,13 @@ export class PacketDecoder<SenderType = any> {
         this.types.clear();
     }
 
-    private getClasses(type: string): Map<number, Deserializable> {
-        const classes = this.types.get(type);
-
-        if (classes) {
-            return classes;
-        }
-
-        this.types.set(type, new Map);
-        return this.getClasses(type);
-    }
-
     /**
      * Register a message or several messages to the packet decoder.
      * @param messageClasses The packet or packets to register.
      */
     register(...messageClasses: Deserializable[]) {
         for (const messageClass of messageClasses) {
-            const classes = this.getClasses(messageClass.type);
-
-            classes.set(messageClass.tag, messageClass);
+            this.types.set(`${messageClass.type}:${messageClass.tag}`, messageClass);
         }
     }
 
@@ -294,19 +278,15 @@ export class PacketDecoder<SenderType = any> {
         direction: MessageDirection,
         sender: SenderType
     ) {
-        const classes = this.types.get(message.type);
+        const messageClass = this.types.get(`${message.type}:${message.tag}`);
 
-        if (classes) {
-            const messageClass = classes.get(message.tag);
+        if (messageClass) {
+            const listeners = this.getListeners(messageClass);
 
-            if (messageClass) {
-                const listeners = this.getListeners(messageClass);
-
-                await Promise.all(
-                    [...listeners].map(listener =>
-                        listener(message, direction, sender as SenderType))
-                );
-            }
+            await Promise.all(
+                [...listeners].map(listener =>
+                    listener(message, direction, sender as SenderType))
+            );
         }
     }
 
@@ -315,17 +295,13 @@ export class PacketDecoder<SenderType = any> {
         direction: MessageDirection,
         sender: SenderType
     ) {
-        const classes = this.types.get(message.type);
+        const messageClass = this.types.get(`${message.type}:${message.tag}`);
 
-        if (classes) {
-            const messageClass = classes.get(message.tag);
+        if (messageClass) {
+            const listeners = this.getListeners(messageClass);
 
-            if (messageClass) {
-                const listeners = this.getListeners(messageClass);
-
-                for (const listener of listeners) {
-                    await listener(message, direction, sender as SenderType);
-                }
+            for (const listener of listeners) {
+                await listener(message, direction, sender as SenderType);
             }
         }
     }
@@ -344,23 +320,15 @@ export class PacketDecoder<SenderType = any> {
             sender: SenderType
         ) => void
     > {
-        const typeListeners = this.listeners.get(messageClass.type);
+        const msgKey = `${messageClass.type}:${messageClass.tag}` as MessageMapKey;
+        const cachedListeners = this.listeners.get(msgKey);
+        const listeners = cachedListeners || new Set;
 
-        if (!typeListeners) {
-            this.listeners.set(messageClass.type, new Map);
+        if (!cachedListeners)
+            this.listeners.set(msgKey, listeners);
 
-            return this.getListeners(messageClass);
-        }
 
-        const tagListeners = typeListeners.get(messageClass.tag);
-
-        if (!tagListeners) {
-            typeListeners.set(messageClass.tag, new Set);
-
-            return this.getListeners(messageClass);
-        }
-
-        return tagListeners;
+        return listeners;
     }
 
     /**
@@ -566,13 +534,8 @@ export class PacketDecoder<SenderType = any> {
             return this._parse(HazelReader.from(reader), direction);
         }
 
-        const optionMessages = this.types.get("option");
-
-        if (!optionMessages)
-            return null;
-
         const sendOption = reader.uint8();
-        const optionMessageClass = optionMessages.get(sendOption);
+        const optionMessageClass = this.types.get(`option:${sendOption}`);
 
         if (!optionMessageClass)
             return null;

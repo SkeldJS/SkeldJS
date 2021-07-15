@@ -26,13 +26,8 @@ export class UpdateSystemMessage extends BaseRpcMessage {
     ) {
         const systemType = reader.uint8();
         const netid = reader.upacked();
-        const rpcMessages = decoder.types.get("system");
-
-        if (!rpcMessages)
-            return new UpdateSystemMessage(netid, new BaseSystemMessage);
-
+        const rpcMessageClass = decoder.types.get(`system:${systemType}`);
         const mreader = reader.bytes(reader.left);
-        const rpcMessageClass = rpcMessages.get(systemType);
 
         if (!rpcMessageClass)
             return new UpdateSystemMessage(netid, new BaseSystemMessage);
