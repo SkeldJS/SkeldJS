@@ -12,7 +12,7 @@ if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
         const client = new skeldjs.SkeldjsClient("2021.4.25");
 
         console.log("Connecting to server..");
-        await client.connect("127.0.0.1", "weakeyes", 0);
+        await client.connect(regcode, "weakeyes");
 
         console.log("Creating game..");
         const code = await client.createGame(
