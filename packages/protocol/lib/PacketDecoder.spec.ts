@@ -23,10 +23,9 @@ describe("PacketDecoder", () => {
     describe("PacketDecoder#register", () => {
         it("Should register a message with a type and a tag", () => {
             const decoder = new PacketDecoder;
-
             decoder.register(TestMessage);
 
-            assert.ok(decoder.types.get("root").has(32));
+            assert.ok(decoder.types.get("root:32"));
         });
     });
 

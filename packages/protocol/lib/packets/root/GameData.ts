@@ -33,16 +33,12 @@ export class GameDataMessage extends BaseRootMessage {
     ) {
         const code = reader.int32();
 
-        const rootMessages = decoder.types.get("gamedata");
-
-        if (!rootMessages) return new GameDataMessage(code, []);
-
         const children: BaseGameDataMessage[] = [];
 
         while (reader.left) {
             const [tag, mreader] = reader.message();
 
-            const rootMessageClass = rootMessages.get(tag);
+            const rootMessageClass = decoder.types.get(`gamedata:${tag}`);
 
             if (!rootMessageClass) continue;
 
@@ -64,12 +60,9 @@ export class GameDataMessage extends BaseRootMessage {
     ) {
         writer.int32(this.code);
 
-        const rootMessages = decoder.types.get("gamedata");
-
-        if (!rootMessages) return;
-
         for (const message of this.children) {
-            if (!rootMessages.has(message.tag)) continue;
+            if (!decoder.types.has(`gamedata:${message.tag}`))
+                continue;
 
             writer.begin(message.tag);
             writer.write(message, direction, decoder);

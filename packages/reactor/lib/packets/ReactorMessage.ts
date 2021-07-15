@@ -30,12 +30,8 @@ export class ReactorMessage extends BaseRootMessage {
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
-        const reactorMessages = decoder.types.get("reactor");
-
-        if (!reactorMessages) return new ReactorMessage;
-
         const tag = reader.uint8();
-        const reactorMessageClass = reactorMessages.get(tag);
+        const reactorMessageClass = decoder.types.get(`reactor:${tag}`);
 
         if (!reactorMessageClass) return new ReactorMessage;
 
@@ -54,14 +50,6 @@ export class ReactorMessage extends BaseRootMessage {
         decoder: PacketDecoder
     ) {
         const child = this.children[0];
-
-        if (!child)
-            return;
-
-        const reactorMessages = decoder.types.get("reactor");
-
-        if (!reactorMessages || !reactorMessages.has(child.tag)) return;
-
         writer.uint8(child.tag);
         writer.write(child, direction, decoder);
     }

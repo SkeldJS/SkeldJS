@@ -19,15 +19,11 @@ export class NormalPacket extends BaseRootPacket {
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
-        const rootMessages = decoder.types.get("root");
-
-        if (!rootMessages) return new NormalPacket([]);
-
         const children: BaseRootMessage[] = [];
 
         while (reader.left) {
             const [tag, mreader] = reader.message();
-            const rootMessageClass = rootMessages.get(tag);
+            const rootMessageClass = decoder.types.get(`root:${tag}`);
 
             if (!rootMessageClass) continue;
 
@@ -47,12 +43,9 @@ export class NormalPacket extends BaseRootPacket {
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
-        const rootMessages = decoder.types.get("root");
-
-        if (!rootMessages) return;
-
         for (const message of this.children) {
-            if (!rootMessages.has(message.tag)) continue;
+            if (!decoder.types.has(`root:${message.tag}`))
+                continue;
 
             writer.begin(message.tag);
             writer.write(message, direction, decoder);
