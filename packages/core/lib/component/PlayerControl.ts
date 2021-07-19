@@ -560,7 +560,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player.color === rpc.color
+                    player.color === new_color
             )
         ) {
             new_color++;
