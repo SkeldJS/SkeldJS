@@ -6,6 +6,7 @@ export * from "./misc/AutoOpenDoor";
 export * from "./misc/Door";
 export * from "./misc/HostableOptions";
 export * from "./misc/PlayerInfo";
+export * from "./misc/PlayerVoteArea";
 export * from "./misc/PlayerVoteState";
 
 export * from "./Heritable";
