@@ -41,7 +41,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
     /**
      * The doors in the map.
      */
-    doors: Door[];
+    doors: Door<RoomType>[];
 
     constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | DoorsSystemData) {
         super(ship, data);

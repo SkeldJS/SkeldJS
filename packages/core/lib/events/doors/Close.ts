@@ -16,7 +16,7 @@ export class DoorsDoorCloseEvent<RoomType extends Hostable = Hostable> extends R
     static eventName = "doors.close" as const;
     eventName = "doors.close" as const;
 
-    private _alteredDoor: Door;
+    private _alteredDoor: Door<RoomType>;
 
     constructor(
         public readonly room: RoomType,
@@ -48,11 +48,11 @@ export class DoorsDoorCloseEvent<RoomType extends Hostable = Hostable> extends R
      * Change the door that was closed.
      * @param door The door to close.
      */
-    setDoor(door: Door|number): void {
+    setDoor(door: Door<RoomType>|number): void {
         if (typeof door === "number") {
             return this.setDoor(this.doorsystem.doors[door]);
         }
 
-        this._alteredDoor === door;
+        this._alteredDoor = door;
     }
 }

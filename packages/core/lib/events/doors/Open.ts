@@ -18,7 +18,7 @@ export class DoorsDoorOpenEvent<RoomType extends Hostable = Hostable> extends Re
     static eventName = "doors.open" as const;
     eventName = "doors.open" as const;
 
-    private _alteredDoor: Door;
+    private _alteredDoor: Door<RoomType>;
 
     constructor(
         public readonly room: RoomType,
@@ -50,11 +50,11 @@ export class DoorsDoorOpenEvent<RoomType extends Hostable = Hostable> extends Re
      * Change the door that was opened.
      * @param door The door to open.
      */
-    setDoor(door: Door|number): void {
+    setDoor(door: Door<RoomType>|number): void {
         if (typeof door === "number") {
             return this.setDoor(this.doorsystem.doors[door]);
         }
 
-        this._alteredDoor === door;
+        this._alteredDoor = door;
     }
 }

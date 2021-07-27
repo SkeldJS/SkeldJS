@@ -14,7 +14,7 @@ export class MedScanLeaveQueueEvent<RoomType extends Hostable = Hostable> extend
     static eventName = "medscan.leavequeue" as const;
     eventName = "medscan.leavequeue" as const;
 
-    private _alteredPlayer: PlayerData;
+    private _alteredPlayer: PlayerData<RoomType>;
 
     constructor(
         public readonly room: RoomType,
@@ -41,7 +41,7 @@ export class MedScanLeaveQueueEvent<RoomType extends Hostable = Hostable> extend
      * Change the player that left the queue.
      * @param player The player that left the queue.
      */
-    setPlayer(player: PlayerData) {
+    setPlayer(player: PlayerData<RoomType>) {
         this._alteredPlayer = player;
     }
 }

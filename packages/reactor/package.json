@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/reactor",
-  "version": "2.11.17",
+  "version": "2.11.18",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {

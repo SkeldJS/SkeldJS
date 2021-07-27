@@ -18,7 +18,7 @@ export class PlayerSetHostEvent<RoomType extends Hostable = Hostable> extends Ba
     static eventName = "player.sethost" as const;
     eventName = "player.sethost" as const;
 
-    private _alteredHost: PlayerData;
+    private _alteredHost: PlayerData<RoomType>;
 
     constructor(
         public readonly room: RoomType,
@@ -40,7 +40,7 @@ export class PlayerSetHostEvent<RoomType extends Hostable = Hostable> extends Ba
      * Change the player that was made host.
      * @param player The player to make host.
      */
-    setHost(player: PlayerData) {
+    setHost(player: PlayerData<RoomType>) {
         this._alteredHost = player;
     }
 }

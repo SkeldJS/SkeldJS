@@ -14,7 +14,7 @@ export class MedScanJoinQueueEvent<RoomType extends Hostable = Hostable> extends
     static eventName = "medscan.joinqueue" as const;
     eventName = "medscan.joinqueue" as const;
 
-    private _alteredPlayer: PlayerData;
+    private _alteredPlayer: PlayerData<RoomType>;
 
     constructor(
         public readonly room: RoomType,
@@ -41,7 +41,7 @@ export class MedScanJoinQueueEvent<RoomType extends Hostable = Hostable> extends
      * Change the player that joined the queue.
      * @param player The player to join the queue.
      */
-    setPlayer(player: PlayerData) {
+    setPlayer(player: PlayerData<RoomType>) {
         this._alteredPlayer = player;
     }
 }
