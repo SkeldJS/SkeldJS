@@ -14,7 +14,7 @@ export class RoomSelectImpostorsEvent<RoomType extends Hostable = Hostable> exte
     static eventName = "room.selectimpostors" as const;
     eventName = "room.selectimpostors" as const;
 
-    private _alteredImpostors: PlayerData[];
+    private _alteredImpostors: PlayerData<RoomType>[];
 
     constructor(
         public readonly room: RoomType,
@@ -39,7 +39,7 @@ export class RoomSelectImpostorsEvent<RoomType extends Hostable = Hostable> exte
      * Change the players that were selected.
      * @param impostors The players to select.
      */
-    setImpostors(impostors: PlayerData[]) {
+    setImpostors(impostors: PlayerData<RoomType>[]) {
         this._alteredImpostors = impostors;
     }
 }

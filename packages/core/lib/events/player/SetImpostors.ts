@@ -14,7 +14,7 @@ export class PlayerSetImpostorsEvent<RoomType extends Hostable = Hostable> exten
     static eventName = "player.setimpostors" as const;
     eventName = "player.setimpostors" as const;
 
-    private _alteredImpostors: PlayerData[];
+    private _alteredImpostors: PlayerData<RoomType>[];
     private _isDirty: boolean;
 
     constructor(
@@ -51,7 +51,7 @@ export class PlayerSetImpostorsEvent<RoomType extends Hostable = Hostable> exten
      * Change the impostors that were set.
      * @param impostors The impostors to set.
      */
-    setImpostors(impostors: PlayerData[]) {
+    setImpostors(impostors: PlayerData<RoomType>[]) {
         this._alteredImpostors = impostors;
         this._isDirty = true;
     }

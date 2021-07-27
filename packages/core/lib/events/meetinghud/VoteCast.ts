@@ -16,8 +16,8 @@ export class MeetingHudVoteCastEvent<RoomType extends Hostable = Hostable> exten
     static eventName = "meeting.castvote" as const;
     eventName = "meeting.castvote" as const;
 
-    private _alteredVoter: PlayerData;
-    private _alteredSuspect: PlayerData|undefined;
+    private _alteredVoter: PlayerData<RoomType>;
+    private _alteredSuspect: PlayerData<RoomType>|undefined;
 
     constructor(
         public readonly room: RoomType,
@@ -63,7 +63,7 @@ export class MeetingHudVoteCastEvent<RoomType extends Hostable = Hostable> exten
      * Change the player that cast the vote.
      * @param voter The player to cast the vote.
      */
-    setVoter(voter: PlayerData) {
+    setVoter(voter: PlayerData<RoomType>) {
         this._alteredVoter = voter;
     }
 
@@ -71,7 +71,7 @@ export class MeetingHudVoteCastEvent<RoomType extends Hostable = Hostable> exten
      * Change the player that the voter voted for.
      * @param suspect The player for the voter to vote for.
      */
-    setSuspect(suspect: PlayerData) {
+    setSuspect(suspect: PlayerData<RoomType>) {
         this._alteredSuspect = suspect;
     }
 }

@@ -19,7 +19,7 @@ export class PlayerReportDeadBodyEvent<RoomType extends Hostable = Hostable> ext
     static eventName = "player.reportbody" as const;
     eventName = "player.reportbody" as const;
 
-    private _alteredBody: PlayerData|"emergency";
+    private _alteredBody: PlayerData<RoomType>|"emergency";
 
     constructor(
         public readonly room: RoomType,
@@ -54,7 +54,7 @@ export class PlayerReportDeadBodyEvent<RoomType extends Hostable = Hostable> ext
      * Change the body that will be reported.
      * @param body The body for the player to report.
      */
-    setBody(body: PlayerData | "emergency") {
+    setBody(body: PlayerData<RoomType>|"emergency") {
         this._alteredBody = body;
     }
 }

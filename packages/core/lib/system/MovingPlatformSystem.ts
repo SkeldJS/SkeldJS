@@ -39,7 +39,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
     systemType = SystemType.Decontamination as const;
 
     useId: number;
-    target: PlayerData|undefined;
+    target: PlayerData<RoomType>|undefined;
     side: MovingPlatformSide;
 
     constructor(
@@ -101,7 +101,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
         this.dirty = spawn;
     }
 
-    private async _setTarget(side: MovingPlatformSide, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _setTarget(side: MovingPlatformSide, player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
         const oldTarget = player;
         const oldSide = this.side;
         this.target = player;

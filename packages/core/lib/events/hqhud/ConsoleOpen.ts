@@ -16,7 +16,7 @@ export class HqHudConsoleOpenEvent<RoomType extends Hostable = Hostable> extends
     eventName = "hqhud.consoles.open" as const;
 
     private _alteredConsoleId: number;
-    private _atleredPlayer: PlayerData;
+    private _atleredPlayer: PlayerData<RoomType>;
 
     constructor(
         public readonly room: RoomType,
@@ -63,7 +63,7 @@ export class HqHudConsoleOpenEvent<RoomType extends Hostable = Hostable> extends
      * Change the player that opened the console.
      * @param player The player to open the console.
      */
-    setPlayer(player: PlayerData) {
+    setPlayer(player: PlayerData<RoomType>) {
         this._atleredPlayer = player;
     }
 }

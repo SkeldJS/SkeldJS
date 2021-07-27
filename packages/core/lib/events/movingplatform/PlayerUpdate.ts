@@ -15,7 +15,7 @@ export class MovingPlatformPlayerUpdateEvent<RoomType extends Hostable = Hostabl
     static eventName = "movingplatform.updateplayer" as const;
     eventName = "movingplatform.updateplayer" as const;
 
-    private _alteredPlayer: PlayerData|undefined;
+    private _alteredPlayer: PlayerData<RoomType>|undefined;
     private _alteredSide: MovingPlatformSide
 
     constructor(
@@ -55,7 +55,7 @@ export class MovingPlatformPlayerUpdateEvent<RoomType extends Hostable = Hostabl
      * Change the player that is on the moving platform.
      * @param player The player to get onto the moving platform.
      */
-    setPlayer(player: PlayerData|undefined) {
+    setPlayer(player: PlayerData<RoomType>|undefined) {
         this._alteredPlayer = player;
     }
 

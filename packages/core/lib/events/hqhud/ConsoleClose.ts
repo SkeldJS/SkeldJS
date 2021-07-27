@@ -16,7 +16,7 @@ export class HqHudConsoleCloseEvent<RoomType extends Hostable = Hostable> extend
     eventName = "hqhud.consoles.close" as const;
 
     private _alteredConsoleId: number;
-    private _alteredPlayer: PlayerData;
+    private _alteredPlayer: PlayerData<RoomType>;
 
     constructor(
         public readonly room: RoomType,
@@ -63,7 +63,7 @@ export class HqHudConsoleCloseEvent<RoomType extends Hostable = Hostable> extend
      * Change the player that closed the console.
      * @param player The player to close the console.
      */
-    setPlayer(player: PlayerData) {
+    setPlayer(player: PlayerData<RoomType>) {
         this._alteredPlayer = player;
     }
 }
