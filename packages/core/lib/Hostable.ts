@@ -367,7 +367,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
     /**
      * The current client in the room.
      */
-    get me(): PlayerData | undefined {
+    get me(): PlayerData<this> | undefined {
         return undefined;
     }
 

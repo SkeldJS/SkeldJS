@@ -36,7 +36,7 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
     /**
      * The current queue to access the medbay scan.s
      */
-    queue: PlayerData[];
+    queue: PlayerData<RoomType>[];
 
     constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | MedScanSystemData) {
         super(ship, data);
@@ -64,14 +64,14 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
         }
     }
 
-    private _removeFromQueue(player: PlayerData) {
+    private _removeFromQueue(player: PlayerData<RoomType>) {
         const idx = this.queue.indexOf(player);
         if (~idx) {
             this.queue.splice(idx, 1);
         }
     }
 
-    private async _joinQueue(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    private async _joinQueue(player: PlayerData<RoomType>, rpc: RepairSystemMessage|undefined) {
         this._removeFromQueue(player);
         this.queue.push(player);
 
@@ -93,7 +93,7 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
      * Add a player to the queue.
      * @param player The player to add.
      */
-    async addToQueue(player: PlayerData) {
+    async addToQueue(player: PlayerData<RoomType>) {
         if (player.playerId === undefined)
             return;
 
@@ -114,7 +114,7 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
         await this.addToQueue(this.room.me);
     }
 
-    private async _leaveQueue(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    private async _leaveQueue(player: PlayerData<RoomType>, rpc: RepairSystemMessage|undefined) {
         this._removeFromQueue(player);
 
         const ev = await this.emit(
@@ -135,7 +135,7 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
      * Remove a player from the queue.
      * @param player The player to remove.
      */
-    async removeFromQueue(player: PlayerData) {
+    async removeFromQueue(player: PlayerData<RoomType>) {
         if (player.playerId === undefined)
             return;
 
@@ -156,7 +156,7 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
         await this.removeFromQueue(this.room.me);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>, amount: number, rpc: RepairSystemMessage|undefined) {
         const playerId = amount & 0x1f;
         const resolved = this.ship.room.getPlayerByPlayerId(playerId);
 
