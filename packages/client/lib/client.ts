@@ -53,6 +53,7 @@ import {
     ClientJoinEvent,
 } from "./events";
 import { AuthClient } from "./AuthClient";
+import { JoinError } from "./errors/JoinError";
 
 const lookupDns = util.promisify(dns.lookup);
 
@@ -562,7 +563,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     async joinGame(code: RoomID, doSpawn: boolean = true): Promise<RoomID> {
         if (typeof code === "undefined") {
-            throw new Error("No code provided.");
+            throw new TypeError("No code provided.");
         }
 
         if (typeof code === "string") {
@@ -603,13 +604,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         switch (message.tag) {
             case RootMessageTag.JoinGame:
-                throw new Error(
-                    "Join error: Failed to join game, code: " +
-                        message.error +
-                        " (Message: " +
-                        (DisconnectMessages[message.error || DisconnectReason.None] || message.message) +
-                        ")"
-                );
+                throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.None] || message.message);
             case RootMessageTag.Redirect:
                 const username = this.username;
                 await this.disconnect();
@@ -671,13 +666,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         switch (message.tag) {
             case RootMessageTag.JoinGame:
-                throw new Error(
-                    "Join error: Failed to create game, code: " +
-                        message.error +
-                        " (Message: " +
-                        (DisconnectMessages[message.error || DisconnectReason.None] || message.message) +
-                        ")"
-                );
+                throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.None] || message.message);
             case RootMessageTag.Redirect:
                 const username = this.username;
 
