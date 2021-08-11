@@ -53,7 +53,7 @@ import {
     VoteBanSystem,
     VoteBanSystemEvents,
     PlayerIDResolvable,
-} from "./component";
+} from "./objects";
 
 import { Heritable, HeritableEvents } from "./Heritable";
 import { Networkable, NetworkableEvents } from "./Networkable";

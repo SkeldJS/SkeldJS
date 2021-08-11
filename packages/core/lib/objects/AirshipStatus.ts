@@ -14,7 +14,7 @@ import {
     ElectricalDoorsSystem,
     MovingPlatformSide,
     MovingPlatformSystem,
-} from "../system";
+} from "../systems";
 
 /**
  * Represents a room object for the Airship map.

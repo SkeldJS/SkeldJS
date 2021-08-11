@@ -9,17 +9,17 @@ import {
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { PlayerData } from "../PlayerData";
-import { Hostable } from "../Hostable";
+import { Networkable, NetworkableEvents } from "../../Networkable";
+import { PlayerData } from "../../PlayerData";
+import { Hostable } from "../../Hostable";
 
-import { NetworkUtils } from "../utils/net";
+import { NetworkUtils } from "../../utils/net";
 
 import {
     PlayerClimbLadderEvent,
     PlayerEnterVentEvent,
     PlayerExitVentEvent,
-} from "../events";
+} from "../../events";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface PlayerPhysicsData {

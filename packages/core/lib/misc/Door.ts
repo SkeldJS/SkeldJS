@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem} from "../system";
+import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem} from "../systems";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { Hostable } from "../Hostable";
 

@@ -12,7 +12,7 @@ import {
     ReactorSystem,
     SabotageSystem,
     SwitchSystem,
-} from "../system";
+} from "../systems";
 
 /**
  * Represents a room object for the Mira HQ map.

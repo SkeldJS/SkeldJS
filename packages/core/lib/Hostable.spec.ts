@@ -6,8 +6,7 @@ import { DespawnMessage, SceneChangeMessage } from "@skeldjs/protocol";
 
 import assert from "assert";
 
-import { MeetingHud } from "./component";
-
+import { MeetingHud } from "./objects";
 import { Hostable } from "./Hostable";
 
 export class TestHost extends Hostable {

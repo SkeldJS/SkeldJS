@@ -9,9 +9,9 @@ import {
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { PlayerDataResolvable, Hostable } from "../Hostable";
-import { PlayerData } from "../PlayerData";
+import { Networkable, NetworkableEvents } from "../../Networkable";
+import { PlayerDataResolvable, Hostable } from "../../Hostable";
+import { PlayerData } from "../../PlayerData";
 
 export interface VoteBanSystemData {
     voted: Map<number, [PlayerData, PlayerData, PlayerData]>;

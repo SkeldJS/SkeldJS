@@ -7,7 +7,7 @@ import {
     PlayerControlEvents,
     PlayerPhysics,
     PlayerPhysicsEvents,
-} from "./component";
+} from "./objects";
 
 import { Heritable, HeritableEvents } from "./Heritable";
 import { Hostable } from "./Hostable";

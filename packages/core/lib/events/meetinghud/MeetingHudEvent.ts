@@ -1,4 +1,4 @@
-import { MeetingHud } from "../../component";
+import { MeetingHud } from "../../objects";
 
 export interface MeetingHudEvent {
     /**

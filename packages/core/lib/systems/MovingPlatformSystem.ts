@@ -3,7 +3,7 @@ import { SystemType } from "@skeldjs/constant";
 import { RepairSystemMessage, RpcMessage, UsePlatformMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../component";
+import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 import { Hostable, PlayerDataResolvable } from "../Hostable";

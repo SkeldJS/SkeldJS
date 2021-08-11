@@ -1,4 +1,4 @@
-import { LifeSuppSystem } from "../../system/LifeSuppSystem";
+import { LifeSuppSystem } from "../../systems/LifeSuppSystem";
 
 export interface O2Event {
     /**

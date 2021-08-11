@@ -12,7 +12,7 @@ import {
     SabotageSystem,
     SwitchSystem,
     ReactorSystem,
-} from "../system";
+} from "../systems";
 
 import { Hostable } from "../Hostable";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";

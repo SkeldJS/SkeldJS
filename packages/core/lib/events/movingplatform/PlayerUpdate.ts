@@ -3,7 +3,7 @@ import { RepairSystemMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
-import { MovingPlatformSide, MovingPlatformSystem } from "../../system";
+import { MovingPlatformSide, MovingPlatformSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { MovingPlatformEvent } from "./MovingPlatformEvent";
 

@@ -18,9 +18,9 @@ import {
     SecurityCameraSystemEvents,
     SwitchSystemEvents,
     SystemStatus,
-} from "../system";
+} from "../systems";
 
-import { SystemStatusEvents } from "../system/events";
+import { SystemStatusEvents } from "../systems/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";

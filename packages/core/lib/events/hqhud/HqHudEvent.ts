@@ -1,4 +1,4 @@
-import { HqHudSystem } from "../../system/HqHudSystem";
+import { HqHudSystem } from "../../systems/HqHudSystem";
 
 export interface HqHudEvent {
     /**

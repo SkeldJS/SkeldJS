@@ -6,10 +6,9 @@ import {
     CustomNetworkTransform,
     PlayerControl,
     PlayerPhysics,
-} from "./component";
+} from "./objects";
 
 import { Hostable } from "./Hostable";
-
 import { PlayerData } from "./PlayerData";
 
 describe("PlayerData", () => {

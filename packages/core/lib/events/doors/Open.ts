@@ -4,7 +4,7 @@ import { RepairSystemMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { Hostable } from "../../Hostable";
 import { Door } from "../../misc/Door";
-import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem } from "../../system";
+import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerData } from "../../PlayerData";
 import { DoorsEvent } from "./DoorsEvent";

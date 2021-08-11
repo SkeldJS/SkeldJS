@@ -1,4 +1,4 @@
-import { GameData } from "../../component";
+import { GameData } from "../../objects";
 
 export interface GameDataEvent {
     /**

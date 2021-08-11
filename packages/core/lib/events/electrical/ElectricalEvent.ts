@@ -1,4 +1,4 @@
-import { SwitchSystem } from "../../system";
+import { SwitchSystem } from "../../systems";
 
 export interface ElectricalEvent {
     /**

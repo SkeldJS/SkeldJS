@@ -1,4 +1,4 @@
-import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem } from "../../system";
+import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem } from "../../systems";
 
 export interface DoorsEvent {
     /**
