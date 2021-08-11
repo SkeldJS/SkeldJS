@@ -1,4 +1,4 @@
-import { SecurityCameraSystem } from "../../system/SecurityCameraSystem";
+import { SecurityCameraSystem } from "../../systems/SecurityCameraSystem";
 
 export interface SecurityCameraEvent {
     /**

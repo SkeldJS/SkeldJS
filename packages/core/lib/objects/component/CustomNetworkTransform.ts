@@ -9,15 +9,15 @@ import {
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { PlayerData } from "../PlayerData";
-import { Hostable } from "../Hostable";
-import { NetworkUtils } from "../utils/net";
+import { Networkable, NetworkableEvents } from "../../Networkable";
+import { PlayerData } from "../../PlayerData";
+import { Hostable } from "../../Hostable";
+import { NetworkUtils } from "../../utils/net";
 
 import {
     PlayerMoveEvent,
     PlayerSnapToEvent
-} from "../events";
+} from "../../events";
 
 export interface CustomNetworkTransformData {
     seqId: number;

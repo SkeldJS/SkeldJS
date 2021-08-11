@@ -1,4 +1,4 @@
-import { ReactorSystem } from "../../system";
+import { ReactorSystem } from "../../systems";
 
 export interface ReactorEvent {
     /**

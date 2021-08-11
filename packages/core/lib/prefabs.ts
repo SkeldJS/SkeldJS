@@ -11,7 +11,7 @@ import {
     PlayerPhysics,
     SkeldShipStatus,
     VoteBanSystem,
-} from "./component";
+} from "./objects";
 
 import { Networkable } from "./Networkable";
 

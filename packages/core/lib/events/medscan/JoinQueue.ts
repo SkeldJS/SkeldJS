@@ -2,7 +2,7 @@ import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
-import { MedScanSystem } from "../../system";
+import { MedScanSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { MedScanEvent } from "./MedScanEvent";

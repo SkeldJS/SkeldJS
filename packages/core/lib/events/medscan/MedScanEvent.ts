@@ -1,4 +1,4 @@
-import { MedScanSystem } from "../../system/MedScanSystem";
+import { MedScanSystem } from "../../systems/MedScanSystem";
 
 export interface MedScanEvent {
     /**

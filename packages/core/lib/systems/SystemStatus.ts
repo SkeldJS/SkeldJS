@@ -4,7 +4,7 @@ import { SystemType } from "@skeldjs/constant";
 import { BasicEvent, EventEmitter } from "@skeldjs/events";
 import { RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
 
-import { InnerShipStatus } from "../component";
+import { InnerShipStatus } from "../objects";
 import { PlayerData } from "../PlayerData";
 
 import { SystemStatusEvents } from "./events";

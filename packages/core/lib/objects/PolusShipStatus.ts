@@ -15,7 +15,7 @@ import {
     SwitchSystem,
     DoorsSystem,
     SecurityCameraSystem,
-} from "../system";
+} from "../systems";
 
 import { Door } from "../misc/Door";
 

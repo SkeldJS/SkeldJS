@@ -1,102 +1,72 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { SystemType, GameMap } from "@skeldjs/constant";
-import { MapDoors } from "@skeldjs/data";
-import { ExtractEventTypes } from "@skeldjs/events";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { SystemType } from "@skeldjs/constant";
 
-import { InnerShipStatus } from "../component";
+import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { AutoOpenDoor } from "../misc/AutoOpenDoor";
-import { DoorEvents } from "../misc/Door";
+import { Door, DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
+import { ExtractEventTypes } from "@skeldjs/events";
 import { PlayerData } from "../PlayerData";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { Hostable } from "../Hostable";
 
-export interface AutoDoorsSystemData {
-    dirtyBit: number;
+export interface ElectricalDoorsSystemData {
     doors: boolean[];
 }
 
-export type AutoDoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
+export type ElectricalDoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
     DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
 /**
- * Represents a system for doors that open after a period of time.
+ * Represents a system for doors that must be manually opened.
  *
- * See {@link AutoDoorsSystemEvents} for events to listen to.
+ * See {@link ElectricalDoorsSystemEvents} for events to listen to.
  */
-export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
-    AutoDoorsSystemData,
-    AutoDoorsSystemEvents,
+export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+    ElectricalDoorsSystemData,
+    ElectricalDoorsSystemEvents,
     RoomType
 > {
-    static systemType = SystemType.Doors as const;
-    systemType = SystemType.Doors as const;
-
-    /**
-     * The dirty doors to be updated on the next fixed update.
-     */
-    dirtyBit: number;
+    static systemType = SystemType.Decontamination as const;
+    systemType = SystemType.Decontamination as const;
 
     /**
      * The doors in the map.
      */
-    doors: AutoOpenDoor<RoomType>[];
+    doors!: Door<RoomType>[];
 
     constructor(
         ship: InnerShipStatus<RoomType>,
-        data?: HazelReader | AutoDoorsSystemData
+        data?: HazelReader | ElectricalDoorsSystemData
     ) {
         super(ship, data);
 
-        this.dirtyBit ||= 0;
         this.doors ||= [];
 
         this.doors = this.doors.map((door, i) =>
             typeof door === "boolean"
-                ? new AutoOpenDoor(this, i, door)
+                ? new Door(this, i, door)
                 : door);
     }
 
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelReader, spawn: boolean) {
-        if (spawn) {
-            for (let i = 0; i < MapDoors[GameMap.TheSkeld]; i++) {
-                const open = reader.bool();
-                this.doors.push(new AutoOpenDoor(this, i, open));
-            }
-        } else {
-            const mask = reader.upacked();
-
-            for (let i = 0; i < MapDoors[GameMap.TheSkeld]; i++) {
-                if (mask & (1 << i)) {
-                    const isOpen = reader.bool();
-                    if (isOpen) {
-                        this.openDoor(i);
-                    } else {
-                        this.closeDoor(i);
-                    }
-                }
-            }
+        const dirtyBit = reader.uint32();
+        for (let i = 0; i < this.doors.length; i++) {
+            this.doors[i].isOpen = (dirtyBit & (1 << i)) > 0;
         }
     }
 
+    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelWriter, spawn: boolean) {
-        if (spawn) {
-            for (let i = 0; i < this.doors.length; i++) {
-                this.doors[i].Serialize(writer, spawn);
-            }
-        } else {
-            writer.upacked(this.dirtyBit);
-
-            for (let i = 0; i < this.doors.length; i++) {
-                if (this.dirtyBit & (1 << i)) {
-                    this.doors[i].Serialize(writer, spawn);
-                }
-            }
+        let dirtyBit = 0;
+        for (let i = 0; i < this.doors.length; i++) {
+            dirtyBit |= ((this.doors[i].isOpen as unknown) as number) << i;
         }
-        this.dirtyBit = 0;
+        writer.uint32(dirtyBit);
+        this.dirty = spawn;
     }
 
     private async _openDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
@@ -106,7 +76,6 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
             return;
 
         door.isOpen = true;
-        this.dirtyBit |= 1 << doorId;
         this.dirty = true;
 
         const ev = await door.emit(
@@ -132,7 +101,7 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
 
     /**
      * Open a door by its ID. This is a host operation on official servers.
-     * @param doorId The ID of the door to open.
+     * @param doorId the ID of the door to open
      */
     async openDoor(doorId: number) {
         await this._openDoor(doorId, this.room.me, undefined);
@@ -145,8 +114,6 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
             return;
 
         door.isOpen = false;
-        door.timer = 10;
-        this.dirtyBit |= 1 << doorId;
         this.dirty = true;
 
         const ev = await door.emit(
@@ -176,13 +143,5 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
      */
     async closeDoor(doorId: number) {
         await this._closeDoor(doorId, this.room.me, undefined);
-    }
-
-    Detoriorate(delta: number) {
-        for (const door of this.doors) {
-            if (!door.isOpen && door.DoUpdate(delta)) {
-                this.dirty = true;
-            }
-        }
     }
 }

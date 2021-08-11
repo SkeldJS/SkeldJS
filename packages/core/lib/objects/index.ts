@@ -1,13 +1,12 @@
+export * from "./component";
+
 export * from "./AirshipStatus";
 export * from "./AprilShipStatus";
-export * from "./CustomNetworkTransform";
 export * from "./GameData";
 export * from "./InnerShipStatus";
 export * from "./LobbyBehaviour";
 export * from "./MeetingHud";
 export * from "./MiraShipStatus";
 export * from "./PlayerControl";
-export * from "./PlayerPhysics";
 export * from "./PolusShipStatus";
 export * from "./SkeldShipStatus";
-export * from "./VoteBanSystem";

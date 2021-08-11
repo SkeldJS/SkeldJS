@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { Color, Hat, Pet, PlayerDataFlags, Skin } from "@skeldjs/constant";
-import { GameData } from "../component";
+import { GameData } from "../objects";
 import { Hostable } from "../Hostable";
 
 export class TaskState {

@@ -1,6 +1,6 @@
-export * from "./component";
+export * from "./objects";
 export * from "./events";
-export * from "./system";
+export * from "./systems";
 
 export * from "./misc/AutoOpenDoor";
 export * from "./misc/Door";

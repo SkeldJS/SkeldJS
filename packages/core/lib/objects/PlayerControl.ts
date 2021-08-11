@@ -1,4 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
+
 import {
     BaseRpcMessage,
     CheckColorMessage,
@@ -35,11 +36,6 @@ import {
     Pet,
     SystemType
 } from "@skeldjs/constant";
-import { ExtractEventTypes } from "@skeldjs/events";
-
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { Hostable } from "../Hostable";
-import { PlayerData } from "../PlayerData";
 
 import {
     PlayerCheckColorEvent,
@@ -58,9 +54,16 @@ import {
     PlayerStartMeetingEvent,
     PlayerSyncSettingsEvent
 } from "../events";
+
+import { ExtractEventTypes } from "@skeldjs/events";
+
+import { Networkable, NetworkableEvents } from "../Networkable";
+import { Hostable } from "../Hostable";
+import { PlayerData } from "../PlayerData";
+
 import { MeetingHud } from "./MeetingHud";
 import { VoteStateSpecialId } from "../misc/PlayerVoteState";
-import { MovingPlatformSide, MovingPlatformSystem } from "../system/MovingPlatformSystem";
+import { MovingPlatformSide, MovingPlatformSystem } from "../systems/MovingPlatformSystem";
 import { PlayerVoteArea } from "../misc/PlayerVoteArea";
 
 export interface PlayerControlData {

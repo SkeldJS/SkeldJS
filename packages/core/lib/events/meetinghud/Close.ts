@@ -1,6 +1,6 @@
 import { CancelableEvent } from "@skeldjs/events";
 import { CloseMessage } from "@skeldjs/protocol";
-import { MeetingHud } from "../../component";
+import { MeetingHud } from "../../objects";
 import { Hostable } from "../../Hostable";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";

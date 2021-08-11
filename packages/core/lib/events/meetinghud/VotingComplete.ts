@@ -1,6 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
 import { VotingCompleteMessage } from "@skeldjs/protocol";
-import { MeetingHud } from "../../component";
+import { MeetingHud } from "../../objects";
 import { Hostable } from "../../Hostable";
 import { PlayerVoteState } from "../../misc/PlayerVoteState";
 import { PlayerData } from "../../PlayerData";

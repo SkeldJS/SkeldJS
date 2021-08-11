@@ -1,48 +1,52 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
+import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../component";
+import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
 import { Door, DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
-import { ExtractEventTypes } from "@skeldjs/events";
-import { PlayerData } from "../PlayerData";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { Hostable } from "../Hostable";
 
-export interface ElectricalDoorsSystemData {
+export interface DoorsSystemData {
+    cooldowns: Map<number, number>;
     doors: boolean[];
 }
 
-export type ElectricalDoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
+export type DoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
     DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
 /**
  * Represents a system for doors that must be manually opened.
  *
- * See {@link ElectricalDoorsSystemEvents} for events to listen to.
+ * See {@link DoorsSystemEvents} for events to listen to.
  */
-export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
-    ElectricalDoorsSystemData,
-    ElectricalDoorsSystemEvents,
+export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+    DoorsSystemData,
+    DoorsSystemEvents,
     RoomType
 > {
-    static systemType = SystemType.Decontamination as const;
-    systemType = SystemType.Decontamination as const;
+    static systemType = SystemType.Doors as const;
+    systemType = SystemType.Doors as const;
+
+    /**
+     * The cooldowns of every door.
+     */
+    cooldowns: Map<number, number>;
 
     /**
      * The doors in the map.
      */
-    doors!: Door<RoomType>[];
+    doors: Door<RoomType>[];
 
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        data?: HazelReader | ElectricalDoorsSystemData
-    ) {
+    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | DoorsSystemData) {
         super(ship, data);
 
+        this.cooldowns ||= new Map;
         this.doors ||= [];
 
         this.doors = this.doors.map((door, i) =>
@@ -53,20 +57,37 @@ export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelReader, spawn: boolean) {
-        const dirtyBit = reader.uint32();
-        for (let i = 0; i < this.doors.length; i++) {
-            this.doors[i].isOpen = (dirtyBit & (1 << i)) > 0;
+        const num_cooldown = reader.upacked();
+
+        for (let i = 0; i < num_cooldown; i++) {
+            const doorId = reader.uint8();
+            const cooldown = reader.float();
+
+            this.cooldowns.set(doorId, cooldown);
+        }
+
+        for (const door of this.doors) {
+            door.Deserialize(reader, false);
+            if (door.isOpen) {
+                this._openDoor(door.id, undefined, undefined);
+            } else {
+                this._closeDoor(door.id, undefined, undefined);
+            }
         }
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelWriter, spawn: boolean) {
-        let dirtyBit = 0;
-        for (let i = 0; i < this.doors.length; i++) {
-            dirtyBit |= ((this.doors[i].isOpen as unknown) as number) << i;
+        writer.upacked(this.cooldowns.size);
+
+        for (const [doorId, cooldown] of this.cooldowns) {
+            writer.uint8(doorId);
+            writer.float(cooldown);
         }
-        writer.uint32(dirtyBit);
-        this.dirty = spawn;
+
+        for (const door of this.doors) {
+            writer.bool(door.isOpen);
+        }
     }
 
     private async _openDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
@@ -100,11 +121,15 @@ export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends
     }
 
     /**
-     * Open a door by its ID. This is a host operation on official servers.
-     * @param doorId the ID of the door to open
+     * Open a door by its ID.
+     * @param doorId The ID of the door to opne.
      */
     async openDoor(doorId: number) {
-        await this._openDoor(doorId, this.room.me, undefined);
+        if (this.room.amhost) {
+            await this._openDoor(doorId, this.room.me, undefined);
+        } else {
+            await this._sendRepair(doorId);
+        }
     }
 
     private async _closeDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
@@ -138,10 +163,16 @@ export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends
     }
 
     /**
-     * Close a door by its ID. This is a host operation on official servers.
+     * Close a door by its ID.
      * @param doorId The ID of the door to close.
      */
     async closeDoor(doorId: number) {
-        await this._closeDoor(doorId, this.room.me, undefined);
+        this._closeDoor(doorId, this.room.me, undefined);
+    }
+
+    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+        const doorId = amount & 0x1f;
+
+        await this._openDoor(doorId, player, rpc);
     }
 }

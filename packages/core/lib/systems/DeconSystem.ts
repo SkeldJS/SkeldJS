@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemType } from "@skeldjs/constant";
 
-import { InnerShipStatus } from "../component";
+import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { SystemStatusEvents } from "./events";
 import { Hostable } from "../Hostable";

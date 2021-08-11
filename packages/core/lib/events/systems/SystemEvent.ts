@@ -1,4 +1,4 @@
-import { AnySystem } from "../../system/events";
+import { AnySystem } from "../../systems/events";
 
 export interface SystemEvent {
     /**

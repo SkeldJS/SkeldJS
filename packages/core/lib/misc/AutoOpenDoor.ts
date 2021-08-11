@@ -1,5 +1,5 @@
 import { Hostable } from "../Hostable";
-import { AutoDoorsSystem } from "../system";
+import { AutoDoorsSystem } from "../systems";
 import { Door } from "./Door";
 
 /**

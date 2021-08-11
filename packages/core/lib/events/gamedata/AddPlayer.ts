@@ -1,6 +1,6 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RoomEvent } from "../RoomEvent";
-import { GameData } from "../../component";
+import { GameData } from "../../objects";
 import { Hostable } from "../../Hostable";
 import { PlayerInfo } from "../../misc/PlayerInfo";
 import { GameDataEvent } from "./GameDataEvent";

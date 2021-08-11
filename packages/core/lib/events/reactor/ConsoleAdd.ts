@@ -2,7 +2,7 @@ import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
-import { ReactorSystem } from "../../system";
+import { ReactorSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { ReactorEvent } from "./ReactorEvent";

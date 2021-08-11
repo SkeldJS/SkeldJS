@@ -1,4 +1,4 @@
-import { MovingPlatformSystem } from "../../system";
+import { MovingPlatformSystem } from "../../systems";
 
 export interface MovingPlatformEvent {
     /**
