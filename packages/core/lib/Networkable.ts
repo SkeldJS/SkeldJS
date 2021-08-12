@@ -119,6 +119,8 @@ export class Networkable<
     async HandleRpc(rpc: BaseRpcMessage) {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     FixedUpdate(delta: number) {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    Awake() {}
 
     /**
      * Get a certain component from the object.

@@ -5,7 +5,6 @@ import {
     CheckColorMessage,
     CheckNameMessage,
     CompleteTaskMessage,
-    ComponentSpawnData,
     GameSettings,
     MurderPlayerMessage,
     ReportDeadBodyMessage,
@@ -19,7 +18,6 @@ import {
     SetPetMessage,
     SetSkinMessage,
     SetStartCounterMessage,
-    SpawnMessage,
     StartMeetingMessage,
     SyncSettingsMessage,
     UsePlatformMessage
@@ -32,7 +30,6 @@ import {
     Hat,
     Skin,
     ChatNoteType,
-    SpawnFlag,
     Pet,
     SystemType
 } from "@skeldjs/constant";
@@ -62,9 +59,7 @@ import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
 import { MeetingHud } from "./MeetingHud";
-import { VoteStateSpecialId } from "../misc/PlayerVoteState";
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems/MovingPlatformSystem";
-import { PlayerVoteArea } from "../misc/PlayerVoteArea";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
 import { NetworkableConstructor } from "../Heritable";
 
@@ -131,7 +126,15 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         super(room, netid, ownerid, flags, data);
 
         this.isNew ??= true;
+        this.playerId ||= 0;
+    }
+
+    Awake() {
         this.playerId ||= this.room.getAvailablePlayerID();
+
+        if (this.room.gamedata) {
+            this.room.gamedata.add(this.playerId);
+        }
     }
     
     getComponent<T extends Networkable>(
@@ -850,7 +853,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         if (!ev.canceled) {
-            this.room?.host?.control?.startMeeting(this.player, ev.alteredBody);
+            this.room.host?.control?.startMeeting(this.player, ev.alteredBody);
         }
     }
 
@@ -1041,40 +1044,19 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _startMeeting(caller: PlayerData) {
-        const meetinghud = new MeetingHud(
-            this.room,
-            this.room.getNextNetId(),
-            this.room.id,
-            0,
-            {
-                states: new Map(
-                    [...this.room.players]
-                        .filter(([, player]) => player.info && player.spawned && player.playerId !== undefined)
-                        .map(([, player]) => {
-                            return [
-                                player.playerId!,
-                                new PlayerVoteArea(
-                                    this.room,
-                                    player.playerId!,
-                                    VoteStateSpecialId.NotVoted,
-                                    caller === player
-                                ),
-                            ];
-                        })
-                ) as Map<number, PlayerVoteArea>,
-            }
-        );
+        if (!caller.playerId)
+            return;
 
-        this.room.spawnComponent(meetinghud);
+        const spawnMeetinghud = this.room.spawnPrefab(
+            SpawnType.MeetingHud,
+            -2,
+            0
+        ) as MeetingHud;
 
-        const writer = HazelWriter.alloc(0);
-        writer.write(meetinghud, true);
-
-        this.room.stream.push(
-            new SpawnMessage(SpawnType.MeetingHud, -2, SpawnFlag.None, [
-                new ComponentSpawnData(meetinghud.netid, writer.buffer),
-            ])
-        );
+        const callerState = spawnMeetinghud.states.get(caller.playerId);
+        if (callerState) {
+            callerState.didReport = true;
+        }
     }
 
     private _rpcStartMeeting(player: PlayerData|"emergency"): void {
@@ -1113,7 +1095,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 body
             )
         );
-
+        
         this._rpcStartMeeting(body);
         this._startMeeting(caller);
     }

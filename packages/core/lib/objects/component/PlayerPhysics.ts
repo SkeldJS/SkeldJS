@@ -65,7 +65,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     ) {
         super(room, netid, ownerid, flags, data);
 
-        this.ventid ||= 0;
+        this.ventid ??= -1;
         this.ladderClimbSeqId = 0;
 
         if (playerControl) {

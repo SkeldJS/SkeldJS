@@ -836,6 +836,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
             this.meetinghud = component;
         }
 
+        component.Awake();
         this.netobjects.set(component.netid, component);
 
         component.emit(
@@ -955,12 +956,6 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
             if (componentData[i]?.data) {
                 const reader = HazelReader.from(componentData[i].data);
                 component.Deserialize(reader, true);
-            }
-
-            if (component instanceof PlayerControl) {
-                if (this.gamedata) {
-                    this.gamedata.add(component.playerId);
-                }
             }
 
             this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
