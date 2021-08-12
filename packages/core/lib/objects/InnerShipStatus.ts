@@ -83,9 +83,10 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         room: RoomType,
         netid: number,
         ownerid: number,
+        flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
     }
 
     get owner() {

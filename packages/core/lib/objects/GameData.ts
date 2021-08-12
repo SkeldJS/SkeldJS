@@ -19,6 +19,9 @@ import { PlayerControl } from "./PlayerControl";
 import { PlayerVoteState } from "../misc/PlayerVoteState";
 import { PlayerInfo, TaskState } from "../misc/PlayerInfo";
 
+import { NetworkableConstructor } from "../Heritable";
+import { VoteBanSystem } from "./component";
+
 import {
     GameDataAddPlayerEvent,
     GameDataRemovePlayerEvent,
@@ -66,9 +69,10 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
         room: RoomType,
         netid: number,
         ownerid: number,
+        flags: number,
         data?: HazelReader | GameDataData
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
 
         if (!this.players) {
             this.players = new Map;
@@ -77,6 +81,20 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
                 if (player.playerId) this.add(player.playerId);
             }
         }
+    }
+
+    getComponent<T extends Networkable>(
+        component: NetworkableConstructor<T>
+    ): T|undefined {
+        if (component === GameData as NetworkableConstructor<any>) {
+            return this.components[0] as unknown as T;
+        }
+
+        if (component === VoteBanSystem as NetworkableConstructor<any>) {
+            return this.components[1] as unknown as T;
+        }
+        
+        return super.getComponent(component);
     }
 
     get owner() {

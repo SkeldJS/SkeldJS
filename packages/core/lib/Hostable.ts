@@ -20,8 +20,7 @@ import {
     Code2Int,
     HazelReader,
     HazelWriter,
-    sleep,
-    Vector2
+    sleep
 } from "@skeldjs/util";
 
 import {
@@ -53,6 +52,7 @@ import {
     VoteBanSystem,
     VoteBanSystemEvents,
     PlayerIDResolvable,
+    InnerShipStatus,
 } from "./objects";
 
 import { Heritable, HeritableEvents } from "./Heritable";
@@ -132,9 +132,9 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
     room: this;
 
     /**
-     * The objects in the room.
+     * A list of all objects in the room.
      */
-    objects: Map<number, Heritable<any, this>>;
+    objectList: Networkable[];
 
     /**
      * The players in the room.
@@ -185,6 +185,12 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      */
     decoder: PacketDecoder;
 
+    shipstatus: InnerShipStatus<this>|undefined;
+    meetinghud: MeetingHud<this>|undefined;
+    lobbybehaviour: LobbyBehaviour<this>|undefined;
+    gamedata: GameData<this>|undefined;
+    votebansystem: VoteBanSystem<this>|undefined;
+
     /**
      * Whether or not this room has been destroyed.
      */
@@ -205,20 +211,25 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
 
         this.settings = new GameSettings;
 
-        this.objects = new Map;
+        this.objectList = [];
         this.players = new Map;
         this.netobjects = new Map;
         this.registeredPrefabs = new Map;
         this.stream = [];
 
-        this.objects.set(-2, this as Heritable<HeritableEvents, this>);
         this.room = this;
+
+        this.decoder = new PacketDecoder;
+
+        this.shipstatus = undefined;
+        this.meetinghud = undefined;
+        this.lobbybehaviour = undefined;
+        this.gamedata = undefined;
+        this.votebansystem = undefined;
 
         this._incr_netid = 0;
         this._destroyed = false;
         this._started = false;
-
-        this.decoder = new PacketDecoder;
 
         this.last_fixed_update = 0;
 
@@ -280,26 +291,19 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
         });
 
         this.decoder.on(SpawnMessage, message => {
-            for (let i = 0; i < message.components.length; i++) {
-                const spawn_component = message.components[i];
-                const owner = this.objects.get(message.ownerid);
+            const ownerClient = this.players.get(message.ownerid);
 
-                if (owner) {
-                    const component = new SpawnPrefabs[message.spawnType][i](
-                        this,
-                        spawn_component.netid,
-                        message.ownerid
-                    );
-                    const reader = HazelReader.from(spawn_component.data);
-                    component.Deserialize(reader, true);
-
-                    this._incr_netid = spawn_component.netid;
-                    if (this.netobjects.get(component.netid))
-                        continue;
-
-                    this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
-                }
+            if (message.ownerid > 0 && !ownerClient) {
+                return;
             }
+
+            this.spawnPrefab(
+                message.spawnType,
+                message.ownerid,
+                message.flags,
+                message.components,
+                false
+            );
         });
 
         this.decoder.on(DespawnMessage, message => {
@@ -335,7 +339,11 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
                                 player
                             );
 
-                            this.spawnPrefab(SpawnType.Player, player.id);
+                            this.spawnPrefab(
+                                SpawnType.Player,
+                                player.id,
+                                SpawnFlag.IsClientCharacter
+                            );
 
                             this.me?.control?.syncSettings(this.settings);
                         }
@@ -394,53 +402,6 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      */
     get amhost() {
         return false;
-    }
-
-    /**
-     * The shipstatus object for the room.
-     */
-    get shipstatus(): SkeldShipStatus<this>|MiraShipStatus<this>|PolusShipStatus<this>|AprilShipStatus<this>|AirshipStatus<this>|undefined {
-        return this.getComponent<
-            | SkeldShipStatus
-            | MiraShipStatus
-            | PolusShipStatus
-            | AprilShipStatus
-            | AirshipStatus
-        >([
-            SkeldShipStatus,
-            MiraShipStatus,
-            PolusShipStatus,
-            AprilShipStatus,
-            AirshipStatus,
-        ]) as SkeldShipStatus<this>|MiraShipStatus<this>|PolusShipStatus<this>|AprilShipStatus<this>|AirshipStatus<this>|undefined;
-    }
-
-    /**
-     * The meeting hud object for the room.
-     */
-    get meetinghud() {
-        return this.getComponent(MeetingHud) as MeetingHud<this>;
-    }
-
-    /**
-     * The lobby behaviour object for the room.
-     */
-    get lobbybehaviour() {
-        return this.getComponent(LobbyBehaviour) as LobbyBehaviour<this>;
-    }
-
-    /**
-     * The game data object for the room.
-     */
-    get gamedata(): GameData<this> {
-        return this.getComponent(GameData) as GameData<this>;
-    }
-
-    /**
-     * The vote ban system object for the room.
-     */
-    get votebansystem() {
-        return this.getComponent(VoteBanSystem) as VoteBanSystem<this>;
     }
 
     async broadcast(
@@ -502,10 +463,11 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      * const player = room.resolvePlayer(11013);
      * ```
      */
-    resolvePlayer(player: PlayerDataResolvable) {
+    resolvePlayer(player: PlayerDataResolvable): PlayerData<this>|undefined {
         const clientid = this.resolvePlayerClientID(player);
 
-        if (clientid === undefined) return undefined;
+        if (clientid === undefined)
+            return undefined;
 
         return this.players.get(clientid);
     }
@@ -660,11 +622,10 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      * @param clientid The ID of the client that joined the game.
      */
     async handleJoin(clientid: number) {
-        if (this.objects.has(clientid)) return null;
+        if (this.players.has(clientid)) return null;
 
         const player: PlayerData<this> = new PlayerData(this, clientid);
         this.players.set(clientid, player);
-        this.objects.set(clientid, player);
 
         player.emit(new PlayerJoinEvent(this, player));
 
@@ -690,14 +651,13 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
             this.votebansystem.voted.delete(player.id);
         }
 
-        for (let i = 0; i < player.components.length; i++) {
-            const component = player.components[i];
-
-            if (component) this.despawnComponent(component);
+        if (player.control) {
+            for (const component of player.control.components) {
+                this.despawnComponent(component);
+            }
         }
 
         this.players.delete(player.id);
-        this.objects.delete(player.id);
 
         this.emit(
             new PlayerLeaveEvent(this, player)
@@ -793,10 +753,8 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
     private async _endGame(reason: GameOverReason) {
         this._started = false;
         this.players.clear();
-        for (const [ objid ] of this.objects) {
-            if (objid > -2) {
-                this.objects.delete(objid);
-            }
+        for (const [ objid ] of this.players) {
+            this.players.delete(objid);
         }
         await this.emit(new RoomGameEndEvent(this, reason));
     }
@@ -833,7 +791,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      * Spawn a component (Not broadcasted to all clients, see {@link Hostable.spawnPrefab}).
      * @param component The component being spawned.
      * @example
-     *```typescript
+     * ```typescript
      * const meetinghud = new MeetingHud(
      *   this,
      *   this.getNextNetId(),
@@ -852,8 +810,33 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
             return;
         }
 
+        if (component instanceof LobbyBehaviour) {
+            if (!this.lobbybehaviour) {
+                this.lobbybehaviour = component;
+            }
+        }
+
+        if (component instanceof GameData) {
+            if (!this.gamedata) {
+                this.gamedata = component;
+            }
+        }
+
+        if (component instanceof InnerShipStatus) {
+            if (!this.shipstatus) {
+                this.shipstatus = component;
+            }
+        }
+
+        if (component instanceof VoteBanSystem) {
+            this.votebansystem = component;
+        }
+
+        if (component instanceof MeetingHud) {
+            this.meetinghud = component;
+        }
+
         this.netobjects.set(component.netid, component);
-        component.owner?.components.push(component);
 
         component.emit(
             new ComponentSpawnEvent(this, component)
@@ -863,13 +846,39 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
     private _despawnComponent(component: Networkable<any>) {
         this.netobjects.delete(component.netid);
 
+        if (component.owner instanceof PlayerData) {
+            if (component.owner.character === component) {
+                component.owner.character = undefined;
+            }
+        }
+
+        if (component === this.lobbybehaviour) {
+            this.lobbybehaviour = undefined;
+        }
+
+        if (component === this.gamedata) {
+            this.gamedata = undefined;
+        }
+
+        if (component === this.shipstatus) {
+            this.shipstatus = undefined;
+        }
+
+        if (component === this.votebansystem) {
+            this.votebansystem = undefined;
+        }
+
+        if (component === this.meetinghud) {
+            this.meetinghud = undefined;
+        }
+
+        component.components.splice(
+            component.components.indexOf(component),
+            1
+        );
+
         component.emit(
             new ComponentDespawnEvent(this, component)
-        );
-        component.owner?.components.splice(
-            component.owner.components.indexOf(component),
-            1,
-            null
         );
     }
 
@@ -907,7 +916,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
 
     /**
      * Spawn a prefab of an object.
-     * @param type The type of object to spawn.
+     * @param spawnType The type of object to spawn.
      * @param owner The owner or ID of the owner of the object to spawn.
      * @returns The object that was spawned.
      * @example
@@ -915,171 +924,76 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      * room.spawnPrefab(SpawnType.Player, client.me);
      * ```
      */
-    spawnPrefab(type: SpawnType, owner: Heritable<any> | number): SpawnObject {
-        const ownerid = typeof owner === "number" ? owner : owner.id;
+    spawnPrefab(spawnType: SpawnType, ownerid: number|{ id: number }, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true) {
+        const _ownerid = typeof ownerid === "number" ? ownerid : ownerid.id;
+        const ownerClient = this.players.get(_ownerid);
+        const _flags = flags ?? (spawnType === SpawnType.Player ? SpawnFlag.IsClientCharacter : 0);
 
-        const object: SpawnObject = {
-            type,
-            ownerid,
-            flags: type === SpawnType.Player ? 1 : 0,
-            components: [],
-        };
+        let object!: Networkable;
 
-        switch (type) {
-            case SpawnType.ShipStatus: {
-                const shipstatus = new SkeldShipStatus(
-                    this,
-                    this.getNextNetId(),
-                    ownerid
-                );
+        const spawnPrefab = SpawnPrefabs[spawnType];
 
-                object.components.push(shipstatus);
-                break;
+        for (let i = 0; i < spawnPrefab.length; i++) {
+            const component = new spawnPrefab[i](
+                this,
+                componentData[i]?.netid || this.getNextNetId(),
+                _ownerid,
+                _flags,
+                undefined,
+                object
+            );
+
+            this._incr_netid = component.netid;
+            if (this.netobjects.get(component.netid))
+                continue;
+
+            if (i === 0) {
+                object = component;
+                this.objectList.push(object);
             }
-            case SpawnType.MeetingHud:
-                const meetinghud = new MeetingHud(
-                    this,
-                    this.getNextNetId(),
-                    ownerid,
-                    {
-                        states: new Map,
-                    }
-                );
 
-                object.components.push(meetinghud);
-                break;
-            case SpawnType.LobbyBehaviour:
-                const lobbybehaviour = new LobbyBehaviour(
-                    this,
-                    this.getNextNetId(),
-                    ownerid,
-                    {}
-                );
+            if (componentData[i]?.data) {
+                const reader = HazelReader.from(componentData[i].data);
+                component.Deserialize(reader, true);
+            }
 
-                object.components.push(lobbybehaviour);
-                break;
-            case SpawnType.GameData:
-                const gamedata = new GameData(this, this.getNextNetId(), ownerid, {
-                    players: new Map,
-                });
-
-                for (const [, player] of this.players) {
-                    if (player.playerId) gamedata.add(player.playerId);
+            if (component instanceof PlayerControl) {
+                if (this.gamedata) {
+                    this.gamedata.add(component.playerId);
                 }
+            }
 
-                const votebansystem = new VoteBanSystem(
-                    this,
-                    this.getNextNetId(),
-                    ownerid,
-                    {
-                        voted: new Map,
-                    }
-                );
-
-                object.components.push(gamedata);
-                object.components.push(votebansystem);
-                break;
-            case SpawnType.Player:
-                const playerId = this.getAvailablePlayerID();
-
-                if (this.gamedata) this.gamedata.add(playerId);
-
-                const control = new PlayerControl(
-                    this,
-                    this.getNextNetId(),
-                    ownerid,
-                    {
-                        isNew: true,
-                        playerId,
-                    }
-                );
-
-                const physics = new PlayerPhysics(
-                    this,
-                    this.getNextNetId(),
-                    ownerid,
-                    {
-                        ventid: -1,
-                    }
-                );
-
-                const transform = new CustomNetworkTransform(
-                    this,
-                    this.getNextNetId(),
-                    ownerid,
-                    {
-                        seqId: 1,
-                        position: Vector2.null,
-                        velocity: Vector2.null,
-                    }
-                );
-
-                object.components.push(control);
-                object.components.push(physics);
-                object.components.push(transform);
-                break;
-            case SpawnType.Headquarters:
-                const headquarters = new MiraShipStatus(
-                    this,
-                    this.getNextNetId(),
-                    ownerid
-                );
-
-                object.components.push(headquarters);
-                break;
-            case SpawnType.PlanetMap:
-                const planetmap = new PolusShipStatus(
-                    this,
-                    this.getNextNetId(),
-                    ownerid
-                );
-
-                object.components.push(planetmap);
-                break;
-            case SpawnType.AprilShipStatus:
-                const aprilshipstatus = new AprilShipStatus(
-                    this,
-                    this.getNextNetId(),
-                    ownerid
-                );
-
-                object.components.push(
-                    aprilshipstatus
-                );
-                break;
-            case SpawnType.Airship:
-                const airship = new AirshipStatus(
-                    this,
-                    this.getNextNetId(),
-                    ownerid
-                );
-
-                object.components.push(airship);
-                break;
-        }
-
-        for (const component of object.components) {
             this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
+            object.components.push(component);
         }
 
-        this.stream.push(
-            new SpawnMessage(
-                type,
-                object.ownerid,
-                object.flags,
-                object.components.map((component) => {
-                    const writer = HazelWriter.alloc(0);
-                    writer.write(component, true);
+        if (this.amhost && doBroadcast) {
+            this.stream.push(
+                new SpawnMessage(
+                    spawnType,
+                    object.ownerid,
+                    _flags,
+                    object.components.map((component) => {
+                        const writer = HazelWriter.alloc(0);
+                        writer.write(component, true);
+    
+                        return new ComponentSpawnData(
+                            component.netid,
+                            writer.buffer
+                        );
+                    })
+                )
+            );
+        }
 
-                    return new ComponentSpawnData(
-                        component.netid,
-                        writer.buffer
-                    );
-                })
-            )
-        );
+        if ((_flags & SpawnFlag.IsClientCharacter) > 0 && ownerClient) {
+            if (!ownerClient.character) {
+                ownerClient.character = object as PlayerControl<this>;
+                ownerClient.inScene = true;
+            }
+        }
 
-        return object as SpawnObject;
+        return object;
     }
 
     /**
@@ -1111,12 +1025,12 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      */
     getPlayerByNetId(netid: number) {
         for (const [, player] of this.players) {
-            if (
-                player.components.find(
-                    (component) => component?.netid === netid
-                )
-            )
+            if (!player.control)
+                continue;
+
+            if (player.control.components.find(component => component.netid === netid)) {
                 return player;
+            }
         }
 
         return undefined;
@@ -1125,31 +1039,20 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
     private _getExistingObjectSpawn() {
         const messages: SpawnMessage[] = [];
 
-        for (const [, netobj] of this.netobjects) {
-            let message = messages.find(
-                (msg) =>
-                    msg.spawnType === netobj.type &&
-                    msg.ownerid === netobj.ownerid
-            );
+        for (const object of this.objectList) {
+            messages.push(
+                new SpawnMessage(
+                    object.type,
+                    object.ownerid,
+                    object.flags,
+                    object.components.map(component => {
+                        const writer = HazelWriter.alloc(512);
+                        writer.write(component, true);
+                        writer.realloc(writer.cursor);
 
-            if (!message) {
-                message = new SpawnMessage(
-                    netobj.type,
-                    netobj.ownerid,
-                    netobj.classname === "PlayerControl"
-                        ? SpawnFlag.IsClientCharacter
-                        : SpawnFlag.None,
-                    []
-                );
-
-                messages.push(message);
-            }
-
-            const writer = HazelWriter.alloc(0);
-            writer.write(netobj, true);
-
-            message.components.push(
-                new ComponentSpawnData(netobj.netid, writer.buffer)
+                        return new ComponentSpawnData(component.netid, writer.buffer);
+                    })
+                )
             );
         }
 

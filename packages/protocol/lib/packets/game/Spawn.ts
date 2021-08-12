@@ -1,4 +1,4 @@
-import { GameDataMessageTag, SpawnFlag, SpawnType } from "@skeldjs/constant";
+import { GameDataMessageTag, SpawnType } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { ComponentSpawnData } from "../../misc";
@@ -10,13 +10,13 @@ export class SpawnMessage extends BaseGameDataMessage {
 
     readonly spawnType: SpawnType;
     readonly ownerid: number;
-    readonly flags: SpawnFlag;
+    readonly flags: number;
     readonly components: ComponentSpawnData[];
 
     constructor(
         spawnType: SpawnType,
         ownerid: number,
-        flags: SpawnFlag,
+        flags: number,
         components: ComponentSpawnData[]
     ) {
         super();

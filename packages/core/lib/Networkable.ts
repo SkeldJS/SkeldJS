@@ -7,6 +7,7 @@ import { Hostable } from "./Hostable";
 
 import { ComponentDespawnEvent, ComponentSpawnEvent } from "./events";
 import { PlayerData } from "./PlayerData";
+import { NetworkableConstructor } from "./Heritable";
 
 export type NetworkableEvents<RoomType extends Hostable = Hostable> = ExtractEventTypes<
     [ComponentSpawnEvent<RoomType>, ComponentDespawnEvent<RoomType>]
@@ -50,14 +51,22 @@ export class Networkable<
     ownerid: number;
 
     /**
+     * Flags for this object, see {@link SpawnFlag}.
+     */
+    flags: number;
+
+    /**
      * The dirty state of this component.
      */
     dirtyBit: number = 0;
+
+    components: Networkable<any, NetworkableEvents, RoomType>[];
 
     constructor(
         room: RoomType,
         netid: number,
         ownerid: number,
+        flags: number,
         data?: HazelReader | DataT
     ) {
         super();
@@ -65,6 +74,9 @@ export class Networkable<
         this.room = room;
         this.netid = netid;
         this.ownerid = ownerid;
+        this.flags = flags;
+
+        this.components = [];
 
         if (data) {
             if (data instanceof HazelReader) {
@@ -87,8 +99,12 @@ export class Networkable<
         return super.emit(event);
     }
 
-    get owner(): Hostable|PlayerData<RoomType> {
-        return this.room.objects.get(this.ownerid) as Hostable|PlayerData<RoomType>;
+    get owner(): Hostable|PlayerData<RoomType>|undefined {
+        if (this.ownerid !== -2) {
+            return this.room.players.get(this.ownerid);
+        }
+
+        return this.room;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
@@ -103,6 +119,22 @@ export class Networkable<
     async HandleRpc(rpc: BaseRpcMessage) {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     FixedUpdate(delta: number) {}
+
+    /**
+     * Get a certain component from the object.
+     * @param component The component class to get.
+     */
+    getComponent<T extends Networkable>(
+        component: NetworkableConstructor<T>
+    ): T|undefined {
+        for (const comp of this.components) {
+            if (comp instanceof component) {
+                return comp;
+            }
+        }
+        
+        return undefined;
+    }
 
     /**
      * Spawn this component if does not exist in the room it belongs in.
