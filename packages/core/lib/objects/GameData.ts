@@ -74,12 +74,12 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     ) {
         super(room, netid, ownerid, flags, data);
 
-        if (!this.players) {
-            this.players = new Map;
+        this.players ||= new Map;
+    }
 
-            for (const [, player] of this.room.players) {
-                if (player.playerId) this.add(player.playerId);
-            }
+    Awake() {
+        for (const [, player] of this.room.players) {
+            if (player.playerId) this.add(player.playerId);
         }
     }
 

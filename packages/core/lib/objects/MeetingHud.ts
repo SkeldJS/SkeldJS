@@ -84,6 +84,23 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         this.states ||= new Map;
     }
 
+    Awake() {
+        this.states = new Map(
+            [...this.room.players]
+                .filter(([, player]) => player.info && player.spawned && player.playerId !== undefined)
+                .map(([, player]) => {
+                    return [
+                        player.playerId!,
+                        new PlayerVoteArea(
+                            this.room,
+                            player.playerId!,
+                            VoteStateSpecialId.NotVoted,
+                            false
+                        ),
+                    ];
+                }));
+    }
+
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
