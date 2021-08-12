@@ -26,6 +26,7 @@ import {
 } from "../events";
 
 import { PlayerData } from "../PlayerData";
+import { NetworkableConstructor } from "../Heritable";
 
 export interface MeetingHudData {
     states: Map<number, PlayerVoteArea>;
@@ -74,12 +75,23 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         room: RoomType,
         netid: number,
         ownerid: number,
+        flags: number,
         data?: HazelReader | MeetingHudData
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
 
         this.dirtyBit ||= 0;
         this.states ||= new Map;
+    }
+
+    getComponent<T extends Networkable>(
+        component: NetworkableConstructor<T>
+    ): T|undefined {
+        if (component === MeetingHud as NetworkableConstructor<any>) {
+            return this.components[0] as unknown as T;
+        }
+        
+        return super.getComponent(component);
     }
 
     get owner() {
@@ -164,12 +176,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     }
 
     private _close() {
-        this.room.netobjects.delete(this.netid);
-        this.room.components.splice(
-            this.room.components.indexOf(this),
-            1,
-            null
-        );
+        this.despawn();
     }
 
     private _rpcClose() {

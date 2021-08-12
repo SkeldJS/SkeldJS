@@ -65,6 +65,8 @@ import { MeetingHud } from "./MeetingHud";
 import { VoteStateSpecialId } from "../misc/PlayerVoteState";
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems/MovingPlatformSystem";
 import { PlayerVoteArea } from "../misc/PlayerVoteArea";
+import { CustomNetworkTransform, PlayerPhysics } from "./component";
+import { NetworkableConstructor } from "../Heritable";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -123,12 +125,31 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         room: RoomType,
         netid: number,
         ownerid: number,
+        flags: number,
         data?: HazelReader | PlayerControlData
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
 
         this.isNew ??= true;
-        this.playerId ||= 0;
+        this.playerId ||= this.room.getAvailablePlayerID();
+    }
+    
+    getComponent<T extends Networkable>(
+        component: NetworkableConstructor<T>
+    ): T|undefined {
+        if (component === PlayerControl as NetworkableConstructor<any>) {
+            return this.components[0] as unknown as T;
+        }   
+
+        if (component === PlayerPhysics as NetworkableConstructor<any>) {
+            return this.components[1] as unknown as T;
+        }
+
+        if (component === CustomNetworkTransform as NetworkableConstructor<any>) {
+            return this.components[2] as unknown as T;
+        }
+
+        return undefined;
     }
 
     get player() {
@@ -1024,6 +1045,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             this.room,
             this.room.getNextNetId(),
             this.room.id,
+            0,
             {
                 states: new Map(
                     [...this.room.players]

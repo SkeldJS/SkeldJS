@@ -13,20 +13,9 @@ import {
     VoteBanSystem,
 } from "./objects";
 
-import { Networkable } from "./Networkable";
+import { NetworkableConstructor } from "./Heritable";
 
-import { Hostable } from "./Hostable";
-
-import { HazelBuffer } from "@skeldjs/util";
-
-export const SpawnPrefabs: {
-    new (
-        room: Hostable<any>,
-        netid: number,
-        ownerid: number,
-        data?: HazelBuffer | any
-    ): Networkable<any, any>;
-}[][] = [
+export const SpawnPrefabs: NetworkableConstructor<any>[][] = [
     [SkeldShipStatus],
     [MeetingHud],
     [LobbyBehaviour],

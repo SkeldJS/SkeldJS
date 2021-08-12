@@ -52,6 +52,7 @@ import {
     ClientIdentifyEvent,
     ClientJoinEvent,
 } from "./events";
+
 import { AuthClient } from "./AuthClient";
 import { JoinError } from "./errors/JoinError";
 
@@ -537,7 +538,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         if (this.amhost) {
-            this.spawnPrefab(SpawnType.Player, this.me);
+            this.spawnPrefab(SpawnType.Player, this.me.id);
         } else {
             await this.send(
                 new ReliablePacket(this.getNextNonce(), [

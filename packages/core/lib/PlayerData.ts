@@ -63,6 +63,8 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<
      */
     stream: BaseGameDataMessage[];
 
+    character: PlayerControl<RoomType>|undefined;
+
     constructor(room: RoomType, clientid: number) {
         super(room, clientid);
 
@@ -70,6 +72,8 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<
         this.isReady = false;
         this.inScene = false;
         this.left = false;
+
+        this.character = undefined;
 
         this.on("component.spawn", () => {
             if (this.spawned) {
@@ -81,22 +85,22 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<
     /**
      * The player's control component.
      */
-    get control(): PlayerControl<RoomType> {
-        return this.getComponent(PlayerControl) as PlayerControl<RoomType>;
+    get control(): PlayerControl<RoomType>|undefined {
+        return this.character?.getComponent(PlayerControl) as PlayerControl<RoomType>|undefined;
     }
 
     /**
      * The player's physics component.
      */
-    get physics(): PlayerPhysics<RoomType> {
-        return this.getComponent(PlayerPhysics) as PlayerPhysics<RoomType>;
+    get physics(): PlayerPhysics<RoomType>|undefined {
+        return this.character?.getComponent(PlayerPhysics) as PlayerPhysics<RoomType>;
     }
 
     /**
      * The player's movement component.
      */
     get transform(): CustomNetworkTransform<RoomType> {
-        return this.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType>;
+        return this.character?.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType>;
     }
 
     /**

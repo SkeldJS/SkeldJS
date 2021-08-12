@@ -20,6 +20,7 @@ import {
     PlayerEnterVentEvent,
     PlayerExitVentEvent,
 } from "../../events";
+import { PlayerControl } from "../PlayerControl";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface PlayerPhysicsData {
@@ -58,12 +59,18 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
         room: RoomType,
         netid: number,
         ownerid: number,
-        data?: HazelReader | PlayerPhysicsData
+        flags: number,
+        data?: HazelReader | PlayerPhysicsData,
+        playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
 
         this.ventid ||= 0;
         this.ladderClimbSeqId = 0;
+
+        if (playerControl) {
+            this.components = playerControl.components;
+        }
     }
 
     get player() {

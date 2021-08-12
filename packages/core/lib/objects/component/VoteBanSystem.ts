@@ -12,6 +12,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { Networkable, NetworkableEvents } from "../../Networkable";
 import { PlayerDataResolvable, Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
+import { GameData } from "../GameData";
 
 export interface VoteBanSystemData {
     voted: Map<number, [PlayerData, PlayerData, PlayerData]>;
@@ -44,11 +45,17 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
         room: RoomType,
         netid: number,
         ownerid: number,
-        data?: HazelReader | VoteBanSystemData
+        flags: number,
+        data?: HazelReader | VoteBanSystemData,
+        gameData?: GameData<RoomType>
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
 
         this.voted ||= new Map;
+
+        if (gameData) {
+            this.components = gameData.components;
+        }
     }
 
     get owner() {

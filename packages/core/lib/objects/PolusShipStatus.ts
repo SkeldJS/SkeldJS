@@ -18,6 +18,8 @@ import {
 } from "../systems";
 
 import { Door } from "../misc/Door";
+import { NetworkableConstructor } from "../Heritable";
+import { Networkable } from "../Networkable";
 
 /**
  * Represents a room object for the Polus map.
@@ -58,9 +60,20 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         room: RoomType,
         netid: number,
         ownerid: number,
+        flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
+    }
+
+    getComponent<T extends Networkable>(
+        component: NetworkableConstructor<T>
+    ): T|undefined {
+        if (component === PolusShipStatus as NetworkableConstructor<any>) {
+            return this.components[0] as unknown as T;
+        }
+        
+        return undefined;
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {

@@ -18,6 +18,7 @@ import {
     PlayerMoveEvent,
     PlayerSnapToEvent
 } from "../../events";
+import { PlayerControl } from "../PlayerControl";
 
 export interface CustomNetworkTransformData {
     seqId: number;
@@ -71,14 +72,20 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
         room: RoomType,
         netid: number,
         ownerid: number,
-        data?: HazelReader | CustomNetworkTransformData
+        flags: number,
+        data?: HazelReader | CustomNetworkTransformData,
+        playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
 
         this.oldSeqId ||= 0;
         this.seqId ||= 0;
         this.position ||= Vector2.null;
         this.velocity ||= Vector2.null;
+
+        if (playerControl) {
+            this.components = playerControl.components;
+        }
     }
 
     /**

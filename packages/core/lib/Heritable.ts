@@ -4,12 +4,23 @@ import { HazelReader } from "@skeldjs/util";
 import { Networkable, NetworkableEvents } from "./Networkable";
 import { Hostable } from "./Hostable";
 
-type NetworkableConstructor<T> = {
+export type NetworkableConstructor<T> = {
     new (
         room: Hostable<any>,
         netid: number,
         ownerid: number,
+        flags: number,
         data?: HazelReader | any
+    ): T;
+    classname: string;
+}|{
+    new (
+        room: Hostable<any>,
+        netid: number,
+        ownerid: number,
+        flags: number,
+        data?: HazelReader | any,
+        object?: Networkable<any, any>
     ): T;
     classname: string;
 };
@@ -35,18 +46,12 @@ export class Heritable<
      */
     id: number;
 
-    /**
-     * The components for this object.
-     */
-    components: (Networkable<any, any, RoomType> | null)[];
-
     constructor(room: RoomType, id: number) {
         super();
 
         this.id = id;
 
         this.room = room;
-        this.components = [];
     }
 
     async emit<Event extends HeritableEvents[keyof HeritableEvents]>(
@@ -57,41 +62,5 @@ export class Heritable<
         if ((this.room as Heritable<any>) !== this) this.room.emit(event);
 
         return super.emit(event);
-    }
-
-    /**
-     * Get a certain component from the object.
-     * @param component The component class to get.
-     */
-    getComponent<T>(
-        component:
-            | NetworkableConstructor<T>
-            | NetworkableConstructor<T>[]
-            | number
-    ): T|undefined {
-        if (typeof component == "number") {
-            return (this.components.find(
-                (com) => com && com.netid === component
-            ) as unknown) as T;
-        }
-
-        for (let i = 0; i < this.components.length; i++) {
-            const c = this.components[i];
-
-            if (Array.isArray(component)) {
-                if (
-                    c &&
-                    component.some((com) => c.classname === com.classname)
-                ) {
-                    return (c as unknown) as T;
-                }
-            } else {
-                if (c && c.classname === component.classname) {
-                    return (c as unknown) as T;
-                }
-            }
-        }
-
-        return undefined;
     }
 }

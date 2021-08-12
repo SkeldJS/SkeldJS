@@ -4,6 +4,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
+import { NetworkableConstructor } from "../Heritable";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface LobbyBehaviourData {}
@@ -30,9 +31,20 @@ export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networ
         room: RoomType,
         netid: number,
         ownerid: number,
+        flags: number,
         data?: HazelBuffer | LobbyBehaviourData
     ) {
-        super(room, netid, ownerid, data);
+        super(room, netid, ownerid, flags, data);
+    }
+
+    getComponent<T extends Networkable>(
+        component: NetworkableConstructor<T>
+    ): T|undefined {
+        if (component === LobbyBehaviour as NetworkableConstructor<any>) {
+            return this.components[0] as unknown as T;
+        }
+        
+        return super.getComponent(component);
     }
 
     get owner() {

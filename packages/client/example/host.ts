@@ -1,39 +1,39 @@
-import { Int2Code } from "@skeldjs/util";
+import { Int2Code, sleep } from "@skeldjs/util";
 import * as skeldjs from "../index";
 
-const regcode = process.argv[2];
+const connectRegion = process.argv[2];
 
-if (regcode !== "EU" && regcode !== "NA" && regcode !== "AS") {
-    console.log(
-        "Region must be either EU (Europe), NA (North America) or AS (Asia)."
+(async () => {
+    const client = new skeldjs.SkeldjsClient("2021.6.30s", { attemptAuth: false, chatMode: skeldjs.QuickChatMode.QuickChat });
+
+    console.log("Connecting to server..");
+    await client.connect(connectRegion, "weakeyes");
+
+    console.log("Creating game..");
+    const code = await client.createGame(
+        {
+            maxPlayers: 10,
+            map: skeldjs.GameMap.TheSkeld,
+            numImpostors: 2,
+        },
+        true,
+        skeldjs.QuickChatMode.QuickChat
     );
-} else {
-    (async () => {
-        const client = new skeldjs.SkeldjsClient("2021.4.25");
 
-        console.log("Connecting to server..");
-        await client.connect(regcode, "weakeyes");
+    await client.me?.control?.setName("weakeyes");
+    await client.me?.control?.setColor(skeldjs.Color.Red);
 
-        console.log("Creating game..");
-        const code = await client.createGame(
-            {
-                maxPlayers: 10,
-                map: skeldjs.GameMap.TheSkeld,
-                numImpostors: 2,
-            },
-            true,
-            skeldjs.QuickChatMode.QuickChat
-        );
+    client.on("player.join", async chat => {
+        await sleep(1000);
 
-        await client.me?.control?.setName("weakeyes");
-        await client.me?.control?.setColor(skeldjs.Color.Red);
+        client.requestStartGame();
+    });
 
-        console.log(
-            "Created game @ " +
-                Int2Code(code as number) +
-                " on " +
-                regcode +
-                " servers."
-        );
-    })();
-}
+    console.log(
+        "Created game @ " +
+            Int2Code(code as number) +
+            " on " +
+            connectRegion +
+            " servers."
+    );
+})();
