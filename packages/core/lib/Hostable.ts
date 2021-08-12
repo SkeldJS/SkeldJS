@@ -55,11 +55,10 @@ import {
     InnerShipStatus,
 } from "./objects";
 
-import { Heritable, HeritableEvents } from "./Heritable";
+import { Heritable, HeritableEvents, NetworkableConstructor } from "./Heritable";
 import { Networkable, NetworkableEvents } from "./Networkable";
 import { PlayerData, PlayerDataEvents } from "./PlayerData";
 
-import { SpawnPrefabs } from "./prefabs";
 import { HostableOptions } from "./misc/HostableOptions";
 
 import {
@@ -200,6 +199,18 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
     protected last_fixed_update: number;
 
     protected _interval?: NodeJS.Timeout;
+
+    spawnPrefabs: NetworkableConstructor<any>[][] = [
+        [SkeldShipStatus],
+        [MeetingHud],
+        [LobbyBehaviour],
+        [GameData, VoteBanSystem],
+        [PlayerControl, PlayerPhysics, CustomNetworkTransform],
+        [MiraShipStatus],
+        [PolusShipStatus],
+        [AprilShipStatus],
+        [AirshipStatus],
+    ]
 
     constructor(public options: HostableOptions = {}) {
         super(null as unknown as this, -2);
@@ -932,7 +943,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
 
         let object!: Networkable;
 
-        const spawnPrefab = SpawnPrefabs[spawnType];
+        const spawnPrefab = this.spawnPrefabs[spawnType];
 
         for (let i = 0; i < spawnPrefab.length; i++) {
             const component = new spawnPrefab[i](
@@ -989,6 +1000,10 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
         }
 
         return object;
+    }
+
+    registerPrefab(spawnType: SpawnType, components: NetworkableConstructor<Networkable>[]) {
+        this.spawnPrefabs[spawnType] = components;
     }
 
     /**

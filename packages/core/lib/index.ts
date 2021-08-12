@@ -14,5 +14,3 @@ export * from "./Hostable";
 export * from "./Networkable";
 export * from "./PlayerData";
 export * from "./Hostable";
-
-export * from "./prefabs";
