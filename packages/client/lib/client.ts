@@ -225,6 +225,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     getNextNonce() {
         this._nonce++;
 
+        if (this._nonce > 65535) {
+            this._nonce = 1;
+        }
+
         return this._nonce;
     }
 

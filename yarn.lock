@@ -4556,6 +4556,8 @@ resolve@^1.1.6:
   resolution: "skeldjs@workspace:."
   dependencies:
     "@istanbuljs/nyc-config-typescript": ^1.0.1
+    "@skeldjs/protocol": "workspace:packages/protocol"
+    "@skeldjs/util": "workspace:packages/util"
     "@strictsoftware/typedoc-plugin-monorepo": "patch:@strictsoftware/typedoc-plugin-monorepo@^0.4.2#./typedoc-plugin-monorepo-pr-11.diff"
     "@types/expect": ^24.3.0
     "@types/lunr": ^2

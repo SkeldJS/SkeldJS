@@ -111,6 +111,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["@istanbuljs/nyc-config-typescript", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.0.1"],
+            ["@skeldjs/protocol", "workspace:packages/protocol"],
+            ["@skeldjs/util", "workspace:packages/util"],
             ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=169a50&locator=skeldjs%40workspace%3A."],
             ["@types/expect", "npm:24.3.0"],
             ["@types/lunr", "npm:2.3.3"],
@@ -5386,6 +5388,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["skeldjs", "workspace:."],
             ["@istanbuljs/nyc-config-typescript", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.0.1"],
+            ["@skeldjs/protocol", "workspace:packages/protocol"],
+            ["@skeldjs/util", "workspace:packages/util"],
             ["@strictsoftware/typedoc-plugin-monorepo", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#patch:@strictsoftware/typedoc-plugin-monorepo@npm%3A0.4.2#./typedoc-plugin-monorepo-pr-11.diff::version=0.4.2&hash=169a50&locator=skeldjs%40workspace%3A."],
             ["@types/expect", "npm:24.3.0"],
             ["@types/lunr", "npm:2.3.3"],
