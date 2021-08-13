@@ -81,7 +81,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "2.12.1",
+  "version": "2.12.2",
   "dependencies": {
     "@skeldjs/protocol": "workspace:packages/protocol",
     "@skeldjs/util": "workspace:packages/util"

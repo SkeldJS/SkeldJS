@@ -109,7 +109,7 @@ function transformer(tokens: ParseToken[], tagName?: string) {
                 part.value.tagName
             ) as [number, ParsePart[]];
             i += j + 2;
-            part.value.children = child_parts;
+            part.value.children = child_parts || [];
         }
 
         parts.push(part);
