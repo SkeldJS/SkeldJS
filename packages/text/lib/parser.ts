@@ -52,7 +52,8 @@ function transformer(
 ): [number, ParsePart[]];
 function transformer(tokens: ParseToken[], tagName?: string) {
     const parts: ParsePart[] = [];
-    for (let i = 0; i < tokens.length; i++) {
+    let i = 0;
+    for (i = 0; i < tokens.length; i++) {
         const token = tokens[i];
 
         const next = tokens[i + 1];
@@ -113,6 +114,10 @@ function transformer(tokens: ParseToken[], tagName?: string) {
         }
 
         parts.push(part);
+    }
+
+    if (tagName) {
+        return [i, parts];
     }
 
     return parts;
