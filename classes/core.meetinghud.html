@@ -111,8 +111,10 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.meetinghud.html#classname" class="tsd-kind-icon">classname</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#components" class="tsd-kind-icon">components</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.meetinghud.html#dirtybit" class="tsd-kind-icon">dirty<wbr>Bit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.meetinghud.html#exiled" class="tsd-kind-icon">exiled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#flags" class="tsd-kind-icon">flags</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#netid" class="tsd-kind-icon">netid</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#ownerid" class="tsd-kind-icon">ownerid</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#room" class="tsd-kind-icon">room</a></li>
@@ -132,6 +134,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.meetinghud.html#awake" class="tsd-kind-icon">Awake</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.meetinghud.html#deserialize" class="tsd-kind-icon">Deserialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#fixedupdate" class="tsd-kind-icon">Fixed<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.meetinghud.html#handlerpc" class="tsd-kind-icon">Handle<wbr>Rpc</a></li>
@@ -143,6 +146,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.meetinghud.html#despawn" class="tsd-kind-icon">despawn</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.meetinghud.html#emit" class="tsd-kind-icon">emit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.meetinghud.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite"><a href="core.meetinghud.html#getcomponent" class="tsd-kind-icon">get<wbr>Component</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.meetinghud.html#getlisteners" class="tsd-kind-icon">get<wbr>Listeners</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.meetinghud.html#off" class="tsd-kind-icon">off</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.meetinghud.html#on" class="tsd-kind-icon">on</a></li>
@@ -163,14 +167,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Meeting<wbr>Hud&lt;RoomType&gt;<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoomType</span>, netid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ownerid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, data<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">MeetingHudData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">MeetingHud</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Meeting<wbr>Hud&lt;RoomType&gt;<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoomType</span>, netid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ownerid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, flags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, data<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">MeetingHudData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">MeetingHud</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides Networkable&lt;MeetingHudData, MeetingHudEvents&lt;RoomType&gt;, RoomType&gt;.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L71">core/lib/component/MeetingHud.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L72">core/lib/objects/MeetingHud.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -191,6 +195,9 @@
 									<h5>ownerid: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
+									<h5>flags: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">MeetingHudData</a></h5>
 								</li>
 							</ul>
@@ -208,7 +215,18 @@
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.classname</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L51">core/lib/component/MeetingHud.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L52">core/lib/objects/MeetingHud.ts:52</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="components" class="tsd-anchor"></a>
+					<h3>components</h3>
+					<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.components</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L63">core/lib/Networkable.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +237,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.dirtyBit</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L56">core/lib/component/MeetingHud.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L57">core/lib/objects/MeetingHud.ts:57</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -234,12 +252,28 @@
 					<div class="tsd-signature tsd-kind-icon">exiled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L71">core/lib/component/MeetingHud.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L72">core/lib/objects/MeetingHud.ts:72</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The player that was exiled, if any.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="flags" class="tsd-anchor"></a>
+					<h3>flags</h3>
+					<div class="tsd-signature tsd-kind-icon">flags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.flags</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L56">core/lib/Networkable.ts:56</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Flags for this object, see <a href="../enums/constant.spawnflag.html">SpawnFlag</a>.</p>
 						</div>
 					</div>
 				</section>
@@ -250,7 +284,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.netid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/Networkable.ts#L45">core/lib/Networkable.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L46">core/lib/Networkable.ts:46</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -266,7 +300,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.ownerid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/Networkable.ts#L50">core/lib/Networkable.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L51">core/lib/Networkable.ts:51</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -282,7 +316,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.room</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/Networkable.ts#L40">core/lib/Networkable.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L41">core/lib/Networkable.ts:41</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -298,7 +332,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of MeetingHudData.states</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L61">core/lib/component/MeetingHud.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L62">core/lib/objects/MeetingHud.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -314,7 +348,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of MeetingHudData.tie</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L66">core/lib/component/MeetingHud.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L67">core/lib/objects/MeetingHud.ts:67</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -330,7 +364,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L48">core/lib/component/MeetingHud.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L49">core/lib/objects/MeetingHud.ts:49</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -341,7 +375,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.classname</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L50">core/lib/component/MeetingHud.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L51">core/lib/objects/MeetingHud.ts:51</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -352,7 +386,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides Networkable.type</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L47">core/lib/component/MeetingHud.ts:47</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L48">core/lib/objects/MeetingHud.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -369,7 +403,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L85">core/lib/component/MeetingHud.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L114">core/lib/objects/MeetingHud.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RoomType</span></h4>
@@ -379,6 +413,24 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="awake" class="tsd-anchor"></a>
+					<h3>Awake</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">Awake<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides Networkable.Awake</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L87">core/lib/objects/MeetingHud.ts:87</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="deserialize" class="tsd-anchor"></a>
 					<h3>Deserialize</h3>
@@ -390,7 +442,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Networkable.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L89">core/lib/component/MeetingHud.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L118">core/lib/objects/MeetingHud.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -417,7 +469,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.FixedUpdate</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/Networkable.ts#L105">core/lib/Networkable.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L121">core/lib/Networkable.ts:121</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -441,7 +493,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Networkable.HandleRpc</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L139">core/lib/component/MeetingHud.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L168">core/lib/objects/MeetingHud.ts:168</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -465,7 +517,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.PreSerialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/Networkable.ts#L101">core/lib/Networkable.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L117">core/lib/Networkable.ts:117</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -483,7 +535,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Networkable.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L131">core/lib/component/MeetingHud.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L160">core/lib/objects/MeetingHud.ts:160</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -509,7 +561,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L277">core/lib/component/MeetingHud.ts:277</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L301">core/lib/objects/MeetingHud.ts:301</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -559,7 +611,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L358">core/lib/component/MeetingHud.ts:358</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L382">core/lib/objects/MeetingHud.ts:382</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -588,7 +640,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L185">core/lib/component/MeetingHud.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L209">core/lib/objects/MeetingHud.ts:209</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -612,7 +664,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.despawn</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/Networkable.ts#L117">core/lib/Networkable.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L151">core/lib/Networkable.ts:151</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -635,7 +687,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/Networkable.ts#L82">core/lib/Networkable.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L94">core/lib/Networkable.ts:94</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -665,7 +717,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.emitSerial</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -684,6 +736,36 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+					<a name="getcomponent" class="tsd-anchor"></a>
+					<h3>get<wbr>Component</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Component&lt;T&gt;<span class="tsd-signature-symbol">(</span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides Networkable.getComponent</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L104">core/lib/objects/MeetingHud.ts:104</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>component: <span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">T</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 					<a name="getlisteners" class="tsd-anchor"></a>
 					<h3>get<wbr>Listeners</h3>
@@ -695,7 +777,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.getListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L104">events/lib/EventEmitter.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L104">events/lib/EventEmitter.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -725,7 +807,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.off</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L95">events/lib/EventEmitter.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L95">events/lib/EventEmitter.ts:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -759,7 +841,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L60">events/lib/EventEmitter.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L60">events/lib/EventEmitter.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -795,7 +877,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -835,7 +917,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -871,7 +953,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L76">events/lib/EventEmitter.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L76">events/lib/EventEmitter.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -910,7 +992,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.removeAllListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L118">events/lib/EventEmitter.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L118">events/lib/EventEmitter.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -928,7 +1010,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.removeListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L113">events/lib/EventEmitter.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L113">events/lib/EventEmitter.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -952,7 +1034,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.spawn</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/Networkable.ts#L110">core/lib/Networkable.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/Networkable.ts#L144">core/lib/Networkable.ts:144</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -974,7 +1056,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/core/lib/component/MeetingHud.ts#L438">core/lib/component/MeetingHud.ts:438</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/core/lib/objects/MeetingHud.ts#L462">core/lib/objects/MeetingHud.ts:462</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1014,7 +1096,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L85">events/lib/EventEmitter.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L85">events/lib/EventEmitter.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1035,7 +1117,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/e7ca955/packages/events/lib/EventEmitter.ts#L88">events/lib/EventEmitter.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4d3bdde/packages/events/lib/EventEmitter.ts#L88">events/lib/EventEmitter.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1146,11 +1228,17 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.meetinghud.html#classname" class="tsd-kind-icon">classname</a>
 									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.meetinghud.html#components" class="tsd-kind-icon">components</a>
+									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.meetinghud.html#dirtybit" class="tsd-kind-icon">dirty<wbr>Bit</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.meetinghud.html#exiled" class="tsd-kind-icon">exiled</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.meetinghud.html#flags" class="tsd-kind-icon">flags</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.meetinghud.html#netid" class="tsd-kind-icon">netid</a>
@@ -1178,6 +1266,9 @@
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 										<a href="core.meetinghud.html#owner" class="tsd-kind-icon">owner</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+										<a href="core.meetinghud.html#awake" class="tsd-kind-icon">Awake</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 										<a href="core.meetinghud.html#deserialize" class="tsd-kind-icon">Deserialize</a>
@@ -1211,6 +1302,9 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.meetinghud.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+										<a href="core.meetinghud.html#getcomponent" class="tsd-kind-icon">get<wbr>Component</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.meetinghud.html#getlisteners" class="tsd-kind-icon">get<wbr>Listeners</a>
