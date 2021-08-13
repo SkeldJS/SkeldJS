@@ -81,5 +81,5 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "2.11.19"
+  "version": "2.12.0"
 }
