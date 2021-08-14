@@ -42,12 +42,6 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     CustomNetworkTransformEvents<RoomType>,
     RoomType
 > implements CustomNetworkTransformData {
-    static type = SpawnType.Player as const;
-    type = SpawnType.Player as const;
-
-    static classname = "CustomNetworkTransform" as const;
-    classname = "CustomNetworkTransform" as const;
-
     /**
      * The previous sequence ID.
      */
@@ -70,13 +64,14 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | CustomNetworkTransformData,
         playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
 
         this.oldSeqId ||= 0;
         this.seqId ||= 0;

@@ -21,20 +21,15 @@ export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networ
     LobbyBehaviourEvents<RoomType>,
     RoomType
 > {
-    static type = SpawnType.LobbyBehaviour as const;
-    type = SpawnType.LobbyBehaviour as const;
-
-    static classname = "LobbyBehaviour" as const;
-    classname = "LobbyBehaviour" as const;
-
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelBuffer | LobbyBehaviourData
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
     }
 
     getComponent<T extends Networkable>(

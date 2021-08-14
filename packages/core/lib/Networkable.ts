@@ -23,22 +23,15 @@ export class Networkable<
     T extends NetworkableEvents = NetworkableEvents,
     RoomType extends Hostable = Hostable
 > extends EventEmitter<T> {
-    static type: SpawnType;
-    /**
-     * The type of object that this component belongs to.
-     */
-    type!: SpawnType;
-
-    static classname: string;
-    /**
-     * The class name of this component.
-     */
-    classname!: string;
-
     /**
      * The room that this component belongs to.
      */
     room: RoomType;
+
+    /**
+     * The type of object that this component belongs to.
+     */
+    spawnType: SpawnType;
 
     /**
      * The net ID of this component.
@@ -64,6 +57,7 @@ export class Networkable<
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
@@ -72,6 +66,7 @@ export class Networkable<
         super();
 
         this.room = room;
+        this.spawnType = spawnType;
         this.netid = netid;
         this.ownerid = ownerid;
         this.flags = flags;
@@ -121,6 +116,8 @@ export class Networkable<
     FixedUpdate(delta: number) {}
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     Awake() {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    Despawn() {}
 
     /**
      * Get a certain component from the object.

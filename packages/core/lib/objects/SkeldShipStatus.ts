@@ -26,12 +26,6 @@ import { Networkable } from "../Networkable";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
-    static type = SpawnType.ShipStatus as const;
-    type = SpawnType.ShipStatus as const;
-
-    static classname = "ShipStatus" as const;
-    classname = "ShipStatus" as const;
-
     static roomDoors = {
         [SystemType.Storage]: [1, 7, 12],
         [SystemType.Cafeteria]: [0, 3, 8],
@@ -55,12 +49,13 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
     }
 
     getComponent<T extends Networkable>(

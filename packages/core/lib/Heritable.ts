@@ -3,26 +3,27 @@ import { HazelReader } from "@skeldjs/util";
 
 import { Networkable, NetworkableEvents } from "./Networkable";
 import { Hostable } from "./Hostable";
+import { SpawnType } from "@skeldjs/constant";
 
 export type NetworkableConstructor<T> = {
     new (
         room: Hostable<any>,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | any
     ): T;
-    classname: string;
 }|{
     new (
         room: Hostable<any>,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | any,
         object?: Networkable<any, any>
     ): T;
-    classname: string;
 };
 
 export type HeritableEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;

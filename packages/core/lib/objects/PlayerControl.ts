@@ -62,6 +62,7 @@ import { MeetingHud } from "./MeetingHud";
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems/MovingPlatformSystem";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
 import { NetworkableConstructor } from "../Heritable";
+import { AirshipStatus } from "./AirshipStatus";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -98,12 +99,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     PlayerControlEvents<RoomType>,
     RoomType
 > implements PlayerControlData {
-    static type = SpawnType.Player as const;
-    type = SpawnType.Player as const;
-
-    static classname = "PlayerControl" as const;
-    classname = "PlayerControl" as const;
-
     private lastStartCounter = 0;
 
     /**
@@ -118,12 +113,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | PlayerControlData
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
 
         this.isNew ??= true;
         this.playerId ||= 0;
@@ -1241,7 +1237,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _usePlatform() {
         const airship = this.room.shipstatus;
 
-        if (!airship || airship.type !== SpawnType.Airship)
+        if (!airship || !(airship instanceof AirshipStatus))
             return;
 
         const movingPlatform = airship.systems[SystemType.GapRoom] as MovingPlatformSystem;

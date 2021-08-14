@@ -11,9 +11,6 @@ The very basic structure of a message declaration is as follows:
 
 ```ts
 class MyFavouriteMessage extends BaseMessage {
-    static type = "lorem" as const; // The type of message that this is.
-    type = "lorem" as const;
-
     static tag = 1 as const; // The hazel message tag.
     tag = 1 as const;
 

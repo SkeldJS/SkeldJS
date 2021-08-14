@@ -54,12 +54,6 @@ export type PlayerIDResolvable =
  * See {@link GameDataEvents} for events to listen to.
  */
 export class GameData<RoomType extends Hostable = Hostable> extends Networkable<GameDataData, GameDataEvents<RoomType>, RoomType> implements GameDataData {
-    static type = SpawnType.GameData as const;
-    type = SpawnType.GameData as const;
-
-    static classname = "GameData" as const;
-    classname = "GameData" as const;
-
     /**
      * The players in the game data.
      */
@@ -67,12 +61,13 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | GameDataData
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
 
         this.players ||= new Map;
     }

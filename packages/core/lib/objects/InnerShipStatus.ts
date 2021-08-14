@@ -69,24 +69,19 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     ShipStatusEvents<RoomType>,
     RoomType
 > {
-    static type: ShipStatusType;
-    type!: ShipStatusType;
-
-    static classname: ShipStatusClassname;
-    classname!: ShipStatusClassname;
-
     static roomDoors: Partial<Record<SystemType, number[]>>;
 
     systems!: AllSystems;
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
     }
 
     get owner() {

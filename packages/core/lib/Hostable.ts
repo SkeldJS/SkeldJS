@@ -824,7 +824,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
 
         if (component instanceof LobbyBehaviour) {
             if (!this.lobbybehaviour) {
-                this.lobbybehaviour = component;
+                this.lobbybehaviour = component as LobbyBehaviour<this>; // (??)
             }
         }
 
@@ -885,6 +885,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
             this.meetinghud = undefined;
         }
 
+        component.Despawn();
         component.components.splice(
             component.components.indexOf(component),
             1
@@ -949,6 +950,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
         for (let i = 0; i < spawnPrefab.length; i++) {
             const component = new spawnPrefab[i](
                 this,
+                spawnType,
                 componentData[i]?.netid || this.getNextNetId(),
                 _ownerid,
                 _flags,
@@ -1062,7 +1064,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
         for (const object of this.objectList) {
             messages.push(
                 new SpawnMessage(
-                    object.type,
+                    object.spawnType,
                     object.ownerid,
                     object.flags,
                     object.components.map(component => {

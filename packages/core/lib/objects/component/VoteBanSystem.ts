@@ -30,12 +30,6 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     VoteBanSystemEvents,
     RoomType
 > {
-    static type = SpawnType.GameData;
-    type = SpawnType.GameData;
-
-    static classname = "VoteBanSystem" as const;
-    classname = "VoteBanSystem" as const;
-
     /**
      * The accumulated votes.
      */
@@ -43,13 +37,14 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | VoteBanSystemData,
         gameData?: GameData<RoomType>
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
 
         this.voted ||= new Map;
 

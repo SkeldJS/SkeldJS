@@ -45,12 +45,6 @@ export type MeetingHudEvents<RoomType extends Hostable = Hostable> = Networkable
     >;
 
 export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkable<MeetingHudData, MeetingHudEvents<RoomType>, RoomType> implements MeetingHudData {
-    static type = SpawnType.MeetingHud as const;
-    type = SpawnType.MeetingHud as const;
-
-    static classname = "MeetingHud" as const;
-    classname = "MeetingHud" as const;
-
     /**
      * The dirty vote states to be updated on the next fixed update.
      */
@@ -73,12 +67,13 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | MeetingHudData
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
 
         this.dirtyBit ||= 0;
         this.states ||= new Map;

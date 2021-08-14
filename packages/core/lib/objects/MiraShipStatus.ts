@@ -22,12 +22,6 @@ import { Networkable } from "../Networkable";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
-    static type = SpawnType.Headquarters as const;
-    type = SpawnType.Headquarters as const;
-
-    static classname = "Headquarters" as const;
-    classname = "Headquarters" as const;
-
     systems!: {
         [SystemType.Reactor]: ReactorSystem<RoomType>;
         [SystemType.Electrical]: SwitchSystem<RoomType>;
@@ -40,12 +34,13 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
     }
 
     getComponent<T extends Networkable>(

@@ -42,12 +42,6 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     PlayerPhysicsEvents,
     RoomType
 > implements PlayerPhysicsData {
-    static type = SpawnType.Player as const;
-    type = SpawnType.Player as const;
-
-    static classname = "PlayerPhysics" as const;
-    classname = "PlayerPhysics" as const;
-
     /**
      * The ID of the vent that the player is currently in.
      */
@@ -57,13 +51,14 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
 
     constructor(
         room: RoomType,
+        spawnType: SpawnType,
         netid: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | PlayerPhysicsData,
         playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, netid, ownerid, flags, data);
+        super(room, spawnType, netid, ownerid, flags, data);
 
         this.ventid ??= -1;
         this.ladderClimbSeqId = 0;
