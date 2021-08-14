@@ -90,7 +90,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.tag) {
+        switch (rpc.messageTag) {
             case RpcMessageTag.AddVote:
                 this._handleAddVote(rpc as AddVoteMessage);
                 break;

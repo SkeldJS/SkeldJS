@@ -8,8 +8,8 @@ import { BaseGameDataMessage } from "../game";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class GameDataMessage extends BaseRootMessage {
-    static tag = RootMessageTag.GameData as const;
-    tag = RootMessageTag.GameData as const;
+    static messageTag = RootMessageTag.GameData as const;
+    messageTag = RootMessageTag.GameData as const;
 
     code: number;
     children: BaseGameDataMessage[];
@@ -61,10 +61,10 @@ export class GameDataMessage extends BaseRootMessage {
         writer.int32(this.code);
 
         for (const message of this.children) {
-            if (!decoder.types.has(`gamedata:${message.tag}`))
+            if (!decoder.types.has(`gamedata:${message.messageTag}`))
                 continue;
 
-            writer.begin(message.tag);
+            writer.begin(message.messageTag);
             writer.write(message, direction, decoder);
             writer.end();
         }

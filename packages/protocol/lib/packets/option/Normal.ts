@@ -44,10 +44,10 @@ export class NormalPacket extends BaseRootPacket {
         decoder: PacketDecoder
     ) {
         for (const message of this.children) {
-            if (!decoder.types.has(`root:${message.tag}`))
+            if (!decoder.types.has(`root:${message.messageTag}`))
                 continue;
 
-            writer.begin(message.tag);
+            writer.begin(message.messageTag);
             writer.write(message, direction, decoder);
             writer.end();
         }

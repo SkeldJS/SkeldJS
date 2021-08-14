@@ -5,8 +5,8 @@ import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class RemovePlayerMessage extends BaseRootMessage {
-    static tag = RootMessageTag.RemovePlayer as const;
-    tag = RootMessageTag.RemovePlayer as const;
+    static messageTag = RootMessageTag.RemovePlayer as const;
+    messageTag = RootMessageTag.RemovePlayer as const;
 
     readonly code: number;
     readonly clientid: number;

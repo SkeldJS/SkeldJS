@@ -83,8 +83,8 @@ export enum MessageDirection {
 }
 
 export interface Serializable {
-    type: string;
-    tag: number;
+    messageType: string;
+    messageTag: number;
 
     children?: Serializable[];
 
@@ -102,8 +102,8 @@ export type GetSerialized<T extends Deserializable> = T extends {
     : never;
 
 export interface Deserializable {
-    type: string;
-    tag: number;
+    messageType: string;
+    messageTag: number;
 
     new (...args: any[]): Serializable;
 
@@ -228,7 +228,7 @@ export class PacketDecoder<SenderType = any> {
      */
     register(...messageClasses: Deserializable[]) {
         for (const messageClass of messageClasses) {
-            this.types.set(`${messageClass.type}:${messageClass.tag}`, messageClass);
+            this.types.set(`${messageClass.messageType}:${messageClass.messageTag}`, messageClass);
         }
     }
 
@@ -278,7 +278,7 @@ export class PacketDecoder<SenderType = any> {
         direction: MessageDirection,
         sender: SenderType
     ) {
-        const messageClass = this.types.get(`${message.type}:${message.tag}`);
+        const messageClass = this.types.get(`${message.messageType}:${message.messageTag}`);
 
         if (messageClass) {
             const listeners = this.getListeners(messageClass);
@@ -295,7 +295,7 @@ export class PacketDecoder<SenderType = any> {
         direction: MessageDirection,
         sender: SenderType
     ) {
-        const messageClass = this.types.get(`${message.type}:${message.tag}`);
+        const messageClass = this.types.get(`${message.messageType}:${message.messageTag}`);
 
         if (messageClass) {
             const listeners = this.getListeners(messageClass);
@@ -320,7 +320,7 @@ export class PacketDecoder<SenderType = any> {
             sender: SenderType
         ) => void
     > {
-        const msgKey = `${messageClass.type}:${messageClass.tag}` as MessageMapKey;
+        const msgKey = `${messageClass.messageType}:${messageClass.messageTag}` as MessageMapKey;
         const cachedListeners = this.listeners.get(msgKey);
         const listeners = cachedListeners || new Set;
 

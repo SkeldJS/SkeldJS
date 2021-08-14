@@ -10,7 +10,7 @@ describe("StartGameMessage", () => {
             const reader = HazelReader.from("48daca8c", "hex");
             const packet = StartGameMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, RootMessageTag.StartGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.StartGame);
             assert.strictEqual(packet.code, -1932862904);
         });
     });

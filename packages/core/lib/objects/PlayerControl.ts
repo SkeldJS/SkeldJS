@@ -174,7 +174,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.tag) {
+        switch (rpc.messageTag) {
             case RpcMessageTag.CompleteTask:
                 await this._handleCompleteTask(rpc as CompleteTaskMessage);
                 break;

@@ -123,7 +123,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.tag) {
+        switch (rpc.messageTag) {
             case RpcMessageTag.RepairSystem:
                 await this._handleRepairSystem(rpc as RepairSystemMessage);
                 break;

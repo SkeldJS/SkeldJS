@@ -46,7 +46,7 @@ export class AuthClient {
         this.socket.restartConnection();
 
         const helloWriter = HazelWriter.alloc(11);
-        helloWriter.uint8(AuthHelloPacket.tag);
+        helloWriter.uint8(AuthHelloPacket.messageTag);
         helloWriter.write(
             new AuthHelloPacket(
                 1,

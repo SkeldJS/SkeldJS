@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SendChatNoteMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.SendChatNote as const;
-    tag = RpcMessageTag.SendChatNote as const;
+    static messageTag = RpcMessageTag.SendChatNote as const;
+    messageTag = RpcMessageTag.SendChatNote as const;
 
     playerid: number;
     notetype: ChatNoteType;

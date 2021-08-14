@@ -69,7 +69,7 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.tag) {
+        switch (rpc.messageTag) {
             case RpcMessageTag.CloseDoorsOfType:
                 await this._handleCloseDoorsOfType(rpc as CloseDoorsOfTypeMessage);
                 break;

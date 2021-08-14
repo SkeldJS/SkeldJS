@@ -14,7 +14,7 @@ describe("SpawnMessage", () => {
             );
             const packet = SpawnMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, GameDataMessageTag.Spawn);
+            assert.strictEqual(packet.messageTag, GameDataMessageTag.Spawn);
             assert.strictEqual(packet.spawnType, SpawnType.Player);
             assert.strictEqual(packet.ownerid, 42500);
             assert.strictEqual(packet.flags, SpawnFlag.IsClientCharacter);

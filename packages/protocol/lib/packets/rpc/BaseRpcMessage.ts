@@ -1,6 +1,6 @@
 import { BaseMessage } from "../BaseMessage";
 
 export class BaseRpcMessage extends BaseMessage {
-    static type = "rpc" as const;
-    type = "rpc" as const;
+    static messageType = "rpc" as const;
+    messageType = "rpc" as const;
 }

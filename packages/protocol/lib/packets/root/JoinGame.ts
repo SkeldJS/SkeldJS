@@ -5,8 +5,8 @@ import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class JoinGameMessage extends BaseRootMessage {
-    static tag = RootMessageTag.JoinGame as const;
-    tag = RootMessageTag.JoinGame as const;
+    static messageTag = RootMessageTag.JoinGame as const;
+    messageTag = RootMessageTag.JoinGame as const;
 
     readonly code!: number;
     readonly clientid!: number;

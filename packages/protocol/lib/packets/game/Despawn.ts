@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class DespawnMessage extends BaseGameDataMessage {
-    static tag = GameDataMessageTag.Despawn as const;
-    tag = GameDataMessageTag.Despawn as const;
+    static messageTag = GameDataMessageTag.Despawn as const;
+    messageTag = GameDataMessageTag.Despawn as const;
 
     readonly netid: number;
 

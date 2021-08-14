@@ -22,8 +22,8 @@ export class VoteState {
 }
 
 export class VotingCompleteMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.VotingComplete as const;
-    tag = RpcMessageTag.VotingComplete as const;
+    static messageTag = RpcMessageTag.VotingComplete as const;
+    messageTag = RpcMessageTag.VotingComplete as const;
 
     states: VoteState[];
     exiledid: number;

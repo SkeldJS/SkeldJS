@@ -4,8 +4,8 @@ import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class StartGameMessage extends BaseRootMessage {
-    static tag = RootMessageTag.StartGame as const;
-    tag = RootMessageTag.StartGame as const;
+    static messageTag = RootMessageTag.StartGame as const;
+    messageTag = RootMessageTag.StartGame as const;
 
     readonly code: number;
 

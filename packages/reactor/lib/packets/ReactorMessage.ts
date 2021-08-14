@@ -10,8 +10,8 @@ export enum ReactorMessageTag {
 }
 
 export class ReactorMessage extends BaseRootMessage {
-    static tag = 0xff as const;
-    tag = 0xff as const;
+    static messageTag = 0xff as const;
+    messageTag = 0xff as const;
 
     children: BaseReactorMessage[];
 
@@ -50,7 +50,7 @@ export class ReactorMessage extends BaseRootMessage {
         decoder: PacketDecoder
     ) {
         const child = this.children[0];
-        writer.uint8(child.tag);
+        writer.uint8(child.messageTag);
         writer.write(child, direction, decoder);
     }
 }

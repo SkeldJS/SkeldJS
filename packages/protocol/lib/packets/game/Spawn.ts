@@ -5,8 +5,8 @@ import { ComponentSpawnData } from "../../misc";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class SpawnMessage extends BaseGameDataMessage {
-    static tag = GameDataMessageTag.Spawn as const;
-    tag = GameDataMessageTag.Spawn as const;
+    static messageTag = GameDataMessageTag.Spawn as const;
+    messageTag = GameDataMessageTag.Spawn as const;
 
     readonly spawnType: SpawnType;
     readonly ownerid: number;

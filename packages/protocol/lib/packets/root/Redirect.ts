@@ -4,8 +4,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class RedirectMessage extends BaseRootMessage {
-    static tag = RootMessageTag.Redirect as const;
-    tag = RootMessageTag.Redirect as const;
+    static messageTag = RootMessageTag.Redirect as const;
+    messageTag = RootMessageTag.Redirect as const;
 
     readonly ip: string;
     readonly port: number;

@@ -161,7 +161,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.tag) {
+        switch (rpc.messageTag) {
             case RpcMessageTag.Close:
                 await this._handleClose(rpc as CloseMessage);
                 break;

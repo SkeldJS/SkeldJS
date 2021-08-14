@@ -12,8 +12,8 @@ export enum VentilationState {
 }
 
 export class VentilationSystemMessage extends BaseSystemMessage {
-    static tag = SystemType.Ventilation as const;
-    tag = SystemType.Ventilation as const;
+    static messageTag = SystemType.Ventilation as const;
+    messageTag = SystemType.Ventilation as const;
 
     constructor(
         public readonly sequenceId: number,

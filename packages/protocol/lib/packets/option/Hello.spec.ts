@@ -13,7 +13,7 @@ describe("HelloPacket", () => {
             );
             const packet = HelloPacket.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, SendOption.Hello);
+            assert.strictEqual(packet.messageTag, SendOption.Hello);
             assert.strictEqual(packet.nonce, 1);
             assert.strictEqual(packet.clientver.year, 2021);
             assert.strictEqual(packet.clientver.month, 4);

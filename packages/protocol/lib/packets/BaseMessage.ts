@@ -2,11 +2,11 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { MessageDirection, PacketDecoder } from "../PacketDecoder";
 
 export class BaseMessage {
-    static type: string;
-    static tag: number;
+    static messageType: string;
+    static messageTag: number;
 
-    readonly type!: string;
-    readonly tag!: number;
+    readonly messageType!: string;
+    readonly messageTag!: number;
 
     private _canceled: boolean;
 
@@ -15,7 +15,7 @@ export class BaseMessage {
     }
 
     get canceled() {
-        return this._canceled;
+        return this._canceled;  
     }
 
     static Deserialize(

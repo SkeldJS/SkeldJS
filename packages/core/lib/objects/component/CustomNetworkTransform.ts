@@ -123,7 +123,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.tag) {
+        switch (rpc.messageTag) {
             case RpcMessageTag.SnapTo:
                 await this._handleSnapTo(rpc as SnapToMessage);
                 break;

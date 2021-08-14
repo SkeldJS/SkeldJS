@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class CompleteTaskMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.CompleteTask as const;
-    tag = RpcMessageTag.CompleteTask as const;
+    static messageTag = RpcMessageTag.CompleteTask as const;
+    messageTag = RpcMessageTag.CompleteTask as const;
 
     taskidx: number;
 

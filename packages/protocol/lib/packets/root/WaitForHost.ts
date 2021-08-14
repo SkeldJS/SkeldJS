@@ -4,8 +4,8 @@ import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class WaitForHostMessage extends BaseRootMessage {
-    static tag = RootMessageTag.WaitForHost as const;
-    tag = RootMessageTag.WaitForHost as const;
+    static messageTag = RootMessageTag.WaitForHost as const;
+    messageTag = RootMessageTag.WaitForHost as const;
 
     readonly code: number;
     readonly clientid: number;

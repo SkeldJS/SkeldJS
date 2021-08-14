@@ -10,7 +10,7 @@ describe("KickPlayerMessage", () => {
             const reader = HazelReader.from("88fd958cc3a30200", "hex");
             const packet = KickPlayerMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, RootMessageTag.KickPlayer);
+            assert.strictEqual(packet.messageTag, RootMessageTag.KickPlayer);
             assert.strictEqual(packet.code, -1936327288);
             assert.strictEqual(packet.clientid, 37315);
             assert.strictEqual(packet.banned, false);

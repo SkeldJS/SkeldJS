@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class ClimbLadderMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.ClimbLadder as const;
-    tag = RpcMessageTag.ClimbLadder as const;
+    static messageTag = RpcMessageTag.ClimbLadder as const;
+    messageTag = RpcMessageTag.ClimbLadder as const;
 
     ladderid: number;
     sequenceid: number;

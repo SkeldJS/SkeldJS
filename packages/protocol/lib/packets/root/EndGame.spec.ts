@@ -10,7 +10,7 @@ describe("EndGameMessage", () => {
             const reader = HazelReader.from("48daca8c0300", "hex");
             const packet = EndGameMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, RootMessageTag.EndGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.EndGame);
             assert.strictEqual(packet.code, -1932862904);
             assert.strictEqual(packet.reason, GameOverReason.ImpostorByKill);
             assert.strictEqual(packet.show_ad, false);

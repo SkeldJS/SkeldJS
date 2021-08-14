@@ -4,8 +4,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class PlayAnimationMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.PlayAnimation as const;
-    tag = RpcMessageTag.PlayAnimation as const;
+    static messageTag = RpcMessageTag.PlayAnimation as const;
+    messageTag = RpcMessageTag.PlayAnimation as const;
 
     taskid: number;
 

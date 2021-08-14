@@ -5,8 +5,8 @@ import { BaseSystemMessage } from "../system";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class UpdateSystemMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.UpdateSystem as const;
-    tag = RpcMessageTag.UpdateSystem as const;
+    static messageTag = RpcMessageTag.UpdateSystem as const;
+    messageTag = RpcMessageTag.UpdateSystem as const;
 
     constructor(
         public readonly playerNetid: number,
@@ -42,7 +42,7 @@ export class UpdateSystemMessage extends BaseRpcMessage {
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
-        writer.uint8(this.data.tag);
+        writer.uint8(this.data.messageTag);
         writer.write(this.data, direction, decoder);
     }
 }

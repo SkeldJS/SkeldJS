@@ -10,7 +10,7 @@ describe("AcknowledgePacket", () => {
             const reader = HazelReader.from("0700f5", "hex");
             const packet = AcknowledgePacket.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, SendOption.Acknowledge);
+            assert.strictEqual(packet.messageTag, SendOption.Acknowledge);
             assert.strictEqual(packet.nonce, 1792);
             assert.deepStrictEqual(packet.missingPackets, [1, 3]);
         });

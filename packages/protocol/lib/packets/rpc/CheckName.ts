@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class CheckNameMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.CheckName as const;
-    tag = RpcMessageTag.CheckName as const;
+    static messageTag = RpcMessageTag.CheckName as const;
+    messageTag = RpcMessageTag.CheckName as const;
 
     name: string;
 

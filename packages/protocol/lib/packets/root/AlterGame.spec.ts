@@ -10,7 +10,7 @@ describe("AlterGameMessage", () => {
             const reader = HazelReader.from("48daca8c0101", "hex");
             const packet = AlterGameMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, RootMessageTag.AlterGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.AlterGame);
             assert.strictEqual(packet.code, -1932862904);
             assert.strictEqual(packet.alterTag, AlterGameTag.ChangePrivacy);
             assert.strictEqual(packet.value, 1);

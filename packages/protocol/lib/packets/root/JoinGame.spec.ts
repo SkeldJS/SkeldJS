@@ -14,7 +14,7 @@ describe("JoinGameMessage", () => {
                 MessageDirection.Clientbound
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.JoinGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.JoinGame);
             assert.strictEqual(packet.code, -1942166235);
             assert.strictEqual(packet.clientid, 43754);
             assert.strictEqual(packet.hostid, 43637);
@@ -27,7 +27,7 @@ describe("JoinGameMessage", () => {
                 MessageDirection.Clientbound
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.JoinGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.JoinGame);
             assert.strictEqual(packet.error, DisconnectReason.GameNotFound);
         });
 
@@ -41,7 +41,7 @@ describe("JoinGameMessage", () => {
                 MessageDirection.Clientbound
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.JoinGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.JoinGame);
             assert.strictEqual(packet.error, DisconnectReason.Custom);
             assert.strictEqual(packet.message, "you are large");
         });
@@ -53,7 +53,7 @@ describe("JoinGameMessage", () => {
                 MessageDirection.Serverbound
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.JoinGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.JoinGame);
             assert.strictEqual(packet.code, -1975565862);
         });
     });

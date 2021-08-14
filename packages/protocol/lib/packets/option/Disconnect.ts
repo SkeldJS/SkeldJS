@@ -4,8 +4,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootPacket } from "./BaseRootPacket";
 
 export class DisconnectPacket extends BaseRootPacket {
-    static tag = SendOption.Disconnect as const;
-    tag = SendOption.Disconnect as const;
+    static messageTag = SendOption.Disconnect as const;
+    messageTag = SendOption.Disconnect as const;
 
     readonly reason?: DisconnectReason;
     readonly message?: string;

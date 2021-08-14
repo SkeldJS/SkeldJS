@@ -177,7 +177,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.tag) {
+        switch (rpc.messageTag) {
             case RpcMessageTag.SetTasks:
                 this._handleSetTasks(rpc as SetTasksMessage);
                 break;

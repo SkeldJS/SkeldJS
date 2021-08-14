@@ -4,8 +4,8 @@ import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
 import { BaseRootPacket } from "./BaseRootPacket";
 
 export class HelloPacket extends BaseRootPacket {
-    static tag = SendOption.Hello as const;
-    tag = SendOption.Hello as const;
+    static messageTag = SendOption.Hello as const;
+    messageTag = SendOption.Hello as const;
 
     constructor(
         public readonly nonce: number,

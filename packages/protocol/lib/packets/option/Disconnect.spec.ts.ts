@@ -10,7 +10,7 @@ describe("DisconnectPacket", () => {
             const reader = HazelReader.from("", "hex");
             const packet = DisconnectPacket.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, SendOption.Disconnect);
+            assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
             assert.strictEqual(packet.message, "");
             assert.strictEqual(packet.reason, DisconnectReason.None);
@@ -20,7 +20,7 @@ describe("DisconnectPacket", () => {
             const reader = HazelReader.from("01", "hex");
             const packet = DisconnectPacket.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, SendOption.Disconnect);
+            assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
             assert.strictEqual(packet.message, "");
             assert.strictEqual(packet.reason, DisconnectReason.None);
@@ -30,7 +30,7 @@ describe("DisconnectPacket", () => {
             const reader = HazelReader.from("0101000001", "hex");
             const packet = DisconnectPacket.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, SendOption.Disconnect);
+            assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
             assert.strictEqual(packet.message, "");
             assert.strictEqual(packet.reason, DisconnectReason.GameFull);
@@ -43,7 +43,7 @@ describe("DisconnectPacket", () => {
             );
             const packet = DisconnectPacket.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, SendOption.Disconnect);
+            assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
             assert.strictEqual(packet.message, "weakeyes");
             assert.strictEqual(packet.reason, DisconnectReason.Custom);

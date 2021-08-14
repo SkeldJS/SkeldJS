@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SnapToMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.SnapTo as const;
-    tag = RpcMessageTag.SnapTo as const;
+    static messageTag = RpcMessageTag.SnapTo as const;
+    messageTag = RpcMessageTag.SnapTo as const;
 
     position: Vector2;
     sequenceid: number;

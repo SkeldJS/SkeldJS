@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetSkinMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.SetSkin as const;
-    tag = RpcMessageTag.SetSkin as const;
+    static messageTag = RpcMessageTag.SetSkin as const;
+    messageTag = RpcMessageTag.SetSkin as const;
 
     skin: Skin;
 

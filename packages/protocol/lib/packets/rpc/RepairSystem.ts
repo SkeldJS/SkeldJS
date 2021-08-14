@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class RepairSystemMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.RepairSystem as const;
-    tag = RpcMessageTag.RepairSystem as const;
+    static messageTag = RpcMessageTag.RepairSystem as const;
+    messageTag = RpcMessageTag.RepairSystem as const;
 
     systemid: number;
     netid: number;

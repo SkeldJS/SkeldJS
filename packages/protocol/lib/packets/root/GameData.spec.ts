@@ -7,8 +7,8 @@ import { BaseGameDataMessage } from "../game";
 import { GameDataMessage } from "./GameData";
 
 export class FakeSpawnMessage extends BaseGameDataMessage {
-    static tag = GameDataMessageTag.Spawn as const;
-    tag = GameDataMessageTag.Spawn as const;
+    static messageTag = GameDataMessageTag.Spawn as const;
+    messageTag = GameDataMessageTag.Spawn as const;
 }
 
 describe("GameDataMessage", () => {
@@ -26,11 +26,11 @@ describe("GameDataMessage", () => {
                 decoder
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.GameData);
+            assert.strictEqual(packet.messageTag, RootMessageTag.GameData);
             assert.strictEqual(packet.code, -1932862904);
             assert.strictEqual(packet.children.length, 3);
             assert.deepStrictEqual(
-                packet.children.map((child) => child.tag),
+                packet.children.map((child) => child.messageTag),
                 [
                     GameDataMessageTag.Spawn,
                     GameDataMessageTag.Spawn,

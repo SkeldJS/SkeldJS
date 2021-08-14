@@ -13,7 +13,7 @@ describe("JoinedGameMessage", () => {
             );
             const packet = JoinedGameMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, RootMessageTag.JoinedGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.JoinedGame);
             assert.strictEqual(packet.code, -1936327288);
             assert.strictEqual(packet.clientid, 37315);
             assert.strictEqual(packet.hostid, 37063);

@@ -16,7 +16,7 @@ describe("BaseMessage", () => {
                 decoder
             );
 
-            assert.strictEqual(packet.tag, undefined);
+            assert.strictEqual(packet.messageTag, undefined);
         });
     });
 

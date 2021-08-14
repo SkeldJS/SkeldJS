@@ -6,8 +6,8 @@ import { BaseRootPacket } from "./BaseRootPacket";
 export type MissingPackets = number[];
 
 export class AcknowledgePacket extends BaseRootPacket {
-    static tag = SendOption.Acknowledge as const;
-    tag = SendOption.Acknowledge as const;
+    static messageTag = SendOption.Acknowledge as const;
+    messageTag = SendOption.Acknowledge as const;
 
     readonly nonce: number;
     readonly missingPackets: MissingPackets;

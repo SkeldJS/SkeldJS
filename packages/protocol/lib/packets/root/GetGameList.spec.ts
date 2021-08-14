@@ -27,7 +27,7 @@ describe("GetGameListMessage", () => {
             assert.strictEqual(packet.gameCounts[GameMap.MiraHQ], 2);
             assert.strictEqual(packet.gameCounts[GameMap.Polus], 64);
 
-            assert.strictEqual(packet.tag, RootMessageTag.GetGameListV2);
+            assert.strictEqual(packet.messageTag, RootMessageTag.GetGameListV2);
             assert.strictEqual(packet.gameList.length, 1);
             assert.strictEqual(packet.gameList[0].ip, "174.127.114.30");
             assert.strictEqual(packet.gameList[0].port, 22424);

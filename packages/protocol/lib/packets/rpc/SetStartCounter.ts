@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetStartCounterMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.SetStartCounter as const;
-    tag = RpcMessageTag.SetStartCounter as const;
+    static messageTag = RpcMessageTag.SetStartCounter as const;
+    messageTag = RpcMessageTag.SetStartCounter as const;
 
     sequenceid: number;
     counter: number;

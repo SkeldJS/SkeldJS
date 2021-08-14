@@ -4,8 +4,8 @@ import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class KickPlayerMessage extends BaseRootMessage {
-    static tag = RootMessageTag.KickPlayer as const;
-    tag = RootMessageTag.KickPlayer as const;
+    static messageTag = RootMessageTag.KickPlayer as const;
+    messageTag = RootMessageTag.KickPlayer as const;
 
     readonly code: number;
     readonly clientid: number;

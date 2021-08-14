@@ -427,12 +427,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         if (
-            packet.tag === SendOption.Reliable ||
-            packet.tag === SendOption.Hello ||
-            packet.tag === SendOption.Ping
+            packet.messageTag === SendOption.Reliable ||
+            packet.messageTag === SendOption.Hello ||
+            packet.messageTag === SendOption.Ping
         ) {
             const writer = HazelWriter.alloc(512);
-            writer.uint8(packet.tag);
+            writer.uint8(packet.messageTag);
             writer.write(packet, MessageDirection.Serverbound, this.decoder);
             writer.realloc(writer.cursor);
 
@@ -474,7 +474,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             }
         } else {
             const writer = HazelWriter.alloc(512);
-            writer.uint8(packet.tag);
+            writer.uint8(packet.messageTag);
             writer.write(packet, MessageDirection.Serverbound, this.decoder);
             writer.realloc(writer.cursor);
 
@@ -607,7 +607,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.decoder.wait(JoinedGameMessage)
         ]);
 
-        switch (message.tag) {
+        switch (message.messageTag) {
             case RootMessageTag.JoinGame:
                 throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.None] || message.message);
             case RootMessageTag.Redirect:
@@ -669,7 +669,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.decoder.wait(HostGameMessage),
         ]);
 
-        switch (message.tag) {
+        switch (message.messageTag) {
             case RootMessageTag.JoinGame:
                 throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.None] || message.message);
             case RootMessageTag.Redirect:

@@ -6,8 +6,8 @@ import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class HostGameMessage extends BaseRootMessage {
-    static tag = RootMessageTag.HostGame as const;
-    tag = RootMessageTag.HostGame as const;
+    static messageTag = RootMessageTag.HostGame as const;
+    messageTag = RootMessageTag.HostGame as const;
 
     readonly code!: number;
     readonly options!: GameSettings;

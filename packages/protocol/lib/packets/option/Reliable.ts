@@ -7,8 +7,8 @@ import { MessageDirection } from "../../PacketDecoder";
 import { NormalPacket } from "./Normal";
 
 export class ReliablePacket extends NormalPacket {
-    static tag = SendOption.Reliable as const;
-    tag = SendOption.Reliable as const;
+    static messageTag = SendOption.Reliable as const;
+    messageTag = SendOption.Reliable as const;
 
     readonly nonce: number;
 

@@ -1,6 +1,6 @@
 import { BaseMessage } from "../BaseMessage";
 
 export class BaseRootPacket extends BaseMessage {
-    static type = "option" as const;
-    type = "option" as const;
+    static messageType = "option" as const;
+    messageType = "option" as const;
 }

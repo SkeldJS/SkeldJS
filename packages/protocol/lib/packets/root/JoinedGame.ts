@@ -4,8 +4,8 @@ import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class JoinedGameMessage extends BaseRootMessage {
-    static tag = RootMessageTag.JoinedGame as const;
-    tag = RootMessageTag.JoinedGame as const;
+    static messageTag = RootMessageTag.JoinedGame as const;
+    messageTag = RootMessageTag.JoinedGame as const;
 
     readonly code: number;
     readonly clientid: number;

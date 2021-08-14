@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class SceneChangeMessage extends BaseGameDataMessage {
-    static tag = GameDataMessageTag.SceneChange as const;
-    tag = GameDataMessageTag.SceneChange as const;
+    static messageTag = GameDataMessageTag.SceneChange as const;
+    messageTag = GameDataMessageTag.SceneChange as const;
 
     readonly clientid: number;
     readonly scene: string;

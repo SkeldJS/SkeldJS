@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetPetMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.SetPet as const;
-    tag = RpcMessageTag.SetPet as const;
+    static messageTag = RpcMessageTag.SetPet as const;
+    messageTag = RpcMessageTag.SetPet as const;
 
     pet: Pet;
 

@@ -21,15 +21,15 @@ describe("ReliablePacket", () => {
                 decoder
             );
 
-            assert.strictEqual(packet.tag, SendOption.Reliable);
+            assert.strictEqual(packet.messageTag, SendOption.Reliable);
             assert.strictEqual(packet.nonce, 2);
             assert.strictEqual(packet.children.length, 2);
             assert.strictEqual(
-                packet.children[0].tag,
+                packet.children[0].messageTag,
                 RootMessageTag.JoinedGame
             );
             assert.strictEqual(
-                packet.children[1].tag,
+                packet.children[1].messageTag,
                 RootMessageTag.AlterGame
             );
         });

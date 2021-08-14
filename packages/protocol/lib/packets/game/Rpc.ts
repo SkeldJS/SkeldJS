@@ -5,8 +5,8 @@ import { BaseRpcMessage } from "../rpc/BaseRpcMessage";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class RpcMessage extends BaseGameDataMessage {
-    static tag = GameDataMessageTag.RPC as const;
-    tag = GameDataMessageTag.RPC as const;
+    static messageTag = GameDataMessageTag.RPC as const;
+    messageTag = GameDataMessageTag.RPC as const;
 
     readonly netid: number;
     readonly data: BaseRpcMessage;
@@ -55,7 +55,7 @@ export class RpcMessage extends BaseGameDataMessage {
         decoder: PacketDecoder
     ) {
         writer.upacked(this.netid);
-        writer.uint8(this.data.tag);
+        writer.uint8(this.data.messageTag);
         writer.write(this.data, direction, decoder);
     }
 }

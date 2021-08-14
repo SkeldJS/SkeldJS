@@ -7,8 +7,8 @@ import { MessageDirection } from "../../PacketDecoder";
 import { NormalPacket } from "./Normal";
 
 export class UnreliablePacket extends NormalPacket {
-    static tag = SendOption.Unreliable as const;
-    tag = SendOption.Unreliable as const;
+    static messageTag = SendOption.Unreliable as const;
+    messageTag = SendOption.Unreliable as const;
 
     constructor(children: BaseRootMessage[]) {
         super(children);

@@ -10,7 +10,7 @@ describe("PingPacket", () => {
             const reader = HazelReader.from("0231", "hex");
             const packet = PingPacket.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, SendOption.Ping);
+            assert.strictEqual(packet.messageTag, SendOption.Ping);
             assert.strictEqual(packet.nonce, 561);
         });
     });

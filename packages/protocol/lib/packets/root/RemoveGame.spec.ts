@@ -10,7 +10,7 @@ describe("RemoveGameMessage", () => {
             const reader = HazelReader.from("13", "hex");
             const packet = RemoveGameMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, RootMessageTag.RemoveGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.RemoveGame);
             assert.strictEqual(packet.reason, DisconnectReason.ServerRequest);
         });
     });

@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class MurderPlayerMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.MurderPlayer as const;
-    tag = RpcMessageTag.MurderPlayer as const;
+    static messageTag = RpcMessageTag.MurderPlayer as const;
+    messageTag = RpcMessageTag.MurderPlayer as const;
 
     victimid: number;
 

@@ -10,7 +10,7 @@ describe("ReadyMessage", () => {
             const reader = HazelReader.from("e5af02", "hex");
             const packet = ReadyMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, GameDataMessageTag.Ready);
+            assert.strictEqual(packet.messageTag, GameDataMessageTag.Ready);
             assert.strictEqual(packet.clientid, 38885);
         });
     });

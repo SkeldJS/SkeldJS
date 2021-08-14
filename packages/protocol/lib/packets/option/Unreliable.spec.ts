@@ -22,9 +22,9 @@ describe("UnreliablePacket", () => {
                 decoder
             );
 
-            assert.strictEqual(packet.tag, SendOption.Unreliable);
+            assert.strictEqual(packet.messageTag, SendOption.Unreliable);
             assert.strictEqual(packet.children.length, 1);
-            assert.strictEqual(packet.children[0].tag, RootMessageTag.GameData);
+            assert.strictEqual(packet.children[0].messageTag, RootMessageTag.GameData);
         });
     });
 

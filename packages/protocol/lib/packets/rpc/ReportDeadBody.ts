@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class ReportDeadBodyMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.ReportDeadBody as const;
-    tag = RpcMessageTag.ReportDeadBody as const;
+    static messageTag = RpcMessageTag.ReportDeadBody as const;
+    messageTag = RpcMessageTag.ReportDeadBody as const;
 
     bodyid: number;
 

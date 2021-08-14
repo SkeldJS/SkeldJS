@@ -10,7 +10,7 @@ describe("WaitForHostMessage", () => {
             const reader = HazelReader.from("48daca8cbf970000", "hex");
             const packet = WaitForHostMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, RootMessageTag.WaitForHost);
+            assert.strictEqual(packet.messageTag, RootMessageTag.WaitForHost);
             assert.strictEqual(packet.code, -1932862904);
             assert.strictEqual(packet.clientid, 38847);
         });

@@ -73,7 +73,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.tag) {
+        switch (rpc.messageTag) {
             case RpcMessageTag.EnterVent:
                 await this._handleEnterVent(rpc as EnterVentMessage);
                 break;

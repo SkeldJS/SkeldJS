@@ -10,7 +10,7 @@ describe("RedirectMessage", () => {
             const reader = HazelReader.from("800ed372cf56", "hex");
             const packet = RedirectMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, RootMessageTag.Redirect);
+            assert.strictEqual(packet.messageTag, RootMessageTag.Redirect);
             assert.strictEqual(packet.ip, "128.14.211.114");
             assert.strictEqual(packet.port, 22223);
         });

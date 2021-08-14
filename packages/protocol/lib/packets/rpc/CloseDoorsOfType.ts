@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class CloseDoorsOfTypeMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.CloseDoorsOfType as const;
-    tag = RpcMessageTag.CloseDoorsOfType as const;
+    static messageTag = RpcMessageTag.CloseDoorsOfType as const;
+    messageTag = RpcMessageTag.CloseDoorsOfType as const;
 
     systemid: number;
 

@@ -12,11 +12,11 @@ import {
 } from "./packets/root";
 
 export class TestMessage extends BaseMessage {
-    static type = "root" as const;
-    static tag = 32 as const;
+    static messageType = "root" as const;
+    static messageTag = 32 as const;
 
-    type = "root" as const;
-    tag = 32 as const;
+    messageType = "root" as const;
+    messageTag = 32 as const;
 }
 
 describe("PacketDecoder", () => {
@@ -316,7 +316,7 @@ describe("PacketDecoder", () => {
 
             const parsed = decoder.parse(buffer);
 
-            assert.strictEqual(parsed.tag, 1);
+            assert.strictEqual(parsed.messageTag, 1);
             assert.strictEqual(parsed.children.length, 1);
             assert.strictEqual(parsed.children[0]?.children?.length, 10);
         });

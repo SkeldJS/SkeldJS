@@ -14,8 +14,8 @@ import { BaseRootMessage } from "./BaseRootMessage";
 export type GameCounts = Partial<Record<GameMap, number>>;
 
 export class GetGameListMessage extends BaseRootMessage {
-    static tag = RootMessageTag.GetGameListV2 as const;
-    tag = RootMessageTag.GetGameListV2 as const;
+    static messageTag = RootMessageTag.GetGameListV2 as const;
+    messageTag = RootMessageTag.GetGameListV2 as const;
 
     readonly options!: GameSettings;
     readonly quickchat!: QuickChatMode;

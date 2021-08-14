@@ -17,7 +17,7 @@ describe("RemovePlayerMessage", () => {
                 MessageDirection.Clientbound
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.RemovePlayer);
+            assert.strictEqual(packet.messageTag, RootMessageTag.RemovePlayer);
             assert.strictEqual(packet.code, -1938294720);
             assert.strictEqual(packet.clientid, 36308);
             assert.strictEqual(packet.hostid, 36210);
@@ -31,7 +31,7 @@ describe("RemovePlayerMessage", () => {
                 MessageDirection.Serverbound
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.RemovePlayer);
+            assert.strictEqual(packet.messageTag, RootMessageTag.RemovePlayer);
             assert.strictEqual(packet.code, -1938294720);
             assert.strictEqual(packet.clientid, 36308);
             assert.strictEqual(packet.reason, DisconnectReason.None);

@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class EnterVentMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.EnterVent as const;
-    tag = RpcMessageTag.EnterVent as const;
+    static messageTag = RpcMessageTag.EnterVent as const;
+    messageTag = RpcMessageTag.EnterVent as const;
 
     ventid: number;
 

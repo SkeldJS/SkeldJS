@@ -5,8 +5,8 @@ import { BaseReactorMessage } from "./BaseReactorMessage";
 import { ReactorMessageTag } from "./ReactorMessage";
 
 export class ReactorModDeclarationMessage extends BaseReactorMessage {
-    static tag = ReactorMessageTag.ModDeclaration as const;
-    tag = ReactorMessageTag.ModDeclaration as const;
+    static messageTag = ReactorMessageTag.ModDeclaration as const;
+    messageTag = ReactorMessageTag.ModDeclaration as const;
 
     constructor(
         public readonly netId: number,

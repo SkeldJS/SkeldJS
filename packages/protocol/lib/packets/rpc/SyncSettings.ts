@@ -4,8 +4,8 @@ import { GameSettings } from "../../misc";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SyncSettingsMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.SyncSettings as const;
-    tag = RpcMessageTag.SyncSettings as const;
+    static messageTag = RpcMessageTag.SyncSettings as const;
+    messageTag = RpcMessageTag.SyncSettings as const;
 
     settings: GameSettings;
 

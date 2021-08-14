@@ -5,8 +5,8 @@ import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class ReportPlayerMessage extends BaseRootMessage {
-    static tag = RootMessageTag.ReportPlayer as const;
-    tag = RootMessageTag.ReportPlayer as const;
+    static messageTag = RootMessageTag.ReportPlayer as const;
+    messageTag = RootMessageTag.ReportPlayer as const;
 
     code!: number;
 

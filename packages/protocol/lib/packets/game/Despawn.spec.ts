@@ -10,7 +10,7 @@ describe("DespawnMessage", () => {
             const reader = HazelReader.from("05", "hex");
             const packet = DespawnMessage.Deserialize(reader);
 
-            assert.strictEqual(packet.tag, GameDataMessageTag.Despawn);
+            assert.strictEqual(packet.messageTag, GameDataMessageTag.Despawn);
             assert.strictEqual(packet.netid, 5);
         });
     });

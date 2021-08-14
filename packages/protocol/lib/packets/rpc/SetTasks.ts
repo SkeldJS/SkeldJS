@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetTasksMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.SetTasks as const;
-    tag = RpcMessageTag.SetTasks as const;
+    static messageTag = RpcMessageTag.SetTasks as const;
+    messageTag = RpcMessageTag.SetTasks as const;
 
     playerid: number;
     taskids: number[];

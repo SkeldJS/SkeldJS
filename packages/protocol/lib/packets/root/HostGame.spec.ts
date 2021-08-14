@@ -15,7 +15,7 @@ describe("HostGameMessage", () => {
                 MessageDirection.Clientbound
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.HostGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.HostGame);
             assert.strictEqual(packet.code, -1942166458);
         });
 
@@ -29,7 +29,7 @@ describe("HostGameMessage", () => {
                 MessageDirection.Serverbound
             );
 
-            assert.strictEqual(packet.tag, RootMessageTag.HostGame);
+            assert.strictEqual(packet.messageTag, RootMessageTag.HostGame);
             assert.strictEqual(typeof packet.options, "object");
             assert.strictEqual(packet.quickchat, QuickChatMode.QuickChat);
         });

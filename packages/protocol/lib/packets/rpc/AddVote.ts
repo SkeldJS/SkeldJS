@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class AddVoteMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.AddVote as const;
-    tag = RpcMessageTag.AddVote as const;
+    static messageTag = RpcMessageTag.AddVote as const;
+    messageTag = RpcMessageTag.AddVote as const;
 
     votingid: number;
     targetid: number;

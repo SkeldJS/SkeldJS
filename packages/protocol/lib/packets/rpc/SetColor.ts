@@ -3,8 +3,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetColorMessage extends BaseRpcMessage {
-    static tag = RpcMessageTag.SetColor as const;
-    tag = RpcMessageTag.SetColor as const;
+    static messageTag = RpcMessageTag.SetColor as const;
+    messageTag = RpcMessageTag.SetColor as const;
 
     color: Color;
 
