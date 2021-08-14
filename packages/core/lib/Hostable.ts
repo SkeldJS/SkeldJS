@@ -68,6 +68,7 @@ import {
     PlayerLeaveEvent,
     PlayerSceneChangeEvent,
     PlayerSetHostEvent,
+    PlayerSpawnEvent,
     RoomFixedUpdateEvent,
     RoomGameEndEvent,
     RoomGameStartEvent,
@@ -971,6 +972,15 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
 
             this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
             object.components.push(component);
+        }
+
+        if (spawnType === SpawnType.Player && ownerClient) {
+            ownerClient.emit(
+                new PlayerSpawnEvent(
+                    this,
+                    ownerClient
+                )
+            );
         }
 
         if (this.amhost && doBroadcast) {

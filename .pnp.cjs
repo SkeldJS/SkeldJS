@@ -118,6 +118,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lunr", "npm:2.3.3"],
             ["@types/mocha", "npm:8.2.2"],
             ["@types/node", "npm:15.12.5"],
+            ["@types/source-map-support", "npm:0.5.4"],
             ["@typescript-eslint/eslint-plugin", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.28.0"],
             ["@typescript-eslint/parser", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.28.0"],
             ["@yarnpkg/pnpify", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:3.0.0-rc.7"],
@@ -128,6 +129,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mocha", "npm:8.4.0"],
             ["nyc", "npm:15.1.0"],
             ["prettier", "npm:2.3.2"],
+            ["source-map-support", "npm:0.5.19"],
             ["ts-mocha", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:8.0.0"],
             ["ts-node", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:9.1.1"],
             ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.21.2"],
@@ -511,10 +513,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@istanbuljs/nyc-config-typescript", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:1.0.1"],
             ["@istanbuljs/schema", "npm:0.1.3"],
             ["@types/nyc", null],
-            ["@types/source-map-support", null],
+            ["@types/source-map-support", "npm:0.5.4"],
             ["@types/ts-node", null],
             ["nyc", "npm:15.1.0"],
-            ["source-map-support", null],
+            ["source-map-support", "npm:0.5.19"],
             ["ts-node", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:9.1.1"]
           ],
           "packagePeers": [
@@ -1073,6 +1075,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-semver-npm-7.3.6-4add0df8f9-933b115a59.zip/node_modules/@types/semver/",
           "packageDependencies": [
             ["@types/semver", "npm:7.3.6"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/source-map-support", [
+        ["npm:0.5.4", {
+          "packageLocation": "./.yarn/cache/@types-source-map-support-npm-0.5.4-1c4eb2be20-160ff77e8a.zip/node_modules/@types/source-map-support/",
+          "packageDependencies": [
+            ["@types/source-map-support", "npm:0.5.4"],
+            ["source-map", "npm:0.6.1"]
           ],
           "linkType": "HARD",
         }]
@@ -5395,6 +5407,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/lunr", "npm:2.3.3"],
             ["@types/mocha", "npm:8.2.2"],
             ["@types/node", "npm:15.12.5"],
+            ["@types/source-map-support", "npm:0.5.4"],
             ["@typescript-eslint/eslint-plugin", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.28.0"],
             ["@typescript-eslint/parser", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:4.28.0"],
             ["@yarnpkg/pnpify", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:3.0.0-rc.7"],
@@ -5405,6 +5418,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["mocha", "npm:8.4.0"],
             ["nyc", "npm:15.1.0"],
             ["prettier", "npm:2.3.2"],
+            ["source-map-support", "npm:0.5.19"],
             ["ts-mocha", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:8.0.0"],
             ["ts-node", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:9.1.1"],
             ["typedoc", "virtual:d52805ed32585327c56c8d89569777cd3a5f91bf5d0f91ce39091f4e255c18eeb4d8d0d7e50493c7cf7780d875432151088680722e8cab6df5d86c392526f264#npm:0.21.2"],

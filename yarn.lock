@@ -804,6 +804,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/source-map-support@npm:^0":
+  version: 0.5.4
+  resolution: "@types/source-map-support@npm:0.5.4"
+  dependencies:
+    source-map: ^0.6.0
+  checksum: 160ff77e8a101b18d9915cb5320fd73d484679aef8518ce007b9b5988e333631778730196c4bb15517ff881bee805663fd8640c0ce2ebfab65f061103c452369
+  languageName: node
+  linkType: hard
+
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.0
   resolution: "@types/stack-utils@npm:2.0.0"
@@ -4563,6 +4572,7 @@ resolve@^1.1.6:
     "@types/lunr": ^2
     "@types/mocha": ^8.2.0
     "@types/node": ^15.0.1
+    "@types/source-map-support": ^0
     "@typescript-eslint/eslint-plugin": ^4.11.0
     "@typescript-eslint/parser": ^4.11.0
     "@yarnpkg/pnpify": ^3.0.0-rc.3
@@ -4573,6 +4583,7 @@ resolve@^1.1.6:
     mocha: ^8.2.1
     nyc: ^15.1.0
     prettier: ^2.2.1
+    source-map-support: ^0.5.19
     ts-mocha: ^8.0.0
     ts-node: ^9.1.1
     typedoc: ^0.21.2
@@ -4647,7 +4658,7 @@ resolve@^1.1.6:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.6":
+"source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.19, source-map-support@npm:^0.5.6":
   version: 0.5.19
   resolution: "source-map-support@npm:0.5.19"
   dependencies:

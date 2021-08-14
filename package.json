@@ -42,6 +42,7 @@
     "@types/lunr": "^2",
     "@types/mocha": "^8.2.0",
     "@types/node": "^15.0.1",
+    "@types/source-map-support": "^0",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
     "@yarnpkg/pnpify": "^3.0.0-rc.3",
@@ -81,9 +82,10 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "2.12.5",
+  "version": "2.12.6",
   "dependencies": {
     "@skeldjs/protocol": "workspace:packages/protocol",
-    "@skeldjs/util": "workspace:packages/util"
+    "@skeldjs/util": "workspace:packages/util",
+    "source-map-support": "^0.5.19"
   }
 }
