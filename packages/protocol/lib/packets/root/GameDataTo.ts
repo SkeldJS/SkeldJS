@@ -42,6 +42,7 @@ export class GameDataToMessage extends BaseRootMessage {
 
         const children: BaseGameDataMessage[] = [];
 
+        console.log(reader);
         while (reader.left) {
             const [tag, mreader] = reader.message();
 
