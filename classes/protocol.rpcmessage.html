@@ -97,11 +97,11 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.rpcmessage.html#data" class="tsd-kind-icon">data</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="protocol.rpcmessage.html#messagetag" class="tsd-kind-icon">message<wbr>Tag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="protocol.rpcmessage.html#messagetype" class="tsd-kind-icon">message<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.rpcmessage.html#netid" class="tsd-kind-icon">netid</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="protocol.rpcmessage.html#tag" class="tsd-kind-icon">tag</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="protocol.rpcmessage.html#type" class="tsd-kind-icon">type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="protocol.rpcmessage.html#tag-1" class="tsd-kind-icon">tag</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="protocol.rpcmessage.html#type-1" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="protocol.rpcmessage.html#messagetag-1" class="tsd-kind-icon">message<wbr>Tag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="protocol.rpcmessage.html#messagetype-1" class="tsd-kind-icon">message<wbr>Type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -135,7 +135,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseGameDataMessage.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L12">protocol/lib/packets/game/Rpc.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L12">protocol/lib/packets/game/Rpc.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,7 +160,29 @@
 					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">BaseRpcMessage</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L12">protocol/lib/packets/game/Rpc.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L12">protocol/lib/packets/game/Rpc.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+					<a name="messagetag" class="tsd-anchor"></a>
+					<h3>message<wbr>Tag</h3>
+					<div class="tsd-signature tsd-kind-icon">message<wbr>Tag<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.gamedatamessagetag.html#rpc" class="tsd-signature-type" data-tsd-kind="Enumeration member">RPC</a><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<p>Overrides BaseGameDataMessage.messageTag</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L9">protocol/lib/packets/game/Rpc.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="messagetype" class="tsd-anchor"></a>
+					<h3>message<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">message<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;gamedata&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from BaseGameDataMessage.messageType</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/BaseGameDataMessage.ts#L5">protocol/lib/packets/game/BaseGameDataMessage.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -170,51 +192,29 @@
 					<div class="tsd-signature tsd-kind-icon">netid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L11">protocol/lib/packets/game/Rpc.ts:11</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-					<a name="tag" class="tsd-anchor"></a>
-					<h3>tag</h3>
-					<div class="tsd-signature tsd-kind-icon">tag<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.gamedatamessagetag.html#rpc" class="tsd-signature-type" data-tsd-kind="Enumeration member">RPC</a><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides BaseGameDataMessage.tag</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L9">protocol/lib/packets/game/Rpc.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="type" class="tsd-anchor"></a>
-					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;gamedata&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from BaseGameDataMessage.type</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/BaseGameDataMessage.ts#L5">protocol/lib/packets/game/BaseGameDataMessage.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L11">protocol/lib/packets/game/Rpc.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-					<a name="tag-1" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> tag</h3>
-					<div class="tsd-signature tsd-kind-icon">tag<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.gamedatamessagetag.html#rpc" class="tsd-signature-type" data-tsd-kind="Enumeration member">RPC</a><span class="tsd-signature-symbol"> = ...</span></div>
+					<a name="messagetag-1" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> message<wbr>Tag</h3>
+					<div class="tsd-signature tsd-kind-icon">message<wbr>Tag<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.gamedatamessagetag.html#rpc" class="tsd-signature-type" data-tsd-kind="Enumeration member">RPC</a><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Overrides BaseGameDataMessage.tag</p>
+						<p>Overrides BaseGameDataMessage.messageTag</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L8">protocol/lib/packets/game/Rpc.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L8">protocol/lib/packets/game/Rpc.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-					<a name="type-1" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;gamedata&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<a name="messagetype-1" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> message<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">message<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;gamedata&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from BaseGameDataMessage.type</p>
+						<p>Inherited from BaseGameDataMessage.messageType</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/BaseGameDataMessage.ts#L4">protocol/lib/packets/game/BaseGameDataMessage.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/BaseGameDataMessage.ts#L4">protocol/lib/packets/game/BaseGameDataMessage.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -231,7 +231,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L21">protocol/lib/packets/game/Rpc.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L21">protocol/lib/packets/game/Rpc.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -248,7 +248,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L29">protocol/lib/packets/game/Rpc.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L29">protocol/lib/packets/game/Rpc.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">BaseRpcMessage</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -269,7 +269,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseGameDataMessage.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L52">protocol/lib/packets/game/Rpc.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L52">protocol/lib/packets/game/Rpc.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -299,7 +299,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseGameDataMessage.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L25">protocol/lib/packets/game/Rpc.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L25">protocol/lib/packets/game/Rpc.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -317,7 +317,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseGameDataMessage.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/protocol/lib/packets/game/Rpc.ts#L33">protocol/lib/packets/game/Rpc.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/protocol/lib/packets/game/Rpc.ts#L33">protocol/lib/packets/game/Rpc.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -455,20 +455,20 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="protocol.rpcmessage.html#data" class="tsd-kind-icon">data</a>
 									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
+										<a href="protocol.rpcmessage.html#messagetag" class="tsd-kind-icon">message<wbr>Tag</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="protocol.rpcmessage.html#messagetype" class="tsd-kind-icon">message<wbr>Type</a>
+									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="protocol.rpcmessage.html#netid" class="tsd-kind-icon">netid</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-										<a href="protocol.rpcmessage.html#tag" class="tsd-kind-icon">tag</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-										<a href="protocol.rpcmessage.html#type" class="tsd-kind-icon">type</a>
-									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-										<a href="protocol.rpcmessage.html#tag-1" class="tsd-kind-icon">tag</a>
+										<a href="protocol.rpcmessage.html#messagetag-1" class="tsd-kind-icon">message<wbr>Tag</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-										<a href="protocol.rpcmessage.html#type-1" class="tsd-kind-icon">type</a>
+										<a href="protocol.rpcmessage.html#messagetype-1" class="tsd-kind-icon">message<wbr>Type</a>
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 										<a href="protocol.rpcmessage.html#canceled" class="tsd-kind-icon">canceled</a>

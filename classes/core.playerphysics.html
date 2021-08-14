@@ -118,17 +118,14 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.playerphysics.html#classname" class="tsd-kind-icon">classname</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#components" class="tsd-kind-icon">components</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#dirtybit" class="tsd-kind-icon">dirty<wbr>Bit</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#flags" class="tsd-kind-icon">flags</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#netid" class="tsd-kind-icon">netid</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#ownerid" class="tsd-kind-icon">ownerid</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#room" class="tsd-kind-icon">room</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="core.playerphysics.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#spawntype" class="tsd-kind-icon">spawn<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.playerphysics.html#ventid" class="tsd-kind-icon">ventid</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.playerphysics.html#classname-1" class="tsd-kind-icon">classname</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="core.playerphysics.html#type-1" class="tsd-kind-icon">type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -143,12 +140,13 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#awake" class="tsd-kind-icon">Awake</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#deserialize" class="tsd-kind-icon">Deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#despawn" class="tsd-kind-icon">Despawn</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#fixedupdate" class="tsd-kind-icon">Fixed<wbr>Update</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.playerphysics.html#handlerpc" class="tsd-kind-icon">Handle<wbr>Rpc</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#preserialize" class="tsd-kind-icon">Pre<wbr>Serialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#serialize" class="tsd-kind-icon">Serialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.playerphysics.html#climbladder" class="tsd-kind-icon">climb<wbr>Ladder</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#despawn" class="tsd-kind-icon">despawn</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.playerphysics.html#despawn-1" class="tsd-kind-icon">despawn</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.playerphysics.html#emit" class="tsd-kind-icon">emit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.playerphysics.html#emitserial" class="tsd-kind-icon">emit<wbr>Serial</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.playerphysics.html#entervent" class="tsd-kind-icon">enter<wbr>Vent</a></li>
@@ -173,14 +171,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Physics&lt;RoomType&gt;<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoomType</span>, netid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ownerid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, flags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, data<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerPhysicsData</span>, playerControl<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerControl</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerPhysics</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Physics&lt;RoomType&gt;<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoomType</span>, spawnType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">SpawnType</a>, netid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ownerid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, flags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, data<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerPhysicsData</span>, playerControl<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerControl</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerPhysics</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides Networkable&lt;PlayerPhysicsData,PlayerPhysicsEvents,RoomType&gt;.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L56">core/lib/objects/component/PlayerPhysics.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/objects/component/PlayerPhysics.ts#L50">core/lib/objects/component/PlayerPhysics.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -193,6 +191,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>room: <span class="tsd-signature-type">RoomType</span></h5>
+								</li>
+								<li>
+									<h5>spawnType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">SpawnType</a></h5>
 								</li>
 								<li>
 									<h5>netid: <span class="tsd-signature-type">number</span></h5>
@@ -217,17 +218,6 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-					<a name="classname" class="tsd-anchor"></a>
-					<h3>classname</h3>
-					<div class="tsd-signature tsd-kind-icon">classname<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;PlayerPhysics&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides Networkable.classname</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L49">core/lib/objects/component/PlayerPhysics.ts:49</a></li>
-						</ul>
-					</aside>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="components" class="tsd-anchor"></a>
 					<h3>components</h3>
@@ -235,7 +225,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.components</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L63">core/lib/Networkable.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L56">core/lib/Networkable.ts:56</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -246,7 +236,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.dirtyBit</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L61">core/lib/Networkable.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L54">core/lib/Networkable.ts:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -262,7 +252,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.flags</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L56">core/lib/Networkable.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L49">core/lib/Networkable.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -278,7 +268,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.netid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L46">core/lib/Networkable.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L39">core/lib/Networkable.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -294,7 +284,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.ownerid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L51">core/lib/Networkable.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L44">core/lib/Networkable.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -310,7 +300,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Networkable.room</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L41">core/lib/Networkable.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L29">core/lib/Networkable.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -319,16 +309,21 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-					<a name="type" class="tsd-anchor"></a>
-					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.spawntype.html#player" class="tsd-signature-type" data-tsd-kind="Enumeration member">Player</a><span class="tsd-signature-symbol"> = ...</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="spawntype" class="tsd-anchor"></a>
+					<h3>spawn<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">spawn<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">SpawnType</a></div>
 					<aside class="tsd-sources">
-						<p>Overrides Networkable.type</p>
+						<p>Inherited from Networkable.spawnType</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L46">core/lib/objects/component/PlayerPhysics.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L34">core/lib/Networkable.ts:34</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The type of object that this component belongs to.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="ventid" class="tsd-anchor"></a>
@@ -337,7 +332,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of PlayerPhysicsData.ventid</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L54">core/lib/objects/component/PlayerPhysics.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/objects/component/PlayerPhysics.ts#L48">core/lib/objects/component/PlayerPhysics.ts:48</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -345,28 +340,6 @@
 							<p>The ID of the vent that the player is currently in.</p>
 						</div>
 					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-					<a name="classname-1" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> classname</h3>
-					<div class="tsd-signature tsd-kind-icon">classname<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;PlayerPhysics&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides Networkable.classname</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L48">core/lib/objects/component/PlayerPhysics.ts:48</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-					<a name="type-1" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/constant.spawntype.html#player" class="tsd-signature-type" data-tsd-kind="Enumeration member">Player</a><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-						<p>Overrides Networkable.type</p>
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L45">core/lib/objects/component/PlayerPhysics.ts:45</a></li>
-						</ul>
-					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -381,7 +354,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L102">core/lib/Networkable.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L97">core/lib/Networkable.ts:97</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -398,7 +371,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L76">core/lib/objects/component/PlayerPhysics.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/objects/component/PlayerPhysics.ts#L71">core/lib/objects/component/PlayerPhysics.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -419,7 +392,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.Awake</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L123">core/lib/Networkable.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L118">core/lib/Networkable.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -437,7 +410,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L111">core/lib/Networkable.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L106">core/lib/Networkable.ts:106</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -454,6 +427,24 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="despawn" class="tsd-anchor"></a>
+					<h3>Despawn</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Despawn<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.Despawn</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L120">core/lib/Networkable.ts:120</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="fixedupdate" class="tsd-anchor"></a>
 					<h3>Fixed<wbr>Update</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -464,7 +455,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.FixedUpdate</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L121">core/lib/Networkable.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L116">core/lib/Networkable.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -488,7 +479,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Networkable.HandleRpc</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L80">core/lib/objects/component/PlayerPhysics.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/objects/component/PlayerPhysics.ts#L75">core/lib/objects/component/PlayerPhysics.ts:75</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -512,7 +503,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.PreSerialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L117">core/lib/Networkable.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L112">core/lib/Networkable.ts:112</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -530,7 +521,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L113">core/lib/Networkable.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L108">core/lib/Networkable.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -556,7 +547,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L233">core/lib/objects/component/PlayerPhysics.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/objects/component/PlayerPhysics.ts#L228">core/lib/objects/component/PlayerPhysics.ts:228</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -579,7 +570,7 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="despawn" class="tsd-anchor"></a>
+					<a name="despawn-1" class="tsd-anchor"></a>
 					<h3>despawn</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">despawn<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
@@ -589,7 +580,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.despawn</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L151">core/lib/Networkable.ts:151</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L148">core/lib/Networkable.ts:148</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -612,7 +603,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L94">core/lib/Networkable.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L89">core/lib/Networkable.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -642,7 +633,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.emitSerial</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -671,7 +662,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L132">core/lib/objects/component/PlayerPhysics.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/objects/component/PlayerPhysics.ts#L127">core/lib/objects/component/PlayerPhysics.ts:127</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -709,7 +700,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/objects/component/PlayerPhysics.ts#L183">core/lib/objects/component/PlayerPhysics.ts:183</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/objects/component/PlayerPhysics.ts#L178">core/lib/objects/component/PlayerPhysics.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -749,7 +740,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.getComponent</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L129">core/lib/Networkable.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L126">core/lib/Networkable.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -787,7 +778,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.getListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L104">events/lib/EventEmitter.ts:104</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L104">events/lib/EventEmitter.ts:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -817,7 +808,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.off</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L95">events/lib/EventEmitter.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L95">events/lib/EventEmitter.ts:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -851,7 +842,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L60">events/lib/EventEmitter.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L60">events/lib/EventEmitter.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -887,7 +878,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -927,7 +918,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -963,7 +954,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L76">events/lib/EventEmitter.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L76">events/lib/EventEmitter.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1002,7 +993,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.removeAllListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L118">events/lib/EventEmitter.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L118">events/lib/EventEmitter.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1020,7 +1011,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.removeListeners</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L113">events/lib/EventEmitter.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L113">events/lib/EventEmitter.ts:113</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1044,7 +1035,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.spawn</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/core/lib/Networkable.ts#L144">core/lib/Networkable.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/core/lib/Networkable.ts#L141">core/lib/Networkable.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1068,7 +1059,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L85">events/lib/EventEmitter.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L85">events/lib/EventEmitter.ts:85</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1089,7 +1080,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Networkable.wait</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/bf098da/packages/events/lib/EventEmitter.ts#L88">events/lib/EventEmitter.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4a43a93/packages/events/lib/EventEmitter.ts#L88">events/lib/EventEmitter.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1197,9 +1188,6 @@
 									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
 										<a href="core.playerphysics.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-										<a href="core.playerphysics.html#classname" class="tsd-kind-icon">classname</a>
-									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.playerphysics.html#components" class="tsd-kind-icon">components</a>
 									</li>
@@ -1218,17 +1206,11 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.playerphysics.html#room" class="tsd-kind-icon">room</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
-										<a href="core.playerphysics.html#type" class="tsd-kind-icon">type</a>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.playerphysics.html#spawntype" class="tsd-kind-icon">spawn<wbr>Type</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.playerphysics.html#ventid" class="tsd-kind-icon">ventid</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-										<a href="core.playerphysics.html#classname-1" class="tsd-kind-icon">classname</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-										<a href="core.playerphysics.html#type-1" class="tsd-kind-icon">type</a>
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 										<a href="core.playerphysics.html#owner" class="tsd-kind-icon">owner</a>
@@ -1241,6 +1223,9 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.playerphysics.html#deserialize" class="tsd-kind-icon">Deserialize</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.playerphysics.html#despawn" class="tsd-kind-icon">Despawn</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="core.playerphysics.html#fixedupdate" class="tsd-kind-icon">Fixed<wbr>Update</a>
@@ -1258,7 +1243,7 @@
 										<a href="core.playerphysics.html#climbladder" class="tsd-kind-icon">climb<wbr>Ladder</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-										<a href="core.playerphysics.html#despawn" class="tsd-kind-icon">despawn</a>
+										<a href="core.playerphysics.html#despawn-1" class="tsd-kind-icon">despawn</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 										<a href="core.playerphysics.html#emit" class="tsd-kind-icon">emit</a>
@@ -1370,9 +1355,6 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
 			</ul>
 		</div>
 	</div>
