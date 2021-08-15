@@ -404,7 +404,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this.token = token;
     }
 
-    private _send(buffer: Buffer): Promise<number> {
+    protected _send(buffer: Buffer): Promise<number> {
         return new Promise((resolve, reject) => {
             if (!this.socket) {
                 return resolve(0);
