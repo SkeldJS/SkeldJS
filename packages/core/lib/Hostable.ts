@@ -128,7 +128,9 @@ export type GetHostableEvents<T extends Hostable<HostableEvents>> = T extends Ho
  *
  * See {@link HostableEvents} for events to listen to.
  */
-export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
+export class Hostable<
+    T extends HostableEvents = any
+> extends Heritable<T> {
     room: this;
 
     /**
@@ -1014,7 +1016,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
         return object;
     }
 
-    registerPrefab(spawnType: SpawnType, components: NetworkableConstructor<Networkable>[]) {
+    registerPrefab(spawnType: number, components: NetworkableConstructor<Networkable>[]) {
         this.spawnPrefabs[spawnType] = components;
     }
 
