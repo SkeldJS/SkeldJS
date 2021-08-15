@@ -938,7 +938,7 @@ export class Hostable<T extends HostableEvents = any> extends Heritable<T> {
      * room.spawnPrefab(SpawnType.Player, client.me);
      * ```
      */
-    spawnPrefab(spawnType: SpawnType, ownerid: number|{ id: number }, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true) {
+    spawnPrefab(spawnType: number, ownerid: number|{ id: number }, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true) {
         const _ownerid = typeof ownerid === "number" ? ownerid : ownerid.id;
         const ownerClient = this.players.get(_ownerid);
         const _flags = flags ?? (spawnType === SpawnType.Player ? SpawnFlag.IsClientCharacter : 0);
