@@ -8,8 +8,7 @@
 [![Build](https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22)
 [![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://skeld.js.org/SkeldJS)
 
-
-## The SkeldJS server has been removed in favour of my other project, [Hindenburg](https://github.com/edqx/Hindenburg)
+### If you're looking for an Among Us server, check out my other project, [Hindenburg](https://github.com/skeldjs/Hindenburg)
 
 SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.
 
