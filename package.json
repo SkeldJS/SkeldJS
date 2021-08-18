@@ -82,10 +82,5 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "2.13.4",
-  "dependencies": {
-    "@skeldjs/protocol": "workspace:packages/protocol",
-    "@skeldjs/util": "workspace:packages/util",
-    "source-map-support": "^0.5.19"
-  }
+  "version": "2.13.5"
 }

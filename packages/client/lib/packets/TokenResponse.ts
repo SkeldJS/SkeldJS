@@ -2,8 +2,8 @@ import { BaseRootMessage } from "@skeldjs/protocol";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 export class TokenResponseMessage extends BaseRootMessage {
-    static tag = 1 as const;
-    tag = 1 as const;
+    static messageTag = 1 as const;
+    messageTag = 1 as const;
 
     constructor(
         public readonly token: number
