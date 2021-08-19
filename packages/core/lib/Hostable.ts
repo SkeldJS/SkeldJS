@@ -316,6 +316,7 @@ export class Hostable<
                 message.ownerid,
                 message.flags,
                 message.components,
+                false,
                 false
             );
         });
@@ -819,7 +820,7 @@ export class Hostable<
      * this.spawnComponent(meetinghud);
      * ```
      */
-    spawnComponent(component: Networkable<any, NetworkableEvents, this>) {
+    spawnComponent(component: Networkable<any, NetworkableEvents, this>, doAwake = true) {
         if (this.netobjects.get(component.netid)) {
             return;
         }
@@ -850,7 +851,9 @@ export class Hostable<
             this.meetinghud = component;
         }
 
-        component.Awake();
+        if (doAwake) {
+            component.Awake();
+        }
         this.netobjects.set(component.netid, component);
 
         component.emit(
@@ -940,7 +943,7 @@ export class Hostable<
      * room.spawnPrefab(SpawnType.Player, client.me);
      * ```
      */
-    spawnPrefab(spawnType: number, ownerid: number|{ id: number }, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true) {
+    spawnPrefab(spawnType: number, ownerid: number|{ id: number }, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true, doAwake = true) {
         const _ownerid = typeof ownerid === "number" ? ownerid : ownerid.id;
         const ownerClient = this.players.get(_ownerid);
         const _flags = flags ?? (spawnType === SpawnType.Player ? SpawnFlag.IsClientCharacter : 0);
@@ -974,7 +977,7 @@ export class Hostable<
                 component.Deserialize(reader, true);
             }
 
-            this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
+            this.spawnComponent(component as Networkable<any, NetworkableEvents, this>, doAwake);
             object.components.push(component);
         }
 
