@@ -63,7 +63,6 @@ export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
     static Deserialize<RoomType extends Hostable = Hostable>(reader: HazelReader, room: RoomType, playerId: number) {
         const votedForId = reader.uint8();
         const didReport = reader.bool();
-
         return new PlayerVoteArea(room ,playerId, votedForId, didReport);
     }
 

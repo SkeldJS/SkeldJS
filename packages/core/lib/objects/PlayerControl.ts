@@ -492,7 +492,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ),
             ],
             true,
-            this.room.host
+            this.room.hostid
         );
     }
 
@@ -616,7 +616,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ),
             ],
             true,
-            this.room.host
+            this.room.hostid
         );
     }
 
@@ -867,7 +867,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                         : body.playerId!
                 )
             )
-        ], true, this.room.host);
+        ], true, this.room.hostid);
     }
 
     /**
@@ -1045,8 +1045,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         const spawnMeetinghud = this.room.spawnPrefab(
             SpawnType.MeetingHud,
-            -2,
-            0
+            -2
         ) as MeetingHud;
 
         const callerState = spawnMeetinghud.states.get(caller.playerId);

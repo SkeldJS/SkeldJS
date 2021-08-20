@@ -492,13 +492,17 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     async broadcast(
         messages: BaseGameDataMessage[],
         reliable: boolean = true,
-        recipient: PlayerData | null = null,
+        recipient: PlayerData | number | undefined = undefined,
         payloads: BaseRootMessage[] = []
     ) {
-        if (recipient) {
+        const recipientid = typeof recipient === "number"
+            ? recipient
+            : recipient?.id;
+
+        if (recipientid !== undefined) {
             const children = [
                 ...(messages.length
-                    ? [new GameDataToMessage(this.code, recipient.id, messages)]
+                    ? [new GameDataToMessage(this.code, recipientid, messages)]
                     : []),
                 ...payloads,
             ];

@@ -65,6 +65,8 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
      */
     exiled?: PlayerData<RoomType>;
 
+    ranOutOfTimeTimeout?: NodeJS.Timeout;
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -94,6 +96,10 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                         ),
                     ];
                 }));
+
+        this.ranOutOfTimeTimeout = setTimeout(() => {
+            this.checkForVoteComplete(true);
+        }, this.room.settings.votingTime * 1000);
     }
 
     getComponent<T extends Networkable>(
@@ -129,7 +135,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
             this.states.set(playerId, newState);
 
-            if (!oldState?.votedFor && newState.hasVoted) {
+            if (!oldState?.hasVoted && newState.hasVoted) {
                 this.emit(
                     new MeetingHudVoteCastEvent(
                         this.room,
@@ -153,10 +159,20 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     }
 
     Serialize(writer: HazelWriter, spawn: boolean = false) {
-        writer.upacked(this.states.size);
-        for (const [, state] of this.states) {
-            state.Serialize(writer);
+        const states = [...this.states];
+        if (spawn) {
+            writer.upacked(states.length);
+        } else {
+            writer.upacked(states.filter(([, x]) => x.dirty).length);
         }
+        for (const [, state] of states) {
+            if (state.dirty || spawn) {
+                writer.begin(state.playerId);
+                state.Serialize(writer);
+                writer.end();
+            }
+        }
+        this.dirtyBit = 0;
         return true;
     }
 
@@ -206,6 +222,38 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         this._rpcClose();
     }
 
+    checkForVoteComplete(isTimeout: boolean) {
+        const states = [...this.states];
+
+        if (states.every(([, state]) => state.hasVoted && !state.isDead) || isTimeout) {
+            let tie = false;
+            let exiled: PlayerData|undefined;
+            let exiled_votes = 0;
+            for (const [, state] of states) {
+                let num = 0;
+                for (const [, state2] of states) {
+                    if (state2.votedFor === state.player) {
+                        num++;
+                    }
+                }
+                if (num) {
+                    if (num > exiled_votes) {
+                        tie = false;
+                        exiled = state.player;
+                        exiled_votes = num;
+                    } else if (num === exiled_votes) {
+                        tie = true;
+                    }
+                }
+            }
+
+            this.votingComplete(tie, exiled);
+            sleep(5000).then(() => {
+                this.close();
+            });
+        }
+    }
+
     private async _handleCastVote(rpc: CastVoteMessage) {
         const voter = this.states.get(rpc.votingid);
         const player = this.room.getPlayerByPlayerId(rpc.votingid);
@@ -237,44 +285,35 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     ChatNoteType.DidVote
                 );
 
-                const states = [...this.states];
-
-                if (states.every(([, state]) => state.hasVoted && !state.isDead)) {
-                    let tie = false;
-                    let exiled: PlayerData|undefined;
-                    let exiled_votes = 0;
-                    for (const [, state] of states) {
-                        let num = 0;
-                        for (const [, state2] of states) {
-                            if (state2.votedFor === state.player) {
-                                num++;
-                            }
-                        }
-                        if (num) {
-                            if (num > exiled_votes) {
-                                tie = false;
-                                exiled = state.player;
-                                exiled_votes = num;
-                            } else if (num === exiled_votes) {
-                                tie = true;
-                            }
-                        }
-                    }
-
-                    this.votingComplete(tie, exiled);
-                    sleep(5000).then(() => {
-                        this.close();
-                    });
-                }
+                this.checkForVoteComplete(false);
             }
         }
     }
 
     private _castVote(voting: PlayerVoteArea<RoomType>, suspect?: PlayerData<RoomType>) {
-        if (suspect) {
-            voting.votedForId = suspect.playerId!;
+        if (voting) {
+            if (suspect) {
+                voting.votedForId = suspect.playerId!;
+            } else {
+                voting.votedForId = VoteStateSpecialId.SkippedVote;
+            }
             voting.dirty = true;
+            this.dirtyBit = 1;
         }
+    }
+
+    private async _rpcCastVote(voting: PlayerData, suspect: PlayerData|undefined) {
+        await this.room.broadcast([
+            new RpcMessage(
+                this.netid,
+                new CastVoteMessage(
+                    voting.playerId!,
+                    suspect
+                        ? suspect.playerId!
+                        : 255
+                )
+            )
+        ], true, this.room.hostid);
     }
 
     /**
@@ -305,23 +344,31 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         if (player && player.playerId !== undefined) {
             const votingState = this.states.get(player.playerId);
 
-            if (votingState && _suspect) {
-                this._castVote(votingState, _suspect);
+            if (votingState) {
+                if (this.room.amhost) {
+                    this._castVote(votingState, _suspect);
+    
+                    const ev = await this.emit(
+                        new MeetingHudVoteCastEvent(
+                            this.room,
+                            this,
+                            undefined,
+                            player,
+                            _suspect
+                        )
+                    );
 
-                await this.emit(
-                    new MeetingHudVoteCastEvent(
-                        this.room,
-                        this,
-                        undefined,
-                        player,
-                        _suspect
-                    )
-                );
-
-                this.room.me?.control?.sendChatNote(
-                    player,
-                    ChatNoteType.DidVote
-                );
+                    if (ev.reverted) {
+                        this._clearVote(votingState);
+                    } else {
+                        this.room.me?.control?.sendChatNote(
+                            player,
+                            ChatNoteType.DidVote
+                        );
+                    }
+                } else {
+                    await this._rpcCastVote(player, _suspect);
+                }
             }
         }
     }
@@ -432,6 +479,12 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         }
         this.tie = tie;
         this.exiled = exiled;
+        if (exiled) {
+            exiled.info?.setDead(true);
+        }
+
+        if (this.ranOutOfTimeTimeout)
+            clearInterval(this.ranOutOfTimeTimeout);
     }
 
     private _rpcVotingComplete(
@@ -459,7 +512,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
         const voteStates: PlayerVoteState<RoomType>[] = new Array(this.room.players.size);
         for (const [ playerId, state ] of this.states) {
-            voteStates[playerId] = new PlayerVoteState(this.room, playerId, state.votedForId);
+            voteStates[playerId - 1] = new PlayerVoteState(this.room, playerId, state.votedForId);
         }
 
         this._votingComplete(voteStates, tie, _exiled);

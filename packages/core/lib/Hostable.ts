@@ -425,7 +425,7 @@ export class Hostable<
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         reliable: boolean = true,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        recipient: PlayerData | undefined = undefined,
+        recipient: PlayerData | number | undefined = undefined,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         payloads: BaseRootMessage[] = []
         // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -654,11 +654,22 @@ export class Hostable<
     async handleLeave(resolvable: PlayerDataResolvable) {
         const player = this.resolvePlayer(resolvable);
 
-        if (!player) return null;
+        if (!player)
+            return null;
 
         if (player.playerId !== undefined) {
             if (this.gamedata && this.gamedata.players.get(player.playerId)) {
                 this.gamedata.remove(player.playerId);
+            }
+
+            if (this.amhost && this.meetinghud) {
+                this.meetinghud.states.delete(player.playerId);
+                for (const [ , voteState ] of this.meetinghud.states) {
+                    const voteStatePlayer = voteState.player;
+                    if (voteStatePlayer && voteState.votedForId === player.playerId) {
+                        this.meetinghud.clearVote(voteStatePlayer);
+                    }
+                }
             }
         }
 
