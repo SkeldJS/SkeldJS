@@ -116,8 +116,6 @@ export class Networkable<
     FixedUpdate(delta: number) {}
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     Awake() {}
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    Despawn() {}
 
     /**
      * Get a certain component from the object.
