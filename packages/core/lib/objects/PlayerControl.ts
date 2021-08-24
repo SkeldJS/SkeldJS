@@ -436,7 +436,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         if (ev.isDirty) this._setImpostors(ev.alteredImpostors);
 
-        this._rpcSetImpostors(impostors);
+        this._rpcSetImpostors(ev.alteredImpostors);
     }
 
     private async _handleCheckName(rpc: CheckNameMessage) {
