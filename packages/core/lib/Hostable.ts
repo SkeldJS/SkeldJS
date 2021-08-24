@@ -904,7 +904,13 @@ export class Hostable<
             this.meetinghud = undefined;
         }
 
-        component.Despawn();
+        component.Destroy();
+
+        this.objectList.splice(
+            this.objectList.indexOf(component),
+            1
+        );
+
         component.components.splice(
             component.components.indexOf(component),
             1
