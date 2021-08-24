@@ -1020,10 +1020,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private async _handleStartMeeting(rpc: StartMeetingMessage) {
         const reportedBody = rpc.bodyid === 0xff
             ? "emergency"
-            : this.room.getPlayerByPlayerId(rpc.bodyid);
-
-        if (!reportedBody)
-            return;
+            : this.room.getPlayerByPlayerId(rpc.bodyid) || "emergency";
 
         await this.emit(
             new PlayerStartMeetingEvent(
@@ -1048,7 +1045,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             -2
         ) as MeetingHud;
 
-        const callerState = spawnMeetinghud.states.get(caller.playerId);
+        const callerState = spawnMeetinghud.voteStates.get(caller.playerId);
         if (callerState) {
             callerState.didReport = true;
         }
