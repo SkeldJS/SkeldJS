@@ -70,4 +70,24 @@ export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
         writer.uint8(this.votedForId);
         writer.bool(this.didReport);
     }
+
+    clearVote() {
+        this.votedForId = VoteStateSpecialId.NotVoted;
+    }
+
+    setSkipped() {
+        this.votedForId = VoteStateSpecialId.SkippedVote;
+    }
+
+    setDead() {
+        return this.votedForId = VoteStateSpecialId.IsDead;
+    }
+
+    setSuspect(playerId: number) {
+        if (playerId >= 252) {
+            throw new RangeError("Suspect player ID cannot be greater than 252.");
+        }
+
+        this.votedForId = playerId;
+    }
 }
