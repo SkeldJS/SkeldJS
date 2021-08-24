@@ -663,8 +663,11 @@ export class Hostable<
             }
 
             if (this.amhost && this.meetinghud) {
-                this.meetinghud.states.delete(player.playerId);
-                for (const [ , voteState ] of this.meetinghud.states) {
+                const leftPlayerState = this.meetinghud.voteStates.get(player.playerId);
+                if (leftPlayerState) {
+                    leftPlayerState.setDead();
+                }
+                for (const [ , voteState ] of this.meetinghud.voteStates) {
                     const voteStatePlayer = voteState.player;
                     if (voteStatePlayer && voteState.votedForId === player.playerId) {
                         this.meetinghud.clearVote(voteStatePlayer);
