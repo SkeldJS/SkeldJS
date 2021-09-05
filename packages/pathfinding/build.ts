@@ -20,9 +20,10 @@ function gradientSetGridPointImpl(
         amount: number,
         radius: number
     ) {
-        for (const neighbor of node.neighbors) {
+        for (const neighbor of node.getNeighbors()) {
             if (!neighbor.blocked) {
-                if (amount > neighbor.weight) neighbor.weight = amount;
+                if (amount > neighbor.weight)
+                    neighbor.weight = amount;
             }
 
             if (radius > 1) {
@@ -108,8 +109,8 @@ function get_pathname() {
 
                     if (!numbers) return { x: 0, y: 0 };
 
-                    const x = parseFloat(numbers[0]) * 1.2;
-                    const y = parseFloat(numbers[1]) * 1.2;
+                    const x = parseFloat(numbers[0]);
+                    const y = parseFloat(numbers[1]);
 
                     return { x, y };
                 });

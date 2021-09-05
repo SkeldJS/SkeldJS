@@ -53,7 +53,8 @@ export type SkeldjsPathfinderEvents = ExtractEventTypes<
 export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     private _tick: number;
     private _moved: boolean;
-    private _paused: boolean;
+    
+    isPaused: boolean;
 
     /**
      * The destination of the pathfinder.
@@ -83,7 +84,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         this._tick = 0;
         this._moved = false;
-        this._paused = false;
+        this.isPaused = false;
 
         this.client.on("room.fixedupdate", this._ontick.bind(this));
         this.client.on("player.move", this._handleMove.bind(this));
@@ -111,11 +112,11 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     }
 
     get transform(): CustomNetworkTransform|undefined {
-        return this.me?.transform;
+        return this.myPlayer?.transform;
     }
 
-    get me() {
-        return this.room?.me;
+    get myPlayer() {
+        return this.room?.myPlayer;
     }
 
     get room() {
@@ -126,16 +127,13 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         return this.room?.settings?.map;
     }
 
-    get paused() {
-        return this._paused;
-    }
-
     private async _ontick() {
         this._tick++;
 
         if (this._tick % SkeldjsPathfinder.MovementInterval !== 0) return;
 
-        if (typeof this.map === "undefined") return;
+        if (typeof this.map === "undefined")
+            return;
 
         if (!this.grid) {
             const buff = fs.readFileSync(
@@ -155,7 +153,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
             this._moved = false;
         }
 
-        if (this._paused) return;
+        if (this.isPaused) return;
 
         const next = this.path?.shift();
         if (next) {
@@ -185,6 +183,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         this.grid.reset();
         this.path = getShortestPath(this.grid, this.snode, this.dnode);
+        this.path = this.path.filter((_, i, ar) => i === 0 || i === ar.length - 1 || i % 3 === 0);
         await this.emit(
             new EngineRecalculateEvent(
                 this.path.map((node) => this.grid!.actual(node.x, node.y))
@@ -193,7 +192,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     }
 
     pause() {
-        this._paused = true;
+        this.isPaused = true;
         this.emit(new PathfinderPauseEvent);
     }
 
@@ -201,7 +200,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         if (!this.destination)
             return;
 
-        this._paused = false;
+        this.isPaused = false;
         this.emit(new PathfinderStartEvent(this.destination));
     }
 
@@ -246,7 +245,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
             pos as PlayerDataResolvable
         );
 
-        if (resolved && resolved.spawned) {
+        if (resolved && resolved.hasSpawned) {
             const position = resolved.transform?.position;
 
             if (!position) {
@@ -280,9 +279,9 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     }
 
     follow(player: PlayerDataResolvable) {
-        const resolved = this.client?.room?.resolvePlayer(player);
+        const resolved = this.client.resolvePlayer(player);
 
-        if (resolved && resolved.spawned) {
+        if (resolved && resolved.hasSpawned) {
             this.following = resolved;
         }
     }

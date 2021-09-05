@@ -43,15 +43,15 @@ export class Node {
         return this.grid.actual(this.x, this.y);
     }
 
-    get path(): Node[] {
+    getPath(): Node[] {
         const path: Node[] = [this];
 
         if (!this.parent) return path;
 
-        return [...this.parent.path, ...path];
+        return [...this.parent.getPath(), ...path];
     }
 
-    get adjacent() {
+    getAdjacent() {
         const adjacent: Node[] = [];
 
         if (this.grid.get(this.x - 1, this.y)) {
@@ -73,8 +73,8 @@ export class Node {
         return adjacent;
     }
 
-    get neighbors() {
-        const neighbors = this.adjacent;
+    getNeighbors() {
+        const neighbors = this.getAdjacent();
 
         if (this.grid.get(this.x - 1, this.y - 1)) {
             neighbors.push(this.grid.get(this.x - 1, this.y - 1));

@@ -33,14 +33,15 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
         }
 
         if (current === end) {
-            const path = current.path;
+            const path = current.getPath();
             path.shift();
             return path;
         }
 
-        const neighbors = current.neighbors.filter((node) => !node.blocked);
+        const neighbors = current.getNeighbors().filter(node => !node.blocked);
         for (const neighbor of neighbors) {
-            if (neighbor.closed) continue;
+            if (neighbor.closed)
+                continue;
 
             const g =
                 (current.g! +
@@ -68,7 +69,7 @@ export function getShortestPath(grid: Grid, start: Node, end: Node) {
     }
 
     if (closest) {
-        const path = closest.path;
+        const path = closest.getPath();
         path.shift();
         return path;
     }

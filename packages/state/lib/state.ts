@@ -1,4 +1,4 @@
-import { Hostable, HostableEvents, HostableOptions } from "@skeldjs/core";
+import { AlterGameTag, Hostable, HostableEvents, HostableOptions, PlayerSceneChangeEvent, RoomSetPrivacyEvent, SpawnFlag, SpawnType } from "@skeldjs/core";
 import { HazelReader } from "@skeldjs/util";
 
 import {
@@ -11,6 +11,13 @@ import {
     MessageDirection,
     GameSettings,
     EndGameMessage,
+    SceneChangeMessage,
+    DespawnMessage,
+    SpawnMessage,
+    RpcMessage,
+    DataMessage,
+    AlterGameMessage,
+    ReadyMessage,
 } from "@skeldjs/protocol";
 
 export type SkeldjsStateManagerEvents = HostableEvents;
@@ -92,6 +99,128 @@ export class SkeldjsStateManager<
                 for (let i = 0; i < message.others.length; i++) {
                     await this.handleJoin(message.others[i]);
                 }
+            }
+        });
+        
+
+        this.decoder.on(AlterGameMessage, async message => {
+            if (message.alterTag === AlterGameTag.ChangePrivacy) {
+                const messagePrivacy = message.value ? "public" : "private";
+                const oldPrivacy = this.privacy;
+                const ev = await this.emit(
+                    new RoomSetPrivacyEvent(
+                        this,
+                        message,
+                        oldPrivacy,
+                        messagePrivacy
+                    )
+                );
+
+                if (ev.alteredPrivacy !== messagePrivacy) {
+                    await this.broadcast([], true, undefined, [
+                        new AlterGameMessage(
+                            this.code,
+                            AlterGameTag.ChangePrivacy,
+                            ev.alteredPrivacy === "public" ? 1 : 0
+                        )
+                    ]);
+                }
+
+                if (ev.alteredPrivacy !== oldPrivacy) {
+                    this._setPrivacy(ev.alteredPrivacy);
+                }
+            }
+        });
+
+        this.decoder.on(DataMessage, message => {
+            const component = this.netobjects.get(message.netid);
+
+            if (component) {
+                const reader = HazelReader.from(message.data);
+                component.Deserialize(reader);
+            }
+        });
+
+        this.decoder.on(RpcMessage, async message => {
+            const component = this.netobjects.get(message.netid);
+
+            if (component) {
+                try {
+                    await component.HandleRpc(message.data);
+                } catch (e) {
+                    void e;
+                }
+            }
+        });
+
+        this.decoder.on(SpawnMessage, message => {
+            const ownerClient = this.players.get(message.ownerid);
+
+            if (message.ownerid > 0 && !ownerClient) {
+                return;
+            }
+
+            this.spawnPrefab(
+                message.spawnType,
+                message.ownerid,
+                message.flags,
+                message.components,
+                false,
+                false
+            );
+        });
+
+        this.decoder.on(DespawnMessage, message => {
+            const component = this.netobjects.get(message.netid);
+
+            if (component) {
+                this._despawnComponent(component);
+            }
+        });
+
+        this.decoder.on(SceneChangeMessage, async message => {
+            const player = this.players.get(message.clientid);
+
+            if (player) {
+                if (message.scene === "OnlineGame") {
+                    player.inScene = true;
+    
+                    const ev = await this.emit(
+                        new PlayerSceneChangeEvent(
+                            this,
+                            player,
+                            message
+                        )
+                    );
+    
+                    if (ev.canceled) {
+                        player.inScene = false;
+                    } else {
+                        if (this.amhost) {
+                            await this.broadcast(
+                                this._getExistingObjectSpawn(),
+                                true,
+                                player
+                            );
+    
+                            this.spawnPrefab(
+                                SpawnType.Player,
+                                player.clientId,
+                                SpawnFlag.IsClientCharacter
+                            );
+    
+                            this.myPlayer?.control?.syncSettings(this.settings);
+                        }
+                    }
+                }
+            }
+        });
+
+        this.decoder.on(ReadyMessage, message => {
+            const player = this.players.get(message.clientid);
+
+            if (player) {
+                player.ready();
             }
         });
     }
