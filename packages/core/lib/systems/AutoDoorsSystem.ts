@@ -135,7 +135,7 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
      * @param doorId The ID of the door to open.
      */
     async openDoor(doorId: number) {
-        await this._openDoor(doorId, this.room.me, undefined);
+        await this._openDoor(doorId, this.room.myPlayer, undefined);
     }
 
     private async _closeDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
@@ -175,7 +175,7 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
      * @param doorId The ID of the door to close.
      */
     async closeDoor(doorId: number) {
-        await this._closeDoor(doorId, this.room.me, undefined);
+        await this._closeDoor(doorId, this.room.myPlayer, undefined);
     }
 
     Detoriorate(delta: number) {

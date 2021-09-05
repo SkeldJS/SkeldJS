@@ -2,10 +2,6 @@ import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 import { HazelReader } from "@skeldjs/util";
 
-import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
-
-import { Hostable } from "../Hostable";
-
 import {
     DeconSystem,
     HudOverrideSystem,
@@ -18,8 +14,9 @@ import {
 } from "../systems";
 
 import { Door } from "../misc/Door";
-import { NetworkableConstructor } from "../Heritable";
-import { Networkable } from "../Networkable";
+import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
+import { Hostable } from "../Hostable";
+import { Networkable, NetworkableConstructor } from "../Networkable";
 
 /**
  * Represents a room object for the Polus map.

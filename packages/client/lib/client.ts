@@ -10,6 +10,7 @@ import {
     RootMessageTag,
     GameMap,
     GameKeyword,
+    GameOverReason,
 } from "@skeldjs/constant";
 
 import { DisconnectMessages, MatchmakingServers } from "@skeldjs/data";
@@ -37,6 +38,8 @@ import {
     GetGameListMessage,
     GameListing,
     RemovePlayerMessage,
+    StartGameMessage,
+    EndGameMessage
 } from "@skeldjs/protocol";
 
 import { Code2Int, VersionInfo, HazelWriter } from "@skeldjs/util";
@@ -236,7 +239,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         return this._nonce;
     }
 
-    get me() {
+    get myPlayer() {
         return this.players.get(this.clientid);
     }
 
@@ -497,7 +500,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     ) {
         const recipientid = typeof recipient === "number"
             ? recipient
-            : recipient?.id;
+            : recipient?.clientId;
 
         if (recipientid !== undefined) {
             const children = [
@@ -541,12 +544,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * ```
      */
     async spawnSelf() {
-        if (!this.me || this.me.inScene) {
+        if (!this.myPlayer || this.myPlayer.inScene) {
             return;
         }
 
         if (this.amhost) {
-            this.spawnPrefab(SpawnType.Player, this.me.id);
+            this.spawnPrefab(SpawnType.Player, this.myPlayer.clientId);
         } else {
             await this.send(
                 new ReliablePacket(this.getNextNonce(), [
@@ -556,7 +559,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 ])
             );
 
-            await this.me.wait("player.spawn");
+            await this.myPlayer.wait("player.spawn");
         }
     }
 
@@ -587,7 +590,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             throw new Error("Tried to join while not identified.");
         }
 
-        if (this.me && this.code !== code) {
+        if (this.myPlayer && this.code !== code) {
             const username = this.username;
             await this.disconnect();
             await this.connect(this.ip, username, this.port);
@@ -650,8 +653,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     async createGame(
         host_settings: Partial<AllGameSettings> = {},
-        doJoin: boolean = true,
-        chatMode: QuickChatMode = QuickChatMode.FreeChat
+        chatMode: QuickChatMode = QuickChatMode.FreeChat,
+        doJoin: boolean = true
     ): Promise<number> {
         const settings = new GameSettings({
             ...host_settings,
@@ -686,7 +689,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     message.port
                 );
 
-                return await this.createGame(host_settings, doJoin);
+                return await this.createGame(host_settings, chatMode, doJoin);
             case RootMessageTag.HostGame:
                 this.settings.patch(settings);
 
@@ -696,7 +699,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 } else {
                     return message.code;
                 }
-                break;
         }
     }
 
@@ -751,5 +753,19 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         const { message } = await this.decoder.wait(GetGameListMessage);
 
         return message.gameList;
+    }
+
+    /**
+     * Ask the server to start a game.
+     */
+    async startGame() {
+        await this.broadcast([], true, undefined, [new StartGameMessage(this.code)]);
+    }
+
+    /**
+     * End the current game.
+     */
+    async endGame(reason: GameOverReason) {
+        await this.broadcast([], true, undefined, [new EndGameMessage(this.code, reason, false)]);
     }
 }

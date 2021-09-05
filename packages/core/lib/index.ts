@@ -9,7 +9,6 @@ export * from "./misc/PlayerInfo";
 export * from "./misc/PlayerVoteArea";
 export * from "./misc/PlayerVoteState";
 
-export * from "./Heritable";
 export * from "./Hostable";
 export * from "./Networkable";
 export * from "./PlayerData";

@@ -43,6 +43,7 @@ export class UpdateSystemMessage extends BaseRpcMessage {
         decoder: PacketDecoder
     ) {
         writer.uint8(this.data.messageTag);
+        writer.upacked(this.playerNetid);
         writer.write(this.data, direction, decoder);
     }
 }

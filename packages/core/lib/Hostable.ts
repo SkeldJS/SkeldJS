@@ -5,14 +5,10 @@ import {
     BaseRootMessage,
     DataMessage,
     AlterGameMessage,
-    StartGameMessage,
     RemovePlayerMessage,
     DespawnMessage,
     ComponentSpawnData,
     PacketDecoder,
-    RpcMessage,
-    SceneChangeMessage,
-    ReadyMessage,
     AllGameSettings
 } from "@skeldjs/protocol";
 
@@ -31,7 +27,7 @@ import {
     SpawnFlag
 } from "@skeldjs/constant";
 
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import {
     AirshipStatus,
@@ -55,8 +51,7 @@ import {
     InnerShipStatus,
 } from "./objects";
 
-import { Heritable, HeritableEvents, NetworkableConstructor } from "./Heritable";
-import { Networkable, NetworkableEvents } from "./Networkable";
+import { Networkable, NetworkableEvents, NetworkableConstructor } from "./Networkable";
 import { PlayerData, PlayerDataEvents } from "./PlayerData";
 
 import { HostableOptions } from "./misc/HostableOptions";
@@ -66,7 +61,6 @@ import {
     ComponentSpawnEvent,
     PlayerJoinEvent,
     PlayerLeaveEvent,
-    PlayerSceneChangeEvent,
     PlayerSetHostEvent,
     PlayerSpawnEvent,
     RoomFixedUpdateEvent,
@@ -106,7 +100,7 @@ export type AnyNetworkable<RoomType extends Hostable = Hostable> =
     | SkeldShipStatus<RoomType>
     | VoteBanSystem<RoomType>;
 
-export type HostableEvents<RoomType extends Hostable = Hostable> = HeritableEvents<RoomType> &
+export type HostableEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     PlayerDataEvents<RoomType> &
     GameDataEvents<RoomType> &
     LobbyBehaviourEvents<RoomType> &
@@ -130,7 +124,7 @@ export type GetHostableEvents<T extends Hostable<HostableEvents>> = T extends Ho
  */
 export class Hostable<
     T extends HostableEvents = any
-> extends Heritable<T> {
+> extends EventEmitter<T> {
     room: this;
 
     /**
@@ -216,7 +210,7 @@ export class Hostable<
     ]
 
     constructor(public options: HostableOptions = {}) {
-        super(null as unknown as this, -2);
+        super();
 
         this.code = 0;
         this.hostid = -1;
@@ -253,127 +247,6 @@ export class Hostable<
                 Hostable.FixedUpdateInterval
             );
         }
-
-        this.decoder.on(AlterGameMessage, async message => {
-            if (message.alterTag === AlterGameTag.ChangePrivacy) {
-                const messagePrivacy = message.value ? "public" : "private";
-                const oldPrivacy = this.privacy;
-                const ev = await this.emit(
-                    new RoomSetPrivacyEvent(
-                        this,
-                        message,
-                        oldPrivacy,
-                        messagePrivacy
-                    )
-                );
-
-                if (ev.alteredPrivacy !== messagePrivacy) {
-                    await this.broadcast([], true, undefined, [
-                        new AlterGameMessage(
-                            this.code,
-                            AlterGameTag.ChangePrivacy,
-                            ev.alteredPrivacy === "public" ? 1 : 0
-                        )
-                    ]);
-                }
-
-                if (ev.alteredPrivacy !== oldPrivacy) {
-                    this._setPrivacy(ev.alteredPrivacy);
-                }
-            }
-        });
-
-        this.decoder.on(DataMessage, message => {
-            const component = this.netobjects.get(message.netid);
-
-            if (component) {
-                const reader = HazelReader.from(message.data);
-                component.Deserialize(reader);
-            }
-        });
-
-        this.decoder.on(RpcMessage, async message => {
-            const component = this.netobjects.get(message.netid);
-
-            if (component) {
-                try {
-                    await component.HandleRpc(message.data);
-                } catch (e) {
-                    void e;
-                }
-            }
-        });
-
-        this.decoder.on(SpawnMessage, message => {
-            const ownerClient = this.players.get(message.ownerid);
-
-            if (message.ownerid > 0 && !ownerClient) {
-                return;
-            }
-
-            this.spawnPrefab(
-                message.spawnType,
-                message.ownerid,
-                message.flags,
-                message.components,
-                false,
-                false
-            );
-        });
-
-        this.decoder.on(DespawnMessage, message => {
-            const component = this.netobjects.get(message.netid);
-
-            if (component) {
-                this._despawnComponent(component);
-            }
-        });
-
-        this.decoder.on(SceneChangeMessage, async message => {
-            const player = this.players.get(message.clientid);
-
-            if (player) {
-                if (message.scene === "OnlineGame") {
-                    player.inScene = true;
-
-                    const ev = await this.emit(
-                        new PlayerSceneChangeEvent(
-                            this,
-                            player,
-                            message
-                        )
-                    );
-
-                    if (ev.canceled) {
-                        player.inScene = false;
-                    } else {
-                        if (this.amhost) {
-                            await this.broadcast(
-                                this._getExistingObjectSpawn(),
-                                true,
-                                player
-                            );
-
-                            this.spawnPrefab(
-                                SpawnType.Player,
-                                player.id,
-                                SpawnFlag.IsClientCharacter
-                            );
-
-                            this.me?.control?.syncSettings(this.settings);
-                        }
-                    }
-                }
-            }
-        });
-
-        this.decoder.on(ReadyMessage, message => {
-            const player = this.players.get(message.clientid);
-
-            if (player) {
-                player.ready();
-            }
-        });
     }
 
     destroy() {
@@ -390,7 +263,7 @@ export class Hostable<
     /**
      * The current client in the room.
      */
-    get me(): PlayerData<this> | undefined {
+    get myPlayer(): PlayerData<this> | undefined {
         return undefined;
     }
 
@@ -437,7 +310,7 @@ export class Hostable<
         for (const [, component] of this.netobjects) {
             if (
                 component &&
-                (component.ownerid === this.me?.id || this.amhost)
+                (component.ownerid === this.myPlayer?.clientId || this.amhost)
             ) {
                 component.FixedUpdate(delta / 1000);
                 if (component.dirtyBit) {
@@ -523,7 +396,7 @@ export class Hostable<
         }
 
         if (player instanceof PlayerData) {
-            return player.id;
+            return player.clientId;
         }
 
         return undefined;
@@ -598,8 +471,8 @@ export class Hostable<
         this.settings.patch(settings);
 
         if (this.amhost) {
-            if (this.me?.control) {
-                this.me.control.syncSettings(this.settings);
+            if (this.myPlayer?.control) {
+                this.myPlayer.control.syncSettings(this.settings);
             }
         }
     }
@@ -676,8 +549,8 @@ export class Hostable<
             }
         }
 
-        if (this.votebansystem && this.votebansystem.voted.get(player.id)) {
-            this.votebansystem.voted.delete(player.id);
+        if (this.votebansystem && this.votebansystem.voted.get(player.clientId)) {
+            this.votebansystem.voted.delete(player.clientId);
         }
 
         if (player.control) {
@@ -686,7 +559,7 @@ export class Hostable<
             }
         }
 
-        this.players.delete(player.id);
+        this.players.delete(player.clientId);
 
         this.emit(
             new PlayerLeaveEvent(this, player)
@@ -720,7 +593,7 @@ export class Hostable<
                     ),
                     sleep(3000),
                 ]),
-                this.me?.ready(),
+                this.myPlayer?.ready(),
             ]);
 
             const removes = [];
@@ -768,18 +641,11 @@ export class Hostable<
             }
         } else {
             await this.emit(new RoomGameStartEvent(this));
-            if (this.me) await this.me.ready();
+            if (this.myPlayer) await this.myPlayer.ready();
         }
     }
 
-    /**
-     * Start a game.
-     */
-    async requestStartGame() {
-        await this.broadcast([], true, undefined, [new StartGameMessage(this.code)]);
-    }
-
-    private async _endGame(reason: GameOverReason) {
+    protected async _handleEnd(reason: GameOverReason) {
         this._started = false;
         this.players.clear();
         for (const [ objid ] of this.players) {
@@ -793,15 +659,7 @@ export class Hostable<
      * @param reason The reason for why the game ended.
      */
     async handleEnd(reason: GameOverReason) {
-        await this._endGame(reason);
-    }
-
-    /**
-     * End the current game.
-     */
-    async endGame(reason: GameOverReason) {
-        // todo: send root EndGame message
-        return await this.handleEnd(reason);
+        await this._handleEnd(reason);
     }
 
     /**
@@ -875,7 +733,7 @@ export class Hostable<
         );
     }
 
-    private _despawnComponent(component: Networkable<any>) {
+    protected _despawnComponent(component: Networkable<any>) {
         this.netobjects.delete(component.netid);
 
         if (component.owner instanceof PlayerData) {
@@ -963,8 +821,12 @@ export class Hostable<
      * room.spawnPrefab(SpawnType.Player, client.me);
      * ```
      */
-    spawnPrefab(spawnType: number, ownerid: number|{ id: number }, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true, doAwake = true) {
-        const _ownerid = typeof ownerid === "number" ? ownerid : ownerid.id;
+    spawnPrefab(spawnType: number, ownerId: number|PlayerData|undefined, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true, doAwake = true) {
+        const _ownerid = 
+            ownerId === undefined
+                ? -2
+                : typeof ownerId === "number" ? ownerId : ownerId.clientId;
+
         const ownerClient = this.players.get(_ownerid);
         const _flags = flags ?? (spawnType === SpawnType.Player ? SpawnFlag.IsClientCharacter : 0);
 
@@ -1083,7 +945,7 @@ export class Hostable<
         return undefined;
     }
 
-    private _getExistingObjectSpawn() {
+    protected _getExistingObjectSpawn() {
         const messages: SpawnMessage[] = [];
 
         for (const object of this.objectList) {

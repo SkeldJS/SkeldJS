@@ -4,7 +4,7 @@ import * as skeldjs from "../index";
 const connectRegion = process.argv[2];
 
 (async () => {
-    const client = new skeldjs.SkeldjsClient("2021.6.30s", { attemptAuth: false, chatMode: skeldjs.QuickChatMode.QuickChat });
+    const client = new skeldjs.SkeldjsClient("2021.6.30s", { attemptAuth: false });
 
     console.log("Connecting to server..");
     await client.connect(connectRegion, "weakeyes");
@@ -15,18 +15,16 @@ const connectRegion = process.argv[2];
             maxPlayers: 10,
             map: skeldjs.GameMap.TheSkeld,
             numImpostors: 2,
-        },
-        true,
-        skeldjs.QuickChatMode.QuickChat
+        }
     );
 
-    await client.me?.control?.setName("weakeyes");
-    await client.me?.control?.setColor(skeldjs.Color.Red);
+    await client.myPlayer?.control?.setName("weakeyes");
+    await client.myPlayer?.control?.setColor(skeldjs.Color.Red);
 
     client.on("player.join", async chat => {
         await sleep(1000);
 
-        client.requestStartGame();
+        client.startGame();
     });
 
     console.log(

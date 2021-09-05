@@ -2,9 +2,8 @@ import { HazelBuffer } from "@skeldjs/util";
 import { SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
+import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
 import { Hostable } from "../Hostable";
-import { NetworkableConstructor } from "../Heritable";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface LobbyBehaviourData {}

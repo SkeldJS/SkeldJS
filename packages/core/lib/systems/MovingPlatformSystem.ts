@@ -165,9 +165,9 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
      * Get on the moving platform as the client's player.
      */
     async getOn() {
-        if (!this.room.me?.control)
+        if (!this.room.myPlayer?.control)
             return;
 
-        await this.setTarget(this.room.me, this.oppositeSide);
+        await this.setTarget(this.room.myPlayer, this.oppositeSide);
     }
 }

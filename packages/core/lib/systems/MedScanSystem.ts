@@ -108,10 +108,10 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
      * Join the queue as the client's player.
      */
     async joinQueue() {
-        if (!this.room.me)
+        if (!this.room.myPlayer)
             return;
 
-        await this.addToQueue(this.room.me);
+        await this.addToQueue(this.room.myPlayer);
     }
 
     private async _leaveQueue(player: PlayerData<RoomType>, rpc: RepairSystemMessage|undefined) {
@@ -150,10 +150,10 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
      * Leave the queue as the current player.
      */
     async leaveQueue() {
-        if (!this.room.me)
+        if (!this.room.myPlayer)
             return;
 
-        await this.removeFromQueue(this.room.me);
+        await this.removeFromQueue(this.room.myPlayer);
     }
 
     async HandleRepair(player: PlayerData<RoomType>, amount: number, rpc: RepairSystemMessage|undefined) {

@@ -104,11 +104,11 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
     }
 
     async join() {
-        if (!this.room.me)
+        if (!this.room.myPlayer)
             return;
 
         if (this.room.amhost) {
-            await this.addPlayer(this.room.me);
+            await this.addPlayer(this.room.myPlayer);
         } else {
             await this._sendRepair(1);
         }
@@ -145,11 +145,11 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
     }
 
     async leave() {
-        if (!this.room.me)
+        if (!this.room.myPlayer)
             return;
 
         if (this.room.amhost) {
-            await this.removePlayer(this.room.me);
+            await this.removePlayer(this.room.myPlayer);
         } else {
             await this._sendRepair(0);
         }

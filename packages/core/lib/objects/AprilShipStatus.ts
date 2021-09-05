@@ -17,8 +17,7 @@ import {
 
 import { Hostable } from "../Hostable";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
-import { NetworkableConstructor } from "../Heritable";
-import { Networkable } from "../Networkable";
+import { Networkable, NetworkableConstructor } from "../Networkable";
 
 /**
  * Represents a room object for the April Fools' version of the The Skeld map.

@@ -13,7 +13,7 @@ import {
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
+import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
 import { PlayerDataResolvable, Hostable } from "../Hostable";
 import { PlayerVoteState, VoteStateSpecialId } from "../misc/PlayerVoteState";
 import { PlayerVoteArea } from "../misc/PlayerVoteArea";
@@ -26,7 +26,6 @@ import {
 } from "../events";
 
 import { PlayerData } from "../PlayerData";
-import { NetworkableConstructor } from "../Heritable";
 
 export interface MeetingHudData {
     voteStates: Map<number, PlayerVoteArea>;
@@ -84,7 +83,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     Awake() {
         this.voteStates = new Map(
             [...this.room.players]
-                .filter(([, player]) => player.info && player.spawned && player.playerId !== undefined)
+                .filter(([, player]) => player.info && player.hasSpawned && player.playerId !== undefined)
                 .map(([, player]) => {
                     return [
                         player.playerId!,
@@ -289,7 +288,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     await this.clearVote(player);
                 }
             } else {
-                this.room.me?.control?.sendChatNote(
+                this.room.myPlayer?.control?.sendChatNote(
                     player,
                     ChatNoteType.DidVote
                 );
@@ -370,7 +369,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     if (ev.reverted) {
                         this._clearVote(votingState);
                     } else {
-                        this.room.me?.control?.sendChatNote(
+                        this.room.myPlayer?.control?.sendChatNote(
                             player,
                             ChatNoteType.DidVote
                         );
@@ -387,7 +386,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     private async _handleClearVote(rpc: ClearVoteMessage) {
         void rpc;
 
-        const player = this.room.me;
+        const player = this.room.myPlayer;
 
         if (player && player.playerId !== undefined) {
             const voter = this.voteStates.get(player.playerId);

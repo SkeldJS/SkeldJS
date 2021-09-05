@@ -7,7 +7,27 @@ import { Hostable } from "./Hostable";
 
 import { ComponentDespawnEvent, ComponentSpawnEvent } from "./events";
 import { PlayerData } from "./PlayerData";
-import { NetworkableConstructor } from "./Heritable";
+
+export type NetworkableConstructor<T> = {
+    new (
+        room: Hostable<any>,
+        spawnType: SpawnType,
+        netid: number,
+        ownerid: number,
+        flags: number,
+        data?: HazelReader | any
+    ): T;
+}|{
+    new (
+        room: Hostable<any>,
+        spawnType: SpawnType,
+        netid: number,
+        ownerid: number,
+        flags: number,
+        data?: HazelReader | any,
+        object?: Networkable<any, any>
+    ): T;
+};
 
 export type NetworkableEvents<RoomType extends Hostable = Hostable> = ExtractEventTypes<
     [ComponentSpawnEvent<RoomType>, ComponentDespawnEvent<RoomType>]

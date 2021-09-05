@@ -128,7 +128,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
 
     async repair() {
         if (this.room.amhost) {
-            await this._repair(this.room.me, undefined);
+            await this._repair(this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(0);
         }

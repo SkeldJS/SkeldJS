@@ -20,11 +20,10 @@ import {
     SystemStatus,
 } from "../systems";
 
-import { SystemStatusEvents } from "../systems/events";
-
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
+import { SystemStatusEvents } from "../systems/events";
 import { RoomSelectImpostorsEvent } from "../events";
 
 type AllSystems = Partial<Record<SystemType, SystemStatus<any, any>>>;

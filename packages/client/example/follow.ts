@@ -12,13 +12,13 @@ import * as skeldjs from "../index";
     await client.joinGame(process.argv[3]);
     console.log("Joined game.");
 
-    if (client.host && client.me?.control) {
-        await client.me.control.checkColor(skeldjs.Color.Blue);
-        await client.me.control.checkName("weakeyes");
+    if (client.host && client.myPlayer?.control) {
+        await client.myPlayer.control.checkColor(skeldjs.Color.Blue);
+        await client.myPlayer.control.checkName("weakeyes");
     }
 
     client.host?.on("player.move", (ev) => {
-        client.me?.transform?.snapTo(ev.position.x, ev.position.y);
+        client.myPlayer?.transform?.snapTo(ev.position.x, ev.position.y);
     });
 
     client.on("player.move", (ev) => {

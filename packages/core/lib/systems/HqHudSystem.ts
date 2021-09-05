@@ -240,11 +240,11 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
      * @param consoleId The ID of the console to mark as being used.
      */
     async openConsole(consoleId: number) {
-        if (!this.room.me)
+        if (!this.room.myPlayer)
             return;
 
         if (this.room.amhost) {
-            this._openConsole(consoleId, this.room.me, undefined);
+            this._openConsole(consoleId, this.room.myPlayer, undefined);
         } else {
             this._sendRepair(0x40 | consoleId);
         }
@@ -280,11 +280,11 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
      * @param consoleId The ID of the console to mark as not being used.
      */
     async closeConsole(consoleId: number) {
-        if (!this.room.me)
+        if (!this.room.myPlayer)
             return;
 
         if (this.room.amhost) {
-            await this._closeConsole(consoleId, this.room.me, undefined);
+            await this._closeConsole(consoleId, this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(0x20 | consoleId);
         }
@@ -315,7 +315,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
      */
     async completeConsole(consoleId: number) {
         if (this.room.amhost) {
-            await this._completeConsole(consoleId, this.room.me, undefined);
+            await this._completeConsole(consoleId, this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(0x10 | consoleId);
         }
@@ -340,7 +340,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
 
     async repair() {
         if (this.room.amhost) {
-            await this._repair(this.room.me, undefined);
+            await this._repair(this.room.myPlayer, undefined);
         } else {
             await this.completeConsole(0);
             await this.completeConsole(1);

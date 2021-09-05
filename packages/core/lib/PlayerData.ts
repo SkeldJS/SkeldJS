@@ -9,7 +9,6 @@ import {
     PlayerPhysicsEvents,
 } from "./objects";
 
-import { Heritable, HeritableEvents } from "./Heritable";
 import { Hostable } from "./Hostable";
 
 import {
@@ -20,9 +19,10 @@ import {
     PlayerSetHostEvent,
     PlayerSpawnEvent,
 } from "./events";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { NetworkableEvents } from "./Networkable";
 
-export type PlayerDataEvents<RoomType extends Hostable = Hostable> = HeritableEvents<RoomType> &
+export type PlayerDataEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     PlayerControlEvents<RoomType> &
     PlayerPhysicsEvents<RoomType> &
     CustomNetworkTransformEvents<RoomType> &
@@ -42,7 +42,17 @@ export type PlayerDataEvents<RoomType extends Hostable = Hostable> = HeritableEv
  *
  * See {@link PlayerDataEvents} for events to listen to.
  */
-export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<PlayerDataEvents<RoomType>, RoomType> {
+export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitter<PlayerDataEvents<RoomType>> {
+    /**
+     * The room that this player object belongs to.
+     */
+    room: RoomType;
+
+    /**
+     * This player's server-unique client ID.
+     */
+    clientId: number;
+
     /**
      * Whether or not this player is readied up to start the game.
      */
@@ -65,8 +75,11 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<
 
     character: PlayerControl<RoomType>|undefined;
 
-    constructor(room: RoomType, clientid: number) {
-        super(room, clientid);
+    constructor(room: RoomType, clientId: number) {
+        super();
+
+        this.room = room;
+        this.clientId = clientId;
 
         this.stream = [];
         this.isReady = false;
@@ -76,10 +89,16 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<
         this.character = undefined;
 
         this.on("component.spawn", () => {
-            if (this.spawned) {
+            if (this.hasSpawned) {
                 this.emit(new PlayerSpawnEvent(this.room, this));
             }
         });
+    }
+
+    async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
+        this.room.emit(event);
+        
+        return super.emit(event);
     }
 
     /**
@@ -113,7 +132,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<
     }
 
     /**
-     * The player ID of the player.
+     * The room-unique player ID of the player.
      */
     get playerId() {
         return this.control?.playerId;
@@ -122,22 +141,22 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<
     /**
      * Whether or not the player has fully spawned.
      */
-    get spawned() {
+    get hasSpawned() {
         return !!(this.control && this.physics && this.transform);
     }
 
     /**
      * Whether or not the player is the host of the room they belong in.
      */
-    get ishost() {
-        return this.room.hostid === this.id;
+    get isHost() {
+        return this.room.hostid === this.clientId;
     }
 
     /**
      * Whether or not the player is the current client's player.
      */
-    get isme() {
-        return this.id === this.room.me?.id;
+    get isMe() {
+        return this.clientId === this.room.myPlayer?.clientId;
     }
 
     /**
@@ -147,8 +166,8 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends Heritable<
         this.isReady = true;
         await this.emit(new PlayerReadyEvent(this.room, this));
 
-        if (this.isme && !this.ishost) {
-            await this.room.broadcast([new ReadyMessage(this.id)]);
+        if (this.isMe && !this.isHost) {
+            await this.room.broadcast([new ReadyMessage(this.clientId)]);
         }
     }
 }

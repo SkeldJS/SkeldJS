@@ -126,7 +126,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
      */
     async openDoor(doorId: number) {
         if (this.room.amhost) {
-            await this._openDoor(doorId, this.room.me, undefined);
+            await this._openDoor(doorId, this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(doorId);
         }
@@ -167,7 +167,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
      * @param doorId The ID of the door to close.
      */
     async closeDoor(doorId: number) {
-        this._closeDoor(doorId, this.room.me, undefined);
+        this._closeDoor(doorId, this.room.myPlayer, undefined);
     }
 
     async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {

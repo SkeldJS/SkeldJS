@@ -98,19 +98,19 @@ export class SystemStatus<
      * Sabotage this system.
      */
     async sabotage() {
-        if (!this.room.me?.control)
+        if (!this.room.myPlayer?.control)
             return;
 
         if (this.room.amhost) {
             await this.ship.systems[SystemType.Sabotage]
-                ?.HandleRepair(this.room.me, this.systemType, undefined);
+                ?.HandleRepair(this.room.myPlayer, this.systemType, undefined);
         } else {
             await this.room.broadcast([
                 new RpcMessage(
                     this.ship.netid,
                     new RepairSystemMessage(
                         SystemType.Sabotage,
-                        this.room.me.control.netid,
+                        this.room.myPlayer.control.netid,
                         this.systemType
                     )
                 )
@@ -119,7 +119,7 @@ export class SystemStatus<
     }
 
     protected async _sendRepair(amount: number) {
-        if (!this.room.me?.control)
+        if (!this.room.myPlayer?.control)
             return;
 
         await this.room.broadcast([
@@ -127,7 +127,7 @@ export class SystemStatus<
                 this.ship.netid,
                 new RepairSystemMessage(
                     this.systemType,
-                    this.room.me.control.netid,
+                    this.room.myPlayer.control.netid,
                     amount
                 )
             )

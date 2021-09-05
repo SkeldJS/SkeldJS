@@ -1,9 +1,6 @@
 import { HazelReader } from "@skeldjs/util";
 import { SpawnType, SystemType } from "@skeldjs/constant";
 
-import { InnerShipStatus, ShipStatusData } from "./InnerShipStatus";
-import { Hostable } from "../Hostable";
-
 import {
     DeconSystem,
     HqHudSystem,
@@ -13,8 +10,10 @@ import {
     SabotageSystem,
     SwitchSystem,
 } from "../systems";
-import { NetworkableConstructor } from "../Heritable";
-import { Networkable } from "../Networkable";
+
+import { Networkable, NetworkableConstructor } from "../Networkable";
+import { InnerShipStatus, ShipStatusData } from "./InnerShipStatus";
+import { Hostable } from "../Hostable";
 
 /**
  * Represents a room object for the Mira HQ map.

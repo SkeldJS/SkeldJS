@@ -11,7 +11,7 @@ import { BaseRpcMessage, RpcMessage, SetTasksMessage } from "@skeldjs/protocol";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
+import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
@@ -19,7 +19,6 @@ import { PlayerControl } from "./PlayerControl";
 import { PlayerVoteState } from "../misc/PlayerVoteState";
 import { PlayerInfo, TaskState } from "../misc/PlayerInfo";
 
-import { NetworkableConstructor } from "../Heritable";
 import { VoteBanSystem } from "./component";
 
 import {

@@ -83,7 +83,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
             writer.uint32(clientid);
 
             for (let i = 0; i < 3; i++) {
-                if (voters[i]) writer.upacked(voters[i]!.id);
+                if (voters[i]) writer.upacked(voters[i]!.clientId);
             }
         }
         return true;
@@ -107,7 +107,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _addVote(voter: PlayerData<RoomType>, target: PlayerData) {
-        const voted = this.voted.get(target.id);
+        const voted = this.voted.get(target.clientId);
         if (voted) {
             const next = voted.indexOf(undefined);
 
@@ -120,14 +120,14 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
                 this.room.broadcast([], true, undefined, [
                     new KickPlayerMessage(
                         this.room.code,
-                        target.id,
+                        target.clientId,
                         false,
                         DisconnectReason.None
                     ),
                 ]);
             }
         } else {
-            this.voted.set(target.id, [voter, undefined, undefined]);
+            this.voted.set(target.clientId, [voter, undefined, undefined]);
             this.dirtyBit = 1;
         }
     }
@@ -136,7 +136,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
         this.room.stream.push(
             new RpcMessage(
                 this.netid,
-                new AddVoteMessage(voter.id, target.id)
+                new AddVoteMessage(voter.clientId, target.clientId)
             )
         );
     }

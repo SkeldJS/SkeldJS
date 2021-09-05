@@ -54,14 +54,13 @@ import {
 
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
+import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
 import { MeetingHud } from "./MeetingHud";
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems/MovingPlatformSystem";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
-import { NetworkableConstructor } from "../Heritable";
 import { AirshipStatus } from "./AirshipStatus";
 
 export interface PlayerControlData {

@@ -155,7 +155,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
      * Clear the completed consoles. This is a host operation on official servers.
      */
     async clearConsoles() {
-        await this._clearConsoles(this.room.me, undefined);
+        await this._clearConsoles(this.room.myPlayer, undefined);
     }
 
     private async _completeConsole(consoleid: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
@@ -188,7 +188,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
      */
     async completeConsole(consoleid: number) {
         if (this.room.amhost) {
-            await this._completeConsole(consoleid, this.room.me, undefined);
+            await this._completeConsole(consoleid, this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(0x40 | consoleid);
         }
@@ -218,7 +218,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
 
     async repair() {
         if (this.room.amhost) {
-            this._repair(this.room.me, undefined);
+            this._repair(this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(0x10);
         }

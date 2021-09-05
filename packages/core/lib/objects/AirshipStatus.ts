@@ -16,8 +16,7 @@ import {
     MovingPlatformSystem,
 } from "../systems";
 
-import { NetworkableConstructor } from "../Heritable";
-import { Networkable } from "../Networkable";
+import { Networkable, NetworkableConstructor } from "../Networkable";
 
 /**
  * Represents a room object for the Airship map.
