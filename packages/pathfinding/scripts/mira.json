@@ -1,0 +1,829 @@
+{
+  "colliders": {
+    "layers": {
+      "9": {
+        "name": "Ship",
+        "colliders": [
+          {
+            "name": "MiraShip(Clone)/LaunchPad",
+            "path": "M 3.71337,-2.238192 3.687777,-2.593762 -6.192677,-2.624138 -6.184436,-0.03365517 -6.713911,0.02841848 -6.665236,4.055113 -2.499738,4.00852 -2.52292,3.110758 -2.509094,2.238056 -2.771595,2.170679 -2.80248,-0.7535518 3.695479,-0.6665705"
+          },
+          {
+            "name": "MiraShip(Clone)/LeftBottomRoom",
+            "path": "M 7.211442,2.161355 8.762964,2.16075 8.751773,5.226181 11.12137,5.24228 11.12562,4.513843 11.26416,4.509835 11.25983,5.654586"
+          },
+          {
+            "name": "MiraShip(Clone)/LeftBottomRoom",
+            "path": "M 3.695692,-2.227394 13.57364,-2.236449 13.57352,-0.3868256 13.71494,-0.3952844 13.70653,-2.223386 17.07831,-2.222195 17.08636,1.597083 13.69615,1.581925 13.68949,0.692555 13.57186,0.69209 13.56429,3.41575 13.7098,3.405168 13.69926,2.460877 16.67167,2.455469 16.67134,5.129327 16.25138,4.924525 15.90153,5.098832 14.85329,5.113066 14.64129,4.891927 14.30725,5.120798 14.09058,5.117527 14.05816,5.476541 13.71774,5.463151 13.71342,4.504309 13.56084,4.517361 13.55398,5.708665"
+          },
+          {
+            "name": "MiraShip(Clone)/LeftBottomRoom",
+            "path": "M 3.680702,-0.7193847 11.23482,-0.7322021 11.25548,3.415659 11.12786,3.419772 10.75617,3.248261 10.73357,0.1335044 3.80519,0.1373074 3.818368,2.171448 4.95494,2.163688"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe",
+            "path": "M 24.3919,5.646832 24.40391,5.442618 29.13271,5.463554 29.13235,-0.5738076 26.70813,-0.5683059 26.73149,-1.518903 26.95974,-1.376958 28.65404,-1.375125 28.65683,-2.748982 20.33384,-2.765088 20.3395,-3.770453 17.93382,-3.75399 17.96961,-1.380442 20.87004,-1.529158 20.88352,-0.57613 17.95704,-0.5691274 17.97062,0.8038477 18.93854,0.7800388 18.93254,1.598521 17.98071,1.602374 17.96151,5.457216 22.08923,5.464901"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage",
+            "path": "M 21.05723,5.580141 21.04314,1.607991 20.09641,1.596745 20.0989,0.7935047 21.20391,0.7903333 21.19257,5.576942"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge",
+            "path": "M 11.25491,5.620545 11.25136,7.638169 12.73018,7.648466 16.70739,11.60392 16.70363,15.95111"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge",
+            "path": "M 13.56464,5.627538 13.55336,6.262187 17.82847,10.52911"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge",
+            "path": "M 22.0916,5.628248 22.10105,6.269244 17.82738,10.53223"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge",
+            "path": "M 18.96374,15.99181 18.95209,11.60822 22.92673,7.648565 23.77438,7.633254 24.39512,7.429035 24.40486,5.632056"
+          },
+          {
+            "name": "MiraShip(Clone)/LabHall",
+            "path": "M 7.220767,8.833663 7.22247,13.32097 7.355358,13.31475 7.347641,9.647293 12.08101,9.675213 12.10811,14.14455 7.977394,14.13185 7.965653,14.56834 5.895285,14.56914 5.340263,13.75509 4.994918,13.86703 4.97183,10.77085 4.854324,10.77326 4.82991,14.37352 3.731284,14.37308 2.88799,13.48531 2.05535,13.47907 1.203818,14.39449 0.08164263,14.39737 0.09667063,9.66668 4.986578,9.656466 4.97504,8.829696"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden",
+            "path": "M 16.70916,15.85023 16.70025,16.77103 12.87164,16.76122 12.86896,20.66066 13.45543,20.44748 13.97733,20.66153 13.98698,20.99139 15.44601,20.98349 15.45127,20.65192 15.75683,20.46402 16.55697,20.66496 16.56016,17.77095 16.69854,17.78921 16.69959,21.05262 17.28384,21.04772"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden",
+            "path": "M 17.29037,21.03862 17.28807,21.8748 12.74644,21.8763 12.75951,22.57441 13.10651,23.37466 13.73439,24.10774 15.4092,25.05675 16.66343,25.38271 17.84418,25.4593 19.55612,25.26398 21.22287,24.61058 22.23365,23.81404 22.85189,22.84578 22.946,21.83673 18.39528,21.88615 18.39615,21.04512"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden",
+            "path": "M 18.39268,21.06862 19.00124,21.0586 18.97912,19.36902 19.09182,19.36764 19.07861,20.87417 19.93716,20.85499 19.93814,21.016 20.60378,20.99647 20.59911,20.85824 22.44798,20.86359 22.43852,20.04767 22.78794,20.04396 22.81651,16.90077 19.54131,16.91623 19.54423,16.77063 19.10311,16.76015 19.10099,18.36283 18.95522,18.3579 18.97521,15.8332"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam",
+            "path": "M 7.212324,9.84881 7.219448,2.166317"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam",
+            "path": "M 4.975575,9.639039 4.948083,2.163976"
+          },
+          {
+            "name": "MiraShip(Clone)/LaunchPad",
+            "path": "M 0.1755242,8.330712 -11.62733,8.330712 -11.62733,-0.08405423 0.1755242,-0.08405423 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe",
+            "path": "M 24.39035,-0.5805162 23.22358,-0.5805162 23.22358,-1.443556 24.39035,-1.443556 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage",
+            "path": "M 21.11835,5.800547 17.82072,5.800547 17.82072,0.996016 21.11835,0.996016 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor",
+            "path": "M 4.896708,16.81384 0.01000023,16.81384 0.01000023,9.610855 4.896708,9.610855 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Laboratory",
+            "path": "M 12.265,15.3689 7.296342,15.3689 7.296342,9.616465 12.265,9.616465 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LabHall/Footsteps",
+            "path": "M 7.275164,14.565 4.961188,14.565 4.961188,9.63225 7.275164,9.63225 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin",
+            "path": "M 22.85052,21.09254 19.13402,21.09254 19.13402,15.96241 22.85052,15.96241 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Office",
+            "path": "M 16.38,21.04149 12.72,21.04149 12.72,16.51075 16.38,16.51075 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/computerTableM",
+            "path": "M 16.568,19.02069 16.128,19.02069 16.128,18.061 16.568,18.061 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/office-mid",
+            "path": "M 14.298,19.32877 12.868,19.32877 12.868,18.837 14.298,18.837 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden",
+            "path": "M 23.10574,25.73184 12.49189,25.73184 12.49189,21.075 23.10574,21.075 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Balcony/weatherPanel",
+            "path": "M 29.172,-1.113 28.502,-1.113 28.502,-2.703 29.172,-2.703 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam",
+            "path": "M 7.291581,9.245195 4.88989,9.245195 4.88989,2.260682 7.291581,2.260682 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam",
+            "path": "M 8.35223,3.517521 7.183383,3.517521 7.183383,2.205477 8.35223,2.205477 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/WoodHall",
+            "path": "M 13.55414,5.614914 11.22398,5.614914 11.22398,-2.245622 13.55414,-2.245622 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/CarpetHall",
+            "path": "M 11.1898,-0.1436963 -6.32078,-0.1436963 -6.32078,-2.817777 11.1898,-2.817777 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Outside",
+            "path": "M 30.21546,-1.338356 17.71003,-1.338356 17.71003,-4.431709 30.21546,-4.431709 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe",
+            "path": "M 29.31633,5.592789 21.20188,5.630879 21.19984,0.7986094 17.90042,0.7913631 17.90685,-0.6562139 29.38807,-0.6193904 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage/storage-top",
+            "path": "M 17.9349,5.586789 18.00781,5.227939 18.67603,4.793009 19.14774,5.096714 19.15981,5.218315 20.28024,5.215115 20.59529,4.862257 21.07071,5.041684 21.05624,5.598478 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage/storage-box2",
+            "path": "M 20.47344,3.445615 20.90137,3.802666 20.90182,4.066891 20.46002,4.36205 20.02631,4.068808 20.01486,3.775074 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage/storage-box2 (2)",
+            "path": "M 20.57644,2.875615 21.00437,3.232666 21.00482,3.496891 20.56302,3.79205 20.12931,3.498807 20.11786,3.205074 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge",
+            "path": "M 23.20043,8.003031 19.03276,15.82099 19.02708,21.11703 16.68375,21.1115 16.69596,15.7756 12.56898,7.864604 14.24774,6.274523 21.3135,6.265413 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Locker",
+            "path": "M 11.18626,5.664179 8.309658,5.652264 8.350266,2.164133 3.755715,2.156808 3.740308,0.07018399 11.16368,0.0969336 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/computerTableB",
+            "path": "M 13.56155,17.24444 13.35024,17.03253 13.13379,17.16789 12.972,17.29 12.9723,18.24428 14.402,18.26 14.442,17.2 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyCarpetHall",
+            "path": "M 24.66974,7.839204 23.09369,7.858898 21.24997,6.065464 21.26267,5.648305 24.72936,5.669731 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Outside",
+            "path": "M -0.5930611,9.667817 -11.80864,9.068073 -11.95631,-4.011005 3.731021,-3.599741 3.712404,-0.1903755 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LaunchPad/divertElevStand",
+            "path": "M -6.324 0.709039 m -0.2100389,0 a 0.2100389,0.2100389 0 1 0 0.4200778,0 a 0.2100389,0.2100389 0 1 0 -0.4200778,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/office-ball",
+            "path": "M 14.761 17.673 m -0.15,0 a 0.15,0.15 0 1 0 0.3,0 a 0.15,0.15 0 1 0 -0.3,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/divertElevStand",
+            "path": "M 16.19 19.78628 m -0.1982777,0 a 0.1982777,0.1982777 0 1 0 0.3965554,0 a 0.1982777,0.1982777 0 1 0 -0.3965554,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/divertElevStand",
+            "path": "M 13.853 22.64528 m -0.1982777,0 a 0.1982777,0.1982777 0 1 0 0.3965554,0 a 0.1982777,0.1982777 0 1 0 -0.3965554,0"
+          }
+        ]
+      },
+      "10": {
+        "name": "Shadow",
+        "colliders": [
+          {
+            "name": "MiraShip(Clone)/LeftBottomRoom/Shadows",
+            "path": "M 13.64527,-0.3980467 13.63248,-2.313844 17.15826,-2.315422 17.14635,2.387263 13.63603,2.402073 13.63723,1.406686"
+          },
+          {
+            "name": "MiraShip(Clone)/LeftBottomRoom/Shadows",
+            "path": "M 13.63719,5.203912 13.63619,6.231217 17.13446,6.215018 17.17352,2.384002 13.6389,2.381636 13.63297,3.39057"
+          },
+          {
+            "name": "MiraShip(Clone)/LeftBottomRoom/Shadows",
+            "path": "M 11.19379,5.19113 11.20186,6.217802 8.30845,6.210025 8.313826,2.920803 7.251466,2.925399"
+          },
+          {
+            "name": "MiraShip(Clone)/LeftBottomRoom/Shadows",
+            "path": "M 11.18923,3.390097 11.19956,0.08260798 3.783122,0.07695222 3.763619,2.927889 4.95576,2.927578"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/Shadows",
+            "path": "M 21.1277,6.191051 22.08523,6.211361"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/Shadows",
+            "path": "M 17.91339,1.57724 17.90287,-0.6299542 20.81019,-0.6385707"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/Shadows",
+            "path": "M 23.22499,-0.6428527 24.369,-0.6463863"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/Shadows",
+            "path": "M 26.73238,-0.6315125 29.20548,-0.6284298 29.19876,6.206155 24.4426,6.218818"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage/Shadows",
+            "path": "M 20.12482,1.540062 21.11364,1.54235 21.12979,6.208369 19.71507,6.679813 17.91018,6.214651 17.90408,1.532921 18.90428,1.534572"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/ShadowsLeft",
+            "path": "M 11.17,6.193871 11.07685,8.640206 12.70587,8.620348 16.5069,12.45983 16.62781,16.69557"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/ShadowsLeft",
+            "path": "M 13.62617,6.238739 17.83595,10.42934"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/ShadowsRight",
+            "path": "M 17.82475,10.42572 22.02649,6.230251"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/ShadowsRight",
+            "path": "M 19.04245,16.69004 19.15914,12.45146 23.00328,8.59916 24.599,8.590023 24.48152,6.217803"
+          },
+          {
+            "name": "MiraShip(Clone)/LabHall/Shadows LabHall",
+            "path": "M 4.965714,8.859263 -0.0777936,8.80898 -0.2895002,16.97194 4.954684,16.86071 4.925657,14.97418 4.932073,15.47834 12.2818,15.50678 12.33621,8.794969 7.280993,8.851519 7.284356,9.846705"
+          },
+          {
+            "name": "MiraShip(Clone)/LabHall/Shadows LabHall/OneWaysReactor",
+            "path": "M 4.916637,11.45231 4.915749,14.97417"
+          },
+          {
+            "name": "MiraShip(Clone)/LabHall/Shadows LabHall/OneWayLab",
+            "path": "M 7.282197,13.17424 7.282231,9.762631"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/Shadows",
+            "path": "M 16.63696,18.55132 16.62922,21.80252 17.25696,21.8084 12.68059,21.79723 12.68303,16.71532 16.66371,16.71167"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/Shadows",
+            "path": "M 19.03055,18.32807 19.03903,16.69366 23.00624,16.70649 22.97167,21.79949 18.41281,21.81339 19.04083,21.81206 19.03185,20.13637"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/Shadows",
+            "path": "M 7.276771,9.825058 7.264527,2.935682 7.200885,2.881436"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/Shadows",
+            "path": "M 4.908103,9.587009 4.906646,2.944318 4.992617,2.83804"
+          },
+          {
+            "name": "MiraShip(Clone)/LabHall/Shadows LabHall/OneWaysReactor",
+            "path": "M 12.07385,14.57097 4.932405,14.57097 4.932405,9.039317 12.07385,9.039317 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LabHall/Shadows LabHall/OneWayLab",
+            "path": "M 7.249297,14.57097 0.03545189,14.57097 0.03545189,9.039317 7.249297,9.039317 Z"
+          }
+        ]
+      },
+      "0": {
+        "name": "Default",
+        "colliders": [
+          {
+            "name": "MiraShip(Clone)/CloudGen",
+            "path": "M -13.51963,-4.594155 30.72129,-4.693736 30.82087,28.21085 10.60169,28.31981 10.77602,19.25552 -1.319444,18.86186 -1.425249,13.83211 -13.0217,13.77138 -13.12129,-4.693738"
+          },
+          {
+            "name": "MiraShip(Clone)/Comms",
+            "path": "M 17.16348,5.538729 13.6658,5.538729 13.6658,2.42 17.16348,2.42 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Balcony",
+            "path": "M 29.375,-1.327224 17.845,-1.327224 17.845,-3.79019 29.375,-3.79019 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay",
+            "path": "M 17.16939,1.703307 13.64662,1.703307 13.64662,-2.262719 17.16939,-2.262719 Z"
+          }
+        ]
+      },
+      "12": {
+        "name": "ShortObjects",
+        "colliders": [
+          {
+            "name": "MiraShip(Clone)/LaunchPad/launch-gas",
+            "path": "M -6.140824,2.366569 -6.841852,2.366569 -6.841852,1.44923 -6.140824,1.44923 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LaunchPad/launch-gas/gasCanConsole",
+            "path": "M -6.189,2.534 -6.679,2.534 -6.679,1.994 -6.189,1.994 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LaunchPad/launch-pad-right",
+            "path": "M -2.1,2.1913 -2.78,2.1913 -2.78,1.08 -2.1,1.08 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LaunchPad/launch-pad-right/CalibrateConsole",
+            "path": "M -2.284,2.345524 -2.734,2.345524 -2.734,1.398 -2.284,1.398 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LaunchPad/LaunchVent",
+            "path": "M -5.712,3.956 -6.648,3.956 -6.648,3.164 -5.712,3.164 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/Table",
+            "path": "M 24.92,3.80943 23.16,3.80943 23.16,0.9315456 24.92,0.9315456 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/Table (1)",
+            "path": "M 27.78,3.80943 26.02,3.80943 26.02,0.9315456 27.78,0.9315456 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/BalconyVent",
+            "path": "M 24.16,-1.61 23.38,-1.61 23.38,-2.27 24.16,-2.27 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/VendingMachineConsole",
+            "path": "M 27.98,6.155 27,6.155 27,5.175 27.98,5.175 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/cafVendingMachRight",
+            "path": "M 28.753,6.152 28.073,6.152 28.073,5.172 28.753,5.172 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/cafShelf",
+            "path": "M 29.165,3.735192 28.755,3.735192 28.755,1.065314 29.165,1.065314 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/cafVendMachbottom",
+            "path": "M 29.145,5.06 28.735,5.06 28.735,4.28 29.145,4.28 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/GarbageConsole",
+            "path": "M 25.593,6.063 25.103,6.063 25.103,5.573 25.593,5.573 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage/storage-mop",
+            "path": "M 19.027,2.864326 18.617,2.864326 18.617,2.661 19.027,2.661 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/YHallRightVent",
+            "path": "M 24.368,7.576 23.432,7.576 23.432,6.784 24.368,6.784 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/SecurityLogger",
+            "path": "M 18.9692,15.829 16.7008,15.829 16.7008,15.679 18.9692,15.679 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/SecurityLogger (1)",
+            "path": "M 22.85682,7.726882 21.75112,6.621185 21.85719,6.515119 22.96288,7.620815 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/SecurityLogger (2)",
+            "path": "M 13.90988,6.620185 12.80418,7.725882 12.69812,7.619816 13.80382,6.514119 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/energyPanel",
+            "path": "M 3.221694,12.57434 1.753654,12.57434 1.753654,11.81148 3.221694,11.81148 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/ReactorVent",
+            "path": "M 0.9480001,11.093 0.01200008,11.093 0.01200008,10.301 0.9480001,10.301 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor_Border-Top",
+            "path": "M 0.7080002,13.566 0.07800007,13.566 0.07800007,13.376 0.7080002,13.376 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor-area-upper",
+            "path": "M 0.5790001,13.4695 0.08900023,13.4695 0.08900023,12.682 0.5790001,12.682 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor_Border-Mid",
+            "path": "M 0.7080002,12.703 0.07800007,12.703 0.07800007,12.513 0.7080002,12.513 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor-desk-lower",
+            "path": "M 0.5790001,12.779 0.08900023,12.779 0.08900023,11.809 0.5790001,11.809 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor_Border-Bottom",
+            "path": "M 0.7080002,11.701 0.07800007,11.701 0.07800007,11.511 0.7080002,11.511 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor-desk-elec",
+            "path": "M 1.022,11.5454 0.2020001,11.5454 0.2020001,11.114 1.022,11.114 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor_Border-Bottom (2)",
+            "path": "M 0.7080002,10.187 0.07800007,10.187 0.07800007,9.997 0.7080002,9.997 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Laboratory/labBottom",
+            "path": "M 11.635,9.885 7.905001,9.885 7.905001,9.655001 11.635,9.655001 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Laboratory/labTable",
+            "path": "M 10.53,11.48153 8.13,11.48153 8.13,10.605 10.53,10.605 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Laboratory/labTable/SortSamplesConsole",
+            "path": "M 10.335,11.365 8.985001,11.365 8.985001,10.865 10.335,10.865 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Laboratory/LabVent",
+            "path": "M 12.074,14.212 11.138,14.212 11.138,13.42 12.074,13.42 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LabHall/FixWiringConsole",
+            "path": "M 6.37,15.203 5.88,15.203 5.88,14.713 6.37,14.713 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Locker/lockersBench",
+            "path": "M 10.50025,4.627614 9.624989,4.627614 9.624989,4.265 10.50025,4.265 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Locker/NoOxyConsole",
+            "path": "M 4.335,-0.05500007 3.845,-0.05500007 3.845,-0.5449998 4.335,-0.5449998 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Locker/FixWiringConsole (4)",
+            "path": "M 4.600999,2.779 4.111,2.779 4.111,2.289 4.600999,2.289 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Locker/LockerVent",
+            "path": "M 4.758,0.9259998 3.822,0.9259998 3.822,0.1339997 4.758,0.1339997 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/adminBottom",
+            "path": "M 22.63,16.915 19.55,16.915 19.55,16.765 22.63,16.765 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/ChartCourseConsole",
+            "path": "M 22.475,21.431 21.975,21.431 21.975,21.031 22.475,21.031 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/admin-tablelower",
+            "path": "M 22.095,18.117 19.965,18.117 19.965,17.61187 22.095,17.61187 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/admin-tablelower/ShieldConsole",
+            "path": "M 21.369,18.145 20.969,18.145 20.969,17.745 21.369,17.745 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/AdminVent",
+            "path": "M 22.78,17.56 22,17.56 22,16.9 22.78,16.9 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/DataConsole",
+            "path": "M 16.021,21.648 15.531,21.648 15.531,21.158 16.021,21.158 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/office-mid/FixCommsConsole",
+            "path": "M 13.96,19.553 13.38,19.553 13.38,19.143 13.96,19.143 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/OfficeVent",
+            "path": "M 13.67,20.46 12.89,20.46 12.89,19.8 13.67,19.8 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/greenhousePanel/NoOxyConsole",
+            "path": "M 18.102,24.611 17.612,24.611 17.612,24.121 18.102,24.121 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/PlanterFern",
+            "path": "M 19.871,23.511 18.441,23.511 18.441,23.261 19.871,23.261 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/PlanterFern",
+            "path": "M 17.135,23.425 15.705,23.425 15.705,23.175 17.135,23.175 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/PlanterFern",
+            "path": "M 21.845,23.615 20.415,23.615 20.415,23.365 21.845,23.365 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/PlanterFern (1)",
+            "path": "M 15.625,23.475 14.195,23.475 14.195,23.225 15.625,23.225 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/PlanterBushMid",
+            "path": "M 15.399,24.317 13.949,24.317 13.949,23.967 15.399,23.967 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/FixWiringConsole",
+            "path": "M 17.225,21.639 16.735,21.639 16.735,21.149 17.225,21.149 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/PlantConsole",
+            "path": "M 21.13808,22.65848 19.83392,22.65848 19.83392,22.38091 21.13808,22.38091 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/BushesBottom",
+            "path": "M 15.756,22.593 14.306,22.593 14.306,22.243 15.756,22.243 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/BushesBottom",
+            "path": "M 17.316,22.679 15.866,22.679 15.866,22.329 17.316,22.329 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/BushesBottom",
+            "path": "M 19.706,22.699 18.256,22.699 18.256,22.349 19.706,22.349 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/BushesBottom",
+            "path": "M 22.68,22.702 21.23,22.702 21.23,22.352 22.68,22.352 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/PlanterFernTop",
+            "path": "M 16.23,25.004 14.8,25.004 14.8,24.754 16.23,24.754 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/PlanterBushTop",
+            "path": "M 21.038,24.766 19.588,24.766 19.588,24.416 21.038,24.416 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/AgriVent",
+            "path": "M 18.24,25.56 17.46,25.56 17.46,24.9 18.24,24.9 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Comms/comms-top/SurvLogConsole",
+            "path": "M 16.536,6.104 15.896,6.104 15.896,5.544 16.536,5.544 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Comms/comms-top/FixCommsConsole",
+            "path": "M 15.223,5.854 14.643,5.854 14.643,5.444 15.223,5.444 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Comms/MedVent",
+            "path": "M 15.878,-1.424 14.942,-1.424 14.942,-2.216 15.878,-2.216 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Balcony/balcony_WeaponsBase/balcony_WeaponsDish",
+            "path": "M 19.367,-2.518978 18.68754,-2.518978 18.68754,-2.839065 19.367,-2.839065 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Balcony/balcony_WeaponsBase/balcony_WeaponsDish/WeaponConsole",
+            "path": "M 19.553,-2.184 18.873,-2.184 18.873,-2.644 19.553,-2.644 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Balcony/weatherPanel/WeatherConsole",
+            "path": "M 29.107,-1.156 28.707,-1.156 28.707,-2.276 29.107,-2.276 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/medBayBed",
+            "path": "M 17.001,1.865 16.231,1.865 16.231,0.875 17.001,0.875 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/medBayBed (1)",
+            "path": "M 15.925,1.865 15.155,1.865 15.155,0.875 15.925,0.875 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/medBayBed (2)",
+            "path": "M 14.539,1.865 13.769,1.865 13.769,0.875 14.539,0.875 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/medBayBedHort",
+            "path": "M 14.72,-0.7490001 13.7,-0.7490001 13.7,-1.399 14.72,-1.399 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/medBayBedHort (2)",
+            "path": "M 17.08,-0.7490001 16.06,-0.7490001 16.06,-1.399 17.08,-1.399 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/medBayBedBottomLeft",
+            "path": "M 14.72,-1.882 13.7,-1.882 13.7,-2.232 14.72,-2.232 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/medBayBedBottom",
+            "path": "M 17.08,-1.879 16.06,-1.879 16.06,-2.229 17.08,-2.229 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconVent",
+            "path": "M 7.298,3.541 6.362,3.541 6.362,2.749 7.298,2.749 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/TaskAddConsole",
+            "path": "M 26.949,3.182908 26.349,3.182908 26.349,2.619092 26.949,2.619092 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage/storage-boxes1",
+            "path": "M 20.427,2.613 20.427,2.153 20.797,1.793 21.057,1.953 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Laboratory/lab-right",
+            "path": "M 9.81149,13.37871 9.815001,12.48 11.2387,12.45026 11.25847,11.15674 11.47295,11.17267 11.465,10.86 12.11164,10.50449 12.11447,13.38711 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/MapTable",
+            "path": "M 22.0661,19.44129 21.59683,19.86015 20.43074,19.8552 20.04636,19.4479 19.75579,19.44509 19.736,18.319 20.446,17.909 21.616,17.909 22.076,18.279 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/greenhousePanel",
+            "path": "M 18.62219,24.83094 18.78155,24.39668 17.88538,24.15428 16.89271,24.41616 17.09814,24.82917 17.85361,24.93104 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Comms/comms-top",
+            "path": "M 16.60246,5.043699 16.4291,4.853531 16.10734,5.052094 15.05132,5.074209 14.85036,4.780072 14.47607,5.052905 14.26516,5.059663 14.26178,5.7193 16.94973,5.700385 16.94588,5.045084 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/LaunchPad/divertElevStand/DivertPowerConsole (10)",
+            "path": "M -6.326 0.9160001 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/Table/EmergencyConsole",
+            "path": "M 24.04 1.662 m -0.5,0 a 0.5,0.5 0 1 0 1,0 a 0.5,0.5 0 1 0 -1,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/DivertPowerConsole (3)",
+            "path": "M 21.632 5.808 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Cafe/FixWiringConsole (3)",
+            "path": "M 18.39 1.2 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Storage/StorageConsole",
+            "path": "M 19.622 5.157 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/SkyBridge/FixWiringConsole (2)",
+            "path": "M 12.096 8.04 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/energyPanel/StartReactorConsole",
+            "path": "M 2.549 12.407 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/LeftHandConsole",
+            "path": "M 0.702 14.95 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/RightHandConsole",
+            "path": "M 4.603 14.962 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor-area-upper/UnlockManifoldsConsole",
+            "path": "M 0.4420002 13.256 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor-desk-elec/DivertPowerConsoleMain",
+            "path": "M 0.7770001 11.484 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Laboratory/DivertPowerConsole (6)",
+            "path": "M 7.670001 14.91 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Laboratory/AssembleArtifactConsole",
+            "path": "M 9.402 14.568 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/DivertPowerConsoleAdmin",
+            "path": "M 20.276 21.38 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/MapTable/AdminMapConsole",
+            "path": "M 21.024 19.095 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Admin/MapTable/EnterCodeConsole",
+            "path": "M 19.894 19.024 m -0.25,0 a 0.25,0.25 0 1 0 0.5,0 a 0.25,0.25 0 1 0 -0.5,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/SwitchConsole",
+            "path": "M 14.802 21.384 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Office/divertElevStand/DivertPowerConsoleOffice",
+            "path": "M 16.189 20.008 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/greenhousePanel/CleanFilterConsole",
+            "path": "M 17.221 24.505 m -0.35,0 a 0.35,0.35 0 1 0 0.7,0 a 0.35,0.35 0 1 0 -0.7,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Garden/divertElevStand/DivertPowerConsoleOffice",
+            "path": "M 13.852 22.867 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Comms/DivertPowerConsole (9)",
+            "path": "M 13.997 5.855 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/DivertPowerConsole (8)",
+            "path": "M 14.83 2.029 m -0.3,0 a 0.3,0.3 0 1 0 0.6,0 a 0.3,0.3 0 1 0 -0.6,0"
+          },
+          {
+            "name": "MiraShip(Clone)/MedBay/MedScanner",
+            "path": "M 16.233 0.262 m -0.34,0 a 0.34,0.34 0 1 0 0.68,0 a 0.34,0.34 0 1 0 -0.68,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconDoorPanel-Bottom",
+            "path": "M 7.039 2.14 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconDoorPanel-Bottom",
+            "path": "M 7.039 2.14 m -0.185,0 a 0.185,0.185 0 1 0 0.37,0 a 0.185,0.185 0 1 0 -0.37,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconDoorPanel-Top",
+            "path": "M 7.067 10.014 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconDoorPanel-Top",
+            "path": "M 7.067 10.014 m -0.185,0 a 0.185,0.185 0 1 0 0.37,0 a 0.185,0.185 0 1 0 -0.37,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconDoorPanel-Low",
+            "path": "M 5.12 3.418 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconDoorPanel-Low",
+            "path": "M 5.12 3.418 m -0.185,0 a 0.185,0.185 0 1 0 0.37,0 a 0.185,0.185 0 1 0 -0.37,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconDoorPanel-High",
+            "path": "M 5.131 8.903 m -0.4,0 a 0.4,0.4 0 1 0 0.8,0 a 0.4,0.4 0 1 0 -0.8,0"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/DeconDoorPanel-High",
+            "path": "M 5.131 8.903 m -0.185,0 a 0.185,0.185 0 1 0 0.37,0 a 0.185,0.185 0 1 0 -0.37,0"
+          }
+        ]
+      },
+      "11": {
+        "name": "Objects",
+        "colliders": [
+          {
+            "name": "MiraShip(Clone)/Storage/storageMid",
+            "path": "M 21.03973,3.091555 19.02226,3.091555 19.02226,2.636287 21.03973,2.636287 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor_Border-Top (1)",
+            "path": "M 4.878,13.541 4.248,13.541 4.248,13.351 4.878,13.351 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor_Border-Mid (1)",
+            "path": "M 4.878,12.713 4.248,12.713 4.248,12.523 4.878,12.523 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Reactor/reactor_Border-Bottom (1)",
+            "path": "M 4.878,11.676 4.248,11.676 4.248,11.486 4.878,11.486 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/UpperDoor",
+            "path": "M 7.241566,9.584721 4.935344,9.584721 4.935344,8.836554 7.241566,8.836554 Z"
+          },
+          {
+            "name": "MiraShip(Clone)/Decontam/LowerDoor",
+            "path": "M 7.196216,2.943726 4.973208,2.943726 4.973208,2.178524 7.196216,2.178524 Z"
+          }
+        ]
+      }
+    }
+  },
+  "players": {
+    "players": {
+      "0": {
+        "name": "boot",
+        "color": 10,
+        "positionX": 25.0813675,
+        "positionY": 3.42593932
+      },
+      "1": {
+        "name": "Dummy 1",
+        "color": 0,
+        "positionX": 10.42,
+        "positionY": 1.56
+      },
+      "2": {
+        "name": "Dummy 2",
+        "color": 1,
+        "positionX": 20.11,
+        "positionY": 4.8
+      },
+      "3": {
+        "name": "Dummy 3",
+        "color": 2,
+        "positionX": 19.76,
+        "positionY": -3.01
+      },
+      "4": {
+        "name": "Dummy 4",
+        "color": 3,
+        "positionX": 10.94,
+        "positionY": 12.27
+      },
+      "5": {
+        "name": "Dummy 5",
+        "color": 4,
+        "positionX": 21.03,
+        "positionY": 23.12
+      },
+      "6": {
+        "name": "Dummy 6",
+        "color": 5,
+        "positionX": 22.3,
+        "positionY": 17.42
+      }
+    }
+  }
+}

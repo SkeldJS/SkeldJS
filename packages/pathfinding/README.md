@@ -4,6 +4,18 @@ This package contains a useful pathfinding tool for the SkeldJS client, meant to
 
 You can view auto-updating documentation for this package hosted at github pages at https://skeld.js.org/SkeldJS/modules/pathfinding.html
 
+## Re-build colliders from Scratch
+Colliders are dumped during game runtime by [miniduikboot's Mini.Dumper BepInEx plugin](https://github.com/miniduikboot/Mini.Dumper).
+
+The `.json` files outputed can be used with the [`postprocess.js`](https://github.com/skeldjs/SkeldJS/tree/master/packages/pathfinding/scripts)
+script to filter out unnecessary and invalid colliders for movement.
+
+The `.txt` files outputed from the script can be plcaed into `/data/colliders`
+with the filename being the id of the map that the colliders are from.
+
+Then, running `yarn build:colliders` will convert those colliders into a single
+binary file which is parsed by the pathfinder at runtime.
+
 ## Basic Usage
 
 ### Go to a location or player
