@@ -8,7 +8,7 @@
   },
   "license": "GPL-3.0-only",
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p ./",
+    "build": "rimraf-rf ./dist && tsc -p ./",
     "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
