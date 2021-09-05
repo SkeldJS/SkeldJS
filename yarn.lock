@@ -498,7 +498,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/pathfinding@workspace:packages/pathfinding"
   dependencies:
-    "@skeldjs/client": "workspace:*"
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/core": "workspace:*"
     "@skeldjs/data": "workspace:*"
@@ -511,6 +510,8 @@ __metadata:
     heap: ^0.2.6
     ts-node: latest
     typescript: latest
+  peerDependencies:
+    "@skeldjs/client": "*"
   languageName: unknown
   linkType: soft
 
