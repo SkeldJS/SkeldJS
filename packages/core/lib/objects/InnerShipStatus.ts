@@ -1,5 +1,21 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
+
+import {
+    GameMap,
+    RpcMessageTag,
+    SpawnType,
+    SystemType,
+    TaskLength,
+    TaskType
+} from "@skeldjs/constant";
+
+import {
+    AirshipTasks,
+    MiraHQTasks,
+    PolusTasks,
+    TheSkeldTasks
+} from "@skeldjs/data";
+
 import { ExtractEventTypes } from "@skeldjs/events";
 import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
 
@@ -25,6 +41,33 @@ import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 import { SystemStatusEvents } from "../systems/events";
 import { RoomSelectImpostorsEvent } from "../events";
+import { TaskState } from "../misc/PlayerInfo";
+
+interface ConsoleDataModel {
+    index: number;
+    usableDistance: number;
+    position: {
+        x: number;
+        y: number;
+    };
+}
+
+interface TaskDataModel {
+    index: number;
+    hudText: string;
+    taskType: TaskType;
+    length: TaskLength;
+    consoles: Record<number, ConsoleDataModel>;
+}
+
+function shuffleArray(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
 
 type AllSystems = Partial<Record<SystemType, SystemStatus<any, any>>>;
 
@@ -167,7 +210,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             i < Math.min(this.room.settings.numImpostors, max);
             i++
         ) {
-            const random = ~~(available.length - 1);
+            const random = ~~(Math.random() * available.length);
             impostors.push(available[random]);
             available.splice(random, 1);
         }
@@ -181,6 +224,101 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
 
         if (!ev.canceled) {
             await this.room.host?.control?.setImpostors(ev.alteredImpostors);
+        }
+    }
+
+    private getTasksForMap(map: number) {
+        switch (map) {
+            case GameMap.TheSkeld:
+                return Object.values(TheSkeldTasks);
+            case GameMap.MiraHQ:
+                return Object.values(MiraHQTasks);
+            case GameMap.Polus:
+                return Object.values(PolusTasks);
+            case GameMap.AprilFoolsTheSkeld:
+                return Object.values(TheSkeldTasks);
+            case GameMap.Airship:
+                return Object.values(AirshipTasks);
+        }
+        return [];
+    }
+
+    private addTasksFromList(start: number, count: number, tasks: number[], usedTaskTypes: Set<TaskType>, unusedTasks: TaskDataModel[]) {
+        let numLoops = 0; // fun fact: nodepolus calls this a "sanity check"
+        let i = 0;
+        while (i < count && numLoops++ < 1000) {
+            if (start >= unusedTasks.length) {
+                start = 0;
+                shuffleArray(unusedTasks);
+                if (unusedTasks.every(taskData => usedTaskTypes.has(taskData.taskType))) {
+                    usedTaskTypes.clear();
+                }
+            }
+
+            const task = unusedTasks[start++];
+
+            if (usedTaskTypes.has(task.taskType)) {
+                i--;
+            } else {
+                usedTaskTypes.add(task.taskType);
+                tasks.push(task.index);
+            }
+
+            i++;
+        }
+
+        return start;
+    }
+
+    async assignTasks() {
+        const allTasks = this.getTasksForMap(this.room.settings.map);
+        const numCommon = this.room.settings.commonTasks;
+        const numLong = this.room.settings.longTasks;
+        const numShort = this.room.settings.shortTasks;
+
+        const allCommon = [];
+        const allLong = [];
+        const allShort = [];
+
+        for (let i = 0; i < allTasks.length; i++) {
+            switch (allTasks[i].length) {
+                case TaskLength.Common:
+                    allCommon.push(allTasks[i]);
+                    break;
+                case TaskLength.Long:
+                    allLong.push(allTasks[i]);
+                    break;
+                case TaskLength.Short:
+                    allShort.push(allTasks[i]);
+                    break;
+            }
+        }
+
+        shuffleArray(allCommon);
+        shuffleArray(allLong);
+        shuffleArray(allShort);
+
+        const usedTaskTypes: Set<TaskType> = new Set;
+        const commonTasks: number [] = [];
+        
+        this.addTasksFromList(0, numCommon, commonTasks, usedTaskTypes, allCommon);
+
+        let shortIdx = 0;
+        let longIdx = 0;
+        for (const [ , player ] of this.room.players) {
+            if (!player.info)
+                continue;
+
+            usedTaskTypes.clear();
+            const playerTasks: number[] = [...commonTasks];
+
+            shortIdx = this.addTasksFromList(shortIdx, numShort, playerTasks, usedTaskTypes, allShort);
+            longIdx = this.addTasksFromList(longIdx, numLong, playerTasks, usedTaskTypes, allLong);
+            
+            player.info.setTaskIds(playerTasks);
+            player.info.setTaskStates(playerTasks.map((task, taskIdx) => {
+                return new TaskState(taskIdx, false);
+            }));
         }
     }
 }
