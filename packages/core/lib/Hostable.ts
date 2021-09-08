@@ -491,7 +491,7 @@ export class Hostable<
         this.hostid = resolved_id;
 
         if (this.amhost) {
-            if (!this.lobbybehaviour) {
+            if (!this.lobbybehaviour && !this.started) {
                 this.spawnPrefab(SpawnType.LobbyBehaviour, -2);
             }
 
@@ -635,10 +635,7 @@ export class Hostable<
             await this.emit(new RoomGameStartEvent(this));
             this.spawnPrefab(ship_prefabs[this.settings?.map] || 0, -2);
             await this.shipstatus?.selectImpostors();
-
-            for (const [, player] of this.players) {
-                this.room.gamedata?.setTasks(player, [1, 2, 3]);
-            }
+            await this.shipstatus?.assignTasks();
         } else {
             await this.emit(new RoomGameStartEvent(this));
             if (this.myPlayer) await this.myPlayer.ready();

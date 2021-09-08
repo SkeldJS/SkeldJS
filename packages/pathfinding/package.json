@@ -8,7 +8,7 @@
   },
   "license": "GPL-3.0-only",
   "scripts": {
-    "build": "rimraf-rf ./dist && tsc -p ./",
+    "build": "rimraf ./dist && tsc -p ./",
     "watch": "tsc -w -p ./",
     "prepack": "yarn build && yarn build:colliders",
     "build:colliders": "ts-node build.ts"

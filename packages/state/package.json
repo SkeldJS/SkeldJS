@@ -7,7 +7,7 @@
     "types": "./dist/index.d.ts"
   },
   "scripts": {
-    "build": "rimraf-rf ./dist && tsc -p ./",
+    "build": "rimraf ./dist && tsc -p ./",
     "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },

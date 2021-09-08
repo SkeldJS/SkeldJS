@@ -59,4 +59,5 @@ export enum TaskType {
     GetBiggolSword,
     PutAwayRifles,
     StopCharles,
+    ViewingDeck
 }

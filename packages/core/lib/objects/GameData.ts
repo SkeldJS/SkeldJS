@@ -314,7 +314,6 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     private _setTasks(player: PlayerInfo, taskIds: number[]) {
         player.taskIds = taskIds;
         player.taskStates = taskIds.map((id, i) => new TaskState(i, false));
-        this.update(player);
     }
 
     private _rpcSetTasks(player: PlayerInfo, taskIds: number[]) {
@@ -356,7 +355,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
                 )
             );
 
-            playerData.taskIds = ev.alteredTasks;
+            this._setTasks(playerData, ev.alteredTasks);
 
             if (playerData.taskIds !== oldTasks) {
                 this._rpcSetTasks(playerData, taskIds);

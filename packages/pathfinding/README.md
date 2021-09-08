@@ -26,7 +26,7 @@ pathfinder.go({ x: 5, y: 5 });
 // or
 pathfinder.go(player);
 ```
-x
+
 ### Go to a vent and enter it
 ```ts
 pathfinder.vent(TheSkeldVent.Cafeteria);

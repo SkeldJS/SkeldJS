@@ -9,12 +9,13 @@ import {
     CustomNetworkTransform,
     PlayerData,
     PlayerDataResolvable,
-    TheSkeldVent,
-    MiraHQVent,
-    PolusVent,
-    MapVentData,
     PlayerLeaveEvent,
-    PlayerMoveEvent
+    PlayerMoveEvent,
+    GameMap,
+    TheSkeldVents,
+    MiraHQVents,
+    PolusVents,
+    AirshipVents
 } from "@skeldjs/core";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
@@ -125,6 +126,26 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
     get map() {
         return this.room?.settings?.map;
+    }
+    
+    private getVentForMap(ventId: number) {
+        if (typeof this.map === "undefined")
+            return undefined;
+
+        switch (this.map) {
+            case GameMap.TheSkeld:
+                return TheSkeldVents[ventId];
+            case GameMap.MiraHQ:
+                return MiraHQVents[ventId];
+            case GameMap.Polus:
+                return PolusVents[ventId];
+            case GameMap.AprilFoolsTheSkeld:
+                return TheSkeldVents[ventId];
+            case GameMap.Airship:
+                return AirshipVents[ventId];
+            default:
+                return undefined;
+        }
     }
 
     private async _ontick() {
@@ -256,10 +277,11 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         }
     }
 
-    vent(ventid: TheSkeldVent | MiraHQVent | PolusVent) {
-        if (!this.map) return;
+    vent(ventid: number) {
+        const coords = this.getVentForMap(ventid);
 
-        const coords = MapVentData[this.map][ventid];
+        if (!coords)
+            return;
 
         this.go(new Vector2(coords.position));
     }

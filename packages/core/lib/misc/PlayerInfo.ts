@@ -219,8 +219,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      * @param taskIds The IDs of each task.
      */
     setTaskIds(taskIds: number[]) {
-        this.taskIds = taskIds;
-        this.gamedata.update(this);
+        this.gamedata.setTasks(this, taskIds);
     }
 
     /**
