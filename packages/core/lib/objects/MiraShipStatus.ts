@@ -1,4 +1,4 @@
-import { HazelReader } from "@skeldjs/util";
+import { HazelReader, Vector2 } from "@skeldjs/util";
 import { SpawnType, SystemType } from "@skeldjs/constant";
 
 import {
@@ -31,6 +31,9 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
         [SystemType.Decontamination]: DeconSystem<RoomType>;
     };
 
+    initialSpawnCenter = new Vector2(16.64, 2.2);
+    meetingSpawnCenter = new Vector2(24.043, 1.72);
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -48,7 +51,7 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
         if (component === MiraShipStatus as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
-        
+
         return super.getComponent(component);
     }
 

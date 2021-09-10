@@ -1,6 +1,6 @@
 import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
-import { HazelReader } from "@skeldjs/util";
+import { HazelReader, Vector2 } from "@skeldjs/util";
 
 import {
     DeconSystem,
@@ -17,6 +17,7 @@ import { Door } from "../misc/Door";
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 import { Hostable } from "../Hostable";
 import { Networkable, NetworkableConstructor } from "../Networkable";
+import { PlayerData } from "../PlayerData";
 
 /**
  * Represents a room object for the Polus map.
@@ -47,6 +48,10 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         [SystemType.Laboratory]: ReactorSystem<RoomType>;
     };
 
+    initialSpawnCenter = new Vector2(16.64, 2.2);
+    meetingSpawnCenter = new Vector2(17.726, -16.286);
+    meetingSpawnCenter2 = new Vector2(17.726, -17.515);
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -64,7 +69,7 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         if (component === PolusShipStatus as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
-        
+
         return undefined;
     }
 
@@ -139,5 +144,30 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
             new Door(doorsystem, 10, true),
             new Door(doorsystem, 11, true),
         ];
+    }
+
+    getSpawnPosition(player: PlayerData|number, initialSpawn: boolean) {
+        const playerId = typeof player === "number"
+            ? player
+            : player.playerId!;
+
+        if (initialSpawn) {
+            return super.getSpawnPosition(player, initialSpawn);
+        }
+
+        const num = ~~(this.room.players.size / 2);
+        const num2 = playerId % 15;
+
+        if (num2 < num) {
+            const step = Vector2.right.mul(num2).mul(0.6);
+
+            return this.meetingSpawnCenter
+                .add(step);
+        } else {
+            const step = Vector2.right.mul(num2 - num).mul(0.6);
+
+            return this.meetingSpawnCenter2
+                .add(step);
+        }
     }
 }

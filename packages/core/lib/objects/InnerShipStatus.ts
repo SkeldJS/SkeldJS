@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
 
 import {
     GameMap,
@@ -114,6 +114,9 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     static roomDoors: Partial<Record<SystemType, number[]>>;
 
     systems!: AllSystems;
+    spawnRadius: number;
+    initialSpawnCenter: Vector2;
+    meetingSpawnCenter: Vector2;
 
     constructor(
         room: RoomType,
@@ -124,6 +127,10 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         data?: HazelReader | ShipStatusData
     ) {
         super(room, spawnType, netid, ownerid, flags, data);
+
+        this.spawnRadius = 1;
+        this.initialSpawnCenter = Vector2.null;
+        this.meetingSpawnCenter = Vector2.null;
     }
 
     get owner() {
@@ -300,7 +307,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
 
         const usedTaskTypes: Set<TaskType> = new Set;
         const commonTasks: number [] = [];
-        
+
         this.addTasksFromList(0, numCommon, commonTasks, usedTaskTypes, allCommon);
 
         let shortIdx = 0;
@@ -314,11 +321,32 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
 
             shortIdx = this.addTasksFromList(shortIdx, numShort, playerTasks, usedTaskTypes, allShort);
             longIdx = this.addTasksFromList(longIdx, numLong, playerTasks, usedTaskTypes, allLong);
-            
+
             player.info.setTaskIds(playerTasks);
             player.info.setTaskStates(playerTasks.map((task, taskIdx) => {
                 return new TaskState(taskIdx, false);
             }));
         }
+    }
+
+    getSpawnPosition(player: PlayerData|number, initialSpawn: boolean) {
+        const playerId = typeof player === "number"
+            ? player
+            : player.playerId!;
+
+        return Vector2.up
+            .rotateDeg(playerId * (360 / this.room.players.size))
+            .mul(this.spawnRadius)
+            .add(initialSpawn
+                ? this.initialSpawnCenter
+                : this.meetingSpawnCenter)
+            .add(new Vector2(0, 0.3636));
+    }
+
+    spawnPlayer(player: PlayerData, initialSpawn: boolean) {
+        if (!player.playerId)
+            return;
+
+        player.transform.snapTo(this.getSpawnPosition(player, initialSpawn));
     }
 }

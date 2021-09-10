@@ -1,4 +1,4 @@
-import { HazelReader } from "@skeldjs/util";
+import { HazelReader, Vector2 } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 
@@ -46,6 +46,9 @@ export class AprilShipStatus<RoomType extends Hostable = Hostable> extends Inner
         [SystemType.Sabotage]: SabotageSystem<RoomType>;
     };
 
+    initialSpawnCenter = new Vector2(0.72, 0.62);
+    meetingSpawnCenter = new Vector2(0.72, 0.62);
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -63,7 +66,7 @@ export class AprilShipStatus<RoomType extends Hostable = Hostable> extends Inner
         if (component === AprilShipStatus as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
-        
+
         return super.getComponent(component);
     }
 

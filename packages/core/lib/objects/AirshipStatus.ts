@@ -1,4 +1,4 @@
-import { HazelReader } from "@skeldjs/util";
+import { HazelReader, Vector2 } from "@skeldjs/util";
 import { SpawnType, SystemType } from "@skeldjs/constant";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
@@ -44,6 +44,9 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         [SystemType.Decontamination2]: AutoDoorsSystem<RoomType>;
     };
 
+    initialSpawnCenter = new Vector2(50, 50);
+    meetingSpawnCenter = new Vector2(50, 50);
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -61,7 +64,7 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         if (component === AirshipStatus as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
-        
+
         return super.getComponent(component);
     }
 
