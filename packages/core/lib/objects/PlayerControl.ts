@@ -130,14 +130,27 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (this.room.gamedata) {
             this.room.gamedata.add(this.playerId);
         }
+
+        if (this.isNew) {
+            if (this.room.lobbybehaviour) {
+                const spawnPosition = LobbyBehaviour.spawnPositions[this.playerId % LobbyBehaviour.spawnPositions.length];
+                const offsetted = spawnPosition
+                    .add(spawnPosition.negate().normalize().div(4));
+
+                this.getComponent(CustomNetworkTransform)!.snapTo(offsetted);
+            } else if (this.room.shipstatus) {
+                const spawnPosition = this.room.shipstatus.getSpawnPosition(this.playerId, true);
+                this.getComponent(CustomNetworkTransform)!.snapTo(spawnPosition);
+            }
+        }
     }
-    
+
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
         if (component === PlayerControl as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
-        }   
+        }
 
         if (component === PlayerPhysics as NetworkableConstructor<any>) {
             return this.components[1] as unknown as T;
