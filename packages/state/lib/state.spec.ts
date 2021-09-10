@@ -19,8 +19,8 @@ describe("SkeldjsStateManager", () => {
                 )
             );
 
-            assert.strictEqual(state.clientid, 1652);
-            assert.strictEqual(state.hostid, 1652);
+            assert.strictEqual(state.clientId, 1652);
+            assert.strictEqual(state.hostId, 1652);
         });
     });
 });
