@@ -92,6 +92,22 @@ export class EventEmitter<Events extends EventData> {
         });
     }
 
+    waitf<EventName extends keyof Events>(
+        event: EventName,
+        filter: (ev: Events[EventName]) => boolean|Promise<boolean>
+    ): Promise<Events[EventName]>;
+    waitf(event: string, filter: (ev: BasicEvent) => boolean|Promise<boolean>): Promise<BasicEvent>;
+    waitf(event: string, filter: (ev: BasicEvent) => boolean|Promise<boolean>): Promise<BasicEvent> {
+        return new Promise(resolve => {
+            const off = this.on(event, async ev => {
+                if (await filter(ev)) {
+                    off();
+                    resolve(ev);
+                }
+            });
+        });
+    }
+
     off<EventName extends keyof Events>(
         event: EventName,
         listener: Listener<Events[EventName]>
