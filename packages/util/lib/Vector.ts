@@ -141,6 +141,26 @@ export class Vector2 {
         return Math.sqrt((b.x - a.x) ** 2 + (b.y - a.y) ** 2);
     }
 
+    static rotate(a: Vector2, radians: number) {
+        const out = new Vector2;
+        out.x = a.x * Math.cos(radians) - a.y * Math.sin(radians);
+        out.y = a.y * Math.cos(radians) - a.y * Math.sin(radians);
+        return out;
+    }
+
+    static rotateDeg(a: Vector2, degrees: number) {
+        return this.rotate(a, (degrees * Math.PI) / 180);
+    }
+
+    static normalize(a: Vector2) {
+        const dist = a.dist(Vector2.null);
+        return a.div(dist);
+    }
+
+    static negate(a: Vector2) {
+        return new Vector2(0 - a.x, 0 - a.y);
+    }
+
     /**
      * Clamp a value between a minimum and a maximum.
      * @param val The value to clamp.
@@ -212,6 +232,22 @@ export class Vector2 {
      */
     static get null() {
         return new Vector2(0, 0);
+    }
+
+    static get up() {
+        return new Vector2(0, 1);
+    }
+
+    static get down() {
+        return new Vector2(0, -1);
+    }
+
+    static get left() {
+        return new Vector2(-1, 0);
+    }
+
+    static get right() {
+        return new Vector2(1, 0);
     }
 
     /**
@@ -298,5 +334,51 @@ export class Vector2 {
 
     [Symbol.for("nodejs.util.inspect.custom")]() {
         return "(" + this.x.toFixed(2) + ", " + this.y.toFixed(2) + ")";
+    }
+
+    add(b: Vector2) {
+        return Vector2.add(this, b);
+    }
+
+    sub(b: Vector2) {
+        return Vector2.add(this, b);
+    }
+
+    mul(b: Vector2): Vector2;
+    mul(b: number): Vector2;
+    mul(b: Vector2 | number) {
+        if (typeof b === "number") { // typescript sucks
+            return Vector2.mul(this, b);
+        }
+        return Vector2.mul(this, b);
+    }
+
+    div(b: Vector2): Vector2;
+    div(b: number): Vector2;
+    div(b: Vector2 | number) {
+        if (typeof b === "number") { // typescript sucks
+            return Vector2.div(this, b);
+        }
+        return Vector2.div(this, b);
+    }
+
+    dist(b: Vector2) {
+        return Vector2.dist(this, b);
+    }
+
+    rotate(radians: number) {
+        return Vector2.rotate(this, radians);
+    }
+
+    rotateDeg(degrees: number) {
+        return Vector2.rotateDeg(this, degrees);
+    }
+
+    normalize() {
+        return Vector2.normalize(this);
+    }
+
+    negate() {
+        return Vector2.negate(this);
     }
 }
