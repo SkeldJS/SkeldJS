@@ -96,7 +96,7 @@ const all_delete = [
     "Airship(Clone)/Kitchen",
     "Airship(Clone)/HallwayPortrait",
     "Airship(Clone)/Electrical",
-    "Airship(Clone)/Medbay",    
+    "Airship(Clone)/Medbay",
     "Airship(Clone)/Ventilation",
     "Airship(Clone)/Storage",
     "Airship(Clone)/Lounge",
@@ -150,19 +150,6 @@ function do_include_collider(collider) {
 }
 
 function compile_collider(filename) {
-    let svg_out = "";
-    
-    // boilerplate
-    svg_out += `<svg version="1.1" baseProfile="full" viewBox="-45 -30 90 60" xmlns="http://www.w3.org/2000/svg">\n`;
-    svg_out += `<defs>
-    <style type="text/css"><![CDATA[
-    path:hover {
-       stroke: red;
-    }
-    ]]></style>
-    </defs>`;
-    svg_out += `<g transform="scale(1, -1)">\n`;
-
     const input_data = fs.readFileSync(filename, "utf8");
 
     /**
@@ -174,50 +161,54 @@ function compile_collider(filename) {
     for (const key of Object.keys(input_json.colliders.layers)) {
         const layer_id = parseInt(key);
         const layer = input_json.colliders.layers[layer_id];
-    
+
         if (!do_include_layer(layer_id))
             continue;
-    
+
         for (const collider of layer.colliders) {
             if (!do_include_collider(collider)) {
-                svg_out += `<!-- Skipped ${collider.name} -->`;
                 continue;
             }
-    
-            svg_out += `<!-- ${collider.name} -->\n`;
-            svg_out += `<path d="${collider.path}" stroke="${colors[layer_id]}" fill="transparent" stroke-width="0.1" />\n`;
 
             let out = "";
-            const points = collider.path.match(/-?\d+(\.\d+)?, ?-?\d+(\.\d+)?/g);
-    
-            out += points.map(pt => "(" + pt + ")").join(" ");
-    
+            const points = collider.path
+                .match(/-?\d+(\.\d+)?, ?-?\d+(\.\d+)?/g)
+                .map(str => {
+                    const [ xStr, yStr ] = str.split(",");
+                    return [ parseFloat(xStr), parseFloat(yStr) ];
+                });
+
+            out += "["
+            out += points.map(pt => `{"x":${pt[0]},"y":${pt[1]}}`).join(",");
+
             if (collider.path.endsWith("Z")) {
-                out += " (" + points[0] + ")";
+                out += `,{"x":${points[0][0]},"y":${points[0][1]}}`;
             }
-    
+
+            out += "]";
+
             lines.push(out);
         }
     }
 
-    svg_out += `</g>`;
-    svg_out += `</svg>`;
-    
-    fs.writeFileSync(path.resolve(__dirname, "./" + path.basename(filename).split(".")[0] + ".svg"), svg_out, "utf8");
-
-    const out = lines.join("\n");
-    fs.writeFileSync(path.resolve(__dirname, "./" + path.basename(filename).split(".")[0] + ".txt"), out, "utf8");
+    const out = "[" + lines.join(",") + "]";
+    fs.writeFileSync(path.resolve(__dirname, "./out/" + path.basename(filename).split(".")[0] + ".json"), out, "utf8");
 }
 
 const pathname = path.resolve(__dirname, ".");
 const filenames = fs.readdirSync(pathname);
+try {
+    fs.mkdirSync(path.resolve(__dirname, "out"));
+} catch (e) {
+
+}
 
 for (const filename of filenames) {
     if (filename.endsWith(".json")) {
 		try {
 			compile_collider(path.resolve(pathname, filename));
 		} catch (e) {
-			
+
 		}
     }
 }

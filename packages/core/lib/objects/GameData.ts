@@ -358,7 +358,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
             this._setTasks(playerData, ev.alteredTasks);
 
             if (playerData.taskIds !== oldTasks) {
-                this._rpcSetTasks(playerData, taskIds);
+                this._rpcSetTasks(playerData, playerData.taskIds);
                 this.update(playerData);
             }
         }

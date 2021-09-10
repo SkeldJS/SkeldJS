@@ -9,7 +9,7 @@ import { PlayerData } from "../PlayerData";
 
 import {
     O2ConsolesClearEvent,
-    O2ConsoleCompleteEvent,
+    O2ConsolesCompleteEvent,
     SystemRepairEvent,
     SystemSabotageEvent
 } from "../events";
@@ -24,7 +24,7 @@ export interface LifeSuppSystemData {
 export type LifeSuppSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         O2ConsolesClearEvent<RoomType>,
-        O2ConsoleCompleteEvent<RoomType>
+        O2ConsolesCompleteEvent<RoomType>
     ]>;
 
 /**
@@ -158,12 +158,12 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         await this._clearConsoles(this.room.myPlayer, undefined);
     }
 
-    private async _completeConsole(consoleid: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _completeConsole(consoleid: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined): Promise<void> {
         this.completed.add(consoleid);
         this.dirty = true;
 
         const ev = await this.emit(
-            new O2ConsoleCompleteEvent(
+            new O2ConsolesCompleteEvent(
                 this.room,
                 this,
                 undefined,
@@ -173,7 +173,8 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         );
 
         if (ev.reverted) {
-            return this.completed.delete(ev.consoleId);
+            this.completed.delete(ev.consoleId);
+            return;
         }
 
         if (ev.alteredConsoleId !== consoleid) {

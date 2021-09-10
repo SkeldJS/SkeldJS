@@ -92,31 +92,18 @@ function get_pathname() {
         const file = files[i];
         const filename = path.resolve(pathname, file);
 
+        console.log("reading %s..", file);
         const data = await fs.readFile(filename, "utf8");
+        console.log("creating grid..");
         const grid = Grid.create(basex, basey, width, height, density);
 
         const started = Date.now();
         console.log("Compiling " + file + "..");
 
         try {
-            const lines = data.split("\n").map((line) => {
-                const points = line.trim().match(/\(-?\d+(\.\d+)?, ?-?\d+(\.\d+)?\)/g);
+            const colliders = JSON.parse(data) as Vector2[][];
 
-                if (!points) return [];
-
-                return points.map((point) => {
-                    const numbers = point.match(/-?\d+(\.\d+)?/g);
-
-                    if (!numbers) return { x: 0, y: 0 };
-
-                    const x = parseFloat(numbers[0]);
-                    const y = parseFloat(numbers[1]);
-
-                    return { x, y };
-                });
-            }) as Vector2[][];
-
-            const total_lines = lines.reduce(
+            const total_lines = colliders.reduce(
                 (cur, ln) => cur + (ln.length - 1),
                 0
             );
@@ -125,13 +112,13 @@ function get_pathname() {
             console.log(
                 "Compiling " +
                     total_lines +
-                    " straight line" +
+                    " line" +
                     (total_lines === 1 ? "" : "s")
             );
 
             let j = 0;
-            for (let i = 0; i < lines.length; i++) {
-                const points = lines[i];
+            for (let i = 0; i < colliders.length; i++) {
+                const points = colliders[i];
                 const num_lines = points.length - 1;
 
                 process.stdout.write("0%");
@@ -295,7 +282,7 @@ function get_pathname() {
                 path.resolve(
                     pathname,
                     "../build",
-                    path.basename(file, ".txt")
+                    path.basename(file, ".json")
                 ),
                 buf
             );

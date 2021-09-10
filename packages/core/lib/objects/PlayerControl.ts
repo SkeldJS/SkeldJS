@@ -447,7 +447,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
 
-        if (ev.isDirty) this._setImpostors(ev.alteredImpostors);
+        if (ev.isDirty)
+            this._setImpostors(ev.alteredImpostors);
 
         this._rpcSetImpostors(ev.alteredImpostors);
     }

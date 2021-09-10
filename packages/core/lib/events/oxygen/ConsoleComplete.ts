@@ -10,7 +10,7 @@ import { O2Event } from "./O2Event";
 /**
  * Emitted when a oxygen console is completed.
  */
-export class O2ConsoleCompleteEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, O2Event, ProtocolEvent {
+export class O2ConsolesCompleteEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, O2Event, ProtocolEvent {
     static eventName = "o2.consoles.complete" as const;
     eventName = "o2.consoles.complete" as const;
 

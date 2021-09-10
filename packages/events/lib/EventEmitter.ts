@@ -118,12 +118,12 @@ export class EventEmitter<Events extends EventData> {
     }
 
     getListeners<Event extends BasicEvent = BasicEvent>(event: string): Set<Listener<Event>> {
-        const listeners = this.listeners.get(event);
-        if (!listeners) {
-            this.listeners.set(event, new Set);
-            return this.getListeners(event);
+        const cachedListeners = this.listeners.get(event);
+        const listeners = cachedListeners || new Set;
+        if (!cachedListeners) {
+            this.listeners.set(event, listeners);
         }
-        return listeners as Set<Listener<Event>>;
+        return listeners;
     }
 
     removeListeners(event: string) {
