@@ -108,7 +108,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
      * @param consoleid The ID of the console to add.
      */
     async addConsole(consoleid: number) {
-        if (this.room.amhost) {
+        if (this.room.hostIsMe) {
             await this._addConsole(this.room.myPlayer, consoleid, undefined);
         } else {
             await this._sendRepair(0x40 | consoleid);
@@ -145,7 +145,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
      * @param consoleid The ID of the console to add.
      */
     async removeConsole(consoleid: number) {
-        if (this.room.amhost) {
+        if (this.room.hostIsMe) {
             await this._removeConsole(this.room.myPlayer, consoleid, undefined);
         } else {
             await this._sendRepair(0x20 | consoleid);
@@ -175,7 +175,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
     }
 
     async repair() {
-        if (this.room.amhost) {
+        if (this.room.hostIsMe) {
             await this._repair(this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(0x10);

@@ -77,6 +77,7 @@ export type PlayerDataResolvable =
     | PlayerControl
     | PlayerPhysics
     | CustomNetworkTransform;
+
 export type PrivacyType = "public" | "private";
 
 export interface SpawnObject {
@@ -157,7 +158,7 @@ export class Hostable<
     /**
      * The ID of the host of the room.
      */
-    hostid: number;
+    hostId: number;
 
     protected _incr_netid: number;
 
@@ -213,7 +214,7 @@ export class Hostable<
         super();
 
         this.code = 0;
-        this.hostid = -1;
+        this.hostId = -1;
         this.counter = -1;
         this.privacy = "private";
 
@@ -271,7 +272,7 @@ export class Hostable<
      * The host of the room.
      */
     get host() {
-        return this.players.get(this.hostid);
+        return this.players.get(this.hostId);
     }
 
     /**
@@ -288,7 +289,7 @@ export class Hostable<
     /**
      * Whether or not the current client is the host of the room.
      */
-    get amhost() {
+    get hostIsMe() {
         return false;
     }
 
@@ -310,7 +311,7 @@ export class Hostable<
         for (const [, component] of this.netobjects) {
             if (
                 component &&
-                (component.ownerid === this.myPlayer?.clientId || this.amhost)
+                (component.ownerid === this.myPlayer?.clientId || this.hostIsMe)
             ) {
                 component.FixedUpdate(delta / 1000);
                 if (component.dirtyBit) {
@@ -470,7 +471,7 @@ export class Hostable<
     setSettings(settings: Partial<AllGameSettings>) {
         this.settings.patch(settings);
 
-        if (this.amhost) {
+        if (this.hostIsMe) {
             if (this.myPlayer?.control) {
                 this.myPlayer.control.syncSettings(this.settings);
             }
@@ -483,14 +484,14 @@ export class Hostable<
      * @param host The new host of the room.
      */
     async setHost(host: PlayerDataResolvable) {
-        const before = this.hostid;
+        const before = this.hostId;
         const resolved_id = this.resolvePlayerClientID(host);
 
         if (!resolved_id) return;
 
-        this.hostid = resolved_id;
+        this.hostId = resolved_id;
 
-        if (this.amhost) {
+        if (this.hostIsMe) {
             if (!this.lobbybehaviour && !this.started) {
                 this.spawnPrefab(SpawnType.LobbyBehaviour, -2);
             }
@@ -500,7 +501,7 @@ export class Hostable<
             }
         }
 
-        if (before !== this.hostid && this.host) {
+        if (before !== this.hostId && this.host) {
             await this.host.emit(new PlayerSetHostEvent(this, this.host));
         }
     }
@@ -531,15 +532,12 @@ export class Hostable<
             return null;
 
         if (player.playerId !== undefined) {
-            if (this.gamedata && this.gamedata.players.get(player.playerId)) {
-                this.gamedata.remove(player.playerId);
+            const gamedataEntry = this.gamedata?.players.get(player.playerId);
+            if (gamedataEntry) {
+                gamedataEntry.setDisconnected(true);
             }
 
-            if (this.amhost && this.meetinghud) {
-                const leftPlayerState = this.meetinghud.voteStates.get(player.playerId);
-                if (leftPlayerState) {
-                    leftPlayerState.setDead();
-                }
+            if (this.hostIsMe && this.meetinghud) {
                 for (const [ , voteState ] of this.meetinghud.voteStates) {
                     const voteStatePlayer = voteState.player;
                     if (voteStatePlayer && voteState.votedForId === player.playerId) {
@@ -575,7 +573,7 @@ export class Hostable<
         if (this._started) return;
         this._started = true;
 
-        if (this.amhost) {
+        if (this.hostIsMe) {
             await Promise.all([
                 Promise.race([
                     Promise.all(
@@ -689,7 +687,7 @@ export class Hostable<
      * this.spawnComponent(meetinghud);
      * ```
      */
-    spawnComponent(component: Networkable<any, NetworkableEvents, this>, doAwake = true) {
+    spawnComponent(component: Networkable<any, NetworkableEvents, this>) {
         if (this.netobjects.get(component.netid)) {
             return;
         }
@@ -720,9 +718,6 @@ export class Hostable<
             this.meetinghud = component;
         }
 
-        if (doAwake) {
-            component.Awake();
-        }
         this.netobjects.set(component.netid, component);
 
         component.emit(
@@ -819,7 +814,7 @@ export class Hostable<
      * ```
      */
     spawnPrefab(spawnType: number, ownerId: number|PlayerData|undefined, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true, doAwake = true) {
-        const _ownerid = 
+        const _ownerid =
             ownerId === undefined
                 ? -2
                 : typeof ownerId === "number" ? ownerId : ownerId.clientId;
@@ -856,8 +851,14 @@ export class Hostable<
                 component.Deserialize(reader, true);
             }
 
-            this.spawnComponent(component as Networkable<any, NetworkableEvents, this>, doAwake);
+            this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
             object.components.push(component);
+        }
+
+        for (const component of object.components) {
+            if (doAwake) {
+                component.Awake();
+            }
         }
 
         if (spawnType === SpawnType.Player && ownerClient) {
@@ -869,7 +870,7 @@ export class Hostable<
             );
         }
 
-        if (this.amhost && doBroadcast) {
+        if (this.hostIsMe && doBroadcast) {
             this.stream.push(
                 new SpawnMessage(
                     spawnType,
@@ -878,7 +879,7 @@ export class Hostable<
                     object.components.map((component) => {
                         const writer = HazelWriter.alloc(0);
                         writer.write(component, true);
-    
+
                         return new ComponentSpawnData(
                             component.netid,
                             writer.buffer

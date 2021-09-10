@@ -116,7 +116,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
                 this.dirtyBit = 1;
             }
 
-            if (this.room.amhost && voted.every((v) => v !== null)) {
+            if (this.room.hostIsMe && voted.every((v) => v !== null)) {
                 this.room.broadcast([], true, undefined, [
                     new KickPlayerMessage(
                         this.room.code,

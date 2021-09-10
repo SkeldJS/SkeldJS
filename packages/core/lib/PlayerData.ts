@@ -97,7 +97,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
         this.room.emit(event);
-        
+
         return super.emit(event);
     }
 
@@ -149,7 +149,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * Whether or not the player is the host of the room they belong in.
      */
     get isHost() {
-        return this.room.hostid === this.clientId;
+        return this.room.hostId === this.clientId;
     }
 
     /**

@@ -88,7 +88,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     return [
                         player.playerId!,
                         new PlayerVoteArea(
-                            this.room,
+                            this,
                             player.playerId!,
                             VoteStateSpecialId.NotVoted,
                             false
@@ -113,7 +113,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         if (component === MeetingHud as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
-        
+
         return super.getComponent(component);
     }
 
@@ -136,7 +136,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                 continue;
 
             const oldState = this.voteStates.get(playerId);
-            const newState = PlayerVoteArea.Deserialize(mreader, this.room, playerId);
+            const newState = PlayerVoteArea.Deserialize(mreader, this, playerId);
 
             this.voteStates.set(playerId, newState);
 
@@ -171,11 +171,9 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             writer.upacked(states.filter(([, x]) => x.dirty).length);
         }
         for (const [, state] of states) {
-            if (state.dirty || spawn) {
-                writer.begin(state.playerId);
-                state.Serialize(writer);
-                writer.end();
-            }
+            writer.begin(state.playerId);
+            state.Serialize(writer);
+            writer.end();
         }
         this.dirtyBit = 0;
         return true;
@@ -230,7 +228,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     checkForVoteComplete(isTimeout: boolean) {
         const states = [...this.voteStates];
 
-        if (states.every(([, state]) => state.hasVoted || state.isDead) || isTimeout) {
+        if (states.every(([, state]) => state.hasVoted || !state.canVote) || isTimeout) {
             let tie = false;
             let exiled: PlayerData|undefined;
             let exiled_votes = 0;
@@ -270,7 +268,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        if (this.room.amhost && player && voter && (suspect || rpc.suspectid === 0xff)) {
+        if (this.room.hostIsMe && player && voter && (suspect || rpc.suspectid === 0xff)) {
             this._castVote(voter, suspect);
 
             const ev = await this.emit(
@@ -321,7 +319,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                         : 255
                 )
             )
-        ], true, this.room.hostid);
+        ], true, this.room.hostId);
     }
 
     /**
@@ -353,9 +351,9 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             const votingState = this.voteStates.get(player.playerId);
 
             if (votingState) {
-                if (this.room.amhost) {
+                if (this.room.hostIsMe) {
                     this._castVote(votingState, _suspect);
-    
+
                     const ev = await this.emit(
                         new MeetingHudVoteCastEvent(
                             this.room,

@@ -87,7 +87,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
         if (component === VoteBanSystem as NetworkableConstructor<any>) {
             return this.components[1] as unknown as T;
         }
-        
+
         return super.getComponent(component);
     }
 

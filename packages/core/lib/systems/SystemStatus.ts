@@ -13,7 +13,7 @@ import { Hostable } from "../Hostable";
 export class SystemStatus<
     DataT = any,
     T extends SystemStatusEvents = SystemStatusEvents,
-    RoomType extends Hostable<any> = Hostable<any> 
+    RoomType extends Hostable<any> = Hostable<any>
 > extends EventEmitter<T> {
     static systemType: SystemType;
     systemType!: SystemType;
@@ -101,7 +101,7 @@ export class SystemStatus<
         if (!this.room.myPlayer?.control)
             return;
 
-        if (this.room.amhost) {
+        if (this.room.hostIsMe) {
             await this.ship.systems[SystemType.Sabotage]
                 ?.HandleRepair(this.room.myPlayer, this.systemType, undefined);
         } else {
@@ -114,7 +114,7 @@ export class SystemStatus<
                         this.systemType
                     )
                 )
-            ], true, this.room.hostid, []);
+            ], true, this.room.hostId, []);
         }
     }
 
@@ -131,6 +131,6 @@ export class SystemStatus<
                     amount
                 )
             )
-        ], true, this.room.hostid, []);
+        ], true, this.room.hostId, []);
     }
 }

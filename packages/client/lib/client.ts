@@ -43,7 +43,7 @@ import {
 } from "@skeldjs/protocol";
 
 import { Code2Int, VersionInfo, HazelWriter } from "@skeldjs/util";
-import { PlayerData, RoomID } from "@skeldjs/core";
+import { LobbyBehaviour, PlayerData, RoomID } from "@skeldjs/core";
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -148,7 +148,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * The client ID of the client.
      */
-    clientid!: number;
+    clientId!: number;
 
     token?: number;
 
@@ -219,7 +219,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         });
 
         this.decoder.on(RemovePlayerMessage, async (message) => {
-            if (message.clientid === this.clientid) {
+            if (message.clientid === this.clientId) {
                 await this.disconnect(DisconnectReason.None);
             }
         });
@@ -240,11 +240,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     }
 
     get myPlayer() {
-        return this.players.get(this.clientid);
+        return this.players.get(this.clientId);
     }
 
-    get amhost() {
-        return this.hostid === this.clientid && this.options.allowHost || false;
+    get hostIsMe() {
+        return this.hostId === this.clientId && this.options.allowHost || false;
     }
 
     private async ack(nonce: number) {
@@ -548,18 +548,32 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             return;
         }
 
-        if (this.amhost) {
+        if (this.hostIsMe) {
             this.spawnPrefab(SpawnType.Player, this.myPlayer.clientId);
         } else {
             await this.send(
                 new ReliablePacket(this.getNextNonce(), [
                     new GameDataMessage(this.code, [
-                        new SceneChangeMessage(this.clientid, "OnlineGame"),
+                        new SceneChangeMessage(this.clientId, "OnlineGame"),
                     ]),
                 ])
             );
 
-            await this.myPlayer.wait("player.spawn");
+            const ev = await this.myPlayer.waitf("player.spawn", ev => ev.player.clientId === this.clientId);
+
+            if (!ev.player.playerId || !ev.player.control?.isNew)
+                return;
+
+            if (this.lobbybehaviour) {
+                const spawnPosition = LobbyBehaviour.spawnPositions[ev.player.playerId];
+                const offsetted = spawnPosition
+                    .add(spawnPosition.negate().normalize());
+
+                ev.player.transform.snapTo(offsetted);
+            } else if (this.shipstatus) {
+                const spawnPosition = this.shipstatus.getSpawnPosition(ev.player, true);
+                ev.player.transform.snapTo(spawnPosition);
+            }
         }
     }
 

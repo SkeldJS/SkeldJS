@@ -25,12 +25,12 @@ export type SkeldjsStateManagerEvents = HostableEvents;
 export class SkeldjsStateManager<
     T extends SkeldjsStateManagerEvents = SkeldjsStateManagerEvents
 > extends Hostable<T> {
-    clientid: number;
+    clientId: number;
 
     constructor(options: HostableOptions = {}) {
         super({ doFixedUpdate: false, ...options });
 
-        this.clientid = 0;
+        this.clientId = 0;
 
         this.decoder.on(HostGameMessage, (message, direction) => {
             if (direction === MessageDirection.Clientbound) {
@@ -92,7 +92,7 @@ export class SkeldjsStateManager<
 
         this.decoder.on(JoinedGameMessage, async (message, direction) => {
             if (direction === MessageDirection.Clientbound) {
-                this.clientid = message.clientid;
+                this.clientId = message.clientid;
                 await this.setCode(message.code);
                 await this.setHost(message.hostid);
                 await this.handleJoin(message.clientid);
@@ -101,7 +101,7 @@ export class SkeldjsStateManager<
                 }
             }
         });
-        
+
 
         this.decoder.on(AlterGameMessage, async message => {
             if (message.alterTag === AlterGameTag.ChangePrivacy) {
@@ -184,7 +184,7 @@ export class SkeldjsStateManager<
             if (player) {
                 if (message.scene === "OnlineGame") {
                     player.inScene = true;
-    
+
                     const ev = await this.emit(
                         new PlayerSceneChangeEvent(
                             this,
@@ -192,23 +192,23 @@ export class SkeldjsStateManager<
                             message
                         )
                     );
-    
+
                     if (ev.canceled) {
                         player.inScene = false;
                     } else {
-                        if (this.amhost) {
+                        if (this.hostIsMe) {
                             await this.broadcast(
                                 this._getExistingObjectSpawn(),
                                 true,
                                 player
                             );
-    
+
                             this.spawnPrefab(
                                 SpawnType.Player,
                                 player.clientId,
                                 SpawnFlag.IsClientCharacter
                             );
-    
+
                             this.myPlayer?.control?.syncSettings(this.settings);
                         }
                     }
@@ -240,7 +240,7 @@ export class SkeldjsStateManager<
         this.netobjects.clear();
         this.stream = [];
         this.code = 0;
-        this.hostid = 0;
+        this.hostId = 0;
         this.settings = new GameSettings;
         this.counter = -1;
         this.privacy = "private";

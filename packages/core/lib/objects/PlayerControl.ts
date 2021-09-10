@@ -62,6 +62,7 @@ import { MeetingHud } from "./MeetingHud";
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems/MovingPlatformSystem";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
 import { AirshipStatus } from "./AirshipStatus";
+import { LobbyBehaviour } from "./LobbyBehaviour";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -197,12 +198,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 await this._handleSetImpostors(rpc as SetInfectedMessage);
                 break;
             case RpcMessageTag.CheckName:
-                if (this.room.amhost) {
+                if (this.room.hostIsMe) {
                     await this._handleCheckName(rpc as CheckNameMessage);
                 }
                 break;
             case RpcMessageTag.CheckColor:
-                if (this.room.amhost) {
+                if (this.room.hostIsMe) {
                     await this._handleCheckColor(rpc as CheckColorMessage);
                 }
                 break;
@@ -219,7 +220,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 await this._handleSetSkin(rpc as SetSkinMessage);
                 break;
             case RpcMessageTag.ReportDeadBody:
-                if (this.room.amhost) {
+                if (this.room.hostIsMe) {
                     await this._handleReportDeadBody(
                         rpc as ReportDeadBodyMessage
                     );
@@ -504,7 +505,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ),
             ],
             true,
-            this.room.hostid
+            this.room.hostId
         );
     }
 
@@ -628,7 +629,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ),
             ],
             true,
-            this.room.hostid
+            this.room.hostId
         );
     }
 
@@ -879,7 +880,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                         : body.playerId!
                 )
             )
-        ], true, this.room.hostid);
+        ], true, this.room.hostId);
     }
 
     /**
@@ -1043,7 +1044,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
 
-        if (this.room.amhost) {
+        if (this.room.hostIsMe) {
             this._startMeeting(this.player);
         }
     }
@@ -1099,7 +1100,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 body
             )
         );
-        
+
         this._rpcStartMeeting(body);
         this._startMeeting(caller);
     }
