@@ -54,7 +54,7 @@ export type SkeldjsPathfinderEvents = ExtractEventTypes<
 export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     private _tick: number;
     private _moved: boolean;
-    
+
     isPaused: boolean;
 
     /**
@@ -91,7 +91,11 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         this.client.on("player.move", this._handleMove.bind(this));
         this.client.on("player.leave", this._handleLeave.bind(this));
 
-        this.client.on("player.syncsettings", syncsettings => {
+        this.client.on("room.gameend", () => {
+            this.grid = undefined;
+        });
+
+        this.client.on("player.syncsettings", () => {
             this.grid = undefined;
         });
     }
@@ -124,15 +128,19 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         return this.client?.room;
     }
 
-    get map() {
+    getMapId() {
+        if (this.room.lobbybehaviour) {
+            return -1;
+        }
+
         return this.room?.settings?.map;
     }
-    
+
     private getVentForMap(ventId: number) {
-        if (typeof this.map === "undefined")
+        if (typeof this.getMapId() === "undefined")
             return undefined;
 
-        switch (this.map) {
+        switch (this.getMapId()) {
             case GameMap.TheSkeld:
                 return TheSkeldVents[ventId];
             case GameMap.MiraHQ:
@@ -153,12 +161,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         if (this._tick % SkeldjsPathfinder.MovementInterval !== 0) return;
 
-        if (typeof this.map === "undefined")
+        if (typeof this.getMapId() === "undefined")
             return;
 
         if (!this.grid) {
             const buff = fs.readFileSync(
-                path.resolve(__dirname, "../../data/build", "" + this.map)
+                path.resolve(__dirname, "../../data/build", "" + this.getMapId())
             );
             this.grid = Grid.fromBuffer(buff);
         }

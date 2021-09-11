@@ -35,20 +35,12 @@ function do_include_layer(layer_id) {
         layer_id !== 2;
 }
 
-const colors = {
-    0: "yellow",
-    2: "purple",
-    9: "red",
-    10: "black",
-    11: "green",
-    12: "blue"
-};
-
 const allow = [
     "Airship(Clone)/Electrical/Shadows"
 ];
 
-const all_delete = [
+const allDelete = [
+    "Lobby(Clone)/ShipRoom",
     "MiraShip(Clone)/LaunchPad",
     "MiraShip(Clone)/Office",
     "MiraShip(Clone)/Garden",
@@ -116,7 +108,7 @@ function do_include_collider(collider) {
     if (allow.includes(collider.name))
         return true;
 
-    if (all_delete.includes(collider.name) && collider.path.endsWith("Z"))
+    if (allDelete.includes(collider.name) && collider.path.endsWith("Z"))
         return false;
 
     if (collider.name === "Airship(Clone)/Vault" || collider.name === "Airship(Clone)/Vault/vault_goldtop")
