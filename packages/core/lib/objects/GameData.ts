@@ -111,7 +111,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     resolvePlayerData(resolvable: PlayerIDResolvable) {
         const resolved = this.room.resolvePlayerId(resolvable);
 
-        if (!resolved)
+        if (resolved === undefined)
             return undefined;
 
         return this.players.get(resolved);
