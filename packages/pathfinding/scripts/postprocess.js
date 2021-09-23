@@ -107,6 +107,18 @@ const allDelete = [
 function do_include_collider(collider) {
     if (allow.includes(collider.name))
         return true;
+	
+	if (collider.name.includes("Submerged")) {
+		if (
+			collider.name.includes("Hallway") ||
+			collider.name.endsWith("Room") ||
+			collider.name.endsWith("Elevator") ||
+			collider.name.endsWith("ExitHall") ||
+			collider.name.endsWith("Decontamination")
+		) {
+			return false;
+		}
+	}
 
     if (allDelete.includes(collider.name) && collider.path.endsWith("Z"))
         return false;
