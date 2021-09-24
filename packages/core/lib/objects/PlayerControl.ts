@@ -1307,11 +1307,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     /**
-     * Send a chat message as this player.
+     * Send a quick chat message as this player.
      *
      * Due to technical impossibilities, this event cannot be canceled or reverted.
      *
-     * Emits a {@link PlayerSendChatEvent | `player.chat`} event.
+     * Emits a {@link PlayerSendChatEvent | `player.quickchat`} event.
      */
     sendQuickChat(message: PlayerData|StringNames, format?: (PlayerData|StringNames)[]) {
         const quickChatMessage = typeof message === "number"
