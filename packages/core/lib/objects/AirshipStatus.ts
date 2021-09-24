@@ -34,16 +34,6 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         [SystemType.Medical]: [19, 20]
     }
 
-    systems!: {
-        [SystemType.Electrical]: SwitchSystem<RoomType>;
-        [SystemType.Security]: SecurityCameraSystem<RoomType>;
-        [SystemType.Communications]: HudOverrideSystem<RoomType>;
-        [SystemType.Sabotage]: SabotageSystem<RoomType>;
-        [SystemType.GapRoom]: MovingPlatformSystem<RoomType>;
-        [SystemType.Decontamination]: ElectricalDoorsSystem<RoomType>;
-        [SystemType.Decontamination2]: AutoDoorsSystem<RoomType>;
-    };
-
     initialSpawnCenter = new Vector2(50, 50);
     meetingSpawnCenter = new Vector2(50, 50);
 
@@ -69,33 +59,37 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
     }
 
     Setup() {
-        this.systems = {
-            [SystemType.Electrical]: new SwitchSystem(this, {
-                expected: [false, false, false, false, false],
-                actual: [false, false, false, false, false],
-                brightness: 100,
-            }),
-            [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set,
-            }),
-            [SystemType.Communications]: new HudOverrideSystem(this, {
-                sabotaged: false,
-            }),
-            [SystemType.Decontamination]: new ElectricalDoorsSystem(this, {
-                doors: [],
-            }),
-            [SystemType.Decontamination2]: new AutoDoorsSystem(this, {
-                dirtyBit: 0,
-                doors: [],
-            }),
-            [SystemType.Sabotage]: new SabotageSystem(this, {
-                cooldown: 0,
-            }),
-            [SystemType.GapRoom]: new MovingPlatformSystem(this, {
-                target: undefined,
-                side: MovingPlatformSide.Left,
-                useId: 0,
-            }),
-        };
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
+            expected: [false, false, false, false, false],
+            actual: [false, false, false, false, false],
+            brightness: 100,
+        }));
+
+        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, {
+            players: new Set,
+        }));
+
+        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, {
+            sabotaged: false,
+        }));
+
+        this.systems.set(SystemType.Decontamination, new ElectricalDoorsSystem(this, {
+            doors: [],
+        }));
+
+        this.systems.set(SystemType.Decontamination2, new AutoDoorsSystem(this, {
+            dirtyBit: 0,
+            doors: [],
+        }));
+
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, {
+            cooldown: 0,
+        }));
+
+        this.systems.set(SystemType.GapRoom, new MovingPlatformSystem(this, {
+            target: undefined,
+            side: MovingPlatformSide.Left,
+            useId: 0,
+        }));
     }
 }

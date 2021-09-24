@@ -72,7 +72,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     }
 
     Awake() {
-        for (const [, player] of this.room.players) {
+        for (const [ , player ] of this.room.players) {
             if (player.playerId) this.add(player.playerId);
         }
     }
@@ -319,7 +319,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     private _rpcSetTasks(player: PlayerInfo, taskIds: number[]) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SetTasksMessage(player.playerId, taskIds)
             )
         );

@@ -62,7 +62,7 @@ export class SabotageSystem<RoomType extends Hostable = Hostable> extends System
     }
 
     async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
-        const system = this.ship.systems[amount as SystemType] as SystemStatus;
+        const system = this.ship.systems.get(amount) as SystemStatus;
 
         if (system) {
             await system.HandleSabotage(player, rpc);

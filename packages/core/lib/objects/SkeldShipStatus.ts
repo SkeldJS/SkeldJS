@@ -35,17 +35,6 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
         [SystemType.LowerEngine]: [4, 11]
     }
 
-    systems!: {
-        [SystemType.Reactor]: ReactorSystem<RoomType>;
-        [SystemType.Electrical]: SwitchSystem<RoomType>;
-        [SystemType.O2]: LifeSuppSystem<RoomType>;
-        [SystemType.MedBay]: MedScanSystem<RoomType>;
-        [SystemType.Security]: SecurityCameraSystem<RoomType>;
-        [SystemType.Communications]: HudOverrideSystem<RoomType>;
-        [SystemType.Doors]: AutoDoorsSystem<RoomType>;
-        [SystemType.Sabotage]: SabotageSystem<RoomType>;
-    };
-
     initialSpawnCenter = new Vector2(-0.72, 0.62);
     meetingSpawnCenter = new Vector2(-0.72, 0.62);
 
@@ -82,62 +71,61 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
     }
 
     private async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const doorsinRoom = SkeldShipStatus.roomDoors[rpc.systemid as keyof typeof SkeldShipStatus.roomDoors];
+        const autodoor = this.systems.get(SystemType.Doors)! as AutoDoorsSystem;
+        const doorsinRoom = SkeldShipStatus.roomDoors[rpc.systemId as keyof typeof SkeldShipStatus.roomDoors];
 
         for (const doorId of doorsinRoom) {
-            this.systems[SystemType.Doors].closeDoor(doorId);
+            autodoor.closeDoor(doorId);
         }
     }
 
     Setup() {
-        this.systems = {
-            [SystemType.Reactor]: new ReactorSystem(this, {
-                timer: 10000,
-                completed: new Set,
-            }),
-            [SystemType.Electrical]: new SwitchSystem(this, {
-                expected: [false, false, false, false, false],
-                actual: [false, false, false, false, false],
-                brightness: 255,
-            }),
-            [SystemType.O2]: new LifeSuppSystem(this, {
-                timer: 10000,
-                completed: new Set,
-            }),
-            [SystemType.MedBay]: new MedScanSystem(this, {
-                queue: [],
-            }),
-            [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set,
-            }),
-            [SystemType.Communications]: new HudOverrideSystem(this, {
-                sabotaged: false,
-            }),
-            [SystemType.Doors]: new AutoDoorsSystem(this, {
-                dirtyBit: 0,
-                doors: [],
-            }),
-            [SystemType.Sabotage]: new SabotageSystem(this, {
-                cooldown: 0,
-            }),
-        };
+        this.systems.set(SystemType.Reactor, new ReactorSystem(this, {
+            timer: 10000,
+            completed: new Set,
+        }),);
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
+            expected: [false, false, false, false, false],
+            actual: [false, false, false, false, false],
+            brightness: 100,
+        }));
+        this.systems.set(SystemType.O2, new LifeSuppSystem(this, {
+            timer: 10000,
+            completed: new Set,
+        }));
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, {
+            queue: [],
+        }));
+        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, {
+            players: new Set,
+        }));
+        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, {
+            sabotaged: false,
+        }));
+        this.systems.set(SystemType.Doors, new AutoDoorsSystem(this, {
+            dirtyBit: 0,
+            doors: [],
+        }));
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, {
+            cooldown: 0,
+        }));
 
-        const autodoorsystem = this.systems[SystemType.Doors];
-        autodoorsystem.doors = [
-            new AutoOpenDoor(autodoorsystem, 0, true),
-            new AutoOpenDoor(autodoorsystem, 1, true),
-            new AutoOpenDoor(autodoorsystem, 2, true),
-            new AutoOpenDoor(autodoorsystem, 3, true),
-            new AutoOpenDoor(autodoorsystem, 4, true),
-            new AutoOpenDoor(autodoorsystem, 5, true),
-            new AutoOpenDoor(autodoorsystem, 6, true),
-            new AutoOpenDoor(autodoorsystem, 7, true),
-            new AutoOpenDoor(autodoorsystem, 8, true),
-            new AutoOpenDoor(autodoorsystem, 9, true),
-            new AutoOpenDoor(autodoorsystem, 10, true),
-            new AutoOpenDoor(autodoorsystem, 11, true),
-            new AutoOpenDoor(autodoorsystem, 12, true),
-            new AutoOpenDoor(autodoorsystem, 13, true),
+        const autodoor = this.systems.get(SystemType.Doors)! as AutoDoorsSystem;
+        autodoor.doors = [
+            new AutoOpenDoor(autodoor, 0, true),
+            new AutoOpenDoor(autodoor, 1, true),
+            new AutoOpenDoor(autodoor, 2, true),
+            new AutoOpenDoor(autodoor, 3, true),
+            new AutoOpenDoor(autodoor, 4, true),
+            new AutoOpenDoor(autodoor, 5, true),
+            new AutoOpenDoor(autodoor, 6, true),
+            new AutoOpenDoor(autodoor, 7, true),
+            new AutoOpenDoor(autodoor, 8, true),
+            new AutoOpenDoor(autodoor, 9, true),
+            new AutoOpenDoor(autodoor, 10, true),
+            new AutoOpenDoor(autodoor, 11, true),
+            new AutoOpenDoor(autodoor, 12, true),
+            new AutoOpenDoor(autodoor, 13, true),
         ];
     }
 }

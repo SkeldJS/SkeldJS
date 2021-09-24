@@ -102,15 +102,15 @@ export class SystemStatus<
             return;
 
         if (this.room.hostIsMe) {
-            await this.ship.systems[SystemType.Sabotage]
+            await this.ship.systems.get(SystemType.Sabotage)
                 ?.HandleRepair(this.room.myPlayer, this.systemType, undefined);
         } else {
             await this.room.broadcast([
                 new RpcMessage(
-                    this.ship.netid,
+                    this.ship.netId,
                     new RepairSystemMessage(
                         SystemType.Sabotage,
-                        this.room.myPlayer.control.netid,
+                        this.room.myPlayer.control.netId,
                         this.systemType
                     )
                 )
@@ -124,10 +124,10 @@ export class SystemStatus<
 
         await this.room.broadcast([
             new RpcMessage(
-                this.ship.netid,
+                this.ship.netId,
                 new RepairSystemMessage(
                     this.systemType,
-                    this.room.myPlayer.control.netid,
+                    this.room.myPlayer.control.netId,
                     amount
                 )
             )

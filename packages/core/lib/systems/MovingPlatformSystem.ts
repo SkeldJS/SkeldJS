@@ -96,7 +96,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
         if (this.useId > 255) this.useId = 0;
 
         writer.uint8(this.useId);
-        writer.uint8(this.target?.control?.netid ?? 255);
+        writer.uint8(this.target?.control?.netId ?? 255);
         writer.uint8(this.side);
         this.dirty = spawn;
     }
@@ -153,7 +153,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
             if (this.target?.control) {
                 this.ship.room.stream.push(
                     new RpcMessage(
-                        this.target.control.netid,
+                        this.target.control.netId,
                         new UsePlatformMessage
                     )
                 );

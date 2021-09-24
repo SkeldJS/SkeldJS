@@ -1,4 +1,5 @@
-import { Int2Code, sleep } from "@skeldjs/util";
+import { Int2Code } from "@skeldjs/util";
+import { GameOverReason } from "../../constant";
 import * as skeldjs from "../index";
 
 const connectRegion = process.argv[2];
@@ -21,10 +22,28 @@ const connectRegion = process.argv[2];
     await client.myPlayer?.control?.setName("weakeyes");
     await client.myPlayer?.control?.setColor(skeldjs.Color.Red);
 
-    client.on("player.join", async chat => {
-        await sleep(1000);
+    client.registerEndGameIntent("balls", () => {
+        for (const [ , player ] of client.players) {
+            if (player.transform.position.x < -5) {
+                return GameOverReason.ImpostorByKill;
+            }
+        }
+    });
 
-        client.startGame();
+    client.on("room.selectimpostors", select => {
+        select.setImpostors([ client.myPlayer! ]);
+    });
+
+    client.on("player.chat", chat => {
+        if (chat.chatMessage === "/start") {
+            client.startGame();
+        }
+    });
+
+    client.on("room.endgameintent", intent => {
+        if (intent.intentName === "players remaining") {
+            intent.cancel();
+        }
     });
 
     console.log(

@@ -36,18 +36,6 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         [SystemType.Decontamination]: [12, 13, 14, 15]
     }
 
-    systems!: {
-        [SystemType.Electrical]: SwitchSystem<RoomType>;
-        [SystemType.MedBay]: MedScanSystem<RoomType>;
-        [SystemType.Security]: SecurityCameraSystem<RoomType>;
-        [SystemType.Communications]: HudOverrideSystem<RoomType>;
-        [SystemType.Doors]: DoorsSystem<RoomType>;
-        [SystemType.Sabotage]: SabotageSystem<RoomType>;
-        [SystemType.Decontamination]: DeconSystem<RoomType>;
-        [SystemType.Decontamination2]: DeconSystem<RoomType>;
-        [SystemType.Laboratory]: ReactorSystem<RoomType>;
-    };
-
     initialSpawnCenter = new Vector2(16.64, 2.2);
     meetingSpawnCenter = new Vector2(17.726, -16.286);
     meetingSpawnCenter2 = new Vector2(17.726, -17.515);
@@ -85,51 +73,50 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
     }
 
     private async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const doorsinRoom = PolusShipStatus.roomDoors[rpc.systemid as keyof typeof PolusShipStatus.roomDoors];
+        const doors = this.systems.get(SystemType.Doors)! as DoorsSystem;
+        const doorsinRoom = PolusShipStatus.roomDoors[rpc.systemId as keyof typeof PolusShipStatus.roomDoors];
 
         for (const doorId of doorsinRoom) {
-            this.systems[SystemType.Doors].closeDoor(doorId);
+            doors.closeDoor(doorId);
         }
     }
 
     Setup() {
-        this.systems = {
-            [SystemType.Electrical]: new SwitchSystem(this, {
-                expected: [false, false, false, false, false],
-                actual: [false, false, false, false, false],
-                brightness: 100,
-            }),
-            [SystemType.MedBay]: new MedScanSystem(this, {
-                queue: [],
-            }),
-            [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set,
-            }),
-            [SystemType.Communications]: new HudOverrideSystem(this, {
-                sabotaged: false,
-            }),
-            [SystemType.Doors]: new DoorsSystem(this, {
-                doors: [],
-                cooldowns: new Map,
-            }),
-            [SystemType.Sabotage]: new SabotageSystem(this, {
-                cooldown: 0,
-            }),
-            [SystemType.Decontamination]: new DeconSystem(this, {
-                timer: 10000,
-                state: 0,
-            }),
-            [SystemType.Decontamination2]: new DeconSystem(this, {
-                timer: 10000,
-                state: 0,
-            }),
-            [SystemType.Laboratory]: new ReactorSystem(this, {
-                timer: 10000,
-                completed: new Set,
-            }),
-        };
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
+            expected: [false, false, false, false, false],
+            actual: [false, false, false, false, false],
+            brightness: 100,
+        }));
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, {
+            queue: [],
+        }));
+        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, {
+            players: new Set,
+        }));
+        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, {
+            sabotaged: false,
+        }));
+        this.systems.set(SystemType.Doors, new DoorsSystem(this, {
+            doors: [],
+            cooldowns: new Map,
+        }));
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, {
+            cooldown: 0,
+        }));
+        this.systems.set(SystemType.Decontamination, new DeconSystem(this, {
+            timer: 10000,
+            state: 0,
+        }));
+        this.systems.set(SystemType.Decontamination2, new DeconSystem(this, {
+            timer: 10000,
+            state: 0,
+        }));
+        this.systems.set(SystemType.Laboratory, new ReactorSystem(this, {
+            timer: 10000,
+            completed: new Set,
+        }));
 
-        const doorsystem = this.systems[SystemType.Doors];
+        const doorsystem = this.systems.get(SystemType.Doors)! as DoorsSystem;
         doorsystem.doors = [
             new Door(doorsystem, 0, true),
             new Door(doorsystem, 1, true),

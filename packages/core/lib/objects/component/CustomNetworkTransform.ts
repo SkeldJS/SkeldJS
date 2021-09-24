@@ -158,7 +158,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
         this.Serialize(writer, false);
 
         await this.room.broadcast(
-            [new DataMessage(this.netid, writer.buffer)],
+            [new DataMessage(this.netId, writer.buffer)],
             false
         );
 
@@ -210,7 +210,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     private _rpcSnapTo(position: Vector2) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SnapToMessage(new Vector2(position), this.seqId)
             )
         );

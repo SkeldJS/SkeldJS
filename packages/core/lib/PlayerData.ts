@@ -128,7 +128,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     get info() {
         if (this.playerId === undefined) return undefined;
 
-        return this.room.gamedata?.players?.get(this.playerId);
+        return this.room.gameData?.players?.get(this.playerId);
     }
 
     /**

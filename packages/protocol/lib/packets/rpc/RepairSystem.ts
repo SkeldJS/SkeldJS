@@ -6,15 +6,15 @@ export class RepairSystemMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.RepairSystem as const;
     messageTag = RpcMessageTag.RepairSystem as const;
 
-    systemid: number;
-    netid: number;
+    systemId: number;
+    netId: number;
     amount: number;
 
-    constructor(systemid: number, netid: number, amount: number) {
+    constructor(systemId: number, netId: number, amount: number) {
         super();
 
-        this.systemid = systemid;
-        this.netid = netid;
+        this.systemId = systemId;
+        this.netId = netId;
         this.amount = amount;
     }
 
@@ -27,8 +27,8 @@ export class RepairSystemMessage extends BaseRpcMessage {
     }
 
     Serialize(writer: HazelWriter) {
-        writer.uint8(this.systemid);
-        writer.upacked(this.netid);
+        writer.uint8(this.systemId);
+        writer.upacked(this.netId);
         writer.uint8(this.amount);
     }
 }

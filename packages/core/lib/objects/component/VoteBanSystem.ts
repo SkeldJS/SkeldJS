@@ -135,7 +135,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     private _rpcAddVote(voter: PlayerData, target: PlayerData) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new AddVoteMessage(voter.clientId, target.clientId)
             )
         );

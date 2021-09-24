@@ -21,16 +21,6 @@ import { Hostable } from "../Hostable";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
-    systems!: {
-        [SystemType.Reactor]: ReactorSystem<RoomType>;
-        [SystemType.Electrical]: SwitchSystem<RoomType>;
-        [SystemType.O2]: LifeSuppSystem<RoomType>;
-        [SystemType.MedBay]: MedScanSystem<RoomType>;
-        [SystemType.Communications]: HqHudSystem<RoomType>;
-        [SystemType.Sabotage]: SabotageSystem<RoomType>;
-        [SystemType.Decontamination]: DeconSystem<RoomType>;
-    };
-
     initialSpawnCenter = new Vector2(16.64, 2.2);
     meetingSpawnCenter = new Vector2(24.043, 1.72);
 
@@ -60,34 +50,32 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
     }
 
     Setup() {
-        this.systems = {
-            [SystemType.Reactor]: new ReactorSystem(this, {
-                timer: 10000,
-                completed: new Set,
-            }),
-            [SystemType.Electrical]: new SwitchSystem(this, {
-                expected: [false, false, false, false, false],
-                actual: [false, false, false, false, false],
-                brightness: 100,
-            }),
-            [SystemType.O2]: new LifeSuppSystem(this, {
-                timer: 10000,
-                completed: new Set,
-            }),
-            [SystemType.MedBay]: new MedScanSystem(this, {
-                queue: [],
-            }),
-            [SystemType.Communications]: new HqHudSystem(this, {
-                active: [],
-                completed: new Set([0, 1]),
-            }),
-            [SystemType.Sabotage]: new SabotageSystem(this, {
-                cooldown: 0,
-            }),
-            [SystemType.Decontamination]: new DeconSystem(this, {
-                timer: 10000,
-                state: 0,
-            }),
-        };
+        this.systems.set(SystemType.Reactor, new ReactorSystem(this, {
+            timer: 10000,
+            completed: new Set,
+        }));
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
+            expected: [false, false, false, false, false],
+            actual: [false, false, false, false, false],
+            brightness: 100,
+        }));
+        this.systems.set(SystemType.O2, new LifeSuppSystem(this, {
+            timer: 10000,
+            completed: new Set,
+        }));
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, {
+            queue: [],
+        }));
+        this.systems.set(SystemType.Communications, new HqHudSystem(this, {
+            active: [],
+            completed: new Set([0, 1]),
+        }));
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, {
+            cooldown: 0,
+        }));
+        this.systems.set(SystemType.Decontamination, new DeconSystem(this, {
+            timer: 10000,
+            state: 0,
+        }));
     }
 }

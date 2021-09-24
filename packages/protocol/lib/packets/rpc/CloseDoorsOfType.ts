@@ -6,12 +6,12 @@ export class CloseDoorsOfTypeMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.CloseDoorsOfType as const;
     messageTag = RpcMessageTag.CloseDoorsOfType as const;
 
-    systemid: number;
+    systemId: number;
 
     constructor(systemid: number) {
         super();
 
-        this.systemid = systemid;
+        this.systemId = systemid;
     }
 
     static Deserialize(reader: HazelReader) {
@@ -21,6 +21,6 @@ export class CloseDoorsOfTypeMessage extends BaseRpcMessage {
     }
 
     Serialize(writer: HazelWriter) {
-        writer.uint8(this.systemid);
+        writer.uint8(this.systemId);
     }
 }

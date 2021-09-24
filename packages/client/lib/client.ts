@@ -9,8 +9,7 @@ import {
     SpawnType,
     RootMessageTag,
     GameMap,
-    GameKeyword,
-    GameOverReason,
+    GameKeyword
 } from "@skeldjs/constant";
 
 import { DisconnectMessages, MatchmakingServers } from "@skeldjs/data";
@@ -38,8 +37,7 @@ import {
     GetGameListMessage,
     GameListing,
     RemovePlayerMessage,
-    StartGameMessage,
-    EndGameMessage
+    StartGameMessage
 } from "@skeldjs/protocol";
 
 import { Code2Int, VersionInfo, HazelWriter } from "@skeldjs/util";
@@ -564,14 +562,14 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             if (!ev.player.playerId || !ev.player.control?.isNew)
                 return;
 
-            if (this.lobbybehaviour) {
+            if (this.lobbyBehaviour) {
                 const spawnPosition = LobbyBehaviour.spawnPositions[ev.player.playerId];
                 const offsetted = spawnPosition
                     .add(spawnPosition.negate().normalize());
 
                 ev.player.transform.snapTo(offsetted);
-            } else if (this.shipstatus) {
-                const spawnPosition = this.shipstatus.getSpawnPosition(ev.player, true);
+            } else if (this.shipStatus) {
+                const spawnPosition = this.shipStatus.getSpawnPosition(ev.player, true);
                 ev.player.transform.snapTo(spawnPosition);
             }
         }
@@ -774,12 +772,5 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     async startGame() {
         await this.broadcast([], true, undefined, [new StartGameMessage(this.code)]);
-    }
-
-    /**
-     * End the current game.
-     */
-    async endGame(reason: GameOverReason) {
-        await this.broadcast([], true, undefined, [new EndGameMessage(this.code, reason, false)]);
     }
 }

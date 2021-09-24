@@ -1,5 +1,5 @@
 #### Note
-##### Messages refer to any level of Hazel messages, be that [SendOption](https://github.com/codyphobe/among-us-protocol/blob/master/01_packet_structure/05_packet_types.md), [RootMessage](https://github.com/codyphobe/among-us-protocol/blob/master/02_root_message_types/README.md), [GameData](https://github.com/codyphobe/among-us-protocol/blob/master/03_gamedata_and_gamedatato_message_types/README.md) or [Rpc](https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/README.md), while packets refer to any set of bytes recieved from a socket.
+##### Messages refer to any level of Among Us protocol messages, be that [SendOption](https://github.com/codyphobe/among-us-protocol/blob/master/01_packet_structure/05_packet_types.md), [RootMessage](https://github.com/codyphobe/among-us-protocol/blob/master/02_root_message_types/README.md), [GameData](https://github.com/codyphobe/among-us-protocol/blob/master/03_gamedata_and_gamedatato_message_types/README.md) or [Rpc](https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/README.md), while packets refer to any set of bytes recieved from a socket.
 
 ## Writing Custom Protocol Messages
 Messages in SkeldJS have been designed to be easy to both write and to register

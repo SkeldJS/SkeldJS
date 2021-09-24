@@ -60,6 +60,7 @@ export * from "./reactor/ConsoleAdd";
 export * from "./reactor/ConsoleRemove";
 export * from "./reactor/ConsolesReset";
 
+export * from "./room/EndGameIntent";
 export * from "./room/FixedUpdate";
 export * from "./room/GameEnd";
 export * from "./room/GameStart";

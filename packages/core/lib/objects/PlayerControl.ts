@@ -128,19 +128,19 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     Awake() {
         this.playerId ||= this.room.getAvailablePlayerID();
 
-        if (this.room.gamedata) {
-            this.room.gamedata.add(this.playerId);
+        if (this.room.gameData) {
+            this.room.gameData.add(this.playerId);
         }
 
         if (this.isNew) {
-            if (this.room.lobbybehaviour) {
+            if (this.room.lobbyBehaviour) {
                 const spawnPosition = LobbyBehaviour.spawnPositions[this.playerId % LobbyBehaviour.spawnPositions.length];
                 const offsetted = spawnPosition
                     .add(spawnPosition.negate().normalize().div(4));
 
                 this.getComponent(CustomNetworkTransform)!.snapTo(offsetted);
-            } else if (this.room.shipstatus) {
-                const spawnPosition = this.room.shipstatus.getSpawnPosition(this.playerId, true);
+            } else if (this.room.shipStatus) {
+                const spawnPosition = this.room.shipStatus.getSpawnPosition(this.playerId, true);
                 this.getComponent(CustomNetworkTransform)!.snapTo(spawnPosition);
             }
         }
@@ -266,13 +266,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _completeTask(taskIdx: number) {
-        this.room.gamedata?.completeTask(this.playerId, taskIdx);
+        this.room.gameData?.completeTask(this.playerId, taskIdx);
     }
 
     private async _rpcCompleteTask(taskIdx: number) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new CompleteTaskMessage(taskIdx)
             )
         );
@@ -336,7 +336,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private async _rpcSyncSettings(settings: GameSettings) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SyncSettingsMessage(settings)
             )
         );
@@ -408,7 +408,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _rpcSetImpostors(impostors: PlayerData[]) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SetInfectedMessage(
                     impostors.map(impostor => impostor.playerId!)
                 )
@@ -450,16 +450,20 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (ev.isDirty)
             this._setImpostors(ev.alteredImpostors);
 
+        const clonedSettings = new GameSettings(this.room.settings);
+        clonedSettings.numImpostors = impostors.length;
+        this._rpcSyncSettings(clonedSettings);
+
         this._rpcSetImpostors(ev.alteredImpostors);
     }
 
     private async _handleCheckName(rpc: CheckNameMessage) {
-        if (!this.room.gamedata)
+        if (!this.room.gameData)
             return;
 
         let new_name = rpc.name;
 
-        const players = [...this.room.gamedata.players.values()];
+        const players = [...this.room.gameData.players.values()];
         if (
             players.some(
                 (player) =>
@@ -501,7 +505,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         await this.room.broadcast(
             [
                 new RpcMessage(
-                    this.netid,
+                    this.netId,
                     new CheckNameMessage(name)
                 ),
             ],
@@ -520,7 +524,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetName(rpc: SetNameMessage) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -547,7 +551,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _rpcSetName(name: string) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SetNameMessage(name)
             )
         );
@@ -562,7 +566,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param name The name to set this player's name to.
      */
     async setName(name: string) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -587,12 +591,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleCheckColor(rpc: CheckColorMessage) {
-        if (!this.room.gamedata)
+        if (!this.room.gameData)
             return;
 
         let new_color = rpc.color;
 
-        const players = [...this.room.gamedata.players.values()];
+        const players = [...this.room.gameData.players.values()];
         while (
             players.some(
                 (player) =>
@@ -625,7 +629,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         await this.room.broadcast(
             [
                 new RpcMessage(
-                    this.netid,
+                    this.netId,
                     new CheckColorMessage(color)
                 ),
             ],
@@ -645,7 +649,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetColor(rpc: SetColorMessage) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -672,7 +676,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _rpcSetColor(color: Color) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SetColorMessage(color)
             )
         );
@@ -687,7 +691,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param color The color to set this player's name to.
      */
     async setColor(color: Color) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -712,7 +716,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetHat(rpc: SetHatMessage) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -739,7 +743,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _rpcSetHat(hat: Hat) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SetHatMessage(hat)
             )
         );
@@ -754,7 +758,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param hat The hat to set this player's hat to.
      */
     async setHat(hat: Hat) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -779,7 +783,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetSkin(rpc: SetSkinMessage) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -806,7 +810,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _rpcSetSkin(skin: Skin) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SetSkinMessage(skin)
             )
         );
@@ -821,7 +825,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param skin The skin to set this player's skin to.
      */
     async setSkin(skin: Skin) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -874,7 +878,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         await this.room.broadcast([
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new ReportDeadBodyMessage(
                     body === "emergency"
                         ? 0xff
@@ -914,7 +918,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         if (victim.info) {
             victim.info.setDead(true);
-            this.room.gamedata?.update(victim.playerId);
+            this.room.gameData?.update(victim.playerId);
         }
 
         await this.emit(
@@ -933,8 +937,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
-                new MurderPlayerMessage(victim.control.netid)
+                this.netId,
+                new MurderPlayerMessage(victim.control.netId)
             )
         );
     }
@@ -958,7 +962,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         if (victim.info) {
             victim.info.setDead(true);
-            this.room.gamedata?.update(victim.playerId);
+            this.room.gameData?.update(victim.playerId);
         }
 
         this.emit(
@@ -987,7 +991,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _rpcSendChat(message: string) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SendChatMessage(message)
             )
         );
@@ -1018,7 +1022,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SendChatNoteMessage(player.playerId, type)
             )
         );
@@ -1072,7 +1076,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new StartMeetingMessage(
                     player === "emergency"
                         ? 0xff
@@ -1107,7 +1111,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetPet(rpc: SetPetMessage) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -1134,7 +1138,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _rpcSetPet(pet: Pet) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SetPetMessage(pet)
             )
         );
@@ -1149,7 +1153,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param pet The pet to set this player's pet to.
      */
     async setPet(pet: Pet) {
-        const playerInfo = await this.room.gamedata?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
         if (!playerInfo)
             return;
 
@@ -1202,7 +1206,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _rpcSetStartCounter(counter: number) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new SetStartCounterMessage(
                     this.lastStartCounter,
                     counter
@@ -1245,12 +1249,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _usePlatform() {
-        const airship = this.room.shipstatus;
+        const airship = this.room.shipStatus;
 
         if (!airship || !(airship instanceof AirshipStatus))
             return;
 
-        const movingPlatform = airship.systems[SystemType.GapRoom] as MovingPlatformSystem;
+        const movingPlatform = airship.systems.get(SystemType.GapRoom) as MovingPlatformSystem;
 
         if (movingPlatform) {
             movingPlatform.setTarget(

@@ -56,12 +56,12 @@ export class Networkable<
     /**
      * The net ID of this component.
      */
-    netid: number;
+    netId: number;
 
     /**
      * The ID of the owner of this component.
      */
-    ownerid: number;
+    ownerId: number;
 
     /**
      * Flags for this object, see {@link SpawnFlag}.
@@ -87,8 +87,8 @@ export class Networkable<
 
         this.room = room;
         this.spawnType = spawnType;
-        this.netid = netid;
-        this.ownerid = ownerid;
+        this.netId = netid;
+        this.ownerId = ownerid;
         this.flags = flags;
 
         this.components = [];
@@ -115,8 +115,8 @@ export class Networkable<
     }
 
     get owner(): Hostable|PlayerData<RoomType>|undefined {
-        if (this.ownerid !== -2) {
-            return this.room.players.get(this.ownerid);
+        if (this.ownerId !== -2) {
+            return this.room.players.get(this.ownerId);
         }
 
         return this.room;
@@ -151,7 +151,7 @@ export class Networkable<
                 return comp;
             }
         }
-        
+
         return undefined;
     }
 

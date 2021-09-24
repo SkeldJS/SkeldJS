@@ -121,19 +121,15 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     }
 
     get myPlayer() {
-        return this.room?.myPlayer;
-    }
-
-    get room() {
-        return this.client?.room;
+        return this.client.myPlayer;
     }
 
     getMapId() {
-        if (this.room.lobbybehaviour) {
+        if (this.client.lobbybehaviour) {
             return -1;
         }
 
-        return this.room?.settings?.map;
+        return this.client.settings?.map;
     }
 
     private getVentForMap(ventId: number) {
@@ -270,9 +266,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
             return;
         }
 
-        const resolved = this.client?.room?.resolvePlayer(
-            pos as PlayerDataResolvable
-        );
+        const resolved = this.client.resolvePlayer(pos as PlayerDataResolvable);
 
         if (resolved && resolved.hasSpawned) {
             const position = resolved.transform?.position;

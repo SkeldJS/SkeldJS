@@ -212,7 +212,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
     private _rpcClose() {
         this.room.stream.push(
-            new RpcMessage(this.netid, new CloseMessage)
+            new RpcMessage(this.netId, new CloseMessage)
         );
     }
 
@@ -311,7 +311,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     private async _rpcCastVote(voter: PlayerData, suspect: PlayerData|undefined) {
         await this.room.broadcast([
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new CastVoteMessage(
                     voter.playerId!,
                     suspect
@@ -415,7 +415,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         await this.room.broadcast(
             [
                 new RpcMessage(
-                    this.netid,
+                    this.netId,
                     new ClearVoteMessage
                 ),
             ],
@@ -499,7 +499,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     ) {
         this.room.stream.push(
             new RpcMessage(
-                this.netid,
+                this.netId,
                 new VotingCompleteMessage(
                     states.map(state => new VoteState(state.playerId, state.votedForId)), exiled ? exiled.playerId ?? 0 : 0, tie)
             )

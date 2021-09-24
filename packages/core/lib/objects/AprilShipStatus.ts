@@ -12,7 +12,7 @@ import {
     AutoDoorsSystem,
     SabotageSystem,
     SwitchSystem,
-    ReactorSystem,
+    ReactorSystem
 } from "../systems";
 
 import { Hostable } from "../Hostable";
@@ -34,17 +34,6 @@ export class AprilShipStatus<RoomType extends Hostable = Hostable> extends Inner
         [SystemType.Storage]: [1, 7, 12],
         [SystemType.LowerEngine]: [4, 11]
     }
-
-    systems!: {
-        [SystemType.Reactor]: ReactorSystem<RoomType>;
-        [SystemType.Electrical]: SwitchSystem<RoomType>;
-        [SystemType.O2]: LifeSuppSystem<RoomType>;
-        [SystemType.MedBay]: MedScanSystem<RoomType>;
-        [SystemType.Security]: SecurityCameraSystem<RoomType>;
-        [SystemType.Communications]: HudOverrideSystem<RoomType>;
-        [SystemType.Doors]: AutoDoorsSystem<RoomType>;
-        [SystemType.Sabotage]: SabotageSystem<RoomType>;
-    };
 
     initialSpawnCenter = new Vector2(0.72, 0.62);
     meetingSpawnCenter = new Vector2(0.72, 0.62);
@@ -82,47 +71,46 @@ export class AprilShipStatus<RoomType extends Hostable = Hostable> extends Inner
     }
 
     private async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const doorsinRoom = AprilShipStatus.roomDoors[rpc.systemid as keyof typeof AprilShipStatus.roomDoors];
+        const autodoor = this.systems.get(SystemType.Doors)! as AutoDoorsSystem;
+        const doorsinRoom = AprilShipStatus.roomDoors[rpc.systemId as keyof typeof AprilShipStatus.roomDoors];
 
         for (const doorId of doorsinRoom) {
-            this.systems[SystemType.Doors].closeDoor(doorId);
+            autodoor.closeDoor(doorId);
         }
     }
 
     Setup() {
-        this.systems = {
-            [SystemType.Reactor]: new ReactorSystem(this, {
-                timer: 10000,
-                completed: new Set,
-            }),
-            [SystemType.Electrical]: new SwitchSystem(this, {
-                expected: [false, false, false, false, false],
-                actual: [false, false, false, false, false],
-                brightness: 100,
-            }),
-            [SystemType.O2]: new LifeSuppSystem(this, {
-                timer: 10000,
-                completed: new Set,
-            }),
-            [SystemType.MedBay]: new MedScanSystem(this, {
-                queue: [],
-            }),
-            [SystemType.Security]: new SecurityCameraSystem(this, {
-                players: new Set,
-            }),
-            [SystemType.Communications]: new HudOverrideSystem(this, {
-                sabotaged: false,
-            }),
-            [SystemType.Doors]: new AutoDoorsSystem(this, {
-                dirtyBit: 0,
-                doors: [],
-            }),
-            [SystemType.Sabotage]: new SabotageSystem(this, {
-                cooldown: 0,
-            }),
-        };
+        this.systems.set(SystemType.Reactor, new ReactorSystem(this, {
+            timer: 10000,
+            completed: new Set,
+        }),);
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
+            expected: [false, false, false, false, false],
+            actual: [false, false, false, false, false],
+            brightness: 100,
+        }));
+        this.systems.set(SystemType.O2, new LifeSuppSystem(this, {
+            timer: 10000,
+            completed: new Set,
+        }));
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, {
+            queue: [],
+        }));
+        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, {
+            players: new Set,
+        }));
+        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, {
+            sabotaged: false,
+        }));
+        this.systems.set(SystemType.Doors, new AutoDoorsSystem(this, {
+            dirtyBit: 0,
+            doors: [],
+        }));
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, {
+            cooldown: 0,
+        }));
 
-        const autodoor = this.systems[SystemType.Doors];
+        const autodoor = this.systems.get(SystemType.Doors)! as AutoDoorsSystem;
         autodoor.doors = [
             new AutoOpenDoor(autodoor, 0, true),
             new AutoOpenDoor(autodoor, 1, true),

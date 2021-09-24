@@ -17,7 +17,7 @@ import {
 } from "@skeldjs/data";
 
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseRpcMessage,RepairSystemMessage } from "@skeldjs/protocol";
 
 import {
     AutoDoorsSystemEvents,
@@ -69,7 +69,7 @@ function shuffleArray(array: any[]) {
     }
 }
 
-type AllSystems = Partial<Record<SystemType, SystemStatus<any, any>>>;
+type AllSystems = Map<SystemType, SystemStatus<any, any>>;
 
 export interface ShipStatusData {
     systems: AllSystems;
@@ -99,13 +99,6 @@ export type ShipStatusType =
     | SpawnType.AprilShipStatus
     | SpawnType.Airship;
 
-export type ShipStatusClassname =
-    | "ShipStatus"
-    | "Headquarters"
-    | "PlanetMap"
-    | "AprilShipStatus"
-    | "Airship";
-
 export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Networkable<
     ShipStatusData,
     ShipStatusEvents<RoomType>,
@@ -113,7 +106,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
 > {
     static roomDoors: Partial<Record<SystemType, number[]>>;
 
-    systems!: AllSystems;
+    systems: AllSystems;
     spawnRadius: number;
     initialSpawnCenter: Vector2;
     meetingSpawnCenter: Vector2;
@@ -127,6 +120,8 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         data?: HazelReader | ShipStatusData
     ) {
         super(room, spawnType, netid, ownerid, flags, data);
+
+        this.systems ||= new Map;
 
         this.spawnRadius = 1;
         this.initialSpawnCenter = Vector2.null;
@@ -145,7 +140,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
 
         while (reader.left) {
             const [tag, mreader] = reader.message();
-            const system = this.systems[tag as SystemType] as SystemStatus;
+            const system = this.systems.get(tag) as SystemStatus;
 
             if (system) {
                 system.Deserialize(mreader, spawn);
@@ -191,8 +186,8 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     }
 
     private async _handleRepairSystem(rpc: RepairSystemMessage) {
-        const system = this.systems[rpc.systemid as SystemType] as SystemStatus;
-        const player = this.room.getPlayerByNetId(rpc.netid);
+        const system = this.systems.get(rpc.systemId) as SystemStatus;
+        const player = this.room.getPlayerByNetId(rpc.netId);
 
         if (system && player) {
             await system.HandleRepair(player, rpc.amount, rpc);
@@ -229,8 +224,8 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             )
         );
 
-        if (!ev.canceled) {
-            await this.room.host?.control?.setImpostors(ev.alteredImpostors);
+        if (!ev.canceled && this.room.host?.control) {
+            await this.room.host.control.setImpostors(ev.alteredImpostors);
         }
     }
 
