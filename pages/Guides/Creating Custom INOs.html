@@ -1,0 +1,471 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Creating Custom INOs | SkeldJS</title>
+	<meta name="description" content="Documentation for SkeldJS">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../../assets/css/main.css">
+	<link rel="stylesheet" href="../../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../../assets/js/search.json" data-base="../..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../../index.html" class="title">SkeldJS</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../../modules.html">Globals</a>
+				</li>
+				<li>
+					<a href="Writing Custom Protocol Messages.html">Guides</a>
+				</li>
+				<li>
+					<a href="Creating Custom INOs.html">Creating Custom INOs</a>
+				</li>
+			</ul>
+			<h1>Creating Custom INOs</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#creating-custom-inos" id="creating-custom-inos" style="color: inherit; text-decoration: none;">
+					<h1>Creating Custom INOs</h1>
+				</a>
+				<p>SkeldJS allows you to create your own, register, unregister and override your own
+				innernet objects (INOs).</p>
+				<a href="#ownership" id="ownership" style="color: inherit; text-decoration: none;">
+					<h2>Ownership</h2>
+				</a>
+				<p>An INO can belong to either the player or the room by default. Only the host can
+					update objects that belong to the room, and each player can only access objects
+				that they own.</p>
+				<p>The host can also generally update other player&#39;s objects, although it depends
+				whether this will have any effect.</p>
+				<a href="#hierarchy" id="hierarchy" style="color: inherit; text-decoration: none;">
+					<h2>Hierarchy</h2>
+				</a>
+				<p>An InnerNet Object has 1 or more components, where the first component is classed
+					as the entity and each component can reference each other. You only need to declare
+				INO components, as INOs are handled implicitly as the first component.</p>
+				<a href="#ino-components" id="ino-components" style="color: inherit; text-decoration: none;">
+					<h1>INO Components</h1>
+				</a>
+				<p>Components make up an INO, for all intents and purposes in skeldjs, an INO is just
+				an array of components.</p>
+				<a href="#skeleton" id="skeleton" style="color: inherit; text-decoration: none;">
+					<h2>Skeleton</h2>
+				</a>
+				<p>The general skeleton for an INO component object in skeldjs is as follows, although
+				should be extended significantly to provide methods and networking utilities.</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">MyFavouriteComponent</span><span style="color: #000000">&lt;</span><span style="color: #267F99">RoomType</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Hostable</span><span style="color: #000000">&gt; </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Networkable</span><span style="color: #000000">&lt;</span><span style="color: #267F99">RoomType</span><span style="color: #000000">&gt; {</span>
+<span style="color: #000000">    </span><span style="color: #795E26">Deserialize</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #001080">reader</span><span style="color: #000000">: </span><span style="color: #267F99">HazelReader</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">isSpawn</span><span style="color: #000000">: </span><span style="color: #267F99">boolean</span>
+<span style="color: #000000">    ) {</span>
+
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">Serialize</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #001080">writer</span><span style="color: #000000">: </span><span style="color: #267F99">HazelWriter</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">isSpawn</span><span style="color: #000000">: </span><span style="color: #267F99">boolean</span>
+<span style="color: #000000">    ) {</span>
+
+<span style="color: #000000">        </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">;</span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">PreSerialize</span><span style="color: #000000">() {</span>
+
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">async</span><span style="color: #000000"> </span><span style="color: #795E26">HandleRpc</span><span style="color: #000000">(</span><span style="color: #001080">rpc</span><span style="color: #000000">: </span><span style="color: #267F99">BaseRpcMessage</span><span style="color: #000000">) {</span>
+
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">FixedUpdate</span><span style="color: #000000">(</span><span style="color: #001080">delta</span><span style="color: #000000">: </span><span style="color: #267F99">number</span><span style="color: #000000">) {</span>
+
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">Awake</span><span style="color: #000000">() {</span>
+
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">Destroy</span><span style="color: #000000">() {</span>
+
+<span style="color: #000000">    }</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>The two most important methods, <code>Deserialize</code> and <code>Serialize</code> determine how your
+					object will be networked, and you can use these methods to serialize and update
+					data on all clients. <code>isSpawn</code> signifies whether this is the first time the object
+					is being spawned, as you may want to have separate methods for serializing data
+				for spawns and data updates.</p>
+				<a href="#transferring-data" id="transferring-data" style="color: inherit; text-decoration: none;">
+					<h2>Transferring Data</h2>
+				</a>
+				<p>Data for an INO component can be transferred in 3 ways, each with their own purpose:</p>
+				<a href="#spawn" id="spawn" style="color: inherit; text-decoration: none;">
+					<h3>Spawn</h3>
+				</a>
+				<p>Data sent when the object is spawned is generally used for initially providing
+					information that isn&#39;t necessary to update constantly. For example, the <a href="https://github.com/codyphobe/among-us-protocol/blob/master/05_innernetobject_types/04_playercontrol.md">PlayerControl</a>
+					object contains a boolean for whether the player is new to the game or not, but
+				this isn&#39;t present in the normal data update.</p>
+				<p>Sent via the <a href="https://github.com/codyphobe/among-us-protocol/blob/master/03_gamedata_and_gamedatato_message_types/04_spawn.md">Spawn protocol message</a>
+				when the object is first spawned.</p>
+				<p>You can serialize this data with the <code>Serialize(writer, isSpawn)</code> method and
+				checking for <code>isSpawn</code> to be true, and you can handle it with the <code>Deserialize(reader, isSpawn)</code> method.</p>
+				<a href="#data" id="data" style="color: inherit; text-decoration: none;">
+					<h3>Data</h3>
+				</a>
+				<p>Usually used for syncing data instead of actual updates, and for more complicated
+				updates in general.</p>
+				<p>Sent via the <a href="https://github.com/codyphobe/among-us-protocol/blob/master/03_gamedata_and_gamedatato_message_types/01_data.md">Data protocol message</a>
+				at most every fixed update cycle.</p>
+				<p>You can serialize this data with the <code>Serialize(writer, isSpawn)</code> method and
+				checking for <code>isSpawn</code> to be false, and you can handle it with the <code>Deserialize(reader, isSpawn)</code> method.</p>
+				<p>For <code>Serialize(writer, isSpawn)</code> to be called on your component, you must set your
+				component&#39;s <code>dirtyBit</code> to a number greater than 0.</p>
+				<a href="#rpcs" id="rpcs" style="color: inherit; text-decoration: none;">
+					<h3>RPCs</h3>
+				</a>
+				<p>Stands for <strong>R</strong>emote <strong>P</strong>rocedure <strong>C</strong>all, typically used for individual commands
+					that the client or host can send to perform specific operations. Can modify state
+					of the component. Can also be used for clients to send commands directly to the host,
+				for example the <a href="https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/05_checkname.md">CheckName Rpc</a>.</p>
+				<p>Can be sent either via the <a href="../../classes/core.hostable.html#broadcast">Hostable.broadcast</a> method on the room or with
+					the <a href="../../classes/core.hostable.html#stream">Hostable.stream</a>, and can be handled with the <code>async HandleRpc(rpc)</code>
+				method on the INO component.</p>
+				<a href="#lifecycle" id="lifecycle" style="color: inherit; text-decoration: none;">
+					<h2>Lifecycle</h2>
+				</a>
+				<p>SkeldJS also provides some useful lifecycle methods for INO components:</p>
+				<a href="#preserialize" id="preserialize" style="color: inherit; text-decoration: none;">
+					<h3><code>PreSerialize()</code></h3>
+				</a>
+				<p>Called before the serialize method, it allows you to prepare your component for
+				serialization, such as setting the <code>dirtyBit</code> to <code>1</code> before-hand.</p>
+				<a href="#fixedupdatedelta-number" id="fixedupdatedelta-number" style="color: inherit; text-decoration: none;">
+					<h3><code>FixedUpdate(delta: number)</code></h3>
+				</a>
+				<p>Called on every fixed update cycle, and passes a <code>delta</code> argument indicating the
+				number of miliseconds passed since the last fixed update, somewhere around <code>20</code>.</p>
+				<p>The time delta can be used to make time-dependent behaviours, such as a ship system
+				like O2 or Reactor counting down.</p>
+				<a href="#awake" id="awake" style="color: inherit; text-decoration: none;">
+					<h3><code>Awake()</code></h3>
+				</a>
+				<p>Called as soon as the component is spawned by SkeldJS (note: not when receiving
+				a spawn message). This can be used to introduce the component to the room.</p>
+				<p>You should <strong>not</strong> use the constructor to do this component&#39;s job, as innernet
+				objects should by default by component stateless from the room.</p>
+				<a href="#destroy" id="destroy" style="color: inherit; text-decoration: none;">
+					<h3><code>Destroy()</code></h3>
+				</a>
+				<p>Called as soon as the component is destroyed by SkeldJS. This is best used to
+				clean up any effects that the component had while in the room.</p>
+				<a href="#constructor" id="constructor" style="color: inherit; text-decoration: none;">
+					<h3>Constructor</h3>
+				</a>
+				<pre><code class="language-ts"><span style="color: #795E26">constructor</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">room</span><span style="color: #000000">: </span><span style="color: #001080">RoomType</span><span style="color: #000000">, </span><span style="color: #008000">// The room that the component belongs to</span>
+<span style="color: #000000">    </span><span style="color: #001080">spawnType</span><span style="color: #000000">: </span><span style="color: #001080">SpawnType</span><span style="color: #000000">, </span><span style="color: #008000">// The INO spawn id that the component is for (e.g. 4 if it&#039;s a Player component)</span>
+<span style="color: #000000">    </span><span style="color: #001080">netId</span><span style="color: #000000">: </span><span style="color: #001080">number</span><span style="color: #000000">, </span><span style="color: #008000">// The netid of the component</span>
+<span style="color: #000000">    </span><span style="color: #001080">ownerId</span><span style="color: #000000">: </span><span style="color: #001080">number</span><span style="color: #000000">, </span><span style="color: #008000">// The owner of the component</span>
+<span style="color: #000000">    </span><span style="color: #001080">flags</span><span style="color: #000000">: </span><span style="color: #001080">number</span><span style="color: #000000">, </span><span style="color: #008000">// The flags that the component was instantiated with</span>
+<span style="color: #000000">    </span><span style="color: #001080">data</span><span style="color: #000000">?: </span><span style="color: #001080">HazelReader</span><span style="color: #000000"> | </span><span style="color: #001080">any</span><span style="color: #000000"> </span><span style="color: #008000">// The data to instantiate the component with</span>
+<span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">super</span><span style="color: #000000">(</span><span style="color: #001080">room</span><span style="color: #000000">, </span><span style="color: #001080">spawnType</span><span style="color: #000000">, </span><span style="color: #001080">netid</span><span style="color: #000000">, </span><span style="color: #001080">ownerid</span><span style="color: #000000">, </span><span style="color: #001080">flags</span><span style="color: #000000">, </span><span style="color: #001080">data</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<a href="#method-structure" id="method-structure" style="color: inherit; text-decoration: none;">
+					<h2>Method Structure</h2>
+				</a>
+				<p>As part of a good and consistent API, your component class should have 4 methods
+				for each action that can be done with your component:</p>
+				<ul>
+					<li>A private <code>_handleX(rpc: YourRpc)</code> method used for handling a received RPC.</li>
+					<li>A private <code>_X()</code> method used for actually executing your action internally in skeldjs</li>
+					<li>A private <code>_rpcX()</code> method used to actually network the rpc to the host or other clients</li>
+					<li>A <code>X()</code> method to use as an API method, to call both <code>_X()</code> and <code>_rpcX()</code>.</li>
+				</ul>
+				<p>For example, if you had a custom player component that had the ability to change
+				the shape of the player, you might want to have something like:</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">enum</span><span style="color: #000000"> </span><span style="color: #267F99">PlayerShape</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0070C1">Square</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0070C1">Circle</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0070C1">Triangle</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ShapeShifterPlayerControl</span><span style="color: #000000">&lt;</span><span style="color: #267F99">RoomType</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Hostable</span><span style="color: #000000">&gt; </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">Networkable</span><span style="color: #000000">&lt;</span><span style="color: #267F99">RoomType</span><span style="color: #000000">&gt; {</span>
+<span style="color: #000000">    </span><span style="color: #001080">currentShape</span><span style="color: #000000"> = </span><span style="color: #001080">PlayerShape</span><span style="color: #000000">.</span><span style="color: #001080">Square</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">Deserialize</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #001080">reader</span><span style="color: #000000">: </span><span style="color: #267F99">HazelReader</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">isSpawn</span><span style="color: #000000">: </span><span style="color: #267F99">boolean</span>
+<span style="color: #000000">    ) {</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">currentShape</span><span style="color: #000000"> = </span><span style="color: #001080">reader</span><span style="color: #000000">.</span><span style="color: #795E26">uint8</span><span style="color: #000000">();</span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">Serialize</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #001080">writer</span><span style="color: #000000">: </span><span style="color: #267F99">HazelWriter</span><span style="color: #000000">,</span>
+<span style="color: #000000">        </span><span style="color: #001080">isSpawn</span><span style="color: #000000">: </span><span style="color: #267F99">boolean</span>
+<span style="color: #000000">    ) {</span>
+<span style="color: #000000">        </span><span style="color: #001080">writer</span><span style="color: #000000">.</span><span style="color: #795E26">uint8</span><span style="color: #000000">(</span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">currentShape</span><span style="color: #000000">);</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">dirtyBit</span><span style="color: #000000"> = </span><span style="color: #098658">0</span><span style="color: #000000">;</span>
+<span style="color: #000000">        </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">;</span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">async</span><span style="color: #000000"> </span><span style="color: #795E26">HandleRpc</span><span style="color: #000000">(</span><span style="color: #001080">rpc</span><span style="color: #000000">: </span><span style="color: #267F99">BaseRpcMessage</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #AF00DB">switch</span><span style="color: #000000"> (</span><span style="color: #001080">rpc</span><span style="color: #000000">.</span><span style="color: #001080">messageTag</span><span style="color: #000000">) {</span>
+<span style="color: #000000">            </span><span style="color: #AF00DB">case</span><span style="color: #000000"> </span><span style="color: #001080">ShapeShifterRpcTags</span><span style="color: #000000">.</span><span style="color: #001080">SetShape</span><span style="color: #000000">:</span>
+<span style="color: #000000">                </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #795E26">_handleSetShape</span><span style="color: #000000">(</span><span style="color: #001080">rpc</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #267F99">SetShapeMessage</span><span style="color: #000000">);</span>
+<span style="color: #000000">                </span><span style="color: #AF00DB">break</span><span style="color: #000000">;</span>
+<span style="color: #000000">        }</span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">private</span><span style="color: #000000"> </span><span style="color: #0000FF">async</span><span style="color: #000000"> </span><span style="color: #795E26">_handleSetShape</span><span style="color: #000000">(</span><span style="color: #001080">rpc</span><span style="color: #000000">: </span><span style="color: #267F99">SetShapeMessage</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #795E26">_setShape</span><span style="color: #000000">(</span><span style="color: #001080">rpc</span><span style="color: #000000">.</span><span style="color: #001080">shape</span><span style="color: #000000">);</span>
+
+<span style="color: #000000">        </span><span style="color: #008000">// Emit custom events here</span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">private</span><span style="color: #000000"> </span><span style="color: #795E26">_setShape</span><span style="color: #000000">(</span><span style="color: #001080">shape</span><span style="color: #000000">: </span><span style="color: #267F99">PlayerShape</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">currentShape</span><span style="color: #000000"> = </span><span style="color: #001080">shape</span><span style="color: #000000">;</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">dirtyBit</span><span style="color: #000000"> = </span><span style="color: #098658">1</span><span style="color: #000000">;</span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #0000FF">private</span><span style="color: #000000"> </span><span style="color: #795E26">_rpcSetShape</span><span style="color: #000000">(</span><span style="color: #001080">shape</span><span style="color: #000000">: </span><span style="color: #267F99">PlayerShape</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">room</span><span style="color: #000000">.</span><span style="color: #001080">stream</span><span style="color: #000000">.</span><span style="color: #795E26">push</span><span style="color: #000000">(</span>
+<span style="color: #000000">            </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">RpcMessage</span><span style="color: #000000">(</span>
+<span style="color: #000000">                </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">netId</span><span style="color: #000000">,</span>
+<span style="color: #000000">                </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SetShapeMessage</span><span style="color: #000000">(</span><span style="color: #001080">shape</span><span style="color: #000000">)</span>
+<span style="color: #000000">            )</span>
+<span style="color: #000000">        );</span>
+<span style="color: #000000">    }</span>
+
+<span style="color: #000000">    </span><span style="color: #795E26">setShape</span><span style="color: #000000">(</span><span style="color: #001080">shape</span><span style="color: #000000">: </span><span style="color: #267F99">PlayerShape</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #795E26">_setShape</span><span style="color: #000000">(</span><span style="color: #001080">shape</span><span style="color: #000000">);</span>
+
+<span style="color: #000000">        </span><span style="color: #008000">// Emit custom events here</span>
+
+<span style="color: #000000">        </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #795E26">_rpcSetShape</span><span style="color: #000000">(</span><span style="color: #001080">shape</span><span style="color: #000000">);</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<a href="#registering-inos" id="registering-inos" style="color: inherit; text-decoration: none;">
+					<h1>Registering INOs</h1>
+				</a>
+				<p>You can use the <code>room.registerPrefab(number, NetworkableConstructor&lt;Networkable&gt;[])</code>
+					method to register your INO on the game and to allow it to be spawned when the host
+				or server requests.</p>
+				<p>The first parameter is the <a href="https://github.com/codyphobe/among-us-protocol/blob/master/01_packet_structure/06_enums.md#spawntype">SpawnType</a>
+				of the INO, you can override any built-in or previously registered INOs.</p>
+				<p>The second is an array of components in your INO, where the first component acts
+				as the entity and as such is a component of itself.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Getting <wbr>Started</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Getting Started/Basic Client Example.html">Basic <wbr>Client <wbr>Example</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Information</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Information/Events.html">Events</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
+					</li>
+					<li class="current pp-nav pp-page">
+						<a href="Creating Custom INOs.html">Creating <wbr>Custom INOs</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="End Game Intents.html">End <wbr>Game <wbr>Intents</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class=" ">
+						<a href="../../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/client.html">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/constant.html">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/core.html">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/data.html">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/dtls.html">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/events.html">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/lan.html">lan</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/pathfinding.html">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/protocol.html">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/reactor.html">reactor</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/state.html">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/text.html">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/util.html">util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="../../modules/client.html" class="tsd-kind-icon">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/constant.html" class="tsd-kind-icon">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/core.html" class="tsd-kind-icon">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/data.html" class="tsd-kind-icon">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/dtls.html" class="tsd-kind-icon">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/events.html" class="tsd-kind-icon">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/lan.html" class="tsd-kind-icon">lan</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/protocol.html" class="tsd-kind-icon">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/reactor.html" class="tsd-kind-icon">reactor</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/text.html" class="tsd-kind-icon">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../../modules/util.html" class="tsd-kind-icon">util</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>
