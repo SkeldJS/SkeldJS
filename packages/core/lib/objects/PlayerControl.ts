@@ -1319,7 +1319,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ? new QuickChatSentenceMessageData(message, format.map(format => {
                     return typeof format === "number"
                         ? format
-                        : format.playerId!;
+                        : new QuickChatPlayerMessageData(format.playerId!);
                 }))
                 : new QuickChatPhraseMessageData(message)
             : new QuickChatPlayerMessageData(message.playerId!);
