@@ -29,7 +29,6 @@ export * from "./oxygen/ConsolesClear";
 
 export * from "./movingplatform/PlayerUpdate";
 
-export * from "./player/SendChat";
 export * from "./player/CheckColor";
 export * from "./player/CheckName";
 export * from "./player/ClimbLadder";
@@ -43,6 +42,8 @@ export * from "./player/Murder";
 export * from "./player/Ready";
 export * from "./player/ReportDeadBody";
 export * from "./player/SceneChange";
+export * from "./player/SendChat";
+export * from "./player/SendQuickChat";
 export * from "./player/SetColor";
 export * from "./player/SetHat";
 export * from "./player/SetHost";

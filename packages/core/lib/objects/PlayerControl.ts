@@ -7,10 +7,15 @@ import {
     CompleteTaskMessage,
     GameSettings,
     MurderPlayerMessage,
+    QuickChatMessageData,
+    QuickChatPhraseMessageData,
+    QuickChatPlayerMessageData,
+    QuickChatSentenceMessageData,
     ReportDeadBodyMessage,
     RpcMessage,
     SendChatMessage,
     SendChatNoteMessage,
+    SendQuickChatMessage,
     SetColorMessage,
     SetHatMessage,
     SetInfectedMessage,
@@ -31,7 +36,8 @@ import {
     Skin,
     ChatNoteType,
     Pet,
-    SystemType
+    SystemType,
+    StringNames
 } from "@skeldjs/constant";
 
 import {
@@ -41,6 +47,7 @@ import {
     PlayerMurderEvent,
     PlayerReportDeadBodyEvent,
     PlayerSendChatEvent,
+    PlayerSendQuickChatEvent,
     PlayerSetColorEvent,
     PlayerSetHatEvent,
     PlayerSetImpostorsEvent,
@@ -77,6 +84,7 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
             PlayerMurderEvent<RoomType>,
             PlayerReportDeadBodyEvent<RoomType>,
             PlayerSendChatEvent<RoomType>,
+            PlayerSendQuickChatEvent<RoomType>,
             PlayerSetColorEvent<RoomType>,
             PlayerSetHatEvent<RoomType>,
             PlayerSetImpostorsEvent<RoomType>,
@@ -245,6 +253,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 break;
             case RpcMessageTag.UsePlatform:
                 await this._handleUsePlatform(rpc as UsePlatformMessage);
+                break;
+            case RpcMessageTag.SendQuickChat:
+                await this._handleSendQuickChat(rpc as SendQuickChatMessage);
                 break;
         }
     }
@@ -1273,5 +1284,54 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     usePlatform() {
         this._usePlatform();
+    }
+
+    private async _handleSendQuickChat(rpc: SendQuickChatMessage) {
+        await this.emit(
+            new PlayerSendQuickChatEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.message
+            )
+        );
+    }
+
+    private _rpcSendQuickChat(message: QuickChatMessageData) {
+        this.room.stream.push(
+            new RpcMessage(
+                this.netId,
+                new SendQuickChatMessage(message)
+            )
+        );
+    }
+
+    /**
+     * Send a chat message as this player.
+     *
+     * Due to technical impossibilities, this event cannot be canceled or reverted.
+     *
+     * Emits a {@link PlayerSendChatEvent | `player.chat`} event.
+     */
+    sendQuickChat(message: PlayerData|StringNames, format?: (PlayerData|StringNames)[]) {
+        const quickChatMessage = typeof message === "number"
+            ? format
+                ? new QuickChatSentenceMessageData(message, format.map(format => {
+                    return typeof format === "number"
+                        ? format
+                        : format.playerId!;
+                }))
+                : new QuickChatPhraseMessageData(message)
+            : new QuickChatPlayerMessageData(message.playerId!);
+
+        this.emit(
+            new PlayerSendQuickChatEvent(
+                this.room,
+                this.player,
+                undefined,
+                quickChatMessage
+            )
+        );
+        this._rpcSendQuickChat(quickChatMessage);
     }
 }

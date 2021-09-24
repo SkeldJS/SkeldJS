@@ -17,6 +17,7 @@ export * from "./RepairSystem";
 export * from "./ReportDeadBody";
 export * from "./SendChat";
 export * from "./SendChatNote";
+export * from "./SendQuickChat";
 export * from "./SetColor";
 export * from "./SetHat";
 export * from "./SetInfected";

@@ -1,11 +1,11 @@
 import { Int2Code } from "@skeldjs/util";
-import { GameOverReason } from "../../constant";
+import { StringNames } from "@skeldjs/constant";
 import * as skeldjs from "../index";
 
 const connectRegion = process.argv[2];
 
 (async () => {
-    const client = new skeldjs.SkeldjsClient("2021.6.30s", { attemptAuth: false });
+    const client = new skeldjs.SkeldjsClient("2021.6.30s", { attemptAuth: false, messageOrdering: true });
 
     console.log("Connecting to server..");
     await client.connect(connectRegion, "weakeyes");
@@ -22,27 +22,9 @@ const connectRegion = process.argv[2];
     await client.myPlayer?.control?.setName("weakeyes");
     await client.myPlayer?.control?.setColor(skeldjs.Color.Red);
 
-    client.registerEndGameIntent("balls", () => {
-        for (const [ , player ] of client.players) {
-            if (player.transform.position.x < -5) {
-                return GameOverReason.ImpostorByKill;
-            }
-        }
-    });
-
-    client.on("room.selectimpostors", select => {
-        select.setImpostors([ client.myPlayer! ]);
-    });
-
-    client.on("player.chat", chat => {
-        if (chat.chatMessage === "/start") {
-            client.startGame();
-        }
-    });
-
-    client.on("room.endgameintent", intent => {
-        if (intent.intentName === "players remaining") {
-            intent.cancel();
+    client.on("player.quickchat", ev => {
+        if (ev.player !== client.myPlayer) {
+            client.myPlayer?.control?.sendQuickChat(StringNames.QCQstWhatWasADoing, [ client.myPlayer ]);
         }
     });
 

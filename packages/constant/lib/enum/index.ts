@@ -13,4 +13,5 @@ export * from "./LimboState";
 export * from "./Platform";
 export * from "./QuickChatMode";
 export * from "./RuntimePlatform";
+export * from "./StringNames";
 export * from "./TaskBarMode";

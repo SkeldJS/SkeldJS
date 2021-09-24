@@ -4,6 +4,21 @@ import { MessageDirection, PacketDecoder } from "../../PacketDecoder";
 import { BaseRpcMessage } from "../rpc/BaseRpcMessage";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
+export class UnknownRpc extends BaseRpcMessage {
+    static messageTag = 0 as const;
+
+    constructor(
+        public readonly messageTag: GameDataMessageTag,
+        public readonly data: Buffer
+    ) {
+        super();
+    }
+
+    Serialize(writer: HazelWriter) {
+        writer.bytes(this.data);
+    }
+}
+
 export class RpcMessage extends BaseGameDataMessage {
     static messageTag = GameDataMessageTag.RPC as const;
     messageTag = GameDataMessageTag.RPC as const;
@@ -42,7 +57,7 @@ export class RpcMessage extends BaseGameDataMessage {
         const rpcMessageClass = decoder.types.get(`rpc:${callid}`);
 
         if (!rpcMessageClass)
-            return new RpcMessage(netid, new BaseRpcMessage);
+            return new RpcMessage(netid, new UnknownRpc(callid, mreader.buffer));
 
         const rpc = rpcMessageClass.Deserialize(mreader, direction, decoder);
 
