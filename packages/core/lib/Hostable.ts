@@ -648,6 +648,28 @@ export class Hostable<
         }
     }
 
+    async spawnNecessaryObjects() {
+        if (!this.lobbyBehaviour && this.state === GameState.NotStarted) {
+            this.spawnPrefab(SpawnType.LobbyBehaviour, -2);
+        }
+
+        if (!this.shipStatus && this.state === GameState.Started) {
+            const shipPrefabs = [
+                SpawnType.ShipStatus,
+                SpawnType.Headquarters,
+                SpawnType.PlanetMap,
+                SpawnType.AprilShipStatus,
+                SpawnType.Airship
+            ];
+
+            this.spawnPrefab(shipPrefabs[this.settings?.map] || 0, -2);
+        }
+
+        if (!this.gameData) {
+            this.spawnPrefab(SpawnType.GameData, -2);
+        }
+    }
+
     /**
      * Set the host of the room. If the current client is the host, it will conduct required host changes.
      * e.g. Spawning objects if they are not already spawned.
@@ -655,20 +677,14 @@ export class Hostable<
      */
     async setHost(host: PlayerDataResolvable) {
         const before = this.hostId;
-        const resolved_id = this.resolvePlayerClientID(host);
+        const resolvedId = this.resolvePlayerClientID(host);
 
-        if (!resolved_id) return;
+        if (!resolvedId) return;
 
-        this.hostId = resolved_id;
+        this.hostId = resolvedId;
 
         if (this.hostIsMe) {
-            if (!this.lobbyBehaviour && this.state === GameState.NotStarted) {
-                this.spawnPrefab(SpawnType.LobbyBehaviour, -2);
-            }
-
-            if (!this.gameData) {
-                this.spawnPrefab(SpawnType.GameData, -2);
-            }
+            await this.spawnNecessaryObjects();
         }
 
         if (before !== this.hostId && this.host) {
@@ -681,12 +697,17 @@ export class Hostable<
      * @param clientid The ID of the client that joined the game.
      */
     async handleJoin(clientid: number) {
-        if (this.players.has(clientid)) return null;
+        if (this.players.has(clientid))
+            return null;
 
         const player: PlayerData<this> = new PlayerData(this, clientid);
         this.players.set(clientid, player);
 
-        player.emit(new PlayerJoinEvent(this, player));
+        if (this.hostIsMe) {
+            await this.spawnNecessaryObjects();
+        }
+
+        await player.emit(new PlayerJoinEvent(this, player));
 
         return player;
     }
@@ -787,10 +808,7 @@ export class Hostable<
                 );
             }
 
-            if (this.lobbyBehaviour)
-                this.despawnComponent(
-                    this.lobbyBehaviour
-                );
+            if (this.lobbyBehaviour) this.lobbyBehaviour.despawn();
 
             const shipPrefabs = [
                 SpawnType.ShipStatus,
@@ -815,6 +833,11 @@ export class Hostable<
         this.players.clear();
         for (const [ objid ] of this.players) {
             this.players.delete(objid);
+        }
+        if (this.hostIsMe) {
+            for (const [ , component ] of this.netobjects) {
+                component.despawn();
+            }
         }
         await this.emit(new RoomGameEndEvent(this, reason));
     }
