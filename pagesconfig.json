@@ -28,6 +28,14 @@
         {
           "title": "Writing Custom Protocol Messages",
           "source": "./pages/Writing Custom Protocol Messages.md"
+        },
+        {
+          "title": "Creating Custom INOs",
+          "source": "./pages/Creating Custom INOs.md"
+        },
+        {
+          "title": "End Game Intents",
+          "source": "./pages/End Game Intents"
         }
       ]
     }

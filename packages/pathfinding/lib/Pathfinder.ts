@@ -125,7 +125,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     }
 
     getMapId() {
-        if (this.client.lobbybehaviour) {
+        if (this.client.lobbyBehaviour) {
             return -1;
         }
 
