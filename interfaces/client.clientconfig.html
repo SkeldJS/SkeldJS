@@ -95,6 +95,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#chatmode" class="tsd-kind-icon">chat<wbr>Mode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="client.clientconfig.html#dofixedupdate" class="tsd-kind-icon">do<wbr>Fixed<wbr>Update</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#language" class="tsd-kind-icon">language</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.clientconfig.html#messageordering" class="tsd-kind-icon">message<wbr>Ordering</a></li>
 							</ul>
 						</section>
 					</div>
@@ -108,7 +109,7 @@
 					<div class="tsd-signature tsd-kind-icon">allow<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/514aa8b/packages/client/lib/interface/ClientConfig.ts#L7">client/lib/interface/ClientConfig.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4baaa92/packages/client/lib/interface/ClientConfig.ts#L7">client/lib/interface/ClientConfig.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -123,7 +124,7 @@
 					<div class="tsd-signature tsd-kind-icon">attempt<wbr>Auth<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/514aa8b/packages/client/lib/interface/ClientConfig.ts#L12">client/lib/interface/ClientConfig.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4baaa92/packages/client/lib/interface/ClientConfig.ts#L12">client/lib/interface/ClientConfig.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -138,7 +139,7 @@
 					<div class="tsd-signature tsd-kind-icon">chat<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">QuickChatMode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/514aa8b/packages/client/lib/interface/ClientConfig.ts#L23">client/lib/interface/ClientConfig.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4baaa92/packages/client/lib/interface/ClientConfig.ts#L23">client/lib/interface/ClientConfig.ts:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -155,7 +156,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from HostableOptions.doFixedUpdate</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/514aa8b/packages/core/lib/misc/HostableOptions.ts#L6">core/lib/misc/HostableOptions.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4baaa92/packages/core/lib/misc/HostableOptions.ts#L6">core/lib/misc/HostableOptions.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -175,12 +176,28 @@
 					<div class="tsd-signature tsd-kind-icon">language<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">GameKeyword</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/514aa8b/packages/client/lib/interface/ClientConfig.ts#L17">client/lib/interface/ClientConfig.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4baaa92/packages/client/lib/interface/ClientConfig.ts#L17">client/lib/interface/ClientConfig.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The client&#39;s language. Used to localise messages from the server.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="messageordering" class="tsd-anchor"></a>
+					<h3>message<wbr>Ordering</h3>
+					<div class="tsd-signature tsd-kind-icon">message<wbr>Ordering<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/4baaa92/packages/client/lib/interface/ClientConfig.ts#L29">client/lib/interface/ClientConfig.ts:29</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether to make sure messages received from the server are handled in the
+							correct order.</p>
 						</div>
 					</div>
 				</section>
@@ -320,6 +337,9 @@
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="client.clientconfig.html#language" class="tsd-kind-icon">language</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="client.clientconfig.html#messageordering" class="tsd-kind-icon">message<wbr>Ordering</a>
 									</li>
 								</ul>
 							</li>
