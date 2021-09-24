@@ -21,4 +21,10 @@ export interface ClientConfig extends HostableOptions {
      * rooms with a quick chat mode if the client has free chat enbled.
      */
     chatMode: QuickChatMode;
+
+    /**
+     * Whether to make sure messages received from the server are handled in the
+     * correct order.
+     */
+    messageOrdering: boolean;
 }

@@ -30,7 +30,6 @@ import {
     RedirectMessage,
     JoinedGameMessage,
     BaseRootPacket,
-    PingPacket,
     MessageDirection,
     HostGameMessage,
     AllGameSettings,
@@ -40,7 +39,7 @@ import {
     StartGameMessage
 } from "@skeldjs/protocol";
 
-import { Code2Int, VersionInfo, HazelWriter } from "@skeldjs/util";
+import { Code2Int, VersionInfo, HazelWriter, HazelReader } from "@skeldjs/util";
 import { LobbyBehaviour, PlayerData, RoomID } from "@skeldjs/core";
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -109,12 +108,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * An array of 8 of the most recent packets received from the server.
      */
-    packets_recv: number[];
+    packetsReceived: number[];
 
     /**
      * An array of 8 of the most recent packet sent by the client.
      */
-    packets_sent: SentPacket[];
+    packetsSent: SentPacket[];
 
     private _nonce = 0;
 
@@ -150,6 +149,9 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
     token?: number;
 
+    nextExpectedNonce?: number;
+    unorderedMessageMap: Map<number, ReliablePacket>;
+
     /**
      * Create a new Skeldjs client instance.
      * @param version The version of the client.
@@ -171,6 +173,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             allowHost: true,
             language: GameKeyword.English,
             chatMode: QuickChatMode.FreeChat,
+            messageOrdering: false,
             ...options
         };
 
@@ -182,36 +185,29 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.version = VersionInfo.from(version);
         }
 
-        this.packets_recv = [];
-        this.packets_sent = [];
+        this.packetsReceived = [];
+        this.packetsSent = [];
+
+        this.nextExpectedNonce = undefined;
+        this.unorderedMessageMap = new Map;
 
         this._reset();
 
         this.stream = [];
-
-        this.decoder.on(
-            [ReliablePacket, HelloPacket, PingPacket],
-            (message) => {
-                this.packets_recv.unshift(message.nonce);
-                this.packets_recv.splice(8);
-
-                this.ack(message.nonce);
-            }
-        );
 
         this.decoder.on(DisconnectPacket, (message) => {
             this.disconnect(message.reason, message.message);
         });
 
         this.decoder.on(AcknowledgePacket, (message) => {
-            const sent = this.packets_sent.find(
+            const sent = this.packetsSent.find(
                 (s) => s.nonce === message.nonce
             );
             if (sent) sent.ackd = true;
 
             for (const missing of message.missingPackets) {
-                if (missing < this.packets_recv.length) {
-                    this.ack(this.packets_recv[missing]);
+                if (missing < this.packetsReceived.length) {
+                    this.ack(this.packetsReceived[missing]);
                 }
             }
         });
@@ -249,7 +245,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         await this.send(
             new AcknowledgePacket(
                 nonce,
-                this.packets_sent
+                this.packetsSent
                     .filter((packet) => packet.ackd)
                     .map((_, i) => i)
             )
@@ -299,6 +295,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         const ip = await lookupDns(host);
 
+        this.nextExpectedNonce = undefined;
         this.ip = ip.address;
         this.port = port;
 
@@ -332,6 +329,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.socket.removeAllListeners();
         }
 
+        this.unorderedMessageMap.clear();
         this.ip = undefined;
         this.port = undefined;
         this.socket = undefined;
@@ -340,8 +338,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this.identified = false;
         this.username = undefined;
 
-        this.packets_sent = [];
-        this.packets_recv = [];
+        this.packetsSent = [];
+        this.packetsReceived = [];
 
         super._reset();
     }
@@ -445,8 +443,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     ackd: false,
                 };
 
-                this.packets_sent.unshift(sent);
-                this.packets_sent.splice(8);
+                this.packetsSent.unshift(sent);
+                this.packetsSent.splice(8);
 
                 let attempts = 0;
                 const interval: NodeJS.Timeout = setInterval(async () => {
@@ -454,7 +452,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                         return clearInterval(interval);
                     } else {
                         if (
-                            !this.packets_sent.find(
+                            !this.packetsSent.find(
                                 (packet) => sent.nonce === packet.nonce
                             )
                         ) {
@@ -527,6 +525,63 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     : new UnreliablePacket(children)
             );
         }
+    }
+
+    async handleInboundMessage(message: Buffer) {
+        const parsedPacket = this.decoder.parse(message, MessageDirection.Clientbound);
+
+        if (!parsedPacket)
+            return;
+
+        const parsedReliable = parsedPacket as ReliablePacket;
+
+        const isReliable = parsedReliable.nonce !== undefined && parsedPacket.messageTag !== SendOption.Acknowledge;
+
+        if (isReliable) {
+            if (this.nextExpectedNonce === undefined) {
+                this.nextExpectedNonce = parsedReliable.nonce;
+            }
+
+            this.packetsReceived.unshift(parsedReliable.nonce);
+            this.packetsReceived.splice(8);
+
+            await this.ack(parsedReliable.nonce);
+
+            if (parsedReliable.nonce < this.nextExpectedNonce - 1) {
+                return;
+            }
+
+            if (parsedReliable.nonce !== this.nextExpectedNonce && this.options.messageOrdering) {
+                if (!this.unorderedMessageMap.has(parsedReliable.nonce)) {
+                    this.unorderedMessageMap.set(parsedReliable.nonce, parsedReliable);
+                }
+
+                return;
+            }
+
+            this.nextExpectedNonce++;
+        }
+
+        await this.decoder.emitDecoded(parsedPacket, MessageDirection.Clientbound, undefined);
+
+        if (isReliable && this.options.messageOrdering) {
+            // eslint-disable-next-line no-constant-condition
+            while (true) {
+                const nextMessage = this.unorderedMessageMap.get(this.nextExpectedNonce!);
+                if (!nextMessage)
+                    break;
+
+                await this.decoder.emitDecoded(nextMessage, MessageDirection.Clientbound, undefined);
+
+                this.unorderedMessageMap.delete(this.nextExpectedNonce!);
+                this.nextExpectedNonce!++;
+            }
+        }
+    }
+
+    async handleOutboundMessage(message: Buffer) {
+        const reader = HazelReader.from(message);
+        this.decoder.write(reader, MessageDirection.Serverbound, null);
     }
 
     /**

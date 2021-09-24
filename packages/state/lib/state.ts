@@ -1,5 +1,15 @@
-import { AlterGameTag, Hostable, HostableEvents, HostableOptions, PlayerSceneChangeEvent, RoomSetPrivacyEvent, SpawnFlag, SpawnType } from "@skeldjs/core";
 import { HazelReader } from "@skeldjs/util";
+
+import {
+    AlterGameTag,
+    Hostable,
+    HostableEvents,
+    HostableOptions,
+    PlayerSceneChangeEvent,
+    RoomSetPrivacyEvent,
+    SpawnFlag,
+    SpawnType
+} from "@skeldjs/core";
 
 import {
     HostGameMessage,
@@ -223,16 +233,6 @@ export class SkeldjsStateManager<
                 player.ready();
             }
         });
-    }
-
-    async handleInboundMessage(message: Buffer) {
-        const reader = HazelReader.from(message);
-        this.decoder.write(reader, MessageDirection.Clientbound, null);
-    }
-
-    async handleOutboundMessage(message: Buffer) {
-        const reader = HazelReader.from(message);
-        this.decoder.write(reader, MessageDirection.Serverbound, null);
     }
 
     protected _reset() {
