@@ -149,7 +149,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * Whether or not the player is the host of the room they belong in.
      */
     get isHost() {
-        return this.room.hostId === this.clientId;
+        return this.room.host === this;
     }
 
     /**
