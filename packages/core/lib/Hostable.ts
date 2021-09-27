@@ -959,10 +959,11 @@ export class Hostable<
 
         component.Destroy();
 
-        this.objectList.splice(
-            this.objectList.indexOf(component),
-            1
-        );
+        const objectIdx = this.objectList.indexOf(component);
+
+        if (objectIdx > -1) {
+            this.objectList.splice(objectIdx, 1);
+        }
 
         component.components.splice(
             component.components.indexOf(component),
