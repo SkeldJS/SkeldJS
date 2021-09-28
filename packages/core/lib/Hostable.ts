@@ -989,6 +989,17 @@ export class Hostable<
         this.stream.push(new DespawnMessage(component.netId));
     }
 
+    private getPlayerComponentByPlayerId(playerId: number) {
+        for (const object of this.objectList) {
+            if (object instanceof PlayerControl) {
+                if (object.playerId === playerId)
+                    return object;
+            }
+        }
+
+        return undefined;
+    }
+
     /**
      * Get an available player ID.
      * @returns The player ID that was found.
@@ -1001,7 +1012,7 @@ export class Hostable<
      */
     getAvailablePlayerID() {
         for (let i = 0; ; i++) {
-            if (!this.getPlayerByPlayerId(i)) {
+            if (!this.getPlayerComponentByPlayerId(i)) {
                 return i;
             }
         }
