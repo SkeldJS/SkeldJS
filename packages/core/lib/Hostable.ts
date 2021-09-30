@@ -723,9 +723,11 @@ export class Hostable<
             return null;
 
         if (player.playerId !== undefined) {
-            const gamedataEntry = this.gameData?.players.get(player.playerId);
-            if (gamedataEntry) {
-                gamedataEntry.setDisconnected(true);
+            if (this.state === GameState.Started) {
+                const gamedataEntry = this.gameData?.players.get(player.playerId);
+                if (gamedataEntry) {
+                    gamedataEntry.setDisconnected(true);
+                }
             }
 
             if (this.hostIsMe && this.meetingHud) {
@@ -1059,7 +1061,7 @@ export class Hostable<
             if (this.netobjects.get(component.netId))
                 continue;
 
-            if (i === 0) {
+            if (!object) {
                 object = component;
                 this.objectList.push(object);
             }
