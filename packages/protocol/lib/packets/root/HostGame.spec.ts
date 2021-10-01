@@ -31,7 +31,7 @@ describe("HostGameMessage", () => {
 
             assert.strictEqual(packet.messageTag, RootMessageTag.HostGame);
             assert.strictEqual(typeof packet.options, "object");
-            assert.strictEqual(packet.quickchat, QuickChatMode.QuickChat);
+            assert.strictEqual(packet.quickchatMode, QuickChatMode.QuickChat);
         });
     });
 

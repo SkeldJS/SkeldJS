@@ -13,7 +13,7 @@ describe("EndGameMessage", () => {
             assert.strictEqual(packet.messageTag, RootMessageTag.EndGame);
             assert.strictEqual(packet.code, -1932862904);
             assert.strictEqual(packet.reason, GameOverReason.ImpostorByKill);
-            assert.strictEqual(packet.show_ad, false);
+            assert.strictEqual(packet.showAd, false);
         });
     });
 

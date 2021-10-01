@@ -6,17 +6,18 @@ import { BaseMessage } from "./BaseMessage";
 
 describe("BaseMessage", () => {
     describe("BaseMessage#Deserialize", () => {
-        it("Should deserialize a base message.", () => {
+        it("Should throw when deserializing as there is nothing to deserialize.", () => {
             const decoder = new PacketDecoder;
 
             const reader = HazelReader.from("", "hex");
-            const packet = BaseMessage.Deserialize(
-                reader,
-                MessageDirection.Clientbound,
-                decoder
-            );
 
-            assert.strictEqual(packet.messageTag, undefined);
+            assert.throws(() => {
+                BaseMessage.Deserialize(
+                    reader,
+                    MessageDirection.Clientbound,
+                    decoder
+                );
+            });
         });
     });
 

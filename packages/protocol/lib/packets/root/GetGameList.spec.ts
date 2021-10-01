@@ -33,11 +33,11 @@ describe("GetGameListMessage", () => {
             assert.strictEqual(packet.gameList[0].port, 22424);
             assert.strictEqual(packet.gameList[0].code, -1934140791);
             assert.strictEqual(packet.gameList[0].name, "Pookee");
-            assert.strictEqual(packet.gameList[0].num_players, 4);
+            assert.strictEqual(packet.gameList[0].numPlayers, 4);
             assert.strictEqual(packet.gameList[0].age, 545);
             assert.strictEqual(packet.gameList[0].map, GameMap.TheSkeld);
-            assert.strictEqual(packet.gameList[0].num_impostors, 2);
-            assert.strictEqual(packet.gameList[0].max_players, 10);
+            assert.strictEqual(packet.gameList[0].numImpostors, 2);
+            assert.strictEqual(packet.gameList[0].numPlayers, 4);
         });
 
         it("Should deserialize a server-bound get game list root message.", () => {
