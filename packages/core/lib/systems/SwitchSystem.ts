@@ -70,7 +70,9 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
 
         this.expected ||= [false, false, false, false, false];
         this.actual ||= [false, false, false, false, false];
-        this.brightness ??= 100;
+        this.brightness ??= 255;
+
+        this.timer = 0;
     }
 
     Deserialize(reader: HazelReader, spawn: boolean) {
@@ -112,11 +114,14 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
 
         const oldActual = this.actual;
         const oldExpected = this.expected;
+        this.brightness = 255;
 
         while (!this.sabotaged) {
-            this.actual = new Array(5).fill(false).map(f => Math.random() > 0.5) as SwitchSetup;
-            this.expected = new Array(5).fill(false).map(f => Math.random() > 0.5) as SwitchSetup;
+            this.actual = new Array(5).fill(false).map(() => Math.random() > 0.5) as SwitchSetup;
+            this.expected = new Array(5).fill(false).map(() => Math.random() > 0.5) as SwitchSetup;
         }
+
+        this.dirty = true;
 
         const ev = await this.emit(
             new SystemSabotageEvent(

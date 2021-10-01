@@ -1,5 +1,5 @@
 import { Int2Code } from "@skeldjs/util";
-import { Color, GameOverReason, StringNames } from "@skeldjs/constant";
+import { Color, StringNames } from "@skeldjs/constant";
 import * as skeldjs from "../index";
 
 const connectRegion = process.argv[2];
@@ -32,16 +32,6 @@ const connectRegion = process.argv[2];
         if (ev.intentName === "players remaining") {
             ev.cancel();
         }
-    });
-
-    client.registerEndGameIntent("balls", () => {
-        for (const [ , player ] of client.players) {
-            if (player.transform.position.x < -5) {
-                return GameOverReason.ImpostorBySabotage;
-            }
-        }
-
-        return undefined;
     });
 
     client.on("player.quickchat", ev => {
