@@ -4,7 +4,7 @@
 
 This package contains a complete programmable Among Us client, and while it is one package of a bigger project, [skeldjs](https://github.com/skeldjs/SkeldJS), it is intended to be installed on its own with `npm install --save @skeldjs/client` or `yarn add @skeldjs/client`.
 
-You can view auto-updating documentation for this package hosted at github pages at https://skeld.js.org/SkeldJS/modules/client.html
+You can view auto-updating documentation for this package hosted at github pages at https://skeld.js.org/modules/client.html
 
 ## Basic Usage
 ### Join a game

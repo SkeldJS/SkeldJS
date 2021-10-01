@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/github/license/SkeldJS/SkeldJS)](https://github.com/skeldjs/SkeldJS)
 [![Lint and Test](https://github.com/skeldjs/SkeldJS/workflows/Lint%20&%20Test/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Lint+%26+Test%22)
 [![Build](https://github.com/skeldjs/SkeldJS/workflows/Build/badge.svg)](https://github.com/SkeldJS/SkeldJS/actions?query=workflow%3A%22Build%22)
-[![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://skeld.js.org/SkeldJS)
+[![Docs](https://github.com/skeldjs/SkeldJS/workflows/Docs/badge.svg)](https://skeld.js.org)
 
 ### If you're looking for an Among Us server, check out my other project, [Hindenburg](https://github.com/skeldjs/Hindenburg)
 
@@ -29,7 +29,7 @@ As well as the main and utility packages, the project also contains several pack
 * **Task Manager** - A tool used for managing task completion in the correct order.
 * **Reactor** - Implementation of the Reactor modded handshake for skeldjs.
 
-You can view auto-updating documentation for all packages hosted at github pages at https://skeld.js.org/SkeldJS.
+You can view auto-updating documentation for all packages hosted at github pages at https://skeld.js.org.
 
 ### Discord Server
 SkeldJS now has a discord server where you can get help with installing, get help
