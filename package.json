@@ -27,7 +27,7 @@
     "fix": "eslint --fix \"packages/**/*.ts\"",
     "test": "ts-mocha --config ./.mocharc.json",
     "coverage": "nyc yarn test",
-    "build-all": "yarn workspaces foreach -ptv --exclude test run build",
+    "build-all": "rimraf packages/**/dist && yarn workspaces foreach -ptv --exclude test run build",
     "update:patch": "yarn workspaces foreach -v --exclude test version patch",
     "update:minor": "yarn workspaces foreach -v --exclude test version minor",
     "update:major": "yarn workspaces foreach -v --exclude test version major",
