@@ -114,6 +114,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="protocol.sendquickchatmessage.html#serialize" class="tsd-kind-icon">Serialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="protocol.sendquickchatmessage.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="protocol.sendquickchatmessage.html#clone" class="tsd-kind-icon">clone</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="protocol.sendquickchatmessage.html#deserialize" class="tsd-kind-icon">Deserialize</a></li>
 							</ul>
 						</section>
@@ -133,7 +134,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseRpcMessage.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L98">protocol/lib/packets/rpc/SendQuickChat.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L114">protocol/lib/packets/rpc/SendQuickChat.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -163,7 +164,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BaseRpcMessage.messageTag</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L98">protocol/lib/packets/rpc/SendQuickChat.ts:98</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L114">protocol/lib/packets/rpc/SendQuickChat.ts:114</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +175,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseRpcMessage.messageType</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/rpc/BaseRpcMessage.ts#L5">protocol/lib/packets/rpc/BaseRpcMessage.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/rpc/BaseRpcMessage.ts#L5">protocol/lib/packets/rpc/BaseRpcMessage.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +186,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BaseRpcMessage.messageTag</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L97">protocol/lib/packets/rpc/SendQuickChat.ts:97</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L113">protocol/lib/packets/rpc/SendQuickChat.ts:113</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -196,7 +197,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseRpcMessage.messageType</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/rpc/BaseRpcMessage.ts#L4">protocol/lib/packets/rpc/BaseRpcMessage.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/rpc/BaseRpcMessage.ts#L4">protocol/lib/packets/rpc/BaseRpcMessage.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -213,7 +214,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/BaseMessage.ts#L17">protocol/lib/packets/BaseMessage.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/BaseMessage.ts#L17">protocol/lib/packets/BaseMessage.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -234,7 +235,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseRpcMessage.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L121">protocol/lib/packets/rpc/SendQuickChat.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L137">protocol/lib/packets/rpc/SendQuickChat.ts:137</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -258,10 +259,28 @@
 							<aside class="tsd-sources">
 								<p>Inherited from BaseRpcMessage.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/BaseMessage.ts#L38">protocol/lib/packets/BaseMessage.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/BaseMessage.ts#L41">protocol/lib/packets/BaseMessage.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="clone" class="tsd-anchor"></a>
+					<h3>clone</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SendQuickChatMessage</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides BaseRpcMessage.clone</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L142">protocol/lib/packets/rpc/SendQuickChat.ts:142</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">SendQuickChatMessage</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -276,7 +295,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseRpcMessage.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/ecbb200/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L106">protocol/lib/packets/rpc/SendQuickChat.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/45684f9/packages/protocol/lib/packets/rpc/SendQuickChat.ts#L122">protocol/lib/packets/rpc/SendQuickChat.ts:122</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -434,6 +453,9 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="protocol.sendquickchatmessage.html#cancel" class="tsd-kind-icon">cancel</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+										<a href="protocol.sendquickchatmessage.html#clone" class="tsd-kind-icon">clone</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="protocol.sendquickchatmessage.html#deserialize" class="tsd-kind-icon">Deserialize</a>
