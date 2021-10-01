@@ -28,7 +28,6 @@ import {
     SceneChangeMessage,
     JoinGameMessage,
     RedirectMessage,
-    JoinedGameMessage,
     BaseRootPacket,
     MessageDirection,
     HostGameMessage,
@@ -40,7 +39,7 @@ import {
 } from "@skeldjs/protocol";
 
 import { Code2Int, VersionInfo, HazelWriter, HazelReader } from "@skeldjs/util";
-import { LobbyBehaviour, PlayerData, RoomID } from "@skeldjs/core";
+import { LobbyBehaviour, PlayerData, PlayerJoinEvent, RoomID } from "@skeldjs/core";
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -672,14 +671,24 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             )
         );
 
-        const { message } = await Promise.race([
+        const data = await Promise.race([
             this.decoder.waitf(
                 JoinGameMessage,
                 (message) => message.error !== undefined
             ),
             this.decoder.wait(RedirectMessage),
-            this.decoder.wait(JoinedGameMessage)
+            this.waitf("player.join", ev => ev.player.clientId === this.clientId)
         ]);
+
+        if (data instanceof PlayerJoinEvent) {
+            if (doSpawn) {
+                await this.spawnSelf();
+            }
+
+            return this.code;
+        }
+
+        const { message } = data as { message: JoinGameMessage|RedirectMessage };
 
         switch (message.messageTag) {
             case RootMessageTag.JoinGame:
@@ -694,12 +703,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 );
 
                 return await this.joinGame(code, doSpawn);
-            case RootMessageTag.JoinedGame:
-                if (doSpawn) {
-                    await this.spawnSelf();
-                }
-
-                return this.code;
         }
     }
 
