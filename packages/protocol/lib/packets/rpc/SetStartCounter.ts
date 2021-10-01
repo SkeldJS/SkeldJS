@@ -27,4 +27,8 @@ export class SetStartCounterMessage extends BaseRpcMessage {
         writer.upacked(this.sequenceid);
         writer.int8(this.counter);
     }
+
+    clone() {
+        return new SetStartCounterMessage(this.sequenceid, this.counter);
+    }
 }

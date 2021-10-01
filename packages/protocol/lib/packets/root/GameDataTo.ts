@@ -78,4 +78,8 @@ export class GameDataToMessage extends BaseRootMessage {
             writer.end();
         }
     }
+
+    clone() {
+        return new GameDataToMessage(this.code, this.recipientid, this._children.map(child => child.clone()));
+    }
 }

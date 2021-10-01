@@ -37,4 +37,8 @@ export class ReliablePacket extends NormalPacket {
         writer.uint16(this.nonce, true);
         super.Serialize(writer, direction, decoder);
     }
+
+    clone() {
+        return new ReliablePacket(this.nonce, this.children.map(child => child.clone()));
+    }
 }

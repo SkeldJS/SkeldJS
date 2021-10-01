@@ -98,4 +98,12 @@ export class GetGameListMessage extends BaseRootMessage {
             writer.uint8(this.quickchat);
         }
     }
+
+    clone() {
+        if (this.options) {
+            return new GetGameListMessage(this.options.clone(), this.quickchat);
+        } else {
+            return new GetGameListMessage(this.gameList.map(gameList => gameList.clone()), { ... this.gameCounts });
+        }
+    }
 }

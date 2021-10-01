@@ -23,4 +23,8 @@ export class ReadyMessage extends BaseGameDataMessage {
     Serialize(writer: HazelWriter) {
         writer.packed(this.clientid);
     }
+
+    clone() {
+        return new ReadyMessage(this.clientid);
+    }
 }

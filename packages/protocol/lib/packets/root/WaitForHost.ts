@@ -33,4 +33,8 @@ export class WaitForHostMessage extends BaseRootMessage {
         writer.int32(this.code);
         writer.int32(this.clientid);
     }
+
+    clone() {
+        return new WaitForHostMessage(this.code, this.clientid);
+    }
 }

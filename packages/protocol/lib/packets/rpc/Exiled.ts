@@ -8,4 +8,8 @@ export class ExiledMessage extends BaseRpcMessage {
     static Deserialize() {
         return new ExiledMessage;
     }
+
+    clone() {
+        return new ExiledMessage;
+    }
 }

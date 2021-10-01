@@ -27,4 +27,8 @@ export class SceneChangeMessage extends BaseGameDataMessage {
         writer.packed(this.clientid);
         writer.string(this.scene);
     }
+
+    clone() {
+        return new SceneChangeMessage(this.clientid, this.scene);
+    }
 }

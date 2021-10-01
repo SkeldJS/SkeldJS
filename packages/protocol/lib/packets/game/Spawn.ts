@@ -43,4 +43,8 @@ export class SpawnMessage extends BaseGameDataMessage {
         writer.uint8(this.flags);
         writer.lwrite(true, this.components);
     }
+
+    clone() {
+        return new SpawnMessage(this.spawnType, this.ownerid, this.flags, this.components.map(component => component.clone()));
+    }
 }

@@ -27,4 +27,8 @@ export class SendChatNoteMessage extends BaseRpcMessage {
         writer.uint8(this.playerid);
         writer.uint8(this.notetype);
     }
+
+    clone() {
+        return new SendChatNoteMessage(this.playerid, this.notetype);
+    }
 }

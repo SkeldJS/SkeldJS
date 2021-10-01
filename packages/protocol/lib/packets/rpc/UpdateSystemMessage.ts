@@ -46,4 +46,8 @@ export class UpdateSystemMessage extends BaseRpcMessage {
         writer.upacked(this.playerNetid);
         writer.write(this.data, direction, decoder);
     }
+
+    clone() {
+        return new UpdateSystemMessage(this.playerNetid, this.data.clone());
+    }
 }

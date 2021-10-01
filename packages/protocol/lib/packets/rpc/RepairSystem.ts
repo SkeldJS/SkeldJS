@@ -31,4 +31,8 @@ export class RepairSystemMessage extends BaseRpcMessage {
         writer.upacked(this.netId);
         writer.uint8(this.amount);
     }
+
+    clone() {
+        return new RepairSystemMessage(this.systemId, this.netId, this.amount);
+    }
 }

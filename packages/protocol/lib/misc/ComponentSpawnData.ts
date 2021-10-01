@@ -22,4 +22,8 @@ export class ComponentSpawnData {
         writer.bytes(this.data);
         writer.end();
     }
+
+    clone() {
+        return new ComponentSpawnData(this.netid, Buffer.from(this.data));
+    }
 }

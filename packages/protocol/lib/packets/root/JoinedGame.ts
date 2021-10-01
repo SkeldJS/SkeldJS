@@ -46,4 +46,8 @@ export class JoinedGameMessage extends BaseRootMessage {
         writer.int32(this.hostid);
         writer.list(true, this.others, (other) => writer.packed(other));
     }
+
+    clone() {
+        return new JoinedGameMessage(this.code, this.clientid, this.hostid, [...this.others]);
+    }
 }

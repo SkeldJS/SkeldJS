@@ -23,4 +23,8 @@ export class SetHatMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.upacked(this.hat);
     }
+
+    clone() {
+        return new SetHatMessage(this.hat);
+    }
 }

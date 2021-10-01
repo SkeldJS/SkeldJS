@@ -37,4 +37,8 @@ export class AlterGameMessage extends BaseRootMessage {
         writer.uint8(this.alterTag);
         writer.uint8(this.value);
     }
+
+    clone() {
+        return new AlterGameMessage(this.code, this.alterTag, this.value);
+    }
 }

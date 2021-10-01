@@ -15,7 +15,7 @@ export class BaseMessage {
     }
 
     get canceled() {
-        return this._canceled;  
+        return this._canceled;
     }
 
     static Deserialize(
@@ -23,8 +23,7 @@ export class BaseMessage {
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
-        void reader, direction, decoder;
-        return new BaseMessage;
+        throw new Error("No deserialize method implemented");
     }
 
     Serialize(
@@ -32,7 +31,11 @@ export class BaseMessage {
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
-        void writer, direction, decoder;
+
+    }
+
+    clone(): BaseMessage {
+        throw new Error("No clone method implemented");
     }
 
     cancel() {

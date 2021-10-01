@@ -23,4 +23,8 @@ export class UnreliablePacket extends NormalPacket {
 
         return new UnreliablePacket(normal.children);
     }
+
+    clone() {
+        return new UnreliablePacket(this.children.map(child => child.clone()));
+    }
 }

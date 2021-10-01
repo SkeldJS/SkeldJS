@@ -20,6 +20,10 @@ export class BaseQuickChatMessageData {
     Serialize(writer: HazelWriter) {
 
     }
+
+    clone() {
+
+    }
 }
 
 export class QuickChatPlayerMessageData extends BaseQuickChatMessageData {
@@ -36,6 +40,10 @@ export class QuickChatPlayerMessageData extends BaseQuickChatMessageData {
     Serialize(writer: HazelWriter) {
         writer.uint8(this.playerId);
     }
+
+    clone() {
+        return new QuickChatPlayerMessageData(this.playerId);
+    }
 }
 
 export class QuickChatPhraseMessageData extends BaseQuickChatMessageData {
@@ -51,6 +59,10 @@ export class QuickChatPhraseMessageData extends BaseQuickChatMessageData {
 
     Serialize(writer: HazelWriter) {
         writer.uint16(this.formatString);
+    }
+
+    clone() {
+        return new QuickChatPhraseMessageData(this.formatString);
     }
 }
 
@@ -85,6 +97,10 @@ export class QuickChatSentenceMessageData extends BaseQuickChatMessageData {
             writer.uint8(item.playerId);
         });
         writer.uint16(this.formatString);
+    }
+
+    clone() {
+        return new QuickChatSentenceMessageData(this.formatString, this.elements.map(elem => typeof elem === "number" ? elem : elem.clone()));
     }
 }
 
@@ -121,5 +137,9 @@ export class SendQuickChatMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.uint8(this.message.contentType);
         writer.write(this.message);
+    }
+
+    clone() {
+        return new SendQuickChatMessage(this.message.clone());
     }
 }

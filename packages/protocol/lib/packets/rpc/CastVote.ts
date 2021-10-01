@@ -27,4 +27,8 @@ export class CastVoteMessage extends BaseRpcMessage {
         writer.uint8(this.votingid);
         writer.uint8(this.suspectid);
     }
+
+    clone() {
+        return new CastVoteMessage(this.votingid, this.suspectid);
+    }
 }

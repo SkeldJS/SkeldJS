@@ -23,4 +23,8 @@ export class CheckNameMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.string(this.name);
     }
+
+    clone() {
+        return new CheckNameMessage(this.name);
+    }
 }

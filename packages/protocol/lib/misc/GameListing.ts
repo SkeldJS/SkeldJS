@@ -9,11 +9,11 @@ export class GameListing {
         public readonly ip: string,
         public readonly port: number,
         public readonly name: string,
-        public readonly num_players: number,
+        public readonly numPlayers: number,
         public readonly age: number,
         public readonly map: GameMap,
-        public readonly num_impostors: number,
-        public readonly max_players: number
+        public readonly numImpostors: number,
+        public readonly maxPlayers: number
     ) {
         if (typeof code === "string") {
             this.code = Code2Int(code);
@@ -54,10 +54,14 @@ export class GameListing {
         writer.uint16(this.port);
         writer.int32(this.code);
         writer.string(this.name);
-        writer.uint8(this.num_players);
+        writer.uint8(this.numPlayers);
         writer.upacked(this.age);
         writer.uint8(this.map);
-        writer.uint8(this.num_impostors);
-        writer.uint8(this.max_players);
+        writer.uint8(this.numImpostors);
+        writer.uint8(this.maxPlayers);
+    }
+
+    clone() {
+        return new GameListing(this.code, this.ip, this.port, this.name, this.numPlayers, this.age, this.map, this.numImpostors, this.maxPlayers);
     }
 }

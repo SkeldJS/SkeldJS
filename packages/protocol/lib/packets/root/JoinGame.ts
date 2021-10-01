@@ -88,4 +88,14 @@ export class JoinGameMessage extends BaseRootMessage {
             writer.int32(this.code ?? this.error);
         }
     }
+
+    clone() {
+        if (this.hostid) {
+            return new JoinGameMessage(this.code, this.clientid, this.hostid);
+        }
+        if (this.error !== undefined) {
+            return new JoinGameMessage(this.error, this.message);
+        }
+        return new JoinGameMessage(this.code);
+    }
 }

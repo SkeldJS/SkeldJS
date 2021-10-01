@@ -23,4 +23,8 @@ export class MurderPlayerMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.upacked(this.victimid);
     }
+
+    clone() {
+        return new MurderPlayerMessage(this.victimid);
+    }
 }

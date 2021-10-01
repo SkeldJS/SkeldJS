@@ -72,4 +72,8 @@ export class DisconnectPacket extends BaseRootPacket {
             }
         }
     }
+
+    clone() {
+        return new DisconnectPacket(this.reason, this.message, this.showReason);
+    }
 }

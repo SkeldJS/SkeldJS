@@ -27,4 +27,8 @@ export class ClimbLadderMessage extends BaseRpcMessage {
         writer.uint8(this.ladderid);
         writer.uint8(this.sequenceid);
     }
+
+    clone() {
+        return new ClimbLadderMessage(this.ladderid, this.sequenceid);
+    }
 }

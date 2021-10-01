@@ -27,4 +27,8 @@ export class SetTasksMessage extends BaseRpcMessage {
         writer.uint8(this.playerid);
         writer.list(true, this.taskids, (t) => writer.uint8(t));
     }
+
+    clone() {
+        return new SetTasksMessage(this.playerid, [...this.taskids]);
+    }
 }

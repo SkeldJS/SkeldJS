@@ -27,4 +27,8 @@ export class SnapToMessage extends BaseRpcMessage {
         writer.vector(this.position);
         writer.uint16(this.sequenceid);
     }
+
+    clone() {
+        return new SnapToMessage(this.position.clone(), this.sequenceid);
+    }
 }

@@ -24,4 +24,8 @@ export class RemoveGameMessage extends BaseRootMessage {
     Serialize(writer: HazelWriter) {
         writer.uint8(this.reason);
     }
+
+    clone() {
+        return new RemoveGameMessage(this.reason);
+    }
 }

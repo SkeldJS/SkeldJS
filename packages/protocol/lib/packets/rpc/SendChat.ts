@@ -23,4 +23,8 @@ export class SendChatMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.string(this.message);
     }
+
+    clone() {
+        return new SendChatMessage(this.message);
+    }
 }

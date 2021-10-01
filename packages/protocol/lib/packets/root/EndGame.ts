@@ -9,12 +9,12 @@ export class EndGameMessage extends BaseRootMessage {
 
     readonly code: number;
     readonly reason: GameOverReason;
-    readonly show_ad: boolean;
+    readonly showAd: boolean;
 
     constructor(
         code: string | number,
         reason: GameOverReason,
-        show_ad: boolean
+        showAd: boolean
     ) {
         super();
 
@@ -25,7 +25,7 @@ export class EndGameMessage extends BaseRootMessage {
         }
 
         this.reason = reason;
-        this.show_ad = show_ad;
+        this.showAd = showAd;
     }
 
     static Deserialize(reader: HazelReader) {
@@ -39,6 +39,10 @@ export class EndGameMessage extends BaseRootMessage {
     Serialize(writer: HazelWriter) {
         writer.int32(this.code);
         writer.uint8(this.reason);
-        writer.bool(this.show_ad);
+        writer.bool(this.showAd);
+    }
+
+    clone() {
+        return new EndGameMessage(this.code, this.reason, this.showAd);
     }
 }

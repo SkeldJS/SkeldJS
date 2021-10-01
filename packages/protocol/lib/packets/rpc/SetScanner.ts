@@ -27,4 +27,8 @@ export class SetScanner extends BaseRpcMessage {
         writer.bool(this.scanning);
         writer.uint8(this.sequenceid);
     }
+
+    clone() {
+        return new SetScanner(this.scanning, this.sequenceid);
+    }
 }

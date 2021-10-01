@@ -8,4 +8,8 @@ export class ClearVoteMessage extends BaseRpcMessage {
     static Deserialize() {
         return new ClearVoteMessage;
     }
+
+    clone() {
+        return new ClearVoteMessage;
+    }
 }

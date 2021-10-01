@@ -24,4 +24,8 @@ export class PlayAnimationMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.uint8(this.taskid);
     }
+
+    clone() {
+        return new PlayAnimationMessage(this.taskid);
+    }
 }

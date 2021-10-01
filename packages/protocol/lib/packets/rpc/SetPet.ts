@@ -23,4 +23,8 @@ export class SetPetMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.upacked(this.pet);
     }
+
+    clone() {
+        return new SetPetMessage(this.pet);
+    }
 }

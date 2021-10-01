@@ -8,4 +8,8 @@ export class UsePlatformMessage extends BaseRpcMessage {
     static Deserialize() {
         return new UsePlatformMessage;
     }
+
+    clone() {
+        return new UsePlatformMessage;
+    }
 }

@@ -23,4 +23,8 @@ export class ExitVentMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.upacked(this.ventid);
     }
+
+    clone() {
+        return new ExitVentMessage(this.ventid);
+    }
 }

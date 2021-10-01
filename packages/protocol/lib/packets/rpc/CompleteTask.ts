@@ -23,4 +23,8 @@ export class CompleteTaskMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.upacked(this.taskidx);
     }
+
+    clone() {
+        return new CompleteTaskMessage(this.taskidx);
+    }
 }

@@ -27,4 +27,8 @@ export class ClientInfoMessage extends BaseGameDataMessage {
         writer.packed(this.clientid);
         writer.upacked(this.platform);
     }
+
+    clone() {
+        return new ClientInfoMessage(this.clientid, this.platform);
+    }
 }

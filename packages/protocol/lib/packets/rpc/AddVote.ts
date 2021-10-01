@@ -27,4 +27,8 @@ export class AddVoteMessage extends BaseRpcMessage {
         writer.uint32(this.votingid);
         writer.uint32(this.targetid);
     }
+
+    clone() {
+        return new AddVoteMessage(this.votingid, this.targetid);
+    }
 }

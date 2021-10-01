@@ -49,4 +49,8 @@ export class KickPlayerMessage extends BaseRootMessage {
             writer.uint8(this.reason);
         }
     }
+
+    clone() {
+        return new KickPlayerMessage(this.code, this.clientid, this.banned, this.reason);
+    }
 }

@@ -23,4 +23,8 @@ export class SetSkinMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.upacked(this.skin);
     }
+
+    clone() {
+        return new SetSkinMessage(this.skin);
+    }
 }

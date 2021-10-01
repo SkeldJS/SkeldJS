@@ -23,4 +23,8 @@ export class SetColorMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.uint8(this.color);
     }
+
+    clone() {
+        return new SetColorMessage(this.color);
+    }
 }

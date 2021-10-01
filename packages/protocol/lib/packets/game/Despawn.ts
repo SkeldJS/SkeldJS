@@ -23,4 +23,8 @@ export class DespawnMessage extends BaseGameDataMessage {
     Serialize(writer: HazelWriter) {
         writer.upacked(this.netid);
     }
+
+    clone() {
+        return new DespawnMessage(this.netid);
+    }
 }

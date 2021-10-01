@@ -27,4 +27,8 @@ export class DataMessage extends BaseGameDataMessage {
         writer.upacked(this.netid);
         writer.bytes(this.data);
     }
+
+    clone() {
+        return new DataMessage(this.netid, Buffer.from(this.data));
+    }
 }

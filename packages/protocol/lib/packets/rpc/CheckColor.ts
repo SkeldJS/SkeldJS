@@ -23,4 +23,8 @@ export class CheckColorMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.uint8(this.color);
     }
+
+    clone() {
+        return new CheckColorMessage(this.color);
+    }
 }

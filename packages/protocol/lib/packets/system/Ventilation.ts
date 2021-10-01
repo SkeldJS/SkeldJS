@@ -36,4 +36,8 @@ export class VentilationSystemMessage extends BaseSystemMessage {
         writer.uint8(this.state);
         writer.packed(this.ventId);
     }
+
+    clone() {
+        return new VentilationSystemMessage(this.sequenceId, this.state, this.ventId);
+    }
 }

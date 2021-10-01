@@ -62,4 +62,8 @@ export class RemovePlayerMessage extends BaseRootMessage {
             writer.uint8(this.reason);
         }
     }
+
+    clone() {
+        return new RemovePlayerMessage(this.code, this.clientid, this.reason, this.hostid);
+    }
 }

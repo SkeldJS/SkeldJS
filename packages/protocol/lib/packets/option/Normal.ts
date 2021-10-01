@@ -52,4 +52,8 @@ export class NormalPacket extends BaseRootPacket {
             writer.end();
         }
     }
+
+    clone() {
+        return new NormalPacket(this.children.map(child => child.clone()));
+    }
 }

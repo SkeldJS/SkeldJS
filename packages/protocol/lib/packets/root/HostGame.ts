@@ -11,7 +11,7 @@ export class HostGameMessage extends BaseRootMessage {
 
     readonly code!: number;
     readonly options!: GameSettings;
-    readonly quickchat!: QuickChatMode;
+    readonly quickchatMode!: QuickChatMode;
 
     constructor(code: string | number);
     constructor(options: GameSettings, quickchat: QuickChatMode);
@@ -27,7 +27,7 @@ export class HostGameMessage extends BaseRootMessage {
             this.code = options;
         } else if (typeof quickchat === "number") {
             this.options = options;
-            this.quickchat = quickchat;
+            this.quickchatMode = quickchat;
         }
     }
 
@@ -49,7 +49,15 @@ export class HostGameMessage extends BaseRootMessage {
             writer.int32(this.code);
         } else {
             writer.write(this.options);
-            writer.uint8(this.quickchat);
+            writer.uint8(this.quickchatMode);
+        }
+    }
+
+    clone() {
+        if (this.options) {
+            return new HostGameMessage(this.options, this.quickchatMode);
+        } else {
+            return new HostGameMessage(this.code);
         }
     }
 }

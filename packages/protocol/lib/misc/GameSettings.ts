@@ -104,34 +104,30 @@ export class GameSettings implements AllGameSettings {
         return true;
     }
 
-    version!: number;
-    maxPlayers!: number;
-    keywords!: GameKeyword;
-    map!: GameMap;
-    playerSpeed!: number;
-    crewmateVision!: number;
-    impostorVision!: number;
-    killCooldown!: number;
-    commonTasks!: number;
-    longTasks!: number;
-    shortTasks!: number;
-    numEmergencies!: number;
-    numImpostors!: number;
-    killDistance!: KillDistance;
-    discussionTime!: number;
-    votingTime!: number;
-    isDefaults!: boolean;
-    emergencyCooldown!: number;
-    confirmEjects!: boolean;
-    visualTasks!: boolean;
-    anonymousVotes!: boolean;
-    taskbarUpdates!: TaskBarUpdate;
+    version: number;
+    maxPlayers: number;
+    keywords: GameKeyword;
+    map: GameMap;
+    playerSpeed: number;
+    crewmateVision: number;
+    impostorVision: number;
+    killCooldown: number;
+    commonTasks: number;
+    longTasks: number;
+    shortTasks: number;
+    numEmergencies: number;
+    numImpostors: number;
+    killDistance: KillDistance;
+    discussionTime: number;
+    votingTime: number;
+    isDefaults: boolean;
+    emergencyCooldown: number;
+    confirmEjects: boolean;
+    visualTasks: boolean;
+    anonymousVotes: boolean;
+    taskbarUpdates: TaskBarUpdate;
 
     constructor(options: Partial<AllGameSettings> = {}) {
-        this.patch(options);
-    }
-
-    patch(options: Partial<AllGameSettings>) {
         this.version = options.version ?? 4;
         this.maxPlayers = options.maxPlayers ?? 10;
         this.keywords = options.keywords ?? GameKeyword.Other;
@@ -154,6 +150,31 @@ export class GameSettings implements AllGameSettings {
         this.visualTasks = options.visualTasks ?? true;
         this.anonymousVotes = options.anonymousVotes ?? false;
         this.taskbarUpdates = options.taskbarUpdates ?? TaskBarUpdate.Always;
+    }
+
+    patch(options: Partial<AllGameSettings>) {
+        this.version = options.version ?? this.version;
+        this.maxPlayers = options.maxPlayers ?? this.maxPlayers;
+        this.keywords = options.keywords ?? this.keywords;
+        this.map = options.map ?? this.map;
+        this.playerSpeed = options.playerSpeed ?? this.playerSpeed;
+        this.crewmateVision = options.crewmateVision ?? this.crewmateVision;
+        this.impostorVision = options.impostorVision ?? this.impostorVision;
+        this.killCooldown = options.killCooldown ?? this.killCooldown;
+        this.commonTasks = options.commonTasks ?? this.commonTasks;
+        this.longTasks = options.longTasks ?? this.longTasks;
+        this.shortTasks = options.shortTasks ?? this.shortTasks;
+        this.numEmergencies = options.numEmergencies ?? this.numEmergencies;
+        this.numImpostors = options.numImpostors ?? this.numImpostors;
+        this.killDistance = options.killDistance ?? this.killDistance;
+        this.discussionTime = options.discussionTime ?? this.discussionTime;
+        this.votingTime = options.votingTime ?? this.votingTime;
+        this.isDefaults = options.isDefaults ?? this.isDefaults;
+        this.emergencyCooldown = options.emergencyCooldown ?? this.emergencyCooldown;
+        this.confirmEjects = options.confirmEjects ?? this.confirmEjects;
+        this.visualTasks = options.visualTasks ?? this.visualTasks;
+        this.anonymousVotes = options.anonymousVotes ?? this.anonymousVotes;
+        this.taskbarUpdates = options.taskbarUpdates ?? this.taskbarUpdates;
     }
 
     static Deserialize(reader: HazelReader) {
@@ -236,5 +257,9 @@ export class GameSettings implements AllGameSettings {
         }
         writer.upacked(owriter.size);
         writer.bytes(owriter);
+    }
+
+    clone() {
+        return new GameSettings(this);
     }
 }

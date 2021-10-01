@@ -23,4 +23,8 @@ export class StartMeetingMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.uint8(this.bodyid);
     }
+
+    clone() {
+        return new StartMeetingMessage(this.bodyid);
+    }
 }

@@ -23,4 +23,8 @@ export class CloseDoorsOfTypeMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.uint8(this.systemId);
     }
+
+    clone() {
+        return new CloseDoorsOfTypeMessage(this.systemId);
+    }
 }

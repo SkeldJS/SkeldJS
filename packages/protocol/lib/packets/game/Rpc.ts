@@ -73,4 +73,8 @@ export class RpcMessage extends BaseGameDataMessage {
         writer.uint8(this.data.messageTag);
         writer.write(this.data, direction, decoder);
     }
+
+    clone() {
+        return new RpcMessage(this.netid, this.data.clone());
+    }
 }

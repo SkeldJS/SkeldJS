@@ -23,4 +23,8 @@ export class SetNameMessage extends BaseRpcMessage {
     Serialize(writer: HazelWriter) {
         writer.string(this.name);
     }
+
+    clone() {
+        return new SetNameMessage(this.name);
+    }
 }

@@ -31,4 +31,8 @@ export class RedirectMessage extends BaseRootMessage {
         }
         writer.uint16(this.port);
     }
+
+    clone() {
+        return new RedirectMessage(this.ip, this.port);
+    }
 }

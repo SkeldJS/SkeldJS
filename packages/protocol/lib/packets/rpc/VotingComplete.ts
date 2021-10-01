@@ -19,6 +19,10 @@ export class VoteState {
         writer.uint8(this.votedForId);
         writer.end();
     }
+
+    clone() {
+        return new VoteState(this.playerId, this.votedForId);
+    }
 }
 
 export class VotingCompleteMessage extends BaseRpcMessage {
@@ -49,5 +53,9 @@ export class VotingCompleteMessage extends BaseRpcMessage {
         writer.lwrite(true, this.states);
         writer.uint8(this.exiledid);
         writer.bool(this.tie);
+    }
+
+    clone() {
+        return new VotingCompleteMessage(this.states.map(state => state.clone()), this.exiledid, this.tie);
     }
 }

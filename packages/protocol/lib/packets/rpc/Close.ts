@@ -8,4 +8,8 @@ export class CloseMessage extends BaseRpcMessage {
     static Deserialize() {
         return new CloseMessage;
     }
+
+    clone() {
+        return new CloseMessage;
+    }
 }

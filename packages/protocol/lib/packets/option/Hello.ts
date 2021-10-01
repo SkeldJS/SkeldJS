@@ -39,4 +39,8 @@ export class HelloPacket extends BaseRootPacket {
         writer.uint32(this.language);
         writer.uint8(this.chatMode);
     }
+
+    clone() {
+        return new HelloPacket(this.nonce, this.clientver, this.username, this.token, this.language, this.chatMode);
+    }
 }

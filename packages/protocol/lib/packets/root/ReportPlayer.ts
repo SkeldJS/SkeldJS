@@ -77,4 +77,12 @@ export class ReportPlayerMessage extends BaseRootMessage {
             writer.uint8(this.reason);
         }
     }
+
+    clone() {
+        if (this.code) {
+            return new ReportPlayerMessage(this.code, this.clientid, this.reason);
+        }
+
+        return new ReportPlayerMessage(this.clientid, this.reason, this.outcome, this.name);
+    }
 }

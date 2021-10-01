@@ -43,4 +43,8 @@ export class AcknowledgePacket extends BaseRootPacket {
 
         writer.uint8(bit);
     }
+
+    clone() {
+        return new AcknowledgePacket(this.nonce, [...this.missingPackets]);
+    }
 }

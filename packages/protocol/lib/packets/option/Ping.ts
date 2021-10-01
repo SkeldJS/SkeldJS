@@ -23,4 +23,8 @@ export class PingPacket extends BaseRootPacket {
     Serialize(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
     }
+
+    clone() {
+        return new PingPacket(this.nonce);
+    }
 }

@@ -28,4 +28,8 @@ export class StartGameMessage extends BaseRootMessage {
     Serialize(writer: HazelWriter) {
         writer.int32(this.code);
     }
+
+    clone() {
+        return new StartGameMessage(this.code);
+    }
 }
