@@ -181,6 +181,10 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
             this.completed.delete(consoleid);
             this.completed.add(ev.alteredConsoleId);
         }
+
+        if (this.completed.size >= 2) {
+            await this._repair(player, rpc);
+        }
     }
 
     /**
@@ -230,9 +234,6 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
 
         if (amount & 0x40) {
             await this._completeConsole(consoleId, player, rpc);
-            if (this.completed.size >= 2) {
-                await this._repair(player, rpc);
-            }
         } else if (amount & 0x10) {
             await this._repair(player, rpc);
         }
