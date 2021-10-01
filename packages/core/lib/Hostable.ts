@@ -1170,9 +1170,16 @@ export class Hostable<
      * ```
      */
     getPlayerByPlayerId(playerId: number): PlayerData<this>|undefined {
-        for (const [, player] of this.players) {
-            if (player.playerId === playerId)
-                return player;
+        return this.getPlayerControlByPlayerId(playerId)?.player;
+    }
+
+    getPlayerControlByPlayerId(playerId: number): PlayerControl<this>|undefined {
+        for (const object of this.objectList) {
+            if (object instanceof PlayerControl) {
+                if (object.playerId === playerId) {
+                    return object;
+                }
+            }
         }
 
         return undefined;
