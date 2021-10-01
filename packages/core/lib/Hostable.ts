@@ -1068,6 +1068,9 @@ export class Hostable<
             object.components.push(component);
         }
 
+        if (!object)
+            return;
+
         for (const component of object.components) {
             if (doAwake) {
                 component.Awake();
