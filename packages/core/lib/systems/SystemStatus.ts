@@ -77,7 +77,7 @@ export class SystemStatus<
         void writer, spawn;
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined): Promise<void> {
+    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined|undefined): Promise<void> {
         void player, amount, rpc;
     }
 
@@ -85,7 +85,7 @@ export class SystemStatus<
         void delta;
     }
 
-    async HandleSabotage(player: PlayerData, rpc: RepairSystemMessage|undefined): Promise<void> {
+    async HandleSabotage(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined): Promise<void> {
         void player, rpc;
     }
 

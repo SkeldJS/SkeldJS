@@ -183,7 +183,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {

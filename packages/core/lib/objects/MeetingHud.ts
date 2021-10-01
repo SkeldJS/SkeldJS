@@ -268,7 +268,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        if (this.room.hostIsMe && player && voter && (suspect || rpc.suspectid === 0xff)) {
+        if (this.room.hostIsMe && this.room.host && player && voter && (suspect || rpc.suspectid === 0xff)) {
             this._castVote(voter, suspect);
 
             const ev = await this.emit(
@@ -286,7 +286,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     await this.clearVote(player);
                 }
             } else {
-                this.room.myPlayer?.control?.sendChatNote(
+                this.room.host.control?.sendChatNote(
                     player,
                     ChatNoteType.DidVote
                 );
@@ -367,7 +367,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     if (ev.reverted) {
                         this._clearVote(votingState);
                     } else {
-                        this.room.myPlayer?.control?.sendChatNote(
+                        this.room.host?.control?.sendChatNote(
                             player,
                             ChatNoteType.DidVote
                         );
@@ -515,9 +515,11 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     votingComplete(tie: boolean = false, exiled?: PlayerDataResolvable) {
         const _exiled = exiled ? this.room.resolvePlayer(exiled) : undefined;
 
-        const voteStates: PlayerVoteState<RoomType>[] = new Array(this.room.players.size);
+        const voteStates: PlayerVoteState<RoomType>[] = new Array(this.room.gameData!.players.size);
+        let i = 0;
         for (const [ playerId, state ] of this.voteStates) {
-            voteStates[playerId] = new PlayerVoteState(this.room, playerId, state.votedForId);
+            voteStates[i] = new PlayerVoteState(this.room, playerId, state.votedForId);
+            i++;
         }
 
         this._votingComplete(voteStates, tie, _exiled);

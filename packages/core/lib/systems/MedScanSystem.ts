@@ -156,7 +156,7 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
         await this.removeFromQueue(this.room.myPlayer);
     }
 
-    async HandleRepair(player: PlayerData<RoomType>, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
         const playerId = amount & 0x1f;
         const resolved = this.ship.room.getPlayerByPlayerId(playerId);
 

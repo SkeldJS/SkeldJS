@@ -170,7 +170,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
         this._closeDoor(doorId, this.room.myPlayer, undefined);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
         const doorId = amount & 0x1f;
 
         await this._openDoor(doorId, player, rpc);

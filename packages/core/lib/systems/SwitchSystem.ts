@@ -104,7 +104,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
         writer.uint8(this.brightness);
     }
 
-    async HandleSabotage(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    async HandleSabotage(player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
         if (this.sabotaged)
             return;
 
@@ -178,7 +178,8 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
      * ```
      */
     async setSwitch(num: number, value: boolean) {
-        if (this.actual[num] === value) return;
+        if (this.actual[num] === value)
+            return;
 
         await this.flip(num);
     }
@@ -195,9 +196,6 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
      * ```
      */
     async flip(num: number) {
-        if (!this.room.myPlayer)
-            return;
-
         if (this.room.hostIsMe) {
             await this._setSwitch(num, !this.actual[num], this.room.myPlayer, undefined);
         } else {
@@ -238,7 +236,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
         }
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
         await this._setSwitch(amount, !this.actual[amount], player, rpc);
     }
 

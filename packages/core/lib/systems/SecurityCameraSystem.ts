@@ -155,7 +155,10 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
         }
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+        if (!player)
+            return;
+
         if (amount === 1) {
             await this._addPlayer(player, rpc);
         } else {

@@ -161,7 +161,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
-    async HandleSabotage(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    async HandleSabotage(player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
         const oldTimer = this.timer;
         const oldActive = this.active;
         const oldCompleted = this.completed;
@@ -235,6 +235,10 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
+    async openConsoleAs(consoleId: number, player: PlayerData) {
+        await this._openConsole(consoleId, player, undefined);
+    }
+
     /**
      * Mark the console as being used by your player.
      * @param consoleId The ID of the console to mark as being used.
@@ -244,7 +248,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
             return;
 
         if (this.room.hostIsMe) {
-            this._openConsole(consoleId, this.room.myPlayer, undefined);
+            await this.openConsoleAs(consoleId, this.room.myPlayer);
         } else {
             this._sendRepair(0x40 | consoleId);
         }
@@ -275,6 +279,10 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
+    async closeConsoleAs(consoleId: number, player: PlayerData) {
+        await this._closeConsole(consoleId, player, undefined);
+    }
+
     /**
      * Mark the console as no longer being used by your player.
      * @param consoleId The ID of the console to mark as not being used.
@@ -284,7 +292,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
             return;
 
         if (this.room.hostIsMe) {
-            await this._closeConsole(consoleId, this.room.myPlayer, undefined);
+            await this.closeConsoleAs(consoleId, this.room.myPlayer);
         } else {
             await this._sendRepair(0x20 | consoleId);
         }
@@ -347,7 +355,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
+    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
         const consoleId = amount & 0xf;
         const repairOperation = amount & 0xf0;
 
@@ -359,9 +367,15 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
                 }
                 break;
             case HqHudSystemRepairTag.CloseConsole:
+                if (!player)
+                    return;
+
                 await this._closeConsole(consoleId, player, rpc);
                 break;
             case HqHudSystemRepairTag.OpenConsole:
+                if (!player)
+                    return;
+
                 await this._openConsole(consoleId, player, rpc);
                 break;
         }

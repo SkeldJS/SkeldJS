@@ -112,7 +112,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         }
     }
 
-    async HandleSabotage(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    async HandleSabotage(player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
         this.timer = 45;
         const oldCompleted = this.completed;
         this._clearConsoles(player, rpc);
@@ -225,7 +225,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         }
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {

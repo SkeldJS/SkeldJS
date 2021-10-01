@@ -61,7 +61,7 @@ export class SabotageSystem<RoomType extends Hostable = Hostable> extends System
         writer.float(this.cooldown);
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
         const system = this.ship.systems.get(amount) as SystemStatus;
 
         if (system) {

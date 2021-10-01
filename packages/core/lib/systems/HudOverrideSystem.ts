@@ -134,7 +134,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
         }
     }
 
-    async HandleRepair(player: PlayerData, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
         if (amount === 0) {
             await this._repair(player, rpc);
         }
