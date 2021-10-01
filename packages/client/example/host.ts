@@ -1,5 +1,5 @@
 import { Int2Code } from "@skeldjs/util";
-import { StringNames } from "@skeldjs/constant";
+import { Color, GameOverReason, StringNames } from "@skeldjs/constant";
 import * as skeldjs from "../index";
 
 const connectRegion = process.argv[2];
@@ -10,6 +10,15 @@ const connectRegion = process.argv[2];
     console.log("Connecting to server..");
     await client.connect(connectRegion, "weakeyes");
 
+    client.on("player.join", ev => {
+        client.myPlayer?.control?.setName("weakeyes");
+        client.myPlayer?.control?.setColor(skeldjs.Color.Red);
+        client.setSettings({
+            votingTime: 30,
+            discussionTime: 0
+        });
+    });
+
     console.log("Creating game..");
     const code = await client.createGame(
         {
@@ -19,13 +28,43 @@ const connectRegion = process.argv[2];
         }
     );
 
-    await client.myPlayer?.control?.setName("weakeyes");
-    await client.myPlayer?.control?.setColor(skeldjs.Color.Red);
+    client.on("room.endgameintent", ev => {
+        if (ev.intentName === "players remaining") {
+            ev.cancel();
+        }
+    });
+
+    client.registerEndGameIntent("balls", () => {
+        for (const [ , player ] of client.players) {
+            if (player.transform.position.x < -5) {
+                return GameOverReason.ImpostorBySabotage;
+            }
+        }
+
+        return undefined;
+    });
 
     client.on("player.quickchat", ev => {
         if (ev.player !== client.myPlayer) {
             client.myPlayer?.control?.sendQuickChat(StringNames.QCQstWhatWasADoing, [ client.myPlayer ]);
         }
+    });
+
+    client.on("player.chat", async ev => {
+        if (ev.chatMessage === "start") {
+            client.startGame();
+        } else if (ev.chatMessage === "players") {
+            for (let i = 0; i < 2; i++) {
+                const playerControl = client.createFakePlayer();
+                await playerControl.control?.setName("dummy");
+                await playerControl.control?.setColor(Color.Black);
+                await client.wait("room.fixedupdate");
+            }
+        }
+    });
+
+    client.on("room.gameend", ev => {
+        client.joinGame(client.code);
     });
 
     console.log(
