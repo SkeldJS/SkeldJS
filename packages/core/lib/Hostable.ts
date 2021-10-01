@@ -1120,6 +1120,15 @@ export class Hostable<
         return object;
     }
 
+    createFakePlayer(): PlayerData<this> {
+        const player = new PlayerData(this, 0);
+        const playerControl = this.spawnPrefab(SpawnType.Player, -2) as PlayerControl<this>;
+        playerControl.player = player;
+        player.character = playerControl;
+
+        return player;
+    }
+
     async checkForGameEnd() {
         for (const [ intentName, intentCritera ] of this.endGameIntents) {
             const intent = await intentCritera();
