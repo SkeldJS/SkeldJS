@@ -55,6 +55,8 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
      */
     brightness: number;
 
+    private timer: number;
+
     get sabotaged() {
         return this.actual[0] !== this.expected[0]
             || this.actual[1] !== this.expected[1]
@@ -240,13 +242,24 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
         await this._setSwitch(amount, !this.actual[amount], player, rpc);
     }
 
-    Detoriorate() {
-        if (this.sabotaged) {
-            if (this.brightness > 0) {
-                this.brightness -= 15;
-                if (this.brightness < 0)
-                    this.brightness = 0;
-                this.dirty = true;
+    Detoriorate(delta: number) {
+        this.timer += delta;
+        if (this.timer >= 0.03) {
+            this.timer = 0;
+            if (this.sabotaged) {
+                if (this.brightness > 0) {
+                    this.brightness -= 3;
+                    if (this.brightness < 0)
+                        this.brightness = 0;
+                    this.dirty = true;
+                }
+            } else {
+                if (this.brightness < 255) {
+                    this.brightness += 3;
+                    if (this.brightness > 255)
+                        this.brightness = 255;
+                    this.dirty = true;
+                }
             }
         }
     }
