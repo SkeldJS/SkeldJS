@@ -1011,8 +1011,11 @@ export class Hostable<
      * ```
      */
     getAvailablePlayerID() {
+        if (!this.gameData)
+            return 0;
+
         for (let i = 0; ; i++) {
-            if (!this.getPlayerComponentByPlayerId(i)) {
+            if (!this.gameData.players.get(i)) {
                 return i;
             }
         }
