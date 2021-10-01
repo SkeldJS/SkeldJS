@@ -62,6 +62,11 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
      */
     velocity: Vector2;
 
+    /**
+     * The player that this component belongs to.
+     */
+    player: PlayerData<RoomType>;
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -78,16 +83,11 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
         this.position ||= Vector2.null;
         this.velocity ||= Vector2.null;
 
+        this.player = this.owner as PlayerData<RoomType>;
+
         if (playerControl) {
             this.components = playerControl.components;
         }
-    }
-
-    /**
-     * That player that this component belongs to.
-     */
-    get player() {
-        return this.owner as PlayerData<RoomType>;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

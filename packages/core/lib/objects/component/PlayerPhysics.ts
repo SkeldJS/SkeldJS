@@ -47,6 +47,11 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
      */
     ventid: number;
 
+    /**
+     * The player that this component belongs to.
+     */
+    player: PlayerData<RoomType>;
+
     private ladderClimbSeqId: number;
 
     constructor(
@@ -63,13 +68,11 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
         this.ventid ??= -1;
         this.ladderClimbSeqId = 0;
 
+        this.player = this.owner as PlayerData<RoomType>;
+
         if (playerControl) {
             this.components = playerControl.components;
         }
-    }
-
-    get player() {
-        return this.owner as PlayerData<RoomType>;
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {

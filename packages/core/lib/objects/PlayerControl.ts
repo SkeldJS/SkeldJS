@@ -119,6 +119,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     playerId: number;
 
+    /**
+     * The player that this component belongs to.
+     */
+    player: PlayerData<RoomType>;
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -131,6 +136,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         this.isNew ??= true;
         this.playerId ||= 0;
+
+        this.player = this.owner as PlayerData<RoomType>;
     }
 
     Awake() {
@@ -170,10 +177,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
 
         return undefined;
-    }
-
-    get player() {
-        return this.owner as PlayerData<RoomType>;
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
@@ -375,7 +378,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         this._syncSettings(ev.alteredSettings);
 
-        this._syncSettings(settings);
         this._rpcSyncSettings(settings);
     }
 
