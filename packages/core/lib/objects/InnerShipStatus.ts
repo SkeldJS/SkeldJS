@@ -106,7 +106,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
 > {
     static roomDoors: Partial<Record<SystemType, number[]>>;
 
-    systems: AllSystems;
+    systems!: AllSystems;
     spawnRadius: number;
     initialSpawnCenter: Vector2;
     meetingSpawnCenter: Vector2;
@@ -121,7 +121,10 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     ) {
         super(room, spawnType, netid, ownerid, flags, data);
 
-        this.systems ||= new Map;
+        if (this.systems === undefined) {
+            this.systems = new Map;
+            this.Setup();
+        }
 
         this.spawnRadius = 1;
         this.initialSpawnCenter = Vector2.null;
@@ -136,8 +139,6 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     Setup() {}
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
-        if (!this.systems) this.Setup();
-
         while (reader.left) {
             const [tag, mreader] = reader.message();
             const system = this.systems.get(tag) as SystemStatus;
@@ -150,12 +151,8 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
 
     /* eslint-disable-next-line */
     Serialize(writer: HazelWriter, spawn: boolean = false) {
-        if (!this.systems) this.Setup();
-        const systems = Object.values(this.systems);
-        for (let i = 0; i < systems.length; i++) {
-            const system = systems[i];
-
-            if (system?.dirty) {
+        for (const [, system ] of this.systems) {
+            if (system.dirty) {
                 writer.begin(system.systemType);
                 system.Serialize(writer, spawn);
                 writer.end();
@@ -175,13 +172,8 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     }
 
     FixedUpdate(delta: number) {
-        if (!this.systems) this.Setup();
-
-        const systems = Object.values(this.systems);
-        for (let i = 0; i < systems.length; i++) {
-            const system = systems[i];
-
-            system?.Detoriorate(delta);
+        for (const [, system ] of this.systems) {
+            system.Detoriorate(delta);
         }
     }
 
