@@ -641,10 +641,8 @@ export class Hostable<
     setSettings(settings: Partial<AllGameSettings>) {
         this.settings.patch(settings);
 
-        if (this.hostIsMe) {
-            if (this.myPlayer?.control) {
-                this.myPlayer.control.syncSettings(this.settings);
-            }
+        if (this.hostIsMe && this.host && this.host.control) {
+            this.host.control.syncSettings(this.settings);
         }
     }
 
