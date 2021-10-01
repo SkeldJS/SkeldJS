@@ -81,7 +81,7 @@
 					<h2>Writing Custom Protocol Messages</h2>
 				</a>
 				<p>Messages in SkeldJS have been designed to be easy to both write and to register
-					to a client or server using the <a href="https://skeld.js.org/SkeldJS/classes/protocol.packetdecoder.html">PacketDecoder</a>
+					to a client or server using the <a href="https://skeld.js.org/classes/protocol.packetdecoder.html">PacketDecoder</a>
 				class.</p>
 				<a href="#message-skeleton" id="message-skeleton" style="color: inherit; text-decoration: none;">
 					<h3>Message Skeleton</h3>
@@ -113,35 +113,35 @@
 <span style="color: #000000">}</span>
 </code></pre>
 				<p>A message declaration is just a class that optionally extends one of several
-					utility classes for standardisation, here being a very basic <a href="https://skeld.js.org/SkeldJS/classes/protocol.basemessage.html">BaseMessage</a>
+					utility classes for standardisation, here being a very basic <a href="https://skeld.js.org/classes/protocol.basemessage.html">BaseMessage</a>
 					which just contains a utility for cancelling the message in some scenarios (such
 				as if it is relayed through a server, you might want to stop this behaviour).</p>
 				<p>Otherwise, SkeldJS also contains several other classes based off of the Among Us
 				protocol to extend:</p>
 				<ul>
-					<li><p><a href="https://skeld.js.org/SkeldJS/classes/protocol.baserootpacket.html">BaseRootPacket</a> -
+					<li><p><a href="https://skeld.js.org/classes/protocol.baserootpacket.html">BaseRootPacket</a> -
 							used for writing protocol send options, see <a href="https://github.com/codyphobe/among-us-protocol/blob/master/01_packet_structure/05_packet_types.md">here</a>
 						for more information.</p>
 					</li>
-					<li><p><a href="https://skeld.js.org/SkeldJS/classes/protocol.baserootmessage.html">BaseRootMessage</a> -
+					<li><p><a href="https://skeld.js.org/classes/protocol.baserootmessage.html">BaseRootMessage</a> -
 							used for writing root messages, see <a href="https://github.com/codyphobe/among-us-protocol/blob/master/02_root_message_types/README.md">here</a>
 						for more information.</p>
 					</li>
-					<li><p><a href="https://skeld.js.org/SkeldJS/classes/protocol.basegamedatamessage.html">BaseGameDataMessage</a> -
+					<li><p><a href="https://skeld.js.org/classes/protocol.basegamedatamessage.html">BaseGameDataMessage</a> -
 							used for writing game data messages, see <a href="https://github.com/codyphobe/among-us-protocol/blob/master/03_gamedata_and_gamedatato_message_types/README.md">here</a>
 						for more information.</p>
 					</li>
-					<li><p><a href="https://skeld.js.org/SkeldJS/classes/protocol.baserpcmessage.html">BaseRpcMessage</a> -
+					<li><p><a href="https://skeld.js.org/classes/protocol.baserpcmessage.html">BaseRpcMessage</a> -
 							used for writing remote call procedure messages, see <a href="https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/README.md">here</a>
 						for more information.</p>
 					</li>
 				</ul>
-				<p>Using the above classes rather than extending <a href="https://skeld.js.org/SkeldJS/classes/protocol.basemessage.html">BaseMessage</a>
+				<p>Using the above classes rather than extending <a href="https://skeld.js.org/classes/protocol.basemessage.html">BaseMessage</a>
 				means that you don&#39;t need to specify the message type, since they will be set to <code>option</code>, <code>root</code>, <code>gamedata</code> and <code>rpc</code> respectfully if you extend them.</p>
-				<p>The Deserialize and Serialize methods take 3 parameters, a <a href="https://skeld.js.org/SkeldJS/classes/util.hazelreader.html">HazelReader</a>
-					or <a href="https://skeld.js.org/SkeldJS/classes/util.hazelwriter.html">HazelWriter</a>
-					instance respectfully, and also both take a <a href="https://skeld.js.org/SkeldJS/enums/protocol.messagedirection.html">MessageDirection</a>
-				and <a href="https://skeld.js.org/SkeldJS/classes/protocol.packetdecoder.html">PacketDecoder</a>.</p>
+				<p>The Deserialize and Serialize methods take 3 parameters, a <a href="https://skeld.js.org/classes/util.hazelreader.html">HazelReader</a>
+					or <a href="https://skeld.js.org/classes/util.hazelwriter.html">HazelWriter</a>
+					instance respectfully, and also both take a <a href="https://skeld.js.org/enums/protocol.messagedirection.html">MessageDirection</a>
+				and <a href="https://skeld.js.org/classes/protocol.packetdecoder.html">PacketDecoder</a>.</p>
 				<p>The Deserialize method should also return an instance of the message, while
 				Serialize should return nothing.</p>
 				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
@@ -154,16 +154,16 @@
 				<a href="#registering-and-listening-to-messages" id="registering-and-listening-to-messages" style="color: inherit; text-decoration: none;">
 					<h2>Registering and Listening to Messages</h2>
 				</a>
-				<p>To register a custom message, you can use the <a href="https://skeld.js.org/SkeldJS/classes/protocol.packetdecoder.html#register">PacketDecoder#register</a>
+				<p>To register a custom message, you can use the <a href="https://skeld.js.org/classes/protocol.packetdecoder.html#register">PacketDecoder#register</a>
 				method, passing in the message class declaration itself. (Not an instance of the message)</p>
-				<p>To listen for a message to pass through the decoder, you can use the <a href="https://skeld.js.org/SkeldJS/classes/protocol.packetdecoder.html#on">PacketDecoder#on</a>
+				<p>To listen for a message to pass through the decoder, you can use the <a href="https://skeld.js.org/classes/protocol.packetdecoder.html#on">PacketDecoder#on</a>
 					method, passing in the message class declaration itself and a function with 3
 				optional parameters,</p>
 				<ul>
 					<li>An instance of the message class delcaration.</li>
-					<li>The <a href="https://skeld.js.org/SkeldJS/enums/protocol.messagedirection.html">direction</a>
+					<li>The <a href="https://skeld.js.org/enums/protocol.messagedirection.html">direction</a>
 					that the message is travelling in.</li>
-					<li>An optional parameter with the sender of the packet, if passed through the <a href="https://skeld.js.org/SkeldJS/classes/protocol.packetdecoder.html#write">PacetkDecoder#write</a>
+					<li>An optional parameter with the sender of the packet, if passed through the <a href="https://skeld.js.org/classes/protocol.packetdecoder.html#write">PacetkDecoder#write</a>
 					method</li>
 				</ul>
 				<p>For example, you can do</p>
