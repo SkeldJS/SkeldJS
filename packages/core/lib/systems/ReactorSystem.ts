@@ -7,7 +7,7 @@ import { PlayerData } from "../PlayerData";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
-import { ReactorConsoleAddEvent, ReactorConsoleRemoveEvent, ReactorConsolesResetEvent } from "../events";
+import { ReactorConsoleAddEvent, ReactorConsoleRemoveEvent, ReactorConsolesResetEvent, SystemSabotageEvent } from "../events";
 import { Hostable } from "../Hostable";
 
 export interface ReactorSystemData {
@@ -93,12 +93,17 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
         );
 
         if (ev.reverted) {
-            return this.completed.delete(ev.consoleId);
+            this.completed.delete(ev.consoleId);
+            return;
         }
 
         if (ev.alteredConsoleId !== consoleid) {
             this.completed.delete(consoleid);
             this.completed.add(ev.alteredConsoleId);
+        }
+
+        if (this.completed.size >= 2) {
+            await this._repair(player, rpc);
         }
     }
 
@@ -152,6 +157,26 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
         }
     }
 
+    async HandleSabotage(player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
+        this.timer = 45;
+        const oldCompleted = this.completed;
+        this.completed = new Set;
+
+        const ev = await this.emit(
+            new SystemSabotageEvent(
+                this.room,
+                this,
+                rpc,
+                player
+            )
+        );
+
+        if (ev.reverted) {
+            this.timer = 10000;
+            this.completed = oldCompleted;
+        }
+    }
+
     private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
         const oldTimer = this.timer;
         const oldCompleted = this.completed;
@@ -199,7 +224,8 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
 
     private _lastUpdate = 0;
     Detoriorate(delta: number) {
-        if (!this.sabotaged) return;
+        if (!this.sabotaged)
+            return;
 
         this.timer -= delta;
         this._lastUpdate += delta;
