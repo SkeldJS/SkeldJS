@@ -81,30 +81,32 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     }
 
     Awake() {
-        this.voteStates = new Map(
-            [...this.room.players]
-                .filter(([, player]) => player.info && player.hasSpawned && player.playerId !== undefined)
-                .map(([, player]) => {
-                    return [
-                        player.playerId!,
-                        new PlayerVoteArea(
-                            this,
-                            player.playerId!,
-                            VoteStateSpecialId.NotVoted,
-                            false
-                        ),
-                    ];
-                }));
+        if (this.room.gameData) {
+            this.voteStates = new Map(
+                [...this.room.gameData.players]
+                    .filter(([, player]) => player.playerId !== undefined)
+                    .map(([, player]) => {
+                        return [
+                            player.playerId,
+                            new PlayerVoteArea(
+                                this,
+                                player.playerId,
+                                VoteStateSpecialId.NotVoted,
+                                false
+                            ),
+                        ];
+                    }));
+        }
 
         this.ranOutOfTimeTimeout = setTimeout(() => {
             for (const [ , voteState ] of this.voteStates) {
                 if (voteState.votedForId === 255) {
-                    voteState.votedForId = VoteStateSpecialId.MissedVote;
+                    voteState.setMissed();
                 }
             }
 
             this.checkForVoteComplete(true);
-        }, this.room.settings.votingTime * 1000);
+        }, 8000 + this.room.settings.discussionTime * 1000 + this.room.settings.votingTime * 1000);
     }
 
     getComponent<T extends Networkable>(
@@ -231,20 +233,20 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         if (states.every(([, state]) => state.hasVoted || !state.canVote) || isTimeout) {
             let tie = false;
             let exiled: PlayerData|undefined;
-            let exiled_votes = 0;
+            let exiledVotes = 0;
             for (const [, state] of states) {
                 let num = 0;
                 for (const [, state2] of states) {
-                    if (state2.votedFor === state.player) {
+                    if (state2.votedForId === state.playerId) {
                         num++;
                     }
                 }
                 if (num) {
-                    if (num > exiled_votes) {
+                    if (num > exiledVotes) {
                         tie = false;
                         exiled = state.player;
-                        exiled_votes = num;
-                    } else if (num === exiled_votes) {
+                        exiledVotes = num;
+                    } else if (num === exiledVotes) {
                         tie = true;
                     }
                 }
