@@ -87,7 +87,7 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
             expected: [false, false, false, false, false],
             actual: [false, false, false, false, false],
-            brightness: 100,
+            brightness: 255,
         }));
         this.systems.set(SystemType.O2, new LifeSuppSystem(this, {
             timer: 10000,

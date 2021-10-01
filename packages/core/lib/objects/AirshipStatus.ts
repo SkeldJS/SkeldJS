@@ -62,7 +62,7 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
             expected: [false, false, false, false, false],
             actual: [false, false, false, false, false],
-            brightness: 100,
+            brightness: 255,
         }));
 
         this.systems.set(SystemType.Security, new SecurityCameraSystem(this, {
