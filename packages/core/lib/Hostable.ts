@@ -523,6 +523,9 @@ export class Hostable<
      * ```
      */
     resolvePlayer(player: PlayerDataResolvable): PlayerData<this>|undefined {
+        if (player instanceof PlayerData)
+            return player as PlayerData<this>;
+
         const clientid = this.resolvePlayerClientID(player);
 
         if (clientid === undefined)
@@ -824,7 +827,7 @@ export class Hostable<
             await this.shipStatus?.assignTasks();
         } else {
             await this.emit(new RoomGameStartEvent(this));
-            if (this.myPlayer) await this.myPlayer.ready();
+            await this.myPlayer?.ready();
         }
     }
 
@@ -987,17 +990,6 @@ export class Hostable<
         this._despawnComponent(component);
 
         this.stream.push(new DespawnMessage(component.netId));
-    }
-
-    private getPlayerComponentByPlayerId(playerId: number) {
-        for (const object of this.objectList) {
-            if (object instanceof PlayerControl) {
-                if (object.playerId === playerId)
-                    return object;
-            }
-        }
-
-        return undefined;
     }
 
     /**

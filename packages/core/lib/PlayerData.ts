@@ -156,7 +156,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * Whether or not the player is the current client's player.
      */
     get isMe() {
-        return this.clientId === this.room.myPlayer?.clientId;
+        return this.room.myPlayer === this;
     }
 
     /**

@@ -381,4 +381,8 @@ export class Vector2 {
     negate() {
         return Vector2.negate(this);
     }
+
+    clone() {
+        return new Vector2(this);
+    }
 }

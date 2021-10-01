@@ -2,6 +2,7 @@ import { HazelReader } from "@skeldjs/util";
 
 import {
     AlterGameTag,
+    GameState,
     Hostable,
     HostableEvents,
     HostableOptions,
@@ -91,7 +92,8 @@ export class SkeldjsStateManager<
             async (message, direction, sender) => {
                 if (
                     direction === MessageDirection.Clientbound &&
-                    message.code === this.code
+                    message.code === this.code &&
+                    message.recipientid === this.clientId
                 ) {
                     for (const child of message._children) {
                         this.decoder.emitDecoded(child, direction, sender);
@@ -103,6 +105,7 @@ export class SkeldjsStateManager<
         this.decoder.on(JoinedGameMessage, async (message, direction) => {
             if (direction === MessageDirection.Clientbound) {
                 this.clientId = message.clientid;
+                this.state = GameState.NotStarted;
                 await this.setCode(message.code);
                 await this.setHost(message.hostid);
                 await this.handleJoin(message.clientid);
@@ -219,7 +222,7 @@ export class SkeldjsStateManager<
                                 SpawnFlag.IsClientCharacter
                             );
 
-                            this.myPlayer?.control?.syncSettings(this.settings);
+                            this.host?.control?.syncSettings(this.settings);
                         }
                     }
                 }
