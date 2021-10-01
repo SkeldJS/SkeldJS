@@ -503,7 +503,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             new RpcMessage(
                 this.netId,
                 new VotingCompleteMessage(
-                    states.map(state => new VoteState(state.playerId, state.votedForId)), exiled ? exiled.playerId ?? 0 : 0, tie)
+                    states.map(state => new VoteState(state.playerId, state.votedForId)), exiled ? exiled.playerId ?? 0xff : 0xff, tie)
             )
         );
     }

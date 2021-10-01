@@ -483,7 +483,7 @@ export class Hostable<
                 if (component.dirtyBit) {
                     component.PreSerialize();
                     const writer = HazelWriter.alloc(0);
-                    if (component.Serialize(writer, false)) {
+                if (component.Serialize(writer, false)) {
                         this.stream.push(
                             new DataMessage(component.netId, writer.buffer)
                         );
