@@ -85,5 +85,11 @@ export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
         }
 
         this.votedForId = playerId;
+        this.dirty = true;
+    }
+
+    setMissed() {
+        this.votedForId = VoteStateSpecialId.MissedVote;
+        this.dirty = true;
     }
 }
