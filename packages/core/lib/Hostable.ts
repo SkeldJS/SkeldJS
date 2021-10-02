@@ -331,6 +331,9 @@ export class Hostable<
         }
 
         this.registerEndGameIntent("o2 sabotage", async () => {
+            if (!this.shipStatus)
+                return;
+
             const lifeSuppSystem = this.shipStatus?.systems.get(SystemType.O2) as LifeSuppSystem;
             if (lifeSuppSystem) {
                 if (lifeSuppSystem.timer <= 0) {
@@ -341,6 +344,9 @@ export class Hostable<
         });
 
         this.registerEndGameIntent("reactor sabotage", async () => {
+            if (!this.shipStatus)
+                return;
+
             const reactorSystem = (this.shipStatus?.systems.get(SystemType.Reactor) || this.shipStatus?.systems.get(SystemType.Laboratory)) as ReactorSystem;
 
             if (reactorSystem) {
@@ -352,7 +358,7 @@ export class Hostable<
         });
 
         this.registerEndGameIntent("players remaining", async () => {
-            if (!this.gameData)
+            if (!this.gameData || !this.shipStatus)
                 return;
 
             let aliveCrewmates = 0;
@@ -395,13 +401,13 @@ export class Hostable<
                 return GameOverReason.HumansByVote;
             }
 
-            if (aliveCrewmates < aliveImpostors) {
+            if (aliveCrewmates <= aliveImpostors) {
                 return GameOverReason.ImpostorByKill;
             }
         });
 
         this.registerEndGameIntent("tasks complete", async () => {
-            if (!this.gameData)
+            if (!this.gameData || !this.shipStatus)
                 return;
 
             let totalTasks = 0;
