@@ -23,7 +23,7 @@ const connectRegion = process.argv[2];
     const code = await client.createGame(
         {
             maxPlayers: 10,
-            map: skeldjs.GameMap.TheSkeld,
+            map: skeldjs.GameMap.Airship,
             numImpostors: 2,
             killCooldown: 1
         }

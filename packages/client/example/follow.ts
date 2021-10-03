@@ -3,12 +3,13 @@ import * as skeldjs from "../index";
 
 (async () => {
     const client = new skeldjs.SkeldjsClient("2021.6.30", {
-        chatMode: QuickChatMode.QuickChat
+        chatMode: QuickChatMode.FreeChat
     });
 
     console.log("Connecting..");
     await client.connect(process.argv[2], "weakeyes");
 
+    console.log("Joining game..");
     await client.joinGame(process.argv[3]);
     console.log("Joined game.");
 
@@ -17,11 +18,7 @@ import * as skeldjs from "../index";
         await client.myPlayer.control.checkName("weakeyes");
     }
 
-    client.host?.on("player.move", (ev) => {
-        client.myPlayer?.transform?.snapTo(ev.position.x, ev.position.y);
-    });
-
-    client.on("player.move", (ev) => {
-        console.log(ev.player);
+    client.on("doors.close", ev => {
+        console.log(ev.doorsystem.constructor.name, ev.door.id);
     });
 })();

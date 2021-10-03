@@ -55,7 +55,13 @@ export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends
     Deserialize(reader: HazelReader, spawn: boolean) {
         const dirtyBit = reader.uint32();
         for (let i = 0; i < this.doors.length; i++) {
-            this.doors[i].isOpen = (dirtyBit & (1 << i)) > 0;
+            const isOpen = (dirtyBit & (1 << i)) > 0;
+            console.log(isOpen);
+            if (isOpen) {
+                this._openDoor(i, undefined, undefined);
+            } else {
+                this._closeDoor(i, undefined, undefined);
+            }
         }
     }
 

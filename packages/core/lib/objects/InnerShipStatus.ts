@@ -17,7 +17,7 @@ import {
 } from "@skeldjs/data";
 
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseRpcMessage,RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseRpcMessage,CloseDoorsOfTypeMessage,RepairSystemMessage } from "@skeldjs/protocol";
 
 import {
     AutoDoorsSystemEvents,
@@ -165,10 +165,17 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
 
     async HandleRpc(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
+            case RpcMessageTag.CloseDoorsOfType:
+                await this._handleCloseDoorsOfType(rpc as CloseDoorsOfTypeMessage);
+                break;
             case RpcMessageTag.RepairSystem:
                 await this._handleRepairSystem(rpc as RepairSystemMessage);
                 break;
         }
+    }
+
+    protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
+        void rpc;
     }
 
     FixedUpdate(delta: number) {

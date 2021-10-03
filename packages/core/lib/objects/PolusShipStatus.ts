@@ -1,5 +1,5 @@
-import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
-import { BaseRpcMessage, CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
+import { SpawnType, SystemType } from "@skeldjs/constant";
+import { CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 import { HazelReader, Vector2 } from "@skeldjs/util";
 
 import {
@@ -61,22 +61,11 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         return undefined;
     }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
-        switch (rpc.messageTag) {
-            case RpcMessageTag.CloseDoorsOfType:
-                await this._handleCloseDoorsOfType(rpc as CloseDoorsOfTypeMessage);
-                break;
-            default:
-                await super.HandleRpc(rpc);
-                break;
-        }
-    }
-
-    private async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
+    protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
         const doors = this.systems.get(SystemType.Doors)! as DoorsSystem;
-        const doorsinRoom = PolusShipStatus.roomDoors[rpc.systemId as keyof typeof PolusShipStatus.roomDoors];
+        const doorsInRoom = PolusShipStatus.roomDoors[rpc.systemId as keyof typeof PolusShipStatus.roomDoors];
 
-        for (const doorId of doorsinRoom) {
+        for (const doorId of doorsInRoom) {
             doors.closeDoor(doorId);
             doors.cooldowns.set(rpc.systemId, 30);
         }
