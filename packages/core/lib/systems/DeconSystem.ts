@@ -134,10 +134,6 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
-    async enterDeconAs(headingUp: boolean, player: PlayerData) {
-        await this._enterDecon(headingUp, player, undefined);
-    }
-
     async enterDecon(headingUp: boolean) {
         if (this.room.hostIsMe) {
             await this._enterDecon(headingUp, this.room.myPlayer, undefined);
@@ -186,10 +182,6 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
         } else {
             this.timer = 3;
         }
-    }
-
-    async exitDeconAs(headingUp: boolean, player: PlayerData) {
-        await this._exitDecon(headingUp, player, undefined);
     }
 
     async exitDecon(headingUp: boolean) {
