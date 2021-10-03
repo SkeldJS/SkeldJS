@@ -43,6 +43,8 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
      */
     doors: Door<RoomType>[];
 
+    private lastUpdate: number;
+
     constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | DoorsSystemData) {
         super(ship, data);
 
@@ -53,17 +55,19 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
             typeof door === "boolean"
                 ? new Door(this, i, door)
                 : door);
+
+        this.lastUpdate = 0;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelReader, spawn: boolean) {
-        const num_cooldown = reader.upacked();
+        const numCooldown = reader.upacked();
 
-        for (let i = 0; i < num_cooldown; i++) {
-            const doorId = reader.uint8();
+        for (let i = 0; i < numCooldown; i++) {
+            const systemType = reader.uint8();
             const cooldown = reader.float();
 
-            this.cooldowns.set(doorId, cooldown);
+            this.cooldowns.set(systemType, cooldown);
         }
 
         for (const door of this.doors) {
@@ -80,8 +84,8 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
     Serialize(writer: HazelWriter, spawn: boolean) {
         writer.upacked(this.cooldowns.size);
 
-        for (const [doorId, cooldown] of this.cooldowns) {
-            writer.uint8(doorId);
+        for (const [systemType, cooldown] of this.cooldowns) {
+            writer.uint8(systemType);
             writer.float(cooldown);
         }
 
@@ -174,5 +178,25 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
         const doorId = amount & 0x1f;
 
         await this._openDoor(doorId, player, rpc);
+    }
+
+    Detoriorate(delta: number) {
+        this.lastUpdate += delta;
+        for (const [ systemType, prevTime ] of this.cooldowns) {
+            const newTime = prevTime - delta;
+            if (newTime < 0) {
+                this.cooldowns.delete(systemType);
+                this.lastUpdate = 0;
+                this.dirty = true;
+                continue;
+            }
+
+            this.cooldowns.set(systemType, newTime);
+
+            if (this.lastUpdate > 1) {
+                this.dirty = true;
+                this.lastUpdate = 0;
+            }
+        }
     }
 }

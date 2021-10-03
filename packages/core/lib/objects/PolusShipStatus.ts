@@ -78,6 +78,7 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
 
         for (const doorId of doorsinRoom) {
             doors.closeDoor(doorId);
+            doors.cooldowns.set(rpc.systemId, 30);
         }
     }
 

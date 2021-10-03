@@ -1,11 +1,11 @@
 import { RevertableEvent } from "@skeldjs/events";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { HqHudEvent } from "./HqHudEvent";
 import { Hostable } from "../../Hostable";
 import { HqHudSystem } from "../../systems";
-import { RepairSystemMessage } from "@skeldjs/protocol";
 import { PlayerData } from "../../PlayerData";
 
 /**
