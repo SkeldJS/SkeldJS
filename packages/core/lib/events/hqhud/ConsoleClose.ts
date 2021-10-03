@@ -20,7 +20,7 @@ export class HqHudConsoleCloseEvent<RoomType extends Hostable = Hostable> extend
 
     constructor(
         public readonly room: RoomType,
-        public readonly hqhud: HqHudSystem<RoomType>,
+        public readonly hqhudsystem: HqHudSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that closed the console.

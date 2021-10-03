@@ -18,7 +18,7 @@ export class HqHudConsolesResetEvent<RoomType extends Hostable = Hostable> exten
 
     constructor(
         public readonly room: RoomType,
-        public readonly hqhud: HqHudSystem<RoomType>,
+        public readonly hqhudsystem: HqHudSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that reset the consoles. Only available if the client is the host.

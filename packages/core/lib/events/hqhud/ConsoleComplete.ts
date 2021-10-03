@@ -19,7 +19,7 @@ export class HqHudConsoleCompleteEvent<RoomType extends Hostable = Hostable> ext
 
     constructor(
         public readonly room: RoomType,
-        public readonly hqhud: HqHudSystem<RoomType>,
+        public readonly hqhudsystem: HqHudSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that completed the console. Only availabe if the client

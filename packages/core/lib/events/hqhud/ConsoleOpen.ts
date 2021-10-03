@@ -20,7 +20,7 @@ export class HqHudConsoleOpenEvent<RoomType extends Hostable = Hostable> extends
 
     constructor(
         public readonly room: RoomType,
-        public readonly hqhud: HqHudSystem<RoomType>,
+        public readonly hqhudsystem: HqHudSystem<RoomType>,
         public readonly message: RepairSystemMessage|undefined,
         /**
          * The player that opened the console.
