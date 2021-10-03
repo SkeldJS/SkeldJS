@@ -46,10 +46,10 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelReader, spawn: boolean) {
-        const num_players = reader.upacked();
+        const numPlayers = reader.upacked();
 
         this.queue = [];
-        for (let i = 0; i < num_players; i++) {
+        for (let i = 0; i < numPlayers; i++) {
             const player = this.ship.room.getPlayerByPlayerId(reader.uint8());
             if (player) this.queue.push(player);
         }
@@ -60,7 +60,8 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
         writer.upacked(this.queue.length);
 
         for (let i = 0; i < this.queue.length; i++) {
-            if (this.queue[i].playerId) writer.uint8(this.queue[i].playerId!);
+            if (this.queue[i].playerId)
+                writer.uint8(this.queue[i].playerId!);
         }
     }
 
@@ -72,8 +73,12 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
     }
 
     private async _joinQueue(player: PlayerData<RoomType>, rpc: RepairSystemMessage|undefined) {
+        if (this.queue.includes(player))
+            return;
+
         this._removeFromQueue(player);
         this.queue.push(player);
+        this.dirty = true;
 
         const ev = await this.emit(
             new MedScanJoinQueueEvent(
@@ -115,7 +120,11 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
     }
 
     private async _leaveQueue(player: PlayerData<RoomType>, rpc: RepairSystemMessage|undefined) {
+        if (!this.queue.includes(player))
+            return;
+
         this._removeFromQueue(player);
+        this.dirty = true;
 
         const ev = await this.emit(
             new MedScanLeaveQueueEvent(
