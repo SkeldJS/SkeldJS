@@ -25,14 +25,9 @@ const connectRegion = process.argv[2];
             maxPlayers: 10,
             map: skeldjs.GameMap.TheSkeld,
             numImpostors: 2,
+            killCooldown: 1
         }
     );
-
-    client.on("room.endgameintent", ev => {
-        if (ev.intentName === "players remaining") {
-            ev.cancel();
-        }
-    });
 
     client.on("player.quickchat", ev => {
         if (ev.player !== client.myPlayer) {
@@ -53,8 +48,20 @@ const connectRegion = process.argv[2];
         }
     });
 
+    client.on("gamedata.settasks", ev => {
+        ev.setTasks([...ev.newTasks, 4]);
+    });
+
     client.on("room.gameend", ev => {
         client.joinGame(client.code);
+    });
+
+    client.on("medscan.joinqueue", ev => {
+        console.log(ev.player.info?.name, "joined med scan queue");
+    });
+
+    client.on("medscan.leavequeue", ev => {
+        console.log(ev.player.info?.name, "left med scan queue");
     });
 
     console.log(
