@@ -14,15 +14,15 @@ import {
 describe("Code utility functions", () => {
     describe("V1Code2Int", () => {
         it("Should convert a 4 letter code (version 1) to an integer.", () => {
-            assert.strictEqual(V1Code2Int("CODE"), 1129268293);
-            assert.strictEqual(V1Code2Int("LAMP"), 1279348048);
+            assert.strictEqual(V1Code2Int("CODE"), 1162104643);
+            assert.strictEqual(V1Code2Int("LAMP"), 1347240268);
         });
     });
 
     describe("V1Int2Code", () => {
         it("Should convert an integer to a 4 letter code (version 1).", () => {
             assert.strictEqual(V1Int2Code(1094861377), "ABBA");
-            assert.strictEqual(V1Int2Code(1414483788), "TOOL");
+            assert.strictEqual(V1Int2Code(1280266068), "TOOL");
         });
     });
 
@@ -64,7 +64,7 @@ describe("Code utility functions", () => {
 
     describe("Code2Int", () => {
         it("Should convert a 4 or 6 letter code to an integer.", () => {
-            assert.strictEqual(Code2Int("HOLA"), 1213156417);
+            assert.strictEqual(Code2Int("HOLA"), 1095520072);
             assert.strictEqual(Code2Int("VECTOR"), -2080903964);
         });
 
@@ -77,7 +77,7 @@ describe("Code utility functions", () => {
     describe("Int2Code", () => {
         it("Should convert an integer to a 4 or 6 letter code.", () => {
             assert.strictEqual(Int2Code(-2050590356), "QUEASY");
-            assert.strictEqual(Int2Code(1245796954), "JAZZ");
+            assert.strictEqual(Int2Code(1515864394), "JAZZ");
         });
     });
 });
