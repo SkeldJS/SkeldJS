@@ -677,8 +677,13 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 (message) => message.error !== undefined
             ),
             this.decoder.wait(RedirectMessage),
+            this.wait("client.disconnect"),
             this.waitf("player.join", ev => ev.player.clientId === this.clientId)
         ]);
+
+        if (data instanceof ClientDisconnectEvent) {
+            throw new JoinError(data.reason, data.message || DisconnectMessages[data.reason || DisconnectReason.None]);
+        }
 
         if (data instanceof PlayerJoinEvent) {
             if (doSpawn) {
@@ -688,11 +693,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             return this.code;
         }
 
-        const { message } = data as { message: JoinGameMessage|RedirectMessage };
+        const { message } = data;
 
         switch (message.messageTag) {
             case RootMessageTag.JoinGame:
-                throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.None] || message.message);
+                throw new JoinError(message.error, message.message || DisconnectMessages[message.error || DisconnectReason.None]);
             case RootMessageTag.Redirect:
                 const username = this.username;
                 await this.disconnect();
@@ -737,14 +742,21 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             ])
         );
 
-        const { message } = await Promise.race([
+        const data= await Promise.race([
             this.decoder.waitf(
                 JoinGameMessage,
                 (message) => message.error !== undefined
             ),
             this.decoder.wait(RedirectMessage),
             this.decoder.wait(HostGameMessage),
+            this.wait("client.disconnect"),
         ]);
+
+        if (data instanceof ClientDisconnectEvent) {
+            throw new JoinError(data.reason, data.message || DisconnectMessages[data.reason || DisconnectReason.None]);
+        }
+
+        const { message } = data;
 
         switch (message.messageTag) {
             case RootMessageTag.JoinGame:
