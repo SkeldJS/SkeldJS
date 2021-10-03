@@ -1,13 +1,23 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemType } from "@skeldjs/constant";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { SystemStatusEvents } from "./events";
 import { Hostable } from "../Hostable";
+import { PlayerData } from "../PlayerData";
+
+import {
+    DeconDoorsCloseEvent,
+    DeconDoorsOpenEvent,
+    DeconEnterEvent,
+    DeconExitEvent
+} from "../events";
 
 export const DeconState = {
+    Idle: 0x0,
     Enter: 0x1,
     Closed: 0x2,
     Exit: 0x4,
@@ -19,8 +29,12 @@ export interface DeconSystemData {
     state: number;
 }
 
-export type DeconSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
-
+export type DeconSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> & ExtractEventTypes<[
+    DeconDoorsCloseEvent,
+    DeconDoorsOpenEvent,
+    DeconEnterEvent,
+    DeconExitEvent
+]>;
 /**
  * Represents a system responsible for the decontamination doors.
  *
@@ -47,21 +61,201 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
     constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | DeconSystemData) {
         super(ship, data);
 
-        this.timer ??= 10000;
-        this.state ||= 0;
+        this.timer ||= 0;
+        this.state ||= DeconState.Idle;
     }
 
     Deserialize(reader: HazelReader, spawn: boolean) {
-        if (!spawn) {
-            this.timer = reader.byte();
-            this.state = reader.byte();
+        const previousState = this.state;
+        this.timer = reader.byte();
+        this.state = reader.byte();
+
+        if ((previousState & DeconState.Closed) && !(this.state & DeconState.Closed)) {
+            if (this.state & DeconState.Enter) {
+                this.emit(new DeconEnterEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
+            } else if (this.state & DeconState.Exit) {
+                this.emit(new DeconExitEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
+            }
         }
+
+        if (!(previousState & DeconState.Closed) && (this.state & DeconState.Closed)) {
+            this.emit(new DeconDoorsCloseEvent(this.room, this, undefined));
+        } else if ((previousState & DeconState.Closed) && !(this.state & DeconState.Closed)) {
+            this.emit(new DeconDoorsOpenEvent(this.room, this, undefined));
+        }
+
+        this.dirty = spawn;
     }
 
     Serialize(writer: HazelWriter, spawn: boolean) {
-        if (!spawn) {
-            writer.byte(this.timer);
-            writer.byte(this.state);
+        writer.byte(Math.ceil(this.timer));
+        writer.byte(this.state);
+    }
+
+    private async _enterDecon(headingUp: boolean, player: PlayerData|undefined, message: RepairSystemMessage|undefined) {
+        if ((this.state & DeconState.Enter) && !!(this.state & DeconState.HeadingUp) === headingUp) {
+            return;
+        }
+
+        const previousHeadingUp = !!DeconState.HeadingUp;
+        this.state = DeconState.Enter & ~DeconState.Closed;
+        if (headingUp) {
+            this.state |= DeconState.HeadingUp;
+        }
+        this.dirty = true;
+
+        const ev = await this.emit(
+            new DeconEnterEvent(
+                this.room,
+                this,
+                message,
+                player,
+                headingUp
+            )
+        );
+
+        this.emit(
+            new DeconDoorsOpenEvent(
+                this.room,
+                this,
+                undefined
+            )
+        );
+
+        if (ev.reverted) {
+            this.state &= ~DeconState.Enter;
+            if (previousHeadingUp) {
+                this.state |= DeconState.HeadingUp;
+            } else {
+                this.state &= ~DeconState.HeadingUp;
+            }
+        } else {
+            this.timer = 3;
+        }
+    }
+
+    async enterDeconAs(headingUp: boolean, player: PlayerData) {
+        await this._enterDecon(headingUp, player, undefined);
+    }
+
+    async enterDecon(headingUp: boolean) {
+        if (this.room.hostIsMe) {
+            await this._enterDecon(headingUp, this.room.myPlayer, undefined);
+        } else {
+            await this._sendRepair(headingUp ? 1 : 2);
+        }
+    }
+
+    private async _exitDecon(headingUp: boolean, player: PlayerData|undefined, message: RepairSystemMessage|undefined) {
+        if ((this.state & DeconState.Exit) && !!(this.state & DeconState.HeadingUp) === headingUp) {
+            return;
+        }
+
+        const previousHeadingUp = !!DeconState.HeadingUp;
+        this.state = DeconState.Exit;
+        if (headingUp) {
+            this.state |= DeconState.HeadingUp;
+        }
+        this.dirty = true;
+
+        const ev = await this.emit(
+            new DeconExitEvent(
+                this.room,
+                this,
+                message,
+                player,
+                headingUp
+            )
+        );
+
+        this.emit(
+            new DeconDoorsCloseEvent(
+                this.room,
+                this,
+                undefined
+            )
+        );
+
+        if (ev.reverted) {
+            this.state &= ~DeconState.Exit;
+            if (previousHeadingUp) {
+                this.state |= DeconState.HeadingUp;
+            } else {
+                this.state &= ~DeconState.HeadingUp;
+            }
+        } else {
+            this.timer = 3;
+        }
+    }
+
+    async exitDeconAs(headingUp: boolean, player: PlayerData) {
+        await this._exitDecon(headingUp, player, undefined);
+    }
+
+    async exitDecon(headingUp: boolean) {
+        if (this.room.hostIsMe) {
+            await this._exitDecon(headingUp, this.room.myPlayer, undefined);
+        } else {
+            await this._sendRepair(headingUp ? 3 : 4);
+        }
+    }
+
+    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+        if (this.state !== DeconState.Idle)
+            return;
+
+        switch (amount) {
+            case 1:
+                await this._enterDecon(true, player, rpc);
+                break;
+            case 2:
+                await this._enterDecon(false, player, rpc);
+                break;
+            case 3:
+                await this._exitDecon(true, player, rpc);
+                break;
+            case 4:
+                await this._exitDecon(false, player, rpc);
+                break;
+        }
+        this.timer = 3;
+        this.dirty = true;
+    }
+
+    Detoriorate(delta: number) {
+        const previous = this.timer;
+        this.timer -= delta;
+
+        if (this.timer < 0) {
+            this.timer = 0;
+        }
+
+        if (this.timer !== previous) {
+            if (this.timer <= 0) {
+                if (this.state & DeconState.Enter) {
+                    this.state = (this.state & ~DeconState.Enter) | DeconState.Closed;
+                    this.timer = 3;
+                    this.emit(
+                        new DeconDoorsCloseEvent(
+                            this.room,
+                            this,
+                            undefined
+                        )
+                    );
+                } else if (this.state & DeconState.Closed) {
+                    this.state = (this.state & ~DeconState.Closed) | DeconState.Exit;
+                    this.timer = 3;
+                    this.emit(
+                        new DeconDoorsOpenEvent(
+                            this.room,
+                            this,
+                            undefined
+                        )
+                    );
+                } else if (this.state & DeconState.Exit) {
+                    this.state = DeconState.Idle;
+                }
+            }
         }
     }
 }
