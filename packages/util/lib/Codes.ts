@@ -4,7 +4,7 @@ export function V1Code2Int(code: string) {
     const c = code.charCodeAt(2) & 0xff;
     const d = code.charCodeAt(3) & 0xff;
 
-    return (a << 24) | (b << 16) | (c << 8) | d;
+    return a | (b << 8) | (c << 16) | (d << 24);
 }
 
 export function V1Gen() {
@@ -13,14 +13,14 @@ export function V1Gen() {
     const c = ~~(Math.random() * 26) + 65;
     const d = ~~(Math.random() * 26) + 65;
 
-    return (a << 24) | (b << 16) | (c << 8) | d;
+    return a | (b << 8) | (c << 16) | (d << 24);
 }
 
 export function V1Int2Code(bytes: number) {
-    const a = String.fromCharCode((bytes >> 24) & 0xff);
-    const b = String.fromCharCode((bytes >> 16) & 0xff);
-    const c = String.fromCharCode((bytes >> 8) & 0xff);
-    const d = String.fromCharCode(bytes & 0xff);
+    const a = String.fromCharCode(bytes & 0xff);
+    const b = String.fromCharCode((bytes >> 8) & 0xff);
+    const c = String.fromCharCode((bytes >> 16) & 0xff);
+    const d = String.fromCharCode((bytes >> 24) & 0xff);
 
     return a + b + c + d;
 }
