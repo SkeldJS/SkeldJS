@@ -1,29 +1,21 @@
 import { RevertableEvent } from "@skeldjs/events";
-import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { RoomEvent } from "../RoomEvent";
-import { ProtocolEvent } from "../ProtocolEvent";
 import { HqHudEvent } from "./HqHudEvent";
 import { Hostable } from "../../Hostable";
 import { HqHudSystem } from "../../systems";
-import { PlayerData } from "../../PlayerData";
 
 /**
  * Emitted when the communication consoles on Mira HQ are reset, i.e. the 10s
  * timer reaching 0.
  */
-export class HqHudConsolesResetEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
+export class HqHudConsolesResetEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HqHudEvent {
     static eventName = "hqhud.consoles.reset" as const;
     eventName = "hqhud.consoles.reset" as const;
 
     constructor(
         public readonly room: RoomType,
-        public readonly hqhudsystem: HqHudSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
-        /**
-         * The player that reset the consoles. Only available if the client is the host.
-         */
-        public readonly player: PlayerData<RoomType>|undefined
+        public readonly hqhudsystem: HqHudSystem<RoomType>
     ) {
         super();
     }

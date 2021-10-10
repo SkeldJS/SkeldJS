@@ -186,7 +186,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
-    private async _resetConsoles(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _resetConsoles() {
         const oldCompleted = this.completed;
         this.completed = new Set;
         this.dirty = true;
@@ -194,9 +194,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         const ev = await this.emit(
             new HqHudConsolesResetEvent(
                 this.room,
-                this,
-                rpc,
-                player
+                this
             )
         );
 
@@ -331,7 +329,9 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
 
     private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
         const completedBefore = this.completed;
+        const timerBefore = this.timer;
         this.completed = new Set([0, 1]);
+        this.timer = -1;
         this.dirty = true;
         const ev = await this.emit(
             new SystemRepairEvent(
@@ -342,6 +342,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
             )
         );
         if(ev.reverted) {
+            this.timer = timerBefore;
             this.completed = completedBefore;
         }
     }
@@ -382,11 +383,14 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
     }
 
     Detoriorate(delta: number) {
+        if (!this.sabotaged)
+            return;
+
         this.timer -= delta;
         if (this.timer < 0) {
             this.timer = 10;
             this.dirty = true;
-            this._resetConsoles(undefined, undefined);
+            this._resetConsoles();
         }
     }
 }
