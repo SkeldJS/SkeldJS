@@ -44,6 +44,7 @@ import {
     PlayerCheckColorEvent,
     PlayerCheckNameEvent,
     PlayerCompleteTaskEvent,
+    PlayerUseMovingPlatformEvent,
     PlayerMurderEvent,
     PlayerReportDeadBodyEvent,
     PlayerSendChatEvent,
@@ -65,11 +66,12 @@ import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Netwo
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
-import { MeetingHud } from "./MeetingHud";
-import { MovingPlatformSide, MovingPlatformSystem } from "../systems/MovingPlatformSystem";
-import { CustomNetworkTransform, PlayerPhysics } from "./component";
 import { AirshipStatus } from "./AirshipStatus";
 import { LobbyBehaviour } from "./LobbyBehaviour";
+import { MeetingHud } from "./MeetingHud";
+
+import { MovingPlatformSystem } from "../systems";
+import { CustomNetworkTransform, PlayerPhysics } from "./component";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -81,6 +83,8 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
         [
             PlayerCheckColorEvent<RoomType>,
             PlayerCheckNameEvent<RoomType>,
+            PlayerCompleteTaskEvent<RoomType>,
+            PlayerUseMovingPlatformEvent<RoomType>,
             PlayerMurderEvent<RoomType>,
             PlayerReportDeadBodyEvent<RoomType>,
             PlayerSendChatEvent<RoomType>,
@@ -1068,7 +1072,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _startMeeting(caller: PlayerData) {
-        if (!caller.playerId)
+        if (caller.playerId === undefined)
             return;
 
         const spawnMeetinghud = this.room.spawnPrefab(
@@ -1257,7 +1261,26 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleUsePlatform(rpc: UsePlatformMessage) {
-        void rpc;
+        const airship = this.room.shipStatus;
+
+        console.log("got use platform");
+
+        if (!airship || !(airship instanceof AirshipStatus))
+            return;
+
+        console.log("got airship something");
+
+        const ev = await this.emit(
+            new PlayerUseMovingPlatformEvent(
+                this.room,
+                this.player,
+                rpc
+            )
+        );
+
+        if (ev.canceled)
+            return;
+
         this._usePlatform();
     }
 
@@ -1272,9 +1295,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (movingPlatform) {
             movingPlatform.setTarget(
                 this.player,
-                movingPlatform.side === MovingPlatformSide.Left
-                    ? MovingPlatformSide.Right
-                    : MovingPlatformSide.Left
+                movingPlatform.oppositeSide,
+                false
             );
         }
     }
@@ -1284,7 +1306,18 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link MovingPlatformPlayerUpdateEvent | `movingplatform.playerupdate`} event.
      */
-    usePlatform() {
+    async usePlatform() {
+        const ev = await this.emit(
+            new PlayerUseMovingPlatformEvent(
+                this.room,
+                this.player,
+                undefined
+            )
+        );
+
+        if (ev.canceled)
+            return;
+
         this._usePlatform();
     }
 

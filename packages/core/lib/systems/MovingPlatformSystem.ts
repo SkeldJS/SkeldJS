@@ -35,8 +35,8 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
     MovingPlatformSystemEvents,
     RoomType
 > implements MovingPlatformSystemData {
-    static systemType = SystemType.Decontamination as const;
-    systemType = SystemType.Decontamination as const;
+    static systemType = SystemType.GapRoom as const;
+    systemType = SystemType.GapRoom as const;
 
     useId: number;
     target: PlayerData<RoomType>|undefined;
@@ -68,10 +68,10 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
             this.useId = reader.uint8();
             const targetId = reader.uint8();
             this._setTarget(
-                reader.uint8(),
                 targetId === 255
                     ? undefined
                     : this.ship.room.getPlayerByNetId(targetId),
+                reader.uint8(),
                 undefined
             );
         } else {
@@ -80,10 +80,10 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
                 this.useId = newSid;
                 const targetId = reader.uint8();
                 this._setTarget(
-                    reader.uint8(),
                     targetId === 255
                         ? undefined
                         : this.ship.room.getPlayerByNetId(targetId),
+                    reader.uint8(),
                     undefined
                 );
             }
@@ -93,7 +93,8 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelWriter, spawn: boolean) {
         this.useId++;
-        if (this.useId > 255) this.useId = 0;
+        if (this.useId > 255)
+            this.useId = 0;
 
         writer.uint8(this.useId);
         writer.uint8(this.target?.control?.netId ?? 255);
@@ -101,7 +102,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
         this.dirty = spawn;
     }
 
-    private async _setTarget(side: MovingPlatformSide, player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _setTarget(player: PlayerData<RoomType>|undefined, side: MovingPlatformSide, rpc: RepairSystemMessage|undefined) {
         const oldTarget = player;
         const oldSide = this.side;
         this.target = player;
@@ -126,6 +127,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
 
         this.target = ev.alteredPlayer;
         this.side = ev.alteredSide;
+        this.dirty = true;
     }
 
     /**
@@ -133,7 +135,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
      * @param player The player to set.
      * @param side The direction to move the moving platform in.
      */
-    async setTarget(player: PlayerDataResolvable, side: MovingPlatformSide) {
+    async setTarget(player: PlayerDataResolvable, side: MovingPlatformSide, sendRpc: boolean) {
         const resolved = this.ship.room.resolvePlayer(player);
 
         if (!resolved)
@@ -147,9 +149,9 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
 
         const oldTarget = this.target;
         const oldSide = this.side;
-        await this._setTarget(side, oldTarget, undefined);
+        await this._setTarget(resolved, side, undefined);
 
-        if (this.target !== oldTarget || this.side !== oldSide) {
+        if (sendRpc && this.target !== oldTarget || this.side !== oldSide) {
             if (this.target?.control) {
                 this.ship.room.stream.push(
                     new RpcMessage(
@@ -168,6 +170,6 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
         if (!this.room.myPlayer?.control)
             return;
 
-        await this.setTarget(this.room.myPlayer, this.oppositeSide);
+        await this.setTarget(this.room.myPlayer, this.oppositeSide, true);
     }
 }
