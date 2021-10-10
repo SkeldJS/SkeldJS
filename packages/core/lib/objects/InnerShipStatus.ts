@@ -338,7 +338,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     }
 
     spawnPlayer(player: PlayerData, initialSpawn: boolean) {
-        if (!player.playerId)
+        if (player.playerId === undefined)
             return;
 
         player.transform.snapTo(this.getSpawnPosition(player, initialSpawn));
