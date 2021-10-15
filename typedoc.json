@@ -23,5 +23,6 @@
   "external-modulemap": ".*packages\/([^\/]+)\/.*",
   "excludePrivate": true,
   "excludeProtected": true,
-  "listInvalidSymbolLinks": true
+  "listInvalidSymbolLinks": true,
+  "sort": ["enum-value-ascending", "static-first", "alphabetical"]
 }

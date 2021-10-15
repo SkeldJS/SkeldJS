@@ -108,7 +108,7 @@ client.on("player.setname", ev => {
 * {@link ComponentSpawnEvent | `component.spawn`}
 
 ### Oxygen
-* {@link O2ConsoleCompleteEvent | `o2.consoles.complete`}
+* {@link O2ConsolesCompleteEvent | `o2.consoles.complete`}
 * {@link O2ConsolesClearEvent | `o2.consoles.clear`}
 
 ### Players

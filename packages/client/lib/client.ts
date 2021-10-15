@@ -613,7 +613,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
             const ev = await this.myPlayer.waitf("player.spawn", ev => ev.player.clientId === this.clientId);
 
-            if (!ev.player.playerId || !ev.player.control?.isNew)
+            if (ev.player.playerId === undefined || !ev.player.control?.isNew)
                 return;
 
             if (this.lobbyBehaviour) {
