@@ -248,6 +248,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                         exiledVotes = num;
                     } else if (num === exiledVotes) {
                         tie = true;
+                        exiled = undefined;
                     }
                 }
             }
