@@ -166,13 +166,8 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     }
 
     Serialize(writer: HazelWriter, spawn: boolean = false) {
-        const states = [...this.voteStates];
-        if (spawn) {
-            writer.upacked(states.length);
-        } else {
-            writer.upacked(states.filter(([, x]) => x.dirty).length);
-        }
-        for (const [, state] of states) {
+        writer.upacked(this.voteStates.size);
+        for (const [, state] of this.voteStates) {
             writer.begin(state.playerId);
             state.Serialize(writer);
             writer.end();
@@ -234,6 +229,12 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             let tie = false;
             let exiled: PlayerData|undefined;
             let exiledVotes = 0;
+            let numSkips = 0;
+            for (const [, state2] of states) {
+                if (state2.votedForId === VoteStateSpecialId.SkippedVote) {
+                    numSkips++;
+                }
+            }
             for (const [, state] of states) {
                 let num = 0;
                 for (const [, state2] of states) {
@@ -253,6 +254,10 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                 }
             }
 
+            if (numSkips >= exiledVotes) {
+                exiled = undefined;
+            }
+
             this.votingComplete(tie, exiled);
             sleep(5000).then(() => {
                 if (this.exiled?.info) {
@@ -267,11 +272,11 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         const voter = this.voteStates.get(rpc.votingid);
         const player = this.room.getPlayerByPlayerId(rpc.votingid);
         const suspect =
-            rpc.suspectid === 0xff
+            rpc.suspectid === 0xfd
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        if (this.room.hostIsMe && this.room.host && player && voter && (suspect || rpc.suspectid === 0xff)) {
+        if (this.room.hostIsMe && player && voter && (suspect || rpc.suspectid === 0xfd)) {
             this._castVote(voter, suspect);
 
             const ev = await this.emit(
@@ -289,7 +294,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     await this.clearVote(player);
                 }
             } else {
-                this.room.host.control?.sendChatNote(
+                this.room.host?.control?.sendChatNote(
                     player,
                     ChatNoteType.DidVote
                 );
@@ -306,8 +311,6 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             } else {
                 voterState.setSkipped();
             }
-            voterState.dirty = true;
-            this.dirtyBit = 1;
         }
     }
 
