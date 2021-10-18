@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/pathfinding",
-  "version": "2.14.14",
+  "version": "2.14.15",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
@@ -23,6 +23,7 @@
     "heap": "^0.2.6"
   },
   "devDependencies": {
+    "@skeldjs/client": "workspace:*",
     "@types/heap": "^0.2.28",
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.16",
