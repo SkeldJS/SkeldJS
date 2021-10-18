@@ -40,6 +40,7 @@ export * from "./player/ClimbLadder";
 export * from "./player/CompleteTask";
 export * from "./player/EnterVent";
 export * from "./player/ExitVent";
+export * from "./player/UseMovingPlatform";
 export * from "./player/Join";
 export * from "./player/Leave";
 export * from "./player/Move";

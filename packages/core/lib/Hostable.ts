@@ -502,7 +502,8 @@ export class Hostable<
         const ev = await this.emit(
             new RoomFixedUpdateEvent(
                 this,
-                this.stream
+                this.stream,
+                delta
             )
         );
 
