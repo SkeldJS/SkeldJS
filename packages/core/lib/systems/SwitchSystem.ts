@@ -37,9 +37,6 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
     SwitchSystemEvents,
     RoomType
 > implements SwitchSystemData {
-    static systemType = SystemType.Electrical as const;
-    systemType = SystemType.Electrical as const;
-
     /**
      * The switch states that are expected.
      */
@@ -65,8 +62,12 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
             || this.actual[4] !== this.expected[4];
     }
 
-    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | SwitchSystemData) {
-        super(ship, data);
+    constructor(
+        ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
+        data?: HazelReader | SwitchSystemData
+    ) {
+        super(ship, systemType, data);
 
         this.expected ||= [false, false, false, false, false];
         this.actual ||= [false, false, false, false, false];

@@ -27,9 +27,6 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
     HudOverrideSystemEvents,
     RoomType
 > implements HudOverrideSystemData {
-    static systemType = SystemType.Communications as const;
-    systemType = SystemType.Communications as const;
-
     private _sabotaged: boolean;
 
     /**
@@ -41,9 +38,10 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
 
     constructor(
         ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
         data?: HazelReader | HudOverrideSystemData
     ) {
-        super(ship, data);
+        super(ship, systemType, data);
 
         this._sabotaged = false;
     }

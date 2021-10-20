@@ -33,9 +33,6 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
     ReactorSystemEvents,
     RoomType
 > implements ReactorSystemData {
-    static systemType = SystemType.Reactor as const;
-    systemType = SystemType.Reactor as const;
-
     /**
      * The timer before the reactor explodes.
      */
@@ -46,8 +43,12 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
      */
     completed: Set<number>;
 
-    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | ReactorSystemData) {
-        super(ship, data);
+    constructor(
+        ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
+        data?: HazelReader | ReactorSystemData
+    ) {
+        super(ship, systemType, data);
 
         this.timer ??= 10000;
         this.completed ||= new Set;

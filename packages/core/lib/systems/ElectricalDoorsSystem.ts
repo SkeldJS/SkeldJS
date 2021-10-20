@@ -29,9 +29,6 @@ export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends
     ElectricalDoorsSystemEvents,
     RoomType
 > {
-    static systemType = SystemType.Decontamination as const;
-    systemType = SystemType.Decontamination as const;
-
     /**
      * The doors in the map.
      */
@@ -39,9 +36,10 @@ export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends
 
     constructor(
         ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
         data?: HazelReader | ElectricalDoorsSystemData
     ) {
-        super(ship, data);
+        super(ship, systemType, data);
 
         this.doors ||= [];
 

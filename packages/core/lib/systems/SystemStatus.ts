@@ -15,12 +15,15 @@ export class SystemStatus<
     T extends SystemStatusEvents = SystemStatusEvents,
     RoomType extends Hostable<any> = Hostable<any>
 > extends EventEmitter<T> {
-    static systemType: SystemType;
-    systemType!: SystemType;
-
     private _dirty: boolean;
 
-    constructor(protected ship: InnerShipStatus<RoomType>, data?: HazelReader | DataT) {
+    systemType: SystemType;
+
+    constructor(
+        protected ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
+        data?: HazelReader | DataT
+    ) {
         super();
 
         if (data) {
@@ -31,6 +34,7 @@ export class SystemStatus<
             }
         }
 
+        this.systemType = systemType;
         this._dirty = false;
     }
 

@@ -72,45 +72,45 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
     }
 
     Setup() {
-        this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical, {
             expected: [false, false, false, false, false],
             actual: [false, false, false, false, false],
             brightness: 255,
         }));
 
-        this.systems.set(SystemType.MedBay, new MedScanSystem(this, {
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay, {
             queue: []
         }));
 
-        this.systems.set(SystemType.Doors, new DoorsSystem(this, {
+        this.systems.set(SystemType.Doors, new DoorsSystem(this, SystemType.Doors, {
             doors: [],
             cooldowns: new Map
         }));
 
-        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, {
+        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications, {
             sabotaged: false,
         }));
 
-        this.systems.set(SystemType.GapRoom, new MovingPlatformSystem(this, {
+        this.systems.set(SystemType.GapRoom, new MovingPlatformSystem(this, SystemType.GapRoom, {
             target: undefined,
             side: MovingPlatformSide.Left,
             useId: 0,
         }));
 
-        this.systems.set(SystemType.Decontamination, new ElectricalDoorsSystem(this, {
+        this.systems.set(SystemType.Decontamination, new ElectricalDoorsSystem(this, SystemType.Decontamination, {
             doors: [],
         }));
 
-        this.systems.set(SystemType.Decontamination2, new AutoDoorsSystem(this, {
+        this.systems.set(SystemType.Decontamination2, new AutoDoorsSystem(this, SystemType.Decontamination2, {
             dirtyBit: 0,
             doors: [],
         }));
 
-        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, {
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage, {
             cooldown: 0,
         }));
 
-        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, {
+        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security, {
             players: new Set,
         }));
 

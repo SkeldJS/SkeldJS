@@ -37,9 +37,6 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
     LifeSuppSystemEvents,
     RoomType
 > implements LifeSuppSystemData {
-    static systemType = SystemType.O2 as const;
-    systemType = SystemType.O2 as const;
-
     private lastUpdate = 0;
 
     /**
@@ -54,9 +51,10 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
 
     constructor(
         ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
         data?: HazelReader | LifeSuppSystemData
     ) {
-        super(ship, data);
+        super(ship, systemType, data);
 
         this.timer ??= 10000;
         this.completed ||= new Set;

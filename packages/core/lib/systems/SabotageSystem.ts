@@ -25,9 +25,6 @@ export class SabotageSystem<RoomType extends Hostable = Hostable> extends System
     SabotageSystemEvents,
     RoomType
 > implements SabotageSystemData {
-    static systemType = SystemType.Sabotage as const;
-    systemType = SystemType.Sabotage as const;
-
     /**
      * The cooldown before another sabotage can happen.
      */
@@ -35,9 +32,10 @@ export class SabotageSystem<RoomType extends Hostable = Hostable> extends System
 
     constructor(
         ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
         data?: HazelReader | SabotageSystemData
     ) {
-        super(ship, data);
+        super(ship, systemType, data);
 
         this.cooldown ??= 10000;
     }

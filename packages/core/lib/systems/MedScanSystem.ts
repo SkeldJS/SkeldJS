@@ -30,16 +30,17 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
     MedScanSystemEvents,
     RoomType
 > implements MedScanSystemData {
-    static systemType = SystemType.MedBay as const;
-    systemType = SystemType.MedBay as const;
-
     /**
      * The current queue to access the medbay scan.s
      */
     queue: PlayerData<RoomType>[];
 
-    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | MedScanSystemData) {
-        super(ship, data);
+    constructor(
+        ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
+        data?: HazelReader | MedScanSystemData
+    ) {
+        super(ship, systemType, data);
 
         this.queue ||= [];
     }

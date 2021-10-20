@@ -30,9 +30,6 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
     DoorsSystemEvents,
     RoomType
 > {
-    static systemType = SystemType.Doors as const;
-    systemType = SystemType.Doors as const;
-
     /**
      * The cooldowns of every door.
      */
@@ -45,8 +42,12 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
 
     private lastUpdate: number;
 
-    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | DoorsSystemData) {
-        super(ship, data);
+    constructor(
+        ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
+        data?: HazelReader | DoorsSystemData
+    ) {
+        super(ship, systemType, data);
 
         this.cooldowns ||= new Map;
         this.doors ||= [];

@@ -35,18 +35,16 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
     MovingPlatformSystemEvents,
     RoomType
 > implements MovingPlatformSystemData {
-    static systemType = SystemType.GapRoom as const;
-    systemType = SystemType.GapRoom as const;
-
     useId: number;
     target: PlayerData<RoomType>|undefined;
     side: MovingPlatformSide;
 
     constructor(
         ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
         data?: HazelReader | MovingPlatformSystemData
     ) {
-        super(ship, data);
+        super(ship, systemType, data);
 
         this.useId ||= 0;
         this.target ||= undefined;

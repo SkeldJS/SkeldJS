@@ -32,9 +32,6 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
     AutoDoorsSystemEvents,
     RoomType
 > {
-    static systemType = SystemType.Doors as const;
-    systemType = SystemType.Doors as const;
-
     /**
      * The dirty doors to be updated on the next fixed update.
      */
@@ -47,9 +44,10 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
 
     constructor(
         ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
         data?: HazelReader | AutoDoorsSystemData
     ) {
-        super(ship, data);
+        super(ship, systemType, data);
 
         this.dirtyBit ||= 0;
         this.doors ||= [];

@@ -28,9 +28,6 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
     SecurityCameraSystemEvents,
     RoomType
 > implements SecurityCameraSystemData {
-    static systemType = SystemType.Security as const;
-    systemType = SystemType.Security as const;
-
     /**
      * The players currently looking at cameras.
      */
@@ -38,9 +35,10 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
 
     constructor(
         ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
         data?: HazelReader | SecurityCameraSystemData
     ) {
-        super(ship, data);
+        super(ship, systemType, data);
 
         this.players ||= new Set;
     }

@@ -72,36 +72,36 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
     }
 
     Setup() {
-        this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical, {
             expected: [false, false, false, false, false],
             actual: [false, false, false, false, false],
             brightness: 255,
         }));
-        this.systems.set(SystemType.MedBay, new MedScanSystem(this, {
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay, {
             queue: [],
         }));
-        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, {
+        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security, {
             players: new Set,
         }));
-        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, {
+        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications, {
             sabotaged: false,
         }));
-        this.systems.set(SystemType.Doors, new DoorsSystem(this, {
+        this.systems.set(SystemType.Doors, new DoorsSystem(this, SystemType.Doors, {
             doors: [],
             cooldowns: new Map,
         }));
-        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, {
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage, {
             cooldown: 0,
         }));
-        this.systems.set(SystemType.Decontamination, new DeconSystem(this, {
+        this.systems.set(SystemType.Decontamination, new DeconSystem(this, SystemType.Decontamination, {
             timer: 10000,
             state: 0,
         }));
-        this.systems.set(SystemType.Decontamination2, new DeconSystem(this, {
+        this.systems.set(SystemType.Decontamination2, new DeconSystem(this, SystemType.Decontamination2, {
             timer: 10000,
             state: 0,
         }));
-        this.systems.set(SystemType.Laboratory, new ReactorSystem(this, {
+        this.systems.set(SystemType.Laboratory, new ReactorSystem(this, SystemType.Laboratory, {
             timer: 10000,
             completed: new Set,
         }));

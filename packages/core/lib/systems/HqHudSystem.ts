@@ -54,9 +54,6 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
     HqHudSystemEvents,
     RoomType
 > implements HqHudSystemData {
-    static systemType = SystemType.Communications as const;
-    systemType = SystemType.Communications as const;
-
     /**
      * The timer until the consoles are reset.
      */
@@ -76,8 +73,12 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         return this.completed.size < 2;
     }
 
-    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | HqHudSystemData) {
-        super(ship, data);
+    constructor(
+        ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
+        data?: HazelReader | HqHudSystemData
+    ) {
+        super(ship, systemType, data);
 
         this.timer ??= 10000;
         this.active ||= [];

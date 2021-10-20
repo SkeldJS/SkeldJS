@@ -45,9 +45,6 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
     DeconSystemEvents,
     RoomType
 > implements DeconSystemData {
-    static systemType = SystemType.Decontamination as const;
-    systemType = SystemType.Decontamination as const;
-
     /**
      * How long before decontamination doors open.
      */
@@ -58,8 +55,12 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
      */
     state: number;
 
-    constructor(ship: InnerShipStatus<RoomType>, data?: HazelReader | DeconSystemData) {
-        super(ship, data);
+    constructor(
+        ship: InnerShipStatus<RoomType>,
+        systemType: SystemType,
+        data?: HazelReader | DeconSystemData
+    ) {
+        super(ship, systemType, data);
 
         this.timer ||= 0;
         this.state ||= DeconState.Idle;

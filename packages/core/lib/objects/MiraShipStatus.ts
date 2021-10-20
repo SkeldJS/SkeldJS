@@ -50,30 +50,30 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
     }
 
     Setup() {
-        this.systems.set(SystemType.Reactor, new ReactorSystem(this, {
+        this.systems.set(SystemType.Reactor, new ReactorSystem(this, SystemType.Reactor, {
             timer: 10000,
             completed: new Set,
         }));
-        this.systems.set(SystemType.Electrical, new SwitchSystem(this, {
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical, {
             expected: [false, false, false, false, false],
             actual: [false, false, false, false, false],
             brightness: 255,
         }));
-        this.systems.set(SystemType.O2, new LifeSuppSystem(this, {
+        this.systems.set(SystemType.O2, new LifeSuppSystem(this, SystemType.O2, {
             timer: 10000,
             completed: new Set,
         }));
-        this.systems.set(SystemType.MedBay, new MedScanSystem(this, {
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay, {
             queue: [],
         }));
-        this.systems.set(SystemType.Communications, new HqHudSystem(this, {
+        this.systems.set(SystemType.Communications, new HqHudSystem(this, SystemType.Communications, {
             active: [],
             completed: new Set([0, 1]),
         }));
-        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, {
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage, {
             cooldown: 0,
         }));
-        this.systems.set(SystemType.Decontamination, new DeconSystem(this, {
+        this.systems.set(SystemType.Decontamination, new DeconSystem(this, SystemType.Decontamination, {
             timer: 10000,
             state: 0,
         }));
