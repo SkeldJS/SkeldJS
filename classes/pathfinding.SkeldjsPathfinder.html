@@ -1,0 +1,1234 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>SkeldjsPathfinder | SkeldJS</title>
+	<meta name="description" content="Documentation for SkeldJS">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">SkeldJS</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/pathfinding.html">pathfinding</a>
+				</li>
+				<li>
+					<a href="pathfinding.SkeldjsPathfinder.html">SkeldjsPathfinder</a>
+				</li>
+			</ul>
+			<h1>Class SkeldjsPathfinder</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a pathfinding utility for the <a href="client.SkeldjsClient.html">SkeldJS Client</a>.</p>
+					</div>
+					<p>See <a href="../modules/pathfinding.html#SkeldjsPathfinderEvents">SkeldjsPathfinderEvents</a> for events to listen to.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="" class="tsd-signature-type" data-tsd-kind="Class">EventEmitter</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">&gt;</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">SkeldjsPathfinder</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="pathfinding.SkeldjsPathfinder.html#MovementInterval" class="tsd-kind-icon">Movement<wbr>Interval</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#config" class="tsd-kind-icon">config</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#destination" class="tsd-kind-icon">destination</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#following" class="tsd-kind-icon">following</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#grid" class="tsd-kind-icon">grid</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#isPaused" class="tsd-kind-icon">is<wbr>Paused</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#path" class="tsd-kind-icon">path</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="pathfinding.SkeldjsPathfinder.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#emit" class="tsd-kind-icon">emit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#emitSerial" class="tsd-kind-icon">emit<wbr>Serial</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#follow" class="tsd-kind-icon">follow</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#getListeners" class="tsd-kind-icon">get<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#getMapId" class="tsd-kind-icon">get<wbr>Map<wbr>Id</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#go" class="tsd-kind-icon">go</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#off" class="tsd-kind-icon">off</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#on" class="tsd-kind-icon">on</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#once" class="tsd-kind-icon">once</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#pause" class="tsd-kind-icon">pause</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#recalculate" class="tsd-kind-icon">recalculate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#removeAllListeners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#removeListeners" class="tsd-kind-icon">remove<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#stop" class="tsd-kind-icon">stop</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#vent" class="tsd-kind-icon">vent</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#wait" class="tsd-kind-icon">wait</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="pathfinding.SkeldjsPathfinder.html#waitf" class="tsd-kind-icon">waitf</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#myPlayer" class="tsd-kind-icon">my<wbr>Player</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#position" class="tsd-kind-icon">position</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="pathfinding.SkeldjsPathfinder.html#transform" class="tsd-kind-icon">transform</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="MovementInterval" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> Movement<wbr>Interval</h3>
+					<div class="tsd-signature tsd-kind-icon">Movement<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">6</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L313">pathfinding/lib/Pathfinder.ts:313</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="config" class="tsd-anchor"></a>
+					<h3>config</h3>
+					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/pathfinding.PathfinderConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">PathfinderConfig</a><span class="tsd-signature-symbol"> = {}</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="destination" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> destination</h3>
+					<div class="tsd-signature tsd-kind-icon">destination<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">Vector2</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L63">pathfinding/lib/Pathfinder.ts:63</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The destination of the pathfinder.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="following" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> following</h3>
+					<div class="tsd-signature tsd-kind-icon">following<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L78">pathfinding/lib/Pathfinder.ts:78</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The player that the pathfinder is currently finding.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="grid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> grid</h3>
+					<div class="tsd-signature tsd-kind-icon">grid<span class="tsd-signature-symbol">:</span> <a href="pathfinding.Grid.html" class="tsd-signature-type" data-tsd-kind="Class">Grid</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L68">pathfinding/lib/Pathfinder.ts:68</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The grid of nodes for the pathfinder engine.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="isPaused" class="tsd-anchor"></a>
+					<h3>is<wbr>Paused</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Paused<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L58">pathfinding/lib/Pathfinder.ts:58</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="path" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> path</h3>
+					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <a href="pathfinding.Node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L73">pathfinding/lib/Pathfinder.ts:73</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current intended path of the pathfinder.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Skeldjs<wbr>Pathfinder<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a>, config<span class="tsd-signature-symbol">?: </span><a href="../interfaces/pathfinding.PathfinderConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">PathfinderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsPathfinder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides EventEmitter.constructor</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L80">pathfinding/lib/Pathfinder.ts:80</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>client: <a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a></h5>
+								</li>
+								<li>
+									<h5>config: <a href="../interfaces/pathfinding.PathfinderConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">PathfinderConfig</a><span class="tsd-signature-symbol"> = {}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsPathfinder</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="emit" class="tsd-anchor"></a>
+					<h3>emit</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">emit&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.emit</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L36">events/lib/EventEmitter.ts:36</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">Event</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="emitSerial" class="tsd-anchor"></a>
+					<h3>emit<wbr>Serial</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">emit<wbr>Serial&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.emitSerial</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">Event</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="follow" class="tsd-anchor"></a>
+					<h3>follow</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">follow<span class="tsd-signature-symbol">(</span>player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerDataResolvable</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L305">pathfinding/lib/Pathfinder.ts:305</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>player: <span class="tsd-signature-type">PlayerDataResolvable</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="getListeners" class="tsd-anchor"></a>
+					<h3>get<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.getListeners</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L120">events/lib/EventEmitter.ts:120</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getMapId" class="tsd-anchor"></a>
+					<h3>get<wbr>Map<wbr>Id</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Map<wbr>Id<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameMap</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">-1</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L127">pathfinding/lib/Pathfinder.ts:127</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">GameMap</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">-1</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="go" class="tsd-anchor"></a>
+					<h3>go</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">go<span class="tsd-signature-symbol">(</span>pos<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerDataResolvable</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">Vector2</a><span class="tsd-signature-symbol"> | </span><a href="pathfinding.Node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L252">pathfinding/lib/Pathfinder.ts:252</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pos: <span class="tsd-signature-type">PlayerDataResolvable</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">Vector2</a><span class="tsd-signature-symbol"> | </span><a href="pathfinding.Node.html" class="tsd-signature-type" data-tsd-kind="Class">Node</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="off" class="tsd-anchor"></a>
+					<h3>off</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.off</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L111">events/lib/EventEmitter.ts:111</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="on" class="tsd-anchor"></a>
+					<h3>on</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.on</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L60">events/lib/EventEmitter.ts:60</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.on</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="once" class="tsd-anchor"></a>
+					<h3>once</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.once</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.once</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L76">events/lib/EventEmitter.ts:76</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="pause" class="tsd-anchor"></a>
+					<h3>pause</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">pause<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L219">pathfinding/lib/Pathfinder.ts:219</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="recalculate" class="tsd-anchor"></a>
+					<h3>recalculate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">recalculate<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L205">pathfinding/lib/Pathfinder.ts:205</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="removeAllListeners" class="tsd-anchor"></a>
+					<h3>remove<wbr>All<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>All<wbr>Listeners<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.removeAllListeners</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L134">events/lib/EventEmitter.ts:134</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="removeListeners" class="tsd-anchor"></a>
+					<h3>remove<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Listeners<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.removeListeners</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L129">events/lib/EventEmitter.ts:129</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="start" class="tsd-anchor"></a>
+					<h3>start</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L224">pathfinding/lib/Pathfinder.ts:224</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stop" class="tsd-anchor"></a>
+					<h3>stop</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L242">pathfinding/lib/Pathfinder.ts:242</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="vent" class="tsd-anchor"></a>
+					<h3>vent</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">vent<span class="tsd-signature-symbol">(</span>ventid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L282">pathfinding/lib/Pathfinder.ts:282</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ventid: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="wait" class="tsd-anchor"></a>
+					<h3>wait</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.wait</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L85">events/lib/EventEmitter.ts:85</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.wait</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L88">events/lib/EventEmitter.ts:88</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="waitf" class="tsd-anchor"></a>
+					<h3>waitf</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">waitf&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">waitf<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.waitf</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L95">events/lib/EventEmitter.ts:95</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;pathfinding.end&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.move&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.pause&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;engine.recalculate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.start&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;pathfinding.stop&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>filter: <span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>ev: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsPathfinderEvents</a><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from EventEmitter.waitf</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L99">events/lib/EventEmitter.ts:99</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>filter: <span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>ev: <a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="myPlayer" class="tsd-anchor"></a>
+					<h3>my<wbr>Player</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> myPlayer<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L123">pathfinding/lib/Pathfinder.ts:123</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="position" class="tsd-anchor"></a>
+					<h3>position</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> position<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">Vector2</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L115">pathfinding/lib/Pathfinder.ts:115</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">Vector2</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="transform" class="tsd-anchor"></a>
+					<h3>transform</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> transform<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CustomNetworkTransform</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/pathfinding/lib/Pathfinder.ts#L119">pathfinding/lib/Pathfinder.ts:119</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CustomNetworkTransform</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Getting <wbr>Started</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Getting Started/Basic Client Example.html">Basic <wbr>Client <wbr>Example</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Information</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Events.html">Events</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Creating Custom INOs.html">Creating <wbr>Custom INOs</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/End Game Intents.html">End <wbr>Game <wbr>Intents</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/client.html">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/constant.html">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/core.html">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/data.html">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/dtls.html">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/events.html">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/lan.html">lan</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/pathfinding.html">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/protocol.html">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/reactor.html">reactor</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/state.html">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/text.html">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/util.html">util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/constant.html" class="tsd-kind-icon">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/data.html" class="tsd-kind-icon">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/dtls.html" class="tsd-kind-icon">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
+						<ul>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.EngineMoveEvent.html" class="tsd-kind-icon">Engine<wbr>Move<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.EngineRecalculateEvent.html" class="tsd-kind-icon">Engine<wbr>Recalculate<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.Grid.html" class="tsd-kind-icon">Grid</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.Node.html" class="tsd-kind-icon">Node</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/pathfinding.PathfinderConfig.html" class="tsd-kind-icon">Pathfinder<wbr>Config</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.PathfinderEndEvent.html" class="tsd-kind-icon">Pathfinder<wbr>End<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.PathfinderPauseEvent.html" class="tsd-kind-icon">Pathfinder<wbr>Pause<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.PathfinderStartEvent.html" class="tsd-kind-icon">Pathfinder<wbr>Start<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.PathfinderStopEvent.html" class="tsd-kind-icon">Pathfinder<wbr>Stop<wbr>Event</a>
+							</li>
+							<li class="current tsd-kind-class tsd-parent-kind-module">
+								<a href="pathfinding.SkeldjsPathfinder.html" class="tsd-kind-icon">Skeldjs<wbr>Pathfinder</a>
+								<ul>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+										<a href="pathfinding.SkeldjsPathfinder.html#MovementInterval" class="tsd-kind-icon">Movement<wbr>Interval</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#config" class="tsd-kind-icon">config</a>
+									</li>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+										<a href="pathfinding.SkeldjsPathfinder.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#destination" class="tsd-kind-icon">destination</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#emit" class="tsd-kind-icon">emit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#emitSerial" class="tsd-kind-icon">emit<wbr>Serial</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#follow" class="tsd-kind-icon">follow</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#following" class="tsd-kind-icon">following</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#getListeners" class="tsd-kind-icon">get<wbr>Listeners</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#getMapId" class="tsd-kind-icon">get<wbr>Map<wbr>Id</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#go" class="tsd-kind-icon">go</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#grid" class="tsd-kind-icon">grid</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#isPaused" class="tsd-kind-icon">is<wbr>Paused</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#myPlayer" class="tsd-kind-icon">my<wbr>Player</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#off" class="tsd-kind-icon">off</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#on" class="tsd-kind-icon">on</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#once" class="tsd-kind-icon">once</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#path" class="tsd-kind-icon">path</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#pause" class="tsd-kind-icon">pause</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#position" class="tsd-kind-icon">position</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#recalculate" class="tsd-kind-icon">recalculate</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#removeAllListeners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#removeListeners" class="tsd-kind-icon">remove<wbr>Listeners</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#start" class="tsd-kind-icon">start</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#stop" class="tsd-kind-icon">stop</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#transform" class="tsd-kind-icon">transform</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="pathfinding.SkeldjsPathfinder.html#vent" class="tsd-kind-icon">vent</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#wait" class="tsd-kind-icon">wait</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="pathfinding.SkeldjsPathfinder.html#waitf" class="tsd-kind-icon">waitf</a>
+									</li>
+								</ul>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="../modules/pathfinding.html#SkeldjsPathfinderEvents" class="tsd-kind-icon">Skeldjs<wbr>Pathfinder<wbr>Events</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="../modules/pathfinding.html#getShortestPath" class="tsd-kind-icon">get<wbr>Shortest<wbr>Path</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/reactor.html" class="tsd-kind-icon">reactor</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/text.html" class="tsd-kind-icon">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/util.html" class="tsd-kind-icon">util</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>

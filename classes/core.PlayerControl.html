@@ -1,0 +1,2032 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>PlayerControl | SkeldJS</title>
+	<meta name="description" content="Documentation for SkeldJS">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">SkeldJS</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">Globals</a>
+				</li>
+				<li>
+					<a href="../modules/core.html">core</a>
+				</li>
+				<li>
+					<a href="core.PlayerControl.html">PlayerControl</a>
+				</li>
+			</ul>
+			<h1>Class PlayerControl&lt;RoomType&gt;</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a player object for interacting with the game and other players.</p>
+					</div>
+					<p>See <a href="../modules/core.html#PlayerControlEvents">PlayerControlEvents</a> for events to listen to.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>RoomType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">PlayerControlData</a><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">PlayerControl</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="" class="tsd-signature-type" data-tsd-kind="Interface">PlayerControlData</a></li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.PlayerControl.html#Awake" class="tsd-kind-icon">Awake</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.PlayerControl.html#Deserialize" class="tsd-kind-icon">Deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#Destroy" class="tsd-kind-icon">Destroy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#FixedUpdate" class="tsd-kind-icon">Fixed<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.PlayerControl.html#HandleRpc" class="tsd-kind-icon">Handle<wbr>Rpc</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#PreSerialize" class="tsd-kind-icon">Pre<wbr>Serialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="core.PlayerControl.html#Serialize" class="tsd-kind-icon">Serialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#checkColor" class="tsd-kind-icon">check<wbr>Color</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#checkName" class="tsd-kind-icon">check<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#completeTask" class="tsd-kind-icon">complete<wbr>Task</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#despawn" class="tsd-kind-icon">despawn</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.PlayerControl.html#emit" class="tsd-kind-icon">emit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.PlayerControl.html#emitSerial" class="tsd-kind-icon">emit<wbr>Serial</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite"><a href="core.PlayerControl.html#getComponent" class="tsd-kind-icon">get<wbr>Component</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.PlayerControl.html#getListeners" class="tsd-kind-icon">get<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#murderPlayer" class="tsd-kind-icon">murder<wbr>Player</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.PlayerControl.html#off" class="tsd-kind-icon">off</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.PlayerControl.html#on" class="tsd-kind-icon">on</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.PlayerControl.html#once" class="tsd-kind-icon">once</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#removeAllListeners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#removeListeners" class="tsd-kind-icon">remove<wbr>Listeners</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#reportDeadBody" class="tsd-kind-icon">report<wbr>Dead<wbr>Body</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#sendChat" class="tsd-kind-icon">send<wbr>Chat</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#sendChatNote" class="tsd-kind-icon">send<wbr>Chat<wbr>Note</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#sendQuickChat" class="tsd-kind-icon">send<wbr>Quick<wbr>Chat</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#setColor" class="tsd-kind-icon">set<wbr>Color</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#setHat" class="tsd-kind-icon">set<wbr>Hat</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#setImpostors" class="tsd-kind-icon">set<wbr>Impostors</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#setName" class="tsd-kind-icon">set<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#setPet" class="tsd-kind-icon">set<wbr>Pet</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#setSkin" class="tsd-kind-icon">set<wbr>Skin</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#setStartCounter" class="tsd-kind-icon">set<wbr>Start<wbr>Counter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#spawn" class="tsd-kind-icon">spawn</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#startMeeting" class="tsd-kind-icon">start<wbr>Meeting</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#syncSettings" class="tsd-kind-icon">sync<wbr>Settings</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerControl.html#usePlatform" class="tsd-kind-icon">use<wbr>Platform</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.PlayerControl.html#wait" class="tsd-kind-icon">wait</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="core.PlayerControl.html#waitf" class="tsd-kind-icon">waitf</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#components" class="tsd-kind-icon">components</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#dirtyBit" class="tsd-kind-icon">dirty<wbr>Bit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#flags" class="tsd-kind-icon">flags</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerControl.html#isNew" class="tsd-kind-icon">is<wbr>New</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#netId" class="tsd-kind-icon">net<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#ownerId" class="tsd-kind-icon">owner<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerControl.html#player" class="tsd-kind-icon">player</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerControl.html#playerId" class="tsd-kind-icon">player<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#room" class="tsd-kind-icon">room</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="core.PlayerControl.html#spawnType" class="tsd-kind-icon">spawn<wbr>Type</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite"><a href="core.PlayerControl.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.PlayerControl.html#owner" class="tsd-kind-icon">owner</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="Awake" class="tsd-anchor"></a>
+					<h3>Awake</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">Awake<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides Networkable.Awake</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L147">core/lib/objects/PlayerControl.ts:147</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="Deserialize" class="tsd-anchor"></a>
+					<h3>Deserialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">Deserialize<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a>, spawn<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides Networkable.Deserialize</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L186">core/lib/objects/PlayerControl.ts:186</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>reader: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a></h5>
+								</li>
+								<li>
+									<h5>spawn: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="Destroy" class="tsd-anchor"></a>
+					<h3>Destroy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Destroy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.Destroy</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L140">core/lib/Networkable.ts:140</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="FixedUpdate" class="tsd-anchor"></a>
+					<h3>Fixed<wbr>Update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Fixed<wbr>Update<span class="tsd-signature-symbol">(</span>delta<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.FixedUpdate</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L136">core/lib/Networkable.ts:136</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>delta: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="HandleRpc" class="tsd-anchor"></a>
+					<h3>Handle<wbr>Rpc</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">Handle<wbr>Rpc<span class="tsd-signature-symbol">(</span>rpc<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BaseRpcMessage</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides Networkable.HandleRpc</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L204">core/lib/objects/PlayerControl.ts:204</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>rpc: <a href="" class="tsd-signature-type" data-tsd-kind="Class">BaseRpcMessage</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="PreSerialize" class="tsd-anchor"></a>
+					<h3>Pre<wbr>Serialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">Pre<wbr>Serialize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.PreSerialize</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L132">core/lib/Networkable.ts:132</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<a name="Serialize" class="tsd-anchor"></a>
+					<h3>Serialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">Serialize<span class="tsd-signature-symbol">(</span>writer<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a>, spawn<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides Networkable.Serialize</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L194">core/lib/objects/PlayerControl.ts:194</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>writer: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelWriter</a></h5>
+								</li>
+								<li>
+									<h5>spawn: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="checkColor" class="tsd-anchor"></a>
+					<h3>check<wbr>Color</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Color<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Color</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L664">core/lib/objects/PlayerControl.ts:664</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Request for the host to check a color for this player and change it if it&#39;s
+									taken.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>color: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Color</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The color to request.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="checkName" class="tsd-anchor"></a>
+					<h3>check<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Name<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L539">core/lib/objects/PlayerControl.ts:539</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Request for the host to check a name for this player and append numbers if
+									it&#39;s taken.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name to request.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="completeTask" class="tsd-anchor"></a>
+					<h3>complete<wbr>Task</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">complete<wbr>Task<span class="tsd-signature-symbol">(</span>taskIdx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L312">core/lib/objects/PlayerControl.ts:312</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Mark one of this player&#39;s tasks as completed.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #001080">me</span><span style="color: #000000">.</span><span style="color: #001080">control</span><span style="color: #000000">.</span><span style="color: #795E26">completeTask</span><span style="color: #000000">(</span><span style="color: #098658">0</span><span style="color: #000000">);</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>taskIdx: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The index of the task to complete. Note: this is not the
+											task ID but instead the index of the task in the <a href="core.PlayerInfo.html#taskIds">PlayerInfo.taskIds</a>
+										array.</p>
+										<p>Emits a <a href="core.PlayerCompleteTaskEvent.html"><code>player.completetask</code></a> event.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="despawn" class="tsd-anchor"></a>
+					<h3>despawn</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">despawn<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.despawn</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L168">core/lib/Networkable.ts:168</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Despawns the component from the room it belongs in.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="emit" class="tsd-anchor"></a>
+					<h3>emit</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">emit&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.emit</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L109">core/lib/Networkable.ts:109</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">Event</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="emitSerial" class="tsd-anchor"></a>
+					<h3>emit<wbr>Serial</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">emit<wbr>Serial&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.emitSerial</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L48">events/lib/EventEmitter.ts:48</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">Event</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+					<a name="getComponent" class="tsd-anchor"></a>
+					<h3>get<wbr>Component</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Component&lt;T&gt;<span class="tsd-signature-symbol">(</span>component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">T</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides Networkable.getComponent</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L168">core/lib/objects/PlayerControl.ts:168</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>component: <span class="tsd-signature-type">NetworkableConstructor</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">T</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="getListeners" class="tsd-anchor"></a>
+					<h3>get<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Listeners&lt;Event&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.getListeners</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L120">events/lib/EventEmitter.ts:120</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>Event<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Set</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="murderPlayer" class="tsd-anchor"></a>
+					<h3>murder<wbr>Player</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">murder<wbr>Player<span class="tsd-signature-symbol">(</span>victim<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L976">core/lib/objects/PlayerControl.ts:976</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Murder another a player. This operation can only be called if the player
+									is the impostor on official servers.</p>
+								</div>
+								<p>Due to technical limitations, this operation cannot be canceled or reverted
+									without advanced &quot;breaking game&quot;, therefore it is out of scope of a single
+								<code>.revert()</code> function on the event emitted.</p>
+								<p>Emits a <a href="core.PlayerMurderEvent.html"><code>player.murder</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>victim: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The player to murder.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="off" class="tsd-anchor"></a>
+					<h3>off</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">off&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.off</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L111">events/lib/EventEmitter.ts:111</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.usemovingplatform&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.quickchat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.startmeeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="on" class="tsd-anchor"></a>
+					<h3>on</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">on&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.on</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L60">events/lib/EventEmitter.ts:60</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.usemovingplatform&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.quickchat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.startmeeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.on</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L64">events/lib/EventEmitter.ts:64</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="once" class="tsd-anchor"></a>
+					<h3>once</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">once&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, listener<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.once</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L72">events/lib/EventEmitter.ts:72</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.usemovingplatform&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.quickchat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.startmeeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.once</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L76">events/lib/EventEmitter.ts:76</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>listener: <span class="tsd-signature-type">Listener</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="removeAllListeners" class="tsd-anchor"></a>
+					<h3>remove<wbr>All<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>All<wbr>Listeners<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.removeAllListeners</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L134">events/lib/EventEmitter.ts:134</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="removeListeners" class="tsd-anchor"></a>
+					<h3>remove<wbr>Listeners</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Listeners<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.removeListeners</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L129">events/lib/EventEmitter.ts:129</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="reportDeadBody" class="tsd-anchor"></a>
+					<h3>report<wbr>Dead<wbr>Body</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">report<wbr>Dead<wbr>Body<span class="tsd-signature-symbol">(</span>body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L915">core/lib/objects/PlayerControl.ts:915</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Report the dead body of a player, telling the host to begin a meeting.
+										Use <a href="core.PlayerControl.html#startMeeting">PlayerControl.startMeeting</a> if you are calling this as the
+									host.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerReportDeadBodyEvent.html"><code>player.reportbody</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>body: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendChat" class="tsd-anchor"></a>
+					<h3>send<wbr>Chat</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Chat<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L1024">core/lib/objects/PlayerControl.ts:1024</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send a chat message as this player.</p>
+								</div>
+								<p>Due to technical impossibilities, this event cannot be canceled or reverted.</p>
+								<p>Emits a <a href="core.PlayerSendChatEvent.html"><code>player.chat</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendChatNote" class="tsd-anchor"></a>
+					<h3>send<wbr>Chat<wbr>Note</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Chat<wbr>Note<span class="tsd-signature-symbol">(</span>player<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, type<span class="tsd-signature-symbol">: </span><a href="../enums/constant.ChatNoteType.html#DidVote" class="tsd-signature-type" data-tsd-kind="Enumeration member">DidVote</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L1051">core/lib/objects/PlayerControl.ts:1051</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send a player chat note for this player, i.e. &quot;player x voted, x remaining.&quot;.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>player: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>type: <a href="../enums/constant.ChatNoteType.html#DidVote" class="tsd-signature-type" data-tsd-kind="Enumeration member">DidVote</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sendQuickChat" class="tsd-anchor"></a>
+					<h3>send<wbr>Quick<wbr>Chat</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<wbr>Quick<wbr>Chat<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StringNames</span>, format<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StringNames</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L1351">core/lib/objects/PlayerControl.ts:1351</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send a quick chat message as this player.</p>
+								</div>
+								<p>Due to technical impossibilities, this event cannot be canceled or reverted.</p>
+								<p>Emits a <a href="core.PlayerSendChatEvent.html"><code>player.quickchat</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StringNames</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> format: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StringNames</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setColor" class="tsd-anchor"></a>
+					<h3>set<wbr>Color</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Color<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Color</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L710">core/lib/objects/PlayerControl.ts:710</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update this player&#39;s color. This is a host operation on official servers.
+									Use <a href="core.PlayerControl.html#checkColor">PlayerControl.checkColor</a> if you are calling this as not the host.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerCheckNameEvent.html"><code>player.checkname</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>color: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Color</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The color to set this player&#39;s name to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setHat" class="tsd-anchor"></a>
+					<h3>set<wbr>Hat</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Hat<span class="tsd-signature-symbol">(</span>hat<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Hat</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L777">core/lib/objects/PlayerControl.ts:777</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update this player&#39;s hat. This is not a host operation unless the
+									client does not own this player.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerSetHatEvent.html"><code>player.sethat</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hat: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Hat</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The hat to set this player&#39;s hat to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setImpostors" class="tsd-anchor"></a>
+					<h3>set<wbr>Impostors</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Impostors<span class="tsd-signature-symbol">(</span>impostors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L455">core/lib/objects/PlayerControl.ts:455</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the impostors of the room. Usually called straight after a game is
+										started via the <a href="core.InnerShipStatus.html#selectImpostors">InnerShipStatus.selectImpostors</a> method. This is
+									a host operation on official servers.</p>
+								</div>
+								<p>Will remove any existing impostors unless they are included in the array.</p>
+								<p>Emits a <a href="core.PlayerSetImpostorsEvent.html"><code>player.setimpostors</code></a> event.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-ts"><span style="color: #008000">// Set everyone with &quot;Judas&quot; in their name as the impostor.</span>
+<span style="color: #001080">awiat</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #001080">me</span><span style="color: #000000">.</span><span style="color: #001080">control</span><span style="color: #000000">.</span><span style="color: #795E26">setImpostors</span><span style="color: #000000">(</span>
+<span style="color: #000000">  [...</span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">room</span><span style="color: #000000">.</span><span style="color: #001080">players</span><span style="color: #000000">.</span><span style="color: #795E26">values</span><span style="color: #000000">()]</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">filter</span><span style="color: #000000">(</span><span style="color: #001080">player</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">player</span><span style="color: #000000">.</span><span style="color: #001080">info</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">.</span><span style="color: #795E26">includes</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Judas&quot;</span><span style="color: #000000">))</span>
+<span style="color: #000000">);</span>
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>impostors: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An array of impostors to set.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setName" class="tsd-anchor"></a>
+					<h3>set<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Name<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L585">core/lib/objects/PlayerControl.ts:585</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update this player&#39;s name. This is a host operation on official servers.
+									Use <a href="core.PlayerControl.html#checkName">PlayerControl.checkName</a> if you are calling this as not the host.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerSetNameEvent.html"><code>player.setname</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name to set this player&#39;s name to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setPet" class="tsd-anchor"></a>
+					<h3>set<wbr>Pet</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Pet<span class="tsd-signature-symbol">(</span>pet<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Pet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L1172">core/lib/objects/PlayerControl.ts:1172</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update this player&#39;s pet. This is not a host operation unless the
+									client does not own this player.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerSetPetEvent.html"><code>player.setpet</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pet: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Pet</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The pet to set this player&#39;s pet to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setSkin" class="tsd-anchor"></a>
+					<h3>set<wbr>Skin</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Skin<span class="tsd-signature-symbol">(</span>skin<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Skin</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L844">core/lib/objects/PlayerControl.ts:844</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update this player&#39;s skin. This is not a host operation unless the
+									client does not own this player.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerSetSkinEvent.html"><code>player.setskin</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>skin: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Skin</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The skin to set this player&#39;s skin to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setStartCounter" class="tsd-anchor"></a>
+					<h3>set<wbr>Start<wbr>Counter</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Start<wbr>Counter<span class="tsd-signature-symbol">(</span>counter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L1244">core/lib/objects/PlayerControl.ts:1244</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Change the counter at the bottom of the screen while in the lobby,
+										usually counting down from 5 to 1. This is a host-only operation
+									on official servers.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerSetStartCounterEvent.html"><code>player.setstartcounter</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>counter: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The counter to set to.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="spawn" class="tsd-anchor"></a>
+					<h3>spawn</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">spawn<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.spawn</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L161">core/lib/Networkable.ts:161</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Spawn this component if does not exist in the room it belongs in.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="startMeeting" class="tsd-anchor"></a>
+					<h3>start<wbr>Meeting</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Meeting<span class="tsd-signature-symbol">(</span>caller<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L1116">core/lib/objects/PlayerControl.ts:1116</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Start a meeting and begin the meeting routine. This is a host-only operation
+										on official servers, see <a href="core.PlayerControl.html#reportDeadBody">PlayerControl.reportDeadBody</a> if you are calling
+									this as not the host.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerStartMeetingEvent.html"><code>player.startmeeting</code></a> event.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>caller: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The player that called this meeting.</p>
+									</div>
+								</li>
+								<li>
+									<h5>body: <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;emergency&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The body that was reported, or &quot;emergency&quot; if it is an emergency meeting.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="syncSettings" class="tsd-anchor"></a>
+					<h3>sync<wbr>Settings</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">sync<wbr>Settings<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameSettings</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L371">core/lib/objects/PlayerControl.ts:371</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Change the room&#39;s settings. Use <a href="core.Hostable.html#setSettings">Hostable.setSettings</a> to pass a
+									partial game objects object. This is a host operation on official servers.</p>
+								</div>
+								<p>Emits a <a href="core.PlayerSyncSettingsEvent.html"><code>player.syncsettings</code></a> event.</p>
+								<dl class="tsd-comment-tags">
+									<dt>property</dt>
+									<dd><p>settings The full game settings object to update the settings to.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>settings: <span class="tsd-signature-type">GameSettings</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="usePlatform" class="tsd-anchor"></a>
+					<h3>use<wbr>Platform</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">use<wbr>Platform<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L1309">core/lib/objects/PlayerControl.ts:1309</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Use the moving platfrom on the map, i.e. the one on Airship.</p>
+								</div>
+								<p>Emits a <a href="core.MovingPlatformPlayerUpdateEvent.html"><code>movingplatform.playerupdate</code></a> event.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="wait" class="tsd-anchor"></a>
+					<h3>wait</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">wait&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">wait<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.wait</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L85">events/lib/EventEmitter.ts:85</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.usemovingplatform&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.quickchat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.startmeeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.wait</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L88">events/lib/EventEmitter.ts:88</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="waitf" class="tsd-anchor"></a>
+					<h3>waitf</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">waitf&lt;EventName&gt;<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventName</span>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">waitf<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.waitf</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L95">events/lib/EventEmitter.ts:95</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>EventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">&quot;component.spawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;component.despawn&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.checkname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.completetask&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.usemovingplatform&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.murder&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.reportbody&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.chat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.quickchat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setcolor&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.sethat&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setimpostors&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setname&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setpet&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setskin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.setstartcounter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.startmeeting&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;player.syncsettings&quot;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">EventName</span></h5>
+								</li>
+								<li>
+									<h5>filter: <span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>ev: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">PlayerControlEvents</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">EventName</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from Networkable.waitf</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/events/lib/EventEmitter.ts#L99">events/lib/EventEmitter.ts:99</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>event: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>filter: <span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>ev<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>ev: <a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">BasicEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="components" class="tsd-anchor"></a>
+					<h3>components</h3>
+					<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Networkable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">NetworkableEvents</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.components</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L76">core/lib/Networkable.ts:76</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="dirtyBit" class="tsd-anchor"></a>
+					<h3>dirty<wbr>Bit</h3>
+					<div class="tsd-signature tsd-kind-icon">dirty<wbr>Bit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.dirtyBit</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L74">core/lib/Networkable.ts:74</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The dirty state of this component.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="flags" class="tsd-anchor"></a>
+					<h3>flags</h3>
+					<div class="tsd-signature tsd-kind-icon">flags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.flags</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L69">core/lib/Networkable.ts:69</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Flags for this object, see <a href="../enums/constant.SpawnFlag.html">SpawnFlag</a>.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="isNew" class="tsd-anchor"></a>
+					<h3>is<wbr>New</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>New<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of PlayerControlData.isNew</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L119">core/lib/objects/PlayerControl.ts:119</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether the player was just spawned, or was spawned before joining.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="netId" class="tsd-anchor"></a>
+					<h3>net<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">net<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.netId</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L59">core/lib/Networkable.ts:59</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The net ID of this component.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="ownerId" class="tsd-anchor"></a>
+					<h3>owner<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">owner<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.ownerId</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L64">core/lib/Networkable.ts:64</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The ID of the owner of this component.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="player" class="tsd-anchor"></a>
+					<h3>player</h3>
+					<div class="tsd-signature tsd-kind-icon">player<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L129">core/lib/objects/PlayerControl.ts:129</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The player that this component belongs to.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="playerId" class="tsd-anchor"></a>
+					<h3>player<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">player<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of PlayerControlData.playerId</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L124">core/lib/objects/PlayerControl.ts:124</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The player ID of the player.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="room" class="tsd-anchor"></a>
+					<h3>room</h3>
+					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RoomType</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.room</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L49">core/lib/Networkable.ts:49</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The room that this component belongs to.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="spawnType" class="tsd-anchor"></a>
+					<h3>spawn<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">spawn<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">SpawnType</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Networkable.spawnType</p>
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L54">core/lib/Networkable.ts:54</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The type of object that this component belongs to.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Control&lt;RoomType&gt;<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RoomType</span>, spawnType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">SpawnType</a>, netid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ownerid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, flags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, data<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">PlayerControlData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerControl</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides Networkable&lt;PlayerControlData,PlayerControlEvents&lt;RoomType&gt;,RoomType&gt;.constructor</p>
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/objects/PlayerControl.ts#L131">core/lib/objects/PlayerControl.ts:131</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>RoomType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>room: <span class="tsd-signature-type">RoomType</span></h5>
+								</li>
+								<li>
+									<h5>spawnType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">SpawnType</a></h5>
+								</li>
+								<li>
+									<h5>netid: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>ownerid: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>flags: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> data: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">PlayerControlData</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerControl</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="owner" class="tsd-anchor"></a>
+					<h3>owner</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> owner<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/53e7f13/packages/core/lib/Networkable.ts#L117">core/lib/Networkable.ts:117</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Getting <wbr>Started</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Getting Started/Basic Client Example.html">Basic <wbr>Client <wbr>Example</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Information</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Events.html">Events</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Creating Custom INOs.html">Creating <wbr>Custom INOs</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/End Game Intents.html">End <wbr>Game <wbr>Intents</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/client.html">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/constant.html">constant</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/core.html">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/data.html">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/dtls.html">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/events.html">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/lan.html">lan</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/pathfinding.html">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/protocol.html">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/reactor.html">reactor</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/state.html">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/text.html">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/util.html">util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/client.html" class="tsd-kind-icon">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/constant.html" class="tsd-kind-icon">constant</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="../modules/core.html" class="tsd-kind-icon">core</a>
+						<ul>
+							<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="core.PlayerControl.html" class="tsd-kind-icon">Player<wbr>Control</a>
+								<ul>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+										<a href="core.PlayerControl.html#Awake" class="tsd-kind-icon">Awake</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+										<a href="core.PlayerControl.html#Deserialize" class="tsd-kind-icon">Deserialize</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#Destroy" class="tsd-kind-icon">Destroy</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#FixedUpdate" class="tsd-kind-icon">Fixed<wbr>Update</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+										<a href="core.PlayerControl.html#HandleRpc" class="tsd-kind-icon">Handle<wbr>Rpc</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#PreSerialize" class="tsd-kind-icon">Pre<wbr>Serialize</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+										<a href="core.PlayerControl.html#Serialize" class="tsd-kind-icon">Serialize</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#checkColor" class="tsd-kind-icon">check<wbr>Color</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#checkName" class="tsd-kind-icon">check<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#completeTask" class="tsd-kind-icon">complete<wbr>Task</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#components" class="tsd-kind-icon">components</a>
+									</li>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+										<a href="core.PlayerControl.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#despawn" class="tsd-kind-icon">despawn</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#dirtyBit" class="tsd-kind-icon">dirty<wbr>Bit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.PlayerControl.html#emit" class="tsd-kind-icon">emit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.PlayerControl.html#emitSerial" class="tsd-kind-icon">emit<wbr>Serial</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#flags" class="tsd-kind-icon">flags</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-overwrite">
+										<a href="core.PlayerControl.html#getComponent" class="tsd-kind-icon">get<wbr>Component</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.PlayerControl.html#getListeners" class="tsd-kind-icon">get<wbr>Listeners</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#isNew" class="tsd-kind-icon">is<wbr>New</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#murderPlayer" class="tsd-kind-icon">murder<wbr>Player</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#netId" class="tsd-kind-icon">net<wbr>Id</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.PlayerControl.html#off" class="tsd-kind-icon">off</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.PlayerControl.html#on" class="tsd-kind-icon">on</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.PlayerControl.html#once" class="tsd-kind-icon">once</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#owner" class="tsd-kind-icon">owner</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#ownerId" class="tsd-kind-icon">owner<wbr>Id</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#player" class="tsd-kind-icon">player</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#playerId" class="tsd-kind-icon">player<wbr>Id</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#removeAllListeners" class="tsd-kind-icon">remove<wbr>All<wbr>Listeners</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#removeListeners" class="tsd-kind-icon">remove<wbr>Listeners</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#reportDeadBody" class="tsd-kind-icon">report<wbr>Dead<wbr>Body</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#room" class="tsd-kind-icon">room</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#sendChat" class="tsd-kind-icon">send<wbr>Chat</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#sendChatNote" class="tsd-kind-icon">send<wbr>Chat<wbr>Note</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#sendQuickChat" class="tsd-kind-icon">send<wbr>Quick<wbr>Chat</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#setColor" class="tsd-kind-icon">set<wbr>Color</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#setHat" class="tsd-kind-icon">set<wbr>Hat</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#setImpostors" class="tsd-kind-icon">set<wbr>Impostors</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#setName" class="tsd-kind-icon">set<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#setPet" class="tsd-kind-icon">set<wbr>Pet</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#setSkin" class="tsd-kind-icon">set<wbr>Skin</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#setStartCounter" class="tsd-kind-icon">set<wbr>Start<wbr>Counter</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#spawn" class="tsd-kind-icon">spawn</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+										<a href="core.PlayerControl.html#spawnType" class="tsd-kind-icon">spawn<wbr>Type</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#startMeeting" class="tsd-kind-icon">start<wbr>Meeting</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#syncSettings" class="tsd-kind-icon">sync<wbr>Settings</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerControl.html#usePlatform" class="tsd-kind-icon">use<wbr>Platform</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.PlayerControl.html#wait" class="tsd-kind-icon">wait</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+										<a href="core.PlayerControl.html#waitf" class="tsd-kind-icon">waitf</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/data.html" class="tsd-kind-icon">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/dtls.html" class="tsd-kind-icon">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/protocol.html" class="tsd-kind-icon">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/reactor.html" class="tsd-kind-icon">reactor</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/text.html" class="tsd-kind-icon">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/util.html" class="tsd-kind-icon">util</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>
