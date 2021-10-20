@@ -34,7 +34,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         public readonly gamedata: GameData<RoomType>,
         public playerId: number,
         public name = "",
-        public color = -1,
+        public color = 0,
         public hat = Hat.None,
         public pet = Pet.None,
         public skin = Skin.None,
