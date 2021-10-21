@@ -67,8 +67,8 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
             queue: [],
         }));
         this.systems.set(SystemType.Communications, new HqHudSystem(this, SystemType.Communications, {
-            active: [],
-            completed: new Set([0, 1]),
+            activeConsoles: [],
+            completedConsoles: new Set([0, 1]),
         }));
         this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage, {
             cooldown: 0,

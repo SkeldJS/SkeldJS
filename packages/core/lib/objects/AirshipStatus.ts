@@ -1,6 +1,5 @@
 import { HazelReader, Vector2 } from "@skeldjs/util";
 import { SpawnType, SystemType } from "@skeldjs/constant";
-import { CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
@@ -17,10 +16,27 @@ import {
     MovingPlatformSystem,
     MedScanSystem,
     DoorsSystem,
+    HeliSabotageSystem,
 } from "../systems";
 
 import { Networkable, NetworkableConstructor } from "../Networkable";
-import { AutoOpenDoor, Door } from "../..";
+import { Door } from "../misc/Door";
+import { AutoOpenDoor } from "../misc/AutoOpenDoor";
+
+export enum ElectricalDoorsAirship {
+    BottomRightNorth,
+    CenterSouth,
+    TopRightSouth,
+    TopCenterSouth,
+    TopLeftSouth,
+    CenterLeftEast,
+    CenterRightWest,
+    TopRightWest,
+    TopLeftEast,
+    BottomRightWest,
+    TopLeftWest,
+    CenterLeftWest
+}
 
 /**
  * Represents a room object for the Airship map.
@@ -28,7 +44,7 @@ import { AutoOpenDoor, Door } from "../..";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
-    static roomDoors = {
+    static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Communications]: [0, 1, 2, 3],
         [SystemType.Brig]: [4, 5, 6],
         [SystemType.Kitchen]: [7, 8, 9],
@@ -36,7 +52,44 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         [SystemType.Records]: [12, 13, 14],
         [SystemType.Lounge]: [15, 16, 17, 18],
         [SystemType.Medical]: [19, 20]
-    }
+    };
+
+    static electricalRooms = [
+        [
+            ElectricalDoorsAirship.TopLeftEast,
+            ElectricalDoorsAirship.TopLeftSouth
+        ],
+        [
+            ElectricalDoorsAirship.TopLeftEast,
+            ElectricalDoorsAirship.TopCenterSouth,
+            ElectricalDoorsAirship.TopRightWest
+        ],
+        [
+            ElectricalDoorsAirship.TopRightSouth,
+            ElectricalDoorsAirship.TopRightWest
+        ],
+        [
+            ElectricalDoorsAirship.TopRightSouth,
+            ElectricalDoorsAirship.CenterRightWest,
+            ElectricalDoorsAirship.BottomRightNorth
+        ],
+        [
+            ElectricalDoorsAirship.TopCenterSouth,
+            ElectricalDoorsAirship.CenterRightWest,
+            ElectricalDoorsAirship.CenterSouth,
+            ElectricalDoorsAirship.CenterLeftEast
+        ],
+        [
+            ElectricalDoorsAirship.BottomRightNorth,
+            ElectricalDoorsAirship.BottomRightWest
+        ],
+        [
+            ElectricalDoorsAirship.TopLeftSouth,
+            ElectricalDoorsAirship.CenterLeftEast,
+            ElectricalDoorsAirship.CenterSouth,
+            ElectricalDoorsAirship.BottomRightWest
+        ]
+    ];
 
     initialSpawnCenter = new Vector2(50, 50);
     meetingSpawnCenter = new Vector2(50, 50);
@@ -60,15 +113,6 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         }
 
         return super.getComponent(component);
-    }
-
-    protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const electricaldoors = this.systems.get(SystemType.Decontamination)! as ElectricalDoorsSystem;
-        const doorsInRoom = AirshipStatus.roomDoors[rpc.systemId as keyof typeof AirshipStatus.roomDoors];
-
-        for (const doorId of doorsInRoom) {
-            electricaldoors.closeDoor(doorId);
-        }
     }
 
     Setup() {
@@ -97,6 +141,13 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
             useId: 0,
         }));
 
+        this.systems.set(SystemType.Reactor, new HeliSabotageSystem(this, SystemType.Reactor, {
+            countdown: 10000,
+            resetTimer: 10000,
+            activeConsoles: new Map,
+            completedConsoles: new Set([0, 1])
+        }));
+
         this.systems.set(SystemType.Decontamination, new ElectricalDoorsSystem(this, SystemType.Decontamination, {
             doors: [],
         }));
@@ -116,18 +167,18 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
 
         const electricaldoors = this.systems.get(SystemType.Decontamination) as ElectricalDoorsSystem;
         electricaldoors.doors = [
-            new Door(electricaldoors, 0, true),
-            new Door(electricaldoors, 1, true),
-            new Door(electricaldoors, 2, true),
-            new Door(electricaldoors, 3, true),
-            new Door(electricaldoors, 4, true),
-            new Door(electricaldoors, 5, true),
-            new Door(electricaldoors, 6, true),
-            new Door(electricaldoors, 7, true),
-            new Door(electricaldoors, 8, true),
-            new Door(electricaldoors, 9, true),
-            new Door(electricaldoors, 10, true),
-            new Door(electricaldoors, 11, true)
+            new Door(electricaldoors, 0, false),
+            new Door(electricaldoors, 1, false),
+            new Door(electricaldoors, 2, false),
+            new Door(electricaldoors, 3, false),
+            new Door(electricaldoors, 4, false),
+            new Door(electricaldoors, 5, false),
+            new Door(electricaldoors, 6, false),
+            new Door(electricaldoors, 7, false),
+            new Door(electricaldoors, 8, false),
+            new Door(electricaldoors, 9, false),
+            new Door(electricaldoors, 10, false),
+            new Door(electricaldoors, 11, false)
         ];
 
         const autodoors = this.systems.get(SystemType.Decontamination2) as AutoDoorsSystem;
@@ -137,5 +188,56 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
             new AutoOpenDoor(autodoors, 17, true),
             new AutoOpenDoor(autodoors, 18, true)
         ];
+
+        const doorsystem = this.systems.get(SystemType.Doors)! as DoorsSystem;
+        doorsystem.doors = [
+            new Door(doorsystem, 0, true),
+            new Door(doorsystem, 1, true),
+            new Door(doorsystem, 2, true),
+            new Door(doorsystem, 3, true),
+            new Door(doorsystem, 4, true),
+            new Door(doorsystem, 5, true),
+            new Door(doorsystem, 6, true),
+            new Door(doorsystem, 7, true),
+            new Door(doorsystem, 8, true),
+            new Door(doorsystem, 9, true),
+            new Door(doorsystem, 10, true),
+            new Door(doorsystem, 11, true),
+            new Door(doorsystem, 12, true),
+            new Door(doorsystem, 13, true),
+            new Door(doorsystem, 14, true),
+            new Door(doorsystem, 15, true),
+            new Door(doorsystem, 16, true),
+            new Door(doorsystem, 17, true),
+            new Door(doorsystem, 18, true),
+            new Door(doorsystem, 19, true),
+            new Door(doorsystem, 20, true)
+        ];
+
+        const hashSet: Set<ElectricalDoorsAirship[]> = new Set;
+        let room = AirshipStatus.electricalRooms[0];
+        let count = 0;
+        while (hashSet.size < AirshipStatus.electricalRooms.length && count++ < 10000) {
+            const door = electricaldoors.doors[room[Math.floor(Math.random() * room.length)]];
+            const doorSet = AirshipStatus.electricalRooms.find(r => r !== room && r.includes(door.id));
+
+            if (!doorSet)
+                continue;
+
+            if (hashSet.size !== hashSet.add(doorSet).size) {
+                door.setOpen(true);
+            }
+            if (Math.random() >= 0.5) {
+                hashSet.add(room);
+                room = doorSet;
+            }
+        }
+        const exitFlag = Math.random() >= 0.5;
+        electricaldoors.doors[ElectricalDoorsAirship.TopLeftWest].setOpen(exitFlag);
+        electricaldoors.doors[ElectricalDoorsAirship.CenterLeftWest].setOpen(!exitFlag);
+    }
+
+    getDoorsInRoom(room: SystemType) {
+        return AirshipStatus.roomDoors[room] || [];
     }
 }

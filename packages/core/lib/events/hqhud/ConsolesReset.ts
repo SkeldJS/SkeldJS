@@ -6,8 +6,8 @@ import { Hostable } from "../../Hostable";
 import { HqHudSystem } from "../../systems";
 
 /**
- * Emitted when the communication consoles on Mira HQ are reset, i.e. the 10s
- * timer reaching 0.
+ * Emitted when the communication consoles on Mira HQ are reset, i.e. when the 10s
+ * timer reaches 0.
  */
 export class HqHudConsolesResetEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HqHudEvent {
     static eventName = "hqhud.consoles.reset" as const;

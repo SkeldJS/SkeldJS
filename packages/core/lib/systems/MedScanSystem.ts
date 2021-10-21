@@ -1,11 +1,12 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
-import { ExtractEventTypes } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+
 import { SystemStatusEvents } from "./events";
 import { MedScanJoinQueueEvent, MedScanLeaveQueueEvent } from "../events";
 import { Hostable } from "../Hostable";

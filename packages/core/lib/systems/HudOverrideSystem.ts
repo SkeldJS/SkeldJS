@@ -1,13 +1,14 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
+import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+
 import { SystemRepairEvent, SystemSabotageEvent } from "../events";
-import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatusEvents } from "./events";
-import { RepairSystemMessage } from "@skeldjs/protocol";
 import { Hostable } from "../Hostable";
 
 export interface HudOverrideSystemData {
@@ -132,7 +133,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
         }
     }
 
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
         if (amount === 0) {
             await this._repair(player, rpc);
         }

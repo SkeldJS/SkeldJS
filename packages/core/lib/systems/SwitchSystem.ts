@@ -1,17 +1,19 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
+import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+
 import {
     ElectricalSwitchFlipEvent,
     SystemRepairEvent,
     SystemSabotageEvent,
 } from "../events";
-import { ExtractEventTypes } from "@skeldjs/events";
+
 import { SystemStatusEvents } from "./events";
-import { RepairSystemMessage } from "@skeldjs/protocol";
 import { Hostable } from "../Hostable";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];

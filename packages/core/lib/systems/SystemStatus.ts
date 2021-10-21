@@ -1,8 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
-
-import { BasicEvent, EventEmitter } from "@skeldjs/events";
 import { RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
+import { EventEmitter, BasicEvent } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { PlayerData } from "../PlayerData";
@@ -81,7 +80,7 @@ export class SystemStatus<
         void writer, spawn;
     }
 
-    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined|undefined): Promise<void> {
+    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined): Promise<void> {
         void player, amount, rpc;
     }
 

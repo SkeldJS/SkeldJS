@@ -1,16 +1,15 @@
 import { SpawnType, SystemType } from "@skeldjs/constant";
-import { CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 import { HazelReader, Vector2 } from "@skeldjs/util";
 
 import {
     DeconSystem,
-    HudOverrideSystem,
     MedScanSystem,
     ReactorSystem,
     SabotageSystem,
     SwitchSystem,
     DoorsSystem,
     SecurityCameraSystem,
+    HudOverrideSystem,
 } from "../systems";
 
 import { Door } from "../misc/Door";
@@ -25,7 +24,7 @@ import { PlayerData } from "../PlayerData";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class PolusShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
-    static roomDoors = {
+    static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Electrical]: [0, 1, 2],
         [SystemType.O2]: [3, 4],
         [SystemType.Weapons]: [5],
@@ -59,16 +58,6 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         }
 
         return undefined;
-    }
-
-    protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const doors = this.systems.get(SystemType.Doors)! as DoorsSystem;
-        const doorsInRoom = PolusShipStatus.roomDoors[rpc.systemId as keyof typeof PolusShipStatus.roomDoors];
-
-        for (const doorId of doorsInRoom) {
-            doors.closeDoor(doorId);
-            doors.cooldowns.set(rpc.systemId, 30);
-        }
     }
 
     Setup() {
@@ -146,5 +135,9 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
             return this.meetingSpawnCenter2
                 .add(step);
         }
+    }
+
+    getDoorsInRoom(room: SystemType) {
+        return PolusShipStatus.roomDoors[room] || [];
     }
 }

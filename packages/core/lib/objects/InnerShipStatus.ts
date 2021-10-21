@@ -22,10 +22,11 @@ import { BaseRpcMessage,CloseDoorsOfTypeMessage,RepairSystemMessage } from "@ske
 import {
     AutoDoorsSystemEvents,
     DeconSystemEvents,
+    DoorsSystem,
     DoorsSystemEvents,
     ElectricalDoorsSystemEvents,
     HqHudSystemEvents,
-    HudOverrideSystemEvents,
+    HeliSabotageSystemEvents,
     LifeSuppSystemEvents,
     MedScanSystemEvents,
     MovingPlatformSystemEvents,
@@ -82,7 +83,7 @@ export type ShipStatusEvents<RoomType extends Hostable = Hostable> = Networkable
     DeconSystemEvents<RoomType> &
     ElectricalDoorsSystemEvents<RoomType> &
     HqHudSystemEvents<RoomType> &
-    HudOverrideSystemEvents<RoomType> &
+    HeliSabotageSystemEvents<RoomType> &
     LifeSuppSystemEvents<RoomType> &
     MedScanSystemEvents<RoomType> &
     MovingPlatformSystemEvents<RoomType> &
@@ -175,7 +176,12 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     }
 
     protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        void rpc;
+        const doors = this.systems.get(SystemType.Doors)! as DoorsSystem;
+        const doorsInRoom = this.getDoorsInRoom(rpc.systemId);
+
+        for (const doorId of doorsInRoom) {
+            doors.closeDoor(doorId);
+        }
     }
 
     FixedUpdate(delta: number) {
@@ -342,5 +348,10 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             return;
 
         player.transform.snapTo(this.getSpawnPosition(player, initialSpawn));
+    }
+
+    getDoorsInRoom(room: SystemType): number[] {
+        void room;
+        return [];
     }
 }

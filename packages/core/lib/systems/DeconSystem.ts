@@ -1,13 +1,14 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemType } from "@skeldjs/constant";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
+
 import { SystemStatusEvents } from "./events";
 import { Hostable } from "../Hostable";
-import { PlayerData } from "../PlayerData";
 
 import {
     DeconDoorsCloseEvent,

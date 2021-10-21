@@ -1,11 +1,17 @@
+import {
+    RepairSystemMessage,
+    UsePlatformMessage,
+    RpcMessage
+} from "@skeldjs/protocol";
+
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage, RpcMessage, UsePlatformMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
+
 import { Hostable, PlayerDataResolvable } from "../Hostable";
 import { NetworkUtils } from "../utils/net";
 import { MovingPlatformPlayerUpdateEvent } from "../events";
@@ -64,7 +70,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
     Deserialize(reader: HazelReader, spawn: boolean) {
         if (spawn) {
             this.useId = reader.uint8();
-            const targetId = reader.uint8();
+            const targetId = reader.uint32();
             this._setTarget(
                 targetId === 255
                     ? undefined
@@ -76,7 +82,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
             const newSid = reader.uint8();
             if (NetworkUtils.seqIdGreaterThan(newSid, this.useId, 1)) {
                 this.useId = newSid;
-                const targetId = reader.uint8();
+                const targetId = reader.uint32();
                 this._setTarget(
                     targetId === 255
                         ? undefined
@@ -95,7 +101,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
             this.useId = 0;
 
         writer.uint8(this.useId);
-        writer.uint8(this.target?.control?.netId ?? 255);
+        writer.uint32(this.target?.control?.netId ?? 255);
         writer.uint8(this.side);
         this.dirty = spawn;
     }
@@ -139,17 +145,13 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
         if (!resolved)
             return;
 
-        if (this.target === resolved)
-            return;
-
         if (this.side === side)
             return;
 
-        const oldTarget = this.target;
         const oldSide = this.side;
         await this._setTarget(resolved, side, undefined);
 
-        if (sendRpc && this.target !== oldTarget || this.side !== oldSide) {
+        if (sendRpc && this.side !== oldSide) {
             if (this.target?.control) {
                 this.ship.room.stream.push(
                     new RpcMessage(
@@ -169,5 +171,13 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
             return;
 
         await this.setTarget(this.room.myPlayer, this.oppositeSide, true);
+    }
+
+    setSide(side: MovingPlatformSide) {
+        if (this.side === side)
+            return;
+
+        this.side = side;
+        this.dirty = true;
     }
 }

@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { ExtractEventTypes } from "@skeldjs/events";
-import { RepairSystemMessage } from "@skeldjs/protocol";
 import { SystemType } from "@skeldjs/constant";
+import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
@@ -13,6 +13,7 @@ import {
     SystemRepairEvent,
     SystemSabotageEvent
 } from "../events";
+
 import { SystemStatusEvents } from "./events";
 import { Hostable } from "../Hostable";
 

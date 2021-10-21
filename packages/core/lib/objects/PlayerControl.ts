@@ -70,7 +70,7 @@ import { AirshipStatus } from "./AirshipStatus";
 import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
-import { MovingPlatformSystem } from "../systems";
+import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
 
 export interface PlayerControlData {
@@ -1084,6 +1084,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (callerState) {
             callerState.didReport = true;
         }
+
+        const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
+        if (movingPlatform instanceof MovingPlatformSystem) {
+            movingPlatform.setSide(MovingPlatformSide.Left);
+        }
     }
 
     private _rpcStartMeeting(player: PlayerData|"emergency"): void {
@@ -1263,12 +1268,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private async _handleUsePlatform(rpc: UsePlatformMessage) {
         const airship = this.room.shipStatus;
 
-        console.log("got use platform");
-
         if (!airship || !(airship instanceof AirshipStatus))
             return;
-
-        console.log("got airship something");
 
         const ev = await this.emit(
             new PlayerUseMovingPlatformEvent(
@@ -1281,22 +1282,22 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (ev.canceled)
             return;
 
-        this._usePlatform();
+        this._usePlatform(false);
     }
 
-    private _usePlatform() {
+    private _usePlatform(rpc: boolean) {
         const airship = this.room.shipStatus;
 
         if (!airship || !(airship instanceof AirshipStatus))
             return;
 
-        const movingPlatform = airship.systems.get(SystemType.GapRoom) as MovingPlatformSystem;
+        const movingPlatform = airship.systems.get(SystemType.GapRoom);
 
-        if (movingPlatform) {
+        if (movingPlatform instanceof MovingPlatformSystem) {
             movingPlatform.setTarget(
                 this.player,
                 movingPlatform.oppositeSide,
-                false
+                rpc
             );
         }
     }
@@ -1318,7 +1319,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (ev.canceled)
             return;
 
-        this._usePlatform();
+        this._usePlatform(true);
     }
 
     private async _handleSendQuickChat(rpc: SendQuickChatMessage) {

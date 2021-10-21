@@ -1,15 +1,16 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType, GameMap } from "@skeldjs/constant";
-import { MapDoors } from "@skeldjs/data";
-import { ExtractEventTypes } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
+import { MapDoors } from "@skeldjs/data";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
+import { PlayerData } from "../PlayerData";
+
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 import { DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
-import { PlayerData } from "../PlayerData";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { Hostable } from "../Hostable";
 

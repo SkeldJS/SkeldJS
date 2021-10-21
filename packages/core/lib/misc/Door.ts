@@ -47,6 +47,17 @@ export class Door<RoomType extends Hostable = Hostable> extends EventEmitter<Doo
         writer.bool(this.isOpen);
     }
 
+    async setOpen(isOpen: boolean) {
+        if (isOpen === this.isOpen)
+            return;
+
+        if (isOpen) {
+            await this.open();
+        } else {
+            await this.close();
+        }
+    }
+
     /**
      * Force the door open.
      */

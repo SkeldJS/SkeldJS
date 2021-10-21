@@ -1176,7 +1176,8 @@ export class Hostable<
     }
 
     getPlayerControlByPlayerId(playerId: number): PlayerControl<this>|undefined {
-        for (const object of this.objectList) {
+        for (let i = 0; i < this.objectList.length; i++) {
+            const object = this.objectList[i];
             if (object instanceof PlayerControl) {
                 if (object.playerId === playerId) {
                     return object;

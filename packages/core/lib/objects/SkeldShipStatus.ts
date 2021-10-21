@@ -1,11 +1,9 @@
 import { HazelReader, Vector2 } from "@skeldjs/util";
-import { CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 import { SpawnType, SystemType } from "@skeldjs/constant";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
 import {
-    HudOverrideSystem,
     LifeSuppSystem,
     MedScanSystem,
     SecurityCameraSystem,
@@ -13,11 +11,12 @@ import {
     SabotageSystem,
     SwitchSystem,
     ReactorSystem,
+    HudOverrideSystem,
 } from "../systems";
 
 import { Hostable } from "../Hostable";
-import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 import { Networkable, NetworkableConstructor } from "../Networkable";
+import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
 /**
  * Represents a room object for the The Skeld map.
@@ -25,7 +24,7 @@ import { Networkable, NetworkableConstructor } from "../Networkable";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
-    static roomDoors = {
+    static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Storage]: [1, 7, 12],
         [SystemType.Cafeteria]: [0, 3, 8],
         [SystemType.UpperEngine]: [2, 5],
@@ -57,15 +56,6 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
         }
 
         return undefined;
-    }
-
-    protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const autodoor = this.systems.get(SystemType.Doors)! as AutoDoorsSystem;
-        const doorsInRoom = SkeldShipStatus.roomDoors[rpc.systemId as keyof typeof SkeldShipStatus.roomDoors];
-
-        for (const doorId of doorsInRoom) {
-            autodoor.closeDoor(doorId);
-        }
     }
 
     Setup() {
@@ -116,5 +106,9 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
             new AutoOpenDoor(autodoor, 12, true),
             new AutoOpenDoor(autodoor, 13, true),
         ];
+    }
+
+    getDoorsInRoom(room: SystemType) {
+        return SkeldShipStatus.roomDoors[room] || [];
     }
 }

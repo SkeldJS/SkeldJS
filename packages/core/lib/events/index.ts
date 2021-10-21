@@ -13,6 +13,11 @@ export * from "./gamedata/AddPlayer";
 export * from "./gamedata/RemovePlayer";
 export * from "./gamedata/SetTasks";
 
+export * from "./heli/ConsoleClose";
+export * from "./heli/ConsoleComplete";
+export * from "./heli/ConsoleOpen";
+export * from "./heli/ConsolesReset";
+
 export * from "./hqhud/ConsoleClose";
 export * from "./hqhud/ConsoleComplete";
 export * from "./hqhud/ConsoleOpen";

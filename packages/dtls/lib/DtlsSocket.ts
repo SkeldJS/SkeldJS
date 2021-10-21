@@ -282,12 +282,10 @@ export class DtlsSocket extends EventEmitter {
             const payloadReader = reader.bytes(record.length);
 
             if (record.contentType === ContentType.ApplicationData && this.nextEpoch.state !== HandshakeState.Established) {
-                console.log("got application data, cannot process yet.");
                 continue;
             }
 
             if (record.epoch !== this.epoch) {
-                console.log("got bad epoch record, record: " + record.epoch + ", stored: " + this.epoch);
                 continue;
             }
 
@@ -295,12 +293,10 @@ export class DtlsSocket extends EventEmitter {
             const windowMask = 1 << windowIdx;
             if (record.sequenceNumber < this.currentEpoch.nextExpectedSequence) {
                 if (windowIdx >= 64) {
-                    console.log("dropping record that is too old");
                     continue;
                 }
 
                 if ((this.currentEpoch.previousSequenceWindowBitmask & windowMask) !== 0) {
-                    console.log("dropping duplicate record");
                     continue;
                 }
             }
@@ -308,7 +304,6 @@ export class DtlsSocket extends EventEmitter {
             const decryptedPayload = this.currentEpoch.recordProtection.decryptCiphertextFromServer(payloadReader.buffer, record);
 
             if (!decryptedPayload) {
-                console.log("failed to decrypt record.");
                 return;
             }
 
@@ -329,7 +324,6 @@ export class DtlsSocket extends EventEmitter {
         switch (record.contentType) {
             case ContentType.ChangeCipherSpec:
                 if (this.nextEpoch.state !== HandshakeState.ExpectingChangeCipherSpec) {
-                    console.log("dropping unexpected change cipher spec, expected " + HandshakeState[this.nextEpoch.state]);
                     return;
                 }
                 this.epoch = this.nextEpoch.epoch;
@@ -374,7 +368,6 @@ export class DtlsSocket extends EventEmitter {
             switch (handshake.messageType) {
                 case HandshakeType.HelloVerifyRequest:
                     if (this.nextEpoch.state !== HandshakeState.ExpectingServerHello) {
-                        console.log("dropping unexpected hello verify request, waiting for " + HandshakeState[this.nextEpoch.state]);
                         continue;
                     }
 
@@ -387,10 +380,8 @@ export class DtlsSocket extends EventEmitter {
                     break;
                 case HandshakeType.ServerHello:
                     if (this.nextEpoch.state !== HandshakeState.ExpectingServerHello) {
-                        console.log("dropping unexpected server hello, waiting for " + HandshakeState[this.nextEpoch.state]);
                         continue;
                     } else if (handshake.messageSequence !== 1) {
-                        console.log("bad message sequence on server hello: " + handshake.messageSequence);
                         continue;
                     }
 
@@ -419,10 +410,8 @@ export class DtlsSocket extends EventEmitter {
                     break;
                 case HandshakeType.Certificate:
                     if (this.nextEpoch.state !== HandshakeState.ExpectingCertificate) {
-                        console.log("dropping unexpected certificate, waiting for " + HandshakeState[this.nextEpoch.state]);
                         continue;
                     } else if (handshake.messageSequence !== 2) {
-                        console.log("bad message sequence on certificate: " + handshake.messageSequence);
                         continue;
                     }
 
@@ -484,22 +473,17 @@ export class DtlsSocket extends EventEmitter {
                     break;
                 case HandshakeType.ServerKeyExchange:
                     if (this.nextEpoch.state !== HandshakeState.ExpectingServerKeyExchange) {
-                        console.log("dropping unexpected server key exchange, waiting for " + HandshakeState[this.nextEpoch.state]);
                         continue;
                     } else if (!this.nextEpoch.serverPublicKey) {
-                        console.log("dropping unexpected server key exchange, no public server key");
                         continue;
                     } else if (!this.nextEpoch.handshake) {
-                        console.log("dropping unexpected server key exchange, no key agreement interface");
                         continue;
                     } else if (handshake.messageSequence !== 3) {
-                        console.log("dropping bad sequence on server key exchange: " + handshake.messageSequence);
                         continue;
                     }
 
                     const sharedSecret = this.nextEpoch.handshake.verifyServerMessageAndGenerateSharedKey(payloadReader.buffer.slice(payloadReader.cursor), this.nextEpoch.serverPublicKey);
                     if (!sharedSecret) {
-                        console.log("dropping malformed server key exchange");
                         continue;
                     }
 
@@ -528,10 +512,8 @@ export class DtlsSocket extends EventEmitter {
                     break;
                 case HandshakeType.ServerHelloDone:
                     if (this.nextEpoch.state !== HandshakeState.ExpectingServerHelloDone) {
-                        console.log("dropping unexpected server hello done, waiting for " + HandshakeState[this.nextEpoch.state]);
                         continue;
                     } else if (handshake.messageSequence !== 4) {
-                        console.log("dropping bad sequence on server hello done: " + handshake.messageSequence);
                         continue;
                     }
 

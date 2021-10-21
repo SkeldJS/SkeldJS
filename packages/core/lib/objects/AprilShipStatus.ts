@@ -1,18 +1,17 @@
 import { HazelReader, Vector2 } from "@skeldjs/util";
 import { SpawnType, SystemType } from "@skeldjs/constant";
-import { CloseDoorsOfTypeMessage } from "@skeldjs/protocol";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
 import {
-    HudOverrideSystem,
     LifeSuppSystem,
     MedScanSystem,
     SecurityCameraSystem,
     AutoDoorsSystem,
     SabotageSystem,
     SwitchSystem,
-    ReactorSystem
+    ReactorSystem,
+    HudOverrideSystem
 } from "../systems";
 
 import { Hostable } from "../Hostable";
@@ -25,7 +24,7 @@ import { Networkable, NetworkableConstructor } from "../Networkable";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class AprilShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
-    static roomDoors = {
+    static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.UpperEngine]: [2, 5],
         [SystemType.Cafeteria]: [0, 3, 8],
         [SystemType.MedBay]: [10],
@@ -57,15 +56,6 @@ export class AprilShipStatus<RoomType extends Hostable = Hostable> extends Inner
         }
 
         return super.getComponent(component);
-    }
-
-    protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const autodoor = this.systems.get(SystemType.Doors)! as AutoDoorsSystem;
-        const doorsInRoom = AprilShipStatus.roomDoors[rpc.systemId as keyof typeof AprilShipStatus.roomDoors];
-
-        for (const doorId of doorsInRoom) {
-            autodoor.closeDoor(doorId);
-        }
     }
 
     Setup() {
@@ -116,5 +106,9 @@ export class AprilShipStatus<RoomType extends Hostable = Hostable> extends Inner
             new AutoOpenDoor(autodoor, 12, true),
             new AutoOpenDoor(autodoor, 13, true),
         ];
+    }
+
+    getDoorsInRoom(room: SystemType) {
+        return AprilShipStatus.roomDoors[room] || [];
     }
 }

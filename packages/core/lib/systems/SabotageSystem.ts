@@ -1,12 +1,13 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
+import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
-import { ExtractEventTypes } from "@skeldjs/events";
+
 import { SystemStatusEvents } from "./events";
-import { RepairSystemMessage } from "@skeldjs/protocol";
 import { Hostable } from "../Hostable";
 
 export interface SabotageSystemData {
@@ -59,7 +60,7 @@ export class SabotageSystem<RoomType extends Hostable = Hostable> extends System
         writer.float(this.cooldown);
     }
 
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined|undefined) {
+    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
         const system = this.ship.systems.get(amount) as SystemStatus;
 
         if (system) {
