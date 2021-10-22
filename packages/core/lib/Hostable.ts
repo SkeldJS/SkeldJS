@@ -1054,7 +1054,7 @@ export class Hostable<
                 _ownerid,
                 _flags,
                 componentData[i] instanceof ComponentSpawnData
-                    ? HazelReader.from(componentData[i].buffer)
+                    ? HazelReader.from(componentData[i].data)
                     : componentData[i],
                 object
             );
