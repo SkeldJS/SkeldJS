@@ -1030,7 +1030,7 @@ export class Hostable<
      * room.spawnPrefab(SpawnType.Player, client.me);
      * ```
      */
-    spawnPrefab(spawnType: number, ownerId: number|PlayerData|undefined, flags?: number, componentData: ComponentSpawnData[] = [], doBroadcast = true, doAwake = true) {
+    spawnPrefab(spawnType: number, ownerId: number|PlayerData|undefined, flags?: number, componentData: (any|ComponentSpawnData)[] = [], doBroadcast = true, doAwake = true) {
         const _ownerid =
             ownerId === undefined
                 ? -2
@@ -1053,7 +1053,9 @@ export class Hostable<
                 componentData[i]?.netid || this.getNextNetId(),
                 _ownerid,
                 _flags,
-                undefined,
+                componentData[i] instanceof ComponentSpawnData
+                    ? HazelReader.from(componentData[i].buffer)
+                    : componentData[i],
                 object
             );
 
@@ -1064,11 +1066,6 @@ export class Hostable<
             if (!object) {
                 object = component;
                 this.objectList.push(object);
-            }
-
-            if (componentData[i]?.data) {
-                const reader = HazelReader.from(componentData[i].data);
-                component.Deserialize(reader, true);
             }
 
             this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
@@ -1122,9 +1119,17 @@ export class Hostable<
         return object;
     }
 
-    createFakePlayer(): PlayerData<this> {
+    /**
+     * Create a fake player in the room that doesn't need a client to be connected
+     * to own it.
+     *
+     * To dispose of the player, use `player.despawn()`.
+     * @param isNew Whether or not the player should be seen jumping off of the seat in the lobby.
+     * @returns The fake player created.
+     */
+    createFakePlayer(isNew = true): PlayerData<this> {
         const player = new PlayerData(this, 0);
-        const playerControl = this.spawnPrefab(SpawnType.Player, -2) as PlayerControl<this>;
+        const playerControl = this.spawnPrefab(SpawnType.Player, -2, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
         playerControl.player = player;
         player.character = playerControl;
 
