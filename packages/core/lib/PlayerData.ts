@@ -112,14 +112,18 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * The player's physics component.
      */
     get physics(): PlayerPhysics<RoomType>|undefined {
-        return this.character?.getComponent(PlayerPhysics) as PlayerPhysics<RoomType>;
+        return this.character?.getComponent(PlayerPhysics) as PlayerPhysics<RoomType>|undefined;
     }
 
     /**
      * The player's movement component.
      */
-    get transform(): CustomNetworkTransform<RoomType> {
-        return this.character?.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType>;
+    get transform(): CustomNetworkTransform<RoomType>|undefined {
+        return this.character?.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType>|undefined;
+    }
+
+    get isFakePlayer() {
+        return this.character && this.clientId === 0;
     }
 
     /**
@@ -168,6 +172,18 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
 
         if (this.isMe && !this.isHost) {
             await this.room.broadcast([new ReadyMessage(this.clientId)]);
+        }
+    }
+
+    /**
+     * Despawn all components on the player,
+     */
+    despawn() {
+        if (!this.character)
+            return;
+
+        for (const component of this.character.components) {
+            component.despawn();
         }
     }
 }
