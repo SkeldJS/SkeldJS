@@ -1,5 +1,5 @@
 import { Int2Code } from "@skeldjs/util";
-import { Color, StringNames } from "@skeldjs/constant";
+import { Color } from "@skeldjs/constant";
 import * as skeldjs from "../index";
 
 const connectRegion = process.argv[2];
@@ -29,39 +29,11 @@ const connectRegion = process.argv[2];
         }
     );
 
-    client.on("player.quickchat", ev => {
-        if (ev.player !== client.myPlayer) {
-            client.myPlayer?.control?.sendQuickChat(StringNames.QCQstWhatWasADoing, [ client.myPlayer ]);
-        }
-    });
-
-    client.on("player.chat", async ev => {
-        if (ev.chatMessage === "start") {
-            client.startGame();
-        } else if (ev.chatMessage === "players") {
-            for (let i = 0; i < 2; i++) {
-                const playerControl = client.createFakePlayer();
-                await playerControl.control?.setName("dummy");
-                await playerControl.control?.setColor(Color.Black);
-                await client.wait("room.fixedupdate");
-            }
-        }
-    });
-
-    client.on("gamedata.settasks", ev => {
-        ev.setTasks([...ev.newTasks, 4]);
-    });
-
-    client.on("room.gameend", ev => {
-        client.joinGame(client.code);
-    });
-
-    client.on("medscan.joinqueue", ev => {
-        console.log(ev.player.info?.name, "joined med scan queue");
-    });
-
-    client.on("medscan.leavequeue", ev => {
-        console.log(ev.player.info?.name, "left med scan queue");
+    client.on("player.chat", ev => {
+        const player = client.createFakePlayer(false);
+        player.control?.setName("Ok");
+        player.control?.setColor(Color.Black);
+        player.transform?.snapTo(0, 0);
     });
 
     console.log(

@@ -347,7 +347,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         if (player.playerId === undefined)
             return;
 
-        player.transform.snapTo(this.getSpawnPosition(player, initialSpawn));
+        player.transform?.snapTo(this.getSpawnPosition(player, initialSpawn));
     }
 
     getDoorsInRoom(room: SystemType): number[] {
