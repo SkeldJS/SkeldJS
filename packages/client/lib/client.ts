@@ -621,10 +621,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 const offsetted = spawnPosition
                     .add(spawnPosition.negate().normalize());
 
-                ev.player.transform.snapTo(offsetted);
+                ev.player.transform?.snapTo(offsetted);
             } else if (this.shipStatus) {
                 const spawnPosition = this.shipStatus.getSpawnPosition(ev.player, true);
-                ev.player.transform.snapTo(spawnPosition);
+                ev.player.transform?.snapTo(spawnPosition);
             }
         }
     }
