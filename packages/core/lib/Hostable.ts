@@ -1030,7 +1030,14 @@ export class Hostable<
      * room.spawnPrefab(SpawnType.Player, client.me);
      * ```
      */
-    spawnPrefab(spawnType: number, ownerId: number|PlayerData|undefined, flags?: number, componentData: (any|ComponentSpawnData)[] = [], doBroadcast = true, doAwake = true) {
+    spawnPrefab(
+        spawnType: number,
+        ownerId: number|PlayerData|undefined,
+        flags?: number,
+        componentData: (any|ComponentSpawnData)[] = [],
+        doBroadcast = true,
+        doAwake = true
+    ): Networkable<any, any, this>|undefined {
         const _ownerid =
             ownerId === undefined
                 ? -2
@@ -1116,7 +1123,7 @@ export class Hostable<
             }
         }
 
-        return object;
+        return object as Networkable<any, any, this>;
     }
 
     /**
