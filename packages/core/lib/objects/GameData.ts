@@ -73,7 +73,8 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
     Awake() {
         for (const [ , player ] of this.room.players) {
-            if (player.playerId) this.add(player.playerId);
+            if (player.playerId)
+                this.add(player.playerId);
         }
     }
 
@@ -93,14 +94,6 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
     get owner() {
         return super.owner as RoomType;
-    }
-
-    async getOrCreate(playerId: number): Promise<PlayerInfo<RoomType>> {
-        const has = this.players.get(playerId);
-        if (has)
-            return has;
-
-        return await this.add(playerId);
     }
 
     /**

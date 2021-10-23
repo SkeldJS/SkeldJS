@@ -541,7 +541,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetName(rpc: SetNameMessage) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -583,7 +583,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param name The name to set this player's name to.
      */
     async setName(name: string) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -666,7 +666,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetColor(rpc: SetColorMessage) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -708,7 +708,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param color The color to set this player's name to.
      */
     async setColor(color: Color) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -733,7 +733,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetHat(rpc: SetHatMessage) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -775,7 +775,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param hat The hat to set this player's hat to.
      */
     async setHat(hat: Hat) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -800,7 +800,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetSkin(rpc: SetSkinMessage) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -842,7 +842,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param skin The skin to set this player's skin to.
      */
     async setSkin(skin: Skin) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -1078,7 +1078,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         const spawnMeetinghud = this.room.spawnPrefab(
             SpawnType.MeetingHud,
             -2
-        ) as MeetingHud;
+        ) as MeetingHud<RoomType>;
 
         const callerState = spawnMeetinghud.voteStates.get(caller.playerId);
         if (callerState) {
@@ -1133,7 +1133,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetPet(rpc: SetPetMessage) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
@@ -1175,7 +1175,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param pet The pet to set this player's pet to.
      */
     async setPet(pet: Pet) {
-        const playerInfo = await this.room.gameData?.getOrCreate(this.playerId);
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
         if (!playerInfo)
             return;
 
