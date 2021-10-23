@@ -478,24 +478,24 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (!this.room.gameData)
             return;
 
-        let new_name = rpc.name;
+        let newName = rpc.name;
 
         const players = [...this.room.gameData.players.values()];
         if (
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player.name.toLowerCase() === new_name.toLowerCase()
+                    player.name.toLowerCase() === newName.toLowerCase()
             )
         ) {
             for (let i = 1; i < 100; i++) {
-                new_name = rpc.name + " " + i;
+                newName = rpc.name + " " + i;
 
                 if (
                     !players.some(
                         (player) =>
                             player.playerId !== this.playerId &&
-                            player.name.toLowerCase() === new_name.toLowerCase()
+                            player.name.toLowerCase() === newName.toLowerCase()
                     )
                 ) {
                     break;
@@ -509,13 +509,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.player,
                 rpc,
                 rpc.name,
-                new_name
+                newName
             )
         );
 
-        if (!ev.canceled) {
+        if (!ev.canceled)
             await this.setName(ev.alteredName);
-        }
     }
 
     private async _rpcCheckName(name: string) {
@@ -542,27 +541,25 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetName(rpc: SetNameMessage) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldName = playerInfo.name;
-        playerInfo.name = rpc.name;
+        const oldName = playerInfo?.name;
+        if (playerInfo)
+            playerInfo.name = rpc.name;
 
         const ev = await this.emit(
             new PlayerSetNameEvent(
                 this.room,
                 this.player,
                 rpc,
-                oldName,
+                oldName || "",
                 rpc.name
             )
         );
 
-        playerInfo.name = ev.alteredName;
+        if (playerInfo)
+            playerInfo.name = ev.alteredName;
 
-        if (ev.alteredName !== rpc.name) {
+        if (ev.alteredName !== rpc.name)
             this._rpcSetName(ev.alteredName);
-        }
     }
 
     private _rpcSetName(name: string) {
@@ -584,47 +581,49 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setName(name: string) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldName = playerInfo.name;
-        playerInfo.name = name;
+        const oldName = playerInfo?.name;
+        if (playerInfo)
+            playerInfo.name = name;
 
         const ev = await this.emit(
             new PlayerSetNameEvent(
                 this.room,
                 this.player,
                 undefined,
-                oldName,
+                oldName || "",
                 name
             )
         );
 
-        playerInfo.name = ev.alteredName;
+        if (playerInfo)
+            playerInfo.name = ev.alteredName;
 
-        if (playerInfo.name !== oldName) {
-            this._rpcSetName(playerInfo.name);
-        }
+        if (ev.alteredName !== oldName)
+            this._rpcSetName(ev.alteredName);
     }
 
     private async _handleCheckColor(rpc: CheckColorMessage) {
         if (!this.room.gameData)
             return;
 
-        let new_color = rpc.color;
+        let newColor = rpc.color;
 
         const players = [...this.room.gameData.players.values()];
+        let i = 0;
         while (
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player.color === new_color
+                    player.color === newColor
             )
         ) {
-            new_color++;
-            if (new_color > 11) {
-                new_color = 0;
-            }
+            newColor++;
+            if (newColor >= 18)
+                newColor = 0;
+
+            i++;
+            if (i >= 18)
+                break;
         }
 
         const ev = await this.emit(
@@ -633,13 +632,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.player,
                 rpc,
                 rpc.color,
-                new_color
+                newColor
             )
         );
 
-        if (!ev.canceled) {
+        if (!ev.canceled)
             this.setColor(ev.alteredColor);
-        }
     }
 
     private async _rpcCheckColor(color: Color) {
@@ -667,27 +665,26 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetColor(rpc: SetColorMessage) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
+        const oldColor = playerInfo?.color;
 
-        const oldColor = playerInfo.color;
-        playerInfo.color = rpc.color;
+        if (playerInfo)
+            playerInfo.color = rpc.color;
 
         const ev = await this.emit(
             new PlayerSetColorEvent(
                 this.room,
                 this.player,
                 rpc,
-                oldColor,
+                oldColor || Color.Red,
                 rpc.color
             )
         );
 
-        playerInfo.color = ev.alteredColor;
+        if (playerInfo)
+            playerInfo.color = ev.alteredColor;
 
-        if (ev.alteredColor !== rpc.color) {
+        if (ev.alteredColor !== rpc.color)
             this._rpcSetColor(ev.alteredColor);
-        }
     }
 
     private _rpcSetColor(color: Color) {
@@ -709,52 +706,50 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setColor(color: Color) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldColor = playerInfo.color;
-        playerInfo.color = color;
+        const oldColor = playerInfo?.color;
+        if (playerInfo)
+            playerInfo.color = color;
 
         const ev = await this.emit(
             new PlayerSetColorEvent(
                 this.room,
                 this.player,
                 undefined,
-                oldColor,
+                oldColor || Color.Red,
                 color
             )
         );
 
-        playerInfo.color = ev.alteredColor;
+        if (playerInfo)
+            playerInfo.color = ev.alteredColor;
 
-        if (playerInfo.color !== oldColor) {
-            this._rpcSetColor(playerInfo.color);
+
+        if (ev.alteredColor !== oldColor) {
+            this._rpcSetColor(ev.alteredColor);
         }
     }
 
     private async _handleSetHat(rpc: SetHatMessage) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldHat = playerInfo.hat;
-        playerInfo.hat = rpc.hat;
+        const oldHat = playerInfo?.hat;
+        if (playerInfo)
+            playerInfo.hat = rpc.hat;
 
         const ev = await this.emit(
             new PlayerSetHatEvent(
                 this.room,
                 this.player,
                 rpc,
-                oldHat,
+                oldHat || Hat.None,
                 rpc.hat
             )
         );
 
-        playerInfo.hat = ev.alteredHat;
+        if (playerInfo)
+            playerInfo.hat = ev.alteredHat;
 
-        if (ev.alteredHat !== rpc.hat) {
+        if (ev.alteredHat !== rpc.hat)
             this._rpcSetHat(ev.alteredHat);
-        }
     }
 
     private _rpcSetHat(hat: Hat) {
@@ -776,52 +771,48 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setHat(hat: Hat) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldHat = playerInfo.hat;
-        playerInfo.hat = hat;
+        const oldHat = playerInfo?.hat;
+        if (playerInfo)
+            playerInfo.hat = hat;
 
         const ev = await this.emit(
             new PlayerSetHatEvent(
                 this.room,
                 this.player,
                 undefined,
-                oldHat,
+                oldHat || Hat.None,
                 hat
             )
         );
 
-        playerInfo.hat = ev.alteredHat;
+        if (playerInfo)
+            playerInfo.hat = ev.alteredHat;
 
-        if (playerInfo.hat !== oldHat) {
-            this._rpcSetHat(playerInfo.hat);
-        }
+        if (ev.alteredHat !== oldHat)
+            this._rpcSetHat(ev.alteredHat);
     }
 
     private async _handleSetSkin(rpc: SetSkinMessage) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldSkin = playerInfo.skin;
-        playerInfo.skin = rpc.skin;
+        const oldSkin = playerInfo?.skin;
+        if (playerInfo)
+            playerInfo.skin = rpc.skin;
 
         const ev = await this.emit(
             new PlayerSetSkinEvent(
                 this.room,
                 this.player,
                 rpc,
-                oldSkin,
+                oldSkin || Skin.None,
                 rpc.skin
             )
         );
 
-        playerInfo.skin = ev.alteredSkin;
+        if (playerInfo)
+            playerInfo.skin = ev.alteredSkin;
 
-        if (ev.alteredSkin !== rpc.skin) {
+        if (ev.alteredSkin !== rpc.skin)
             this._rpcSetSkin(ev.alteredSkin);
-        }
     }
 
     private _rpcSetSkin(skin: Skin) {
@@ -843,27 +834,25 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setSkin(skin: Skin) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldSkin = playerInfo.skin;
-        playerInfo.skin = skin;
+        const oldSkin = playerInfo?.skin;
+        if (playerInfo)
+            playerInfo.skin = skin;
 
         const ev = await this.emit(
             new PlayerSetSkinEvent(
                 this.room,
                 this.player,
                 undefined,
-                oldSkin,
+                oldSkin || Skin.None,
                 skin
             )
         );
 
-        playerInfo.skin = ev.alteredSkin;
+        if (playerInfo)
+            playerInfo.skin = ev.alteredSkin;
 
-        if (playerInfo.skin !== oldSkin) {
-            this._rpcSetSkin(playerInfo.skin);
-        }
+        if (ev.alteredSkin !== oldSkin)
+            this._rpcSetSkin(ev.alteredSkin);
     }
 
     private async _handleReportDeadBody(rpc: ReportDeadBodyMessage) {
@@ -1134,27 +1123,25 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetPet(rpc: SetPetMessage) {
         const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldPet = playerInfo.pet;
-        playerInfo.pet = rpc.pet;
+        const oldPet = playerInfo?.pet;
+        if (playerInfo)
+            playerInfo.pet = rpc.pet;
 
         const ev = await this.emit(
             new PlayerSetPetEvent(
                 this.room,
                 this.player,
                 rpc,
-                oldPet,
+                oldPet || Pet.None,
                 rpc.pet
             )
         );
 
-        playerInfo.pet = ev.alteredPet;
+        if (playerInfo)
+            playerInfo.pet = ev.alteredPet;
 
-        if (ev.alteredPet !== rpc.pet) {
+        if (ev.alteredPet !== rpc.pet)
             this._rpcSetPet(ev.alteredPet);
-        }
     }
 
     private _rpcSetPet(pet: Pet) {
