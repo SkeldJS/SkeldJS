@@ -122,7 +122,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     ) {
         super(room, spawnType, netid, ownerid, flags, data);
 
-        if (this.systems === undefined) {
+        if (!this.systems) {
             this.systems = new Map;
             this.Setup();
         }
@@ -140,6 +140,11 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     Setup() {}
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
+        if (!this.systems) {
+            this.systems = new Map;
+            this.Setup();
+        }
+
         while (reader.left) {
             const [tag, mreader] = reader.message();
             const system = this.systems.get(tag) as SystemStatus;
