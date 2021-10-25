@@ -16,5 +16,5 @@ export enum Color {
     Banana,
     Gray,
     Tan,
-    Sunset
+    Coral
 }
