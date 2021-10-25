@@ -70,6 +70,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Represents a controller for a room to handle translations.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -91,6 +98,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="translations.TranslationController.html#formatString" class="tsd-kind-icon">format<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="translations.TranslationController.html#getTranslation" class="tsd-kind-icon">get<wbr>Translation</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="translations.TranslationController.html#serializeQuickChat" class="tsd-kind-icon">serialize<wbr>Quick<wbr>Chat</a></li>
 							</ul>
@@ -110,19 +118,30 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Translation<wbr>Controller<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TranslationController</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Translation<wbr>Controller<span class="tsd-signature-symbol">(</span>room<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TranslationController</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/6ab6a0b/packages/translations/src/TranslationController.ts#L7">translations/src/TranslationController.ts:7</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/547f9b8/packages/translations/src/TranslationController.ts#L15">translations/src/TranslationController.ts:15</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a translation controller, optionally passing in a room to connect
+									it with player names for quick chat messages.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> room: <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The room to connect the translation controller to.</p>
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">TranslationController</a></h4>
@@ -133,6 +152,52 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="formatString" class="tsd-anchor"></a>
+					<h3>format<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">format<wbr>String<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StringNames</span>, elements<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">QuickChatPlayerMessageData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span>, language<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Language</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/547f9b8/packages/translations/src/TranslationController.ts#L40">translations/src/TranslationController.ts:40</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Format a translation string containing {X} templating. Also substitutes
+										player names if the translation controller is connected to a room in the
+									constructor.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>str: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StringNames</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The string to format against.</p>
+									</div>
+								</li>
+								<li>
+									<h5>elements: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">QuickChatPlayerMessageData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The elements to format the string with.</p>
+									</div>
+								</li>
+								<li>
+									<h5>language: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Language</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The language of the string.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>The formatted string.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getTranslation" class="tsd-anchor"></a>
 					<h3>get<wbr>Translation</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -142,19 +207,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/6ab6a0b/packages/translations/src/TranslationController.ts#L42">translations/src/TranslationController.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/547f9b8/packages/translations/src/TranslationController.ts#L72">translations/src/TranslationController.ts:72</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the single translation of a string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>stringName: <span class="tsd-signature-type">StringNames</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The string name to get.</p>
+									</div>
 								</li>
 								<li>
 									<h5>language: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Language</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The language to translate the string name to.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>The translated string, or an empty string if an invalid string
+							name was passed.</p>
 						</li>
 					</ul>
 				</section>
@@ -168,19 +246,32 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/6ab6a0b/packages/translations/src/TranslationController.ts#L56">translations/src/TranslationController.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/547f9b8/packages/translations/src/TranslationController.ts#L93">translations/src/TranslationController.ts:93</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Synthesise a quick chat message into a single string, considering translations
+									and player names.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>quickChatMessage: <a href="" class="tsd-signature-type" data-tsd-kind="Type alias">QuickChatMessageData</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The message to synthesise.</p>
+									</div>
 								</li>
 								<li>
 									<h5>language: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Language</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The language to synthesise the message into.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>The synthesised message.</p>
 						</li>
 					</ul>
 				</section>
@@ -189,7 +280,7 @@
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="room" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> room</h3>
 					<div class="tsd-signature tsd-kind-icon">room<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Hostable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 					</aside>
@@ -333,6 +424,9 @@
 								<ul>
 									<li class=" tsd-kind-constructor tsd-parent-kind-class">
 										<a href="translations.TranslationController.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="translations.TranslationController.html#formatString" class="tsd-kind-icon">format<wbr>String</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="translations.TranslationController.html#getTranslation" class="tsd-kind-icon">get<wbr>Translation</a>

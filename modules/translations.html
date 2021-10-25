@@ -69,11 +69,62 @@
 		<div class="col-8 col-content">
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
-					<a href="#skeldjstasks" id="skeldjstasks" style="color: inherit; text-decoration: none;">
-						<h2>@skeldjs/tasks</h2>
+					<a href="#skeldjstranslations" id="skeldjstranslations" style="color: inherit; text-decoration: none;">
+						<h2>@skeldjs/translations</h2>
 					</a>
-					<p>This package contains utilities for managing tasks in Among Us, and while you can install it on its own with <code>npm install --save @skeldjs/tasks</code> or <code>yarn add @skeldjs/tasks</code>, it is one package of a bigger project, <a href="https://github.com/skeldjs/SkeldJS">skeldjs</a>.</p>
-					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeld.js.org/modules/tasks.html">https://skeld.js.org/modules/tasks.html</a></p>
+					<p>Utlities for translation keys in Among Us, such as synthesising quick chat messages into a single string. Meant to be installed separately with <code>npm install --save @skeldjs/translations</code> or <code>yarn add @skeldjs/translations</code>, and is one package of a bigger project, <a href="https://github.com/skeldjs/SkeldJS">skeldjs</a>.</p>
+					<p>You can view auto-updating documentation for this package hosted at github pages at <a href="https://skeld.js.org/modules/translations.html">https://skeld.js.org/modules/translations.html</a></p>
+					<a href="#basic-usage" id="basic-usage" style="color: inherit; text-decoration: none;">
+						<h2>Basic Usage</h2>
+					</a>
+					<pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;meeting.votingcomplete&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">ejected</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">translation</span><span style="color: #000000">.</span><span style="color: #795E26">formatString</span><span style="color: #000000">(</span><span style="color: #001080">StringNames</span><span style="color: #000000">.</span><span style="color: #001080">ExileTextNonConfirm</span><span style="color: #000000">, [ </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">ejected</span><span style="color: #000000"> ], </span><span style="color: #001080">Language</span><span style="color: #000000">.</span><span style="color: #001080">English</span><span style="color: #000000">));</span>
+<span style="color: #000000">    } </span><span style="color: #AF00DB">else</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">tie</span><span style="color: #000000">) {</span>
+<span style="color: #000000">            </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">translation</span><span style="color: #000000">.</span><span style="color: #795E26">getTranslation</span><span style="color: #000000">(</span><span style="color: #001080">StringNames</span><span style="color: #000000">.</span><span style="color: #001080">NoExileTie</span><span style="color: #000000">, </span><span style="color: #001080">Language</span><span style="color: #000000">.</span><span style="color: #001080">English</span><span style="color: #000000">));</span>
+<span style="color: #000000">        } </span><span style="color: #AF00DB">else</span><span style="color: #000000"> {</span>
+<span style="color: #000000">            </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">translation</span><span style="color: #000000">.</span><span style="color: #795E26">getTranslation</span><span style="color: #000000">(</span><span style="color: #001080">StringNames</span><span style="color: #000000">.</span><span style="color: #001080">NoExileSkip</span><span style="color: #000000">, </span><span style="color: #001080">Language</span><span style="color: #000000">.</span><span style="color: #001080">English</span><span style="color: #000000">));</span>
+<span style="color: #000000">        }</span>
+<span style="color: #000000">    }</span>
+<span style="color: #000000">});</span>
+</code></pre>
+					<a href="#advanced-usage" id="advanced-usage" style="color: inherit; text-decoration: none;">
+						<h2>Advanced Usage</h2>
+					</a>
+					<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Int2Code</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@skeldjs/util&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">TranslationController</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@skeldjs/translations&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #0000FF">*</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #001080">skeldjs</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@skeldjs/client&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Language</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@skeldjs/client&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #000000">(</span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">client</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #001080">skeldjs</span><span style="color: #000000">.</span><span style="color: #795E26">SkeldjsClient</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2021.6.30s&quot;</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">translation</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TranslationController</span><span style="color: #000000">(</span><span style="color: #001080">client</span><span style="color: #000000">);</span>
+
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Connecting to server..&quot;</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">connect</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;EU&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;weakeyes&quot;</span><span style="color: #000000">);</span>
+
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Creating game..&quot;</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">code</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">createGame</span><span style="color: #000000">(</span>
+<span style="color: #000000">        {</span>
+<span style="color: #000000">            </span><span style="color: #001080">maxPlayers:</span><span style="color: #000000"> </span><span style="color: #098658">10</span><span style="color: #000000">,</span>
+<span style="color: #000000">            </span><span style="color: #001080">map:</span><span style="color: #000000"> </span><span style="color: #001080">skeldjs</span><span style="color: #000000">.</span><span style="color: #001080">GameMap</span><span style="color: #000000">.</span><span style="color: #001080">MiraHQ</span><span style="color: #000000">,</span>
+<span style="color: #000000">            </span><span style="color: #001080">numImpostors:</span><span style="color: #000000"> </span><span style="color: #098658">2</span>
+<span style="color: #000000">        }</span>
+<span style="color: #000000">    );</span>
+
+<span style="color: #000000">    </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;player.quickchat&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">        </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">translation</span><span style="color: #000000">.</span><span style="color: #795E26">serializeQuickChat</span><span style="color: #000000">(</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">chatMessage</span><span style="color: #000000">, </span><span style="color: #001080">Language</span><span style="color: #000000">.</span><span style="color: #001080">English</span><span style="color: #000000">));</span>
+<span style="color: #000000">    });</span>
+
+<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #A31515">&quot;Created game @ &quot;</span><span style="color: #000000"> +</span>
+<span style="color: #000000">            </span><span style="color: #795E26">Int2Code</span><span style="color: #000000">(</span><span style="color: #001080">code</span><span style="color: #000000"> </span><span style="color: #AF00DB">as</span><span style="color: #000000"> </span><span style="color: #267F99">number</span><span style="color: #000000">) +</span>
+<span style="color: #000000">            </span><span style="color: #A31515">&quot; on EU servers&quot;</span>
+<span style="color: #000000">    );</span>
+<span style="color: #000000">})();</span>
+</code></pre>
 				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -103,7 +154,7 @@
 					<div class="tsd-signature tsd-kind-icon">All<wbr>Translations<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Language</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">StringNames</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/6ab6a0b/packages/translations/scripts/translations.ts#L4">translations/scripts/translations.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/547f9b8/packages/translations/scripts/translations.ts#L4">translations/scripts/translations.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
