@@ -736,6 +736,8 @@ export class Hostable<
                 if (gamedataEntry) {
                     gamedataEntry.setDisconnected(true);
                 }
+            } else {
+                this.gameData?.players.delete(player.playerId);
             }
 
             if (this.hostIsMe && this.meetingHud) {
