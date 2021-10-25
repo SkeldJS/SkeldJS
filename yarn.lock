@@ -557,20 +557,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@skeldjs/tasks@workspace:packages/tasks":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/tasks@workspace:packages/tasks"
-  dependencies:
-    "@skeldjs/core": "workspace:*"
-    "@types/node": ^14.14.16
-    typescript: latest
-  languageName: unknown
-  linkType: soft
-
 "@skeldjs/text@workspace:packages/text":
   version: 0.0.0-use.local
   resolution: "@skeldjs/text@workspace:packages/text"
   dependencies:
+    typescript: latest
+  languageName: unknown
+  linkType: soft
+
+"@skeldjs/translations@workspace:packages/translations":
+  version: 0.0.0-use.local
+  resolution: "@skeldjs/translations@workspace:packages/translations"
+  dependencies:
+    "@skeldjs/constant": "workspace:*"
+    "@skeldjs/core": "workspace:packages/core"
+    "@skeldjs/protocol": "workspace:packages/protocol"
+    "@types/node": ^14.14.16
     typescript: latest
   languageName: unknown
   linkType: soft

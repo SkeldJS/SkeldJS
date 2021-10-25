@@ -103,7 +103,7 @@ export const ColorCodes = {
         shadowHex: "51413e",
         shadowRGB: [81, 65, 62]
     },
-    [Color.Sunset]: {
+    [Color.Coral]: {
         highlightHex: "ec7578",
         highlightRGB: [236, 117, 120],
         shadowHex: "b44362",

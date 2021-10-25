@@ -1,5 +1,5 @@
 {
-  "name": "@skeldjs/tasks",
+  "name": "@skeldjs/translations",
   "version": "2.14.26",
   "main": "./dist/index.js",
   "types": "./index.ts",
@@ -12,10 +12,10 @@
     "prepack": "yarn build"
   },
   "license": "GPL-3.0-only",
-  "dependencies": {
-    "@skeldjs/core": "workspace:*"
-  },
   "devDependencies": {
+    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/core": "workspace:*",
+    "@skeldjs/protocol": "workspace:*",
     "@types/node": "^14.14.16",
     "typescript": "latest"
   },

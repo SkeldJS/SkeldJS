@@ -162,7 +162,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         if (!this.grid) {
             const buff = fs.readFileSync(
-                path.resolve(__dirname, "../../data/build", "" + this.getMapId())
+                path.resolve(__dirname, __filename.endsWith(".ts") ? "../data/build" : "../../data/build", "" + this.getMapId())
             );
             this.grid = Grid.fromBuffer(buff);
         }

@@ -1,5 +1,4 @@
 import { Int2Code } from "@skeldjs/util";
-import { Color } from "@skeldjs/constant";
 import * as skeldjs from "../index";
 
 const connectRegion = process.argv[2];
@@ -29,11 +28,8 @@ const connectRegion = process.argv[2];
         }
     );
 
-    client.on("player.chat", ev => {
-        const player = client.createFakePlayer(false);
-        player.control?.setName("Ok");
-        player.control?.setColor(Color.Black);
-        player.transform?.snapTo(0, 0);
+    client.on("player.quickchat", ev => {
+        console.log(ev.chatMessage);
     });
 
     console.log(
