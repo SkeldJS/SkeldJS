@@ -3,7 +3,7 @@ import { Language, StringNames } from "@skeldjs/constant";
 import fs from "fs/promises";
 import path from "path";
 
-const nameToLanguageId: Record<string, Language> = {
+const nameToLanguageId = {
     "English": Language.English,
     "Espa\u00F1ol (Latinoam\u00E9rica)": Language.SpanishAmericas,
     "Portugu\u00EAs (Brasil)": Language.PortugueseBrazil,
@@ -22,18 +22,17 @@ const nameToLanguageId: Record<string, Language> = {
     "Gaeilge": Language.Irish
 };
 
-function escape(translationStr: string) {
+function escape(translationStr) {
     return translationStr.replace(/"/g, "\\\"");
 }
 
 (async () => {
     const TAB = "    ";
-    const translations: Record<string, Record<string, string>> = JSON.parse(await fs.readFile(path.resolve(__dirname, "./translations.json"), "utf8"));
+    const translations = JSON.parse(await fs.readFile(path.resolve(__dirname, "./translations.json"), "utf8"));
 
-    const processedTranslations: Record<string, Record<string, string|Record<string, string>>> = {};
+    const processedTranslations = {};
 
-    let outputText = `
-import { Language, StringNames } from "@skeldjs/constant";
+    let outputText = `import { Language, StringNames } from "@skeldjs/constant";
 
 export const AllTranslations: Record<Language, Partial<Record<StringNames, string|Record<string, string>>>> = {
 `;
@@ -48,7 +47,7 @@ export const AllTranslations: Record<Language, Partial<Record<StringNames, strin
 
         console.log("Processing %s..", langugeName);
 
-        const translationMap: Record<string, string|Record<string, string>> = {};
+        const translationMap = {};
         processedTranslations[Language[languageId]] = translationMap;
 
         const stringNamePaths = Object.keys(translations[langugeName]);
@@ -59,7 +58,7 @@ export const AllTranslations: Record<Language, Partial<Record<StringNames, strin
 
             const [ stringName, ...path ] = stringNamePath.split("_");
 
-            const stringId = StringNames[stringName as unknown as number] as unknown as StringNames;
+            const stringId = StringNames[stringName];
 
             if (stringId === undefined) {
                 console.error("No string name found for: %s", stringName);
@@ -68,17 +67,17 @@ export const AllTranslations: Record<Language, Partial<Record<StringNames, strin
 
             if (path.length) {
                 if (typeof translationMap[stringName] === "object") {
-                    (translationMap[stringName] as any)[path.join("_")] = escape(translations[langugeName][stringNamePath]);
+                    translationMap[stringName][path.join("_")] = escape(translations[langugeName][stringNamePath]);
                 } else {
                     translationMap[stringName] = {
-                        default: translationMap[stringName] as string,
+                        default: translationMap[stringName],
                         [path.join("_")]: escape(translations[langugeName][stringNamePath])
                     };
                 }
             } else {
                 if (translationMap[stringName]) {
                     if (typeof translationMap[stringName] === "object") {
-                        (translationMap[stringName] as any)["default"] = escape(translations[langugeName][stringNamePath]);
+                        translationMap[stringName]["default"] = escape(translations[langugeName][stringNamePath]);
                     } else {
                         translationMap[stringName] = escape(translations[langugeName][stringNamePath]);
                     }
@@ -101,8 +100,8 @@ export const AllTranslations: Record<Language, Partial<Record<StringNames, strin
             } else {
                 outputText += `${TAB}${TAB}[StringNames.${stringName}]: {\n`;
 
-                for (const pathName in (processedTranslations[languageName][stringName] as any)) {
-                    outputText += `${TAB}${TAB}${TAB}"${pathName}": "${(processedTranslations[languageName][stringName] as any)[pathName]}",\n`;
+                for (const pathName in processedTranslations[languageName][stringName]) {
+                    outputText += `${TAB}${TAB}${TAB}"${pathName}": "${processedTranslations[languageName][stringName][pathName]}",\n`;
                 }
 
                 outputText = outputText.substr(0, outputText.length - 2); // remove ending ,

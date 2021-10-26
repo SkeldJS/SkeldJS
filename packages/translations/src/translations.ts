@@ -1,4 +1,3 @@
-
 import { Language, StringNames } from "@skeldjs/constant";
 
 export const AllTranslations: Record<Language, Partial<Record<StringNames, string|Record<string, string>>>> = {
