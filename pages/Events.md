@@ -72,6 +72,12 @@ client.on("player.setname", ev => {
 * {@link SecurityCameraJoinEvent | `security.cameras.join`}
 * {@link SecurityCameraLeaveEvent | `security.cameras.leave`}
 
+### Decontamination
+* {@link DeconDoorsCloseEvent | `decon.doors.close`}
+* {@link DeconDoorsOpenEvent | `decon.doors.open`}
+* {@link DeconEnterEvent | `decon.enter`}
+* {@link DeconExitEvent | `decon.exit`}
+
 ### Doors
 * {@link DoorsDoorCloseEvent | `doors.close`}
 * {@link DoorsDoorOpenEvent | `doors.open`}
@@ -83,6 +89,12 @@ client.on("player.setname", ev => {
 * {@link GameDataAddPlayerEvent | `gamedata.addplayer`}
 * {@link GameDataRemovePlayerEvent | `gamedata.removeplayer`}
 * {@link GameDataSetTasksEvent | `gamedata.settasks`}
+
+### Heli Sabotage
+* {@link HeliSabotageConsoleCloseEvent | `heli.consoles.close`}
+* {@link HeliSabotageConsoleOpenEvent | `heli.consoles.open`}
+* {@link HeliSabotageConsoleCompleteEvent | `heli.consoles.complete`}
+* {@link HeliSabotageConsolesResetEvent | `heli.consoles.reset`}
 
 ### Mira HQ Comms
 * {@link HqHudConsoleCloseEvent | `hqhud.consoles.close`}
@@ -126,6 +138,7 @@ client.on("player.setname", ev => {
 * {@link PlayerReportDeadBodyEvent | `player.reportbody`}
 * {@link PlayerSceneChangeEvent | `player.scenechange`}
 * {@link PlayerSendChatEvent | `player.chat`}
+* {@link PlayerSendQuickChatEvent | `player.quickchat`}
 * {@link PlayerSetColorEvent | `player.setcolor`}
 * {@link PlayerSetHatEvent | `player.sethat`}
 * {@link PlayerSetHostEvent | `player.sethost`}
@@ -138,6 +151,7 @@ client.on("player.setname", ev => {
 * {@link PlayerSpawnEvent | `player.spawn`}
 * {@link PlayerStartMeetingEvent | `player.startmeeting`}
 * {@link PlayerSyncSettingsEvent | `player.syncsettings`}
+* {@link PlayerUseMovingPlatformEvent | `player.usemovingplatform`}
 
 ### Reactor
 * {@link ReactorConsoleAddEvent | `reactor.consoles.add`}
