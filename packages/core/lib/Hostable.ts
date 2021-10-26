@@ -295,7 +295,7 @@ export class Hostable<
     constructor(public options: HostableOptions = {}) {
         super();
 
-        this.last_fixed_update = 0;
+        this.last_fixed_update = Date.now();
         this._incr_netid = 0;
         this._destroyed = false;
 
