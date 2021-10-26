@@ -126,10 +126,12 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
     getMapId() {
         if (this.client.lobbyBehaviour) {
-            return -1;
+            return "Lobby";
         }
 
-        return this.client.settings?.map;
+        return this.client.settings?.map === undefined
+            ? "Lobby"
+            : GameMap[this.client.settings?.map];
     }
 
     private getVentForMap(ventId: number) {
@@ -137,15 +139,15 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
             return undefined;
 
         switch (this.getMapId()) {
-            case GameMap.TheSkeld:
+            case "TheSkeld":
                 return TheSkeldVents[ventId];
-            case GameMap.MiraHQ:
+            case "MiraHQ":
                 return MiraHQVents[ventId];
-            case GameMap.Polus:
+            case "Polus":
                 return PolusVents[ventId];
-            case GameMap.AprilFoolsTheSkeld:
+            case "AprilFoolsTheSkeld":
                 return TheSkeldVents[ventId];
-            case GameMap.Airship:
+            case "Airship":
                 return AirshipVents[ventId];
             default:
                 return undefined;
@@ -155,19 +157,25 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     private async _ontick() {
         this._tick++;
 
-        if (this._tick % SkeldjsPathfinder.MovementInterval !== 0) return;
+        if (this._tick % SkeldjsPathfinder.MovementInterval !== 0)
+            return;
 
         if (typeof this.getMapId() === "undefined")
             return;
 
         if (!this.grid) {
             const buff = fs.readFileSync(
-                path.resolve(__dirname, __filename.endsWith(".ts") ? "../data/build" : "../../data/build", "" + this.getMapId())
+                path.resolve(__dirname,
+                    __filename.endsWith(".ts")
+                        ? "../data/build"
+                        : "../../data/build"
+                    , this.getMapId())
             );
             this.grid = Grid.fromBuffer(buff);
         }
 
-        if (!this.snode || !this.dnode) return;
+        if (!this.snode || !this.dnode)
+            return;
 
         if (
             this._moved ||
@@ -208,7 +216,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
         this.grid.reset();
         this.path = getShortestPath(this.grid, this.snode, this.dnode);
-        this.path = this.path.filter((_, i, ar) => i === 0 || i === ar.length - 1 || i % 3 === 0);
+        this.path = this.path.filter((_node, i, arr) => i === 0 || i === arr.length - 1 || i % 3 === 0);
         await this.emit(
             new EngineRecalculateEvent(
                 this.path.map((node) => this.grid!.actual(node.x, node.y))
