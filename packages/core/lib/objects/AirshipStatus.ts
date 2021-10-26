@@ -1,5 +1,6 @@
 import { HazelReader, Vector2 } from "@skeldjs/util";
-import { SpawnType, SystemType } from "@skeldjs/constant";
+import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
@@ -235,6 +236,25 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         const exitFlag = Math.random() >= 0.5;
         electricaldoors.doors[ElectricalDoorsAirship.TopLeftWest].setOpen(exitFlag);
         electricaldoors.doors[ElectricalDoorsAirship.CenterLeftWest].setOpen(!exitFlag);
+    }
+
+    async HandleRpc(rpc: RepairSystemMessage) {
+        if (rpc.messageTag === RpcMessageTag.RepairSystem) {
+            if (rpc.systemId === SystemType.Doors) {
+                const player = this.room.getPlayerByNetId(rpc.netId);
+                const doorId = rpc.amount & 0x1f;
+
+                if (doorId >= 15 && doorId <= 18) { // toilet doors go to auto doors system
+                    if (player) {
+                        this.systems.get(SystemType.Decontamination2)
+                            ?.HandleRepair(player, rpc.amount, rpc);
+                    }
+                    return;
+                }
+            }
+        }
+
+        await super.HandleRpc(rpc);
     }
 
     getDoorsInRoom(room: SystemType) {
