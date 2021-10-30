@@ -117,11 +117,11 @@ export interface Deserializable {
 
 export type MessageMapKey = `${string}:${number}`;
 
-export class PacketDecoder<SenderType = any> {
+export class PacketDecoder<ContextType = any> {
     listeners: Map<MessageMapKey, Set<(
             message: Serializable,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void>
     >;
     types: Map<MessageMapKey, Deserializable>;
@@ -238,47 +238,47 @@ export class PacketDecoder<SenderType = any> {
      * Emit a decoded message to all listeners concurrently, also emits the message's children recursively.
      * @param message The message to emit.
      * @param direction The direction that the message was sent.
-     * @param sender Additional metadata for the message, e.g. the sender.
+     * @param context Additional metadata for the message, e.g. the context.
      */
     async emitDecoded(
         message: Serializable,
         direction: MessageDirection,
-        sender: SenderType
+        context: ContextType
     ) {
         if (message.children) {
             for (const child of message.children) {
-                await this.emitDecoded(child, direction, sender);
+                await this.emitDecoded(child, direction, context);
             }
         }
 
-        await this.emit(message, direction, sender);
+        await this.emit(message, direction, context);
     }
 
     /**
      * Emit a decoded message to all listeners serially, also emits the message's children recursively.
      * @param message The message to emit.
      * @param direction The direction that the message was sent.
-     * @param sender Additional metadata for the message, e.g. the sender.
+     * @param context Additional metadata for the message, e.g. the context.
      */
     async emitDecodedSerial(
         message: Serializable,
         direction: MessageDirection,
-        sender: SenderType
+        context: ContextType
     ) {
         if (message.children) {
             for (const child of message.children) {
-                await this.emitDecodedSerial(child, direction, sender);
+                await this.emitDecodedSerial(child, direction, context);
             }
         }
 
-        await this.emitSerial(message, direction, sender);
+        await this.emitSerial(message, direction, context);
 
     }
 
     async emit(
         message: Serializable,
         direction: MessageDirection,
-        sender: SenderType
+        context: ContextType
     ) {
         const messageClass = this.types.get(`${message.messageType}:${message.messageTag}`);
 
@@ -287,7 +287,7 @@ export class PacketDecoder<SenderType = any> {
 
             await Promise.all(
                 [...listeners].map(listener =>
-                    listener(message, direction, sender as SenderType))
+                    listener(message, direction, context as ContextType))
             );
         }
     }
@@ -295,7 +295,7 @@ export class PacketDecoder<SenderType = any> {
     async emitSerial(
         message: Serializable,
         direction: MessageDirection,
-        sender: SenderType
+        context: ContextType
     ) {
         const messageClass = this.types.get(`${message.messageType}:${message.messageTag}`);
 
@@ -303,7 +303,7 @@ export class PacketDecoder<SenderType = any> {
             const listeners = this.getListeners(messageClass);
 
             for (const listener of listeners) {
-                await listener(message, direction, sender as SenderType);
+                await listener(message, direction, context as ContextType);
             }
         }
     }
@@ -319,7 +319,7 @@ export class PacketDecoder<SenderType = any> {
         (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     > {
         const msgKey = `${messageClass.messageType}:${messageClass.messageTag}` as MessageMapKey;
@@ -344,7 +344,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ): () => void;
     /**
@@ -358,7 +358,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ): () => void;
     on(
@@ -366,7 +366,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: any,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ) {
         if (Array.isArray(messageClass)) {
@@ -394,7 +394,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ): void;
     /**
@@ -407,7 +407,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ): void;
     off(
@@ -415,7 +415,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: any,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ) {
         if (Array.isArray(messageClass)) {
@@ -442,7 +442,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ): () => void;
     /**
@@ -456,7 +456,7 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: GetSerialized<T[number]>,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ): () => void;
     once(
@@ -464,14 +464,14 @@ export class PacketDecoder<SenderType = any> {
         listener: (
             message: any,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => void
     ) {
         const removeListener = this.on(
             messageClass,
-            (message, direction, sender) => {
+            (message, direction, context) => {
                 removeListener();
-                listener(message, direction, sender);
+                listener(message, direction, context);
             }
         );
 
@@ -481,18 +481,18 @@ export class PacketDecoder<SenderType = any> {
     /**
      * Asynchronously wait for a message to be decoded.
      * @param messageClass The message to listen for.
-     * @returns A promise containing the message, direciton and sender metadata for the message.
+     * @returns A promise containing the message, direciton and context metadata for the message.
      */
     wait<T extends Deserializable>(
         messageClass: T
     ): Promise<{
         message: GetSerialized<T>;
         direction: MessageDirection;
-        sender: SenderType;
+        context: ContextType;
     }> {
         return new Promise((resolve) => {
-            this.once(messageClass, (message, direction, sender) => {
-                resolve({ message, direction, sender });
+            this.once(messageClass, (message, direction, context) => {
+                resolve({ message, direction, context });
             });
         });
     }
@@ -508,20 +508,20 @@ export class PacketDecoder<SenderType = any> {
         filter: (
             message: GetSerialized<T>,
             direction: MessageDirection,
-            sender: SenderType
+            context: ContextType
         ) => boolean
     ): Promise<{
         message: GetSerialized<T>;
         direction: MessageDirection;
-        sender: SenderType;
+        context: ContextType;
     }> {
         return new Promise((resolve) => {
             const removeListener = this.on(
                 messageClass,
-                (message, direction, sender) => {
-                    if (filter(message, direction, sender)) {
+                (message, direction, context) => {
+                    if (filter(message, direction, context)) {
                         removeListener();
-                        resolve({ message, direction, sender });
+                        resolve({ message, direction, context: context });
                     }
                 }
             );
@@ -555,17 +555,17 @@ export class PacketDecoder<SenderType = any> {
      * Write a buffer or reader to the decoder.
      * @param reader The buffer or reader to decode.
      * @param direction The direction that the packet was sent.
-     * @param sender Additional metadata for the sender.
+     * @param context Additional metadata for the context.
      */
     async write(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound,
-        sender: SenderType
+        context: ContextType
     ) {
         const message = this._parse(reader, direction);
 
         if (message) {
-            await this.emitDecoded(message, direction, sender);
+            await this.emitDecoded(message, direction, context);
         }
 
         return message;

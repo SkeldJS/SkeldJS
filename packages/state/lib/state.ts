@@ -89,14 +89,14 @@ export class SkeldjsStateManager<
 
         this.decoder.on(
             GameDataToMessage,
-            async (message, direction, sender) => {
+            async (message, direction, context) => {
                 if (
                     direction === MessageDirection.Clientbound &&
                     message.code === this.code &&
                     message.recipientid === this.clientId
                 ) {
                     for (const child of message._children) {
-                        this.decoder.emitDecoded(child, direction, sender);
+                        this.decoder.emitDecoded(child, direction, context);
                     }
                 }
             }
