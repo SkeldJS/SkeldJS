@@ -31,7 +31,7 @@ export class HazelWriter extends HazelBuffer {
         return new HazelWriter(buffer);
     }
 
-    messageStack: number[];
+    private messageStack: number[];
 
     private constructor(_buffer: Buffer) {
         super(_buffer);
@@ -248,6 +248,7 @@ export class HazelWriter extends HazelBuffer {
         }
 
         serializable.Serialize(this, ...args);
+        return this;
     }
 
     /**
@@ -273,6 +274,7 @@ export class HazelWriter extends HazelBuffer {
         for (const object of serializable) {
             this.write(object, ...args);
         }
+        return this;
     }
 
     /**

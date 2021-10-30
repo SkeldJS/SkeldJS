@@ -18,7 +18,7 @@ import * as skeldjs from "../index";
         await client.myPlayer.control.checkName("weakeyes");
     }
 
-    client.on("doors.close", ev => {
-        console.log(ev.doorsystem.constructor.name, ev.door.id);
-    });
+    setInterval(() => {
+        client.myPlayer?.transform?.move(Math.random() * 5, Math.random() * 5);
+    }, 1000 / 10);
 })();
