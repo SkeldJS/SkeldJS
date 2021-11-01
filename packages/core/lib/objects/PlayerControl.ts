@@ -37,7 +37,8 @@ import {
     ChatNoteType,
     Pet,
     SystemType,
-    StringNames
+    StringNames,
+    GameOverReason
 } from "@skeldjs/constant";
 
 import {
@@ -72,6 +73,7 @@ import { MeetingHud } from "./MeetingHud";
 
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
+import { AmongUsEndGames, EndGameIntent, PlayersKillEndgameMetadata } from "../endgame";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -922,10 +924,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (!victim || victim.playerId === undefined)
             return;
 
-        if (victim.info) {
-            victim.info.setDead(true);
-            this.room.gameData?.update(victim.playerId);
-        }
+        this._murderPlayer(victim);
 
         await this.emit(
             new PlayerMurderEvent(
@@ -935,6 +934,42 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 victim
             )
         );
+    }
+
+    private _murderPlayer(victim: PlayerData) {
+        victim.info?.setDead(true);
+
+        if (!this.room.gameData)
+            return;
+
+        let aliveCrewmates = 0;
+        let aliveImpostors = 0;
+        for (const [ , playerInfo ] of this.room.gameData.players) {
+            if (!playerInfo.isDisconnected && !playerInfo.isDead)
+            {
+                if (playerInfo.isImpostor)
+                {
+                    aliveImpostors++;
+                } else {
+                    aliveCrewmates++;
+                }
+            }
+        }
+
+        if (aliveCrewmates <= aliveImpostors) {
+            this.room.registerEndGameIntent(
+                new EndGameIntent<PlayersKillEndgameMetadata>(
+                    AmongUsEndGames.PlayersDisconnect,
+                    GameOverReason.ImpostorByKill,
+                    {
+                        killer: this.player,
+                        victim,
+                        aliveCrewmates,
+                        aliveImpostors
+                    }
+                )
+            );
+        }
     }
 
     private _rpcMurderPlayer(victim: PlayerData) {
@@ -966,10 +1001,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (victim.playerId === undefined)
             return;
 
-        if (victim.info) {
-            victim.info.setDead(true);
-            this.room.gameData?.update(victim.playerId);
-        }
+        this._murderPlayer(victim);
 
         this.emit(
             new PlayerMurderEvent(

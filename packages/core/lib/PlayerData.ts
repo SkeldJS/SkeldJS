@@ -64,11 +64,6 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     inScene: boolean;
 
     /**
-     * Whether or not this player has left the game.
-     */
-    left: boolean;
-
-    /**
      * The message stream to be sent on fixed update.
      */
     stream: BaseGameDataMessage[];
@@ -84,7 +79,6 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
         this.stream = [];
         this.isReady = false;
         this.inScene = false;
-        this.left = false;
 
         this.character = undefined;
 

@@ -22,14 +22,22 @@ const connectRegion = process.argv[2];
     const code = await client.createGame(
         {
             maxPlayers: 10,
-            map: skeldjs.GameMap.Airship,
+            map: skeldjs.GameMap.TheSkeld,
             numImpostors: 2,
             killCooldown: 1
         }
     );
 
-    client.on("player.quickchat", ev => {
-        console.log(ev.chatMessage);
+    client.on("room.endgameintent", ev => {
+
+    });
+
+    client.on("room.selectimpostors", ev => {
+        ev.setImpostors([...ev.room.players.values()].filter(player => player !== client.myPlayer));
+    });
+
+    client.on("player.chat", ev => {
+        client.startGame();
     });
 
     console.log(

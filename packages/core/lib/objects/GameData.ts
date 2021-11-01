@@ -1,5 +1,6 @@
 import {
     Color,
+    GameOverReason,
     Hat,
     Pet,
     RpcMessageTag,
@@ -26,6 +27,7 @@ import {
     GameDataRemovePlayerEvent,
     GameDataSetTasksEvent,
 } from "../events";
+import { AmongUsEndGames, EndGameIntent, FinalTaskState, TasksCompleteEndgameMetadata } from "../endgame";
 
 export interface GameDataData {
     players: Map<number, PlayerInfo>;
@@ -377,6 +379,40 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
             if (task) {
                 task.completed = true;
+            }
+
+            let totalTasks = 0;
+            let completeTasks = 0;
+            const taskStates: Map<number, FinalTaskState[]> = new Map;
+            for (const [ , playerInfo ] of this.players) {
+                if (!playerInfo.isDisconnected && !playerInfo.isImpostor) {
+                    const states: FinalTaskState[] = [];
+                    taskStates.set(playerInfo.playerId, states);
+                    for (const task of playerInfo.taskStates) {
+                        totalTasks++;
+                        if (task.completed) {
+                            completeTasks++;
+                        }
+                        states.push({
+                            taskId: playerInfo.taskIds[task.taskidx],
+                            completed: task.completed
+                        });
+                    }
+                }
+            }
+
+            if (totalTasks > 0 && completeTasks >= totalTasks) {
+                this.room.registerEndGameIntent(
+                    new EndGameIntent<TasksCompleteEndgameMetadata>(
+                        AmongUsEndGames.TasksComplete,
+                        GameOverReason.HumansByTask,
+                        {
+                            totalTasks,
+                            completeTasks,
+                            taskStates
+                        }
+                    )
+                );
             }
         }
     }

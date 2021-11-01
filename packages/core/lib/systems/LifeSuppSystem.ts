@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { SystemType } from "@skeldjs/constant";
+import { GameOverReason, SystemType } from "@skeldjs/constant";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -16,6 +16,7 @@ import {
 
 import { SystemStatusEvents } from "./events";
 import { Hostable } from "../Hostable";
+import { AmongUsEndGames, EndGameIntent } from "../endgame";
 
 export interface LifeSuppSystemData {
     timer: number;
@@ -247,6 +248,16 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         if (this.lastUpdate > 2) {
             this.lastUpdate = 0;
             this.dirty = true;
+        }
+
+        if (this.timer <= 0) {
+            this.room.registerEndGameIntent(
+                new EndGameIntent(
+                    AmongUsEndGames.O2Sabotage,
+                    GameOverReason.ImpostorBySabotage,
+                    {}
+                )
+            );
         }
     }
 }

@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { SystemType } from "@skeldjs/constant";
+import { GameOverReason, SystemType } from "@skeldjs/constant";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -16,6 +16,7 @@ import {
 
 import { SystemStatusEvents } from "./events";
 import { Hostable } from "../Hostable";
+import { AmongUsEndGames, EndGameIntent } from "../endgame";
 
 export interface ReactorSystemData {
     timer: number;
@@ -241,6 +242,16 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
         if (this._lastUpdate > 2) {
             this._lastUpdate = 0;
             this.dirty = true;
+        }
+
+        if (this.timer <= 0) {
+            this.room.registerEndGameIntent(
+                new EndGameIntent(
+                    AmongUsEndGames.ReactorSabotage,
+                    GameOverReason.ImpostorBySabotage,
+                    {}
+                )
+            );
         }
     }
 }

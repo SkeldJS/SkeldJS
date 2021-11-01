@@ -1,4 +1,5 @@
 import { CancelableEvent } from "@skeldjs/events";
+import { GameOverReason } from "@skeldjs/constant";
 import { Hostable } from "../../Hostable";
 
 /**
@@ -15,7 +16,9 @@ export class RoomEndGameIntentEvent<RoomType extends Hostable> extends Cancelabl
 
     constructor(
         public readonly room: RoomType,
-        public readonly intentName: string
+        public readonly intentName: string,
+        public readonly reason: GameOverReason,
+        public readonly metadata: any
     ) {
         super();
     }

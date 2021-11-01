@@ -1,8 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { SystemType, GameMap } from "@skeldjs/constant";
+import { SystemType } from "@skeldjs/constant";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
-import { MapDoors } from "@skeldjs/data";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
@@ -61,14 +60,14 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
 
     Deserialize(reader: HazelReader, spawn: boolean) {
         if (spawn) {
-            for (let i = 0; i < MapDoors[GameMap.TheSkeld]; i++) {
+            for (let i = 0; i < this.doors.length; i++) {
                 const open = reader.bool();
                 this.doors.push(new AutoOpenDoor(this, i, open));
             }
         } else {
             const mask = reader.upacked();
 
-            for (let i = 0; i < MapDoors[GameMap.TheSkeld]; i++) {
+            for (let i = 0; i < this.doors.length; i++) {
                 if (mask & (1 << i)) {
                     const isOpen = reader.bool();
                     if (isOpen) {

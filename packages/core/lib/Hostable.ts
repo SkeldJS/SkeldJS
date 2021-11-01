@@ -26,7 +26,6 @@ import {
     GameOverReason,
     SpawnType,
     SpawnFlag,
-    SystemType,
     GameState
 } from "@skeldjs/constant";
 
@@ -66,14 +65,15 @@ import {
     PlayerLeaveEvent,
     PlayerSetHostEvent,
     PlayerSpawnEvent,
+    RoomEndGameIntentEvent,
     RoomFixedUpdateEvent,
     RoomGameEndEvent,
     RoomGameStartEvent,
     RoomSelectImpostorsEvent,
-    RoomSetPrivacyEvent,
+    RoomSetPrivacyEvent
 } from "./events";
-import { RoomEndGameIntentEvent } from "./events/room/EndGameIntent";
-import { LifeSuppSystem, ReactorSystem } from "./systems";
+
+import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
 
 export type RoomID = string | number;
 
@@ -126,6 +126,7 @@ export type HostableEvents<RoomType extends Hostable = Hostable> = NetworkableEv
     >;
 
 export type GetHostableEvents<T extends Hostable<HostableEvents>> = T extends Hostable<infer X> ? X : never;
+
 /**
  * Represents an object capable of hosting games.
  *
@@ -281,16 +282,18 @@ export class Hostable<
     ]);
 
     /**
-     * Information for controlling when the game shoudl end, this dictionary is
-     * checked every fixed update to look for reasons to end a game.
+     * Every end game intent that should happen in a queue to be or not to be
+     * canceled.
      *
-     * See {@link RoomEndGameIntentEvent} to cancel or listen for end game intent
-     * criteria being fulfilled. Or see {@link Hostable.registerEndGameIntent} to register
-     * your own.
+     * The first item of each element being the name of the end game intent and
+     * the second being metadata passed with it.
+     *
+     * See {@link RoomEndGameIntentEvent} to cancel an end game intent, or see
+     * {@link Hostable.registerEndGameIntent} to register your own.
      *
      * See {@link RoomGameEndEvent} to listen for a game actually ending.
      */
-    endGameIntents: Map<string, () => any>;
+    endGameIntents: EndGameIntent<any>[];
 
     constructor(public options: HostableOptions = {}) {
         super();
@@ -321,7 +324,7 @@ export class Hostable<
         this.gameData = undefined;
         this.voteBanSystem = undefined;
 
-        this.endGameIntents = new Map;
+        this.endGameIntents = [];
 
         if (options.doFixedUpdate) {
             this._interval = setInterval(
@@ -329,104 +332,6 @@ export class Hostable<
                 Hostable.FixedUpdateInterval
             );
         }
-
-        this.registerEndGameIntent("o2 sabotage", async () => {
-            if (!this.shipStatus)
-                return;
-
-            const lifeSuppSystem = this.shipStatus?.systems.get(SystemType.O2) as LifeSuppSystem;
-            if (lifeSuppSystem) {
-                if (lifeSuppSystem.timer <= 0) {
-                    await lifeSuppSystem.repair();
-                    return GameOverReason.ImpostorBySabotage;
-                }
-            }
-        });
-
-        this.registerEndGameIntent("reactor sabotage", async () => {
-            if (!this.shipStatus)
-                return;
-
-            const reactorSystem = (this.shipStatus?.systems.get(SystemType.Reactor) || this.shipStatus?.systems.get(SystemType.Laboratory)) as ReactorSystem;
-
-            if (reactorSystem) {
-                if (reactorSystem.timer <= 0) {
-                    await reactorSystem.repair();
-                    return GameOverReason.ImpostorBySabotage;
-                }
-            }
-        });
-
-        this.registerEndGameIntent("players remaining", async () => {
-            if (!this.gameData || !this.shipStatus)
-                return;
-
-            let aliveCrewmates = 0;
-            let aliveImpostors = 0;
-            let totalImpostors = 0;
-            let totalCrewmates = 0;
-            for (const [ , playerInfo ] of this.gameData.players) {
-                if (!playerInfo.isDisconnected)
-                {
-                    if (playerInfo.isImpostor)
-                    {
-                        totalImpostors++;
-                    } else {
-                        totalCrewmates++;
-                    }
-
-                    if (!playerInfo.isDead)
-                    {
-                        if (playerInfo.isImpostor)
-                        {
-                            aliveImpostors++;
-                        }
-                        else
-                        {
-                            aliveCrewmates++;
-                        }
-                    }
-                }
-            }
-
-            if (totalImpostors === 0) {
-                return GameOverReason.ImpostorDisconnect;
-            }
-
-            if (totalCrewmates <= aliveImpostors) {
-                return GameOverReason.HumansDisconnect;
-            }
-
-            if (aliveImpostors <= 0 && totalImpostors > 0) {
-                return GameOverReason.HumansByVote;
-            }
-
-            if (aliveCrewmates <= aliveImpostors) {
-                return GameOverReason.ImpostorByKill;
-            }
-        });
-
-        this.registerEndGameIntent("tasks complete", async () => {
-            if (!this.gameData || !this.shipStatus)
-                return;
-
-            let totalTasks = 0;
-            let completeTasks = 0;
-            for (const [ , playerInfo ] of this.gameData.players) {
-                if (!playerInfo.isDisconnected && !playerInfo.isImpostor) {
-                    for (const task of playerInfo.taskStates) {
-                        totalTasks++;
-                        if (task.completed) {
-                            completeTasks++;
-                        }
-                    }
-                }
-            }
-
-            if (totalTasks > 0 && completeTasks >= totalTasks) {
-                return GameOverReason.HumansByTask;
-            }
-        });
     }
 
     destroy() {
@@ -499,6 +404,28 @@ export class Hostable<
             }
         }
 
+        if (this.endGameIntents.length) {
+            for (let i = 0; i < this.endGameIntents.length; i++) {
+                const intent = this.endGameIntents[i];
+                const ev = await this.emit(
+                    new RoomEndGameIntentEvent(
+                        this,
+                        intent.name,
+                        intent.reason,
+                        intent.metadata
+                    )
+                );
+                if (ev.canceled) {
+                    this.endGameIntents.splice(i, 1);
+                    i--;
+                }
+            }
+
+            if (this.endGameIntents[0]) {
+                await this.endGame(this.endGameIntents[0].reason);
+            }
+        }
+
         const ev = await this.emit(
             new RoomFixedUpdateEvent(
                 this,
@@ -506,10 +433,6 @@ export class Hostable<
                 delta
             )
         );
-
-        if (this.state === GameState.Started) {
-            this.checkForGameEnd();
-        }
 
         if (this.stream.length) {
             const stream = this.stream;
@@ -720,6 +643,54 @@ export class Hostable<
         return player;
     }
 
+    checkPlayersRemaining() {
+        if (!this.gameData || !this.shipStatus)
+            return;
+
+        let aliveImpostors = 0;
+        let totalImpostors = 0;
+        let totalCrewmates = 0;
+        for (const [ , playerInfo ] of this.gameData.players) {
+            if (!playerInfo.isDisconnected)
+            {
+                if (playerInfo.isImpostor)
+                {
+                    totalImpostors++;
+                } else {
+                    totalCrewmates++;
+                }
+
+                if (!playerInfo.isDead)
+                {
+                    if (playerInfo.isImpostor)
+                    {
+                        aliveImpostors++;
+                    }
+                }
+            }
+        }
+
+        const reason = totalImpostors === 0
+            ? GameOverReason.ImpostorDisconnect
+            : totalCrewmates <= aliveImpostors
+                ? GameOverReason.HumansDisconnect
+                : -1;
+
+        if (reason !== -1) {
+            this.registerEndGameIntent(
+                new EndGameIntent<PlayersDisconnectEndgameMetadata>(
+                    AmongUsEndGames.PlayersDisconnect,
+                    reason,
+                    {
+                        aliveImpostors,
+                        totalImpostors,
+                        totalCrewmates
+                    }
+                )
+            );
+        }
+    }
+
     /**
      * Handle when a client leaves the game.
      * @param resolvable The client that left the game.
@@ -736,6 +707,8 @@ export class Hostable<
                 if (gamedataEntry) {
                     gamedataEntry.setDisconnected(true);
                 }
+
+                this.checkPlayersRemaining();
             } else {
                 this.gameData?.players.delete(player.playerId);
             }
@@ -1145,22 +1118,6 @@ export class Hostable<
         return player;
     }
 
-    async checkForGameEnd() {
-        for (const [ intentName, intentCritera ] of this.endGameIntents) {
-            const intent = await intentCritera();
-            if (typeof intent === "number") {
-                const event = await this.emit(new RoomEndGameIntentEvent(this, intentName));
-
-                if (event.canceled) {
-                    continue;
-                }
-
-                await this.endGame(intent);
-                break;
-            }
-        }
-    }
-
     /**
      * Register a custom INO spawn object by its spawn type. Can also override
      * built-in objects.
@@ -1204,7 +1161,7 @@ export class Hostable<
 
     /**
      * Get a player by one of their components' netids.
-     * @param netid The network ID of the component of the player to search.
+     * @param netid The net ID of the component of the player to search.
      * @returns The player that was found, or null if they do not exist.
      * @example
      * ```typescript
@@ -1225,14 +1182,11 @@ export class Hostable<
     }
 
     /**
-     * Register an end game intent to specify when a game should end.
-     * @param name The name of the end game intent.
-     * @param critera The critera to check for if the game should end. Should return
-     * either undefined or false for if the game shouldn't end, or should return an
-     * integer as a reason for why the game should end. See {@link GameOverReason}.
+     * Register an intent to end the game.
+     * @param endGameIntent The intention to end the game.
      */
-    registerEndGameIntent(name: string, critera: () => any) {
-        this.endGameIntents.set(name, critera);
+    registerEndGameIntent(endGameIntent: EndGameIntent<any>) {
+        this.endGameIntents.push(endGameIntent);
     }
 
     protected _getExistingObjectSpawn() {

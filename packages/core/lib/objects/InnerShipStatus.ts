@@ -227,6 +227,8 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             available.splice(random, 1);
         }
 
+        console.log(impostors);
+
         const ev = await this.emit(
             new RoomSelectImpostorsEvent(
                 this.room,
@@ -256,6 +258,10 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     }
 
     private addTasksFromList(start: number, count: number, tasks: number[], usedTaskTypes: Set<TaskType>, unusedTasks: TaskDataModel[]) {
+        if (unusedTasks.length === 0) {
+            return start;
+        }
+
         let numLoops = 0; // fun fact: nodepolus calls this a "sanity check"
         let i = 0;
         while (i < count && numLoops++ < 1000) {
