@@ -227,8 +227,6 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             available.splice(random, 1);
         }
 
-        console.log(impostors);
-
         const ev = await this.emit(
             new RoomSelectImpostorsEvent(
                 this.room,
