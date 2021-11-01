@@ -29,7 +29,9 @@ const connectRegion = process.argv[2];
     );
 
     client.on("room.endgameintent", ev => {
-
+        if (ev.intentName === skeldjs.AmongUsEndGames.PlayersKill) {
+            ev.cancel();
+        }
     });
 
     client.on("room.selectimpostors", ev => {
