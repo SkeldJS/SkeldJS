@@ -959,7 +959,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (aliveCrewmates <= aliveImpostors) {
             this.room.registerEndGameIntent(
                 new EndGameIntent<PlayersKillEndgameMetadata>(
-                    AmongUsEndGames.PlayersDisconnect,
+                    AmongUsEndGames.PlayersKill,
                     GameOverReason.ImpostorByKill,
                     {
                         killer: this.player,
