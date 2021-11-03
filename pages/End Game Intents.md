@@ -1,34 +1,52 @@
 # End Game Intents
-SkeldJS allows you to create custom criteria for when a game should end, and also
-allows you to hook into them and cancel them with events.
+SkeldJS allows you to imperatively create the _intent_ for a game to end, that is,
+you're telling SkeldJS that you want the game to end.
+
+You can hook into them and cancel them, preventing them from actually causing a game
+ending.
 
 ### Create Intent
 You can use the {@link Hostable.registerEndGameIntent} method to register an intent,
-where you can pass the intent name and the criteria for what to match.
+and will be checked and ended on the next _fixed update_ cycle.
 
-The critera can either return a number or a promise of a number to indicate the
-[GameOverReason](https://github.com/codyphobe/among-us-protocol/blob/master/01_packet_structure/06_enums.md#gameoverreason)
-for why the game should end, similar to an exit code, or anything else and
-it will be disregarded and the game will not end.
+Note that end game intents don't guarantee that the game has ended or that it will
+end.
+
+### Example
+SkeldJS uses end game intents internally (which also means you can cancel typical
+end game behaviours).
 
 ```ts
-client.registerEndGameIntent("intent name", () => {
-    // check for game end
-});
+if (aliveImpostors <= 0) {
+    client.registerEndGameIntent(
+        new EndGameIntent<PlayersVoteOutEndgameMetadata>(
+            AmongUsEndGames.PlayersVoteOut,
+            GameOverReason.HumansByVote,
+            {
+                exiled,
+                aliveCrewmates,
+                aliveImpostors
+            }
+        )
+    );
+}
 ```
+This end-game intent is registered immediately after a meeting if there are 0
+impostors remaining.
 
-### Canceling Game End Intents
+Notice how you can pass in metadata to make a more informed decision about whether
+or not to cancel it when it comes to listening for it in an event.
+
+### Cancelling intents
 ```ts
-client.on("room.endgameintent", event => {
-    if (event.intentName === "o2 sabotage") {
-        event.cancel(); // stop o2 sabotage from ending the game
+client.on("room.endgameintent", ev => {
+    if (ev.intentName === AmongUsEndGames.PlayerVoteOut) {
+        if (ev.metadata.aliveImpostors === 0) { // the intent was registered when the last impostor was voted out.
+            ev.cancel();
+        }
     }
 });
 ```
 
 ### Built-In intents
-* `"o2 sabotage"` - Used when o2 timer reaches 0
-* `"reactor sabotage"` - Used when reactor timer reaches 0
-* `"players remaining"` - Used when there aren't enough players of a role to continue
-playing the game
-* `"tasks complete"` - Used when all crewmates have finished their tasks
+You can access all built-in intent names via the {@link AmongUsEndGames} enum.

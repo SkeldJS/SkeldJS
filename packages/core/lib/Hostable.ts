@@ -420,7 +420,7 @@ export class Hostable<
                 }
 
                 if (this.endGameIntents[0]) {
-                    await this.endGame(this.endGameIntents[0].reason);
+                    this.endGame(this.endGameIntents[0].reason);
                 }
             }
             this.endGameIntents.splice(0);
