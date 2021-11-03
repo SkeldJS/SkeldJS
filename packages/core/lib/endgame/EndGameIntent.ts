@@ -8,7 +8,7 @@ export enum AmongUsEndGames {
     O2Sabotage = "o2 sabotage",
     /**
      * An intent to end the game when reactor is sabotaged and the timer reaches
-     * 0, has no metadat.
+     * 0, has no metadata.
      */
     ReactorSabotage = "reactor sabotage",
     /**
