@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/events",
-  "version": "2.14.31",
+  "version": "2.14.32",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
