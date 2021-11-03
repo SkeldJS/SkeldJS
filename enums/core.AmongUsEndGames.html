@@ -96,9 +96,15 @@
 					<div class="tsd-signature tsd-kind-icon">O2<wbr>Sabotage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;o2 sabotage&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/80dd732/packages/core/lib/endgame/EndGameIntent.ts#L4">core/lib/endgame/EndGameIntent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d41c0ce/packages/core/lib/endgame/EndGameIntent.ts#L8">core/lib/endgame/EndGameIntent.ts:8</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An intent to end the game when O2 is sabotaged and  the timer reaches
+							0, has no metadata.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="PlayersDisconnect" class="tsd-anchor"></a>
@@ -106,9 +112,16 @@
 					<div class="tsd-signature tsd-kind-icon">Players<wbr>Disconnect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;players disconnect&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/80dd732/packages/core/lib/endgame/EndGameIntent.ts#L6">core/lib/endgame/EndGameIntent.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d41c0ce/packages/core/lib/endgame/EndGameIntent.ts#L19">core/lib/endgame/EndGameIntent.ts:19</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An intent to end the game when a player disconnects, either by there not
+								being enough impostors or not being enough crewmates remaining to continue
+							the game. Uses <a href="../interfaces/core.PlayersDisconnectEndgameMetadata.html">PlayersDisconnectEndgameMetadata</a> as metadata.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="PlayersKill" class="tsd-anchor"></a>
@@ -116,9 +129,16 @@
 					<div class="tsd-signature tsd-kind-icon">Players<wbr>Kill<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;players kill&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/80dd732/packages/core/lib/endgame/EndGameIntent.ts#L8">core/lib/endgame/EndGameIntent.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d41c0ce/packages/core/lib/endgame/EndGameIntent.ts#L32">core/lib/endgame/EndGameIntent.ts:32</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An intent to end the game after a player is murdered by a not player, but
+								not registered when a player is voted out, see <a href="core.AmongUsEndGames.html#PlayersVoteOut">AmongUsEndGames.PlayersVoteOut</a>.
+							Uses <a href="../interfaces/core.PlayersKillEndgameMetadata.html">PlayersKillEndgameMetadata</a> as metadata.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="PlayersVoteOut" class="tsd-anchor"></a>
@@ -126,19 +146,33 @@
 					<div class="tsd-signature tsd-kind-icon">Players<wbr>Vote<wbr>Out<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;players vote out&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/80dd732/packages/core/lib/endgame/EndGameIntent.ts#L7">core/lib/endgame/EndGameIntent.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d41c0ce/packages/core/lib/endgame/EndGameIntent.ts#L26">core/lib/endgame/EndGameIntent.ts:26</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An intent to end the game when a player is voted out after a meeting, either
+								the last impostor being voted out or there not being enough crewmates
+								remaining to continue the game.
+							Uses <a href="../interfaces/core.PlayersVoteOutEndgameMetadata.html">PlayersVoteOutEndgameMetadata</a> as metadata.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="ReactorSabotage" class="tsd-anchor"></a>
 					<h3>Reactor<wbr>Sabotage</h3>
-					<div class="tsd-signature tsd-kind-icon">Reactor<wbr>Sabotage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;reactor sabotaeg&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">Reactor<wbr>Sabotage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;reactor sabotage&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/80dd732/packages/core/lib/endgame/EndGameIntent.ts#L5">core/lib/endgame/EndGameIntent.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d41c0ce/packages/core/lib/endgame/EndGameIntent.ts#L13">core/lib/endgame/EndGameIntent.ts:13</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An intent to end the game when reactor is sabotaged and the timer reaches
+							0, has no metadat.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="TasksComplete" class="tsd-anchor"></a>
@@ -146,9 +180,15 @@
 					<div class="tsd-signature tsd-kind-icon">Tasks<wbr>Complete<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = &quot;tasks complete&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/80dd732/packages/core/lib/endgame/EndGameIntent.ts#L9">core/lib/endgame/EndGameIntent.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/d41c0ce/packages/core/lib/endgame/EndGameIntent.ts#L37">core/lib/endgame/EndGameIntent.ts:37</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An intent to end the game when all crewmates complete their tasks, uses
+							<a href="../interfaces/core.TasksCompleteEndgameMetadata.html">TasksCompleteEndgameMetadata</a>.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>

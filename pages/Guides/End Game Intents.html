@@ -74,40 +74,55 @@
 				<a href="#end-game-intents" id="end-game-intents" style="color: inherit; text-decoration: none;">
 					<h1>End Game Intents</h1>
 				</a>
-				<p>SkeldJS allows you to create custom criteria for when a game should end, and also
-				allows you to hook into them and cancel them with events.</p>
+				<p>SkeldJS allows you to imperatively create the <em>intent</em> for a game to end, that is,
+				you&#39;re telling SkeldJS that you want the game to end.</p>
+				<p>You can hook into them and cancel them, preventing them from actually causing a game
+				ending.</p>
 				<a href="#create-intent" id="create-intent" style="color: inherit; text-decoration: none;">
 					<h3>Create Intent</h3>
 				</a>
 				<p>You can use the <a href="../../classes/core.Hostable.html#registerEndGameIntent">Hostable.registerEndGameIntent</a> method to register an intent,
-				where you can pass the intent name and the criteria for what to match.</p>
-				<p>The critera can either return a number or a promise of a number to indicate the
-					<a href="https://github.com/codyphobe/among-us-protocol/blob/master/01_packet_structure/06_enums.md#gameoverreason">GameOverReason</a>
-					for why the game should end, similar to an exit code, or anything else and
-				it will be disregarded and the game will not end.</p>
-				<pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">registerEndGameIntent</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;intent name&quot;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #008000">// check for game end</span>
-<span style="color: #000000">});</span>
-</code></pre>
-				<a href="#canceling-game-end-intents" id="canceling-game-end-intents" style="color: inherit; text-decoration: none;">
-					<h3>Canceling Game End Intents</h3>
+				and will be checked and ended on the next <em>fixed update</em> cycle.</p>
+				<p>Note that end game intents don&#39;t guarantee that the game has ended or that it will
+				end.</p>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h3>Example</h3>
 				</a>
-				<pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;room.endgameintent&quot;</span><span style="color: #000000">, </span><span style="color: #001080">event</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">event</span><span style="color: #000000">.</span><span style="color: #001080">intentName</span><span style="color: #000000"> === </span><span style="color: #A31515">&quot;o2 sabotage&quot;</span><span style="color: #000000">) {</span>
-<span style="color: #000000">        </span><span style="color: #001080">event</span><span style="color: #000000">.</span><span style="color: #795E26">cancel</span><span style="color: #000000">(); </span><span style="color: #008000">// stop o2 sabotage from ending the game</span>
+				<p>SkeldJS uses end game intents internally (which also means you can cancel typical
+				end game behaviours).</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">aliveImpostors</span><span style="color: #000000"> &lt;= </span><span style="color: #098658">0</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">registerEndGameIntent</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">EndGameIntent</span><span style="color: #000000">&lt;</span><span style="color: #267F99">PlayersVoteOutEndgameMetadata</span><span style="color: #000000">&gt;(</span>
+<span style="color: #000000">            </span><span style="color: #001080">AmongUsEndGames</span><span style="color: #000000">.</span><span style="color: #001080">PlayersVoteOut</span><span style="color: #000000">,</span>
+<span style="color: #000000">            </span><span style="color: #001080">GameOverReason</span><span style="color: #000000">.</span><span style="color: #001080">HumansByVote</span><span style="color: #000000">,</span>
+<span style="color: #000000">            {</span>
+<span style="color: #000000">                </span><span style="color: #001080">exiled</span><span style="color: #000000">,</span>
+<span style="color: #000000">                </span><span style="color: #001080">aliveCrewmates</span><span style="color: #000000">,</span>
+<span style="color: #000000">                </span><span style="color: #001080">aliveImpostors</span>
+<span style="color: #000000">            }</span>
+<span style="color: #000000">        )</span>
+<span style="color: #000000">    );</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>This end-game intent is registered immediately after a meeting if there are 0
+				impostors remaining.</p>
+				<p>Notice how you can pass in metadata to make a more informed decision about whether
+				or not to cancel it when it comes to listening for it in an event.</p>
+				<a href="#cancelling-intents" id="cancelling-intents" style="color: inherit; text-decoration: none;">
+					<h3>Cancelling intents</h3>
+				</a>
+				<pre><code class="language-ts"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;room.endgameintent&quot;</span><span style="color: #000000">, </span><span style="color: #001080">ev</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">intentName</span><span style="color: #000000"> === </span><span style="color: #001080">AmongUsEndGames</span><span style="color: #000000">.</span><span style="color: #001080">PlayerVoteOut</span><span style="color: #000000">) {</span>
+<span style="color: #000000">        </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #001080">metadata</span><span style="color: #000000">.</span><span style="color: #001080">aliveImpostors</span><span style="color: #000000"> === </span><span style="color: #098658">0</span><span style="color: #000000">) { </span><span style="color: #008000">// the intent was registered when the last impostor was voted out.</span>
+<span style="color: #000000">            </span><span style="color: #001080">ev</span><span style="color: #000000">.</span><span style="color: #795E26">cancel</span><span style="color: #000000">();</span>
+<span style="color: #000000">        }</span>
 <span style="color: #000000">    }</span>
 <span style="color: #000000">});</span>
 </code></pre>
 				<a href="#built-in-intents" id="built-in-intents" style="color: inherit; text-decoration: none;">
 					<h3>Built-In intents</h3>
 				</a>
-				<ul>
-					<li><code>&quot;o2 sabotage&quot;</code> - Used when o2 timer reaches 0</li>
-					<li><code>&quot;reactor sabotage&quot;</code> - Used when reactor timer reaches 0</li>
-					<li><code>&quot;players remaining&quot;</code> - Used when there aren&#39;t enough players of a role to continue
-					playing the game</li>
-					<li><code>&quot;tasks complete&quot;</code> - Used when all crewmates have finished their tasks</li>
-				</ul>
+				<p>You can access all built-in intent names via the <a href="../../enums/core.AmongUsEndGames.html">AmongUsEndGames</a> enum.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
