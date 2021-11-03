@@ -58,7 +58,8 @@ import {
     PlayerSetSkinEvent,
     PlayerSetStartCounterEvent,
     PlayerStartMeetingEvent,
-    PlayerSyncSettingsEvent
+    PlayerSyncSettingsEvent,
+    PlayerDieEvent
 } from "../events";
 
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -86,6 +87,7 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
             PlayerCheckColorEvent<RoomType>,
             PlayerCheckNameEvent<RoomType>,
             PlayerCompleteTaskEvent<RoomType>,
+            PlayerDieEvent<RoomType>,
             PlayerUseMovingPlatformEvent<RoomType>,
             PlayerMurderEvent<RoomType>,
             PlayerReportDeadBodyEvent<RoomType>,
@@ -918,13 +920,31 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
+    async kill(reason: string) {
+        const playerInfo = await this.room.gameData?.players.get(this.playerId);
+
+        playerInfo?.setDead(true);
+
+        const ev = await this.emit(
+            new PlayerDieEvent(
+                this.room,
+                this.player,
+                reason
+            )
+        );
+
+        if (ev.reverted) {
+            playerInfo?.setDead(false);
+        }
+    }
+
     private async _handleMurderPlayer(rpc: MurderPlayerMessage) {
         const victim = this.room.getPlayerByNetId(rpc.victimid);
 
         if (!victim || victim.playerId === undefined)
             return;
 
-        this._murderPlayer(victim);
+        await victim.control?.kill("murder");
 
         await this.emit(
             new PlayerMurderEvent(
@@ -934,11 +954,55 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 victim
             )
         );
+
+        this._checkMurderEndGame();
     }
 
-    private _murderPlayer(victim: PlayerData) {
-        victim.info?.setDead(true);
+    private _rpcMurderPlayer(victim: PlayerData) {
+        if (!victim.control)
+            return;
 
+        this.room.stream.push(
+            new RpcMessage(
+                this.netId,
+                new MurderPlayerMessage(victim.control.netId)
+            )
+        );
+    }
+
+    /**
+     * Murder another a player. This operation can only be called if the player
+     * is the impostor on official servers.
+     *
+     * Due to technical limitations, this operation cannot be canceled or reverted
+     * without advanced "breaking game", therefore it is out of scope of a single
+     * `.revert()` function on the event emitted.
+     *
+     * Emits a {@link PlayerMurderEvent | `player.murder`} event.
+     *
+     * @param victim The player to murder.
+     * @returns
+     */
+    async murderPlayer(victim: PlayerData) {
+        if (victim.playerId === undefined)
+            return;
+
+        await victim.control?.kill("murder");
+
+        await this.emit(
+            new PlayerMurderEvent(
+                this.room,
+                this.player,
+                undefined,
+                victim
+            )
+        );
+
+        this._rpcMurderPlayer(victim);
+        this._checkMurderEndGame();
+    }
+
+    private _checkMurderEndGame(victim?: PlayerData) {
         if (!this.room.gameData)
             return;
 
@@ -970,49 +1034,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 )
             );
         }
-    }
-
-    private _rpcMurderPlayer(victim: PlayerData) {
-        if (!victim.control)
-            return;
-
-        this.room.stream.push(
-            new RpcMessage(
-                this.netId,
-                new MurderPlayerMessage(victim.control.netId)
-            )
-        );
-    }
-
-    /**
-     * Murder another a player. This operation can only be called if the player
-     * is the impostor on official servers.
-     *
-     * Due to technical limitations, this operation cannot be canceled or reverted
-     * without advanced "breaking game", therefore it is out of scope of a single
-     * `.revert()` function on the event emitted.
-     *
-     * Emits a {@link PlayerMurderEvent | `player.murder`} event.
-     *
-     * @param victim The player to murder.
-     * @returns
-     */
-    murderPlayer(victim: PlayerData) {
-        if (victim.playerId === undefined)
-            return;
-
-        this._murderPlayer(victim);
-
-        this.emit(
-            new PlayerMurderEvent(
-                this.room,
-                this.player,
-                undefined,
-                victim
-            )
-        );
-
-        this._rpcMurderPlayer(victim);
     }
 
     private async _handleSendChat(rpc: SendChatMessage) {

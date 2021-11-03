@@ -467,7 +467,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             return new PlayerVoteState(this.room, state.playerId, state.votedForId);
         });
 
-        this._votingComplete(playerStates, rpc.tie, exiled);
+        await this._votingComplete(playerStates, rpc.tie, exiled);
 
         await this.emit(
             new MeetingHudVotingCompleteEvent(
@@ -481,7 +481,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         );
     }
 
-    private _votingComplete(
+    private async _votingComplete(
         states: PlayerVoteState<RoomType>[],
         tie: boolean,
         exiled?: PlayerData<RoomType>
@@ -495,7 +495,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         this.tie = tie;
         this.exiled = exiled;
 
-        this.exiled?.info?.setDead(true);
+        await this.exiled?.control?.kill("exiled");
 
         if (exiled && this.room.gameData) {
             let aliveCrewmates = 0;
@@ -567,7 +567,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
      * @param tie Whether this meeting resulted in a tie of votes.
      * @param exiled The player that was ejected, if any.
      */
-    votingComplete(tie: boolean = false, exiled?: PlayerDataResolvable) {
+    async votingComplete(tie: boolean = false, exiled?: PlayerDataResolvable) {
         const _exiled = exiled ? this.room.resolvePlayer(exiled) : undefined;
 
         const voteStates: PlayerVoteState<RoomType>[] = new Array(this.room.gameData!.players.size);
@@ -577,7 +577,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             i++;
         }
 
-        this._votingComplete(voteStates, tie, _exiled);
+        await this._votingComplete(voteStates, tie, _exiled);
         this._rpcVotingComplete(voteStates, tie, _exiled);
 
         this.emit(

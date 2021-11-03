@@ -73,6 +73,11 @@ export class Networkable<
      */
     dirtyBit: number = 0;
 
+    /**
+     * The player that this component belongs to.
+     */
+    player?: PlayerData<RoomType>;
+
     components: Networkable<any, NetworkableEvents, RoomType>[];
 
     constructor(
@@ -91,6 +96,12 @@ export class Networkable<
         this.ownerId = ownerid;
         this.flags = flags;
 
+        if (this.ownerId > -2) {
+            this.player = this.owner as PlayerData<RoomType>;
+        } else {
+            this.player = undefined;
+        }
+
         this.components = [];
 
         if (data) {
@@ -107,8 +118,10 @@ export class Networkable<
     }
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
-        if (this.owner) {
-            this.owner.emit(event);
+        if (this.player) {
+            await this.player.emit(event);
+        } else if (this.owner) {
+            await this.owner.emit(event);
         }
 
         return super.emit(event);

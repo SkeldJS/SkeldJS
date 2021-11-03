@@ -43,6 +43,7 @@ export * from "./player/CheckColor";
 export * from "./player/CheckName";
 export * from "./player/ClimbLadder";
 export * from "./player/CompleteTask";
+export * from "./player/Die";
 export * from "./player/EnterVent";
 export * from "./player/ExitVent";
 export * from "./player/UseMovingPlatform";

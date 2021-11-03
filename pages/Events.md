@@ -128,6 +128,7 @@ client.on("player.setname", ev => {
 * {@link PlayerCheckNameEvent | `player.checkname`}
 * {@link PlayerClimbLadderEvent | `player.climbladder`}
 * {@link PlayerCompleteTaskEvent | `player.completetask`}
+* {@link PlayerDieEvent | `player.die`}
 * {@link PlayerEnterVentEvent | `player.entervent`}
 * {@link PlayerExitVentEvent | `player.exitvent`}
 * {@link PlayerJoinEvent | `player.join`}

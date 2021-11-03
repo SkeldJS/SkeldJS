@@ -162,8 +162,6 @@ export class Hostable<
      */
     netobjects: Map<number, Networkable<any, NetworkableEvents, this>>;
 
-    registeredPrefabs: Map<SpawnType, typeof Networkable[]>;
-
     /**
      * The current message stream to be sent to the server on fixed update.
      */
@@ -271,14 +269,14 @@ export class Hostable<
      */
     spawnPrefabs: Map<number, NetworkableConstructor<any>[]> = new Map([
         [SpawnType.ShipStatus, [ SkeldShipStatus ]],
-        [SpawnType.MeetingHud, [MeetingHud]],
-        [SpawnType.LobbyBehaviour, [LobbyBehaviour]],
-        [SpawnType.GameData, [GameData, VoteBanSystem]],
-        [SpawnType.Player, [PlayerControl, PlayerPhysics, CustomNetworkTransform]],
-        [SpawnType.Headquarters, [MiraShipStatus]],
-        [SpawnType.PlanetMap, [PolusShipStatus]],
-        [SpawnType.AprilShipStatus, [AprilShipStatus]],
-        [SpawnType.Airship, [AirshipStatus]]
+        [SpawnType.MeetingHud, [ MeetingHud ]],
+        [SpawnType.LobbyBehaviour, [ LobbyBehaviour ]],
+        [SpawnType.GameData, [ GameData, VoteBanSystem ]],
+        [SpawnType.Player, [ PlayerControl, PlayerPhysics, CustomNetworkTransform ]],
+        [SpawnType.Headquarters, [ MiraShipStatus ]],
+        [SpawnType.PlanetMap, [ PolusShipStatus ]],
+        [SpawnType.AprilShipStatus, [ AprilShipStatus ]],
+        [SpawnType.Airship, [ AirshipStatus ]]
     ]);
 
     /**
@@ -313,7 +311,6 @@ export class Hostable<
         this.objectList = [];
         this.players = new Map;
         this.netobjects = new Map;
-        this.registeredPrefabs = new Map;
         this.stream = [];
 
         this.decoder = new PacketDecoder;
@@ -405,24 +402,26 @@ export class Hostable<
         }
 
         if (this.endGameIntents.length) {
-            for (let i = 0; i < this.endGameIntents.length; i++) {
-                const intent = this.endGameIntents[i];
-                const ev = await this.emit(
-                    new RoomEndGameIntentEvent(
-                        this,
-                        intent.name,
-                        intent.reason,
-                        intent.metadata
-                    )
-                );
-                if (ev.canceled) {
-                    this.endGameIntents.splice(i, 1);
-                    i--;
+            if (this.hostIsMe) {
+                for (let i = 0; i < this.endGameIntents.length; i++) {
+                    const intent = this.endGameIntents[i];
+                    const ev = await this.emit(
+                        new RoomEndGameIntentEvent(
+                            this,
+                            intent.name,
+                            intent.reason,
+                            intent.metadata
+                        )
+                    );
+                    if (ev.canceled) {
+                        this.endGameIntents.splice(i, 1);
+                        i--;
+                    }
                 }
-            }
 
-            if (this.endGameIntents[0]) {
-                await this.endGame(this.endGameIntents[0].reason);
+                if (this.endGameIntents[0]) {
+                    await this.endGame(this.endGameIntents[0].reason);
+                }
             }
             this.endGameIntents.splice(0);
         }
