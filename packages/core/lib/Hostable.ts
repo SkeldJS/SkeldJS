@@ -402,9 +402,11 @@ export class Hostable<
         }
 
         if (this.endGameIntents.length) {
+            const endGameIntents = this.endGameIntents;
+            this.endGameIntents = [];
             if (this.hostIsMe) {
-                for (let i = 0; i < this.endGameIntents.length; i++) {
-                    const intent = this.endGameIntents[i];
+                for (let i = 0; i < endGameIntents.length; i++) {
+                    const intent = endGameIntents[i];
                     const ev = await this.emit(
                         new RoomEndGameIntentEvent(
                             this,
@@ -414,16 +416,15 @@ export class Hostable<
                         )
                     );
                     if (ev.canceled) {
-                        this.endGameIntents.splice(i, 1);
+                        endGameIntents.splice(i, 1);
                         i--;
                     }
                 }
 
-                if (this.endGameIntents[0]) {
-                    this.endGame(this.endGameIntents[0].reason);
+                if (endGameIntents[0]) {
+                    this.endGame(endGameIntents[0].reason);
                 }
             }
-            this.endGameIntents.splice(0);
         }
 
         const ev = await this.emit(
