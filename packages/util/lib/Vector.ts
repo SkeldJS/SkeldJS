@@ -144,7 +144,7 @@ export class Vector2 {
     static rotate(a: Vector2, radians: number) {
         const out = new Vector2;
         out.x = a.x * Math.cos(radians) - a.y * Math.sin(radians);
-        out.y = a.y * Math.cos(radians) - a.y * Math.sin(radians);
+        out.y = a.x * Math.sin(radians) + a.y * Math.cos(radians);
         return out;
     }
 

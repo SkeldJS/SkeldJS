@@ -794,7 +794,8 @@ export class Hostable<
                 );
             }
 
-            if (this.lobbyBehaviour) this.lobbyBehaviour.despawn();
+            if (this.lobbyBehaviour)
+                this.lobbyBehaviour.despawn();
 
             const shipPrefabs = [
                 SpawnType.ShipStatus,
@@ -808,6 +809,12 @@ export class Hostable<
             this.spawnPrefab(shipPrefabs[this.settings?.map] || 0, -2);
             await this.shipStatus?.selectImpostors();
             await this.shipStatus?.assignTasks();
+
+            if (this.shipStatus) {
+                for (const [ , player ] of this.players) {
+                    this.shipStatus.spawnPlayer(player, true);
+                }
+            }
         } else {
             await this.emit(new RoomGameStartEvent(this));
             await this.myPlayer?.ready();
