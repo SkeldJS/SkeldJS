@@ -127,7 +127,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             this.Setup();
         }
 
-        this.spawnRadius = 1;
+        this.spawnRadius = 1.55;
         this.initialSpawnCenter = Vector2.null;
         this.meetingSpawnCenter = Vector2.null;
     }
@@ -344,7 +344,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             : player.playerId!;
 
         return Vector2.up
-            .rotateDeg(playerId * (360 / this.room.players.size))
+            .rotateDeg((playerId - 1) * (360 / this.room.players.size))
             .mul(this.spawnRadius)
             .add(initialSpawn
                 ? this.initialSpawnCenter
