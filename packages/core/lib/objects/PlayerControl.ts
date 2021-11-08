@@ -1160,8 +1160,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param caller The player that called this meeting.
      * @param body The body that was reported, or "emergency" if it is an emergency meeting.
      */
-    startMeeting(caller: PlayerData, body: PlayerData | "emergency") {
-        this.emit(
+    async startMeeting(caller: PlayerData, body: PlayerData | "emergency") {
+        await this.emit(
             new PlayerStartMeetingEvent(
                 this.room,
                 this.player,
