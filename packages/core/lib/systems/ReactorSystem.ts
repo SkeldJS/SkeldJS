@@ -168,6 +168,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
 
     async HandleSabotage(player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
         this.timer = 45;
+        this.dirty = true;
         const oldCompleted = this.completed;
         this.completed = new Set;
 
