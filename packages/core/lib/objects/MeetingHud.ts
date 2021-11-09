@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter, sleep } from "@skeldjs/util";
 
-import { ChatNoteType, GameOverReason, PlayerDataFlags, RpcMessageTag, SpawnType } from "@skeldjs/constant";
+import { ChatNoteType, GameOverReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import {
     BaseRpcMessage,
@@ -261,9 +261,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
             this.votingComplete(tie, exiled);
             sleep(5000).then(() => {
-                if (this.exiled?.info) {
-                    this.exiled.info.flags |= PlayerDataFlags.IsDead;
-                }
+                this.exiled?.control?.kill("exiled");
                 this.close();
             });
         }
@@ -494,8 +492,6 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         }
         this.tie = tie;
         this.exiled = exiled;
-
-        await this.exiled?.control?.kill("exiled");
 
         if (exiled && this.room.gameData) {
             let aliveCrewmates = 0;
