@@ -49,7 +49,7 @@ export class HostGameMessage extends BaseRootMessage {
             writer.int32(this.code);
         } else {
             writer.write(this.options);
-            writer.uint8(this.quickchatMode);
+            writer.int32(2 ** 31 - 1); // cross play flags, max int for any crossplay
         }
     }
 

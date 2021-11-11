@@ -465,7 +465,7 @@ export class HazelWriter extends HazelBuffer {
      *
      * writer.string("poopy");
      * writer.string("poop");
-     * ``
+     * ```
      */
     string(val: string) {
         this.upacked(val.length);

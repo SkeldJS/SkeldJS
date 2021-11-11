@@ -1,6 +1,7 @@
 import dgram from "dgram";
 import dns from "dns";
 import util from "util";
+import crypto from "crypto";
 
 import {
     DisconnectReason,
@@ -9,10 +10,11 @@ import {
     SpawnType,
     RootMessageTag,
     GameMap,
-    GameKeyword
+    GameKeyword,
+    Platform
 } from "@skeldjs/constant";
 
-import { DisconnectMessages, MatchmakingServers } from "@skeldjs/data";
+import { DisconnectMessages } from "@skeldjs/data";
 
 import {
     AcknowledgePacket,
@@ -31,19 +33,33 @@ import {
     BaseRootPacket,
     MessageDirection,
     HostGameMessage,
-    AllGameSettings,
     GetGameListMessage,
     GameListing,
     RemovePlayerMessage,
-    StartGameMessage
+    StartGameMessage,
+    PingPacket,
+    AllGameSettings
 } from "@skeldjs/protocol";
 
-import { Code2Int, VersionInfo, HazelWriter, HazelReader } from "@skeldjs/util";
-import { LobbyBehaviour, PlayerData, PlayerJoinEvent, RoomID } from "@skeldjs/core";
+import {
+    VersionInfo,
+    HazelWriter,
+    HazelReader,
+    Code2Int
+} from "@skeldjs/util";
+
+import {
+    LobbyBehaviour,
+    PlayerData,
+    PlayerJoinEvent,
+    RoomID
+} from "@skeldjs/core";
+
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
+import { DtlsSocket } from "@skeldjs/dtls";
 
-import { ClientConfig } from "./interface/ClientConfig";
+import { AuthMethod, ClientConfig } from "./interfaces";
 
 import {
     ClientConnectEvent,
@@ -52,14 +68,19 @@ import {
     ClientJoinEvent,
 } from "./events";
 
-import { AuthClient } from "./AuthClient";
 import { JoinError } from "./errors/JoinError";
+
+import { AuthClient } from "./AuthClient";
 
 const lookupDns = util.promisify(dns.lookup);
 
-export interface SentPacket {
-    nonce: number;
-    ackd: boolean;
+export class SentPacket {
+    constructor(
+        public readonly sentAt: number,
+        public readonly nonce: number,
+        public readonly buffer: Buffer,
+        public readonly wasAcked: boolean
+    ) {}
 }
 
 export type SkeldjsClientEvents = SkeldjsStateManagerEvents &
@@ -81,74 +102,66 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * The options for the client.
      */
-    options: ClientConfig;
-
+    config: ClientConfig;
     /**
      * The datagram socket for the client.
      */
-    socket?: dgram.Socket;
-
+    socket?: DtlsSocket|dgram.Socket;
     /**
      * Auth client responsible for getting an authentication token from the
      * connected-to server.
      */
-    auth: AuthClient;
-
+    authClient: AuthClient;
     /**
      * The IP of the server that the client is currently connected to.
      */
     ip?: string;
-
     /**
      * The port of the server that the client is currently connected to.
      */
     port?: number;
-
     /**
      * An array of 8 of the most recent packets received from the server.
      */
     packetsReceived: number[];
-
     /**
      * An array of 8 of the most recent packet sent by the client.
      */
     packetsSent: SentPacket[];
 
     private _nonce = 0;
-
     /**
      * Whether or not the client is currently connected to a server.
      */
     connected!: boolean;
-
     /**
      * Whether or not the client has sent a disconnect packet.
      */
     sent_disconnect!: boolean;
-
     /**
      * Whether or not the client is identified with the connected server.
      */
     identified!: boolean;
-
     /**
      * The username of the client.
      */
     username?: string;
-
     /**
      * The version of the client.
      */
     version: VersionInfo;
-
     /**
      * The client ID of the client.
      */
-    clientId!: number;
-
-    token?: number;
-
+    clientId: number;
+    /**
+     * The next nonce that the client is expecting to receive from the server.
+     */
     nextExpectedNonce?: number;
+    /**
+     * A map from nonce->message that were received from the server with an
+     * unexpected nonce (out of order).
+     */
     unorderedMessageMap: Map<number, ReliablePacket>;
 
     /**
@@ -166,17 +179,19 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     ) {
         super({ doFixedUpdate: true });
 
-        this.options = {
+        this.config = {
             doFixedUpdate: true,
-            attemptAuth: true,
+            authMethod: AuthMethod.SecureTransport,
             allowHost: true,
             language: GameKeyword.English,
             chatMode: QuickChatMode.FreeChat,
             messageOrdering: false,
+            platform: Platform.StandaloneSteamPC,
+            eosProductUserId: crypto.randomBytes(16).toString("hex"),
             ...options
         };
 
-        this.auth = new AuthClient(this);
+        this.authClient = new AuthClient(this);
 
         if (version instanceof VersionInfo) {
             this.version = version;
@@ -186,6 +201,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.packetsReceived = [];
         this.packetsSent = [];
+
+        this.clientId = 0;
 
         this.nextExpectedNonce = undefined;
         this.unorderedMessageMap = new Map;
@@ -199,10 +216,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         });
 
         this.decoder.on(AcknowledgePacket, (message) => {
-            const sent = this.packetsSent.find(
-                (s) => s.nonce === message.nonce
-            );
-            if (sent) sent.ackd = true;
+            const idx = this.packetsSent.findIndex(sentPacket => sentPacket.buffer);
+            if (idx > 0) {
+                this.packetsSent.splice(idx, 1);
+            }
 
             for (const missing of message.missingPackets) {
                 if (missing < this.packetsReceived.length) {
@@ -237,15 +254,40 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     }
 
     get hostIsMe() {
-        return this.hostId === this.clientId && this.options.allowHost || false;
+        return this.hostId === this.clientId && this.config.allowHost || false;
     }
 
-    private async ack(nonce: number) {
-        await this.send(
+    pingInterval(socket: DtlsSocket|dgram.Socket) {
+        if (this.socket !== socket)
+            return;
+
+        this.send(new PingPacket(this.getNextNonce()));
+
+        let flag = false;
+        for (let i = 0; i < this.packetsSent.length; i++) {
+            const sentPacket = this.packetsSent[i];
+            if (Date.now() > sentPacket.sentAt + 1500) {
+                if (sentPacket.wasAcked) {
+                    flag = true;
+                } else {
+                    this.socket.send(sentPacket.buffer);
+                }
+            }
+        }
+        if (!flag) {
+            this.disconnect(DisconnectReason.None);
+            return;
+        }
+
+        setTimeout(this.pingInterval.bind(this, socket), 1500);
+    }
+
+    private ack(nonce: number) {
+        this.send(
             new AcknowledgePacket(
                 nonce,
                 this.packetsSent
-                    .filter((packet) => packet.ackd)
+                    .filter((packet) => !packet.wasAcked)
                     .map((_, i) => i)
             )
         );
@@ -255,54 +297,43 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * Connect to a region or IP. Optionally identify with a username (can be done later with the {@link SkeldjsClient.identify} method).
      * @param host The hostname to connect to.
      * @param username The username to identify with
-     * @param token The authorisation token. Currently unavailable, working on account system.
      * @param port The port to connect to.
-     * @param pem The public certificate of the server.
+     * @param eosProductUserId An Epic Online Services user ID to use, found in the "show account id" in the game account settings.
      * @example
      *```typescript
      * // Connect to an official Among Us region.
-     * await connect("NA", "weakeyes", 432432);
+     * await connect(OfficialServers.EU, "weakeyes", 432432);
      *
      * // Connect to a locally hosted private server.
      * await connect("127.0.0.1", "weakeyes", 3423432);
      * ```
      */
     async connect(
-        host: "NA" | "EU" | "AS",
-        username?: string,
-        port?: number
-    ): Promise<void>;
-    async connect(
         host: string,
         username?: string,
         port?: number
-    ): Promise<void>;
-    async connect(
-        host: string,
-        username?: string,
-        port: number = 22023
     ) {
         await this.disconnect();
-
-        if (host in MatchmakingServers) {
-            return await this.connect(
-                MatchmakingServers[host as "NA"|"EU"|"AS"][0],
-                username,
-                22023
-            );
-        }
-
         const ip = await lookupDns(host);
 
         this.nextExpectedNonce = undefined;
         this.ip = ip.address;
-        this.port = port;
+        this.port = port || 22023;
 
-        this.token = this.options.attemptAuth
-            ? await this.auth.getAuthToken(this.ip, this.port + 2)
+        if (this.config.authMethod === AuthMethod.SecureTransport) {
+            this.port += 3;
+        }
+
+        const authToken = this.config.authMethod === AuthMethod.NonceExchange
+            ? await this.authClient.getAuthToken(this.ip, this.port + 2, Platform.StandaloneSteamPC, this.config.eosProductUserId)
             : 0;
 
-        this.socket = dgram.createSocket("udp4");
+        if (this.config.authMethod === AuthMethod.SecureTransport) {
+            this.socket = new DtlsSocket;
+        } else {
+            this.socket = dgram.createSocket("udp4");
+        }
+        setTimeout(this.pingInterval.bind(this), 50);
         this.connected = true;
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
@@ -316,8 +347,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         );
 
         if (!ev.canceled) {
+            if (this.socket instanceof DtlsSocket) {
+                await this.socket.connect(this.port, this.ip);
+            }
             if (typeof username === "string") {
-                await this.identify(username, this.token);
+                await this.identify(username, authToken);
             }
         }
     }
@@ -336,6 +370,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this.connected = false;
         this.identified = false;
         this.username = undefined;
+        this._nonce = 0;
 
         this.packetsSent = [];
         this.packetsReceived = [];
@@ -346,10 +381,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * Disconnect from the server currently connected to.
      */
-    async disconnect(reason?: DisconnectReason, message?: string) {
+    disconnect(reason?: DisconnectReason, message?: string) {
         if (this.connected) {
             if (this.identified && !this.sent_disconnect) {
-                await this.send(new DisconnectPacket(reason, message, true));
+                this.send(new DisconnectPacket(reason, message, true));
                 this.sent_disconnect = true;
             }
             this.emit(
@@ -371,12 +406,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * await client.identify("weakeyes");
      * ```
      */
-    async identify(username: string, token: number = 0) {
+    async identify(username: string, authToken: number) {
         const ev = await this.emit(
             new ClientIdentifyEvent(
                 this,
                 username,
-                token
+                authToken
             )
         );
 
@@ -384,42 +419,43 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             return;
 
         const nonce = this.getNextNonce();
-        await this.send(
+        this.send(
             new HelloPacket(
                 nonce,
                 this.version,
                 username,
-                token,
-                this.options.language,
-                this.options.chatMode
+                this.config.authMethod === AuthMethod.SecureTransport
+                    ? this.config.eosProductUserId
+                    : authToken,
+                this.config.language,
+                this.config.chatMode,
+                Platform.StandaloneSteamPC,
+                "Steam"
             )
         );
 
-        await this.decoder.waitf(AcknowledgePacket, ack => ack.nonce ===  nonce);
+        await this.decoder.waitf(AcknowledgePacket, ack => ack.nonce === nonce);
 
         this.identified = true;
         this.username = username;
-        this.token = token;
     }
 
-    protected _send(buffer: Buffer): Promise<number> {
-        return new Promise((resolve, reject) => {
-            if (!this.socket) {
-                return resolve(0);
-            }
+    private _send(buffer: Buffer) {
+        if (!this.socket) {
+            return;
+        }
 
-            this.socket.send(buffer, this.port, this.ip, (err, written) => {
-                if (err) return reject(err);
-
-                resolve(written);
-            });
-        });
+        if (this.socket instanceof DtlsSocket) {
+            this.socket.send(buffer);
+        } else {
+            this.socket.send(buffer, this.port, this.ip);
+        }
     }
 
     /**
      * Send a packet to the connected server.
      */
-    async send(packet: BaseRootPacket): Promise<void> {
+    send(packet: BaseRootPacket): void {
         if (!this.socket) {
             return;
         }
@@ -434,41 +470,13 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             writer.write(packet, MessageDirection.Serverbound, this.decoder);
             writer.realloc(writer.cursor);
 
-            await this._send(writer.buffer);
+            this._send(writer.buffer);
 
             if ((packet as any).nonce !== undefined) {
-                const sent = {
-                    nonce: (packet as any).nonce,
-                    ackd: false,
-                };
+                const sent = new SentPacket(Date.now(), (packet as any).nonce, writer.buffer, false);
 
                 this.packetsSent.unshift(sent);
                 this.packetsSent.splice(8);
-
-                let attempts = 0;
-                const interval: NodeJS.Timeout = setInterval(async () => {
-                    if (sent.ackd) {
-                        return clearInterval(interval);
-                    } else {
-                        if (
-                            !this.packetsSent.find(
-                                (packet) => sent.nonce === packet.nonce
-                            )
-                        ) {
-                            return clearInterval(interval);
-                        }
-
-                        if (++attempts > 8) {
-                            await this.disconnect();
-                            clearInterval(interval);
-                        }
-
-                        if ((await this._send(writer.buffer)) === null) {
-                            await this.disconnect();
-                            clearInterval(interval);
-                        }
-                    }
-                }, 1500);
             }
         } else {
             const writer = HazelWriter.alloc(512);
@@ -476,7 +484,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             writer.write(packet, MessageDirection.Serverbound, this.decoder);
             writer.realloc(writer.cursor);
 
-            await this._send(writer.buffer);
+            this._send(writer.buffer);
         }
     }
 
@@ -505,7 +513,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 ...payloads,
             ];
 
-            await this.send(
+            this.send(
                 reliable
                     ? new ReliablePacket(this.getNextNonce(), children)
                     : new UnreliablePacket(children)
@@ -518,7 +526,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 ...payloads,
             ];
 
-            await this.send(
+            this.send(
                 reliable
                     ? new ReliablePacket(this.getNextNonce(), children)
                     : new UnreliablePacket(children)
@@ -533,7 +541,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             return;
 
         const parsedReliable = parsedPacket as ReliablePacket;
-
         const isReliable = parsedReliable.nonce !== undefined && parsedPacket.messageTag !== SendOption.Acknowledge;
 
         if (isReliable) {
@@ -550,7 +557,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 return;
             }
 
-            if (parsedReliable.nonce !== this.nextExpectedNonce && this.options.messageOrdering) {
+            if (parsedReliable.nonce !== this.nextExpectedNonce && this.config.messageOrdering) {
                 if (!this.unorderedMessageMap.has(parsedReliable.nonce)) {
                     this.unorderedMessageMap.set(parsedReliable.nonce, parsedReliable);
                 }
@@ -563,7 +570,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         await this.decoder.emitDecoded(parsedPacket, MessageDirection.Clientbound, undefined);
 
-        if (isReliable && this.options.messageOrdering) {
+        if (isReliable && this.config.messageOrdering) {
             // eslint-disable-next-line no-constant-condition
             while (true) {
                 const nextMessage = this.unorderedMessageMap.get(this.nextExpectedNonce!);
@@ -603,7 +610,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         if (this.hostIsMe) {
             this.spawnPrefab(SpawnType.Player, this.myPlayer.clientId);
         } else {
-            await this.send(
+            this.send(
                 new ReliablePacket(this.getNextNonce(), [
                     new GameDataMessage(this.code, [
                         new SceneChangeMessage(this.clientId, "OnlineGame"),
@@ -662,7 +669,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             await this.connect(this.ip, username, this.port);
         }
 
-        await this.send(
+        this.send(
             new ReliablePacket(
                 this.getNextNonce(),
                 [
@@ -736,13 +743,13 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             version: 2,
         });
 
-        await this.send(
+        this.send(
             new ReliablePacket(this.getNextNonce(), [
                 new HostGameMessage(settings, chatMode),
             ])
         );
 
-        const data= await Promise.race([
+        const data = await Promise.race([
             this.decoder.waitf(
                 JoinGameMessage,
                 (message) => message.error !== undefined
@@ -764,7 +771,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             case RootMessageTag.Redirect:
                 const username = this.username;
 
-                await this.disconnect();
+                this.disconnect();
                 await this.connect(
                     message.ip,
                     username,
@@ -826,7 +833,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             keywords: GameKeyword.English,
         });
 
-        await this.send(
+        this.send(
             new ReliablePacket(this.getNextNonce(), [
                 new GetGameListMessage(options, quickchat),
             ])

@@ -78,6 +78,8 @@ import {
     VentilationSystemMessage
 } from "./packets/system";
 
+import { PacketDecoderConfig } from "./misc";
+
 export enum MessageDirection {
     Clientbound,
     Serverbound,
@@ -118,6 +120,8 @@ export interface Deserializable {
 export type MessageMapKey = `${string}:${number}`;
 
 export class PacketDecoder<ContextType = any> {
+    config: PacketDecoderConfig;
+
     listeners: Map<MessageMapKey, Set<(
             message: Serializable,
             direction: MessageDirection,
@@ -126,7 +130,12 @@ export class PacketDecoder<ContextType = any> {
     >;
     types: Map<MessageMapKey, Deserializable>;
 
-    constructor() {
+    constructor(config: Partial<PacketDecoderConfig> = {}) {
+        this.config = {
+            useDtlsLayout: false,
+            ...config
+        };
+
         this.listeners = new Map;
         this.types = new Map;
 

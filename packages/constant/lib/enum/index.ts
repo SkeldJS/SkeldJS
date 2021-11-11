@@ -12,6 +12,7 @@ export * from "./KillDistance";
 export * from "./LimboState";
 export * from "./Platform";
 export * from "./QuickChatMode";
+export * from "./RoleType";
 export * from "./RuntimePlatform";
 export * from "./StringNames";
 export * from "./TaskBarMode";

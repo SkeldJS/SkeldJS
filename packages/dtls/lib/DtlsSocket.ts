@@ -108,9 +108,9 @@ export class DtlsSocket extends EventEmitter {
             cookie: Buffer.alloc(0),
             verificationStream: [],
             serverPublicKey: undefined,
-            clientRandom: Buffer.alloc(0),
-            serverRandom: Buffer.alloc(0),
-            masterSecret: Buffer.alloc(0),
+            clientRandom: Buffer.alloc(32),
+            serverRandom: Buffer.alloc(32),
+            masterSecret: Buffer.alloc(32),
             serverVerification: Buffer.alloc(0),
             certificateFragments: [],
             certificatePayload: Buffer.alloc(0)
@@ -120,7 +120,7 @@ export class DtlsSocket extends EventEmitter {
         this.serverCertificates = [];
     }
 
-    async connect(ip: string, port: number) {
+    async _connect(port: number, ip: string) {
         return new Promise<void>((resolve, reject) => {
             if (this.socket) {
                 this.socket.close();
@@ -145,6 +145,18 @@ export class DtlsSocket extends EventEmitter {
                 reject(e);
             }
         });
+    }
+
+    async connect(port: number, ip: string) {
+        await this._connect(port, ip);
+        this.resetConnectionState();
+        crypto.randomFillSync(this.nextEpoch.clientRandom, 0);
+        this.sendClientHello();
+    }
+
+    async close() {
+        this.socket?.close();
+        this.resetConnectionState();
     }
 
     resetConnectionState() {
@@ -184,14 +196,6 @@ export class DtlsSocket extends EventEmitter {
 
     setValidServerCertificates(certificates: x509Certificate[]) {
         this.serverCertificates.push(...certificates);
-    }
-
-    restartConnection() {
-        this.resetConnectionState();
-        crypto.randomFillSync(this.nextEpoch.clientRandom, 0);
-        this.sendClientHello();
-
-        // todo: https://github.com/willardf/Hazel-Networking/blob/2a4a13eeb77b969743d656e114cd2de6479499e6/Hazel/Dtls/DtlsUnityConnection.cs#L205
     }
 
     resendPacketsIfNeeded() {
@@ -269,10 +273,10 @@ export class DtlsSocket extends EventEmitter {
         return packet.buffer;
     }
 
-    send(bytes: Buffer) {
+    send(bytes: Buffer, cb?: (err: Error|null, bytesWritten: number) => void) {
         const wireData = this.createWireData(bytes);
         if (wireData.byteLength) {
-            this.socket?.send(wireData);
+            this.socket?.send(wireData, cb);
         }
     }
 

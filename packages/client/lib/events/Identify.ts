@@ -13,12 +13,12 @@ export class ClientIdentifyEvent extends ClientEvent {
     /**
      * The token for
      */
-    token: number;
+    authToken: number;
 
-    constructor(client: SkeldjsClient, username: string, token: number) {
+    constructor(client: SkeldjsClient, username: string, authToken: number) {
         super(client);
 
         this.username = username;
-        this.token = token;
+        this.authToken = authToken;
     }
 }

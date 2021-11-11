@@ -1,13 +1,13 @@
 import { Int2Code } from "@skeldjs/util";
 import * as skeldjs from "../index";
 
-const connectRegion = process.argv[2];
+const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof skeldjs.OfficialServers] || process.argv[2];
 
 (async () => {
-    const client = new skeldjs.SkeldjsClient("2021.6.30s", { attemptAuth: false, messageOrdering: true });
+    const client = new skeldjs.SkeldjsClient("2021.11.9.0s", { authMethod: skeldjs.AuthMethod.SecureTransport });
 
     console.log("Connecting to server..");
-    await client.connect(connectRegion, "weakeyes");
+    await client.connect(connectRegion, "weakeyes", undefined);
 
     client.on("player.join", ev => {
         client.myPlayer?.control?.setName("weakeyes");

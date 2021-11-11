@@ -34,9 +34,9 @@ export class ReactorClient {
                     nonce,
                     client.version,
                     identify.username,
-                    identify.token,
-                    client.options.language,
-                    client.options.chatMode,
+                    identify.authToken,
+                    client.config.language,
+                    client.config.chatMode,
                     1,
                     this.mods.size
                 )
@@ -49,7 +49,6 @@ export class ReactorClient {
 
             client.identified = true;
             client.username = identify.username;
-            client.token = identify.token;
 
             let incrNetid = 0;
             for (const [ , mod ] of this.mods) {

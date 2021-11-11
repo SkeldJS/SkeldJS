@@ -13,8 +13,7 @@ import {
 
 import { HazelWriter, sleep, VersionInfo } from "@skeldjs/util";
 import { SkeldjsClient } from "./client";
-import { AuthHelloPacket } from "./packets/AuthHello";
-import { TokenResponseMessage } from "./packets/TokenResponse";
+import { AuthHelloPacket, TokenResponseMessage } from "./packets";
 
 export class AuthClient {
     socket: DtlsSocket
@@ -41,9 +40,8 @@ export class AuthClient {
         });
     }
 
-    async getAuthToken(ip: string, port: number) {
-        await this.socket.connect(ip, port);
-        this.socket.restartConnection();
+    async getAuthToken(ip: string, port: number, platform: Platform, eosProductUserId: string) {
+        await this.socket.connect(port, ip);
 
         const helloWriter = HazelWriter.alloc(11);
         helloWriter.uint8(AuthHelloPacket.messageTag);
@@ -51,8 +49,8 @@ export class AuthClient {
             new AuthHelloPacket(
                 1,
                 VersionInfo.from(0x03030fcc),
-                Platform.StandaloneItch,
-                ""
+                platform,
+                eosProductUserId
             )
         );
 
