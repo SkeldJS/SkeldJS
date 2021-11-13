@@ -59,7 +59,7 @@ import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { DtlsSocket } from "@skeldjs/dtls";
 
-import { AuthMethod, ClientConfig } from "./interfaces";
+import { AuthMethod, ClientConfig, PortOptions } from "./interfaces";
 
 import {
     ClientConnectEvent,
@@ -311,32 +311,39 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     async connect(
         host: string,
         username?: string,
-        port?: number
+        port?: number|PortOptions
     ) {
         await this.disconnect();
         const ip = await lookupDns(host);
 
         this.nextExpectedNonce = undefined;
         this.ip = ip.address;
-        this.port = port || 22023;
+        this.port = typeof port === "number"
+            ? port
+            : port?.insecureGameServer || 22023;
 
         if (this.config.authMethod === AuthMethod.SecureTransport) {
-            this.port += 3;
+            this.port = typeof port === "object"
+                ? port.secureGameServer
+                : this.port + 3;
         }
 
         const authToken = this.config.authMethod === AuthMethod.NonceExchange
-            ? await this.authClient.getAuthToken(this.ip, this.port + 2, Platform.StandaloneSteamPC, this.config.eosProductUserId)
-            : 0;
+            ? await this.authClient.getAuthToken(
+                this.ip,
+                typeof port === "object"
+                    ? port.authServer
+                    : this.port + 2,
+                Platform.StandaloneSteamPC,
+                this.config.eosProductUserId
+            ) : 0;
 
-        if (this.config.authMethod === AuthMethod.SecureTransport) {
-            this.socket = new DtlsSocket;
-        } else {
-            this.socket = dgram.createSocket("udp4");
-        }
-        setTimeout(this.pingInterval.bind(this), 50);
-        this.connected = true;
+        this.socket = this.config.authMethod === AuthMethod.SecureTransport
+            ? new DtlsSocket
+            : dgram.createSocket("udp4");
 
         this.socket.on("message", this.handleInboundMessage.bind(this));
+        setTimeout(this.pingInterval.bind(this), 50);
 
         const ev = await this.emit(
             new ClientConnectEvent(
@@ -349,6 +356,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         if (!ev.canceled) {
             if (this.socket instanceof DtlsSocket) {
                 await this.socket.connect(this.port, this.ip);
+                this.connected = true;
             }
             if (typeof username === "string") {
                 await this.identify(username, authToken);
