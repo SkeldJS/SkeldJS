@@ -1,7 +1,6 @@
-import { Language, StringNames } from "@skeldjs/constant";
-
-import fs from "fs/promises";
-import path from "path";
+const { Language, StringNames } = require("@skeldjs/constant");
+const fs = require("fs/promises");
+const path = require("path");
 
 const nameToLanguageId = {
     "English": Language.English,
@@ -96,12 +95,12 @@ export const AllTranslations: Record<Language, Partial<Record<StringNames, strin
         for (const stringName in processedTranslations[languageName]) {
             const stringText = processedTranslations[languageName][stringName];
             if (typeof stringText === "string") {
-                outputText += `${TAB}${TAB}[StringNames.${stringName}]: "${stringText}",\n`;
+                outputText += `${TAB}${TAB}[StringNames.${stringName}]: "${stringText.trim()}",\n`;
             } else {
                 outputText += `${TAB}${TAB}[StringNames.${stringName}]: {\n`;
 
                 for (const pathName in processedTranslations[languageName][stringName]) {
-                    outputText += `${TAB}${TAB}${TAB}"${pathName}": "${processedTranslations[languageName][stringName][pathName]}",\n`;
+                    outputText += `${TAB}${TAB}${TAB}"${pathName}": "${processedTranslations[languageName][stringName][pathName].trim()}",\n`;
                 }
 
                 outputText = outputText.substr(0, outputText.length - 2); // remove ending ,
