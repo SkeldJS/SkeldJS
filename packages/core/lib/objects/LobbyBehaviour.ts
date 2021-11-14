@@ -47,7 +47,7 @@ export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networ
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
-        if (component === LobbyBehaviour as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.LobbyBehaviour && component === LobbyBehaviour as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

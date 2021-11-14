@@ -9,15 +9,6 @@ const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof sk
     console.log("Connecting to server..");
     await client.connect(connectRegion, "weakeyes", undefined);
 
-    client.on("player.join", ev => {
-        client.myPlayer?.control?.setName("weakeyes");
-        client.myPlayer?.control?.setColor(skeldjs.Color.Red);
-        client.setSettings({
-            votingTime: 30,
-            discussionTime: 0
-        });
-    });
-
     console.log("Creating game..");
     const code = await client.createGame(
         {
@@ -28,6 +19,13 @@ const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof sk
         }
     );
 
+    client.myPlayer!.control!.setName("weakeyes");
+    client.myPlayer!.control!.setColor(skeldjs.Color.Red);
+    client.setSettings({
+        votingTime: 30,
+        discussionTime: 0
+    });
+
     client.on("room.endgameintent", ev => {
         if (ev.intentName === skeldjs.AmongUsEndGames.PlayersKill) {
             ev.cancel();
@@ -36,10 +34,6 @@ const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof sk
 
     client.on("room.selectimpostors", ev => {
         ev.setImpostors([...ev.room.players.values()].filter(player => player !== client.myPlayer));
-    });
-
-    client.on("player.chat", ev => {
-        client.startGame();
     });
 
     console.log(

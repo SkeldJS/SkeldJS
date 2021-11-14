@@ -61,11 +61,13 @@ import {
     SetHatMessage,
     SetInfectedMessage,
     SetNameMessage,
+    SetNameplateMessage,
     SetPetMessage,
     SetScanner,
     SetSkinMessage,
     SetStartCounterMessage,
     SetTasksMessage,
+    SetVisorMessage,
     SnapToMessage,
     StartMeetingMessage,
     SyncSettingsMessage,
@@ -182,7 +184,6 @@ export class PacketDecoder<ContextType = any> {
             DespawnMessage,
             ReadyMessage,
             RpcMessage,
-            SceneChangeMessage,
             SpawnMessage
         );
 
@@ -203,16 +204,14 @@ export class PacketDecoder<ContextType = any> {
             PlayAnimationMessage,
             RepairSystemMessage,
             ReportDeadBodyMessage,
+            SceneChangeMessage,
             SendChatMessage,
             SendChatNoteMessage,
             SendQuickChatMessage,
             SetColorMessage,
-            SetHatMessage,
             SetInfectedMessage,
             SetNameMessage,
-            SetPetMessage,
             SetScanner,
-            SetSkinMessage,
             SetStartCounterMessage,
             SetTasksMessage,
             SnapToMessage,
@@ -220,7 +219,12 @@ export class PacketDecoder<ContextType = any> {
             SyncSettingsMessage,
             UpdateSystemMessage,
             UsePlatformMessage,
-            VotingCompleteMessage
+            VotingCompleteMessage,
+            SetHatMessage,
+            SetSkinMessage,
+            SetPetMessage,
+            SetVisorMessage,
+            SetNameplateMessage
         );
 
         this.register(

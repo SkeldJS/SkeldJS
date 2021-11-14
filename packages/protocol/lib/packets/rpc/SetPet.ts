@@ -1,4 +1,4 @@
-import { Pet, RpcMessageTag } from "@skeldjs/constant";
+import { RpcMessageTag } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
@@ -6,25 +6,25 @@ export class SetPetMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SetPet as const;
     messageTag = RpcMessageTag.SetPet as const;
 
-    pet: Pet;
+    petId: string;
 
-    constructor(pet: Pet) {
+    constructor(petId: string) {
         super();
 
-        this.pet = pet;
+        this.petId = petId;
     }
 
     static Deserialize(reader: HazelReader) {
-        const pet = reader.upacked();
+        const petId = reader.string();
 
-        return new SetPetMessage(pet);
+        return new SetPetMessage(petId);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.upacked(this.pet);
+        writer.string(this.petId);
     }
 
     clone() {
-        return new SetPetMessage(this.pet);
+        return new SetPetMessage(this.petId);
     }
 }

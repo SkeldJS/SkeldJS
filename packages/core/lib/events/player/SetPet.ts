@@ -1,5 +1,4 @@
 import { BasicEvent } from "@skeldjs/events";
-import { Pet } from "@skeldjs/constant";
 import { SetPetMessage } from "@skeldjs/protocol";
 
 import { RoomEvent } from "../RoomEvent";
@@ -15,7 +14,7 @@ export class PlayerSetPetEvent<RoomType extends Hostable = Hostable> extends Bas
     static eventName = "player.setpet" as const;
     eventName = "player.setpet" as const;
 
-    private _alteredPet: Pet;
+    private _alteredPetId: string;
 
     constructor(
         public readonly room: RoomType,
@@ -24,36 +23,36 @@ export class PlayerSetPetEvent<RoomType extends Hostable = Hostable> extends Bas
         /**
          * The pet that hte player had before.
          */
-        public readonly oldPet: Pet,
+        public readonly oldPetId: string,
         /**
          * The new pet that the player has.
          */
-        public readonly newPet: Pet
+        public readonly newPetId: string
     ) {
         super();
 
-        this._alteredPet = newPet;
+        this._alteredPetId = newPetId;
     }
 
     /**
      * The altered pet that the player will have set instead, if changed.
      */
-    get alteredPet() {
-        return this._alteredPet;
+    get alteredPetId() {
+        return this._alteredPetId;
     }
 
     /**
      * Revert the player's pet back to their old pet.
      */
     revert() {
-        this.setPet(this.oldPet);
+        this.setPet(this.oldPetId);
     }
 
     /**
      * Change the pet that the player had set.
      * @param pet The pet to set.
      */
-    setPet(pet: Pet) {
-        this._alteredPet = pet;
+    setPet(pet: string) {
+        this._alteredPetId = pet;
     }
 }

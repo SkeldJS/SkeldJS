@@ -109,7 +109,7 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
-        if (component === AirshipStatus as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.Airship && component === AirshipStatus as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

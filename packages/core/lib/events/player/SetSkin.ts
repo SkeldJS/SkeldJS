@@ -1,5 +1,4 @@
 import { BasicEvent } from "@skeldjs/events";
-import { Skin } from "@skeldjs/constant";
 import { SetSkinMessage } from "@skeldjs/protocol";
 
 import { RoomEvent } from "../RoomEvent";
@@ -15,7 +14,7 @@ export class PlayerSetSkinEvent<RoomType extends Hostable = Hostable> extends Ba
     static eventName = "player.setskin" as const;
     eventName = "player.setskin" as const;
 
-    private _alteredSkin: Skin;
+    private _alteredSkinId: string;
 
     constructor(
         public readonly room: RoomType,
@@ -24,36 +23,36 @@ export class PlayerSetSkinEvent<RoomType extends Hostable = Hostable> extends Ba
         /**
          * The skin that the player had before.
          */
-        public readonly oldSkin: Skin,
+        public readonly oldSkinId: string,
         /**
          * The new skin that the player has.
          */
-        public readonly newSkin: Skin
+        public readonly newSkinId: string
     ) {
         super();
 
-        this._alteredSkin = newSkin;
+        this._alteredSkinId = newSkinId;
     }
 
     /**
      * The altered skin that the player will have set instead, if changed.
      */
     get alteredSkin() {
-        return this._alteredSkin;
+        return this._alteredSkinId;
     }
 
     /**
      * Revert the player's skin back to their old skin.
      */
     revert() {
-        this.setSkin(this.oldSkin);
+        this.setSkin(this.oldSkinId);
     }
 
     /**
      * Change the skin that the player had set.
      * @param skin The skin to set.
      */
-    setSkin(skin: Skin) {
-        this._alteredSkin = skin;
+    setSkin(skin: string) {
+        this._alteredSkinId = skin;
     }
 }

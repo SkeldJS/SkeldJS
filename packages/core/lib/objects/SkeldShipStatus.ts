@@ -51,7 +51,7 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
-        if (component === SkeldShipStatus as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.SkeldShipStatus && component === SkeldShipStatus as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

@@ -27,7 +27,6 @@ import {
     ReliablePacket,
     UnreliablePacket,
     GameDataMessage,
-    SceneChangeMessage,
     JoinGameMessage,
     RedirectMessage,
     BaseRootPacket,
@@ -38,7 +37,8 @@ import {
     RemovePlayerMessage,
     StartGameMessage,
     PingPacket,
-    AllGameSettings
+    AllGameSettings,
+    SceneChangeMessage
 } from "@skeldjs/protocol";
 
 import {

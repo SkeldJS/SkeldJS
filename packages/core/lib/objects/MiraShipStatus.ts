@@ -38,7 +38,7 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
-        if (component === MiraShipStatus as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.MiraShipStatus && component === MiraShipStatus as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

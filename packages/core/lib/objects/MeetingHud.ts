@@ -113,7 +113,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
-        if (component === MeetingHud as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.MeetingHud && component === MeetingHud as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

@@ -19,6 +19,7 @@ import {
     PlayerSetHostEvent,
     PlayerSpawnEvent,
 } from "./events";
+
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 import { NetworkableEvents } from "./Networkable";
 

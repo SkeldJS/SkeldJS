@@ -1,10 +1,6 @@
 import {
-    Color,
     GameOverReason,
-    Hat,
-    Pet,
     RpcMessageTag,
-    Skin,
     SpawnType,
 } from "@skeldjs/constant";
 
@@ -27,7 +23,13 @@ import {
     GameDataRemovePlayerEvent,
     GameDataSetTasksEvent,
 } from "../events";
-import { AmongUsEndGames, EndGameIntent, FinalTaskState, TasksCompleteEndgameMetadata } from "../endgame";
+
+import {
+    AmongUsEndGames,
+    EndGameIntent,
+    FinalTaskState,
+    TasksCompleteEndgameMetadata
+} from "../endgame";
 
 export interface GameDataData {
     players: Map<number, PlayerInfo>;
@@ -83,12 +85,14 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
-        if (component === GameData as NetworkableConstructor<any>) {
-            return this.components[0] as unknown as T;
-        }
+        if (this.spawnType === SpawnType.GameData) {
+            if (component === GameData as NetworkableConstructor<any>) {
+                return this.components[0] as unknown as T;
+            }
 
-        if (component === VoteBanSystem as NetworkableConstructor<any>) {
-            return this.components[1] as unknown as T;
+            if (component === VoteBanSystem as NetworkableConstructor<any>) {
+                return this.components[1] as unknown as T;
+            }
         }
 
         return super.getComponent(component);
@@ -113,34 +117,24 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
-        if (!this.players) this.players = new Map;
+        if (!this.players)
+            this.players = new Map;
 
-        if (spawn) {
-            const num_players = reader.upacked();
+        while (reader.left) {
+            const [ playerId, preader ] = reader.message();
 
-            for (let i = 0; i < num_players; i++) {
-                const playerId = reader.uint8();
-                const player = PlayerInfo.Deserialize(reader, this, playerId);
+            const player = this.players.get(playerId);
+
+            if (player) {
+                player.Deserialize(preader);
+            } else {
+                const player = PlayerInfo.Deserialize(
+                    preader,
+                    this,
+                    playerId
+                );
 
                 this.players.set(player.playerId, player);
-            }
-        } else {
-            while (reader.left) {
-                const [playerId, preader] = reader.message();
-
-                const player = this.players.get(playerId);
-
-                if (player) {
-                    player.Deserialize(preader);
-                } else {
-                    const player = PlayerInfo.Deserialize(
-                        preader,
-                        this,
-                        playerId
-                    );
-
-                    this.players.set(player.playerId, player);
-                }
             }
         }
     }
@@ -148,20 +142,11 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     Serialize(writer: HazelWriter, spawn: boolean = false) {
         let flag = false;
 
-        if (spawn) {
-            writer.upacked(this.players.size);
-        }
-
-        for (const [playerid, player] of this.players) {
-            if ((1 << playerid) & this.dirtyBit || spawn) {
-                if (spawn) {
-                    writer.uint8(player.playerId);
-                    writer.write(player);
-                } else {
-                    writer.begin(player.playerId);
-                    writer.write(player);
-                    writer.end();
-                }
+        for (const [ playerId, player ] of this.players) {
+            if (((1 << playerId) & this.dirtyBit) || spawn) {
+                writer.begin(player.playerId);
+                writer.write(player);
+                writer.end();
                 flag = true;
             }
         }
@@ -187,96 +172,6 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
         if (player) {
             this.dirtyBit |= 1 << player.playerId;
-        }
-    }
-
-    /**
-     * Change the name of a player (Will not update on clients, use {@link PlayerControl.setName}).
-     * @param resolvable The player to change the name of.
-     * @param name The name to change to.
-     * @example
-     *```typescript
-     * room.gamedata.setName(player, "weakeyes");
-     * ```
-     */
-    setName(resolvable: PlayerIDResolvable, name: string) {
-        const player = this.resolvePlayerData(resolvable);
-
-        if (player) {
-            player.name = name;
-            this.update(player);
-        }
-    }
-
-    /**
-     * Change the colour of a player (Will not update on clients, use {@link PlayerControl.setColor}).
-     * @param resolvable The player to change the colour of.
-     * @param color The colour to change to.
-     * @example
-     *```typescript
-     * room.gamedata.setColor(player, ColorID.Blue);
-     * ```
-     */
-    setColor(resolvable: PlayerIDResolvable, color: Color) {
-        const player = this.resolvePlayerData(resolvable);
-
-        if (player) {
-            player.color = color;
-            this.update(player);
-        }
-    }
-
-    /**
-     * Change the hat of a player.
-     * @param resolvable The player to change the hat of.
-     * @param hat The hat to change to.
-     * @example
-     *```typescript
-     * room.gamedata.setHat(player, HatID.TopHat);
-     * ```
-     */
-    setHat(resolvable: PlayerIDResolvable, hat: Hat) {
-        const player = this.resolvePlayerData(resolvable);
-
-        if (player) {
-            player.hat = hat;
-            this.update(player);
-        }
-    }
-
-    /**
-     * Change the skin of a player.
-     * @param resolvable The player to change the skin of.
-     * @param skin The skin to change to.
-     * @example
-     *```typescript
-     * room.gamedata.setSkin(player, SkinID.Mechanic);
-     * ```
-     */
-    setSkin(resolvable: PlayerIDResolvable, skin: Skin) {
-        const player = this.resolvePlayerData(resolvable);
-
-        if (player) {
-            player.skin = skin;
-            this.update(player);
-        }
-    }
-
-    /**
-     * Change the pet of a player.
-     * @param resolvable The player to change the pet of.
-     * @param skin The pet to change to.
-     * @example
-     *```typescript
-     * room.gamedata.setPet(player, PetID.MiniCrewmate);
-     * ```
-     */
-    setPet(resolvable: PlayerIDResolvable, pet: Pet) {
-        const player = this.resolvePlayerData(resolvable);
-
-        if (player) {
-            player.pet = pet;
-            this.update(player);
         }
     }
 
@@ -394,7 +289,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
                             completeTasks++;
                         }
                         states.push({
-                            taskId: playerInfo.taskIds[task.taskidx],
+                            taskId: playerInfo.taskIds[task.taskIdx],
                             completed: task.completed
                         });
                     }

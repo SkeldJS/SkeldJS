@@ -20,9 +20,11 @@ import {
     SetHatMessage,
     SetInfectedMessage,
     SetNameMessage,
+    SetNameplateMessage,
     SetPetMessage,
     SetSkinMessage,
     SetStartCounterMessage,
+    SetVisorMessage,
     StartMeetingMessage,
     SyncSettingsMessage,
     UsePlatformMessage
@@ -38,7 +40,10 @@ import {
     Pet,
     SystemType,
     StringNames,
-    GameOverReason
+    GameOverReason,
+    PlayerOutfitType,
+    Visor,
+    Nameplate
 } from "@skeldjs/constant";
 
 import {
@@ -59,7 +64,9 @@ import {
     PlayerSetStartCounterEvent,
     PlayerStartMeetingEvent,
     PlayerSyncSettingsEvent,
-    PlayerDieEvent
+    PlayerDieEvent,
+    PlayerSetVisorEvent,
+    PlayerSetNameplateEvent
 } from "../events";
 
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -97,9 +104,11 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
             PlayerSetHatEvent<RoomType>,
             PlayerSetImpostorsEvent<RoomType>,
             PlayerSetNameEvent<RoomType>,
+            PlayerSetNameplateEvent<RoomType>,
             PlayerSetPetEvent<RoomType>,
             PlayerSetSkinEvent<RoomType>,
             PlayerSetStartCounterEvent<RoomType>,
+            PlayerSetVisorEvent<RoomType>,
             PlayerStartMeetingEvent<RoomType>,
             PlayerSyncSettingsEvent<RoomType>
         ]
@@ -172,16 +181,18 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
-        if (component === PlayerControl as NetworkableConstructor<any>) {
-            return this.components[0] as unknown as T;
-        }
+        if (this.spawnType === SpawnType.Player) {
+            if (component === PlayerControl as NetworkableConstructor<any>) {
+                return this.components[0] as unknown as T;
+            }
 
-        if (component === PlayerPhysics as NetworkableConstructor<any>) {
-            return this.components[1] as unknown as T;
-        }
+            if (component === PlayerPhysics as NetworkableConstructor<any>) {
+                return this.components[1] as unknown as T;
+            }
 
-        if (component === CustomNetworkTransform as NetworkableConstructor<any>) {
-            return this.components[2] as unknown as T;
+            if (component === CustomNetworkTransform as NetworkableConstructor<any>) {
+                return this.components[2] as unknown as T;
+            }
         }
 
         return undefined;
@@ -232,12 +243,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             case RpcMessageTag.SetColor:
                 await this._handleSetColor(rpc as SetColorMessage);
                 break;
-            case RpcMessageTag.SetHat:
-                await this._handleSetHat(rpc as SetHatMessage);
-                break;
-            case RpcMessageTag.SetSkin:
-                await this._handleSetSkin(rpc as SetSkinMessage);
-                break;
             case RpcMessageTag.ReportDeadBody:
                 if (this.room.hostIsMe) {
                     await this._handleReportDeadBody(
@@ -254,9 +259,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             case RpcMessageTag.StartMeeting:
                 await this._handleStartMeeting(rpc as StartMeetingMessage);
                 break;
-            case RpcMessageTag.SetPet:
-                await this._handleSetPet(rpc as SetPetMessage);
-                break;
             case RpcMessageTag.SetStartCounter:
                 await this._handleSetStartCounter(
                     rpc as SetStartCounterMessage
@@ -267,6 +269,21 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 break;
             case RpcMessageTag.SendQuickChat:
                 await this._handleSendQuickChat(rpc as SendQuickChatMessage);
+                break;
+            case RpcMessageTag.SetHat:
+                await this._handleSetHat(rpc as SetHatMessage);
+                break;
+            case RpcMessageTag.SetSkin:
+                await this._handleSetSkin(rpc as SetSkinMessage);
+                break;
+            case RpcMessageTag.SetPet:
+                await this._handleSetPet(rpc as SetPetMessage);
+                break;
+            case RpcMessageTag.SetVisor:
+                await this._handleSetVisor(rpc as SetVisorMessage);
+                break;
+            case RpcMessageTag.SetNameplate:
+                await this._handleSetNameplate(rpc as SetNameplateMessage);
                 break;
         }
     }
@@ -489,7 +506,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player.name.toLowerCase() === newName.toLowerCase()
+                    player.getOutfit(PlayerOutfitType.Default).name.toLowerCase() === newName.toLowerCase()
             )
         ) {
             for (let i = 1; i < 100; i++) {
@@ -499,7 +516,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                     !players.some(
                         (player) =>
                             player.playerId !== this.playerId &&
-                            player.name.toLowerCase() === newName.toLowerCase()
+                            player.getOutfit(PlayerOutfitType.Default).name.toLowerCase() === newName.toLowerCase()
                     )
                 ) {
                     break;
@@ -544,10 +561,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetName(rpc: SetNameMessage) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldName = playerInfo?.name;
-        if (playerInfo)
-            playerInfo.name = rpc.name;
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldName = defaultOutfit?.name;
+        if (defaultOutfit)
+            defaultOutfit.name = rpc.name;
 
         const ev = await this.emit(
             new PlayerSetNameEvent(
@@ -559,8 +577,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
 
-        if (playerInfo)
-            playerInfo.name = ev.alteredName;
+        playerInfo?.setName(PlayerOutfitType.Default, ev.alteredName);
 
         if (ev.alteredName !== rpc.name)
             this._rpcSetName(ev.alteredName);
@@ -584,10 +601,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param name The name to set this player's name to.
      */
     async setName(name: string) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldName = playerInfo?.name;
-        if (playerInfo)
-            playerInfo.name = name;
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldName = defaultOutfit?.name;
+        if (defaultOutfit)
+            defaultOutfit.name = name;
 
         const ev = await this.emit(
             new PlayerSetNameEvent(
@@ -599,8 +617,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
 
-        if (playerInfo)
-            playerInfo.name = ev.alteredName;
+        playerInfo?.setName(PlayerOutfitType.Default, ev.alteredName);
 
         if (ev.alteredName !== oldName)
             this._rpcSetName(ev.alteredName);
@@ -618,7 +635,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player.color === newColor
+                    player.getOutfit(PlayerOutfitType.Default).color === newColor
             )
         ) {
             newColor++;
@@ -668,11 +685,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetColor(rpc: SetColorMessage) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldColor = playerInfo?.color;
-
-        if (playerInfo)
-            playerInfo.color = rpc.color;
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldColor = defaultOutfit?.color;
+        if (defaultOutfit)
+            defaultOutfit.color = rpc.color;
 
         const ev = await this.emit(
             new PlayerSetColorEvent(
@@ -684,8 +701,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
 
-        if (playerInfo)
-            playerInfo.color = ev.alteredColor;
+        playerInfo?.setColor(PlayerOutfitType.Default, ev.alteredColor);
 
         if (ev.alteredColor !== rpc.color)
             this._rpcSetColor(ev.alteredColor);
@@ -709,10 +725,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param color The color to set this player's name to.
      */
     async setColor(color: Color) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldColor = playerInfo?.color;
-        if (playerInfo)
-            playerInfo.color = color;
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldColor = defaultOutfit?.color;
+        if (defaultOutfit)
+            defaultOutfit.color = color;
 
         const ev = await this.emit(
             new PlayerSetColorEvent(
@@ -724,139 +741,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
 
-        if (playerInfo)
-            playerInfo.color = ev.alteredColor;
-
+        playerInfo?.setColor(PlayerOutfitType.Default, ev.alteredColor);
 
         if (ev.alteredColor !== oldColor) {
             this._rpcSetColor(ev.alteredColor);
         }
-    }
-
-    private async _handleSetHat(rpc: SetHatMessage) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldHat = playerInfo?.hat;
-        if (playerInfo)
-            playerInfo.hat = rpc.hat;
-
-        const ev = await this.emit(
-            new PlayerSetHatEvent(
-                this.room,
-                this.player,
-                rpc,
-                oldHat || Hat.None,
-                rpc.hat
-            )
-        );
-
-        if (playerInfo)
-            playerInfo.hat = ev.alteredHat;
-
-        if (ev.alteredHat !== rpc.hat)
-            this._rpcSetHat(ev.alteredHat);
-    }
-
-    private _rpcSetHat(hat: Hat) {
-        this.room.stream.push(
-            new RpcMessage(
-                this.netId,
-                new SetHatMessage(hat)
-            )
-        );
-    }
-
-    /**
-     * Update this player's hat. This is not a host operation unless the
-     * client does not own this player.
-     *
-     * Emits a {@link PlayerSetHatEvent | `player.sethat`} event.
-     *
-     * @param hat The hat to set this player's hat to.
-     */
-    async setHat(hat: Hat) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldHat = playerInfo?.hat;
-        if (playerInfo)
-            playerInfo.hat = hat;
-
-        const ev = await this.emit(
-            new PlayerSetHatEvent(
-                this.room,
-                this.player,
-                undefined,
-                oldHat || Hat.None,
-                hat
-            )
-        );
-
-        if (playerInfo)
-            playerInfo.hat = ev.alteredHat;
-
-        if (ev.alteredHat !== oldHat)
-            this._rpcSetHat(ev.alteredHat);
-    }
-
-    private async _handleSetSkin(rpc: SetSkinMessage) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldSkin = playerInfo?.skin;
-        if (playerInfo)
-            playerInfo.skin = rpc.skin;
-
-        const ev = await this.emit(
-            new PlayerSetSkinEvent(
-                this.room,
-                this.player,
-                rpc,
-                oldSkin || Skin.None,
-                rpc.skin
-            )
-        );
-
-        if (playerInfo)
-            playerInfo.skin = ev.alteredSkin;
-
-        if (ev.alteredSkin !== rpc.skin)
-            this._rpcSetSkin(ev.alteredSkin);
-    }
-
-    private _rpcSetSkin(skin: Skin) {
-        this.room.stream.push(
-            new RpcMessage(
-                this.netId,
-                new SetSkinMessage(skin)
-            )
-        );
-    }
-
-    /**
-     * Update this player's skin. This is not a host operation unless the
-     * client does not own this player.
-     *
-     * Emits a {@link PlayerSetSkinEvent | `player.setskin`} event.
-     *
-     * @param skin The skin to set this player's skin to.
-     */
-    async setSkin(skin: Skin) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldSkin = playerInfo?.skin;
-        if (playerInfo)
-            playerInfo.skin = skin;
-
-        const ev = await this.emit(
-            new PlayerSetSkinEvent(
-                this.room,
-                this.player,
-                undefined,
-                oldSkin || Skin.None,
-                skin
-            )
-        );
-
-        if (playerInfo)
-            playerInfo.skin = ev.alteredSkin;
-
-        if (ev.alteredSkin !== oldSkin)
-            this._rpcSetSkin(ev.alteredSkin);
     }
 
     private async _handleReportDeadBody(rpc: ReportDeadBodyMessage) {
@@ -921,7 +810,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     async kill(reason: string) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
 
         playerInfo?.setDead(true);
 
@@ -1174,71 +1063,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this._startMeeting(caller);
     }
 
-    private async _handleSetPet(rpc: SetPetMessage) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        const oldPet = playerInfo?.pet;
-        if (playerInfo)
-            playerInfo.pet = rpc.pet;
-
-        const ev = await this.emit(
-            new PlayerSetPetEvent(
-                this.room,
-                this.player,
-                rpc,
-                oldPet || Pet.None,
-                rpc.pet
-            )
-        );
-
-        if (playerInfo)
-            playerInfo.pet = ev.alteredPet;
-
-        if (ev.alteredPet !== rpc.pet)
-            this._rpcSetPet(ev.alteredPet);
-    }
-
-    private _rpcSetPet(pet: Pet) {
-        this.room.stream.push(
-            new RpcMessage(
-                this.netId,
-                new SetPetMessage(pet)
-            )
-        );
-    }
-
-    /**
-     * Update this player's pet. This is not a host operation unless the
-     * client does not own this player.
-     *
-     * Emits a {@link PlayerSetPetEvent | `player.setpet`} event.
-     *
-     * @param pet The pet to set this player's pet to.
-     */
-    async setPet(pet: Pet) {
-        const playerInfo = await this.room.gameData?.players.get(this.playerId);
-        if (!playerInfo)
-            return;
-
-        const oldPet = playerInfo.pet;
-        playerInfo.pet = pet;
-
-        const ev = await this.emit(
-            new PlayerSetPetEvent(
-                this.room,
-                this.player,
-                undefined,
-                oldPet,
-                pet
-            )
-        );
-
-        playerInfo.pet = ev.alteredPet;
-
-        if (playerInfo.pet !== oldPet) {
-            this._rpcSetPet(playerInfo.pet);
-        }
-    }
-
     private async _handleSetStartCounter(rpc: SetStartCounterMessage) {
         const oldCounter = this.room.counter;
         this._setStartCounter(rpc.counter);
@@ -1409,5 +1233,320 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
         this._rpcSendQuickChat(quickChatMessage);
+    }
+
+    private async _handleSetHat(rpc: SetHatMessage) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldHat = defaultOutfit?.hatId;
+        if (defaultOutfit)
+            defaultOutfit.hatId = rpc.hatId;
+
+        const ev = await this.emit(
+            new PlayerSetHatEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldHat || Hat.NoHat,
+                rpc.hatId
+            )
+        );
+
+        playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
+
+        if (ev.alteredHatId !== rpc.hatId)
+            this._rpcSetHat(ev.alteredHatId);
+    }
+
+    private _rpcSetHat(hatId: string) {
+        this.room.stream.push(
+            new RpcMessage(
+                this.netId,
+                new SetHatMessage(hatId)
+            )
+        );
+    }
+
+    /**
+     * Update this player's hat. This is not a host operation unless the
+     * client does not own this player.
+     *
+     * Emits a {@link PlayerSetHatEvent | `player.sethat`} event.
+     *
+     * @param hatId The hat to set this player's hat to, see {@link Hat}.
+     */
+    async setHat(hatId: string) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldHat = defaultOutfit?.hatId;
+        if (defaultOutfit)
+            defaultOutfit.hatId = hatId;
+
+        const ev = await this.emit(
+            new PlayerSetHatEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldHat || Hat.NoHat,
+                hatId
+            )
+        );
+
+        playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
+
+        if (ev.alteredHatId !== oldHat)
+            this._rpcSetHat(ev.alteredHatId);
+    }
+
+    private async _handleSetSkin(rpc: SetSkinMessage) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldSkin = defaultOutfit?.skinId;
+        if (defaultOutfit)
+            defaultOutfit.skinId = rpc.skinId;
+
+        const ev = await this.emit(
+            new PlayerSetSkinEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldSkin || Skin.None,
+                rpc.skinId
+            )
+        );
+
+        playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
+
+        if (ev.alteredSkin !== rpc.skinId)
+            this._rpcSetSkin(ev.alteredSkin);
+    }
+
+    private _rpcSetSkin(skinId: string) {
+        this.room.stream.push(
+            new RpcMessage(
+                this.netId,
+                new SetSkinMessage(skinId)
+            )
+        );
+    }
+
+    /**
+     * Update this player's skin. This is not a host operation unless the
+     * client does not own this player.
+     *
+     * Emits a {@link PlayerSetSkinEvent | `player.setskin`} event.
+     *
+     * @param skinId The skin to set this player's skin to, see {@link Skin}.
+     */
+    async setSkin(skinId: string) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldSkin = defaultOutfit?.skinId;
+        if (defaultOutfit)
+            defaultOutfit.skinId = skinId;
+
+        const ev = await this.emit(
+            new PlayerSetSkinEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldSkin || Skin.None,
+                skinId
+            )
+        );
+
+        playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
+
+        if (ev.alteredSkin !== oldSkin)
+            this._rpcSetSkin(ev.alteredSkin);
+    }
+
+    private async _handleSetPet(rpc: SetPetMessage) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldPet = defaultOutfit?.petId;
+        if (defaultOutfit)
+            defaultOutfit.petId = rpc.petId;
+
+        const ev = await this.emit(
+            new PlayerSetPetEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldPet || Pet.EmptyPet,
+                rpc.petId
+            )
+        );
+
+        playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
+
+        if (ev.alteredPetId !== rpc.petId)
+            this._rpcSetPet(ev.alteredPetId);
+    }
+
+    private _rpcSetPet(petId: string) {
+        this.room.stream.push(
+            new RpcMessage(
+                this.netId,
+                new SetPetMessage(petId)
+            )
+        );
+    }
+
+    /**
+     * Update this player's pet. This is not a host operation unless the
+     * client does not own this player.
+     *
+     * Emits a {@link PlayerSetPetEvent | `player.setpet`} event.
+     *
+     * @param petId The pet to set this player's pet to, see {@link Pet}.
+     */
+    async setPet(petId: string) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldPet = defaultOutfit?.petId;
+        if (defaultOutfit)
+            defaultOutfit.petId = petId;
+
+        const ev = await this.emit(
+            new PlayerSetPetEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldPet || Pet.EmptyPet,
+                petId
+            )
+        );
+
+        playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
+
+        if (ev.alteredPetId !== oldPet)
+            this._rpcSetPet(ev.alteredPetId);
+    }
+
+    private async _handleSetVisor(rpc: SetVisorMessage) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldVisor = defaultOutfit?.visorId;
+        if (defaultOutfit)
+            defaultOutfit.visorId = rpc.visorId;
+
+        const ev = await this.emit(
+            new PlayerSetVisorEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldVisor || Visor.EmptyVisor,
+                rpc.visorId
+            )
+        );
+
+        playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
+
+        if (ev.alteredVisorId !== rpc.visorId)
+            this._rpcSetVisor(ev.alteredVisorId);
+    }
+
+    private _rpcSetVisor(visorId: string) {
+        this.room.stream.push(
+            new RpcMessage(
+                this.netId,
+                new SetPetMessage(visorId)
+            )
+        );
+    }
+
+    /**
+     * Update this player's visor. This is not a host operation unless the
+     * client does not own this player.
+     *
+     * Emits a {@link PlayerSetVisorEvent | `player.setvisor`} event.
+     *
+     * @param visorId The visor to set this player's visor to, see {@link Visor}.
+     */
+    async setVisor(visorId: string) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldVisor = defaultOutfit?.visorId;
+        if (defaultOutfit)
+            defaultOutfit.visorId = visorId;
+
+        const ev = await this.emit(
+            new PlayerSetVisorEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldVisor || Visor.EmptyVisor,
+                visorId
+            )
+        );
+
+        playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
+
+        if (ev.alteredVisorId !== oldVisor)
+            this._rpcSetVisor(ev.alteredVisorId);
+    }
+
+    private async _handleSetNameplate(rpc: SetNameplateMessage) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldNameplate = defaultOutfit?.nameplateId;
+        if (defaultOutfit)
+            defaultOutfit.nameplateId = rpc.nameplateId;
+
+        const ev = await this.emit(
+            new PlayerSetNameplateEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldNameplate || Nameplate.NoPlate,
+                rpc.nameplateId
+            )
+        );
+
+        playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
+
+        if (ev.alteredNameplateId !== rpc.nameplateId)
+            this._rpcSetNameplate(ev.alteredNameplateId);
+    }
+
+    private _rpcSetNameplate(nameplateId: string) {
+        this.room.stream.push(
+            new RpcMessage(
+                this.netId,
+                new SetPetMessage(nameplateId)
+            )
+        );
+    }
+
+    /**
+     * Update this player's nameplate. This is not a host operation unless the
+     * client does not own this player.
+     *
+     * Emits a {@link PlayerSetNameplateEvent | `player.setnameplate`} event.
+     *
+     * @param nameplateId The nameplate to set this player's nameplate to, see {@link Nameplate}.
+     */
+    async setNameplate(nameplateId: string) {
+        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const oldNameplate = defaultOutfit?.nameplateId;
+        if (defaultOutfit)
+            defaultOutfit.nameplateId = nameplateId;
+
+        const ev = await this.emit(
+            new PlayerSetNameplateEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldNameplate || Nameplate.NoPlate,
+                nameplateId
+            )
+        );
+
+        playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
+
+        if (ev.alteredNameplateId !== oldNameplate)
+            this._rpcSetNameplate(ev.alteredNameplateId);
     }
 }

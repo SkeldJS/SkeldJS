@@ -51,7 +51,7 @@ export class AprilShipStatus<RoomType extends Hostable = Hostable> extends Inner
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
     ): T|undefined {
-        if (component === AprilShipStatus as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.AprilShipStatus && component === AprilShipStatus as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

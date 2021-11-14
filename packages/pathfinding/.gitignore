@@ -1,1 +1,7 @@
 data/build
+scripts/airship.json
+scripts/lobby.json
+scripts/mira.json
+scripts/polus.json
+scripts/skeld.json
+scripts/submerged.json

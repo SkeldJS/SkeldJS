@@ -1,5 +1,4 @@
 import { BasicEvent } from "@skeldjs/events";
-import { Hat } from "@skeldjs/constant";
 import { SetHatMessage } from "@skeldjs/protocol";
 
 import { RoomEvent } from "../RoomEvent";
@@ -15,7 +14,7 @@ export class PlayerSetHatEvent<RoomType extends Hostable = Hostable> extends Bas
     static eventName = "player.sethat" as const;
     eventName = "player.sethat" as const;
 
-    private _atleredHat: Hat;
+    private _atleredHatId: string;
 
     constructor(
         public readonly room: RoomType,
@@ -24,36 +23,36 @@ export class PlayerSetHatEvent<RoomType extends Hostable = Hostable> extends Bas
         /**
          * The hat that the player had before.
          */
-        public readonly oldHat: Hat,
+        public readonly oldHatId: string,
         /**
          * The new hat that the player has.
          */
-        public readonly newHat: Hat
+        public readonly newHatId: string
     ) {
         super();
 
-        this._atleredHat = newHat;
+        this._atleredHatId = newHatId;
     }
 
     /**
      * The altered hat that the player will have set instead, if changed.
      */
-    get alteredHat() {
-        return this._atleredHat;
+    get alteredHatId() {
+        return this._atleredHatId;
     }
 
     /**
      * Revert the player's hat back to their old hat.
      */
     revert() {
-        this.setHat(this.oldHat);
+        this.setHat(this.oldHatId);
     }
 
     /**
      * Change the hat that the player had set.
-     * @param hat The hat to set.
+     * @param hatId The hat to set.
      */
-    setHat(hat: Hat) {
-        this._atleredHat = hat;
+    setHat(hatId: string) {
+        this._atleredHatId = hatId;
     }
 }

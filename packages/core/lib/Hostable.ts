@@ -268,13 +268,13 @@ export class Hostable<
      * mod, see {@link Hostable.registerPrefab}.
      */
     spawnPrefabs: Map<number, NetworkableConstructor<any>[]> = new Map([
-        [SpawnType.ShipStatus, [ SkeldShipStatus ]],
+        [SpawnType.SkeldShipStatus, [ SkeldShipStatus ]],
         [SpawnType.MeetingHud, [ MeetingHud ]],
         [SpawnType.LobbyBehaviour, [ LobbyBehaviour ]],
         [SpawnType.GameData, [ GameData, VoteBanSystem ]],
         [SpawnType.Player, [ PlayerControl, PlayerPhysics, CustomNetworkTransform ]],
-        [SpawnType.Headquarters, [ MiraShipStatus ]],
-        [SpawnType.PlanetMap, [ PolusShipStatus ]],
+        [SpawnType.MiraShipStatus, [ MiraShipStatus ]],
+        [SpawnType.Polus, [ PolusShipStatus ]],
         [SpawnType.AprilShipStatus, [ AprilShipStatus ]],
         [SpawnType.Airship, [ AirshipStatus ]]
     ]);
@@ -293,7 +293,7 @@ export class Hostable<
      */
     endGameIntents: EndGameIntent<any>[];
 
-    constructor(public options: HostableOptions = {}) {
+    constructor(public config: HostableOptions = {}) {
         super();
 
         this.last_fixed_update = Date.now();
@@ -323,7 +323,7 @@ export class Hostable<
 
         this.endGameIntents = [];
 
-        if (options.doFixedUpdate) {
+        if (config.doFixedUpdate) {
             this._interval = setInterval(
                 () => this.FixedUpdate(),
                 Hostable.FixedUpdateInterval
@@ -580,16 +580,16 @@ export class Hostable<
         }
     }
 
-    async spawnNecessaryObjects() {
+    spawnNecessaryObjects() {
         if (!this.lobbyBehaviour && this.state === GameState.NotStarted) {
             this.spawnPrefab(SpawnType.LobbyBehaviour, -2);
         }
 
         if (!this.shipStatus && this.state === GameState.Started) {
             const shipPrefabs = [
-                SpawnType.ShipStatus,
-                SpawnType.Headquarters,
-                SpawnType.PlanetMap,
+                SpawnType.SkeldShipStatus,
+                SpawnType.MiraShipStatus,
+                SpawnType.Polus,
                 SpawnType.AprilShipStatus,
                 SpawnType.Airship
             ];
@@ -616,7 +616,7 @@ export class Hostable<
         this.hostId = resolvedId;
 
         if (this.hostIsMe) {
-            await this.spawnNecessaryObjects();
+            this.spawnNecessaryObjects();
         }
 
         if (before !== this.hostId && this.host) {
@@ -626,17 +626,17 @@ export class Hostable<
 
     /**
      * Handle when a client joins the game.
-     * @param clientid The ID of the client that joined the game.
+     * @param clientId The ID of the client that joined the game.
      */
-    async handleJoin(clientid: number) {
-        if (this.players.has(clientid))
+    async handleJoin(clientId: number) {
+        if (this.players.has(clientId))
             return null;
 
-        const player: PlayerData<this> = new PlayerData(this, clientid);
-        this.players.set(clientid, player);
+        const player: PlayerData<this> = new PlayerData(this, clientId);
+        this.players.set(clientId, player);
 
         if (this.hostIsMe) {
-            await this.spawnNecessaryObjects();
+            this.spawnNecessaryObjects();
         }
 
         await player.emit(new PlayerJoinEvent(this, player));
@@ -798,9 +798,9 @@ export class Hostable<
                 this.lobbyBehaviour.despawn();
 
             const shipPrefabs = [
-                SpawnType.ShipStatus,
-                SpawnType.Headquarters,
-                SpawnType.PlanetMap,
+                SpawnType.SkeldShipStatus,
+                SpawnType.MiraShipStatus,
+                SpawnType.Polus,
                 SpawnType.AprilShipStatus,
                 SpawnType.Airship
             ];

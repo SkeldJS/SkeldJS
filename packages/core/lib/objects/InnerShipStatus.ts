@@ -94,9 +94,9 @@ export type ShipStatusEvents<RoomType extends Hostable = Hostable> = Networkable
     ExtractEventTypes<[ RoomSelectImpostorsEvent<RoomType> ]>;
 
 export type ShipStatusType =
-    | SpawnType.ShipStatus
-    | SpawnType.Headquarters
-    | SpawnType.PlanetMap
+    | SpawnType.SkeldShipStatus
+    | SpawnType.MiraShipStatus
+    | SpawnType.Polus
     | SpawnType.AprilShipStatus
     | SpawnType.Airship;
 

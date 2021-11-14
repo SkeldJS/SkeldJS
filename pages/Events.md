@@ -137,7 +137,6 @@ client.on("player.setname", ev => {
 * {@link PlayerMurderEvent | `player.murder`}
 * {@link PlayerReadyEvent | `player.ready`}
 * {@link PlayerReportDeadBodyEvent | `player.reportbody`}
-* {@link PlayerSceneChangeEvent | `player.scenechange`}
 * {@link PlayerSendChatEvent | `player.chat`}
 * {@link PlayerSendQuickChatEvent | `player.quickchat`}
 * {@link PlayerSetColorEvent | `player.setcolor`}
@@ -145,9 +144,12 @@ client.on("player.setname", ev => {
 * {@link PlayerSetHostEvent | `player.sethost`}
 * {@link PlayerSetImpostorsEvent | `player.setimpostors`}
 * {@link PlayerSetNameEvent | `player.setname`}
+* {@link PlayerSetNameplateEvent | `player.setnameplate`}
 * {@link PlayerSetPetEvent | `player.setpet`}
 * {@link PlayerSetSkinEvent | `player.setskin`}
+* {@link PlayerSetTasksEvent | `player.settasks`}
 * {@link PlayerSetStartCounterEvent | `player.setstartcounter`}
+* {@link PlayerSetVisorEvent | `player.setvisor`}
 * {@link PlayerSnapToEvent | `player.snapto`}
 * {@link PlayerSpawnEvent | `player.spawn`}
 * {@link PlayerStartMeetingEvent | `player.startmeeting`}
