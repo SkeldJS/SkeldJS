@@ -57,13 +57,13 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
+        netId: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | PlayerPhysicsData,
         playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerid, flags, data);
 
         this.ventid ??= -1;
         this.ladderClimbSeqId = 0;

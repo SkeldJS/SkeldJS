@@ -15,7 +15,7 @@ describe("ReportPlayerMessage", () => {
             );
 
             assert.strictEqual(packet.messageTag, RootMessageTag.ReportPlayer);
-            assert.strictEqual(packet.clientid, 28822);
+            assert.strictEqual(packet.clientId, 28822);
             assert.strictEqual(packet.reason, ReportReason.CheatingHacking);
             assert.strictEqual(packet.outcome, ReportOutcome.Reported);
             assert.strictEqual(packet.name, "");
@@ -30,7 +30,7 @@ describe("ReportPlayerMessage", () => {
 
             assert.strictEqual(packet.messageTag, RootMessageTag.ReportPlayer);
             assert.strictEqual(packet.code, -1933419961);
-            assert.strictEqual(packet.clientid, 28822);
+            assert.strictEqual(packet.clientId, 28822);
             assert.strictEqual(packet.reason, ReportReason.CheatingHacking);
         });
     });

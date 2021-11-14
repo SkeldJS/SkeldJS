@@ -12,8 +12,8 @@ export type NetworkableConstructor<T> = {
     new (
         room: Hostable<any>,
         spawnType: SpawnType,
-        netid: number,
-        ownerid: number,
+        netId: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | any
     ): T;
@@ -21,8 +21,8 @@ export type NetworkableConstructor<T> = {
     new (
         room: Hostable<any>,
         spawnType: SpawnType,
-        netid: number,
-        ownerid: number,
+        netId: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | any,
         object?: Networkable<any, any>
@@ -83,8 +83,8 @@ export class Networkable<
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
-        ownerid: number,
+        netId: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | DataT
     ) {
@@ -92,8 +92,8 @@ export class Networkable<
 
         this.room = room;
         this.spawnType = spawnType;
-        this.netId = netid;
-        this.ownerId = ownerid;
+        this.netId = netId;
+        this.ownerId = ownerId;
         this.flags = flags;
 
         if (this.ownerId > -2) {

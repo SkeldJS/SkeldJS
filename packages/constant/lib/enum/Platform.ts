@@ -7,5 +7,7 @@ export enum Platform {
     StandaloneItch,
     IPhone,
     Android,
-    Switch
+    Switch,
+    Xbox,
+    Playstation
 }

@@ -102,6 +102,18 @@ export type PlayerOutfits = Partial<Record<PlayerOutfitType, PlayerOutfit>>;
  * whether they are dead or the impostor, their role and whatever tasks they have.
  */
 export class PlayerInfo<RoomType extends Hostable = Hostable> {
+    /**
+     * Create a default player info object.
+     * @param gamedata The gamedata object that this player information belongs to.
+     * @param playerId The ID of the player.
+     * @returns A default player info object.
+     */
+    static createDefault<RoomType extends Hostable = Hostable>(gamedata: GameData<RoomType>, playerId: number) {
+        return new PlayerInfo(gamedata, playerId, {
+            [PlayerOutfitType.Default]: PlayerOutfit.createDefault(PlayerOutfitType.Default)
+        }, 0, 0, RoleType.Crewmate, [], []);
+    }
+
     constructor(
         public readonly gamedata: GameData<RoomType>,
         public readonly playerId: number,
@@ -112,6 +124,12 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         public taskIds: number[] = [],
         public taskStates: TaskState[] = []
     ) {}
+
+    static Deserialize<RoomType extends Hostable = Hostable>(reader: HazelReader, gamedata: GameData<RoomType>, playerId: number) {
+        const player = this.createDefault(gamedata, playerId);
+        player.Deserialize(reader);
+        return player;
+    }
 
     /**
      * The player that this info is for.
@@ -144,22 +162,8 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
             === PlayerDataFlags.IsDead;
     }
 
-    /**
-     * Create a default player info object.
-     * @param gamedata The gamedata object that this player information belongs to.
-     * @param playerId The ID of the player.
-     * @returns A default player info object.
-     */
-    static createDefault<RoomType extends Hostable = Hostable>(gamedata: GameData<RoomType>, playerId: number) {
-        return new PlayerInfo(gamedata, playerId, {
-            [PlayerOutfitType.Default]: PlayerOutfit.createDefault(PlayerOutfitType.Default)
-        }, 0, 0, RoleType.Crewmate, [], []);
-    }
-
-    static Deserialize<RoomType extends Hostable = Hostable>(reader: HazelReader, gamedata: GameData<RoomType>, playerId: number) {
-        const player = this.createDefault(gamedata, playerId);
-        player.Deserialize(reader);
-        return player;
+    get defaultOutfit() {
+        return this.getOutfit(PlayerOutfitType.Default);
     }
 
     Deserialize(reader: HazelReader) {

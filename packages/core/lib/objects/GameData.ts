@@ -65,12 +65,12 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
+        netId: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | GameDataData
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerid, flags, data);
 
         this.players ||= new Map;
     }
@@ -176,7 +176,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     }
 
     private async _handleSetTasks(rpc: SetTasksMessage) {
-        const playerData = this.players.get(rpc.playerid);
+        const playerData = this.players.get(rpc.playerId);
 
         if (playerData) {
             const oldTasks = playerData.taskIds;

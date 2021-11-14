@@ -22,7 +22,7 @@ export class PlayerClimbLadderEvent<RoomType extends Hostable = Hostable> extend
         /**
          * The ID of the ladder that the player climbed.
          */
-        public readonly ladderid: number
+        public readonly ladderId: number
     ) {
         super();
     }

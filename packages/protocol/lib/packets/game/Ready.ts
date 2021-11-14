@@ -6,25 +6,25 @@ export class ReadyMessage extends BaseGameDataMessage {
     static messageTag = GameDataMessageTag.Ready as const;
     messageTag = GameDataMessageTag.Ready as const;
 
-    readonly clientid: number;
+    readonly clientId: number;
 
-    constructor(clientid: number) {
+    constructor(clientId: number) {
         super();
 
-        this.clientid = clientid;
+        this.clientId = clientId;
     }
 
     static Deserialize(reader: HazelReader) {
-        const clientid = reader.packed();
+        const clientId = reader.packed();
 
-        return new ReadyMessage(clientid);
+        return new ReadyMessage(clientId);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.packed(this.clientid);
+        writer.packed(this.clientId);
     }
 
     clone() {
-        return new ReadyMessage(this.clientid);
+        return new ReadyMessage(this.clientId);
     }
 }

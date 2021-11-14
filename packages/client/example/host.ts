@@ -36,6 +36,10 @@ const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof sk
         ev.setImpostors([...ev.room.players.values()].filter(player => player !== client.myPlayer));
     });
 
+    client.on("player.join", ev => {
+        console.log(ev.player.username, ev.player.platform);
+    });
+
     console.log(
         "Created game @ " +
             Int2Code(code as number) +

@@ -70,12 +70,12 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
+        netId: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | MeetingHudData
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerid, flags, data);
 
         this.dirtyBit ||= 0;
         this.voteStates ||= new Map;
@@ -336,7 +336,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
      * @example
      *```typescript
      * // Make everyone vote a certain player.
-     * for ([ clientid, player ] of room.players) {
+     * for ([ clientId, player ] of room.players) {
      *   if (player !== suspect) {
      *     room.meetinghud.castVote(player, suspect);
      *   }
@@ -508,7 +508,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                 }
             }
 
-            if (exiled.info?.isImpostor) {
+            if (exiled.playerInfo?.isImpostor) {
                 if (aliveImpostors <= 0) {
                     this.room.registerEndGameIntent(
                         new EndGameIntent<PlayersVoteOutEndgameMetadata>(

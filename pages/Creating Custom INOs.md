@@ -136,12 +136,12 @@ clean up any effects that the component had while in the room.
 constructor(
     room: RoomType, // The room that the component belongs to
     spawnType: SpawnType, // The INO spawn id that the component is for (e.g. 4 if it's a Player component)
-    netId: number, // The netid of the component
+    netId: number, // The netId of the component
     ownerId: number, // The owner of the component
     flags: number, // The flags that the component was instantiated with
     data?: HazelReader | any // The data to instantiate the component with
 ) {
-    super(room, spawnType, netid, ownerid, flags, data);
+    super(room, spawnType, netId, ownerid, flags, data);
 }
 ```
 

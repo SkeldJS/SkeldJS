@@ -70,13 +70,13 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
+        netId: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | CustomNetworkTransformData,
         playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerid, flags, data);
 
         this.oldSeqId ||= 0;
         this.seqId ||= 0;

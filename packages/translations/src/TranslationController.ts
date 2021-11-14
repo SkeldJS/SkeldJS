@@ -26,7 +26,7 @@ export class TranslationController {
     constructor(public readonly room?: Hostable) {}
 
     private getPlayerName(playerId: number) {
-        return this.room?.getPlayerByPlayerId(playerId)?.info?.name || "";
+        return this.room?.getPlayerByPlayerId(playerId)?.playerInfo?.name || "";
     }
 
     private getQuickchatTranslation(stringName: StringNames, language: Language) {
@@ -66,7 +66,7 @@ export class TranslationController {
             }
 
             if (element instanceof PlayerData) {
-                return element.info?.name || "";
+                return element.playerInfo?.name || "";
             }
 
             return this.getPlayerName(element.playerId);

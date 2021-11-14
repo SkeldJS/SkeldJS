@@ -363,8 +363,8 @@ export class HazelWriter extends HazelBuffer {
      * ```typescript
      * const writer = HazelWriter.alloc(8);
      *
-     * writer.uint32(-432423);
-     * writer.uint32(1212112);
+     * writer.int32(-432423);
+     * writer.int32(1212112);
      * ```
      */
     int32(val: number, be = false) {
@@ -377,6 +377,56 @@ export class HazelWriter extends HazelBuffer {
             this.buffer.writeInt32LE(val, this._cursor);
         }
         this._cursor += SIZES.int32;
+
+        return this;
+    }
+
+    /**
+     * Write an unsigned 64-bit integer value.
+     * @param val The value to write. (Between 0 and 18446744073709552000 inclusive.)
+     * @returns The writer.
+     * @example
+     * ```typescript
+     * const writer = HazelWriter.alloc(8);
+     *
+     * writer.uint64(6764774);
+     * ```
+     */
+    uint64(val: bigint, be = false) {
+        HazelBuffer.checkInteger(val, BOUNDS.uint32);
+
+        this.expand(SIZES.uint32);
+        if (be) {
+            this.buffer.writeBigUInt64BE(val, this._cursor);
+        } else {
+            this.buffer.writeBigUInt64LE(val, this._cursor);
+        }
+        this._cursor += SIZES.uint64;
+
+        return this;
+    }
+
+    /**
+     * Write a signed 64-bit integer value.
+     * @param val The value to write. (Between -2147483647 and 2147483647 inclusive.)
+     * @returns The writer.
+     * @example
+     * ```typescript
+     * const writer = HazelWriter.alloc(8);
+     *
+     * writer.int64(-432423);
+     * ```
+     */
+    int64(val: bigint, be = false) {
+        HazelBuffer.checkInteger(val, BOUNDS.int64);
+
+        this.expand(SIZES.int64);
+        if (be) {
+            this.buffer.writeBigInt64BE(val, this._cursor);
+        } else {
+            this.buffer.writeBigInt64LE(val, this._cursor);
+        }
+        this._cursor += SIZES.int64;
 
         return this;
     }

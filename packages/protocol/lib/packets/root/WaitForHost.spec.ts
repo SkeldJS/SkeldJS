@@ -12,7 +12,7 @@ describe("WaitForHostMessage", () => {
 
             assert.strictEqual(packet.messageTag, RootMessageTag.WaitForHost);
             assert.strictEqual(packet.code, -1932862904);
-            assert.strictEqual(packet.clientid, 38847);
+            assert.strictEqual(packet.clientId, 38847);
         });
     });
 

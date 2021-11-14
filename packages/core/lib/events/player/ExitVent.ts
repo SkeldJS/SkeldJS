@@ -22,7 +22,7 @@ export class PlayerExitVentEvent<RoomType extends Hostable = Hostable> extends B
         /**
          * The ID of the vent that the player left.
          */
-        public readonly ventid: number
+        public readonly ventId: number
     ) {
         super();
     }

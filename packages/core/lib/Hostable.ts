@@ -10,7 +10,8 @@ import {
     ComponentSpawnData,
     PacketDecoder,
     AllGameSettings,
-    EndGameMessage
+    EndGameMessage,
+    PlayerJoinData
 } from "@skeldjs/protocol";
 
 import {
@@ -88,7 +89,7 @@ export type PrivacyType = "public" | "private";
 
 export interface SpawnObject {
     type: number;
-    ownerid: number;
+    ownerId: number;
     flags: number;
     components: Networkable<any, any>[];
 }
@@ -145,7 +146,7 @@ export class Hostable<
 
     protected _interval?: NodeJS.Timeout;
 
-    protected _incr_netid: number;
+    protected _incrNetId: number;
 
     /**
      * A list of all objects in the room.
@@ -297,7 +298,7 @@ export class Hostable<
         super();
 
         this.last_fixed_update = Date.now();
-        this._incr_netid = 0;
+        this._incrNetId = 0;
         this._destroyed = false;
 
         this.code = 0;
@@ -337,9 +338,9 @@ export class Hostable<
     }
 
     getNextNetId() {
-        this._incr_netid++;
+        this._incrNetId++;
 
-        return this._incr_netid;
+        return this._incrNetId;
     }
 
     /**
@@ -446,7 +447,7 @@ export class Hostable<
      * @returns The resolved player.
      * @example
      *```typescript
-     * // Resolve a player by their clientid.
+     * // Resolve a player by their client id.
      * const player = room.resolvePlayer(11013);
      * ```
      */
@@ -454,12 +455,12 @@ export class Hostable<
         if (player instanceof PlayerData)
             return player as PlayerData<this>;
 
-        const clientid = this.resolvePlayerClientID(player);
+        const clientId = this.resolvePlayerClientID(player);
 
-        if (clientid === undefined)
+        if (clientId === undefined)
             return undefined;
 
-        return this.players.get(clientid);
+        return this.players.get(clientId);
     }
 
     /**
@@ -480,7 +481,7 @@ export class Hostable<
     }
 
     /**
-     * Resolve a clientid by some identifier.
+     * Resolve a client id by some identifier.
      * @param player The identifier to resolve to a client ID.
      * @returns The resolved client ID.
      */
@@ -625,12 +626,13 @@ export class Hostable<
      * Handle when a client joins the game.
      * @param clientId The ID of the client that joined the game.
      */
-    async handleJoin(clientId: number) {
-        if (this.players.has(clientId))
-            return null;
+    async handleJoin(joinInfo: PlayerJoinData) {
+        const cachedPlayer = this.players.get(joinInfo.clientId);
+        if (cachedPlayer)
+            return cachedPlayer;
 
-        const player: PlayerData<this> = new PlayerData(this, clientId);
-        this.players.set(clientId, player);
+        const player = new PlayerData(this, joinInfo.clientId, joinInfo.playerName, joinInfo.platform, joinInfo.playerLevel);
+        this.players.set(joinInfo.clientId, player);
 
         if (this.hostIsMe) {
             this.spawnNecessaryObjects();
@@ -765,24 +767,24 @@ export class Hostable<
                     ),
                     sleep(3000),
                 ]),
-                this.myPlayer?.ready(),
+                this.myPlayer?.setReady(),
             ]);
 
             const removes = [];
-            for (const [clientid, player] of this.players) {
+            for (const [ clientId, player ] of this.players) {
                 if (!player.isReady) {
                     await this.handleLeave(player);
-                    removes.push(clientid);
+                    removes.push(clientId);
                 }
             }
 
             if (removes.length) {
                 await this.broadcast(
                     [],
-                    removes.map((clientid) => {
+                    removes.map(clientId => {
                         return new RemovePlayerMessage(
                             this.code,
-                            clientid,
+                            clientId,
                             DisconnectReason.Error
                         );
                     })
@@ -812,15 +814,15 @@ export class Hostable<
             }
         } else {
             await this.emit(new RoomGameStartEvent(this));
-            await this.myPlayer?.ready();
+            await this.myPlayer?.setReady();
         }
     }
 
     protected async _handleEnd(reason: GameOverReason) {
         this.state = GameState.Ended;
         this.players.clear();
-        for (const [ objid ] of this.players) {
-            this.players.delete(objid);
+        for (const [ objId ] of this.players) {
+            this.players.delete(objId);
         }
         if (this.hostIsMe) {
             for (const [ , component ] of this.netobjects) {
@@ -856,7 +858,7 @@ export class Hostable<
         const resolved = this.resolvePlayer(player);
 
         if (resolved) {
-            await resolved.ready();
+            await resolved.setReady();
         }
     }
 
@@ -868,7 +870,7 @@ export class Hostable<
      * const meetinghud = new MeetingHud(
      *   this,
      *   this.getNextNetId(),
-     *   ownerid,
+     *   ownerId,
      *   {
      *     dirtyBit: 0,
      *     states: new Map(),
@@ -1016,12 +1018,12 @@ export class Hostable<
         doBroadcast = true,
         doAwake = true
     ): Networkable<any, any, this>|undefined {
-        const _ownerid =
+        const _ownerId =
             ownerId === undefined
                 ? -2
                 : typeof ownerId === "number" ? ownerId : ownerId.clientId;
 
-        const ownerClient = this.players.get(_ownerid);
+        const ownerClient = this.players.get(_ownerId);
         const _flags = flags ?? (spawnType === SpawnType.Player ? SpawnFlag.IsClientCharacter : 0);
 
         let object!: Networkable;
@@ -1035,8 +1037,8 @@ export class Hostable<
             const component = new spawnPrefab[i](
                 this,
                 spawnType,
-                componentData[i]?.netid || this.getNextNetId(),
-                _ownerid,
+                componentData[i]?.netId || this.getNextNetId(),
+                _ownerId,
                 _flags,
                 componentData[i] instanceof ComponentSpawnData
                     ? HazelReader.from(componentData[i].data)
@@ -1044,7 +1046,7 @@ export class Hostable<
                 object
             );
 
-            this._incr_netid = component.netId;
+            this._incrNetId = component.netId;
             if (this.netobjects.get(component.netId))
                 continue;
 
@@ -1113,7 +1115,7 @@ export class Hostable<
      * @returns The fake player created.
      */
     createFakePlayer(isNew = true): PlayerData<this> {
-        const player = new PlayerData(this, 0);
+        const player = new PlayerData(this, 0, "dummy");
         const playerControl = this.spawnPrefab(SpawnType.Player, -2, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
         playerControl.player = player;
         player.character = playerControl;
@@ -1163,20 +1165,20 @@ export class Hostable<
     }
 
     /**
-     * Get a player by one of their components' netids.
-     * @param netid The net ID of the component of the player to search.
+     * Get a player by one of their components' netIds.
+     * @param netId The net ID of the component of the player to search.
      * @returns The player that was found, or null if they do not exist.
      * @example
      * ```typescript
      * const player = room.getPlayerByNetId(34);
      * ```
      */
-    getPlayerByNetId(netid: number) {
+    getPlayerByNetId(netId: number) {
         for (const [, player] of this.players) {
             if (!player.control)
                 continue;
 
-            if (player.control.components.find(component => component.netId === netid)) {
+            if (player.control.components.find(component => component.netId === netId)) {
                 return player;
             }
         }

@@ -19,7 +19,7 @@ export class Door<RoomType extends Hostable = Hostable> extends EventEmitter<Doo
 
     constructor(
         protected system: AutoDoorsSystem<RoomType>|DoorsSystem<RoomType>|ElectricalDoorsSystem<RoomType>,
-        readonly id: number,
+        readonly doorId: number,
         isOpen: boolean
     ) {
         super();
@@ -62,13 +62,13 @@ export class Door<RoomType extends Hostable = Hostable> extends EventEmitter<Doo
      * Force the door open.
      */
     async open() {
-        await this.system.openDoor(this.id);
+        await this.system.openDoor(this.doorId);
     }
 
     /**
      * Force the door to close.
      */
     async close() {
-        await this.system.closeDoor(this.id);
+        await this.system.closeDoor(this.doorId);
     }
 }

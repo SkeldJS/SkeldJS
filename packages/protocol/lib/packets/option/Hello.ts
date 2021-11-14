@@ -1,6 +1,8 @@
-import { GameKeyword, Platform, QuickChatMode, SendOption } from "@skeldjs/constant";
+import { GameKeyword, QuickChatMode, SendOption } from "@skeldjs/constant";
 import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
+
 import { MessageDirection, PacketDecoder } from "../../PacketDecoder";
+import { PlatformSpecificData } from "../../misc";
 
 import { BaseRootPacket } from "./BaseRootPacket";
 
@@ -15,8 +17,7 @@ export class HelloPacket extends BaseRootPacket {
         public readonly auth: string|number,
         public readonly language: GameKeyword,
         public readonly chatMode: QuickChatMode,
-        public readonly platformTag: Platform,
-        public readonly platformName: string
+        public readonly platform: PlatformSpecificData
     ) {
         super();
     }
@@ -38,10 +39,9 @@ export class HelloPacket extends BaseRootPacket {
         }
         const language = reader.uint32();
         const chatMode = reader.uint8();
-        const [ platformTag, platformReader ] = reader.message();
-        const platformName = platformReader.string();
+        const platform = reader.read(PlatformSpecificData);
 
-        return new HelloPacket(nonce, clientver, username, auth, language, chatMode, platformTag, platformName);
+        return new HelloPacket(nonce, clientver, username, auth, language, chatMode, platform);
     }
 
     Serialize(writer: HazelWriter) {
@@ -56,9 +56,7 @@ export class HelloPacket extends BaseRootPacket {
         }
         writer.uint32(this.language);
         writer.uint8(this.chatMode);
-        writer.begin(this.platformTag);
-        writer.string(this.platformName);
-        writer.end();
+        writer.write(this.platform);
         writer.int32(2 ** 31 - 1); // cross play flags, max int for any crossplay
     }
 
@@ -70,8 +68,11 @@ export class HelloPacket extends BaseRootPacket {
             this.auth,
             this.language,
             this.chatMode,
-            this.platformTag,
-            this.platformName
+            new PlatformSpecificData(
+                this.platform.platformTag,
+                this.platform.platformName,
+                this.platform.platformId
+            )
         );
     }
 }

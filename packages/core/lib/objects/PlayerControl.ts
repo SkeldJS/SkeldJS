@@ -144,12 +144,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
+        netId: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | PlayerControlData
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerid, flags, data);
 
         this.isNew ??= true;
         this.playerId ||= 0;
@@ -289,7 +289,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
-        if (!this.player.info?.taskStates)
+        if (!this.player.playerInfo?.taskStates)
             return;
 
         this._completeTask(rpc.taskidx);
@@ -299,7 +299,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.room,
                 this.player,
                 rpc,
-                this.player.info.taskStates[rpc.taskidx]
+                this.player.playerInfo.taskStates[rpc.taskidx]
             )
         );
     }
@@ -331,7 +331,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * ```
      */
     completeTask(taskIdx: number) {
-        if (!this.player.info?.taskStates[taskIdx])
+        if (!this.player.playerInfo?.taskStates[taskIdx])
             return;
 
         this.emit(
@@ -339,7 +339,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.room,
                 this.player,
                 undefined,
-                this.player.info.taskStates[taskIdx]
+                this.player.playerInfo.taskStates[taskIdx]
             )
         );
 
@@ -409,7 +409,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private async _handleSetImpostors(rpc: SetInfectedMessage) {
         const impostors = rpc.impostors
             .map((id) => this.room.getPlayerByPlayerId(id))
-            .filter((player) => player && player.info) as PlayerData[];
+            .filter((player) => player && player.playerInfo) as PlayerData[];
 
         this._setImpostors(impostors);
 
@@ -430,14 +430,14 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private _setImpostors(impostors: PlayerData[]) {
         for (const [ , player ] of this.room.players) {
-            if (!player.info)
+            if (!player.playerInfo)
                 continue;
 
             if (impostors.includes(player)) {
-                player.info.setImpostor(true);
+                player.playerInfo.setImpostor(true);
             } else {
-                if (player.info.isImpostor) {
-                    player.info.setImpostor(false);
+                if (player.playerInfo.isImpostor) {
+                    player.playerInfo.setImpostor(false);
                 }
             }
         }

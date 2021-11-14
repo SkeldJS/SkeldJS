@@ -5,12 +5,14 @@ export const SIZES = {
     int16: 2,
     uint32: 4,
     int32: 4,
-    float: 4,
+    uint64: 8,
+    int64: 8,
+    float: 4
 } as const;
 
 export interface IntegerBoundary {
-    min: number;
-    max: number;
+    min: number|bigint;
+    max: number|bigint;
 }
 
 export const BOUNDS = {
@@ -38,4 +40,12 @@ export const BOUNDS = {
         min: -2147483647,
         max: 2147483647,
     },
+    uint64: {
+        min: 0,
+        max: 18446744073709552000
+    },
+    int64: {
+        min: -BigInt(9223372036854776000),
+        max: BigInt(9223372036854776000)
+    }
 } as const;

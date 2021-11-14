@@ -38,7 +38,8 @@ import {
     StartGameMessage,
     PingPacket,
     AllGameSettings,
-    SceneChangeMessage
+    SceneChangeMessage,
+    PlatformSpecificData
 } from "@skeldjs/protocol";
 
 import {
@@ -186,7 +187,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             language: GameKeyword.English,
             chatMode: QuickChatMode.FreeChat,
             messageOrdering: false,
-            platform: Platform.StandaloneSteamPC,
+            platform: new PlatformSpecificData(Platform.StandaloneSteamPC, "Steam"),
             eosProductUserId: crypto.randomBytes(16).toString("hex"),
             ...options
         };
@@ -229,7 +230,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         });
 
         this.decoder.on(RemovePlayerMessage, async (message) => {
-            if (message.clientid === this.clientId) {
+            if (message.clientId === this.clientId) {
                 await this.disconnect(DisconnectReason.None);
             }
         });
@@ -437,14 +438,15 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     : authToken,
                 this.config.language,
                 this.config.chatMode,
-                Platform.StandaloneSteamPC,
-                "Steam"
+                this.config.platform
             )
         );
 
         await this.decoder.waitf(AcknowledgePacket, ack => ack.nonce === nonce);
 
         this.identified = true;
+        this._cachedPlatform = this.config.platform;
+        this._cachedName = username;
         this.username = username;
     }
 

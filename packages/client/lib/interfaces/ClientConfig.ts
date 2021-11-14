@@ -1,4 +1,5 @@
-import { GameKeyword, HostableOptions, Platform, QuickChatMode } from "@skeldjs/core";
+import { GameKeyword, HostableOptions, QuickChatMode } from "@skeldjs/core";
+import { PlatformSpecificData } from "@skeldjs/protocol";
 import { AuthMethod } from "./AuthMethod";
 
 export interface ClientConfig extends HostableOptions {
@@ -31,9 +32,8 @@ export interface ClientConfig extends HostableOptions {
     messageOrdering: boolean;
     /**
      * The platform to register the SkeldJS client as being on.
-     * @default Platform.StandaloneSteamPC
      */
-    platform: Platform;
+    platform: PlatformSpecificData;
     /**
      * A Epic Online Services user ID to authenticate with the Among Us servers as.
      * This is just a random 32 character string if not set, but you can use your

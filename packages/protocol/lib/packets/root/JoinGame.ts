@@ -1,5 +1,6 @@
 import { DisconnectReason, RootMessageTag } from "@skeldjs/constant";
 import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
+import { PlatformSpecificData } from "../../misc";
 
 import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
@@ -9,19 +10,32 @@ export class JoinGameMessage extends BaseRootMessage {
     messageTag = RootMessageTag.JoinGame as const;
 
     readonly code!: number;
-    readonly clientid!: number;
-    readonly hostid!: number;
+    readonly clientId!: number;
+    readonly hostId!: number;
+    readonly playerName!: string;
+    readonly platform!: PlatformSpecificData;
+    readonly playerLevel!: number;
 
     readonly error!: DisconnectReason;
     readonly message!: string;
 
     constructor(code: string | number);
     constructor(error: DisconnectReason, message?: string);
-    constructor(code: string | number, clientid: number, hostid: number);
     constructor(
         code: string | number,
-        clientid?: number | string,
-        hostid?: number
+        clientId: number,
+        hostId: number,
+        playerName: string,
+        platform: PlatformSpecificData,
+        playerLevel: number
+    );
+    constructor(
+        code: string | number,
+        clientId?: number | string,
+        hostId?: number,
+        playerName?: string,
+        platform?: PlatformSpecificData,
+        playerLevel?: number
     ) {
         super();
 
@@ -29,8 +43,8 @@ export class JoinGameMessage extends BaseRootMessage {
             if (DisconnectReason[code]) {
                 this.error = code;
 
-                if (typeof clientid === "string") {
-                    this.message = clientid;
+                if (typeof clientId === "string") {
+                    this.message = clientId;
                 }
             } else {
                 this.code = code;
@@ -39,9 +53,12 @@ export class JoinGameMessage extends BaseRootMessage {
             this.code = Code2Int(code);
         }
 
-        if (typeof hostid === "number") {
-            this.clientid = clientid as number;
-            this.hostid = hostid;
+        if (typeof hostId === "number") {
+            this.clientId = clientId as number;
+            this.hostId = hostId;
+            this.playerName = playerName!;
+            this.platform = platform!;
+            this.playerLevel = playerLevel!;
         }
     }
 
@@ -50,10 +67,13 @@ export class JoinGameMessage extends BaseRootMessage {
             const code = reader.int32();
 
             if (!DisconnectReason[code]) {
-                const clientid = reader.int32();
-                const hostid = reader.int32();
+                const clientId = reader.int32();
+                const hostId = reader.int32();
+                const playerName = reader.string();
+                const platform = reader.read(PlatformSpecificData);
+                const playerLevel = reader.upacked();
 
-                return new JoinGameMessage(code, clientid, hostid);
+                return new JoinGameMessage(code, clientId, hostId, playerName, platform, playerLevel);
             }
 
             const message =
@@ -73,8 +93,8 @@ export class JoinGameMessage extends BaseRootMessage {
         if (direction === MessageDirection.Clientbound) {
             if (this.code) {
                 writer.int32(this.code);
-                writer.int32(this.clientid);
-                writer.int32(this.hostid);
+                writer.int32(this.clientId);
+                writer.int32(this.hostId);
             } else {
                 writer.int32(this.error);
                 if (
@@ -90,8 +110,19 @@ export class JoinGameMessage extends BaseRootMessage {
     }
 
     clone() {
-        if (this.hostid) {
-            return new JoinGameMessage(this.code, this.clientid, this.hostid);
+        if (this.hostId) {
+            return new JoinGameMessage(
+                this.code,
+                this.clientId,
+                this.hostId,
+                this.playerName,
+                new PlatformSpecificData(
+                    this.platform.platformTag,
+                    this.platform.platformName,
+                    this.platform.platformId
+                ),
+                this.playerLevel
+            );
         }
         if (this.error !== undefined) {
             return new JoinGameMessage(this.error, this.message);

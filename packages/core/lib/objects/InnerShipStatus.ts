@@ -115,12 +115,12 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
+        netId: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerid, flags, data);
 
         if (!this.systems) {
             this.systems = new Map;
@@ -212,7 +212,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     async selectImpostors() {
         const available = [...this.room.players.values()].filter(
             (player) =>
-                player.info && !player.info.isDisconnected && !player.info.isDead
+                player.playerInfo && !player.playerInfo.isDisconnected && !player.playerInfo.isDead
         );
         const max = available.length < 7 ? 1 : available.length < 9 ? 2 : 3;
         const impostors: PlayerData[] = [];
@@ -322,7 +322,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         let shortIdx = 0;
         let longIdx = 0;
         for (const [ , player ] of this.room.players) {
-            if (!player.info)
+            if (!player.playerInfo)
                 continue;
 
             usedTaskTypes.clear();
@@ -331,8 +331,8 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             shortIdx = this.addTasksFromList(shortIdx, numShort, playerTasks, usedTaskTypes, allShort);
             longIdx = this.addTasksFromList(longIdx, numLong, playerTasks, usedTaskTypes, allLong);
 
-            player.info.setTaskIds(playerTasks);
-            player.info.setTaskStates(playerTasks.map((task, taskIdx) => {
+            player.playerInfo.setTaskIds(playerTasks);
+            player.playerInfo.setTaskStates(playerTasks.map((task, taskIdx) => {
                 return new TaskState(taskIdx, false);
             }));
         }

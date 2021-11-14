@@ -264,6 +264,38 @@ export class HazelReader extends HazelBuffer {
     }
 
     /**
+     * Read an unsigned 64-bit integer value.
+     * @returns The value that was read.
+     * @example
+     * ```typescript
+     * console.log(reader.uint64()); // => 1666
+     * ```
+     */
+    uint64(be = false) {
+        const val = be
+            ? this._buffer.readBigUInt64BE(this._cursor)
+            : this._buffer.readBigUInt64LE(this._cursor);
+        this._cursor += SIZES.uint64;
+        return val;
+    }
+
+    /**
+     * Read a signed 64-bit integer value.
+     * @returns The value that was read.
+     * @example
+     * ```typescript
+     * console.log(reader.int64()); // => 1666
+     * ```
+     */
+    int64(be = false) {
+        const val = be
+            ? this._buffer.readBigInt64BE(this._cursor)
+            : this._buffer.readBigInt64LE(this._cursor);
+        this._cursor += SIZES.int64;
+        return val;
+    }
+
+    /**
      * Read an IEEE 754 floating point number.
      * @returns The value that was read.
      * @example

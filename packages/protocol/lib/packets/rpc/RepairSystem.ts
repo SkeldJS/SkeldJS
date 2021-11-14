@@ -20,10 +20,10 @@ export class RepairSystemMessage extends BaseRpcMessage {
 
     static Deserialize(reader: HazelReader) {
         const systemid = reader.uint8();
-        const netid = reader.upacked();
+        const netId = reader.upacked();
         const amount = reader.uint8();
 
-        return new RepairSystemMessage(systemid, netid, amount);
+        return new RepairSystemMessage(systemid, netId, amount);
     }
 
     Serialize(writer: HazelWriter) {

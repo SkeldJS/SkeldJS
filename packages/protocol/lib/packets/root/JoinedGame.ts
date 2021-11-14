@@ -1,5 +1,6 @@
 import { RootMessageTag } from "@skeldjs/constant";
 import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
+import { PlayerJoinData } from "../../misc";
 
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -8,15 +9,15 @@ export class JoinedGameMessage extends BaseRootMessage {
     messageTag = RootMessageTag.JoinedGame as const;
 
     readonly code: number;
-    readonly clientid: number;
-    readonly hostid: number;
-    readonly others: number[];
+    readonly clientId: number;
+    readonly hostId: number;
+    readonly otherPlayers: PlayerJoinData[];
 
     constructor(
         code: string | number,
-        clientid: number,
-        hostid: number,
-        others: number[]
+        clientId: number,
+        hostId: number,
+        otherPlayers: PlayerJoinData[]
     ) {
         super();
 
@@ -26,28 +27,28 @@ export class JoinedGameMessage extends BaseRootMessage {
             this.code = code;
         }
 
-        this.clientid = clientid;
-        this.hostid = hostid;
-        this.others = others;
+        this.clientId = clientId;
+        this.hostId = hostId;
+        this.otherPlayers = otherPlayers;
     }
 
     static Deserialize(reader: HazelReader) {
         const code = reader.int32();
-        const clientid = reader.int32();
-        const hostid = reader.int32();
-        const others = reader.list((r) => r.packed());
+        const clientId = reader.int32();
+        const hostId = reader.int32();
+        const otherPlayers = reader.list(reader => reader.read(PlayerJoinData));
 
-        return new JoinedGameMessage(code, clientid, hostid, others);
+        return new JoinedGameMessage(code, clientId, hostId, otherPlayers);
     }
 
     Serialize(writer: HazelWriter) {
         writer.int32(this.code);
-        writer.int32(this.clientid);
-        writer.int32(this.hostid);
-        writer.list(true, this.others, (other) => writer.packed(other));
+        writer.int32(this.clientId);
+        writer.int32(this.hostId);
+        writer.list(true, this.otherPlayers, player => writer.write(player));
     }
 
     clone() {
-        return new JoinedGameMessage(this.code, this.clientid, this.hostid, [...this.others]);
+        return new JoinedGameMessage(this.code, this.clientId, this.hostId, [...this.otherPlayers.map(player => player.clone())]);
     }
 }

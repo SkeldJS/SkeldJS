@@ -6,29 +6,29 @@ export class DataMessage extends BaseGameDataMessage {
     static messageTag = GameDataMessageTag.Data as const;
     messageTag = GameDataMessageTag.Data as const;
 
-    readonly netid: number;
+    readonly netId: number;
     readonly data: Buffer;
 
-    constructor(netid: number, data: Buffer) {
+    constructor(netId: number, data: Buffer) {
         super();
 
-        this.netid = netid;
+        this.netId = netId;
         this.data = data;
     }
 
     static Deserialize(reader: HazelReader) {
-        const netid = reader.upacked();
+        const netId = reader.upacked();
         const data = reader.bytes(reader.left);
 
-        return new DataMessage(netid, data.buffer);
+        return new DataMessage(netId, data.buffer);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.upacked(this.netid);
+        writer.upacked(this.netId);
         writer.bytes(this.data);
     }
 
     clone() {
-        return new DataMessage(this.netid, Buffer.from(this.data));
+        return new DataMessage(this.netId, Buffer.from(this.data));
     }
 }

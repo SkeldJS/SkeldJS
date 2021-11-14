@@ -12,10 +12,10 @@ export class AutoOpenDoor<RoomType extends Hostable = Hostable> extends Door {
 
     constructor(
         protected system: AutoDoorsSystem<RoomType>,
-        readonly id: number,
+        readonly doorId: number,
         isOpen: boolean
     ) {
-        super(system, id, isOpen);
+        super(system, doorId, isOpen);
 
         this.timer = 0;
     }
@@ -24,7 +24,7 @@ export class AutoOpenDoor<RoomType extends Hostable = Hostable> extends Door {
         this.timer -= delta;
 
         if (this.timer < 0) {
-            this.system.openDoor(this.id);
+            this.system.openDoor(this.doorId);
             return true;
         }
         return false;

@@ -6,29 +6,29 @@ export class SceneChangeMessage extends BaseGameDataMessage {
     static messageTag = GameDataMessageTag.SceneChange as const;
     messageTag = GameDataMessageTag.SceneChange as const;
 
-    readonly clientid: number;
+    readonly clientId: number;
     readonly scene: string;
 
-    constructor(clientid: number, scene: string) {
+    constructor(clientId: number, scene: string) {
         super();
 
-        this.clientid = clientid;
+        this.clientId = clientId;
         this.scene = scene;
     }
 
     static Deserialize(reader: HazelReader) {
-        const clientid = reader.packed();
+        const clientId = reader.packed();
         const scene = reader.string();
 
-        return new SceneChangeMessage(clientid, scene);
+        return new SceneChangeMessage(clientId, scene);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.packed(this.clientid);
+        writer.packed(this.clientId);
         writer.string(this.scene);
     }
 
     clone() {
-        return new SceneChangeMessage(this.clientid, this.scene);
+        return new SceneChangeMessage(this.clientId, this.scene);
     }
 }

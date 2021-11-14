@@ -11,7 +11,7 @@ describe("ReadyMessage", () => {
             const packet = ReadyMessage.Deserialize(reader);
 
             assert.strictEqual(packet.messageTag, GameDataMessageTag.Ready);
-            assert.strictEqual(packet.clientid, 38885);
+            assert.strictEqual(packet.clientId, 38885);
         });
     });
 

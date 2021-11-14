@@ -14,7 +14,7 @@ describe("SceneChangeMessage", () => {
             const packet = SceneChangeMessage.Deserialize(reader);
 
             assert.strictEqual(packet.messageTag, GameDataMessageTag.SceneChange);
-            assert.strictEqual(packet.clientid, 42500);
+            assert.strictEqual(packet.clientId, 42500);
             assert.strictEqual(packet.scene, "OnlineGame");
         });
     });

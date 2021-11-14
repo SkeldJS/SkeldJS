@@ -38,13 +38,13 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
+        netId: number,
         ownerid: number,
         flags: number,
         data?: HazelReader | VoteBanSystemData,
         gameData?: GameData<RoomType>
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerid, flags, data);
 
         this.voted ||= new Map;
 
@@ -62,13 +62,13 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
         const num_players = reader.upacked();
 
         for (let i = 0; i < num_players; i++) {
-            const clientid = reader.uint32();
+            const clientId = reader.uint32();
 
-            if (this.voted.get(clientid)) {
-                this.voted.set(clientid, [undefined, undefined, undefined]);
+            if (this.voted.get(clientId)) {
+                this.voted.set(clientId, [undefined, undefined, undefined]);
             }
 
-            this.voted.set(clientid, [undefined, undefined, undefined]);
+            this.voted.set(clientId, [undefined, undefined, undefined]);
             for (let i = 0; i < 3; i++) {
                 reader.upacked();
             }
@@ -79,8 +79,8 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     Serialize(writer: HazelWriter, spawn: boolean = false) {
         writer.upacked(this.voted.size);
 
-        for (const [clientid, voters] of this.voted) {
-            writer.uint32(clientid);
+        for (const [clientId, voters] of this.voted) {
+            writer.uint32(clientId);
 
             for (let i = 0; i < 3; i++) {
                 if (voters[i]) writer.upacked(voters[i]!.clientId);

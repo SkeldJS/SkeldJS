@@ -98,12 +98,12 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
-        ownerid: number,
+        netId: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
     }
 
     getComponent<T extends Networkable>(
@@ -220,7 +220,7 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         let count = 0;
         while (hashSet.size < AirshipStatus.electricalRooms.length && count++ < 10000) {
             const door = electricaldoors.doors[room[Math.floor(Math.random() * room.length)]];
-            const doorSet = AirshipStatus.electricalRooms.find(r => r !== room && r.includes(door.id));
+            const doorSet = AirshipStatus.electricalRooms.find(r => r !== room && r.includes(door.doorId));
 
             if (!doorSet)
                 continue;

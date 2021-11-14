@@ -36,12 +36,12 @@ export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networ
     constructor(
         room: RoomType,
         spawnType: SpawnType,
-        netid: number,
+        netId: number,
         ownerid: number,
         flags: number,
         data?: HazelBuffer | LobbyBehaviourData
     ) {
-        super(room, spawnType, netid, ownerid, flags, data);
+        super(room, spawnType, netId, ownerid, flags, data);
     }
 
     getComponent<T extends Networkable>(

@@ -6,25 +6,25 @@ export class DespawnMessage extends BaseGameDataMessage {
     static messageTag = GameDataMessageTag.Despawn as const;
     messageTag = GameDataMessageTag.Despawn as const;
 
-    readonly netid: number;
+    readonly netId: number;
 
-    constructor(netid: number) {
+    constructor(netId: number) {
         super();
 
-        this.netid = netid;
+        this.netId = netId;
     }
 
     static Deserialize(reader: HazelReader) {
-        const netid = reader.upacked();
+        const netId = reader.upacked();
 
-        return new DespawnMessage(netid);
+        return new DespawnMessage(netId);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.upacked(this.netid);
+        writer.upacked(this.netId);
     }
 
     clone() {
-        return new DespawnMessage(this.netid);
+        return new DespawnMessage(this.netId);
     }
 }

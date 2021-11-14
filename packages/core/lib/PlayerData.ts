@@ -1,4 +1,6 @@
-import { BaseGameDataMessage, ReadyMessage } from "@skeldjs/protocol";
+import { BaseGameDataMessage, PlatformSpecificData, ReadyMessage } from "@skeldjs/protocol";
+import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { Platform } from "@skeldjs/constant";
 
 import {
     CustomNetworkTransform,
@@ -20,7 +22,6 @@ import {
     PlayerSpawnEvent,
 } from "./events";
 
-import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 import { NetworkableEvents } from "./Networkable";
 
 export type PlayerDataEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
@@ -55,6 +56,21 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     clientId: number;
 
     /**
+     * The player's login name, not necessarily the display name, see {@link PlayerInfo}.
+     */
+    username: string;
+
+    /**
+     * The platform that the player is playing on.
+     */
+    platform: PlatformSpecificData;
+
+    /**
+     * The level/rank of the player.
+     */
+    playerLevel: number;
+
+    /**
      * Whether or not this player is readied up to start the game.
      */
     isReady: boolean;
@@ -71,11 +87,20 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
 
     character: PlayerControl<RoomType>|undefined;
 
-    constructor(room: RoomType, clientId: number) {
+    constructor(
+        room: RoomType,
+        clientId: number,
+        playerName: string,
+        platform = new PlatformSpecificData(Platform.Unknown, "Unknown"),
+        playerLevel = 0
+    ) {
         super();
 
         this.room = room;
         this.clientId = clientId;
+        this.username = playerName;
+        this.platform = platform;
+        this.playerLevel = playerLevel;
 
         this.stream = [];
         this.isReady = false;
@@ -124,8 +149,9 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     /**
      * The player's information.
      */
-    get info() {
-        if (this.playerId === undefined) return undefined;
+    get playerInfo() {
+        if (this.playerId === undefined)
+            return undefined;
 
         return this.room.gameData?.players?.get(this.playerId);
     }
@@ -161,7 +187,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     /**
      * Mark as readied up to start the game.
      */
-    async ready() {
+    async setReady() {
         this.isReady = true;
         await this.emit(new PlayerReadyEvent(this.room, this));
 
@@ -173,7 +199,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     /**
      * Despawn all components on the player,
      */
-    despawn() {
+    destroy() {
         if (!this.character)
             return;
 

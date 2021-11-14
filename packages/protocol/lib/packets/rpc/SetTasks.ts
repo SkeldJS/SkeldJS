@@ -6,29 +6,29 @@ export class SetTasksMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SetTasks as const;
     messageTag = RpcMessageTag.SetTasks as const;
 
-    playerid: number;
+    playerId: number;
     taskids: number[];
 
-    constructor(playerid: number, taskids: number[]) {
+    constructor(playerId: number, taskids: number[]) {
         super();
 
-        this.playerid = playerid;
+        this.playerId = playerId;
         this.taskids = taskids;
     }
 
     static Deserialize(reader: HazelReader) {
-        const playerid = reader.uint8();
+        const playerId = reader.uint8();
         const tasks = reader.list((r) => r.uint8());
 
-        return new SetTasksMessage(playerid, tasks);
+        return new SetTasksMessage(playerId, tasks);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.uint8(this.playerid);
+        writer.uint8(this.playerId);
         writer.list(true, this.taskids, (t) => writer.uint8(t));
     }
 
     clone() {
-        return new SetTasksMessage(this.playerid, [...this.taskids]);
+        return new SetTasksMessage(this.playerId, [...this.taskids]);
     }
 }

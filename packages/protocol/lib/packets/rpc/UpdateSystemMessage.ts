@@ -25,16 +25,16 @@ export class UpdateSystemMessage extends BaseRpcMessage {
         decoder: PacketDecoder
     ) {
         const systemType = reader.uint8();
-        const netid = reader.upacked();
+        const netId = reader.upacked();
         const rpcMessageClass = decoder.types.get(`system:${systemType}`);
         const mreader = reader.bytes(reader.left);
 
         if (!rpcMessageClass)
-            return new UpdateSystemMessage(netid, new BaseSystemMessage);
+            return new UpdateSystemMessage(netId, new BaseSystemMessage);
 
         const rpc = rpcMessageClass.Deserialize(mreader, direction, decoder);
 
-        return new UpdateSystemMessage(netid, rpc as BaseSystemMessage);
+        return new UpdateSystemMessage(netId, rpc as BaseSystemMessage);
     }
 
     Serialize(

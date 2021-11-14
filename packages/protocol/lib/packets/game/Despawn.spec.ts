@@ -11,7 +11,7 @@ describe("DespawnMessage", () => {
             const packet = DespawnMessage.Deserialize(reader);
 
             assert.strictEqual(packet.messageTag, GameDataMessageTag.Despawn);
-            assert.strictEqual(packet.netid, 5);
+            assert.strictEqual(packet.netId, 5);
         });
     });
 

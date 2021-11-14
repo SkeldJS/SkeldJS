@@ -19,8 +19,8 @@ describe("RemovePlayerMessage", () => {
 
             assert.strictEqual(packet.messageTag, RootMessageTag.RemovePlayer);
             assert.strictEqual(packet.code, -1938294720);
-            assert.strictEqual(packet.clientid, 36308);
-            assert.strictEqual(packet.hostid, 36210);
+            assert.strictEqual(packet.clientId, 36308);
+            assert.strictEqual(packet.hostId, 36210);
             assert.strictEqual(packet.reason, DisconnectReason.None);
         });
 
@@ -33,7 +33,7 @@ describe("RemovePlayerMessage", () => {
 
             assert.strictEqual(packet.messageTag, RootMessageTag.RemovePlayer);
             assert.strictEqual(packet.code, -1938294720);
-            assert.strictEqual(packet.clientid, 36308);
+            assert.strictEqual(packet.clientId, 36308);
             assert.strictEqual(packet.reason, DisconnectReason.None);
         });
     });

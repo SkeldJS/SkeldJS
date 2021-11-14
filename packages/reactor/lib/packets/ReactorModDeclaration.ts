@@ -16,9 +16,9 @@ export class ReactorModDeclarationMessage extends BaseReactorMessage {
     }
 
     static Deserialize(reader: HazelReader) {
-        const netid = reader.upacked();
+        const netId = reader.upacked();
         const mod = reader.read(ReactorMod);
-        return new ReactorModDeclarationMessage(netid, mod);
+        return new ReactorModDeclarationMessage(netId, mod);
     }
 
     Serialize(writer: HazelWriter) {

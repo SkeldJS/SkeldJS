@@ -7,7 +7,7 @@ export class HazelBuffer {
         this._cursor = 0;
     }
 
-    protected static checkInteger(val: number, bounds?: IntegerBoundary) {
+    protected static checkInteger(val: number|bigint, bounds?: IntegerBoundary) {
         if (typeof val !== "number") {
             throw new TypeError(
                 "Expected an integer, instead got " + typeof val + "."

@@ -54,7 +54,7 @@ export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
     }
 
     get canVote() {
-        const playerInfo = this.player?.info;
+        const playerInfo = this.player?.playerInfo;
         return !playerInfo?.isDead && !playerInfo?.isDisconnected;
     }
 

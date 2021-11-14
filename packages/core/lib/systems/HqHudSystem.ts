@@ -19,7 +19,7 @@ import { SystemStatusEvents } from "./events";
 import { Hostable } from "../Hostable";
 
 export interface UserConsolePair {
-    playerid: number;
+    playerId: number;
     consoleid: number;
 }
 
@@ -87,7 +87,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
 
     private _getIdx(consoleId: number, playerId: number) {
         return this.activeConsoles.findIndex(
-            (pair) => pair.consoleid === consoleId && pair.playerid === playerId
+            (pair) => pair.consoleid === consoleId && pair.playerId === playerId
         );
     }
 
@@ -109,8 +109,8 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
 
         for (let i = 0; i < beforeActive.length; i++) {
             const console = beforeActive[i];
-            const idx = this._getIdx(console.consoleid, console.playerid);
-            const player = this.ship.room.getPlayerByPlayerId(console.playerid);
+            const idx = this._getIdx(console.consoleid, console.playerId);
+            const player = this.ship.room.getPlayerByPlayerId(console.playerId);
             if (player && idx === -1) {
                 this._closeConsole(console.consoleid, player, undefined);
             }
@@ -150,7 +150,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         for (let i = 0; i < this.activeConsoles.length; i++) {
             const active = this.activeConsoles[i];
 
-            writer.uint8(active.playerid);
+            writer.uint8(active.playerId);
             writer.uint8(active.consoleid);
         }
 
@@ -211,7 +211,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
         const idx = this._getIdx(consoleid, player.playerId);
 
         if (idx === -1) {
-            const consoleEntry = { consoleid, playerid: player.playerId };
+            const consoleEntry = { consoleid, playerId: player.playerId };
             this.activeConsoles.push(consoleEntry);
             this.dirty = true;
             const ev = await this.emit(
