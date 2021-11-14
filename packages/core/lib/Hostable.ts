@@ -368,15 +368,11 @@ export class Hostable<
     }
 
     async broadcast(
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        messages: BaseGameDataMessage[],
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        reliable: boolean = true,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        recipient: PlayerData | number | undefined = undefined,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        payloads: BaseRootMessage[] = []
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        gamedata: BaseGameDataMessage[],
+        payloads: BaseRootMessage[] = [],
+        include?: (PlayerData|number)[],
+        exclude?: (PlayerData|number)[],
+        reliable = true
     ) {}
 
     async FixedUpdate() {
@@ -439,7 +435,8 @@ export class Hostable<
             const stream = this.stream;
             this.stream = [];
 
-            if (!ev.canceled) await this.broadcast(stream);
+            if (!ev.canceled)
+                await this.broadcast(stream);
         }
     }
 
@@ -551,7 +548,7 @@ export class Hostable<
         this._setPrivacy(ev.alteredPrivacy);
 
         if (ev.alteredPrivacy !== oldPrivacy) {
-            await this.broadcast([], true, undefined, [
+            await this.broadcast([], [
                 new AlterGameMessage(
                     this.code,
                     AlterGameTag.ChangePrivacy,
@@ -782,8 +779,6 @@ export class Hostable<
             if (removes.length) {
                 await this.broadcast(
                     [],
-                    true,
-                    undefined,
                     removes.map((clientid) => {
                         return new RemovePlayerMessage(
                             this.code,
@@ -848,7 +843,7 @@ export class Hostable<
             return;
 
         this.state = GameState.Ended;
-        await this.broadcast([], true, undefined, [
+        await this.broadcast([], [
             new EndGameMessage(this.code, reason, false)
         ]);
     }

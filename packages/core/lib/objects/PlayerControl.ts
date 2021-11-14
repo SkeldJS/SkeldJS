@@ -546,8 +546,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                     new CheckNameMessage(name)
                 ),
             ],
-            true,
-            this.room.hostId
+            undefined,
+            [ this.room.hostId ]
         );
     }
 
@@ -669,8 +669,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                     new CheckColorMessage(color)
                 ),
             ],
-            true,
-            this.room.hostId
+            undefined,
+            [ this.room.hostId ]
         );
     }
 
@@ -784,7 +784,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                         : body.playerId!
                 )
             )
-        ], true, this.room.hostId);
+        ], undefined, [ this.room.hostId ]);
     }
 
     /**

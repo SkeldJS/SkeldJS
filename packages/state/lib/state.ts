@@ -130,7 +130,7 @@ export class SkeldjsStateManager<
                 );
 
                 if (ev.alteredPrivacy !== messagePrivacy) {
-                    await this.broadcast([], true, undefined, [
+                    await this.broadcast([], [
                         new AlterGameMessage(
                             this.code,
                             AlterGameTag.ChangePrivacy,
@@ -212,8 +212,8 @@ export class SkeldjsStateManager<
                         if (this.hostIsMe) {
                             await this.broadcast(
                                 this._getExistingObjectSpawn(),
-                                true,
-                                player
+                                undefined,
+                                [ player ]
                             );
 
                             this.spawnPrefab(

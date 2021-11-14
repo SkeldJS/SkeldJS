@@ -324,7 +324,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                         : 255
                 )
             )
-        ], true, this.room.hostId);
+        ], undefined, [ this.room.hostId ]);
     }
 
     /**
@@ -416,7 +416,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         }
     }
 
-    private async _rpcClearVote(voter: PlayerVoteArea<RoomType>) {
+    private async _rpcClearVote(voter: PlayerData) {
         await this.room.broadcast(
             [
                 new RpcMessage(
@@ -424,8 +424,8 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     new ClearVoteMessage
                 ),
             ],
-            true,
-            this.room.getPlayerByPlayerId(voter.playerId)
+            undefined,
+            [ voter ]
         );
     }
 
@@ -450,7 +450,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                         _voter.player!
                     )
                 );
-                await this._rpcClearVote(_voter);
+                await this._rpcClearVote(player);
             }
         }
     }

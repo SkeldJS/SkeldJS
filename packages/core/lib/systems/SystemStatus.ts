@@ -117,7 +117,7 @@ export class SystemStatus<
                         this.systemType
                     )
                 )
-            ], true, this.room.hostId, []);
+            ], undefined, [ this.room.hostId ]);
         }
     }
 
@@ -134,6 +134,6 @@ export class SystemStatus<
                     amount
                 )
             )
-        ], true, this.room.hostId, []);
+        ], undefined, [ this.room.hostId ]);
     }
 }

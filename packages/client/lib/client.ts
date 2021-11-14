@@ -498,46 +498,58 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
     /**
      * Broadcast a message to a specific player or to all players in the game.
-     * @param messages The messages to broadcast.
-     * @param reliable Whether or not the message should be acknowledged by the server.
-     * @param recipient The optional recipient of the messages.
-     * @param payload Additional payloads to be sent to the server. (Not necessarily broadcasted to all players, or even the recipient.)
+     * @param gamedata The gamedata messages to broadcast
+     * @param payloads Any payloads to send to the server (won't go to any recipients in particular)
+     * @param include Which players to include in the broadcast
+     * @param exclude Which players to exclude from the broadcast
+     * @param reliable Whether or not this message is reliable and should be acknowledged by the server
      */
     async broadcast(
-        messages: BaseGameDataMessage[],
-        reliable: boolean = true,
-        recipient: PlayerData | number | undefined = undefined,
-        payloads: BaseRootMessage[] = []
+        gamedata: BaseGameDataMessage[],
+        payloads: BaseRootMessage[] = [],
+        include?: (PlayerData|number)[],
+        exclude?: (PlayerData|number)[],
+        reliable = true
     ) {
-        const recipientid = typeof recipient === "number"
-            ? recipient
-            : recipient?.clientId;
+        const includedSet = include || [...this.players.values()];
+        const excludedSet = new Set(exclude);
 
-        if (recipientid !== undefined) {
-            const children = [
-                ...(messages.length
-                    ? [new GameDataToMessage(this.code, recipientid, messages)]
-                    : []),
-                ...payloads,
-            ];
+        const actualInclude = excludedSet.size
+            ? includedSet.filter(include => !excludedSet.has(include))
+            : includedSet;
 
-            this.send(
-                reliable
-                    ? new ReliablePacket(this.getNextNonce(), children)
-                    : new UnreliablePacket(children)
-            );
+
+        const actualPayloads = [...payloads];
+        if (actualInclude.length === this.players.size) {
+            if (gamedata.length) {
+                actualPayloads.push(
+                    new GameDataMessage(
+                        this.code,
+                        gamedata
+                    )
+                );
+            }
         } else {
-            const children = [
-                ...(messages.length
-                    ? [new GameDataMessage(this.code, messages)]
-                    : []),
-                ...payloads,
-            ];
+            if (gamedata.length) {
+                for (const player of actualInclude) {
+                    actualPayloads.push(
+                        new GameDataToMessage(
+                            this.code,
+                            typeof player === "number"
+                                ? player
+                                : player.clientId,
+                            gamedata
+                        )
+                    );
+                }
+            }
+        }
 
+        if (actualPayloads.length) {
             this.send(
                 reliable
-                    ? new ReliablePacket(this.getNextNonce(), children)
-                    : new UnreliablePacket(children)
+                    ? new ReliablePacket(this.getNextNonce(), actualPayloads)
+                    : new UnreliablePacket(actualPayloads)
             );
         }
     }
@@ -856,6 +868,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * Ask the server to start a game.
      */
     async startGame() {
-        await this.broadcast([], true, undefined, [new StartGameMessage(this.code)]);
+        await this.broadcast([], [ new StartGameMessage(this.code) ]);
     }
 }
