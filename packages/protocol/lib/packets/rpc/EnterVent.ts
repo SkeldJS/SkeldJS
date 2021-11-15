@@ -6,25 +6,25 @@ export class EnterVentMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.EnterVent as const;
     messageTag = RpcMessageTag.EnterVent as const;
 
-    ventid: number;
+    ventId: number;
 
-    constructor(ventid: number) {
+    constructor(ventId: number) {
         super();
 
-        this.ventid = ventid;
+        this.ventId = ventId;
     }
 
     static Deserialize(reader: HazelReader) {
-        const ventid = reader.upacked();
+        const ventId = reader.upacked();
 
-        return new EnterVentMessage(ventid);
+        return new EnterVentMessage(ventId);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.upacked(this.ventid);
+        writer.upacked(this.ventId);
     }
 
     clone() {
-        return new EnterVentMessage(this.ventid);
+        return new EnterVentMessage(this.ventId);
     }
 }

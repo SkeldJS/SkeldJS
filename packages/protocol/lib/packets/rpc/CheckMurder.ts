@@ -2,9 +2,9 @@ import { RpcMessageTag } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
-export class MurderPlayerMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.MurderPlayer as const;
-    messageTag = RpcMessageTag.MurderPlayer as const;
+export class CheckMurderMessage extends BaseRpcMessage {
+    static messageTag = RpcMessageTag.CheckMurder as const;
+    messageTag = RpcMessageTag.CheckMurder as const;
 
     victimNetId: number;
 
@@ -17,7 +17,7 @@ export class MurderPlayerMessage extends BaseRpcMessage {
     static Deserialize(reader: HazelReader) {
         const victimNetId = reader.upacked();
 
-        return new MurderPlayerMessage(victimNetId);
+        return new CheckMurderMessage(victimNetId);
     }
 
     Serialize(writer: HazelWriter) {
@@ -25,6 +25,6 @@ export class MurderPlayerMessage extends BaseRpcMessage {
     }
 
     clone() {
-        return new MurderPlayerMessage(this.victimNetId);
+        return new CheckMurderMessage(this.victimNetId);
     }
 }

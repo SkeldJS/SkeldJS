@@ -287,8 +287,8 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         }
     }
 
-    vent(ventid: number) {
-        const coords = this.getVentForMap(ventid);
+    vent(ventId: number) {
+        const coords = this.getVentForMap(ventId);
 
         if (!coords)
             return;

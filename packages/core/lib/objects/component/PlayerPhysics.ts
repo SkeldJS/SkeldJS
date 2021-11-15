@@ -1,5 +1,6 @@
 import { HazelReader } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
+
 import {
     BaseRpcMessage,
     ClimbLadderMessage,
@@ -7,6 +8,7 @@ import {
     ExitVentMessage,
     RpcMessage,
 } from "@skeldjs/protocol";
+
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { Networkable, NetworkableEvents } from "../../Networkable";
@@ -20,11 +22,12 @@ import {
     PlayerEnterVentEvent,
     PlayerExitVentEvent,
 } from "../../events";
+
 import { PlayerControl } from "../PlayerControl";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface PlayerPhysicsData {
-    ventid: number;
+    ventId: number;
 }
 
 export type PlayerPhysicsEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
@@ -45,7 +48,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     /**
      * The ID of the vent that the player is currently in.
      */
-    ventid: number;
+    ventId: number;
 
     /**
      * The player that this component belongs to.
@@ -65,7 +68,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     ) {
         super(room, spawnType, netId, ownerid, flags, data);
 
-        this.ventid ??= -1;
+        this.ventId ??= -1;
         this.ladderClimbSeqId = 0;
 
         this.player = this.owner as PlayerData<RoomType>;
@@ -73,6 +76,10 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
         if (playerControl) {
             this.components = playerControl.components;
         }
+    }
+
+    get isInVent() {
+        return this.ventId > -1;
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
@@ -91,27 +98,27 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleEnterVent(rpc: EnterVentMessage) {
-        this._enterVent(rpc.ventid);
+        this._enterVent(rpc.ventId);
 
         await this.emit(
             new PlayerEnterVentEvent(
                 this.room,
                 this.player,
                 rpc,
-                rpc.ventid
+                rpc.ventId
             )
         );
     }
 
-    private _enterVent(ventid: number) {
-        this.ventid = ventid;
+    private _enterVent(ventId: number) {
+        this.ventId = ventId;
     }
 
-    private _rpcEnterVent(ventid: number) {
+    private _rpcEnterVent(ventId: number) {
         this.room.stream.push(
             new RpcMessage(
                 this.netId,
-                new EnterVentMessage(ventid)
+                new EnterVentMessage(ventId)
             )
         );
     }
@@ -121,47 +128,47 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link PlayerEnterVentEvent | `player.entervent`} event.
      *
-     * @param ventid The ID of the vent to enter.
+     * @param ventId The ID of the vent to enter.
      * @example
      *```typescript
      * client.me.physics.enterVent(PolusVent.Office);
      * ```
      */
-    enterVent(ventid: number) {
-        this._enterVent(ventid);
+    enterVent(ventId: number) {
+        this._enterVent(ventId);
         this.emit(
             new PlayerEnterVentEvent(
                 this.room,
                 this.player,
                 undefined,
-                ventid
+                ventId
             )
         );
-        this._rpcEnterVent(ventid);
+        this._rpcEnterVent(ventId);
     }
 
     private async _handleExitVent(rpc: ExitVentMessage) {
-        this._exitVent(rpc.ventid);
+        this._exitVent(rpc.ventId);
 
         await this.emit(
             new PlayerExitVentEvent(
                 this.room,
                 this.player,
                 rpc,
-                rpc.ventid
+                rpc.ventId
             )
         );
     }
 
-    private _exitVent(ventid: number) {
-        this.ventid = -1;
+    private _exitVent(ventId: number) {
+        this.ventId = -1;
     }
 
-    private _rpcExitVent(ventid: number) {
+    private _rpcExitVent(ventId: number) {
         this.room.stream.push(
             new RpcMessage(
                 this.netId,
-                new ExitVentMessage(ventid)
+                new ExitVentMessage(ventId)
             )
         );
     }
@@ -172,23 +179,23 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link PlayerExitVentEvent | `player.exitvent`} event.
      *
-     * @param ventid The ID of the vent to exit.
+     * @param ventId The ID of the vent to exit.
      * @example
      *```typescript
      * client.me.physics.enterVent(PolusVent.Office);
      * ```
      */
-    exitVent(ventid: number) {
-        this._exitVent(ventid);
+    exitVent(ventId: number) {
+        this._exitVent(ventId);
         this.emit(
             new PlayerExitVentEvent(
                 this.room,
                 this.player,
                 undefined,
-                ventid
+                ventId
             )
         );
-        this._rpcExitVent(ventid);
+        this._rpcExitVent(ventId);
     }
 
     private async _handleClimbLadder(rpc: ClimbLadderMessage) {

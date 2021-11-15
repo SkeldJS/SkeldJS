@@ -176,7 +176,7 @@ export class Hostable<
     /**
      * The state that the game is currently in.
      */
-    state: GameState;
+    gameState: GameState;
 
     /**
      * The ID of the host of the room.
@@ -302,7 +302,7 @@ export class Hostable<
         this._destroyed = false;
 
         this.code = 0;
-        this.state = GameState.NotStarted;
+        this.gameState = GameState.NotStarted;
         this.hostId = -1;
         this.counter = -1;
         this.privacy = "private";
@@ -579,11 +579,11 @@ export class Hostable<
     }
 
     spawnNecessaryObjects() {
-        if (!this.lobbyBehaviour && this.state === GameState.NotStarted) {
+        if (!this.lobbyBehaviour && this.gameState === GameState.NotStarted) {
             this.spawnPrefab(SpawnType.LobbyBehaviour, -2);
         }
 
-        if (!this.shipStatus && this.state === GameState.Started) {
+        if (!this.shipStatus && this.gameState === GameState.Started) {
             const shipPrefabs = [
                 SpawnType.SkeldShipStatus,
                 SpawnType.MiraShipStatus,
@@ -702,7 +702,7 @@ export class Hostable<
             return null;
 
         if (player.playerId !== undefined) {
-            if (this.state === GameState.Started) {
+            if (this.gameState === GameState.Started) {
                 const gamedataEntry = this.gameData?.players.get(player.playerId);
                 if (gamedataEntry) {
                     gamedataEntry.setDisconnected(true);
@@ -744,10 +744,10 @@ export class Hostable<
      * Handle when the game is started.
      */
     async handleStart() {
-        if (this.state === GameState.Started)
+        if (this.gameState === GameState.Started)
             return;
 
-        this.state = GameState.Started;
+        this.gameState = GameState.Started;
 
         if (this.hostIsMe) {
             await Promise.all([
@@ -819,7 +819,7 @@ export class Hostable<
     }
 
     protected async _handleEnd(reason: GameOverReason) {
-        this.state = GameState.Ended;
+        this.gameState = GameState.Ended;
         this.players.clear();
         for (const [ objId ] of this.players) {
             this.players.delete(objId);
@@ -841,10 +841,10 @@ export class Hostable<
     }
 
     async endGame(reason: GameOverReason) {
-        if (this.state !== GameState.Started)
+        if (this.gameState !== GameState.Started)
             return;
 
-        this.state = GameState.Ended;
+        this.gameState = GameState.Ended;
         await this.broadcast([], [
             new EndGameMessage(this.code, reason, false)
         ]);
@@ -922,8 +922,8 @@ export class Hostable<
         this.netobjects.delete(component.netId);
 
         if (component.owner instanceof PlayerData) {
-            if (component.owner.character === component) {
-                component.owner.character = undefined;
+            if (component.owner.control === component) {
+                component.owner.control = undefined;
             }
         }
 
@@ -998,6 +998,29 @@ export class Hostable<
                 return i;
             }
         }
+    }
+
+    protected _getExistingObjectSpawn() {
+        const messages: SpawnMessage[] = [];
+
+        for (const object of this.objectList) {
+            messages.push(
+                new SpawnMessage(
+                    object.spawnType,
+                    object.ownerId,
+                    object.flags,
+                    object.components.map(component => {
+                        const writer = HazelWriter.alloc(512);
+                        writer.write(component, true);
+                        writer.realloc(writer.cursor);
+
+                        return new ComponentSpawnData(component.netId, writer.buffer);
+                    })
+                )
+            );
+        }
+
+        return messages;
     }
 
     /**
@@ -1097,8 +1120,8 @@ export class Hostable<
         }
 
         if ((_flags & SpawnFlag.IsClientCharacter) > 0 && ownerClient) {
-            if (!ownerClient.character) {
-                ownerClient.character = object as PlayerControl<this>;
+            if (!ownerClient.control) {
+                ownerClient.control = object as PlayerControl<this>;
                 ownerClient.inScene = true;
             }
         }
@@ -1118,7 +1141,7 @@ export class Hostable<
         const player = new PlayerData(this, 0, "dummy");
         const playerControl = this.spawnPrefab(SpawnType.Player, -2, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
         playerControl.player = player;
-        player.character = playerControl;
+        player.control = playerControl;
 
         return player;
     }
@@ -1194,27 +1217,19 @@ export class Hostable<
         this.endGameIntents.push(endGameIntent);
     }
 
-    protected _getExistingObjectSpawn() {
-        const messages: SpawnMessage[] = [];
+    murderIsValid(murderer: PlayerData, victim: PlayerData) {
+        if (this.gameState !== GameState.Started)
+            return false;
 
-        for (const object of this.objectList) {
-            messages.push(
-                new SpawnMessage(
-                    object.spawnType,
-                    object.ownerId,
-                    object.flags,
-                    object.components.map(component => {
-                        const writer = HazelWriter.alloc(512);
-                        writer.write(component, true);
-                        writer.realloc(writer.cursor);
-
-                        return new ComponentSpawnData(component.netId, writer.buffer);
-                    })
-                )
-            );
+        if (murderer.playerInfo?.isDead || /* todo: is impostor */ murderer.playerInfo?.isDisconnected) {
+            return false;
         }
 
-        return messages;
+        if (!victim.playerInfo || victim.playerInfo.isDead || victim.physics?.isInVent) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

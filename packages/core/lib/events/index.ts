@@ -40,6 +40,7 @@ export * from "./oxygen/ConsolesClear";
 export * from "./movingplatform/PlayerUpdate";
 
 export * from "./player/CheckColor";
+export * from "./player/CheckMurder";
 export * from "./player/CheckName";
 export * from "./player/ClimbLadder";
 export * from "./player/CompleteTask";

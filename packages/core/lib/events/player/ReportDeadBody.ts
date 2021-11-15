@@ -11,9 +11,10 @@ import { PlayerEvent } from "./PlayerEvent";
  * Emitted when a player reports a dead body of a player, telling the host to
  * begin a meeting.
  *
- * This event is only emitted if the client is the host, see
- * {@link PlayerStartMeetingEvent} to listen for a meeting being started regardless
- * of whether the client is the host or not.
+ * This event is only emitted if the client is the host and doesn't guarantee
+ * that a meeting has started, see {@link PlayerStartMeetingEvent} to listen for
+ * a meeting actually being started, and regardless of whether the client is the
+ * host or not.
  */
 export class PlayerReportDeadBodyEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.reportbody" as const;

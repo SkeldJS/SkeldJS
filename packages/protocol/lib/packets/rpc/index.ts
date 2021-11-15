@@ -2,6 +2,7 @@ export * from "./AddVote";
 export * from "./BaseRpcMessage";
 export * from "./CastVote";
 export * from "./CheckColor";
+export * from "./CheckMurder";
 export * from "./CheckName";
 export * from "./ClearVote";
 export * from "./ClimbLadder";

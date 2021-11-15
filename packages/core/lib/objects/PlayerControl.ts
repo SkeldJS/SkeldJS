@@ -3,6 +3,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import {
     BaseRpcMessage,
     CheckColorMessage,
+    CheckMurderMessage,
     CheckNameMessage,
     CompleteTaskMessage,
     GameSettings,
@@ -66,7 +67,8 @@ import {
     PlayerSyncSettingsEvent,
     PlayerDieEvent,
     PlayerSetVisorEvent,
-    PlayerSetNameplateEvent
+    PlayerSetNameplateEvent,
+    PlayerCheckMurderEvent
 } from "../events";
 
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -92,6 +94,7 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
     ExtractEventTypes<
         [
             PlayerCheckColorEvent<RoomType>,
+            PlayerCheckMurderEvent<RoomType>,
             PlayerCheckNameEvent<RoomType>,
             PlayerCompleteTaskEvent<RoomType>,
             PlayerDieEvent<RoomType>,
@@ -285,6 +288,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             case RpcMessageTag.SetNameplate:
                 await this._handleSetNameplate(rpc as SetNameplateMessage);
                 break;
+            case RpcMessageTag.CheckMurder:
+                await this._handleCheckMurder(rpc as CheckMurderMessage);
         }
     }
 
@@ -766,7 +771,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         if (!ev.canceled) {
-            this.room.host?.control?.startMeeting(this.player, ev.alteredBody);
+            this.room.host?.control?.startMeeting(ev.alteredBody, this.player);
         }
     }
 
@@ -785,28 +790,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 )
             )
         ], undefined, [ this.room.hostId ]);
-    }
-
-    /**
-     * Report the dead body of a player, telling the host to begin a meeting.
-     * Use {@link PlayerControl.startMeeting} if you are calling this as the
-     * host.
-     *
-     * Emits a {@link PlayerReportDeadBodyEvent `player.reportbody`} event.
-     */
-    async reportDeadBody(body: PlayerData | "emergency") {
-        const ev = await this.emit(
-            new PlayerReportDeadBodyEvent(
-                this.room,
-                this.player,
-                undefined,
-                body
-            )
-        );
-
-        if (!ev.canceled) {
-            await this._rpcReportDeadBody(ev.alteredBody);
-        }
     }
 
     async kill(reason: string) {
@@ -828,9 +811,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleMurderPlayer(rpc: MurderPlayerMessage) {
-        const victim = this.room.getPlayerByNetId(rpc.victimid);
+        const victim = this.room.getPlayerByNetId(rpc.victimNetId);
 
-        if (!victim || victim.playerId === undefined)
+        if (!victim)
             return;
 
         await victim.control?.kill("murder");
@@ -873,8 +856,10 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @returns
      */
     async murderPlayer(victim: PlayerData) {
-        if (victim.playerId === undefined)
+        if (!this.room.hostIsMe) {
+            await this._rpcCheckMurder(victim);
             return;
+        }
 
         await victim.control?.kill("murder");
 
@@ -993,6 +978,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.room,
                 this.player,
                 rpc,
+                this.player,
                 reportedBody
             )
         );
@@ -1040,27 +1026,33 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     /**
-     * Start a meeting and begin the meeting routine. This is a host-only operation
-     * on official servers, see {@link PlayerControl.reportDeadBody} if you are calling
-     * this as not the host.
+     * If you're the host, this will immediately begin a meeting
+     * Start a meeting and begin the meeting
      *
      * Emits a {@link PlayerStartMeetingEvent | `player.startmeeting`} event.
      *
      * @param caller The player that called this meeting.
      * @param body The body that was reported, or "emergency" if it is an emergency meeting.
      */
-    async startMeeting(caller: PlayerData, body: PlayerData | "emergency") {
+    async startMeeting(body: PlayerData | "emergency", caller?: PlayerData) {
+        if (!this.room.hostIsMe) {
+            await this._rpcReportDeadBody(body);
+            return;
+        }
+
+        const actualCaller = caller || this.room.host || this.player;
+        this._rpcStartMeeting(body);
+        this._startMeeting(actualCaller);
+
         await this.emit(
             new PlayerStartMeetingEvent(
                 this.room,
                 this.player,
                 undefined,
+                actualCaller,
                 body
             )
         );
-
-        this._rpcStartMeeting(body);
-        this._startMeeting(caller);
     }
 
     private async _handleSetStartCounter(rpc: SetStartCounterMessage) {
@@ -1548,5 +1540,40 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         if (ev.alteredNameplateId !== oldNameplate)
             this._rpcSetNameplate(ev.alteredNameplateId);
+    }
+
+    private async _handleCheckMurder(rpc: CheckMurderMessage) {
+        const victim = this.room.getPlayerByNetId(rpc.victimNetId);
+
+        if (!victim || !this.room.hostIsMe)
+            return;
+
+        const ev = await this.emit(
+            new PlayerCheckMurderEvent(
+                this.room,
+                this.player,
+                rpc,
+                victim,
+                this.room.murderIsValid(this.player, victim)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            ev.alteredPlayer.control?.murderPlayer(ev.alteredVictim);
+        }
+    }
+
+    private async _rpcCheckMurder(victim: PlayerData) {
+        if (!victim.control)
+            return;
+
+        await this.room.broadcast([
+            new RpcMessage(
+                this.netId,
+                new CheckMurderMessage(
+                    victim.control.netId
+                )
+            )
+        ]);
     }
 }

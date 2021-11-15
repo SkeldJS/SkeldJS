@@ -8,7 +8,12 @@ import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
 
 /**
- * Emitted when a player (i.e. the host of the room) starts a meeting.
+ * Emitted when a meeting is started, either by a player reporting a body or
+ * calling an emergency meetting.
+ *
+ * This guarantees that the meeting has actually started, see
+ * {@link PlayerReportDeadBodyEvent} for an event that can prevent a meeting from
+ * being started if you are the host.
  */
 export class PlayerStartMeetingEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.startmeeting" as const;
@@ -18,6 +23,11 @@ export class PlayerStartMeetingEvent<RoomType extends Hostable = Hostable> exten
         public readonly room: RoomType,
         public readonly player: PlayerData<RoomType>,
         public readonly message: StartMeetingMessage|undefined,
+        /**
+         * The player who called the meeting, either by reporting a body or
+         * calling an emergency meeting.
+         */
+        public readonly caller: PlayerData<RoomType>,
         /**
          * The player of the body that was reported, or "emergency" if the
          * meeting is an emergency meeting.

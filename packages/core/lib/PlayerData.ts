@@ -23,6 +23,7 @@ import {
 } from "./events";
 
 import { NetworkableEvents } from "./Networkable";
+import { PlayerInfo } from "./misc";
 
 export type PlayerDataEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     PlayerControlEvents<RoomType> &
@@ -85,7 +86,13 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      */
     stream: BaseGameDataMessage[];
 
-    character: PlayerControl<RoomType>|undefined;
+    /**
+     * This player's player control component.
+     */
+    control: PlayerControl<RoomType>|undefined;
+
+    private _playerInfoCachedPlayerId?: number;
+    private _playerInfoCached?: PlayerInfo;
 
     constructor(
         room: RoomType,
@@ -106,7 +113,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
         this.isReady = false;
         this.inScene = false;
 
-        this.character = undefined;
+        this.control = undefined;
 
         this.on("component.spawn", () => {
             if (this.hasSpawned) {
@@ -122,38 +129,45 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     }
 
     /**
-     * The player's control component.
-     */
-    get control(): PlayerControl<RoomType>|undefined {
-        return this.character?.getComponent(PlayerControl) as PlayerControl<RoomType>|undefined;
-    }
-
-    /**
      * The player's physics component.
      */
     get physics(): PlayerPhysics<RoomType>|undefined {
-        return this.character?.getComponent(PlayerPhysics) as PlayerPhysics<RoomType>|undefined;
+        return this.control?.getComponent(PlayerPhysics) as PlayerPhysics<RoomType>|undefined;
     }
 
     /**
      * The player's movement component.
      */
     get transform(): CustomNetworkTransform<RoomType>|undefined {
-        return this.character?.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType>|undefined;
+        return this.control?.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType>|undefined;
     }
 
+    /**
+     * Whether or not this player is a fake player, as in they are entirely
+     * client-side and have no real player behind them.
+     */
     get isFakePlayer() {
-        return this.character && this.clientId === 0;
+        return this.control && this.clientId === 0;
     }
 
     /**
      * The player's information.
      */
-    get playerInfo() {
-        if (this.playerId === undefined)
+    get playerInfo(): PlayerInfo|undefined {
+        if (this.playerId === undefined) {
+            this._playerInfoCachedPlayerId = undefined;
+            this._playerInfoCached = undefined;
             return undefined;
+        }
 
-        return this.room.gameData?.players?.get(this.playerId);
+        if (this.playerId === this._playerInfoCachedPlayerId && this._playerInfoCached) {
+            return this._playerInfoCached;
+        }
+
+        this._playerInfoCachedPlayerId = this.playerId;
+        this._playerInfoCached = this.room.gameData?.players?.get(this.playerId);
+
+        return this._playerInfoCached;
     }
 
     /**
@@ -200,10 +214,10 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * Despawn all components on the player,
      */
     destroy() {
-        if (!this.character)
+        if (!this.control)
             return;
 
-        for (const component of this.character.components) {
+        for (const component of this.control.components) {
             component.despawn();
         }
     }
