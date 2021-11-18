@@ -7,35 +7,25 @@ import {
     Pet,
     PlayerDataFlags,
     PlayerOutfitType,
-    RoleType,
     Skin,
     Visor
 } from "@skeldjs/constant";
 
 import { GameData } from "../objects";
 import { Hostable } from "../Hostable";
+import { BaseRole, CrewmateRole, UnknownRole } from "../roles";
 
 export class TaskState {
     constructor(
-        public taskIdx: number,
+        /**
+         * The type of task that this task is, see {@link TaskType}.
+         */
+        public taskType: number,
+        /**
+         * Whether or not this task has been completed or not by the player.
+         */
         public completed: boolean
     ) {}
-
-    static Deserialize(reader: HazelReader) {
-        const task = new TaskState(0, false);
-        task.Deserialize(reader);
-        return task;
-    }
-
-    Deserialize(reader: HazelReader) {
-        this.taskIdx = reader.upacked();
-        this.completed = reader.bool();
-    }
-
-    Serialize(writer: HazelWriter) {
-        writer.upacked(this.taskIdx);
-        writer.bool(this.completed);
-    }
 }
 
 /**
@@ -111,19 +101,52 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
     static createDefault<RoomType extends Hostable = Hostable>(gamedata: GameData<RoomType>, playerId: number) {
         return new PlayerInfo(gamedata, playerId, {
             [PlayerOutfitType.Default]: PlayerOutfit.createDefault(PlayerOutfitType.Default)
-        }, 0, 0, RoleType.Crewmate, [], []);
+        }, 0, 0, CrewmateRole, []);
     }
+
+    currentOutfitType: PlayerOutfitType;
 
     constructor(
         public readonly gamedata: GameData<RoomType>,
         public readonly playerId: number,
+        /**
+         * A collection of this player's outfits as they should be displayed.
+         * Somewhat of a layer system, the Default outfit shouldn't be displayed
+         * if there is another outfit in this object.
+         */
         public outfits: PlayerOutfits,
+        /**
+         * This player's level/rank.
+         */
         public playerLevel: number,
+        /**
+         * Any flags that this player has, see {@link PlayerDataFlags}.
+         */
         public flags = 0,
-        public roleType: RoleType,
-        public taskIds: number[] = [],
+        /**
+         * Which player this role is. Note that this is not their actual instance
+         * of this role, see {@link PlayerData.role}, but is instead the class
+         * used to create the instance, and holds metadata about the role, such as
+         * the team it is for and whether it's a role for ghosts or not.
+         *
+         * You can use this to know what class {@link PlayerData.role} will be an
+         * instance of.
+         * @example
+         * ```ts
+         * if (player.playerInfo.roleType === ImpostorRole) {
+         *   player.role instanceof ImpostorRole // true
+         * }
+         * ```
+         */
+        public roleType: typeof BaseRole,
+        /**
+         * All of this player's tasks, and whether or not they have been completed
+         * or not by the player.
+         */
         public taskStates: TaskState[] = []
-    ) {}
+    ) {
+        this.currentOutfitType = PlayerOutfitType.Default;
+    }
 
     static Deserialize<RoomType extends Hostable = Hostable>(reader: HazelReader, gamedata: GameData<RoomType>, playerId: number) {
         const player = this.createDefault(gamedata, playerId);
@@ -166,6 +189,10 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         return this.getOutfit(PlayerOutfitType.Default);
     }
 
+    get currentOutfit() {
+        return this.getOutfit(this.currentOutfitType);
+    }
+
     Deserialize(reader: HazelReader) {
         this.outfits = {};
         const numOutfits = reader.uint8();
@@ -175,10 +202,17 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         }
         this.playerLevel = reader.upacked();
         this.flags = reader.uint8();
-        this.roleType = reader.uint16() as RoleType;
+        const roleType = reader.uint16();
+        this.roleType = this.gamedata.room.registeredRoles.get(roleType) || UnknownRole(roleType);
         this.taskStates = [];
-        const num_tasks = reader.uint8();
-        this.taskStates = reader.lread(num_tasks, TaskState);
+        const numTasks = reader.uint8();
+        for (let i = 0; i < numTasks; i++) {
+            const taskIdx = reader.upacked();
+
+            if (this.taskStates[taskIdx]) {
+                this.taskStates[taskIdx].completed = reader.bool();
+            }
+        }
     }
 
     Serialize(writer: HazelWriter) {
@@ -190,9 +224,12 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         }
         writer.upacked(this.playerLevel);
         writer.uint8(this.flags);
-        writer.uint16(this.roleType);
+        writer.uint16(this.roleType.roleMetadata.roleType);
         writer.uint8(this.taskStates?.length || 0);
-        writer.lwrite(false, this.taskStates || []);
+        for (let i = 0; i < this.taskStates.length; i++) {
+            writer.upacked(i);
+            writer.bool(this.taskStates[i].completed);
+        }
     }
 
     /**
@@ -221,8 +258,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
             this.playerLevel,
             this.flags,
             this.roleType,
-            [...this.taskIds],
-            this.taskStates.map(task => new TaskState(task.taskIdx, task.completed))
+            this.taskStates.map(task => new TaskState(task.taskType, task.completed))
         );
     }
 
@@ -261,18 +297,20 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
 
     /**
      * Create or overwrite one of this player's outfits.
-     * @param outfit The outfit to set
+     * @param outfit The outfit to set.
      */
     setOutfit(outfit: PlayerOutfit) {
         this.outfits[outfit.outfitType] = outfit;
         this.gamedata.update(this);
+
+        // todo outfit update events
     }
 
     /**
      * Get an outfit from this player, or create it from the player's default base
      * outfit if it doesn't exist, or create a new one entirely if that doesn't
      * exist.
-     * @param outfitType The outfit to get
+     * @param outfitType The outfit to get.
      */
     getOutfit(outfitType: PlayerOutfitType) {
         const outfit = this.outfits[outfitType];
@@ -289,6 +327,17 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         this.outfits[outfitType] = newOutfit;
 
         return newOutfit;
+    }
+
+    /**
+     * Delete an outfit on this player.
+     * @param outfitType the outfit to delete.
+     */
+    deleteOutfit(outfitType: PlayerOutfitType) {
+        delete this.outfits[outfitType];
+        if (this.currentOutfitType === outfitType) {
+            this.currentOutfitType = PlayerOutfitType.Default;
+        }
     }
 
     setName(outfitType: PlayerOutfitType, name: string) {

@@ -27,7 +27,9 @@ import {
     GameOverReason,
     SpawnType,
     SpawnFlag,
-    GameState
+    GameState,
+    RoleType,
+    RoleTeamType
 } from "@skeldjs/constant";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
@@ -70,11 +72,11 @@ import {
     RoomFixedUpdateEvent,
     RoomGameEndEvent,
     RoomGameStartEvent,
-    RoomSelectImpostorsEvent,
     RoomSetPrivacyEvent
 } from "./events";
 
 import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
+import { BaseRole, CrewmateRole, EngineerRole, GuardianAngelRole, ImpostorRole, ScientistRole, ShapeshifterRole } from "./roles";
 
 export type RoomID = string | number;
 
@@ -121,7 +123,6 @@ export type HostableEvents<RoomType extends Hostable = Hostable> = NetworkableEv
             RoomFixedUpdateEvent<RoomType>,
             RoomGameEndEvent<RoomType>,
             RoomGameStartEvent<RoomType>,
-            RoomSelectImpostorsEvent<RoomType>,
             RoomSetPrivacyEvent<RoomType>
         ]
     >;
@@ -166,7 +167,7 @@ export class Hostable<
     /**
      * The current message stream to be sent to the server on fixed update.
      */
-    stream: BaseGameDataMessage[];
+    messageStream: BaseGameDataMessage[];
 
     /**
      * The code of the room.
@@ -268,17 +269,12 @@ export class Hostable<
      * custom INO (inner net objects) such as replicating behaviour from a client
      * mod, see {@link Hostable.registerPrefab}.
      */
-    spawnPrefabs: Map<number, NetworkableConstructor<any>[]> = new Map([
-        [SpawnType.SkeldShipStatus, [ SkeldShipStatus ]],
-        [SpawnType.MeetingHud, [ MeetingHud ]],
-        [SpawnType.LobbyBehaviour, [ LobbyBehaviour ]],
-        [SpawnType.GameData, [ GameData, VoteBanSystem ]],
-        [SpawnType.Player, [ PlayerControl, PlayerPhysics, CustomNetworkTransform ]],
-        [SpawnType.MiraShipStatus, [ MiraShipStatus ]],
-        [SpawnType.Polus, [ PolusShipStatus ]],
-        [SpawnType.AprilShipStatus, [ AprilShipStatus ]],
-        [SpawnType.Airship, [ AirshipStatus ]]
-    ]);
+    registeredPrefabs: Map<number, NetworkableConstructor<any>[]>;
+
+    /**
+     * All roles that can be assigned to players. See {@link Hostable.registerRole}.
+     */
+    registeredRoles: Map<number, typeof BaseRole>;
 
     /**
      * Every end game intent that should happen in a queue to be or not to be
@@ -312,7 +308,7 @@ export class Hostable<
         this.objectList = [];
         this.players = new Map;
         this.netobjects = new Map;
-        this.stream = [];
+        this.messageStream = [];
 
         this.decoder = new PacketDecoder;
 
@@ -321,6 +317,27 @@ export class Hostable<
         this.lobbyBehaviour = undefined;
         this.gameData = undefined;
         this.voteBanSystem = undefined;
+
+        this.registeredPrefabs = new Map([
+            [SpawnType.SkeldShipStatus, [ SkeldShipStatus ]],
+            [SpawnType.MeetingHud, [ MeetingHud ]],
+            [SpawnType.LobbyBehaviour, [ LobbyBehaviour ]],
+            [SpawnType.GameData, [ GameData, VoteBanSystem ]],
+            [SpawnType.Player, [ PlayerControl, PlayerPhysics, CustomNetworkTransform ]],
+            [SpawnType.MiraShipStatus, [ MiraShipStatus ]],
+            [SpawnType.Polus, [ PolusShipStatus ]],
+            [SpawnType.AprilShipStatus, [ AprilShipStatus ]],
+            [SpawnType.Airship, [ AirshipStatus ]]
+        ]);
+
+        this.registeredRoles = new Map([
+            [ RoleType.Crewmate, CrewmateRole ],
+            [ RoleType.Engineer, EngineerRole ],
+            [ RoleType.GuardianAngel, GuardianAngelRole ],
+            [ RoleType.Impostor, ImpostorRole ],
+            [ RoleType.Scientist, ScientistRole ],
+            [ RoleType.Shapeshifter, ShapeshifterRole ]
+        ]);
 
         this.endGameIntents = [];
 
@@ -389,7 +406,7 @@ export class Hostable<
                     component.PreSerialize();
                     const writer = HazelWriter.alloc(0);
                 if (component.Serialize(writer, false)) {
-                        this.stream.push(
+                        this.messageStream.push(
                             new DataMessage(component.netId, writer.buffer)
                         );
                     }
@@ -427,14 +444,14 @@ export class Hostable<
         const ev = await this.emit(
             new RoomFixedUpdateEvent(
                 this,
-                this.stream,
-                delta
+                this.messageStream,
+                delta / 1000
             )
         );
 
-        if (this.stream.length) {
-            const stream = this.stream;
-            this.stream = [];
+        if (this.messageStream.length) {
+            const stream = this.messageStream;
+            this.messageStream = [];
 
             if (!ev.canceled)
                 await this.broadcast(stream);
@@ -804,7 +821,7 @@ export class Hostable<
 
             await this.emit(new RoomGameStartEvent(this));
             this.spawnPrefab(shipPrefabs[this.settings?.map] || 0, -2);
-            await this.shipStatus?.selectImpostors();
+            await this.shipStatus?.assignRoles();
             await this.shipStatus?.assignTasks();
 
             if (this.shipStatus) {
@@ -976,7 +993,7 @@ export class Hostable<
     despawnComponent(component: Networkable<any, NetworkableEvents, this>) {
         this._despawnComponent(component);
 
-        this.stream.push(new DespawnMessage(component.netId));
+        this.messageStream.push(new DespawnMessage(component.netId));
     }
 
     /**
@@ -1051,7 +1068,7 @@ export class Hostable<
 
         let object!: Networkable;
 
-        const spawnPrefab = this.spawnPrefabs.get(spawnType);
+        const spawnPrefab = this.registeredPrefabs.get(spawnType);
 
         if (!spawnPrefab)
             throw new Error("Cannot spawn object of type: " + spawnType + " (not registered)");
@@ -1101,7 +1118,7 @@ export class Hostable<
         }
 
         if (this.hostIsMe && doBroadcast) {
-            this.stream.push(
+            this.messageStream.push(
                 new SpawnMessage(
                     spawnType,
                     object.ownerId,
@@ -1158,7 +1175,15 @@ export class Hostable<
             throw new Error("Expected at least 1 component to create an INO prefab from.");
         }
 
-        this.spawnPrefabs.set(spawnType, components);
+        this.registeredPrefabs.set(spawnType, components);
+    }
+
+    /**
+     * Register a role that can be assigned to a player.
+     * @param roleCtr The role to register to the room.
+     */
+    registerRole(roleCtr: typeof BaseRole) {
+        this.registeredRoles.set(roleCtr.roleMetadata.roleType, roleCtr);
     }
 
     /**
@@ -1209,6 +1234,16 @@ export class Hostable<
         return undefined;
     }
 
+    findPlayersWithName(displayName: string) {
+        const players = [];
+        for (const [ , player ] of this.players) {
+            if (player.playerInfo?.defaultOutfit.name === displayName) {
+                players.push(player);
+            }
+        }
+        return players;
+    }
+
     /**
      * Register an intent to end the game.
      * @param endGameIntent The intention to end the game.
@@ -1221,7 +1256,7 @@ export class Hostable<
         if (this.gameState !== GameState.Started)
             return false;
 
-        if (murderer.playerInfo?.isDead || /* todo: is impostor */ murderer.playerInfo?.isDisconnected) {
+        if (murderer.playerInfo?.isDead || murderer.playerInfo?.roleType.roleMetadata.roleTeam !== RoleTeamType.Impostor || murderer.playerInfo?.isDisconnected) {
             return false;
         }
 

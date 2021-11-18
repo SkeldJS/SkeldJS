@@ -1,7 +1,10 @@
 import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import {
     GameMap,
+    RoleTeamType,
+    RoleType,
     RpcMessageTag,
     SpawnType,
     SystemType,
@@ -16,8 +19,12 @@ import {
     TheSkeldTasks
 } from "@skeldjs/data";
 
-import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseRpcMessage,CloseDoorsOfTypeMessage,RepairSystemMessage } from "@skeldjs/protocol";
+import {
+    BaseRpcMessage,
+    CloseDoorsOfTypeMessage,
+    RepairSystemMessage,
+    RoleChanceSettings
+} from "@skeldjs/protocol";
 
 import {
     AutoDoorsSystemEvents,
@@ -35,14 +42,22 @@ import {
     SecurityCameraSystemEvents,
     SwitchSystemEvents,
     SystemStatus,
+    SystemStatusEvents
 } from "../systems";
 
 import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
-import { SystemStatusEvents } from "../systems/events";
-import { RoomSelectImpostorsEvent } from "../events";
-import { TaskState } from "../misc/PlayerInfo";
+
+import { BaseRole, CrewmateRole, ImpostorRole } from "../roles";
+import { RoomAssignRolesEvent } from "../events";
+import { TaskState } from "../misc";
+
+export interface RoleAssignmentData {
+    roleCtr: typeof BaseRole;
+    chance: number;
+    count: number;
+}
 
 interface ConsoleDataModel {
     index: number;
@@ -91,7 +106,7 @@ export type ShipStatusEvents<RoomType extends Hostable = Hostable> = Networkable
     SabotageSystemEvents<RoomType> &
     SecurityCameraSystemEvents<RoomType> &
     SwitchSystemEvents<RoomType> &
-    ExtractEventTypes<[ RoomSelectImpostorsEvent<RoomType> ]>;
+    ExtractEventTypes<[ RoomAssignRolesEvent<RoomType> ]>;
 
 export type ShipStatusType =
     | SpawnType.SkeldShipStatus
@@ -205,38 +220,227 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     }
 
     /**
-     * Randomly select players to be the Impostor. Called after a game is started
-     * and emits a {@link RoomSelectImpostorsEvent} which can be used to alter the
-     * results of this function.
+     * Get all roles registered on the room that match a given filter.
+     * @param filter The filter to match against.
+     * @returns A list of all roles that satisfy the given filter.
      */
-    async selectImpostors() {
-        const available = [...this.room.players.values()].filter(
-            (player) =>
-                player.playerInfo && !player.playerInfo.isDisconnected && !player.playerInfo.isDead
-        );
-        const max = available.length < 7 ? 1 : available.length < 9 ? 2 : 3;
-        const impostors: PlayerData[] = [];
+    matchRoles(settings: Partial<Record<RoleType, RoleChanceSettings>>, filter: (roleCtr: typeof BaseRole, roleChance: RoleChanceSettings) => any) {
+        const filteredRoles = [];
+        for (const [ , roleCtr ] of this.room.registeredRoles) {
+            const roleChance = settings[roleCtr.roleMetadata.roleType as RoleType];
+            if (roleChance && filter(roleCtr, roleChance)) {
+                filteredRoles.push(roleCtr);
+            }
+        }
+        return filteredRoles;
+    }
 
-        for (
-            let i = 0;
-            i < Math.min(this.room.settings.numImpostors, max);
-            i++
-        ) {
-            const random = ~~(Math.random() * available.length);
-            impostors.push(available[random]);
-            available.splice(random, 1);
+    /**
+     * Specifically assign a pool of players to each role in a specific team.
+     * @param playerPool The entire list of players that can be assigned a role,
+     * whether or not they already have a role. Note that this is _not_ a list
+     * of players to be assigned a role from this team, but it is instead every possible
+     * player who _could_ be assigned one.
+     * @param settings Role settings to use when calculating how many players
+     * should assigned a specific role.
+     * @param roleTeam The team of roles to assign.
+     * @param maxAssignable The maximum number of players that can be assigned
+     * a role from this team. For example, it could be the set number of impostors
+     * configured in the game settings.
+     * @param defaultRole The default role to assign to each player
+     * @param roleAssignments A map of role assigments (i.e. a map of player to
+     * roles) to act as a collective output to this method.
+     * @returns The role assignments (i.e. a map of player to roles) that have
+     * either collectively been assigned (if {@link roleAssignments} is passed)
+     * or been assigned just as part of this method.
+     */
+    getRoleAssignmentsForTeam(
+        playerPool: PlayerData[],
+        settings: Partial<Record<RoleType, RoleChanceSettings>>,
+        roleTeam: RoleTeamType,
+        maxAssignable: number,
+        defaultRole?: typeof BaseRole,
+        roleAssignments: Map<PlayerData, typeof BaseRole> = new Map
+    ) {
+        const teamRoles = this.matchRoles(settings, roleCtr =>
+            roleCtr.roleMetadata.roleTeam === roleTeam && !roleCtr.roleMetadata.isGhostRole);
+
+        return this.getRoleAssignmentsFromRoleList(playerPool, settings, teamRoles, maxAssignable, defaultRole, roleAssignments);
+    }
+
+    /**
+     * Specifically assign a pool of players to each role in a list, with regard
+     * to the room settings (i.e. the chance of each role appearing or the maximum
+     * number of assignments for the role).
+     * @param playerPool The entire list of players that can be assigned a role,
+     * whether or not they already have a role. Note that this is _not_ a list
+     * of players to be assigned a role from this team, but it is instead every possible
+     * player who _could_ be assigned one.
+     * @param settings Role settings to use when calculating how many players
+     * should assigned a specific role.
+     * @param roleTeam The team of roles to assign.
+     * @param maxAssignable The maximum number of players that can be assigned
+     * a role from this team. For example, it could be the set number of impostors
+     * configured in the game settings.
+     * @param defaultRole The default role to assign to each player
+     * @param roleAssignments A map of role assigments (i.e. a map of player to
+     * roles) to act as a collective output to this method.
+     * @returns The role assignments (i.e. a map of player to roles) that have
+     * either collectively been assigned (if {@link roleAssignments} is passed)
+     * or been assigned just as part of this method.
+     */
+    getRoleAssignmentsFromRoleList(
+        playerPool: PlayerData[],
+        settings: Partial<Record<RoleType, RoleChanceSettings>>,
+        teamRoles: typeof BaseRole[],
+        maxAssignable: number,
+        defaultRole?: typeof BaseRole,
+        roleAssignments: Map<PlayerData, typeof BaseRole> = new Map
+    ) {
+        const roleAssignmentData: RoleAssignmentData[] = [];
+        for (let i = 0; i < teamRoles.length; i++) {
+            const roleCtr = teamRoles[i];
+            roleAssignmentData.push({
+                roleCtr,
+                chance: settings[roleCtr.roleMetadata.roleType as RoleType]!.chance,
+                count: settings[roleCtr.roleMetadata.roleType as RoleType]!.maxPlayers
+            });
         }
 
-        const ev = await this.emit(
-            new RoomSelectImpostorsEvent(
-                this.room,
-                impostors
-            )
-        );
+        const fullChanceRoles: typeof BaseRole[] = [];
+        const lesserChanceRoles: typeof BaseRole[] = [];
 
-        if (!ev.canceled && this.room.host?.control) {
-            await this.room.host.control.setImpostors(ev.alteredImpostors);
+        for (const roleAssignment of roleAssignmentData) {
+            if (roleAssignment.chance >= 100) {
+                for (let i = 0; i < roleAssignment.count; i++) {
+                    fullChanceRoles.push(roleAssignment.roleCtr);
+                    roleAssignment.count--;
+                }
+            } else if (roleAssignment.chance > 0) {
+                for (let i = 0; i < roleAssignment.count; i++) {
+                    if (Math.random() * 101 < roleAssignment.chance) {
+                        lesserChanceRoles.push(roleAssignment.roleCtr);
+                    }
+                }
+            }
         }
+
+        this.getRoleAssignmentsForPlayers(playerPool, maxAssignable, fullChanceRoles, roleAssignments);
+        this.getRoleAssignmentsForPlayers(playerPool, maxAssignable, lesserChanceRoles, roleAssignments);
+
+        if (defaultRole) {
+            const defaultRoles: typeof BaseRole[] = [];
+            const num = Math.min(playerPool.length, maxAssignable);
+            for (let i = 0; i < num; i++) {
+                defaultRoles.push(defaultRole);
+            }
+            this.getRoleAssignmentsForPlayers(playerPool, maxAssignable, defaultRoles, roleAssignments);
+        }
+
+        return roleAssignments;
+    }
+
+    /**
+     * Assign a list of roles to a pool of players, eliminating both players
+     * from the player list and also roles from the role list, and without regard
+     * for room settings (i.e. the chances of each role appearing or the maximum
+     * number of assignments for the role).
+     * @param playerPool The pool of players to assign a list of roles to.
+     * @param maxAssignable The maximum number of players that cn be assigned a
+     * role from this list.
+     * @param roleList The list of roles to assign to players.
+     * @param roleAssignments A map of role assigments (i.e. a map of player to
+     * roles) to act as a collective output to this method.
+     * @returns The role assignments (i.e. a map of player to roles) that have
+     * either collectively been assigned (if {@link roleAssignments} is passed)
+     * or been assigned just as part of this method.
+     */
+    getRoleAssignmentsForPlayers(playerPool: PlayerData[], maxAssignable: number, roleList: typeof BaseRole[], roleAssignments: Map<PlayerData, typeof BaseRole> = new Map) {
+        let numAssigned = 0;
+        while (roleList.length > 0 && playerPool.length > 0 && numAssigned < maxAssignable) {
+            const roleIdx = Math.floor(Math.random() * roleList.length);
+            const roleCtr = roleList[roleIdx];
+            roleList.splice(roleIdx, 1);
+
+            const playerIdx = Math.floor(Math.random() * playerPool.length);
+            const player = playerPool[playerIdx];
+            playerPool.splice(playerIdx, 1);
+
+            roleAssignments.set(player, roleCtr);
+            numAssigned++;
+        }
+        return roleAssignments;
+    }
+
+    /**
+     * Randomly assign players to each enabled role with a certain probability.
+     * Called just after a game is started and emits a {@link RoomAssignRolesEvent}
+     * which can be used to alter which players are assigned which roles.
+     */
+    async assignRoles() {
+        const allPlayers = [];
+        for (const [ , player ] of this.room.players) {
+            if (!player.playerInfo?.isDisconnected && !player.playerInfo?.isDead) {
+                allPlayers.push(player);
+            }
+        }
+
+        const roleAssignments: Map<PlayerData, typeof BaseRole> = new Map;
+
+        const adjustedImpostors = allPlayers.length < 7 ? 1 : allPlayers.length < 9 ? 2 : 3;
+        const assignedImpostors = this.getRoleAssignmentsForTeam(allPlayers, this.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(adjustedImpostors, this.room.settings.numImpostors), ImpostorRole);
+        const assignedCrewmates = this.getRoleAssignmentsForTeam(allPlayers, this.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, CrewmateRole);
+
+        for (const [ player, roleCtr ] of assignedImpostors) {
+            roleAssignments.set(player, roleCtr);
+        }
+        for (const [ player, roleCtr ] of assignedCrewmates) {
+            roleAssignments.set(player, roleCtr);
+        }
+
+        await this.assignRolesFromAssignments(roleAssignments);
+    }
+
+    /**
+     * Try to assign a ghost role to a specific dead player.
+     * @param player The player to assign the role to.
+     */
+    async tryAssignGhostRole(player: PlayerData) {
+        if (!player.playerInfo?.isDead || player.playerInfo.isImpostor)
+            return;
+
+        const ghostRoles = this.matchRoles(this.room.settings.roleSettings.roleChances, (roleCtr, roleChance) => {
+            if (!roleCtr.roleMetadata.isGhostRole)
+                return false;
+
+            if (roleChance.chance >= 100)
+                return true;
+
+            if (Math.random() * 101 < roleChance.chance)
+                return true;
+
+            return false;
+        });
+
+        if (!ghostRoles.length)
+            return;
+
+        const randomRole = ghostRoles[Math.floor(Math.random() * ghostRoles.length)];
+        await player.control?.setRole(randomRole);
+    }
+
+    /**
+     * Actually set all player roles from a map of player to role assignments,
+     * can be gathered from {@link InnerShipStatus.getRoleAssignmentsForTeam}.
+     * @param roleAssignments A map of player to role assignments to assign to
+     * every role.
+     */
+    async assignRolesFromAssignments(roleAssignments: Map<PlayerData, typeof BaseRole>) {
+        const promises = [];
+        for (const [ player, roleCtr ] of roleAssignments) {
+            promises.push(player.control?.setRole(roleCtr));
+        }
+        await Promise.all(promises);
     }
 
     private getTasksForMap(map: number) {
@@ -286,7 +490,10 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         return start;
     }
 
-    async assignTasks() {
+    /**
+     * Randomly assign tasks to all players, using data from @skeldjs/data.
+     */
+    assignTasks() {
         const allTasks = this.getTasksForMap(this.room.settings.map);
         const numCommon = this.room.settings.commonTasks;
         const numLong = this.room.settings.longTasks;
@@ -338,6 +545,13 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         }
     }
 
+    /**
+     * Get the spawn position of a player whether they are about to spawn after
+     * starting or whether they are about to spawn after a meeting.
+     * @param player The player or player ID to determine the position of.
+     * @param initialSpawn Whther or not this is a spawn after starting the game.
+     * @returns The spawn position of the player.
+     */
     getSpawnPosition(player: PlayerData|number, initialSpawn: boolean) {
         const playerId = typeof player === "number"
             ? player
@@ -352,13 +566,24 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             .add(new Vector2(0, 0.3636));
     }
 
+    /**
+     * Teleport a player to their spawn position, calculated using
+     * {@link InnerShipStatus.getSpawnPosition}.
+     * @param player The player to determine the position of.
+     * @param initialSpawn Whether or not this is a spawn after starting the game.
+     */
     spawnPlayer(player: PlayerData, initialSpawn: boolean) {
         if (player.playerId === undefined)
             return;
 
-        player.transform?.snapTo(this.getSpawnPosition(player, initialSpawn));
+        player.transform?.snapTo(this.getSpawnPosition(player, initialSpawn), false);
     }
 
+    /**
+     * Get the door IDs used to connect to a room.
+     * @param room The room to get the door IDs for.
+     * @returns The door IDs that connect to the room.
+     */
     getDoorsInRoom(room: SystemType): number[] {
         void room;
         return [];

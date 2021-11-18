@@ -5,9 +5,11 @@ import {
     CheckColorMessage,
     CheckMurderMessage,
     CheckNameMessage,
+    CheckProtectMessage,
     CompleteTaskMessage,
     GameSettings,
     MurderPlayerMessage,
+    ProtectPlayerMessage,
     QuickChatMessageData,
     QuickChatPhraseMessageData,
     QuickChatPlayerMessageData,
@@ -23,9 +25,11 @@ import {
     SetNameMessage,
     SetNameplateMessage,
     SetPetMessage,
+    SetRoleMessage,
     SetSkinMessage,
     SetStartCounterMessage,
     SetVisorMessage,
+    ShapeshiftMessage,
     StartMeetingMessage,
     SyncSettingsMessage,
     UsePlatformMessage
@@ -44,7 +48,9 @@ import {
     GameOverReason,
     PlayerOutfitType,
     Visor,
-    Nameplate
+    Nameplate,
+    RoleType,
+    GameState
 } from "@skeldjs/constant";
 
 import {
@@ -68,7 +74,12 @@ import {
     PlayerDieEvent,
     PlayerSetVisorEvent,
     PlayerSetNameplateEvent,
-    PlayerCheckMurderEvent
+    PlayerCheckMurderEvent,
+    PlayerSetRoleEvent,
+    PlayerProtectEvent,
+    PlayerCheckProtectEvent,
+    PlayerShapeshiftEvent,
+    PlayerRevertShapeshiftEvent
 } from "../events";
 
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -81,9 +92,12 @@ import { AirshipStatus } from "./AirshipStatus";
 import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
-import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
+
+import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
 import { AmongUsEndGames, EndGameIntent, PlayersKillEndgameMetadata } from "../endgame";
+import { BaseRole, GuardianAngelRole, UnknownRole } from "../roles";
+import { PlayerRemoveProtectionEvent } from "../events/player/RemoveProtection";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -96,11 +110,15 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
             PlayerCheckColorEvent<RoomType>,
             PlayerCheckMurderEvent<RoomType>,
             PlayerCheckNameEvent<RoomType>,
+            PlayerCheckProtectEvent<RoomType>,
             PlayerCompleteTaskEvent<RoomType>,
             PlayerDieEvent<RoomType>,
             PlayerUseMovingPlatformEvent<RoomType>,
             PlayerMurderEvent<RoomType>,
+            PlayerProtectEvent<RoomType>,
+            PlayerRemoveProtectionEvent<RoomType>,
             PlayerReportDeadBodyEvent<RoomType>,
+            PlayerRevertShapeshiftEvent<RoomType>,
             PlayerSendChatEvent<RoomType>,
             PlayerSendQuickChatEvent<RoomType>,
             PlayerSetColorEvent<RoomType>,
@@ -109,9 +127,11 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
             PlayerSetNameEvent<RoomType>,
             PlayerSetNameplateEvent<RoomType>,
             PlayerSetPetEvent<RoomType>,
+            PlayerSetRoleEvent<RoomType>,
             PlayerSetSkinEvent<RoomType>,
             PlayerSetStartCounterEvent<RoomType>,
             PlayerSetVisorEvent<RoomType>,
+            PlayerShapeshiftEvent<RoomType>,
             PlayerStartMeetingEvent<RoomType>,
             PlayerSyncSettingsEvent<RoomType>
         ]
@@ -144,6 +164,24 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     player: PlayerData<RoomType>;
 
+    /**
+     * Whether or not this player has been protected bya guardian angel.
+     */
+    protectedByGuardian: boolean;
+
+    /**
+     * The player (i.e. a guardian angel) who has protected this player, if the
+     * player is being protected..
+     */
+    guardianProtector?: PlayerData<RoomType>;
+
+    /**
+     * The player that this player has shapeshifted as, if any.
+     */
+    shapeshiftTarget?: PlayerData<RoomType>
+
+    private _protectedByGuardianTime: number;
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -158,6 +196,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this.playerId ||= 0;
 
         this.player = this.owner as PlayerData<RoomType>;
+
+        this.protectedByGuardian = false;
+        this._protectedByGuardianTime = 0;
     }
 
     Awake() {
@@ -173,10 +214,10 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 const offsetted = spawnPosition
                     .add(spawnPosition.negate().normalize().div(4));
 
-                this.getComponent(CustomNetworkTransform)!.snapTo(offsetted);
+                this.getComponent(CustomNetworkTransform)!.snapTo(offsetted, false);
             } else if (this.room.shipStatus) {
                 const spawnPosition = this.room.shipStatus.getSpawnPosition(this.playerId, true);
-                this.getComponent(CustomNetworkTransform)!.snapTo(spawnPosition);
+                this.getComponent(CustomNetworkTransform)!.snapTo(spawnPosition, false);
             }
         }
     }
@@ -217,6 +258,16 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         writer.uint8(this.playerId);
         return true;
+    }
+
+    FixedUpdate(delta: number) {
+        if (this.protectedByGuardian) {
+            this._protectedByGuardianTime -= delta;
+            if (this._protectedByGuardianTime <= 0) {
+                this._protectedByGuardianTime = 0;
+                this.removeProtection(true);
+            }
+        }
     }
 
     async HandleRpc(rpc: BaseRpcMessage) {
@@ -288,8 +339,21 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             case RpcMessageTag.SetNameplate:
                 await this._handleSetNameplate(rpc as SetNameplateMessage);
                 break;
+            case RpcMessageTag.SetRole:
+                await this._handleSetRole(rpc as SetRoleMessage);
+                break;
+            case RpcMessageTag.ProtectPlayer:
+                await this._handleProtectPlayer(rpc as ProtectPlayerMessage);
+                break;
+            case RpcMessageTag.Shapeshift:
+                await this._handleShapeshift(rpc as ShapeshiftMessage);
+                break;
             case RpcMessageTag.CheckMurder:
                 await this._handleCheckMurder(rpc as CheckMurderMessage);
+                break;
+            case RpcMessageTag.CheckProtect:
+                await this._handleCheckProtect(rpc as CheckProtectMessage);
+                break;
         }
     }
 
@@ -297,14 +361,14 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (!this.player.playerInfo?.taskStates)
             return;
 
-        this._completeTask(rpc.taskidx);
+        this._completeTask(rpc.taskIdx);
 
         await this.emit(
             new PlayerCompleteTaskEvent(
                 this.room,
                 this.player,
                 rpc,
-                this.player.playerInfo.taskStates[rpc.taskidx]
+                this.player.playerInfo.taskStates[rpc.taskIdx]
             )
         );
     }
@@ -314,7 +378,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _rpcCompleteTask(taskIdx: number) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new CompleteTaskMessage(taskIdx)
@@ -378,7 +442,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _rpcSyncSettings(settings: GameSettings) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SyncSettingsMessage(settings)
@@ -449,7 +513,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetImpostors(impostors: PlayerData[]) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetInfectedMessage(
@@ -474,7 +538,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * // Set everyone with "Judas" in their name as the impostor.
      * awiat client.me.control.setImpostors(
      *   [...this.room.players.values()]
-     *     .filter(player => player.info.name.includes("Judas"))
+     *     .filter(player => player.playerInfo.name.includes("Judas"))
      * );
      * ```
      */
@@ -589,7 +653,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetName(name: string) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetNameMessage(name)
@@ -713,7 +777,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetColor(color: Color) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetColorMessage(color)
@@ -828,13 +892,17 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         this._checkMurderEndGame();
+
+        if (victim.playerInfo?.isDead && this.room.hostIsMe) {
+            await this.room.shipStatus?.tryAssignGhostRole(victim);
+        }
     }
 
     private _rpcMurderPlayer(victim: PlayerData) {
         if (!victim.control)
             return;
 
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new MurderPlayerMessage(victim.control.netId)
@@ -861,6 +929,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             return;
         }
 
+        if (victim.control?.protectedByGuardian) {
+            this._rpcMurderPlayer(victim);
+            await victim.control.removeProtection();
+            return;
+        }
+
         await victim.control?.kill("murder");
 
         await this.emit(
@@ -874,6 +948,10 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         this._rpcMurderPlayer(victim);
         this._checkMurderEndGame();
+
+        if (victim.playerInfo?.isDead && this.room.hostIsMe) {
+            await this.room.shipStatus?.tryAssignGhostRole(victim);
+        }
     }
 
     private _checkMurderEndGame(victim?: PlayerData) {
@@ -922,7 +1000,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSendChat(message: string) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SendChatMessage(message)
@@ -953,7 +1031,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (player.playerId === undefined)
             return;
 
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SendChatNoteMessage(player.playerId, type)
@@ -1013,7 +1091,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             return this._rpcStartMeeting("emergency");
         }
 
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new StartMeetingMessage(
@@ -1082,7 +1160,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetStartCounter(counter: number) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetStartCounterMessage(
@@ -1190,7 +1268,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSendQuickChat(message: QuickChatMessageData) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SendQuickChatMessage(message)
@@ -1251,7 +1329,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetHat(hatId: string) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetHatMessage(hatId)
@@ -1314,7 +1392,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetSkin(skinId: string) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetSkinMessage(skinId)
@@ -1377,7 +1455,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetPet(petId: string) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetPetMessage(petId)
@@ -1440,7 +1518,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetVisor(visorId: string) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetPetMessage(visorId)
@@ -1503,7 +1581,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcSetNameplate(nameplateId: string) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SetPetMessage(nameplateId)
@@ -1542,6 +1620,275 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             this._rpcSetNameplate(ev.alteredNameplateId);
     }
 
+    private async _handleSetRole(rpc: SetRoleMessage) {
+        const playerInfo = this.player.playerInfo;
+        if (!playerInfo)
+            return;
+
+        const oldRoleType = playerInfo.roleType;
+        const newRole = this.room.registeredRoles.get(rpc.roleType) || UnknownRole(rpc.roleType);
+        playerInfo.roleType = newRole;
+        this.player.role = new newRole(this.player);
+
+        const ev = await this.emit(
+            new PlayerSetRoleEvent(
+                this.room,
+                this.player,
+                rpc,
+                oldRoleType,
+                newRole
+            )
+        );
+
+        if (ev.alteredRole !== newRole) {
+            this._rpcSetRole(ev.alteredRole?.roleMetadata.roleType || RoleType.Crewmate);
+            playerInfo.roleType = ev.alteredRole;
+            this.player.role = new ev.alteredRole(this.player);
+        }
+
+        await this.player.role.onInitialize();
+    }
+
+    private _rpcSetRole(roleType: RoleType) {
+        this.room.messageStream.push(
+            new RpcMessage(
+                this.netId,
+                new SetRoleMessage(roleType)
+            )
+        );
+    }
+
+    async setRole(roleCtr: typeof BaseRole) {
+        const playerInfo = this.player.playerInfo;
+        if (!playerInfo)
+            return;
+
+        const oldRoleType = playerInfo.roleType;
+        playerInfo.roleType = roleCtr;
+        this.player.role = new roleCtr(this.player);
+
+        const ev = await this.emit(
+            new PlayerSetRoleEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldRoleType,
+                roleCtr
+            )
+        );
+
+        if (ev.alteredRole !== roleCtr) {
+            playerInfo.roleType = ev.alteredRole;
+            this.player.role = new ev.alteredRole(this.player);
+        }
+        this._rpcSetRole(ev.alteredRole?.roleMetadata.roleType || RoleType.Crewmate);
+
+        await this.player.role.onInitialize();
+    }
+
+    private async _handleProtectPlayer(rpc: ProtectPlayerMessage) {
+        const target = this.room.getPlayerByNetId(rpc.targetNetId);
+
+        if (!target)
+            return;
+
+        target.control?._addProtection(this.player);
+
+        await this.emit(
+            new PlayerProtectEvent(
+                this.room,
+                this.player,
+                rpc,
+                target,
+                this.room.settings.roleSettings.protectionDurationSeconds
+            )
+        );
+    }
+
+    private _addProtection(guardianProtector: PlayerData<RoomType>) {
+        this.protectedByGuardian = true;
+        this.guardianProtector = guardianProtector;
+        this._protectedByGuardianTime = this.room.settings.roleSettings.protectionDurationSeconds;
+    }
+
+    private _rpcProtectPlayer(target: PlayerData, angelColor: Color) {
+        if (!target.control)
+            return;
+
+        this.room.messageStream.push(
+            new RpcMessage(
+                this.netId,
+                new ProtectPlayerMessage(
+                    target.control.netId,
+                    angelColor
+                )
+            )
+        );
+    }
+
+    async protectPlayer(target: PlayerData, angelColor = this.player.playerInfo?.defaultOutfit.color || Color.Red) {
+        if (!this.room.hostIsMe) {
+            await this._rpcCheckProtect(target);
+            return;
+        }
+
+        target.control?._addProtection(this.player);
+        this._rpcProtectPlayer(target, angelColor);
+
+        await this.emit(
+            new PlayerProtectEvent(
+                this.room,
+                this.player,
+                undefined,
+                target,
+                this.room.settings.roleSettings.protectionDurationSeconds
+            )
+        );
+    }
+
+    private async _handleShapeshift(rpc: ShapeshiftMessage) {
+        const target = this.room.getPlayerByNetId(rpc.targetNetId);
+
+        if (!target)
+            return;
+
+        const oldTarget = this.shapeshiftTarget;
+        if (target === this.player) {
+            if (!oldTarget)
+                return;
+
+            this._shapeshift(target);
+            const ev = await this.emit(
+                new PlayerRevertShapeshiftEvent(
+                    this.room,
+                    this.player,
+                    undefined,
+                    oldTarget,
+                    rpc.doAnimation
+                )
+            );
+
+            if (ev.reverted) {
+                this._shapeshift(oldTarget);
+                this._rpcShapeshift(oldTarget, ev.alteredDoAnimation);
+                return;
+            }
+        } else {
+            this._shapeshift(target);
+
+            const ev = await this.emit(
+                new PlayerShapeshiftEvent(
+                    this.room,
+                    this.player,
+                    undefined,
+                    target,
+                    this.room.settings.roleSettings.shapeshiftDuration,
+                    rpc.doAnimation
+                )
+            );
+
+            if (ev.reverted) {
+                this._shapeshift(this.player);
+                this._rpcShapeshift(target, ev.alteredDoAnimation);
+                return;
+            }
+
+            if (ev.alteredTarget !== target) {
+                this._shapeshift(ev.alteredTarget);
+                this._rpcShapeshift(ev.alteredTarget, ev.alteredDoAnimation);
+                return;
+            }
+        }
+    }
+
+    private _shapeshift(target: PlayerData<RoomType>) {
+        this.shapeshiftTarget = target === this.player
+            ? undefined
+            : target;
+
+        if (!target.playerInfo || !this.player.playerInfo)
+            return;
+
+        if (target === this.player) {
+            this.player.playerInfo.deleteOutfit(PlayerOutfitType.Shapeshifter);
+        } else {
+            this.player.playerInfo.setOutfit(target.playerInfo.defaultOutfit.clone(PlayerOutfitType.Shapeshifter));
+            this.player.playerInfo.currentOutfitType = PlayerOutfitType.Shapeshifter;
+        }
+    }
+
+    private _rpcShapeshift(target: PlayerData, doAnimation: boolean) {
+        if (!target.control)
+            return;
+
+        this.room.messageStream.push(
+            new RpcMessage(
+                this.netId,
+                new ShapeshiftMessage(
+                    target.control.netId,
+                    doAnimation
+                )
+            )
+        );
+    }
+
+    async shapeshift(target: PlayerData<RoomType>, doAnimation = true) {
+        const oldTarget = this.shapeshiftTarget;
+
+        if (target === this.player) {
+            if (!oldTarget)
+                return;
+
+            this._shapeshift(target);
+            const ev = await this.emit(
+                new PlayerRevertShapeshiftEvent(
+                    this.room,
+                    this.player,
+                    undefined,
+                    oldTarget,
+                    doAnimation
+                )
+            );
+
+            if (ev.reverted) {
+                this._shapeshift(oldTarget);
+                return;
+            }
+
+            this._rpcShapeshift(target, ev.alteredDoAnimation);
+        } else {
+            this._shapeshift(target);
+
+            const ev = await this.emit(
+                new PlayerShapeshiftEvent(
+                    this.room,
+                    this.player,
+                    undefined,
+                    target,
+                    this.room.settings.roleSettings.shapeshiftDuration,
+                    doAnimation
+                )
+            );
+
+            if (ev.reverted) {
+                this._shapeshift(this.player);
+                return;
+            }
+
+            if (ev.alteredTarget !== target) {
+                this._shapeshift(ev.alteredTarget);
+                this._rpcShapeshift(ev.alteredTarget, ev.alteredDoAnimation);
+                return;
+            }
+
+            this._rpcShapeshift(target, doAnimation);
+        }
+    }
+
+    async revertShapeshift() {
+        await this.shapeshift(this.player);
+    }
+
     private async _handleCheckMurder(rpc: CheckMurderMessage) {
         const victim = this.room.getPlayerByNetId(rpc.victimNetId);
 
@@ -1572,6 +1919,87 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.netId,
                 new CheckMurderMessage(
                     victim.control.netId
+                )
+            )
+        ]);
+    }
+
+    /**
+     * Remove this player's protection from a guardian angel, if they have one.
+     *
+     * Emits a {@link PlayerRemoveProtectionEvent | `player.removeprotection`} event.
+     * This is not networked, so other players will not see this update.
+     *
+     * @param timeout Whether or not this is because of a timeout.
+     */
+    async removeProtection(timeout = false) {
+        if (!this.protectedByGuardian)
+            return;
+
+        const oldGuardian = this.guardianProtector;
+        this.protectedByGuardian = false;
+        this.guardianProtector = undefined;
+        const ev = await this.emit(
+            new PlayerRemoveProtectionEvent(
+                this.room,
+                this.player,
+                true
+            )
+        );
+        if (ev.reverted) {
+            this.protectedByGuardian = true;
+            this.guardianProtector = oldGuardian;
+            // In case this event was emitted when the timer ran out & it was reverted,
+            // we can ensure that it would never be called again for timer running out
+            // by setting the timer to Infinity.
+            this._protectedByGuardianTime = Infinity;
+        }
+    }
+
+    private _protectIsValid(target: PlayerData) {
+        if (this.room.gameState !== GameState.Started)
+            return false;
+
+        if (this.player.playerInfo?.roleType !== GuardianAngelRole || this.player.playerInfo.isImpostor || this.player.playerInfo.isDisconnected)
+            return false;
+
+        if (!target.playerInfo || target.playerInfo?.isDead)
+            return false;
+
+        return true;
+    }
+
+    private async _handleCheckProtect(rpc: CheckProtectMessage) {
+        const target = this.room.getPlayerByNetId(rpc.targetNetId);
+
+        if (!target || !this.room.hostIsMe)
+            return;
+
+        const ev = await this.emit(
+            new PlayerCheckProtectEvent(
+                this.room,
+                this.player,
+                rpc,
+                target,
+                this._protectIsValid(target)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            await ev.alteredPlayer.control?.protectPlayer(ev.alteredTarget);
+        }
+    }
+
+    private async _rpcCheckProtect(target: PlayerData) {
+        if (!target.control)
+            return;
+
+        await this.room.broadcast([
+            new RpcMessage(
+                this.netId,
+                new ProtectPlayerMessage(
+                    target.control.netId,
+                    target.playerInfo?.defaultOutfit.color || Color.Red
                 )
             )
         ]);

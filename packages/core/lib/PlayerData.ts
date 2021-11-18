@@ -24,6 +24,7 @@ import {
 
 import { NetworkableEvents } from "./Networkable";
 import { PlayerInfo } from "./misc";
+import { BaseRole } from "./roles";
 
 export type PlayerDataEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     PlayerControlEvents<RoomType> &
@@ -90,6 +91,12 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * This player's player control component.
      */
     control: PlayerControl<RoomType>|undefined;
+
+    /**
+     * The actual instance of this player's role manager, see {@link PlayerInfo.roleType}
+     * to know which role this is.
+     */
+    role?: BaseRole;
 
     private _playerInfoCachedPlayerId?: number;
     private _playerInfoCached?: PlayerInfo;

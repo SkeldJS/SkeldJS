@@ -46,7 +46,8 @@ import {
     VersionInfo,
     HazelWriter,
     HazelReader,
-    Code2Int
+    Code2Int,
+    DeepPartial
 } from "@skeldjs/util";
 
 import {
@@ -84,7 +85,7 @@ export class SentPacket {
     ) {}
 }
 
-export type SkeldjsClientEvents = SkeldjsStateManagerEvents &
+export type SkeldjsClientEvents = SkeldjsStateManagerEvents<SkeldjsClient> &
     ExtractEventTypes<
         [
             ClientConnectEvent,
@@ -210,7 +211,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this._reset();
 
-        this.stream = [];
+        this.messageStream = [];
 
         this.decoder.on(DisconnectPacket, (message) => {
             this.disconnect(message.reason, message.message);
@@ -231,7 +232,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.decoder.on(RemovePlayerMessage, async (message) => {
             if (message.clientId === this.clientId) {
-                await this.disconnect(DisconnectReason.None);
+                await this.disconnect(message.reason);
             }
         });
     }
@@ -276,7 +277,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             }
         }
         if (!flag) {
-            this.disconnect(DisconnectReason.None);
+            this.disconnect(DisconnectReason.InternalNonceFailure);
             return;
         }
 
@@ -480,6 +481,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             writer.write(packet, MessageDirection.Serverbound, this.decoder);
             writer.realloc(writer.cursor);
 
+            // if (packet.messageTag === SendOption.Reliable){
+            //     console.log(util.inspect(packet, false, 10, true));
+            // }
+
             this._send(writer.buffer);
 
             if ((packet as any).nonce !== undefined) {
@@ -519,7 +524,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         const actualInclude = excludedSet.size
             ? includedSet.filter(include => !excludedSet.has(include))
             : includedSet;
-
 
         const actualPayloads = [...payloads];
         if (actualInclude.length === this.players.size) {
@@ -650,10 +654,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 const offsetted = spawnPosition
                     .add(spawnPosition.negate().normalize());
 
-                ev.player.transform?.snapTo(offsetted);
+                ev.player.transform?.snapTo(offsetted, false);
             } else if (this.shipStatus) {
                 const spawnPosition = this.shipStatus.getSpawnPosition(ev.player, true);
-                ev.player.transform?.snapTo(spawnPosition);
+                ev.player.transform?.snapTo(spawnPosition, false);
             }
         }
     }
@@ -711,7 +715,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         ]);
 
         if (data instanceof ClientDisconnectEvent) {
-            throw new JoinError(data.reason, data.message || DisconnectMessages[data.reason || DisconnectReason.None]);
+            throw new JoinError(data.reason, data.message || DisconnectMessages[data.reason || DisconnectReason.Error]);
         }
 
         if (data instanceof PlayerJoinEvent) {
@@ -726,7 +730,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         switch (message.messageTag) {
             case RootMessageTag.JoinGame:
-                throw new JoinError(message.error, message.message || DisconnectMessages[message.error || DisconnectReason.None]);
+                throw new JoinError(message.error, message.message || DisconnectMessages[message.error || DisconnectReason.Error]);
             case RootMessageTag.Redirect:
                 const username = this.username;
                 await this.disconnect();
@@ -756,8 +760,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * ```
      */
     async createGame(
-        host_settings: Partial<AllGameSettings> = {},
-        chatMode: QuickChatMode = QuickChatMode.FreeChat,
+        host_settings: DeepPartial<AllGameSettings> = {},
         doJoin: boolean = true
     ): Promise<number> {
         const settings = new GameSettings({
@@ -767,7 +770,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         this.send(
             new ReliablePacket(this.getNextNonce(), [
-                new HostGameMessage(settings, chatMode),
+                new HostGameMessage(settings),
             ])
         );
 
@@ -782,14 +785,14 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         ]);
 
         if (data instanceof ClientDisconnectEvent) {
-            throw new JoinError(data.reason, data.message || DisconnectMessages[data.reason || DisconnectReason.None]);
+            throw new JoinError(data.reason, data.message || DisconnectMessages[data.reason || DisconnectReason.Error]);
         }
 
         const { message } = data;
 
         switch (message.messageTag) {
             case RootMessageTag.JoinGame:
-                throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.None] || message.message);
+                throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.Error] || message.message);
             case RootMessageTag.Redirect:
                 const username = this.username;
 
@@ -800,7 +803,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     message.port
                 );
 
-                return await this.createGame(host_settings, chatMode, doJoin);
+                return await this.createGame(host_settings, doJoin);
             case RootMessageTag.HostGame:
                 this.settings.patch(settings);
 

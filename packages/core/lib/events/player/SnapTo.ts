@@ -21,7 +21,7 @@ export class PlayerSnapToEvent<RoomType extends Hostable = Hostable> extends Bas
     constructor(
         public readonly room: RoomType,
         public readonly player: PlayerData<RoomType>,
-        public readonly message: SnapToMessage,
+        public readonly message: SnapToMessage|undefined,
         /**
          * The old position of the player.
          */

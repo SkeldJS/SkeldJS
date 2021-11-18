@@ -13,7 +13,7 @@ describe("DisconnectPacket", () => {
             assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
             assert.strictEqual(packet.message, "");
-            assert.strictEqual(packet.reason, DisconnectReason.None);
+            assert.strictEqual(packet.reason, DisconnectReason.Error);
         });
 
         it("Should deserialize a disconnect packet with no reason.", () => {
@@ -23,7 +23,7 @@ describe("DisconnectPacket", () => {
             assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
             assert.strictEqual(packet.message, "");
-            assert.strictEqual(packet.reason, DisconnectReason.None);
+            assert.strictEqual(packet.reason, DisconnectReason.Error);
         });
 
         it("Should deserialize a disconnect packet with a reason.", () => {

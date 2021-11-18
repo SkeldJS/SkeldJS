@@ -2,7 +2,7 @@ import { BasicEvent } from "@skeldjs/events";
 import { RoomEvent } from "../RoomEvent";
 import { GameData } from "../../objects";
 import { Hostable } from "../../Hostable";
-import { PlayerInfo } from "../../misc/PlayerInfo";
+import { PlayerInfo, TaskState } from "../../misc";
 import { GameDataEvent } from "./GameDataEvent";
 
 /**
@@ -12,7 +12,7 @@ export class GameDataSetTasksEvent<RoomType extends Hostable = Hostable> extends
     static eventName = "gamedata.settasks" as const;
     eventName = "gamedata.settasks" as const;
 
-    private _alteredTasks: number[];
+    private _alteredTasks: TaskState[];
 
     constructor(
         public readonly room: RoomType,
@@ -24,11 +24,11 @@ export class GameDataSetTasksEvent<RoomType extends Hostable = Hostable> extends
         /**
          * The player's old tasks.
          */
-        public readonly oldTasks: number[],
+        public readonly oldTasks: TaskState[],
         /**
          * The player's new tasks that were just set.
          */
-        public readonly newTasks: number[]
+        public readonly newTasks: TaskState[]
     ) {
         super();
 
@@ -44,17 +44,16 @@ export class GameDataSetTasksEvent<RoomType extends Hostable = Hostable> extends
 
     /**
      * Set the tasks to the tasks that the player had before this event.
-     * @returns
      */
     revert() {
-        return this.setTasks(this.oldTasks);
+        this._alteredTasks = this.oldTasks;
     }
 
     /**
      * Change the tasks of the player that were set.
-     * @param tasks The tasks to set the player.
+     * @param tasks Each {@link TaskType} to set the player.
      */
     setTasks(tasks: number[]) {
-        this._alteredTasks = tasks;
+        this._alteredTasks = tasks.map(task => new TaskState(task, false));
     }
 }

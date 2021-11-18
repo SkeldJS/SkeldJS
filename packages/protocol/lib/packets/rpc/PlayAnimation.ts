@@ -7,25 +7,25 @@ export class PlayAnimationMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.PlayAnimation as const;
     messageTag = RpcMessageTag.PlayAnimation as const;
 
-    taskid: number;
+    taskId: number;
 
-    constructor(taskid: number) {
+    constructor(taskId: number) {
         super();
 
-        this.taskid = taskid;
+        this.taskId = taskId;
     }
 
     static Deserialize(reader: HazelReader) {
-        const taskid = reader.uint8();
+        const taskId = reader.uint8();
 
-        return new PlayAnimationMessage(taskid);
+        return new PlayAnimationMessage(taskId);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.uint8(this.taskid);
+        writer.uint8(this.taskId);
     }
 
     clone() {
-        return new PlayAnimationMessage(this.taskid);
+        return new PlayAnimationMessage(this.taskId);
     }
 }

@@ -39,7 +39,7 @@ import * as skeldjs from "@skeldjs/client";
         /*
         Log to the console the player that moved and also where they moved to.
         */
-        console.log(ev.player.info.name, "moved to", ev.position);
+        console.log(ev.player.playerInfo.name, "moved to", ev.position);
     });
 })();
 

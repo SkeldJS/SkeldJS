@@ -21,7 +21,7 @@ export class PlayerSetPetEvent<RoomType extends Hostable = Hostable> extends Bas
         public readonly player: PlayerData<RoomType>,
         public readonly message: SetPetMessage|undefined,
         /**
-         * The pet that hte player had before.
+         * The pet that the player had before.
          */
         public readonly oldPetId: string,
         /**

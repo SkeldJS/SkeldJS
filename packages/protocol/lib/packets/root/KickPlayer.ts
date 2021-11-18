@@ -28,14 +28,14 @@ export class KickPlayerMessage extends BaseRootMessage {
 
         this.clientId = clientId;
         this.banned = banned;
-        this.reason = reason || DisconnectReason.None;
+        this.reason = reason || DisconnectReason.Error;
     }
 
     static Deserialize(reader: HazelReader) {
         const code = reader.int32();
         const clientId = reader.packed();
         const banned = reader.bool();
-        const reason = reader.left ? reader.uint8() : DisconnectReason.None;
+        const reason = reader.left ? reader.uint8() : DisconnectReason.Error;
 
         return new KickPlayerMessage(code, clientId, banned, reason);
     }

@@ -153,7 +153,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
 
         if (sendRpc && this.side !== oldSide) {
             if (this.target?.control) {
-                this.ship.room.stream.push(
+                this.ship.room.messageStream.push(
                     new RpcMessage(
                         this.target.control.netId,
                         new UsePlatformMessage

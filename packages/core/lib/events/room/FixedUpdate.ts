@@ -22,7 +22,7 @@ export class RoomFixedUpdateEvent<RoomType extends Hostable = Hostable>extends C
          */
         public readonly stream: BaseGameDataMessage[],
         /**
-         * The number of miliseconds that have passed since the last fixed update call.
+         * The time that has passed since the last fixed update call, in seconds.
          */
         public readonly delta: number
     ) {

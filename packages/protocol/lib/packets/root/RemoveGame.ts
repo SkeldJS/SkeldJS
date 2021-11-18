@@ -12,7 +12,7 @@ export class RemoveGameMessage extends BaseRootMessage {
     constructor(reason?: DisconnectReason) {
         super();
 
-        this.reason = reason || DisconnectReason.None;
+        this.reason = reason || DisconnectReason.Error;
     }
 
     static Deserialize(reader: HazelReader) {

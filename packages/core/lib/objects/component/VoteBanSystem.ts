@@ -122,7 +122,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
                         this.room.code,
                         target.clientId,
                         false,
-                        DisconnectReason.None
+                        DisconnectReason.Error
                     ),
                 ]);
             }
@@ -133,7 +133,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcAddVote(voter: PlayerData, target: PlayerData) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new AddVoteMessage(voter.clientId, target.clientId)

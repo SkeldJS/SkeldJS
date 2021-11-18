@@ -115,7 +115,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcEnterVent(ventId: number) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new EnterVentMessage(ventId)
@@ -165,7 +165,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcExitVent(ventId: number) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new ExitVentMessage(ventId)
@@ -220,7 +220,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     }
 
     private _rpcClimbLadder(ladderid: number) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new ClimbLadderMessage(ladderid, this.ladderClimbSeqId)

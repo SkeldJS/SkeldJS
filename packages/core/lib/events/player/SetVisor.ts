@@ -21,7 +21,7 @@ export class PlayerSetVisorEvent<RoomType extends Hostable = Hostable> extends B
         public readonly player: PlayerData<RoomType>,
         public readonly message: SetVisorMessage|undefined,
         /**
-         * The visor that hte player had before.
+         * The visor that the player had before.
          */
         public readonly oldVisorId: string,
         /**

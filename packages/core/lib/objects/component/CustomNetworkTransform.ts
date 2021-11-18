@@ -194,18 +194,17 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
                 ev.alteredPosition.y !== newPosition.y
             ) {
                 this.position = new Vector2(ev.alteredPosition);
-                this.snapTo(ev.alteredPosition);
+                this._rpcSnapTo(ev.alteredPosition);
             }
         }
     }
 
-    private _snapTo(x: number, y: number) {
-        this.position.x = x;
-        this.position.y = y;
+    private _snapTo(position: Vector2) {
+        this.position = position;
     }
 
     private _rpcSnapTo(position: Vector2) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new SnapToMessage(new Vector2(position), this.seqId)
@@ -224,7 +223,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
      * });
      * ```
      */
-    snapTo(position: Vector2): void;
+    async snapTo(position: Vector2, rpc: boolean): Promise<void>;
     /**
      * Instantly snap to a position without lerping.
      * @param x The X position to snap to.
@@ -237,8 +236,8 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
      * });
      * ```
      */
-    snapTo(x: number, y: number): void;
-    snapTo(x: number | Vector2, y?: number) {
+    async snapTo(x: number, y: number, rpc: boolean): Promise<void>;
+    async snapTo(x: number | Vector2, y?: number|boolean, rpc?: boolean) {
         this.seqId += 1;
 
         if (this.seqId > 2 ** 16 - 1) {
@@ -247,12 +246,33 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
 
         this.dirtyBit = 0;
 
-        if (x instanceof Vector2) {
-            this._snapTo(x.x, x.y);
-        } else if (y) {
-            this._snapTo(x, y);
+        const oldPosition = this.position;
+
+        if (typeof x === "number") {
+            return this.snapTo(new Vector2(x, y as number || 0), rpc ?? true);
         }
 
-        this._rpcSnapTo(this.position);
+        this._snapTo(x);
+
+        const ev = await this.emit(
+            new PlayerSnapToEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldPosition,
+                x
+            )
+        );
+
+        if (
+            ev.alteredPosition.x !== x.x ||
+            ev.alteredPosition.y !== x.y
+        ) {
+            this.position = new Vector2(ev.alteredPosition);
+        }
+
+        if (rpc ?? y as boolean ?? true) {
+            this._rpcSnapTo(this.position);
+        }
     }
 }

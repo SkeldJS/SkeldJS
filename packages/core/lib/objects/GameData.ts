@@ -27,7 +27,6 @@ import {
 import {
     AmongUsEndGames,
     EndGameIntent,
-    FinalTaskState,
     TasksCompleteEndgameMetadata
 } from "../endgame";
 
@@ -179,9 +178,9 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
         const playerData = this.players.get(rpc.playerId);
 
         if (playerData) {
-            const oldTasks = playerData.taskIds;
-            this._setTasks(playerData, rpc.taskids);
-            const playerTasks = playerData.taskIds;
+            const oldTasks = playerData.taskStates;
+            this._setTasks(playerData, rpc.taskIds.map(taskType => new TaskState(taskType, false)));
+            const playerTasks = playerData.taskStates;
 
             const ev = await this.emit(
                 new GameDataSetTasksEvent(
@@ -193,24 +192,23 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
                 )
             );
 
-            playerData.taskIds = ev.alteredTasks;
+            playerData.taskStates = ev.alteredTasks;
 
             if (ev.alteredTasks !== playerTasks) {
-                this._rpcSetTasks(playerData, playerData.taskIds);
+                this._rpcSetTasks(playerData, playerData.taskStates);
             }
         }
     }
 
-    private _setTasks(player: PlayerInfo, taskIds: number[]) {
-        player.taskIds = taskIds;
-        player.taskStates = taskIds.map((id, i) => new TaskState(i, false));
+    private _setTasks(player: PlayerInfo, taskStates: TaskState[]) {
+        player.taskStates = taskStates;
     }
 
-    private _rpcSetTasks(player: PlayerInfo, taskIds: number[]) {
-        this.room.stream.push(
+    private _rpcSetTasks(player: PlayerInfo, taskStates: TaskState[]) {
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetTasksMessage(player.playerId, taskIds)
+                new SetTasksMessage(player.playerId, taskStates.map(state => state.taskType))
             )
         );
     }
@@ -218,7 +216,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
     /**
      * Set the tasks of a player.
      * @param player The player to set the tasks of.
-     * @param taskIds The tasks to set.
+     * @param taskTypes The task types to give to the player, see {@link TaskType}.
      * @example
      *```typescript
      * room.gamedata.setTasks(player, [
@@ -229,26 +227,26 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
      * ]);
      * ```
      */
-    async setTasks(player: PlayerIDResolvable, taskIds: number[]) {
+    async setTasks(player: PlayerIDResolvable, taskTypes: number[]) {
         const playerData = this.resolvePlayerData(player);
 
         if (playerData) {
-            const oldTasks = playerData.taskIds;
-            this._setTasks(playerData, taskIds);
+            const oldTasks = playerData.taskStates;
+            this._setTasks(playerData, taskTypes.map(taskType => new TaskState(taskType, false)));
             const ev = await this.emit(
                 new GameDataSetTasksEvent(
                     this.room,
                     this,
                     playerData,
                     oldTasks,
-                    playerData.taskIds
+                    playerData.taskStates
                 )
             );
 
             this._setTasks(playerData, ev.alteredTasks);
 
-            if (playerData.taskIds !== oldTasks) {
-                this._rpcSetTasks(playerData, playerData.taskIds);
+            if (playerData.taskStates !== oldTasks) {
+                this._rpcSetTasks(playerData, playerData.taskStates);
                 this.update(playerData);
             }
         }
@@ -261,7 +259,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
      * @example
      *```typescript
      * // Complete all of a player's tasks.
-     * for (let i = 0; i < player.info.tasks.length; i++) {
+     * for (let i = 0; i < player.playerInfo.tasks.length; i++) {
      *   room.gamedata.completeTask(player, i);
      * }
      * ```
@@ -278,20 +276,15 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
             let totalTasks = 0;
             let completeTasks = 0;
-            const taskStates: Map<number, FinalTaskState[]> = new Map;
+            const taskStates: Map<number, TaskState[]> = new Map;
             for (const [ , playerInfo ] of this.players) {
                 if (!playerInfo.isDisconnected && !playerInfo.isImpostor) {
-                    const states: FinalTaskState[] = [];
-                    taskStates.set(playerInfo.playerId, states);
-                    for (const task of playerInfo.taskStates) {
+                    taskStates.set(playerInfo.playerId, playerInfo.taskStates);
+                    for (let i = 0; i < playerInfo.taskStates.length; i++) {
                         totalTasks++;
-                        if (task.completed) {
+                        if (playerInfo.taskStates[i].completed) {
                             completeTasks++;
                         }
-                        states.push({
-                            taskId: playerInfo.taskIds[task.taskIdx],
-                            completed: task.completed
-                        });
                     }
                 }
             }

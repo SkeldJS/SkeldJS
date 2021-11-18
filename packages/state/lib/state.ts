@@ -34,7 +34,7 @@ import {
     PlayerJoinData
 } from "@skeldjs/protocol";
 
-export type SkeldjsStateManagerEvents = HostableEvents;
+export type SkeldjsStateManagerEvents<T extends SkeldjsStateManager = any> = HostableEvents<T>;
 
 export class SkeldjsStateManager<
     T extends SkeldjsStateManagerEvents = SkeldjsStateManagerEvents
@@ -116,7 +116,7 @@ export class SkeldjsStateManager<
         this.decoder.on(JoinedGameMessage, async (message, direction) => {
             if (direction === MessageDirection.Clientbound) {
                 this.clientId = message.clientId;
-                this.state = GameState.NotStarted;
+                this.gameState = GameState.NotStarted;
                 await this.setCode(message.code);
                 await this.setHost(message.hostId);
                 await this.handleJoin(new PlayerJoinData(
@@ -257,7 +257,7 @@ export class SkeldjsStateManager<
     protected _reset() {
         this.players.clear();
         this.netobjects.clear();
-        this.stream = [];
+        this.messageStream = [];
         this.code = 0;
         this.hostId = 0;
         this.settings = new GameSettings;

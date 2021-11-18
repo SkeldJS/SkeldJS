@@ -7,7 +7,7 @@ import { KickPlayerMessage } from "./KickPlayer";
 describe("KickPlayerMessage", () => {
     describe("KickPlayerMessage#Deserialize", () => {
         it("Should deserialize a kick player root message.", () => {
-            const reader = HazelReader.from("88fd958cc3a30200", "hex");
+            const reader = HazelReader.from("88fd958cc3a30211", "hex");
             const packet = KickPlayerMessage.Deserialize(reader);
 
             assert.strictEqual(packet.messageTag, RootMessageTag.KickPlayer);
@@ -24,7 +24,7 @@ describe("KickPlayerMessage", () => {
 
             packet.Serialize(writer);
 
-            assert.strictEqual(writer.toString("hex"), "88fd958cc3a3020000");
+            assert.strictEqual(writer.toString("hex"), "88fd958cc3a3020011");
         });
 
         it("Should serialize a kick player root message with a reason.", () => {

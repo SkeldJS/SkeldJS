@@ -6,25 +6,25 @@ export class CompleteTaskMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.CompleteTask as const;
     messageTag = RpcMessageTag.CompleteTask as const;
 
-    taskidx: number;
+    taskIdx: number;
 
-    constructor(taskidx: number) {
+    constructor(taskIdx: number) {
         super();
 
-        this.taskidx = taskidx;
+        this.taskIdx = taskIdx;
     }
 
     static Deserialize(reader: HazelReader) {
-        const taskidx = reader.upacked();
+        const taskIdx = reader.upacked();
 
-        return new CompleteTaskMessage(taskidx);
+        return new CompleteTaskMessage(taskIdx);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.upacked(this.taskidx);
+        writer.upacked(this.taskIdx);
     }
 
     clone() {
-        return new CompleteTaskMessage(this.taskidx);
+        return new CompleteTaskMessage(this.taskIdx);
     }
 }

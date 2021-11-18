@@ -40,13 +40,13 @@ export class DisconnectPacket extends BaseRootPacket {
                 return new DisconnectPacket(reason, "", showReason);
             } else {
                 return new DisconnectPacket(
-                    DisconnectReason.None,
+                    DisconnectReason.Error,
                     "",
                     showReason
                 );
             }
         } else {
-            return new DisconnectPacket(DisconnectReason.None, "", true);
+            return new DisconnectPacket(DisconnectReason.Error, "", true);
         }
     }
 

@@ -5,15 +5,16 @@ import {
     TaskBarUpdate,
     RoleType,
 } from "@skeldjs/constant";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
 
-export interface RoleSettings {
+import { DeepPartial, HazelReader, HazelWriter } from "@skeldjs/util";
+
+export interface RoleChanceSettings {
     maxPlayers: number;
     chance: number;
 }
 
 export interface AllRoleSettings {
-    roleChances: Partial<Record<RoleType, RoleSettings>>;
+    roleChances: Partial<Record<RoleType, RoleChanceSettings>>;
     shapeshifterLeaveSkin: boolean;
     shapeshifterCooldown: number;
     shapeshiftDuration: number;
@@ -52,8 +53,8 @@ export interface AllGameSettings {
     roleSettings: AllRoleSettings;
 }
 
-export class RoleSettingsData implements AllRoleSettings {
-    static isValid(settings: RoleSettingsData) {
+export class RoleSettings implements AllRoleSettings {
+    static isValid(settings: RoleSettings) {
         const roleChances = Object.entries(settings.roleChances);
         for (const [ , roleChance ] of roleChances) {
             if (roleChance.maxPlayers < 0 || roleChance.maxPlayers > 15) {
@@ -90,7 +91,7 @@ export class RoleSettingsData implements AllRoleSettings {
         return true;
     }
 
-    roleChances: Partial<Record<RoleType, RoleSettings>>;
+    roleChances: Partial<Record<RoleType, RoleChanceSettings>>;
     shapeshifterLeaveSkin: boolean;
     shapeshifterCooldown: number;
     shapeshiftDuration: number;
@@ -102,10 +103,8 @@ export class RoleSettingsData implements AllRoleSettings {
     protectionDurationSeconds: number;
     impostorsCanSeeProtected: boolean;
 
-    constructor(
-        public readonly settings: Partial<AllRoleSettings>
-    ) {
-        this.roleChances = settings.roleChances || {
+    constructor(roleSettings: DeepPartial<AllRoleSettings>) {
+        this.roleChances = {
             [RoleType.Scientist]: {
                 maxPlayers: 0,
                 chance: 0
@@ -123,16 +122,28 @@ export class RoleSettingsData implements AllRoleSettings {
                 chance: 0
             }
         };
-        this.shapeshifterLeaveSkin = settings.shapeshifterLeaveSkin || false;
-        this.shapeshifterCooldown = settings.shapeshifterCooldown ?? 10;
-        this.shapeshiftDuration = settings.shapeshiftDuration ?? 30;
-        this.scientistCooldown = settings.scientistCooldown ?? 15;
-        this.guardianAngelCooldown = settings.guardianAngelCooldown ?? 60;
-        this.engineerCooldown = settings.engineerCooldown ?? 30;
-        this.engineerInVentMaxTime = settings.engineerInVentMaxTime ?? 15;
-        this.scientistBatteryCharge = settings.scientistBatteryCharge ?? 5;
-        this.protectionDurationSeconds = settings.protectionDurationSeconds ?? 10;
-        this.impostorsCanSeeProtected = settings.impostorsCanSeeProtected || false;
+
+        if (roleSettings.roleChances) {
+            const roleChances = Object.entries(roleSettings.roleChances);
+            for (const [ roleType, roleChance ] of roleChances) {
+                this.roleChances[roleType as unknown as RoleType] = {
+                    maxPlayers: 0,
+                    chance: 0,
+                    ...roleChance
+                };
+            }
+        }
+
+        this.shapeshifterLeaveSkin = roleSettings.shapeshifterLeaveSkin || false;
+        this.shapeshifterCooldown = roleSettings.shapeshifterCooldown ?? 10;
+        this.shapeshiftDuration = roleSettings.shapeshiftDuration ?? 30;
+        this.scientistCooldown = roleSettings.scientistCooldown ?? 15;
+        this.guardianAngelCooldown = roleSettings.guardianAngelCooldown ?? 60;
+        this.engineerCooldown = roleSettings.engineerCooldown ?? 30;
+        this.engineerInVentMaxTime = roleSettings.engineerInVentMaxTime ?? 15;
+        this.scientistBatteryCharge = roleSettings.scientistBatteryCharge ?? 5;
+        this.protectionDurationSeconds = roleSettings.protectionDurationSeconds ?? 10;
+        this.impostorsCanSeeProtected = roleSettings.impostorsCanSeeProtected || false;
     }
 
     patch(settings: Partial<AllRoleSettings>) {
@@ -150,7 +161,7 @@ export class RoleSettingsData implements AllRoleSettings {
     }
 
     static Deserialize(reader: HazelReader) {
-        const roleSettingsData = new RoleSettingsData({});
+        const roleSettingsData = new RoleSettings({});
         roleSettingsData.Deserialize(reader);
         return roleSettingsData;
     }
@@ -271,7 +282,7 @@ export class GameSettings {
             return false;
         }
 
-        if (!RoleSettingsData.isValid(settings.roleSettings)) {
+        if (!RoleSettings.isValid(settings.roleSettings)) {
             return false;
         }
 
@@ -301,9 +312,9 @@ export class GameSettings {
     anonymousVotes: boolean;
     taskbarUpdates: TaskBarUpdate;
 
-    roleSettings: RoleSettingsData;
+    roleSettings: RoleSettings;
 
-    constructor(settings: Partial<AllGameSettings> = {}) {
+    constructor(settings: DeepPartial<AllGameSettings> = {}) {
         this.version = settings.version ?? 4;
         this.maxPlayers = settings.maxPlayers ?? 10;
         this.keywords = settings.keywords ?? GameKeyword.Other;
@@ -327,7 +338,7 @@ export class GameSettings {
         this.anonymousVotes = settings.anonymousVotes ?? false;
         this.taskbarUpdates = settings.taskbarUpdates ?? TaskBarUpdate.Always;
 
-        this.roleSettings = new RoleSettingsData(settings.roleSettings || {});
+        this.roleSettings = new RoleSettings(settings.roleSettings || {});
     }
 
     patch(settings: Partial<AllGameSettings>) {

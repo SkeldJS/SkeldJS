@@ -9,7 +9,7 @@ describe("RemovePlayerMessage", () => {
     describe("RemovePlayerMessage#Deserialize", () => {
         it("Should deserialize a client-bound remove game root message.", () => {
             const reader = HazelReader.from(
-                "40f8778cd48d0000728d000000",
+                "40f8778cd48d0000728d000011",
                 "hex"
             );
             const packet = RemovePlayerMessage.Deserialize(
@@ -21,11 +21,11 @@ describe("RemovePlayerMessage", () => {
             assert.strictEqual(packet.code, -1938294720);
             assert.strictEqual(packet.clientId, 36308);
             assert.strictEqual(packet.hostId, 36210);
-            assert.strictEqual(packet.reason, DisconnectReason.None);
+            assert.strictEqual(packet.reason, DisconnectReason.Error);
         });
 
         it("Should deserialize a server-bound remove game root message.", () => {
-            const reader = HazelReader.from("40f8778cd49b0200", "hex");
+            const reader = HazelReader.from("40f8778cd49b0211", "hex");
             const packet = RemovePlayerMessage.Deserialize(
                 reader,
                 MessageDirection.Serverbound
@@ -34,7 +34,7 @@ describe("RemovePlayerMessage", () => {
             assert.strictEqual(packet.messageTag, RootMessageTag.RemovePlayer);
             assert.strictEqual(packet.code, -1938294720);
             assert.strictEqual(packet.clientId, 36308);
-            assert.strictEqual(packet.reason, DisconnectReason.None);
+            assert.strictEqual(packet.reason, DisconnectReason.Error);
         });
     });
 
@@ -44,7 +44,7 @@ describe("RemovePlayerMessage", () => {
             const packet = new RemovePlayerMessage(
                 "GXTYKF",
                 36308,
-                DisconnectReason.None,
+                DisconnectReason.Error,
                 36210
             );
 
@@ -52,7 +52,7 @@ describe("RemovePlayerMessage", () => {
 
             assert.strictEqual(
                 writer.toString("hex"),
-                "40f8778cd48d0000728d000000"
+                "40f8778cd48d0000728d000011"
             );
         });
 
@@ -61,12 +61,12 @@ describe("RemovePlayerMessage", () => {
             const packet = new RemovePlayerMessage(
                 "GXTYKF",
                 36308,
-                DisconnectReason.None
+                DisconnectReason.Error
             );
 
             packet.Serialize(writer, MessageDirection.Serverbound);
 
-            assert.strictEqual(writer.toString("hex"), "40f8778cd49b0200");
+            assert.strictEqual(writer.toString("hex"), "40f8778cd49b0211");
         });
     });
 });

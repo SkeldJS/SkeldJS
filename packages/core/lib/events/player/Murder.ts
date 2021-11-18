@@ -2,17 +2,18 @@ import { BasicEvent } from "@skeldjs/events";
 import { MurderPlayerMessage } from "@skeldjs/protocol";
 
 import { Hostable } from "../../Hostable";
+import { PlayerData } from "../../PlayerData";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
-import { PlayerData } from "../../PlayerData";
 
 /**
  * Emitted when a player murders another player.
  *
- * Due to technical limitations, this event cannot be canceled or reverted
- * without advanced "breaking game", therefore it is out of scope of a single
- * `.revert()` function.
+ * Due to technical limitations, this event cannot be  reverted without advanced
+ * "breaking game", therefore it is out of scope of a single `.revert()` function.
+ * However, see {@link PlayerCheckMurderEvent} to see about canceling a murder
+ * before it happens if you are the host.
  */
 export class PlayerMurderEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.murder" as const;

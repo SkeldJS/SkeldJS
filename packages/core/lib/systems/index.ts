@@ -2,6 +2,7 @@ export * from "./AutoDoorsSystem";
 export * from "./DeconSystem";
 export * from "./DoorsSystem";
 export * from "./ElectricalDoorsSystem";
+export * from "./events";
 export * from "./HeliSabotageSystem";
 export * from "./HqHudSystem";
 export * from "./HudOverrideSystem";

@@ -19,7 +19,7 @@ export class ClientDisconnectEvent extends ClientEvent {
      */
     message?: string;
 
-    constructor(client: SkeldjsClient, reason: DisconnectReason = DisconnectReason.None, message?: string) {
+    constructor(client: SkeldjsClient, reason: DisconnectReason = DisconnectReason.Error, message?: string) {
         super(client);
 
         this.reason = reason;

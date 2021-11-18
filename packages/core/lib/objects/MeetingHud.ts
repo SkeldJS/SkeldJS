@@ -209,7 +209,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     }
 
     private _rpcClose() {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(this.netId, new CloseMessage)
         );
     }
@@ -548,7 +548,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         tie: boolean,
         exiled?: PlayerData<RoomType>
     ) {
-        this.room.stream.push(
+        this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new VotingCompleteMessage(

@@ -1,4 +1,4 @@
-import { QuickChatMode, RootMessageTag } from "@skeldjs/constant";
+import { RootMessageTag } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import assert from "assert";
 import { GameSettings } from "../../misc";
@@ -30,8 +30,6 @@ describe("HostGameMessage", () => {
             );
 
             assert.strictEqual(packet.messageTag, RootMessageTag.HostGame);
-            assert.strictEqual(typeof packet.options, "object");
-            assert.strictEqual(packet.quickchatMode, QuickChatMode.QuickChat);
         });
     });
 
@@ -47,13 +45,9 @@ describe("HostGameMessage", () => {
 
         it("Should serialize a server-bound host game root message.", () => {
             const writer = HazelWriter.alloc(0);
-            const packet = new HostGameMessage(
-                new GameSettings,
-                QuickChatMode.FreeChat
-            );
+            const packet = new HostGameMessage(new GameSettings);
 
             packet.Serialize(writer, MessageDirection.Serverbound);
-
             assert.ok(writer.toString("hex").startsWith("2e040a"));
         });
     });

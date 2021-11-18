@@ -21,7 +21,7 @@ export class PlayerSetNameplateEvent<RoomType extends Hostable = Hostable> exten
         public readonly player: PlayerData<RoomType>,
         public readonly message: SetNameplateMessage|undefined,
         /**
-         * The nameplate that hte player had before.
+         * The nameplate that the player had before.
          */
         public readonly oldNameplateId: string,
         /**
