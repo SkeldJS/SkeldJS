@@ -2,6 +2,10 @@ import {
     GameOverReason,
     RpcMessageTag,
     SpawnType,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    TaskType,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    SpawnFlag
 } from "@skeldjs/constant";
 
 import { BaseRpcMessage, RpcMessage, SetTasksMessage } from "@skeldjs/protocol";

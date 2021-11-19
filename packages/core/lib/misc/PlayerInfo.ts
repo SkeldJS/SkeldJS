@@ -396,7 +396,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      * @param taskIds The IDs of each task.
      */
     setTaskIds(taskIds: number[]) {
-        this.gamedata.setTasks(this, taskIds);
+        this.gamedata.setTasks(this, taskIds); // todo: player.settasks event
     }
 
     /**

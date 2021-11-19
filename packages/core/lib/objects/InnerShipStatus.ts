@@ -251,7 +251,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
      * @param roleAssignments A map of role assigments (i.e. a map of player to
      * roles) to act as a collective output to this method.
      * @returns The role assignments (i.e. a map of player to roles) that have
-     * either collectively been assigned (if {@link roleAssignments} is passed)
+     * either collectively been assigned (if roleAssignments is passed)
      * or been assigned just as part of this method.
      */
     getRoleAssignmentsForTeam(
@@ -286,7 +286,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
      * @param roleAssignments A map of role assigments (i.e. a map of player to
      * roles) to act as a collective output to this method.
      * @returns The role assignments (i.e. a map of player to roles) that have
-     * either collectively been assigned (if {@link roleAssignments} is passed)
+     * either collectively been assigned (if roleAssignments is passed)
      * or been assigned just as part of this method.
      */
     getRoleAssignmentsFromRoleList(
@@ -352,7 +352,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
      * @param roleAssignments A map of role assigments (i.e. a map of player to
      * roles) to act as a collective output to this method.
      * @returns The role assignments (i.e. a map of player to roles) that have
-     * either collectively been assigned (if {@link roleAssignments} is passed)
+     * either collectively been assigned (if roleAssignments is passed)
      * or been assigned just as part of this method.
      */
     getRoleAssignmentsForPlayers(playerPool: PlayerData[], maxAssignable: number, roleList: typeof BaseRole[], roleAssignments: Map<PlayerData, typeof BaseRole> = new Map) {

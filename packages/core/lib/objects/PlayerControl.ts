@@ -1,4 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import {
     BaseRpcMessage,
@@ -21,7 +22,6 @@ import {
     SendQuickChatMessage,
     SetColorMessage,
     SetHatMessage,
-    SetInfectedMessage,
     SetNameMessage,
     SetNameplateMessage,
     SetPetMessage,
@@ -59,12 +59,12 @@ import {
     PlayerCompleteTaskEvent,
     PlayerUseMovingPlatformEvent,
     PlayerMurderEvent,
+    PlayerRemoveProtectionEvent,
     PlayerReportDeadBodyEvent,
     PlayerSendChatEvent,
     PlayerSendQuickChatEvent,
     PlayerSetColorEvent,
     PlayerSetHatEvent,
-    PlayerSetImpostorsEvent,
     PlayerSetNameEvent,
     PlayerSetPetEvent,
     PlayerSetSkinEvent,
@@ -82,8 +82,6 @@ import {
     PlayerRevertShapeshiftEvent
 } from "../events";
 
-import { ExtractEventTypes } from "@skeldjs/events";
-
 import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
@@ -92,12 +90,12 @@ import { AirshipStatus } from "./AirshipStatus";
 import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { PlayerInfo } from "../misc";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
-
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
 import { AmongUsEndGames, EndGameIntent, PlayersKillEndgameMetadata } from "../endgame";
 import { BaseRole, GuardianAngelRole, UnknownRole } from "../roles";
-import { PlayerRemoveProtectionEvent } from "../events/player/RemoveProtection";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -123,7 +121,6 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
             PlayerSendQuickChatEvent<RoomType>,
             PlayerSetColorEvent<RoomType>,
             PlayerSetHatEvent<RoomType>,
-            PlayerSetImpostorsEvent<RoomType>,
             PlayerSetNameEvent<RoomType>,
             PlayerSetNameplateEvent<RoomType>,
             PlayerSetPetEvent<RoomType>,
@@ -278,9 +275,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             case RpcMessageTag.SyncSettings:
                 await this._handleSyncSettings(rpc as SyncSettingsMessage);
                 break;
-            case RpcMessageTag.SetInfected:
-                await this._handleSetImpostors(rpc as SetInfectedMessage);
-                break;
             case RpcMessageTag.CheckName:
                 if (this.room.hostIsMe) {
                     await this._handleCheckName(rpc as CheckNameMessage);
@@ -389,8 +383,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     /**
      * Mark one of this player's tasks as completed.
      * @param taskIdx The index of the task to complete. Note: this is not the
-     * task ID but instead the index of the task in the {@link PlayerInfo.taskIds}
-     * array.
+     * task ID but instead the index of the player's task, as in its position in
+     * the {@link PlayerInfo.taskStates} array.
      *
      * Emits a {@link PlayerCompleteTaskEvent | `player.completetask`} event.
      *
@@ -473,95 +467,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this._syncSettings(ev.alteredSettings);
 
         this._rpcSyncSettings(settings);
-    }
-
-    private async _handleSetImpostors(rpc: SetInfectedMessage) {
-        const impostors = rpc.impostors
-            .map((id) => this.room.getPlayerByPlayerId(id))
-            .filter((player) => player && player.playerInfo) as PlayerData[];
-
-        this._setImpostors(impostors);
-
-        const ev = await this.emit(
-            new PlayerSetImpostorsEvent(
-                this.room,
-                this.player,
-                rpc,
-                impostors
-            )
-        );
-
-        if (ev.isDirty) {
-            this._setImpostors(ev.alteredImpostors);
-            this._rpcSetImpostors(ev.alteredImpostors);
-        }
-    }
-
-    private _setImpostors(impostors: PlayerData[]) {
-        for (const [ , player ] of this.room.players) {
-            if (!player.playerInfo)
-                continue;
-
-            if (impostors.includes(player)) {
-                player.playerInfo.setImpostor(true);
-            } else {
-                if (player.playerInfo.isImpostor) {
-                    player.playerInfo.setImpostor(false);
-                }
-            }
-        }
-    }
-
-    private _rpcSetImpostors(impostors: PlayerData[]) {
-        this.room.messageStream.push(
-            new RpcMessage(
-                this.netId,
-                new SetInfectedMessage(
-                    impostors.map(impostor => impostor.playerId!)
-                )
-            )
-        );
-    }
-
-    /**
-     * Set the impostors of the room. Usually called straight after a game is
-     * started via the {@link InnerShipStatus.selectImpostors} method. This is
-     * a host operation on official servers.
-     *
-     * Will remove any existing impostors unless they are included in the array.
-     *
-     * Emits a {@link PlayerSetImpostorsEvent | `player.setimpostors`} event.
-     *
-     * @param impostors An array of impostors to set.
-     * @example
-     * ```ts
-     * // Set everyone with "Judas" in their name as the impostor.
-     * awiat client.me.control.setImpostors(
-     *   [...this.room.players.values()]
-     *     .filter(player => player.playerInfo.name.includes("Judas"))
-     * );
-     * ```
-     */
-    async setImpostors(impostors: PlayerData[]) {
-        this._setImpostors(impostors);
-
-        const ev = await this.emit(
-            new PlayerSetImpostorsEvent(
-                this.room,
-                this.player,
-                undefined,
-                impostors
-            )
-        );
-
-        if (ev.isDirty)
-            this._setImpostors(ev.alteredImpostors);
-
-        const clonedSettings = new GameSettings(this.room.settings);
-        clonedSettings.numImpostors = impostors.length;
-        this._rpcSyncSettings(clonedSettings);
-
-        this._rpcSetImpostors(ev.alteredImpostors);
     }
 
     private async _handleCheckName(rpc: CheckNameMessage) {

@@ -103,7 +103,7 @@ of the component. Can also be used for clients to send commands directly to the 
 for example the [CheckName Rpc](https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/05_checkname.md).
 
 Can be sent either via the {@link Hostable.broadcast} method on the room or with
-the {@link Hostable.stream}, and can be handled with the `async HandleRpc(rpc)`
+the {@link Hostable.messageStream}, and can be handled with the `async HandleRpc(rpc)`
 method on the INO component.
 
 ## Lifecycle

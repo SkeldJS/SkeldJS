@@ -125,7 +125,9 @@ client.on("player.setname", ev => {
 
 ### Players
 * {@link PlayerCheckColorEvent | `player.checkcolor`}
+* {@link PlayerCheckMurderEvent | `player.checkmurder`}
 * {@link PlayerCheckNameEvent | `player.checkname`}
+* {@link PlayerCheckProtectEvent | `player.checkprotect`}
 * {@link PlayerClimbLadderEvent | `player.climbladder`}
 * {@link PlayerCompleteTaskEvent | `player.completetask`}
 * {@link PlayerDieEvent | `player.die`}
@@ -135,19 +137,22 @@ client.on("player.setname", ev => {
 * {@link PlayerLeaveEvent | `player.leave`}
 * {@link PlayerMoveEvent | `player.move`}
 * {@link PlayerMurderEvent | `player.murder`}
+* {@link PlayerProtectEvent | `player.protect`}
 * {@link PlayerReadyEvent | `player.ready`}
+* {@link PlayerRemoveProtectionEvent | `player.removeprotection`}
 * {@link PlayerReportDeadBodyEvent | `player.reportbody`}
+* {@link PlayerRevertShapeshiftEvent | `player.revertshapeshift`}
+* {@link PlayerSceneChangeEvent | `player.scenechange`}
 * {@link PlayerSendChatEvent | `player.chat`}
 * {@link PlayerSendQuickChatEvent | `player.quickchat`}
 * {@link PlayerSetColorEvent | `player.setcolor`}
 * {@link PlayerSetHatEvent | `player.sethat`}
 * {@link PlayerSetHostEvent | `player.sethost`}
-* {@link PlayerSetImpostorsEvent | `player.setimpostors`}
 * {@link PlayerSetNameEvent | `player.setname`}
 * {@link PlayerSetNameplateEvent | `player.setnameplate`}
 * {@link PlayerSetPetEvent | `player.setpet`}
+* {@link PlayerSetRoleEvent | `player.setrole`}
 * {@link PlayerSetSkinEvent | `player.setskin`}
-* {@link PlayerSetTasksEvent | `player.settasks`}
 * {@link PlayerSetStartCounterEvent | `player.setstartcounter`}
 * {@link PlayerSetVisorEvent | `player.setvisor`}
 * {@link PlayerSnapToEvent | `player.snapto`}
@@ -166,7 +171,6 @@ client.on("player.setname", ev => {
 * {@link RoomFixedUpdateEvent | `room.fixedupdate`}
 * {@link RoomGameEndEvent | `room.gameend`}
 * {@link RoomGameStartEvent | `room.gamestart`}
-* {@link RoomSelectImpostorsEvent | `room.selectimpostors`}
 * {@link RoomSetPrivacyEvent | `room.setprivacy`}
 
 ### Systems
