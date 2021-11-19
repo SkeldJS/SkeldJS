@@ -75,9 +75,10 @@
 					<div class="lead">
 						<p>Emitted when a player murders another player.</p>
 					</div>
-					<p>Due to technical limitations, this event cannot be canceled or reverted
-						without advanced &quot;breaking game&quot;, therefore it is out of scope of a single
-					<code>.revert()</code> function.</p>
+					<p>Due to technical limitations, this event cannot be  reverted without advanced
+						&quot;breaking game&quot;, therefore it is out of scope of a single <code>.revert()</code> function.
+						However, see <a href="core.PlayerCheckMurderEvent.html">PlayerCheckMurderEvent</a> to see about canceling a murder
+					before it happens if you are the host.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-type-parameters">
@@ -142,7 +143,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BasicEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/events/player/Murder.ts#L18">core/lib/events/player/Murder.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/events/player/Murder.ts#L19">core/lib/events/player/Murder.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -153,7 +154,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BasicEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/events/player/Murder.ts#L19">core/lib/events/player/Murder.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/events/player/Murder.ts#L20">core/lib/events/player/Murder.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -217,7 +218,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BasicEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/events/player/Murder.ts#L21">core/lib/events/player/Murder.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/events/player/Murder.ts#L22">core/lib/events/player/Murder.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -302,9 +303,6 @@
 						<a href="../modules/events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -381,9 +379,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>

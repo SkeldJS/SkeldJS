@@ -161,15 +161,22 @@
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/client.ClientIdentifyEvent.html" class="tsd-kind-icon">Client<wbr>Identify<wbr>Event</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/client.ClientJoinEvent.html" class="tsd-kind-icon">Client<wbr>Join<wbr>Event</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/client.JoinError.html" class="tsd-kind-icon">Join<wbr>Error</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/client.SentPacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/client.SkeldjsClient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a></li>
 								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/client.TokenResponseMessage.html" class="tsd-kind-icon">Token<wbr>Response<wbr>Message</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/client.AuthMethod.html" class="tsd-kind-icon">Auth<wbr>Method</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/client.ClientConfig.html" class="tsd-kind-icon">Client<wbr>Config</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/client.SentPacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/client.PortOptions.html" class="tsd-kind-icon">Port<wbr>Options</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -186,10 +193,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="SkeldjsClientEvents" class="tsd-anchor"></a>
 					<h3>Skeldjs<wbr>Client<wbr>Events</h3>
-					<div class="tsd-signature tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events<span class="tsd-signature-symbol">:</span> <a href="state.html#SkeldjsStateManagerEvents" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsStateManagerEvents</a><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">ExtractEventTypes</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">ClientConnectEvent</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ClientDisconnectEvent</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ClientIdentifyEvent</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ClientJoinEvent</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<div class="tsd-signature tsd-kind-icon">Skeldjs<wbr>Client<wbr>Events<span class="tsd-signature-symbol">:</span> <a href="state.html#SkeldjsStateManagerEvents" class="tsd-signature-type" data-tsd-kind="Type alias">SkeldjsStateManagerEvents</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">ExtractEventTypes</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">ClientConnectEvent</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ClientDisconnectEvent</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ClientIdentifyEvent</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ClientJoinEvent</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/client/lib/client.ts#L65">client/lib/client.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/client/lib/client.ts#L88">client/lib/client.ts:88</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -250,9 +257,6 @@
 						<a href="events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="get_auth_token.html">get-<wbr>auth-<wbr>token</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -291,6 +295,9 @@
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.AuthHelloPacket.html" class="tsd-kind-icon">Auth<wbr>Hello<wbr>Packet</a>
 							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/client.AuthMethod.html" class="tsd-kind-icon">Auth<wbr>Method</a>
+							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/client.ClientConfig.html" class="tsd-kind-icon">Client<wbr>Config</a>
 							</li>
@@ -313,7 +320,10 @@
 								<a href="../classes/client.JoinError.html" class="tsd-kind-icon">Join<wbr>Error</a>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/client.SentPacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
+								<a href="../interfaces/client.PortOptions.html" class="tsd-kind-icon">Port<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.SentPacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.SkeldjsClient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
@@ -342,9 +352,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="events.html" class="tsd-kind-icon">events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="lan.html" class="tsd-kind-icon">lan</a>

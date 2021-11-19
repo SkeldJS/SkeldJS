@@ -176,7 +176,7 @@
 					of the component. Can also be used for clients to send commands directly to the host,
 				for example the <a href="https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/05_checkname.md">CheckName Rpc</a>.</p>
 				<p>Can be sent either via the <a href="../../classes/core.Hostable.html#broadcast">Hostable.broadcast</a> method on the room or with
-					the <a href="../../classes/core.Hostable.html#stream">Hostable.stream</a>, and can be handled with the <code>async HandleRpc(rpc)</code>
+					the <a href="../../classes/core.Hostable.html#messageStream">Hostable.messageStream</a>, and can be handled with the <code>async HandleRpc(rpc)</code>
 				method on the INO component.</p>
 				<a href="#lifecycle" id="lifecycle" style="color: inherit; text-decoration: none;">
 					<h2>Lifecycle</h2>
@@ -212,12 +212,12 @@
 				<pre><code class="language-ts"><span style="color: #795E26">constructor</span><span style="color: #000000">(</span>
 <span style="color: #000000">    </span><span style="color: #001080">room</span><span style="color: #000000">: </span><span style="color: #001080">RoomType</span><span style="color: #000000">, </span><span style="color: #008000">// The room that the component belongs to</span>
 <span style="color: #000000">    </span><span style="color: #001080">spawnType</span><span style="color: #000000">: </span><span style="color: #001080">SpawnType</span><span style="color: #000000">, </span><span style="color: #008000">// The INO spawn id that the component is for (e.g. 4 if it&#039;s a Player component)</span>
-<span style="color: #000000">    </span><span style="color: #001080">netId</span><span style="color: #000000">: </span><span style="color: #001080">number</span><span style="color: #000000">, </span><span style="color: #008000">// The netid of the component</span>
+<span style="color: #000000">    </span><span style="color: #001080">netId</span><span style="color: #000000">: </span><span style="color: #001080">number</span><span style="color: #000000">, </span><span style="color: #008000">// The netId of the component</span>
 <span style="color: #000000">    </span><span style="color: #001080">ownerId</span><span style="color: #000000">: </span><span style="color: #001080">number</span><span style="color: #000000">, </span><span style="color: #008000">// The owner of the component</span>
 <span style="color: #000000">    </span><span style="color: #001080">flags</span><span style="color: #000000">: </span><span style="color: #001080">number</span><span style="color: #000000">, </span><span style="color: #008000">// The flags that the component was instantiated with</span>
 <span style="color: #000000">    </span><span style="color: #001080">data</span><span style="color: #000000">?: </span><span style="color: #001080">HazelReader</span><span style="color: #000000"> | </span><span style="color: #001080">any</span><span style="color: #000000"> </span><span style="color: #008000">// The data to instantiate the component with</span>
 <span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">super</span><span style="color: #000000">(</span><span style="color: #001080">room</span><span style="color: #000000">, </span><span style="color: #001080">spawnType</span><span style="color: #000000">, </span><span style="color: #001080">netid</span><span style="color: #000000">, </span><span style="color: #001080">ownerid</span><span style="color: #000000">, </span><span style="color: #001080">flags</span><span style="color: #000000">, </span><span style="color: #001080">data</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">super</span><span style="color: #000000">(</span><span style="color: #001080">room</span><span style="color: #000000">, </span><span style="color: #001080">spawnType</span><span style="color: #000000">, </span><span style="color: #001080">netId</span><span style="color: #000000">, </span><span style="color: #001080">ownerid</span><span style="color: #000000">, </span><span style="color: #001080">flags</span><span style="color: #000000">, </span><span style="color: #001080">data</span><span style="color: #000000">);</span>
 <span style="color: #000000">}</span>
 </code></pre>
 				<a href="#method-structure" id="method-structure" style="color: inherit; text-decoration: none;">
@@ -362,9 +362,6 @@
 						<a href="../../modules/events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../../modules/lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -409,9 +406,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../modules/events.html" class="tsd-kind-icon">events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../../modules/lan.html" class="tsd-kind-icon">lan</a>

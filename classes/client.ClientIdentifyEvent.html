@@ -91,10 +91,10 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="client.ClientIdentifyEvent.html#eventName" class="tsd-kind-icon">event<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="client.ClientIdentifyEvent.html#authToken" class="tsd-kind-icon">auth<wbr>Token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="client.ClientIdentifyEvent.html#canceled" class="tsd-kind-icon">canceled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="client.ClientIdentifyEvent.html#client" class="tsd-kind-icon">client</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="client.ClientIdentifyEvent.html#eventName-1" class="tsd-kind-icon">event<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="client.ClientIdentifyEvent.html#token" class="tsd-kind-icon">token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="client.ClientIdentifyEvent.html#username" class="tsd-kind-icon">username</a></li>
 							</ul>
 						</section>
@@ -122,9 +122,24 @@
 					<aside class="tsd-sources">
 						<p>Overrides ClientEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/client/lib/events/Identify.ts#L5">client/lib/events/Identify.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/client/lib/events/Identify.ts#L5">client/lib/events/Identify.ts:5</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="authToken" class="tsd-anchor"></a>
+					<h3>auth<wbr>Token</h3>
+					<div class="tsd-signature tsd-kind-icon">auth<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/client/lib/events/Identify.ts#L16">client/lib/events/Identify.ts:16</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The token for</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="canceled" class="tsd-anchor"></a>
@@ -133,7 +148,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from ClientEvent.canceled</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/events/lib/CancelableEvent.ts#L4">events/lib/CancelableEvent.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +159,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from ClientEvent.client</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/client/lib/events/ClientEvent.ts#L5">client/lib/events/ClientEvent.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/client/lib/events/ClientEvent.ts#L5">client/lib/events/ClientEvent.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -155,24 +170,9 @@
 					<aside class="tsd-sources">
 						<p>Overrides ClientEvent.eventName</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/client/lib/events/Identify.ts#L6">client/lib/events/Identify.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/client/lib/events/Identify.ts#L6">client/lib/events/Identify.ts:6</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="token" class="tsd-anchor"></a>
-					<h3>token</h3>
-					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/client/lib/events/Identify.ts#L16">client/lib/events/Identify.ts:16</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The token for</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="username" class="tsd-anchor"></a>
@@ -180,7 +180,7 @@
 					<div class="tsd-signature tsd-kind-icon">username<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/client/lib/events/Identify.ts#L11">client/lib/events/Identify.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/client/lib/events/Identify.ts#L11">client/lib/events/Identify.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,7 +203,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from ClientEvent.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/events/lib/CancelableEvent.ts#L12">events/lib/CancelableEvent.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -217,14 +217,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Client<wbr>Identify<wbr>Event<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a>, username<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ClientIdentifyEvent</span></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Client<wbr>Identify<wbr>Event<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">SkeldjsClient</a>, username<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, authToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ClientIdentifyEvent</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides ClientEvent.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/client/lib/events/Identify.ts#L18">client/lib/events/Identify.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/client/lib/events/Identify.ts#L18">client/lib/events/Identify.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -236,7 +236,7 @@
 									<h5>username: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>token: <span class="tsd-signature-type">number</span></h5>
+									<h5>authToken: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ClientIdentifyEvent</span></h4>
@@ -300,9 +300,6 @@
 						<a href="../modules/events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -341,6 +338,9 @@
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="client.AuthHelloPacket.html" class="tsd-kind-icon">Auth<wbr>Hello<wbr>Packet</a>
 							</li>
+							<li class=" tsd-kind-enum tsd-parent-kind-module">
+								<a href="../enums/client.AuthMethod.html" class="tsd-kind-icon">Auth<wbr>Method</a>
+							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
 								<a href="../interfaces/client.ClientConfig.html" class="tsd-kind-icon">Client<wbr>Config</a>
 							</li>
@@ -359,6 +359,9 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 										<a href="client.ClientIdentifyEvent.html#eventName" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="client.ClientIdentifyEvent.html#authToken" class="tsd-kind-icon">auth<wbr>Token</a>
+									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="client.ClientIdentifyEvent.html#cancel" class="tsd-kind-icon">cancel</a>
 									</li>
@@ -375,9 +378,6 @@
 										<a href="client.ClientIdentifyEvent.html#eventName-1" class="tsd-kind-icon">event<wbr>Name</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="client.ClientIdentifyEvent.html#token" class="tsd-kind-icon">token</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="client.ClientIdentifyEvent.html#username" class="tsd-kind-icon">username</a>
 									</li>
 								</ul>
@@ -389,7 +389,10 @@
 								<a href="client.JoinError.html" class="tsd-kind-icon">Join<wbr>Error</a>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
-								<a href="../interfaces/client.SentPacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
+								<a href="../interfaces/client.PortOptions.html" class="tsd-kind-icon">Port<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="client.SentPacket.html" class="tsd-kind-icon">Sent<wbr>Packet</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="client.SkeldjsClient.html" class="tsd-kind-icon">Skeldjs<wbr>Client</a>
@@ -418,9 +421,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>

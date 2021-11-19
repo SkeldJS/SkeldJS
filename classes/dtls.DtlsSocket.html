@@ -90,6 +90,8 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#_connect" class="tsd-kind-icon">_connect</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#close" class="tsd-kind-icon">close</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#connect" class="tsd-kind-icon">connect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#emit" class="tsd-kind-icon">emit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#flushQueuedApplicationData" class="tsd-kind-icon">flush<wbr>Queued<wbr>Application<wbr>Data</a></li>
@@ -99,7 +101,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#once" class="tsd-kind-icon">once</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#resendPacketsIfNeeded" class="tsd-kind-icon">resend<wbr>Packets<wbr>IfNeeded</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#resetConnectionState" class="tsd-kind-icon">reset<wbr>Connection<wbr>State</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#restartConnection" class="tsd-kind-icon">restart<wbr>Connection</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#send" class="tsd-kind-icon">send</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#sendClientHello" class="tsd-kind-icon">send<wbr>Client<wbr>Hello</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="dtls.DtlsSocket.html#sendClientKeyExchangeFlight" class="tsd-kind-icon">send<wbr>Client<wbr>Key<wbr>Exchange<wbr>Flight</a></li>
@@ -131,25 +132,68 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="connect" class="tsd-anchor"></a>
-					<h3>connect</h3>
+					<a name="_connect" class="tsd-anchor"></a>
+					<h3>_connect</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>ip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">_connect<span class="tsd-signature-symbol">(</span>port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L123">dtls/lib/DtlsSocket.ts:123</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L123">dtls/lib/DtlsSocket.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ip: <span class="tsd-signature-type">string</span></h5>
+									<h5>port: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
+									<h5>ip: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="close" class="tsd-anchor"></a>
+					<h3>close</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L157">dtls/lib/DtlsSocket.ts:157</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="connect" class="tsd-anchor"></a>
+					<h3>connect</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>port<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, ip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L150">dtls/lib/DtlsSocket.ts:150</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
 									<h5>port: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>ip: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -167,7 +211,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L64">dtls/lib/DtlsSocket.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L64">dtls/lib/DtlsSocket.ts:64</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -184,7 +228,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L65">dtls/lib/DtlsSocket.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L65">dtls/lib/DtlsSocket.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -207,7 +251,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L219">dtls/lib/DtlsSocket.ts:219</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L223">dtls/lib/DtlsSocket.ts:223</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -224,7 +268,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L279">dtls/lib/DtlsSocket.ts:279</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L283">dtls/lib/DtlsSocket.ts:283</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -248,7 +292,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L70">dtls/lib/DtlsSocket.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L70">dtls/lib/DtlsSocket.ts:70</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -283,7 +327,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L71">dtls/lib/DtlsSocket.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L71">dtls/lib/DtlsSocket.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -328,7 +372,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L66">dtls/lib/DtlsSocket.ts:66</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L66">dtls/lib/DtlsSocket.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -363,7 +407,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L67">dtls/lib/DtlsSocket.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L67">dtls/lib/DtlsSocket.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -408,7 +452,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L68">dtls/lib/DtlsSocket.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L68">dtls/lib/DtlsSocket.ts:68</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -443,7 +487,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L69">dtls/lib/DtlsSocket.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L69">dtls/lib/DtlsSocket.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -487,7 +531,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L197">dtls/lib/DtlsSocket.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L201">dtls/lib/DtlsSocket.ts:201</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -504,24 +548,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L150">dtls/lib/DtlsSocket.ts:150</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="restartConnection" class="tsd-anchor"></a>
-					<h3>restart<wbr>Connection</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">restart<wbr>Connection<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L189">dtls/lib/DtlsSocket.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L162">dtls/lib/DtlsSocket.ts:162</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -532,19 +559,43 @@
 					<a name="send" class="tsd-anchor"></a>
 					<h3>send</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>bytes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, cb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span>, bytesWritten<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L272">dtls/lib/DtlsSocket.ts:272</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L276">dtls/lib/DtlsSocket.ts:276</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>bytes: <span class="tsd-signature-type">Buffer</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> cb: <span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span>, bytesWritten<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span>, bytesWritten<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>err: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span></h5>
+														</li>
+														<li>
+															<h5>bytesWritten: <span class="tsd-signature-type">number</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -561,7 +612,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L548">dtls/lib/DtlsSocket.ts:548</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L552">dtls/lib/DtlsSocket.ts:552</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -578,7 +629,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L599">dtls/lib/DtlsSocket.ts:599</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L603">dtls/lib/DtlsSocket.ts:603</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -601,7 +652,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L185">dtls/lib/DtlsSocket.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L197">dtls/lib/DtlsSocket.ts:197</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -627,7 +678,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L86">dtls/lib/DtlsSocket.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L86">dtls/lib/DtlsSocket.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">DtlsSocket</a></h4>
@@ -643,7 +694,7 @@
 					<div class="tsd-signature tsd-kind-icon">current<wbr>Epoch<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Interface">CurrentEpoch</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L79">dtls/lib/DtlsSocket.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L79">dtls/lib/DtlsSocket.ts:79</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -653,7 +704,7 @@
 					<div class="tsd-signature tsd-kind-icon">epoch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L78">dtls/lib/DtlsSocket.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L78">dtls/lib/DtlsSocket.ts:78</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -663,7 +714,7 @@
 					<div class="tsd-signature tsd-kind-icon">handshake<wbr>Resend<wbr>Timeout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 200</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L81">dtls/lib/DtlsSocket.ts:81</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L81">dtls/lib/DtlsSocket.ts:81</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -673,7 +724,7 @@
 					<div class="tsd-signature tsd-kind-icon">next<wbr>Epoch<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Interface">NextEpoch</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L80">dtls/lib/DtlsSocket.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L80">dtls/lib/DtlsSocket.ts:80</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -683,7 +734,7 @@
 					<div class="tsd-signature tsd-kind-icon">queued<wbr>Application<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L83">dtls/lib/DtlsSocket.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L83">dtls/lib/DtlsSocket.ts:83</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -693,7 +744,7 @@
 					<div class="tsd-signature tsd-kind-icon">server<wbr>Certificates<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Certificate</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L84">dtls/lib/DtlsSocket.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L84">dtls/lib/DtlsSocket.ts:84</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -703,7 +754,7 @@
 					<div class="tsd-signature tsd-kind-icon">socket<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Socket</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L75">dtls/lib/DtlsSocket.ts:75</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L75">dtls/lib/DtlsSocket.ts:75</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -713,7 +764,7 @@
 					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HandshakeState</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/dtls/lib/DtlsSocket.ts#L76">dtls/lib/DtlsSocket.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/dtls/lib/DtlsSocket.ts#L76">dtls/lib/DtlsSocket.ts:76</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -772,9 +823,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/events.html">events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html">lan</a>
@@ -852,6 +900,12 @@
 								<a href="dtls.DtlsSocket.html" class="tsd-kind-icon">Dtls<wbr>Socket</a>
 								<ul>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="dtls.DtlsSocket.html#_connect" class="tsd-kind-icon">_connect</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="dtls.DtlsSocket.html#close" class="tsd-kind-icon">close</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="dtls.DtlsSocket.html#connect" class="tsd-kind-icon">connect</a>
 									</li>
 									<li class=" tsd-kind-constructor tsd-parent-kind-class">
@@ -895,9 +949,6 @@
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="dtls.DtlsSocket.html#resetConnectionState" class="tsd-kind-icon">reset<wbr>Connection<wbr>State</a>
-									</li>
-									<li class=" tsd-kind-method tsd-parent-kind-class">
-										<a href="dtls.DtlsSocket.html#restartConnection" class="tsd-kind-icon">restart<wbr>Connection</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="dtls.DtlsSocket.html#send" class="tsd-kind-icon">send</a>
@@ -997,9 +1048,6 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-module">
 						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>

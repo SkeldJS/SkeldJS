@@ -73,7 +73,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Represents a player&#39;s information, name, color, hat, etc.</p>
+						<p>Represents information about a player, including any cosmetics they have equipped,
+						whether they are dead or the impostor, their role and whatever tasks they have.</p>
 					</div>
 				</div>
 			</section>
@@ -106,6 +107,9 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#Serialize" class="tsd-kind-icon">Serialize</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#clone" class="tsd-kind-icon">clone</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#completeTask" class="tsd-kind-icon">complete<wbr>Task</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#deleteOutfit" class="tsd-kind-icon">delete<wbr>Outfit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#getOutfit" class="tsd-kind-icon">get<wbr>Outfit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#getPlayer" class="tsd-kind-icon">get<wbr>Player</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setColor" class="tsd-kind-icon">set<wbr>Color</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setDead" class="tsd-kind-icon">set<wbr>Dead</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setDisconnected" class="tsd-kind-icon">set<wbr>Disconnected</a></li>
@@ -113,25 +117,13 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setHat" class="tsd-kind-icon">set<wbr>Hat</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setImpostor" class="tsd-kind-icon">set<wbr>Impostor</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setName" class="tsd-kind-icon">set<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setNameplate" class="tsd-kind-icon">set<wbr>Nameplate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setOutfit" class="tsd-kind-icon">set<wbr>Outfit</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setPet" class="tsd-kind-icon">set<wbr>Pet</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setSkin" class="tsd-kind-icon">set<wbr>Skin</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setTaskIds" class="tsd-kind-icon">set<wbr>Task<wbr>Ids</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setTaskStates" class="tsd-kind-icon">set<wbr>Task<wbr>States</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#color" class="tsd-kind-icon">color</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#flags" class="tsd-kind-icon">flags</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#gamedata" class="tsd-kind-icon">gamedata</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#hat" class="tsd-kind-icon">hat</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#pet" class="tsd-kind-icon">pet</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#playerId" class="tsd-kind-icon">player<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#skin" class="tsd-kind-icon">skin</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#taskIds" class="tsd-kind-icon">task<wbr>Ids</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#taskStates" class="tsd-kind-icon">task<wbr>States</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="core.PlayerInfo.html#setVisor" class="tsd-kind-icon">set<wbr>Visor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -143,10 +135,24 @@
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.PlayerInfo.html#currentOutfit" class="tsd-kind-icon">current<wbr>Outfit</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.PlayerInfo.html#defaultOutfit" class="tsd-kind-icon">default<wbr>Outfit</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.PlayerInfo.html#isDead" class="tsd-kind-icon">is<wbr>Dead</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.PlayerInfo.html#isDisconnected" class="tsd-kind-icon">is<wbr>Disconnected</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.PlayerInfo.html#isImpostor" class="tsd-kind-icon">is<wbr>Impostor</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="core.PlayerInfo.html#player" class="tsd-kind-icon">player</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#currentOutfitType" class="tsd-kind-icon">current<wbr>Outfit<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#flags" class="tsd-kind-icon">flags</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#gamedata" class="tsd-kind-icon">gamedata</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#outfits" class="tsd-kind-icon">outfits</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#playerId" class="tsd-kind-icon">player<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#playerLevel" class="tsd-kind-icon">player<wbr>Level</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#roleType" class="tsd-kind-icon">role<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="core.PlayerInfo.html#taskStates" class="tsd-kind-icon">task<wbr>States</a></li>
 							</ul>
 						</section>
 					</div>
@@ -164,7 +170,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L87">core/lib/misc/PlayerInfo.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L151">core/lib/misc/PlayerInfo.ts:151</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -199,7 +205,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L83">core/lib/misc/PlayerInfo.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L101">core/lib/misc/PlayerInfo.ts:101</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -243,7 +249,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L93">core/lib/misc/PlayerInfo.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L196">core/lib/misc/PlayerInfo.ts:196</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -266,7 +272,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L106">core/lib/misc/PlayerInfo.ts:106</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L218">core/lib/misc/PlayerInfo.ts:218</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -283,13 +289,13 @@
 					<a name="clone" class="tsd-anchor"></a>
 					<h3>clone</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span>playerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span>playerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerInfo</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L121">core/lib/misc/PlayerInfo.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L238">core/lib/misc/PlayerInfo.ts:238</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -303,7 +309,7 @@
 									<h5>playerId: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerInfo</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -317,7 +323,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L236">core/lib/misc/PlayerInfo.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L413">core/lib/misc/PlayerInfo.ts:413</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -336,25 +342,109 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="setColor" class="tsd-anchor"></a>
-					<h3>set<wbr>Color</h3>
+					<a name="deleteOutfit" class="tsd-anchor"></a>
+					<h3>delete<wbr>Outfit</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Color<span class="tsd-signature-symbol">(</span>color<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Color</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Outfit<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L180">core/lib/misc/PlayerInfo.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L336">core/lib/misc/PlayerInfo.ts:336</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the color of this player.</p>
+									<p>Delete an outfit on this player.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the outfit to delete.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getOutfit" class="tsd-anchor"></a>
+					<h3>get<wbr>Outfit</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Outfit<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L315">core/lib/misc/PlayerInfo.ts:315</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get an outfit from this player, or create it from the player&#39;s default base
+										outfit if it doesn&#39;t exist, or create a new one entirely if that doesn&#39;t
+									exist.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The outfit to get.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getPlayer" class="tsd-anchor"></a>
+					<h3>get<wbr>Player</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Player<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L160">core/lib/misc/PlayerInfo.ts:160</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The player that this info is for.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setColor" class="tsd-anchor"></a>
+					<h3>set<wbr>Color</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Color<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a>, color<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Color</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L349">core/lib/misc/PlayerInfo.ts:349</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+								</li>
 								<li>
 									<h5>color: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Color</a></h5>
 								</li>
@@ -373,7 +463,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L161">core/lib/misc/PlayerInfo.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L290">core/lib/misc/PlayerInfo.ts:290</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -401,7 +491,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L139">core/lib/misc/PlayerInfo.ts:139</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L268">core/lib/misc/PlayerInfo.ts:268</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -429,7 +519,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L212">core/lib/misc/PlayerInfo.ts:212</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L389">core/lib/misc/PlayerInfo.ts:389</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -451,24 +541,22 @@
 					<a name="setHat" class="tsd-anchor"></a>
 					<h3>set<wbr>Hat</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Hat<span class="tsd-signature-symbol">(</span>hat<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Hat</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Hat<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a>, hatId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L188">core/lib/misc/PlayerInfo.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L355">core/lib/misc/PlayerInfo.ts:355</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the hat of this player.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>hat: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Hat</a></h5>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+								</li>
+								<li>
+									<h5>hatId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -485,7 +573,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L150">core/lib/misc/PlayerInfo.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L279">core/lib/misc/PlayerInfo.ts:279</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -507,24 +595,79 @@
 					<a name="setName" class="tsd-anchor"></a>
 					<h3>set<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Name<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Name<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L172">core/lib/misc/PlayerInfo.ts:172</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L343">core/lib/misc/PlayerInfo.ts:343</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+								</li>
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setNameplate" class="tsd-anchor"></a>
+					<h3>set<wbr>Nameplate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Nameplate<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a>, nameplateId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L373">core/lib/misc/PlayerInfo.ts:373</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+								</li>
+								<li>
+									<h5>nameplateId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setOutfit" class="tsd-anchor"></a>
+					<h3>set<wbr>Outfit</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Outfit<span class="tsd-signature-symbol">(</span>outfit<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L302">core/lib/misc/PlayerInfo.ts:302</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Set the name of this player.</p>
+									<p>Create or overwrite one of this player&#39;s outfits.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<h5>outfit: <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The outfit to set.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -535,24 +678,22 @@
 					<a name="setPet" class="tsd-anchor"></a>
 					<h3>set<wbr>Pet</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Pet<span class="tsd-signature-symbol">(</span>pet<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Pet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Pet<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a>, petId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L196">core/lib/misc/PlayerInfo.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L361">core/lib/misc/PlayerInfo.ts:361</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the pet of this player.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>pet: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Pet</a></h5>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+								</li>
+								<li>
+									<h5>petId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -563,24 +704,22 @@
 					<a name="setSkin" class="tsd-anchor"></a>
 					<h3>set<wbr>Skin</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Skin<span class="tsd-signature-symbol">(</span>skin<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Skin</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Skin<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a>, skinId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L204">core/lib/misc/PlayerInfo.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L367">core/lib/misc/PlayerInfo.ts:367</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Set the skin of this player.</p>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>skin: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Skin</a></h5>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+								</li>
+								<li>
+									<h5>skinId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -597,7 +736,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L221">core/lib/misc/PlayerInfo.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L398">core/lib/misc/PlayerInfo.ts:398</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -628,7 +767,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L228">core/lib/misc/PlayerInfo.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L405">core/lib/misc/PlayerInfo.ts:405</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -646,78 +785,31 @@
 						</li>
 					</ul>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="color" class="tsd-anchor"></a>
-					<h3>color</h3>
-					<div class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="flags" class="tsd-anchor"></a>
-					<h3>flags</h3>
-					<div class="tsd-signature tsd-kind-icon">flags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="gamedata" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> gamedata</h3>
-					<div class="tsd-signature tsd-kind-icon">gamedata<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">GameData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="hat" class="tsd-anchor"></a>
-					<h3>hat</h3>
-					<div class="tsd-signature tsd-kind-icon">hat<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Hat</a><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="pet" class="tsd-anchor"></a>
-					<h3>pet</h3>
-					<div class="tsd-signature tsd-kind-icon">pet<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Pet</a><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="playerId" class="tsd-anchor"></a>
-					<h3>player<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">player<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="skin" class="tsd-anchor"></a>
-					<h3>skin</h3>
-					<div class="tsd-signature tsd-kind-icon">skin<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Skin</a><span class="tsd-signature-symbol"> = ...</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="taskIds" class="tsd-anchor"></a>
-					<h3>task<wbr>Ids</h3>
-					<div class="tsd-signature tsd-kind-icon">task<wbr>Ids<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
-					<aside class="tsd-sources">
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="taskStates" class="tsd-anchor"></a>
-					<h3>task<wbr>States</h3>
-					<div class="tsd-signature tsd-kind-icon">task<wbr>States<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">TaskState</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
-					<aside class="tsd-sources">
-					</aside>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setVisor" class="tsd-anchor"></a>
+					<h3>set<wbr>Visor</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Visor<span class="tsd-signature-symbol">(</span>outfitType<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a>, visorId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L379">core/lib/misc/PlayerInfo.ts:379</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>outfitType: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></h5>
+								</li>
+								<li>
+									<h5>visorId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -726,13 +818,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Info&lt;RoomType&gt;<span class="tsd-signature-symbol">(</span>gamedata<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">GameData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span>, playerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, color<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, hat<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Hat</a>, pet<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Pet</a>, skin<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Skin</a>, flags<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, taskIds<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, taskStates<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TaskState</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerInfo</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Info&lt;RoomType&gt;<span class="tsd-signature-symbol">(</span>gamedata<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">GameData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span>, playerId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, outfits<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span>, playerLevel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, flags<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, roleType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">BaseRole</span>, taskStates<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">TaskState</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerInfo</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L33">core/lib/misc/PlayerInfo.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L109">core/lib/misc/PlayerInfo.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -750,25 +842,16 @@
 									<h5>playerId: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></h5>
+									<h5>outfits: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
-									<h5>color: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
-								</li>
-								<li>
-									<h5>hat: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Hat</a><span class="tsd-signature-symbol"> = ...</span></h5>
-								</li>
-								<li>
-									<h5>pet: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Pet</a><span class="tsd-signature-symbol"> = ...</span></h5>
-								</li>
-								<li>
-									<h5>skin: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Skin</a><span class="tsd-signature-symbol"> = ...</span></h5>
+									<h5>playerLevel: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5>flags: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
 								</li>
 								<li>
-									<h5>taskIds: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
+									<h5>roleType: <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">BaseRole</span></h5>
 								</li>
 								<li>
 									<h5>taskStates: <a href="" class="tsd-signature-type" data-tsd-kind="Class">TaskState</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></h5>
@@ -782,6 +865,40 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="currentOutfit" class="tsd-anchor"></a>
+					<h3>current<wbr>Outfit</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> currentOutfit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L192">core/lib/misc/PlayerInfo.ts:192</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="defaultOutfit" class="tsd-anchor"></a>
+					<h3>default<wbr>Outfit</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> defaultOutfit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L188">core/lib/misc/PlayerInfo.ts:188</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="isDead" class="tsd-anchor"></a>
 					<h3>is<wbr>Dead</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
@@ -791,7 +908,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L72">core/lib/misc/PlayerInfo.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L183">core/lib/misc/PlayerInfo.ts:183</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -813,7 +930,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L56">core/lib/misc/PlayerInfo.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L167">core/lib/misc/PlayerInfo.ts:167</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -835,7 +952,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L64">core/lib/misc/PlayerInfo.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L175">core/lib/misc/PlayerInfo.ts:175</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -847,27 +964,67 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="player" class="tsd-anchor"></a>
-					<h3>player</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> player<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/core/lib/misc/PlayerInfo.ts#L49">core/lib/misc/PlayerInfo.ts:49</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The player that this info is for.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">PlayerData</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="currentOutfitType" class="tsd-anchor"></a>
+					<h3>current<wbr>Outfit<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Outfit<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/core/lib/misc/PlayerInfo.ts#L107">core/lib/misc/PlayerInfo.ts:107</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="flags" class="tsd-anchor"></a>
+					<h3>flags</h3>
+					<div class="tsd-signature tsd-kind-icon">flags<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="gamedata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> gamedata</h3>
+					<div class="tsd-signature tsd-kind-icon">gamedata<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">GameData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RoomType</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="outfits" class="tsd-anchor"></a>
+					<h3>outfits</h3>
+					<div class="tsd-signature tsd-kind-icon">outfits<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">PlayerOutfitType</a><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PlayerOutfit</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="playerId" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> player<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">player<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="playerLevel" class="tsd-anchor"></a>
+					<h3>player<wbr>Level</h3>
+					<div class="tsd-signature tsd-kind-icon">player<wbr>Level<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="roleType" class="tsd-anchor"></a>
+					<h3>role<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">role<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">BaseRole</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="taskStates" class="tsd-anchor"></a>
+					<h3>task<wbr>States</h3>
+					<div class="tsd-signature tsd-kind-icon">task<wbr>States<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">TaskState</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<aside class="tsd-sources">
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -926,9 +1083,6 @@
 						<a href="../modules/events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -985,14 +1139,23 @@
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#clone" class="tsd-kind-icon">clone</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.PlayerInfo.html#color" class="tsd-kind-icon">color</a>
-									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#completeTask" class="tsd-kind-icon">complete<wbr>Task</a>
 									</li>
 									<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
 										<a href="core.PlayerInfo.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#currentOutfit" class="tsd-kind-icon">current<wbr>Outfit</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#currentOutfitType" class="tsd-kind-icon">current<wbr>Outfit<wbr>Type</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#defaultOutfit" class="tsd-kind-icon">default<wbr>Outfit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#deleteOutfit" class="tsd-kind-icon">delete<wbr>Outfit</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#flags" class="tsd-kind-icon">flags</a>
@@ -1000,8 +1163,11 @@
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#gamedata" class="tsd-kind-icon">gamedata</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.PlayerInfo.html#hat" class="tsd-kind-icon">hat</a>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#getOutfit" class="tsd-kind-icon">get<wbr>Outfit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#getPlayer" class="tsd-kind-icon">get<wbr>Player</a>
 									</li>
 									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#isDead" class="tsd-kind-icon">is<wbr>Dead</a>
@@ -1013,16 +1179,16 @@
 										<a href="core.PlayerInfo.html#isImpostor" class="tsd-kind-icon">is<wbr>Impostor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.PlayerInfo.html#name" class="tsd-kind-icon">name</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.PlayerInfo.html#pet" class="tsd-kind-icon">pet</a>
-									</li>
-									<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-										<a href="core.PlayerInfo.html#player" class="tsd-kind-icon">player</a>
+										<a href="core.PlayerInfo.html#outfits" class="tsd-kind-icon">outfits</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#playerId" class="tsd-kind-icon">player<wbr>Id</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#playerLevel" class="tsd-kind-icon">player<wbr>Level</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#roleType" class="tsd-kind-icon">role<wbr>Type</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#setColor" class="tsd-kind-icon">set<wbr>Color</a>
@@ -1046,6 +1212,12 @@
 										<a href="core.PlayerInfo.html#setName" class="tsd-kind-icon">set<wbr>Name</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#setNameplate" class="tsd-kind-icon">set<wbr>Nameplate</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#setOutfit" class="tsd-kind-icon">set<wbr>Outfit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#setPet" class="tsd-kind-icon">set<wbr>Pet</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -1057,11 +1229,8 @@
 									<li class=" tsd-kind-method tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#setTaskStates" class="tsd-kind-icon">set<wbr>Task<wbr>States</a>
 									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.PlayerInfo.html#skin" class="tsd-kind-icon">skin</a>
-									</li>
-									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="core.PlayerInfo.html#taskIds" class="tsd-kind-icon">task<wbr>Ids</a>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="core.PlayerInfo.html#setVisor" class="tsd-kind-icon">set<wbr>Visor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="core.PlayerInfo.html#taskStates" class="tsd-kind-icon">task<wbr>States</a>
@@ -1080,9 +1249,6 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>

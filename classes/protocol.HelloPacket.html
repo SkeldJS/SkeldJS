@@ -101,13 +101,14 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="protocol.HelloPacket.html#messageTag" class="tsd-kind-icon">message<wbr>Tag</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="protocol.HelloPacket.html#messageType" class="tsd-kind-icon">message<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#auth" class="tsd-kind-icon">auth</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#chatMode" class="tsd-kind-icon">chat<wbr>Mode</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#clientver" class="tsd-kind-icon">clientver</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#clientVer" class="tsd-kind-icon">client<wbr>Ver</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#language" class="tsd-kind-icon">language</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="protocol.HelloPacket.html#messageTag-1" class="tsd-kind-icon">message<wbr>Tag</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="protocol.HelloPacket.html#messageType-1" class="tsd-kind-icon">message<wbr>Type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#nonce" class="tsd-kind-icon">nonce</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#token" class="tsd-kind-icon">token</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#platform" class="tsd-kind-icon">platform</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.HelloPacket.html#username" class="tsd-kind-icon">username</a></li>
 							</ul>
 						</section>
@@ -132,20 +133,26 @@
 					<a name="Deserialize" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> Deserialize</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">Deserialize<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HelloPacket</a></li>
+						<li class="tsd-signature tsd-kind-icon">Deserialize<span class="tsd-signature-symbol">(</span>reader<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a>, direction<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a>, decoder<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HelloPacket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides BaseRootPacket.Deserialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/option/Hello.ts#L21">protocol/lib/packets/option/Hello.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/option/Hello.ts#L25">protocol/lib/packets/option/Hello.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>reader: <a href="" class="tsd-signature-type" data-tsd-kind="Class">HazelReader</a></h5>
+								</li>
+								<li>
+									<h5>direction: <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">MessageDirection</a></h5>
+								</li>
+								<li>
+									<h5>decoder: <a href="" class="tsd-signature-type" data-tsd-kind="Class">PacketDecoder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">HelloPacket</a></h4>
@@ -163,7 +170,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseRootPacket.Serialize</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/option/Hello.ts#L33">protocol/lib/packets/option/Hello.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/option/Hello.ts#L47">protocol/lib/packets/option/Hello.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,7 +194,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from BaseRootPacket.cancel</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/BaseMessage.ts#L41">protocol/lib/packets/BaseMessage.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/BaseMessage.ts#L41">protocol/lib/packets/BaseMessage.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -205,7 +212,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides BaseRootPacket.clone</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/option/Hello.ts#L43">protocol/lib/packets/option/Hello.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/option/Hello.ts#L63">protocol/lib/packets/option/Hello.ts:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">HelloPacket</a></h4>
@@ -222,7 +229,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BaseRootPacket.messageTag</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/option/Hello.ts#L7">protocol/lib/packets/option/Hello.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/option/Hello.ts#L10">protocol/lib/packets/option/Hello.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -233,8 +240,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseRootPacket.messageType</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/option/BaseRootPacket.ts#L4">protocol/lib/packets/option/BaseRootPacket.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/option/BaseRootPacket.ts#L4">protocol/lib/packets/option/BaseRootPacket.ts:4</a></li>
 						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="auth" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> auth</h3>
+					<div class="tsd-signature tsd-kind-icon">auth<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
@@ -245,9 +259,9 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="clientver" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> clientver</h3>
-					<div class="tsd-signature tsd-kind-icon">clientver<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">VersionInfo</a></div>
+					<a name="clientVer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> client<wbr>Ver</h3>
+					<div class="tsd-signature tsd-kind-icon">client<wbr>Ver<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Class">VersionInfo</a></div>
 					<aside class="tsd-sources">
 					</aside>
 				</section>
@@ -265,7 +279,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BaseRootPacket.messageTag</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/option/Hello.ts#L8">protocol/lib/packets/option/Hello.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/option/Hello.ts#L11">protocol/lib/packets/option/Hello.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -276,7 +290,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from BaseRootPacket.messageType</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/option/BaseRootPacket.ts#L5">protocol/lib/packets/option/BaseRootPacket.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/option/BaseRootPacket.ts#L5">protocol/lib/packets/option/BaseRootPacket.ts:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -288,9 +302,9 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="token" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> token</h3>
-					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="platform" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> platform</h3>
+					<div class="tsd-signature tsd-kind-icon">platform<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlatformSpecificData</span></div>
 					<aside class="tsd-sources">
 					</aside>
 				</section>
@@ -314,7 +328,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/BaseMessage.ts#L17">protocol/lib/packets/BaseMessage.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/BaseMessage.ts#L17">protocol/lib/packets/BaseMessage.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -328,14 +342,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Hello<wbr>Packet<span class="tsd-signature-symbol">(</span>nonce<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, clientver<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">VersionInfo</a>, username<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, language<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameKeyword</span>, chatMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">QuickChatMode</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HelloPacket</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Hello<wbr>Packet<span class="tsd-signature-symbol">(</span>nonce<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, clientVer<span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">VersionInfo</a>, username<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, auth<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, language<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameKeyword</span>, chatMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">QuickChatMode</span>, platform<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlatformSpecificData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="" class="tsd-signature-type" data-tsd-kind="Class">HelloPacket</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides BaseRootPacket.constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/94fee68/packages/protocol/lib/packets/option/Hello.ts#L10">protocol/lib/packets/option/Hello.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/a21554c/packages/protocol/lib/packets/option/Hello.ts#L13">protocol/lib/packets/option/Hello.ts:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -344,19 +358,22 @@
 									<h5>nonce: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
-									<h5>clientver: <a href="" class="tsd-signature-type" data-tsd-kind="Class">VersionInfo</a></h5>
+									<h5>clientVer: <a href="" class="tsd-signature-type" data-tsd-kind="Class">VersionInfo</a></h5>
 								</li>
 								<li>
 									<h5>username: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>token: <span class="tsd-signature-type">number</span></h5>
+									<h5>auth: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5>language: <span class="tsd-signature-type">GameKeyword</span></h5>
 								</li>
 								<li>
 									<h5>chatMode: <span class="tsd-signature-type">QuickChatMode</span></h5>
+								</li>
+								<li>
+									<h5>platform: <span class="tsd-signature-type">PlatformSpecificData</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="" class="tsd-signature-type" data-tsd-kind="Class">HelloPacket</a></h4>
@@ -420,9 +437,6 @@
 						<a href="../modules/events.html">events</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html">get-<wbr>auth-<wbr>token</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -469,9 +483,6 @@
 						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/get_auth_token.html" class="tsd-kind-icon">get-<wbr>auth-<wbr>token</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -497,6 +508,9 @@
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 										<a href="protocol.HelloPacket.html#Serialize" class="tsd-kind-icon">Serialize</a>
 									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="protocol.HelloPacket.html#auth" class="tsd-kind-icon">auth</a>
+									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a href="protocol.HelloPacket.html#cancel" class="tsd-kind-icon">cancel</a>
 									</li>
@@ -507,7 +521,7 @@
 										<a href="protocol.HelloPacket.html#chatMode" class="tsd-kind-icon">chat<wbr>Mode</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="protocol.HelloPacket.html#clientver" class="tsd-kind-icon">clientver</a>
+										<a href="protocol.HelloPacket.html#clientVer" class="tsd-kind-icon">client<wbr>Ver</a>
 									</li>
 									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 										<a href="protocol.HelloPacket.html#clone" class="tsd-kind-icon">clone</a>
@@ -528,7 +542,7 @@
 										<a href="protocol.HelloPacket.html#nonce" class="tsd-kind-icon">nonce</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
-										<a href="protocol.HelloPacket.html#token" class="tsd-kind-icon">token</a>
+										<a href="protocol.HelloPacket.html#platform" class="tsd-kind-icon">platform</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="protocol.HelloPacket.html#username" class="tsd-kind-icon">username</a>
