@@ -85,34 +85,6 @@ Allows you to convert game string IDs into a readable string in a language suppo
 ### [@skeldjs/util](https://skeld.js.org/modules/util.html)
 Several utility classes and functions used in SkeldJS, separated as another module as they are unopinionated and are used all throughout.
 
-
-SkeldJS is a JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.
-
-The repository holds several key programs for automating development with Among Us.
-* **Client** - An Among Us client that allows you to host games, join games and act as a player programmatically.
-* **Proxy** - A proxy with both a programmable client and an electron client, to inspect and modify packets in detail.
-
-The repository also hosts utility packages for the packages listed above, that you can use individually.
-* **State** - A state manager taking in both inbound and outbound packets.
-* **Core** - An impartial core internal API for Among Us structures and game objects that are shared across all main projects.
-* **Protocol** - Protocol interfaces with full parsing and composing.
-* **Constant** - Enums & bitfields in Among Us.
-* **Data** - Among Us game data & information.
-* **Util** - Basic utility functions.
-
-As well as the main and utility packages, the project also contains several packages to be used as additions or addons to the client package. These are installed separately from the client although are helpful in automating client development.
-* **Pathfinding** - A* pathfinding implementation to get around the map, abstracted to be a seamless addition to the client package.
-* **Task Manager** - A tool used for managing task completion in the correct order.
-* **Reactor** - Implementation of the Reactor modded handshake for skeldjs.
-
-You can view auto-updating documentation for all packages hosted at github pages at https://skeld.js.org.
-
-### Discord Server
-SkeldJS now has a discord server where you can get help with installing, get help
-with usage and talk about changes.
-
-Invite: https://discord.gg/8ewNJYmYAU
-
 # Notes
 > The most comprehensive set of JavaScript protocol implementations for Among Us.
 
