@@ -155,6 +155,7 @@ client.on("player.setname", ev => {
 * {@link PlayerSetSkinEvent | `player.setskin`}
 * {@link PlayerSetStartCounterEvent | `player.setstartcounter`}
 * {@link PlayerSetVisorEvent | `player.setvisor`}
+* {@link PlayerShapeshiftEvent | `player.shapeshift`}
 * {@link PlayerSnapToEvent | `player.snapto`}
 * {@link PlayerSpawnEvent | `player.spawn`}
 * {@link PlayerStartMeetingEvent | `player.startmeeting`}

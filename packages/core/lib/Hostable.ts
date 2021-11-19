@@ -8,7 +8,6 @@ import {
     RemovePlayerMessage,
     DespawnMessage,
     ComponentSpawnData,
-    PacketDecoder,
     AllGameSettings,
     EndGameMessage,
     PlayerJoinData
@@ -200,11 +199,6 @@ export class Hostable<
     privacy: PrivacyType;
 
     /**
-     * The packet decoder.
-     */
-    decoder: PacketDecoder;
-
-    /**
      * An instance of the ship status in the room. Spawned when a game is started
      * and represents the current map.
      *
@@ -309,8 +303,6 @@ export class Hostable<
         this.players = new Map;
         this.netobjects = new Map;
         this.messageStream = [];
-
-        this.decoder = new PacketDecoder;
 
         this.shipStatus = undefined;
         this.meetingHud = undefined;

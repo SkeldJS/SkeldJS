@@ -31,7 +31,8 @@ import {
     AlterGameMessage,
     ReadyMessage,
     PlatformSpecificData,
-    PlayerJoinData
+    PlayerJoinData,
+    PacketDecoder
 } from "@skeldjs/protocol";
 
 export type SkeldjsStateManagerEvents<T extends SkeldjsStateManager = any> = HostableEvents<T>;
@@ -43,11 +44,13 @@ export class SkeldjsStateManager<
     protected _cachedName?: string;
 
     clientId: number;
+    decoder: PacketDecoder;
 
     constructor(options: HostableOptions = {}) {
         super({ doFixedUpdate: false, ...options });
 
         this.clientId = 0;
+        this.decoder = new PacketDecoder;
 
         this.decoder.on(HostGameMessage, (message, direction) => {
             if (direction === MessageDirection.Clientbound) {
