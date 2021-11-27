@@ -1,4 +1,4 @@
-import { GameKeyword, HostableOptions, QuickChatMode } from "@skeldjs/core";
+import { HostableOptions, Language, QuickChatMode } from "@skeldjs/core";
 import { PlatformSpecificData } from "@skeldjs/protocol";
 import { AuthMethod } from "./AuthMethod";
 
@@ -15,9 +15,9 @@ export interface ClientConfig extends HostableOptions {
     authMethod: AuthMethod;
     /**
      * The client's language. Used to localise messages from the server.
-     * @default GameKeyword.English
+     * @default Language.English
      */
-    language: GameKeyword;
+    language: Language;
     /**
      * The quick chat mode for the client. The server prevents you from joining
      * rooms with a quick chat mode if the client has free chat enbled.

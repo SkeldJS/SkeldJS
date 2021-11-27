@@ -58,7 +58,7 @@ import {
 import { Networkable, NetworkableEvents, NetworkableConstructor } from "./Networkable";
 import { PlayerData, PlayerDataEvents } from "./PlayerData";
 
-import { HostableOptions } from "./misc/HostableOptions";
+import { HostableOptions as HostableConfig } from "./misc/HostableOptions";
 
 import {
     ComponentDespawnEvent,
@@ -284,7 +284,7 @@ export class Hostable<
      */
     endGameIntents: EndGameIntent<any>[];
 
-    constructor(public config: HostableOptions = {}) {
+    constructor(public config: HostableConfig = {}) {
         super();
 
         this.last_fixed_update = Date.now();
@@ -342,8 +342,11 @@ export class Hostable<
     }
 
     destroy() {
-        if (this._interval) clearInterval(this._interval);
+        if (this._interval)
+            clearInterval(this._interval);
+        this._interval = undefined;
         this._destroyed = true;
+        this.gameState = GameState.Destroyed;
     }
 
     getNextNetId() {

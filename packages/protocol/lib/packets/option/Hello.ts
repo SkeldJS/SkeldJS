@@ -1,4 +1,4 @@
-import { GameKeyword, QuickChatMode, SendOption } from "@skeldjs/constant";
+import { Language, QuickChatMode, SendOption } from "@skeldjs/constant";
 import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
 
 import { MessageDirection, PacketDecoder } from "../../PacketDecoder";
@@ -15,7 +15,7 @@ export class HelloPacket extends BaseRootPacket {
         public readonly clientVer: VersionInfo,
         public readonly username: string,
         public readonly auth: string|number,
-        public readonly language: GameKeyword,
+        public readonly language: Language,
         public readonly chatMode: QuickChatMode,
         public readonly platform: PlatformSpecificData
     ) {
@@ -29,7 +29,7 @@ export class HelloPacket extends BaseRootPacket {
      ) {
         const nonce = reader.uint16(true);
         reader.jump(1); // Skip hazel version.
-        const clientver = reader.read(VersionInfo);
+        const clientVer = reader.read(VersionInfo);
         const username = reader.string();
         let auth: string|number;
         if (decoder.config.useDtlsLayout) {
@@ -41,7 +41,7 @@ export class HelloPacket extends BaseRootPacket {
         const chatMode = reader.uint8();
         const platform = reader.read(PlatformSpecificData);
 
-        return new HelloPacket(nonce, clientver, username, auth, language, chatMode, platform);
+        return new HelloPacket(nonce, clientVer, username, auth, language, chatMode, platform);
     }
 
     Serialize(writer: HazelWriter) {

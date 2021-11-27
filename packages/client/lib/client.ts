@@ -11,7 +11,8 @@ import {
     RootMessageTag,
     GameMap,
     GameKeyword,
-    Platform
+    Platform,
+    Language
 } from "@skeldjs/constant";
 
 import { DisconnectMessages } from "@skeldjs/data";
@@ -185,7 +186,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             doFixedUpdate: true,
             authMethod: AuthMethod.SecureTransport,
             allowHost: true,
-            language: GameKeyword.English,
+            language: Language.English,
             chatMode: QuickChatMode.FreeChat,
             messageOrdering: false,
             platform: new PlatformSpecificData(Platform.StandaloneSteamPC, "Steam"),

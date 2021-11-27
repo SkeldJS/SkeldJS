@@ -87,8 +87,8 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
         }
     }
 
-    private async _addConsole(player: PlayerData|undefined, consoleid: number, rpc: RepairSystemMessage|undefined) {
-        this.completed.add(consoleid);
+    private async _addConsole(player: PlayerData|undefined, consoleId: number, rpc: RepairSystemMessage|undefined) {
+        this.completed.add(consoleId);
         this.dirty = true;
 
         const ev = await this.emit(
@@ -97,7 +97,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
                 this,
                 undefined,
                 player,
-                consoleid
+                consoleId
             )
         );
 
@@ -106,8 +106,8 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
             return;
         }
 
-        if (ev.alteredConsoleId !== consoleid) {
-            this.completed.delete(consoleid);
+        if (ev.alteredConsoleId !== consoleId) {
+            this.completed.delete(consoleId);
             this.completed.add(ev.alteredConsoleId);
         }
 
@@ -119,18 +119,18 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
     /**
      * Add a completed console. (Same as a player placing their hand on a
      * console)
-     * @param consoleid The ID of the console to add.
+     * @param consoleId The ID of the console to add.
      */
-    async addConsole(consoleid: number) {
+    async addConsole(consoleId: number) {
         if (this.room.hostIsMe) {
-            await this._addConsole(this.room.myPlayer, consoleid, undefined);
+            await this._addConsole(this.room.myPlayer, consoleId, undefined);
         } else {
-            await this._sendRepair(0x40 | consoleid);
+            await this._sendRepair(0x40 | consoleId);
         }
     }
 
-    private async _removeConsole(player: PlayerData|undefined, consoleid: number, rpc: RepairSystemMessage|undefined) {
-        this.completed.delete(consoleid);
+    private async _removeConsole(player: PlayerData|undefined, consoleId: number, rpc: RepairSystemMessage|undefined) {
+        this.completed.delete(consoleId);
         this.dirty = true;
 
         const ev = await this.emit(
@@ -139,7 +139,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
                 this,
                 undefined,
                 player,
-                consoleid
+                consoleId
             )
         );
 
@@ -147,8 +147,8 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
             return this.completed.add(ev.consoleId);
         }
 
-        if (ev.alteredConsoleId !== consoleid) {
-            this.completed.add(consoleid);
+        if (ev.alteredConsoleId !== consoleId) {
+            this.completed.add(consoleId);
             this.completed.delete(ev.alteredConsoleId);
         }
     }
@@ -156,13 +156,13 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
     /**
      * Remove a completed console. (Same as a player removing their hand from a
      * console)
-     * @param consoleid The ID of the console to add.
+     * @param consoleId The ID of the console to add.
      */
-    async removeConsole(consoleid: number) {
+    async removeConsole(consoleId: number) {
         if (this.room.hostIsMe) {
-            await this._removeConsole(this.room.myPlayer, consoleid, undefined);
+            await this._removeConsole(this.room.myPlayer, consoleId, undefined);
         } else {
-            await this._sendRepair(0x20 | consoleid);
+            await this._sendRepair(0x20 | consoleId);
         }
     }
 

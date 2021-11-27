@@ -1,0 +1,15 @@
+undecided:
+  - skeldjs
+  - "@skeldjs/client"
+  - "@skeldjs/constant"
+  - "@skeldjs/core"
+  - "@skeldjs/data"
+  - "@skeldjs/dtls"
+  - "@skeldjs/events"
+  - "@skeldjs/lan"
+  - "@skeldjs/pathfinding"
+  - "@skeldjs/protocol"
+  - "@skeldjs/reactor"
+  - "@skeldjs/state"
+  - "@skeldjs/text"
+  - "@skeldjs/translations"

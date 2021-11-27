@@ -1,5 +1,5 @@
-import { GameKeyword, QuickChatMode, SendOption } from "@skeldjs/constant";
-import { BaseRootPacket, HelloPacket } from "@skeldjs/protocol";
+import { Language, QuickChatMode, SendOption } from "@skeldjs/constant";
+import { BaseRootPacket, HelloPacket, MessageDirection, PacketDecoder, PlatformSpecificData } from "@skeldjs/protocol";
 import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
 
 export class ModdedHelloPacket extends BaseRootPacket {
@@ -10,11 +10,12 @@ export class ModdedHelloPacket extends BaseRootPacket {
         public readonly nonce: number,
         public readonly clientver: VersionInfo,
         public readonly username: string,
-        public readonly token: number,
-        public readonly language: GameKeyword,
+        public readonly auth: string|number,
+        public readonly language: Language,
         public readonly chatMode: QuickChatMode,
-        public readonly protocolver: number,
-        public readonly modcount: number
+        public readonly platform: PlatformSpecificData,
+        public readonly protocolver?: number,
+        public readonly modcount?: number,
     ) {
         super();
     }
@@ -23,39 +24,68 @@ export class ModdedHelloPacket extends BaseRootPacket {
         return this.protocolver === undefined;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static Deserialize(
+        reader: HazelReader,
+        direction: MessageDirection,
+        decoder: PacketDecoder
+    ) {
         const nonce = reader.uint16(true);
         reader.jump(1); // Skip hazel version.
-        const clientver = reader.read(VersionInfo);
+        const clientverint = reader.int32();
         const username = reader.string();
-        const token = reader.uint32();
+
+        const clientver = VersionInfo.from(clientverint);
+        let auth: string|number;
+        if (decoder.config.useDtlsLayout) {
+            auth = reader.string();
+        } else {
+            auth = reader.uint32();
+        }
         const language = reader.uint32();
         const chatMode = reader.uint8();
+        const platform = reader.read(PlatformSpecificData);
 
-        const protocolversion = reader.uint8();
-        const modcount = reader.packed();
+        if (reader.left) {
+            const protocolversion = reader.uint8();
+            const modcount = reader.packed();
 
-        return new ModdedHelloPacket(
-            nonce,
-            clientver,
-            username,
-            token,
-            language,
-            chatMode,
-            protocolversion,
-            modcount
-        );
+            return new ModdedHelloPacket(
+                nonce,
+                clientver,
+                username,
+                auth,
+                language,
+                chatMode,
+                platform,
+                protocolversion,
+                modcount
+            );
+        } else {
+            return new ModdedHelloPacket(
+                nonce,
+                clientver,
+                username,
+                auth,
+                language,
+                chatMode,
+                platform
+            );
+        }
     }
 
     Serialize(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
-        writer.uint8(0);
         writer.write(this.clientver);
         writer.string(this.username);
-        writer.uint32(this.token);
+        if (typeof this.auth === "string") {
+            writer.string(this.auth);
+        } else {
+            writer.uint32(this.auth);
+        }
         writer.uint32(this.language);
         writer.uint8(this.chatMode);
-        writer.uint8(this.protocolver);
-        writer.packed(this.modcount);
+        writer.write(this.platform);
+        writer.uint8(this.protocolver || 0);
+        writer.packed(this.modcount || 0);
     }
 }

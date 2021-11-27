@@ -245,7 +245,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    private async _closeConsole(consoleid: number, player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    private async _closeConsole(consoleId: number, player: PlayerData, rpc: RepairSystemMessage|undefined) {
         if (player.playerId === undefined)
             return;
 
@@ -259,7 +259,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
                 this,
                 rpc,
                 player,
-                consoleid
+                consoleId
             )
         );
         if (ev.reverted) {

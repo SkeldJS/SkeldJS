@@ -1,4 +1,4 @@
-import { SkeldjsClient } from "@skeldjs/client";
+import { AuthMethod, SkeldjsClient } from "@skeldjs/client";
 import { AcknowledgePacket, ReliablePacket } from "@skeldjs/protocol";
 import { ReactorMod } from "./ReactorMod";
 
@@ -34,9 +34,12 @@ export class ReactorClient {
                     nonce,
                     client.version,
                     identify.username,
-                    identify.authToken,
+                    client.config.authMethod === AuthMethod.SecureTransport
+                        ? client.config.eosProductUserId
+                        : identify.authToken,
                     client.config.language,
                     client.config.chatMode,
+                    client.config.platform,
                     1,
                     this.mods.size
                 )

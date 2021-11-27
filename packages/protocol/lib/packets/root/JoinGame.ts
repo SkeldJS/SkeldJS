@@ -95,6 +95,9 @@ export class JoinGameMessage extends BaseRootMessage {
                 writer.int32(this.code);
                 writer.int32(this.clientId);
                 writer.int32(this.hostId);
+                writer.string(this.playerName);
+                writer.write(this.platform);
+                writer.upacked(this.playerLevel);
             } else {
                 writer.int32(this.error);
                 if (
