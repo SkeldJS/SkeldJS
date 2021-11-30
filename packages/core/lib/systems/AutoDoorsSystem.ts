@@ -60,7 +60,6 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
 
     Deserialize(reader: HazelReader, spawn: boolean) {
         if (spawn) {
-            console.log(this.doors);
             for (let i = 0; i < this.doors.length; i++) {
                 const open = reader.bool();
                 this.doors[i] = new AutoOpenDoor(this, i, open);
