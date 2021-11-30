@@ -168,6 +168,7 @@ client.on("player.setname", ev => {
 * {@link ReactorConsolesResetEvent | `reactor.consoles.reset`}
 
 ### Room
+* {@link RoomAssignRolesEvents | `room.assignroles`}
 * {@link RoomEndGameIntentEvent | `room.endgameintent`}
 * {@link RoomFixedUpdateEvent | `room.fixedupdate`}
 * {@link RoomGameEndEvent | `room.gameend`}

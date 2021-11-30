@@ -2,8 +2,8 @@ import { QuickChatMode } from "@skeldjs/constant";
 import * as skeldjs from "../index";
 
 (async () => {
-    const client = new skeldjs.SkeldjsClient("2021.6.30", {
-        chatMode: QuickChatMode.FreeChat
+    const client = new skeldjs.SkeldjsClient("2021.11.9.0", {
+        chatMode: QuickChatMode.QuickChat
     });
 
     console.log("Connecting..");
@@ -17,8 +17,4 @@ import * as skeldjs from "../index";
         await client.myPlayer.control.checkColor(skeldjs.Color.Blue);
         await client.myPlayer.control.checkName("weakeyes");
     }
-
-    setInterval(() => {
-        client.myPlayer?.transform?.move(Math.random() * 5, Math.random() * 5);
-    }, 1000 / 10);
 })();

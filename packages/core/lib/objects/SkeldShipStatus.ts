@@ -104,7 +104,6 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
             new AutoOpenDoor(autodoor, 10, true),
             new AutoOpenDoor(autodoor, 11, true),
             new AutoOpenDoor(autodoor, 12, true),
-            new AutoOpenDoor(autodoor, 13, true),
         ];
     }
 
