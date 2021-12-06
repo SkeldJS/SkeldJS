@@ -1,7 +1,7 @@
 import { Int2Code } from "@skeldjs/util";
 import { QuickChatMode, RoleType } from "@skeldjs/constant";
 import * as skeldjs from "../index";
-import { KickPlayerMessage } from "../../protocol";
+import { KickPlayerMessage } from "@skeldjs/protocol";
 
 const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof skeldjs.OfficialServers] || process.argv[2];
 
