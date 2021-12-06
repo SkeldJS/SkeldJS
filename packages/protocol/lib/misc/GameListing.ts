@@ -1,5 +1,6 @@
 import { GameMap } from "@skeldjs/constant";
 import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
+import { PlatformSpecificData } from "./PlatformSpecificData";
 
 export class GameListing {
     readonly code: number;
@@ -8,12 +9,13 @@ export class GameListing {
         code: string | number,
         public readonly ip: string,
         public readonly port: number,
-        public readonly name: string,
+        public readonly hostName: string,
         public readonly numPlayers: number,
         public readonly age: number,
         public readonly map: GameMap,
         public readonly numImpostors: number,
-        public readonly maxPlayers: number
+        public readonly maxPlayers: number,
+        public readonly platform: PlatformSpecificData
     ) {
         if (typeof code === "string") {
             this.code = Code2Int(code);
@@ -26,23 +28,25 @@ export class GameListing {
         const ip = reader.bytes(4).buffer.join(".");
         const port = reader.uint16();
         const code = reader.int32();
-        const name = reader.string();
-        const num_players = reader.uint8();
+        const hostName = reader.string();
+        const numPlayers = reader.uint8();
         const age = reader.upacked();
         const map = reader.uint8();
-        const num_impostors = reader.uint8();
-        const max_players = reader.uint8();
+        const numImpostors = reader.uint8();
+        const maxPlayers = reader.uint8();
+        const platform = reader.read(PlatformSpecificData);
 
         return new GameListing(
             code,
             ip,
             port,
-            name,
-            num_players,
+            hostName,
+            numPlayers,
             age,
             map,
-            num_impostors,
-            max_players
+            numImpostors,
+            maxPlayers,
+            platform
         );
     }
 
@@ -53,15 +57,32 @@ export class GameListing {
         }
         writer.uint16(this.port);
         writer.int32(this.code);
-        writer.string(this.name);
+        writer.string(this.hostName);
         writer.uint8(this.numPlayers);
         writer.upacked(this.age);
         writer.uint8(this.map);
         writer.uint8(this.numImpostors);
         writer.uint8(this.maxPlayers);
+        writer.uint8(this.platform.platformTag);
+        writer.string(this.platform.platformName);
     }
 
     clone() {
-        return new GameListing(this.code, this.ip, this.port, this.name, this.numPlayers, this.age, this.map, this.numImpostors, this.maxPlayers);
+        return new GameListing(
+            this.code,
+            this.ip,
+            this.port,
+            this.hostName,
+            this.numPlayers,
+            this.age,
+            this.map,
+            this.numImpostors,
+            this.maxPlayers,
+            new PlatformSpecificData(
+                this.platform.platformTag,
+                this.platform.platformName,
+                this.platform.platformId
+            )
+        );
     }
 }
