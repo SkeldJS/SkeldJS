@@ -230,7 +230,7 @@ export class SkeldjsStateManager<
                     } else {
                         if (this.hostIsMe) {
                             await this.broadcast(
-                                this._getExistingObjectSpawn(),
+                                this.getExistingObjectSpawn(),
                                 undefined,
                                 [ player ]
                             );

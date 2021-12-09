@@ -1012,7 +1012,7 @@ export class Hostable<
         }
     }
 
-    protected _getExistingObjectSpawn() {
+    getExistingObjectSpawn() {
         const messages: SpawnMessage[] = [];
 
         for (const object of this.objectList) {

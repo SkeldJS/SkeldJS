@@ -480,7 +480,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player.getOutfit(PlayerOutfitType.Default).name.toLowerCase() === newName.toLowerCase()
+                    player.defaultOutfit.name.toLowerCase() === newName.toLowerCase()
             )
         ) {
             for (let i = 1; i < 100; i++) {
@@ -490,7 +490,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                     !players.some(
                         (player) =>
                             player.playerId !== this.playerId &&
-                            player.getOutfit(PlayerOutfitType.Default).name.toLowerCase() === newName.toLowerCase()
+                            player.defaultOutfit.name.toLowerCase() === newName.toLowerCase()
                     )
                 ) {
                     break;
@@ -536,7 +536,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetName(rpc: SetNameMessage) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldName = defaultOutfit?.name;
         if (defaultOutfit)
             defaultOutfit.name = rpc.name;
@@ -576,7 +576,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setName(name: string) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldName = defaultOutfit?.name;
         if (defaultOutfit)
             defaultOutfit.name = name;
@@ -609,7 +609,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             players.some(
                 (player) =>
                     player.playerId !== this.playerId &&
-                    player.getOutfit(PlayerOutfitType.Default).color === newColor
+                    player.defaultOutfit.color === newColor
             )
         ) {
             newColor++;
@@ -660,7 +660,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetColor(rpc: SetColorMessage) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldColor = defaultOutfit?.color;
         if (defaultOutfit)
             defaultOutfit.color = rpc.color;
@@ -700,7 +700,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setColor(color: Color) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldColor = defaultOutfit?.color;
         if (defaultOutfit)
             defaultOutfit.color = color;
@@ -1212,7 +1212,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetHat(rpc: SetHatMessage) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldHat = defaultOutfit?.hatId;
         if (defaultOutfit)
             defaultOutfit.hatId = rpc.hatId;
@@ -1252,7 +1252,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setHat(hatId: string) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldHat = defaultOutfit?.hatId;
         if (defaultOutfit)
             defaultOutfit.hatId = hatId;
@@ -1275,7 +1275,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetSkin(rpc: SetSkinMessage) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldSkin = defaultOutfit?.skinId;
         if (defaultOutfit)
             defaultOutfit.skinId = rpc.skinId;
@@ -1315,7 +1315,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setSkin(skinId: string) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldSkin = defaultOutfit?.skinId;
         if (defaultOutfit)
             defaultOutfit.skinId = skinId;
@@ -1338,7 +1338,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetPet(rpc: SetPetMessage) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldPet = defaultOutfit?.petId;
         if (defaultOutfit)
             defaultOutfit.petId = rpc.petId;
@@ -1378,7 +1378,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setPet(petId: string) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldPet = defaultOutfit?.petId;
         if (defaultOutfit)
             defaultOutfit.petId = petId;
@@ -1401,7 +1401,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetVisor(rpc: SetVisorMessage) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldVisor = defaultOutfit?.visorId;
         if (defaultOutfit)
             defaultOutfit.visorId = rpc.visorId;
@@ -1441,7 +1441,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setVisor(visorId: string) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldVisor = defaultOutfit?.visorId;
         if (defaultOutfit)
             defaultOutfit.visorId = visorId;
@@ -1464,7 +1464,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleSetNameplate(rpc: SetNameplateMessage) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldNameplate = defaultOutfit?.nameplateId;
         if (defaultOutfit)
             defaultOutfit.nameplateId = rpc.nameplateId;
@@ -1504,7 +1504,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      */
     async setNameplate(nameplateId: string) {
         const playerInfo = this.room.gameData?.players.get(this.playerId);
-        const defaultOutfit = playerInfo?.getOutfit(PlayerOutfitType.Default);
+        const defaultOutfit = playerInfo?.defaultOutfit;
         const oldNameplate = defaultOutfit?.nameplateId;
         if (defaultOutfit)
             defaultOutfit.nameplateId = nameplateId;

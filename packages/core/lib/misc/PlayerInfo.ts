@@ -11,14 +11,15 @@ import {
     Visor
 } from "@skeldjs/constant";
 
-import { GameData } from "../objects";
 import { Hostable } from "../Hostable";
+import { GameData } from "../objects";
 import { BaseRole, CrewmateRole, UnknownRole } from "../roles";
 
 export class TaskState {
     constructor(
         /**
-         * The type of task that this task is, see {@link TaskType}.
+         * The type of task that this task is, see {@link TaskType}. Not *necessarily*
+         * available, although should be.
          */
         public taskType: number,
         /**
@@ -46,7 +47,7 @@ export class PlayerOutfit {
     ) {}
 
     static createDefault(outfitType: PlayerOutfitType) {
-        return new PlayerOutfit(outfitType, "", Color.Red, Hat.NoHat, Pet.EmptyPet, Skin.None, Nameplate.NoPlate, Visor.EmptyVisor);
+        return new PlayerOutfit(outfitType, "", Color.Red, Hat.NoHat, Pet.EmptyPet, Skin.None, Visor.EmptyVisor, Nameplate.NoPlate);
     }
 
     static Deserialize(reader: HazelReader, type: PlayerOutfitType) {
@@ -58,7 +59,7 @@ export class PlayerOutfit {
         const visorId = reader.string();
         const nameplateId = reader.string();
 
-        return new PlayerOutfit(type, name, color, hatId, petId, skinId, nameplateId, visorId);
+        return new PlayerOutfit(type, name, color, hatId, petId, skinId, visorId, nameplateId);
     }
 
     Serialize(writer: HazelWriter) {
@@ -211,6 +212,8 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
 
             if (this.taskStates[taskIdx]) {
                 this.taskStates[taskIdx].completed = reader.bool();
+            } else {
+                this.taskStates[taskIdx] = new TaskState(0, reader.bool());
             }
         }
     }

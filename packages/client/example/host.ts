@@ -1,14 +1,13 @@
 import { Int2Code } from "@skeldjs/util";
 import { QuickChatMode, RoleType } from "@skeldjs/constant";
 import * as skeldjs from "../index";
-import { KickPlayerMessage } from "@skeldjs/protocol";
 
 const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof skeldjs.OfficialServers] || process.argv[2];
 
 (async () => {
     const client = new skeldjs.SkeldjsClient("2021.11.9.0s", {
         authMethod: skeldjs.AuthMethod.SecureTransport,
-        chatMode: QuickChatMode.QuickChat
+        chatMode: QuickChatMode.FreeChat
     });
 
     console.log("Connecting to server..");
@@ -40,39 +39,11 @@ const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof sk
     client.myPlayer!.control!.setName("weakeyes");
     client.myPlayer!.control!.setColor(skeldjs.Color.Red);
 
-    client.on("client.disconnect", ev => {
-        console.log(ev);
+    client.on("player.chat", ev => {
+        client.setSettings({
+            keywords: 69
+        });
     });
-
-    client.on("room.endgameintent", ev => {
-        if (ev.intentName === skeldjs.AmongUsEndGames.PlayersKill) {
-            ev.cancel();
-        }
-    });
-
-    client.on("player.quickchat", ev => {
-        client.startGame();
-    });
-
-    client.on("room.gamestart", ev => {
-        /*sleep(20000).then(() => {
-            const allPlayers = [...client.players.values()]
-                .filter(player => player !== client.myPlayer);
-            const randomPlayer = allPlayers[Math.floor(Math.random() * allPlayers.length)];
-
-            client.myPlayer?.control?.murderPlayer(randomPlayer);
-        });*/
-    });
-
-    client.on("player.removeprotection", ev => {
-        console.log("remove protection");
-    });
-
-    client.on("player.protect", ev => {
-        console.log(ev.player.username, "protected", ev.target.username);
-    });
-
-    client.decoder.on(KickPlayerMessage, console.log);
 
     console.log(
         "Created game @ " +

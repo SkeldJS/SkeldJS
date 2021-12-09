@@ -276,6 +276,8 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
             if (task) {
                 task.completed = true;
+            } else {
+                player.taskStates[taskIdx] = new TaskState(0, true);
             }
 
             let totalTasks = 0;
