@@ -249,8 +249,8 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
                 outfit.hatId,
                 outfit.petId,
                 outfit.skinId,
-                outfit.nameplateId,
-                outfit.visorId
+                outfit.visorId,
+                outfit.nameplateId
             );
         }
 
@@ -304,7 +304,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      */
     setOutfit(outfit: PlayerOutfit) {
         this.outfits[outfit.outfitType] = outfit;
-        this.gamedata.update(this);
+        this.gamedata.markDirty(this);
 
         // todo outfit update events
     }
@@ -346,43 +346,36 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
     setName(outfitType: PlayerOutfitType, name: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.name = name;
-        this.gamedata.update(this);
     }
 
     setColor(outfitType: PlayerOutfitType, color: Color) {
         const outfit = this.getOutfit(outfitType);
         outfit.color = color;
-        this.gamedata.update(this);
     }
 
     setHat(outfitType: PlayerOutfitType, hatId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.hatId = hatId;
-        this.gamedata.update(this);
     }
 
     setPet(outfitType: PlayerOutfitType, petId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.petId = petId;
-        this.gamedata.update(this);
     }
 
     setSkin(outfitType: PlayerOutfitType, skinId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.skinId = skinId;
-        this.gamedata.update(this);
-    }
-
-    setNameplate(outfitType: PlayerOutfitType, nameplateId: string) {
-        const outfit = this.getOutfit(outfitType);
-        outfit.nameplateId = nameplateId;
-        this.gamedata.update(this);
     }
 
     setVisor(outfitType: PlayerOutfitType, visorId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.visorId = visorId;
-        this.gamedata.update(this);
+    }
+
+    setNameplate(outfitType: PlayerOutfitType, nameplateId: string) {
+        const outfit = this.getOutfit(outfitType);
+        outfit.nameplateId = nameplateId;
     }
 
 
@@ -391,7 +384,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      */
     setFlags(flags: number) {
         this.flags = flags;
-        this.gamedata.update(this);
+        this.gamedata.markDirty(this);
     }
 
     /**
@@ -407,7 +400,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      */
     setTaskStates(taskStates: TaskState[]) {
         this.taskStates = taskStates;
-        this.gamedata.update(this);
+        this.gamedata.markDirty(this);
     }
 
     /**
@@ -415,6 +408,6 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      */
     completeTask(state: TaskState) {
         state.completed = true;
-        this.gamedata.update(this);
+        this.gamedata.markDirty(this);
     }
 }

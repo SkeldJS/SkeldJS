@@ -170,7 +170,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
      * Make the player data dirty and update on the next FixedUpdate.
      * @param resolvable The player to make dirty.
      */
-    update(resolvable: PlayerIDResolvable) {
+    markDirty(resolvable: PlayerIDResolvable) {
         const player = this.resolvePlayerData(resolvable);
 
         if (player) {
@@ -251,7 +251,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
             if (playerData.taskStates !== oldTasks) {
                 this._rpcSetTasks(playerData, playerData.taskStates);
-                this.update(playerData);
+                this.markDirty(playerData);
             }
         }
     }
@@ -336,7 +336,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
         if (ev.reverted) {
             this.players.delete(playerId);
         } else {
-            this.update(playerId);
+            this.markDirty(playerId);
         }
         return playerInfo;
     }
@@ -366,7 +366,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
             if (ev.reverted) {
                 this.players.set(playerInfo.playerId, playerInfo);
-                this.update(playerInfo.playerId);
+                this.markDirty(playerInfo.playerId);
             }
         }
     }

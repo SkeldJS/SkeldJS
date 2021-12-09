@@ -552,6 +552,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setName(PlayerOutfitType.Default, ev.alteredName);
+        if (playerInfo && this.room.hostIsMe) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredName !== rpc.name)
             this._rpcSetName(ev.alteredName);
@@ -592,6 +595,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setName(PlayerOutfitType.Default, ev.alteredName);
+        if (playerInfo) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredName !== oldName)
             this._rpcSetName(ev.alteredName);
@@ -676,6 +682,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setColor(PlayerOutfitType.Default, ev.alteredColor);
+        if (playerInfo && this.room.hostIsMe) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredColor !== rpc.color)
             this._rpcSetColor(ev.alteredColor);
@@ -716,6 +725,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setColor(PlayerOutfitType.Default, ev.alteredColor);
+        if (playerInfo) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredColor !== oldColor) {
             this._rpcSetColor(ev.alteredColor);
@@ -1228,6 +1240,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
+        if (playerInfo && this.room.hostIsMe) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredHatId !== rpc.hatId)
             this._rpcSetHat(ev.alteredHatId);
@@ -1268,6 +1283,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
+        if (playerInfo) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredHatId !== oldHat)
             this._rpcSetHat(ev.alteredHatId);
@@ -1291,6 +1309,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
+        if (playerInfo && this.room.hostIsMe) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredSkin !== rpc.skinId)
             this._rpcSetSkin(ev.alteredSkin);
@@ -1331,6 +1352,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
+        if (playerInfo) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredSkin !== oldSkin)
             this._rpcSetSkin(ev.alteredSkin);
@@ -1354,6 +1378,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
+        if (playerInfo && this.room.hostIsMe) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredPetId !== rpc.petId)
             this._rpcSetPet(ev.alteredPetId);
@@ -1394,6 +1421,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
+        if (playerInfo) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredPetId !== oldPet)
             this._rpcSetPet(ev.alteredPetId);
@@ -1417,6 +1447,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
+        if (playerInfo && this.room.hostIsMe) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredVisorId !== rpc.visorId)
             this._rpcSetVisor(ev.alteredVisorId);
@@ -1457,6 +1490,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
+        if (playerInfo) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredVisorId !== oldVisor)
             this._rpcSetVisor(ev.alteredVisorId);
@@ -1480,6 +1516,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
+        if (playerInfo && this.room.hostIsMe) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredNameplateId !== rpc.nameplateId)
             this._rpcSetNameplate(ev.alteredNameplateId);
@@ -1520,6 +1559,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
+        if (playerInfo) {
+            this.room.gameData?.markDirty(this.playerId);
+        }
 
         if (ev.alteredNameplateId !== oldNameplate)
             this._rpcSetNameplate(ev.alteredNameplateId);
