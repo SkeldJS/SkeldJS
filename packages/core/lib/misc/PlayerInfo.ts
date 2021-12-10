@@ -2,13 +2,9 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import {
     Color,
-    Hat,
-    Nameplate,
-    Pet,
     PlayerDataFlags,
     PlayerOutfitType,
-    Skin,
-    Visor
+    RoleTeamType
 } from "@skeldjs/constant";
 
 import { Hostable } from "../Hostable";
@@ -46,8 +42,18 @@ export class PlayerOutfit {
         public nameplateId: string
     ) {}
 
+    get isIncomplete() {
+        return this.name === ""
+            || this.color === -1 as Color
+            || this.hatId === "missing"
+            || this.petId === "missing"
+            || this.skinId === "missing"
+            || this.visorId === "missing"
+            || this.name === "missing";
+    }
+
     static createDefault(outfitType: PlayerOutfitType) {
-        return new PlayerOutfit(outfitType, "", Color.Red, Hat.NoHat, Pet.EmptyPet, Skin.None, Visor.EmptyVisor, Nameplate.NoPlate);
+        return new PlayerOutfit(outfitType, "", -1, "missing", "missing", "missing", "missing", "missing");
     }
 
     static Deserialize(reader: HazelReader, type: PlayerOutfitType) {
@@ -174,8 +180,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      * Whether this player has been flagged as the impostor.
      */
     get isImpostor() {
-        return (this.flags & PlayerDataFlags.IsImpostor)
-            === PlayerDataFlags.IsImpostor;
+        return this.roleType.roleMetadata.roleTeam === RoleTeamType.Impostor;
     }
 
     /**

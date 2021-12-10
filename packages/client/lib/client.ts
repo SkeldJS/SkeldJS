@@ -12,7 +12,12 @@ import {
     GameMap,
     GameKeyword,
     Platform,
-    Language
+    Language,
+    Hat,
+    Skin,
+    Pet,
+    Visor,
+    Nameplate
 } from "@skeldjs/constant";
 
 import { DisconnectMessages } from "@skeldjs/data";
@@ -722,6 +727,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         if (data instanceof PlayerJoinEvent) {
             if (doSpawn) {
                 await this.spawnSelf();
+
+                this.myPlayer?.control?.setHat(Hat.NoHat);
+                this.myPlayer?.control?.setSkin(Skin.None);
+                this.myPlayer?.control?.setPet(Pet.EmptyPet);
+                this.myPlayer?.control?.setVisor(Visor.EmptyVisor);
+                this.myPlayer?.control?.setNameplate(Nameplate.NoPlate);
             }
 
             return this.code;

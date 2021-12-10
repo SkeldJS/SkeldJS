@@ -32,7 +32,6 @@ export class GameDataMessage extends BaseRootMessage {
         decoder: PacketDecoder
     ) {
         const code = reader.int32();
-
         const children: BaseGameDataMessage[] = [];
 
         while (reader.left) {
