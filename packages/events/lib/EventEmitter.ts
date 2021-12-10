@@ -26,7 +26,7 @@ type Listener<Event extends Eventable> = (ev: Event) => void | Promise<void>;
 export class EventEmitter<Events extends EventData> {
     private readonly listeners: Map<
         string,
-        Set<Listener<BasicEvent>>
+        Listener<BasicEvent>[]
     >;
 
     constructor() {
@@ -38,9 +38,11 @@ export class EventEmitter<Events extends EventData> {
     ): Promise<Event> {
         const listeners = this.getListeners<Event>(event.eventName);
 
-        await Promise.all(
-            [...listeners].map(lis => lis(event))
-        );
+        const promises = [];
+        for (let i = 0; i < listeners.length; i++) {
+            promises.push(listeners[i](event));
+        }
+        await Promise.all(promises);
 
         return event;
     }
@@ -50,8 +52,8 @@ export class EventEmitter<Events extends EventData> {
     ): Promise<Event> {
         const listeners = this.getListeners<Event>(event.eventName);
 
-        for (const listener of listeners) {
-            await listener(event);
+        for (let i = 0; i < listeners.length; i++) {
+            await listeners[i](event);
         }
 
         return event;
@@ -64,7 +66,7 @@ export class EventEmitter<Events extends EventData> {
     on<K extends BasicEvent>(event: string, listener: Listener<K>): () => void;
     on(event: string, listener: Listener<BasicEvent>): () => void {
         const listeners = this.getListeners(event);
-        listeners.add(listener);
+        listeners.push(listener);
 
         return this.off.bind(this, event, listener);
     }
@@ -115,12 +117,15 @@ export class EventEmitter<Events extends EventData> {
     off<K extends BasicEvent>(event: string, listener: Listener<K>): void;
     off(event: string, listener: Listener<BasicEvent>) {
         const listeners = this.getListeners(event);
-        listeners.delete(listener);
+        const idx = listeners.indexOf(listener);
+        if (idx > -1) {
+            listeners.splice(idx, 1);
+        }
     }
 
-    getListeners<Event extends BasicEvent = BasicEvent>(event: string): Set<Listener<Event>> {
+    getListeners<Event extends BasicEvent = BasicEvent>(event: string): Listener<Event>[] {
         const cachedListeners = this.listeners.get(event);
-        const listeners = cachedListeners || new Set;
+        const listeners = cachedListeners || [];
         if (!cachedListeners) {
             this.listeners.set(event, listeners);
         }
@@ -129,7 +134,7 @@ export class EventEmitter<Events extends EventData> {
 
     removeListeners(event: string) {
         const listeners = this.getListeners(event);
-        listeners.clear();
+        listeners.splice(0);
     }
 
     removeAllListeners() {

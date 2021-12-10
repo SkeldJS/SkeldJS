@@ -65,9 +65,9 @@ describe("EventEmitter", () => {
                 assert.strictEqual(ev.alphabet, 5);
             });
 
-            assert.strictEqual(listeners.size, 1);
+            assert.strictEqual(listeners.length, 1);
             off();
-            assert.strictEqual(listeners.size, 0);
+            assert.strictEqual(listeners.length, 0);
         });
     });
 
@@ -80,9 +80,9 @@ describe("EventEmitter", () => {
                 assert.strictEqual(ev.alphabet, 6);
             });
 
-            assert.strictEqual(listeners.size, 1);
+            assert.strictEqual(listeners.length, 1);
             emitter.emit(new TestEvent(6));
-            assert.strictEqual(listeners.size, 0);
+            assert.strictEqual(listeners.length, 0);
         });
     });
 
@@ -102,7 +102,7 @@ describe("EventEmitter", () => {
             assert.strictEqual(ev.alphabet, 6);
 
             assert.ok(Date.now() - date > 40);
-            assert.strictEqual(listeners.size, 0);
+            assert.strictEqual(listeners.length, 0);
         });
     });
 
@@ -116,9 +116,9 @@ describe("EventEmitter", () => {
             }
 
             emitter.on("hello.123", response);
-            assert.strictEqual(listeners.size, 1);
+            assert.strictEqual(listeners.length, 1);
             emitter.off("hello.123", response);
-            assert.strictEqual(listeners.size, 0);
+            assert.strictEqual(listeners.length, 0);
         });
     });
 
@@ -132,7 +132,7 @@ describe("EventEmitter", () => {
             }
 
             emitter.on("hello.123", response);
-            assert.strictEqual(listeners.size, 1);
+            assert.strictEqual(listeners.length, 1);
         });
     });
 
@@ -147,13 +147,13 @@ describe("EventEmitter", () => {
                 didreceive = true;
             });
 
-            assert.strictEqual(listeners.size, 1);
+            assert.strictEqual(listeners.length, 1);
 
             await emitter.emit(new TestEvent(5));
             assert.ok(didreceive);
 
             emitter.removeListeners("hello.123");
-            assert.strictEqual(listeners.size, 0);
+            assert.strictEqual(listeners.length, 0);
         });
     });
 
@@ -168,13 +168,13 @@ describe("EventEmitter", () => {
                 didreceive = true;
             });
 
-            assert.strictEqual(listeners.size, 1);
+            assert.strictEqual(listeners.length, 1);
 
             await emitter.emit(new TestEvent(5));
             assert.ok(didreceive);
 
             emitter.removeAllListeners();
-            assert.strictEqual(listeners.size, 0);
+            assert.strictEqual(listeners.length, 0);
         });
     });
 });
