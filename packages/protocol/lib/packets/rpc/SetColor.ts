@@ -16,12 +16,11 @@ export class SetColorMessage extends BaseRpcMessage {
 
     static Deserialize(reader: HazelReader) {
         const color = reader.uint8();
-
         return new SetColorMessage(color);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.uint8(this.color);
+        writer.uint8(this.color < 0 ? 0 : this.color);
     }
 
     clone() {
