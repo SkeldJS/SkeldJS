@@ -1459,7 +1459,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetPetMessage(visorId)
+                new SetVisorMessage(visorId)
             )
         );
     }
@@ -1528,7 +1528,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetPetMessage(nameplateId)
+                new SetNameplateMessage(nameplateId)
             )
         );
     }
