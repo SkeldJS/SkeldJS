@@ -656,7 +656,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 return;
 
             if (this.lobbyBehaviour) {
-                const spawnPosition = LobbyBehaviour.spawnPositions[ev.player.playerId];
+                const spawnPosition = LobbyBehaviour.spawnPositions[ev.player.playerId % LobbyBehaviour.spawnPositions.length];
                 const offsetted = spawnPosition
                     .add(spawnPosition.negate().normalize());
 
