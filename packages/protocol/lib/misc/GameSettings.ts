@@ -167,7 +167,7 @@ export class RoleSettings implements AllRoleSettings {
     }
 
     Deserialize(reader: HazelReader) {
-        const numRoles = reader.packed();
+        const numRoles = reader.int32();
         for (let i = 0; i < numRoles; i++) {
             const roleType = reader.uint16() as RoleType;
             const maxPlayers = reader.uint8();
@@ -193,7 +193,7 @@ export class RoleSettings implements AllRoleSettings {
 
     Serialize(writer: HazelWriter) {
         const roleChances = Object.entries(this.roleChances);
-        writer.packed(roleChances.length);
+        writer.int32(roleChances.length);
         for (const [ roleType, roleChance ] of roleChances) {
             writer.uint16(parseInt(roleType));
             writer.uint8(roleChance.maxPlayers);
