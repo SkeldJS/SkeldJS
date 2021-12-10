@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/protocol",
-  "version": "2.15.7",
+  "version": "2.15.8",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
