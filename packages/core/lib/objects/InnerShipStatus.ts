@@ -398,7 +398,16 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
             roleAssignments.set(player, roleCtr);
         }
 
-        await this.assignRolesFromAssignments(roleAssignments);
+        const ev = await this.emit(
+            new RoomAssignRolesEvent(
+                this.room,
+                roleAssignments
+            )
+        );
+
+        if (!ev.canceled) {
+            await this.assignRolesFromAssignments(ev.alteredAssignments);
+        }
     }
 
     /**

@@ -231,7 +231,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
             for (const missing of message.missingPackets) {
                 if (missing < this.packetsReceived.length) {
-                    this.ack(this.packetsReceived[missing]);
+                    this.acknowledgeNonce(this.packetsReceived[missing]);
                 }
             }
         });
@@ -290,7 +290,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         setTimeout(this.pingInterval.bind(this, socket), 1500);
     }
 
-    private ack(nonce: number) {
+    private acknowledgeNonce(nonce: number) {
         this.send(
             new AcknowledgePacket(
                 nonce,
@@ -321,7 +321,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         username?: string,
         port?: number|PortOptions
     ) {
-        await this.disconnect();
+        this.disconnect();
         const ip = await lookupDns(host);
 
         this.nextExpectedNonce = undefined;
@@ -487,10 +487,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             writer.write(packet, MessageDirection.Serverbound, this.decoder);
             writer.realloc(writer.cursor);
 
-            // if (packet.messageTag === SendOption.Reliable){
-            //     console.log(util.inspect(packet, false, 10, true));
-            // }
-
             this._send(writer.buffer);
 
             if ((packet as any).nonce !== undefined) {
@@ -583,7 +579,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.packetsReceived.unshift(parsedReliable.nonce);
             this.packetsReceived.splice(8);
 
-            await this.ack(parsedReliable.nonce);
+            await this.acknowledgeNonce(parsedReliable.nonce);
 
             if (parsedReliable.nonce < this.nextExpectedNonce - 1) {
                 return;
@@ -710,21 +706,48 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             )
         );
 
-        const data = await Promise.race([
-            this.decoder.waitf(
-                JoinGameMessage,
-                (message) => message.error !== undefined
-            ),
-            this.decoder.wait(RedirectMessage),
-            this.wait("client.disconnect"),
-            this.waitf("player.join", ev => ev.player.clientId === this.clientId)
-        ]);
+        const message = await new Promise<JoinGameMessage|RedirectMessage|ClientDisconnectEvent|PlayerJoinEvent>(resolve => {
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
+            const _this = this;
+            function removeListeners() {
+                _this.decoder.off(JoinGameMessage, onJoinGameMessage);
+                _this.decoder.off(RedirectMessage, onRedirectMessage);
+                _this.off("player.join", onPlayerJoin);
+                _this.off("client.disconnect", onDisconnect);
+            }
 
-        if (data instanceof ClientDisconnectEvent) {
-            throw new JoinError(data.reason, data.message || DisconnectMessages[data.reason || DisconnectReason.Error]);
-        }
+            function onJoinGameMessage(message: JoinGameMessage) {
+                if (message.error !== undefined) {
+                    resolve(message);
+                    removeListeners();
+                }
+            }
 
-        if (data instanceof PlayerJoinEvent) {
+            function onRedirectMessage(message: RedirectMessage) {
+                resolve(message);
+                removeListeners();
+            }
+
+            function onDisconnect(ev: ClientDisconnectEvent) {
+                resolve(ev);
+                removeListeners();
+            }
+
+            function onPlayerJoin(ev: PlayerJoinEvent) {
+                resolve(ev);
+                removeListeners();
+            }
+
+            this.decoder.on(JoinGameMessage, onJoinGameMessage);
+            this.decoder.on(RedirectMessage, onRedirectMessage);
+            this.on("client.disconnect", onDisconnect);
+            this.on("player.join", onPlayerJoin);
+        });
+
+        if (message instanceof ClientDisconnectEvent)
+            throw new JoinError(message.reason, message.message || DisconnectMessages[message.reason || DisconnectReason.Error]);
+
+        if (message instanceof PlayerJoinEvent) {
             if (doSpawn) {
                 await this.spawnSelf();
 
@@ -737,8 +760,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
             return this.code;
         }
-
-        const { message } = data;
 
         switch (message.messageTag) {
             case RootMessageTag.JoinGame:
@@ -758,7 +779,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
     /**
      * Create a game with given settings.
-     * @param host_settings The settings to create the game with.
+     * @param hostSettings The settings to create the game with.
      * @param doJoin Whether or not to join the game after created.
      * @returns The game code of the room.
      * @example
@@ -772,11 +793,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * ```
      */
     async createGame(
-        host_settings: DeepPartial<AllGameSettings> = {},
+        hostSettings: DeepPartial<AllGameSettings> = {},
         doJoin: boolean = true
     ): Promise<number> {
         const settings = new GameSettings({
-            ...host_settings,
+            ...hostSettings,
             version: 2,
         });
 
@@ -786,36 +807,59 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             ])
         );
 
-        const data = await Promise.race([
-            this.decoder.waitf(
-                JoinGameMessage,
-                (message) => message.error !== undefined
-            ),
-            this.decoder.wait(RedirectMessage),
-            this.decoder.wait(HostGameMessage),
-            this.wait("client.disconnect"),
-        ]);
+        const message = await new Promise<JoinGameMessage|RedirectMessage|HostGameMessage|ClientDisconnectEvent>(resolve => {
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
+            const _this = this;
+            function removeListeners() {
+                _this.decoder.off(JoinGameMessage, onJoinGameMessage);
+                _this.decoder.off(RedirectMessage, onRedirectMessage);
+                _this.decoder.off(HostGameMessage, onHostGameMessage);
+                _this.off("client.disconnect", onDisconnect);
+            }
 
-        if (data instanceof ClientDisconnectEvent) {
-            throw new JoinError(data.reason, data.message || DisconnectMessages[data.reason || DisconnectReason.Error]);
+            function onJoinGameMessage(message: JoinGameMessage) {
+                if (message.error !== undefined) {
+                    resolve(message);
+                    removeListeners();
+                }
+            }
+
+            function onRedirectMessage(message: RedirectMessage) {
+                resolve(message);
+                removeListeners();
+            }
+
+            function onHostGameMessage(message: HostGameMessage) {
+                resolve(message);
+                removeListeners();
+            }
+
+            function onDisconnect(ev: ClientDisconnectEvent) {
+                resolve(ev);
+                removeListeners();
+            }
+
+            this.decoder.on(JoinGameMessage, onJoinGameMessage);
+            this.decoder.on(RedirectMessage, onRedirectMessage);
+            this.decoder.on(HostGameMessage, onHostGameMessage);
+            this.off("client.disconnect", onDisconnect);
+        });
+
+        if (message instanceof ClientDisconnectEvent) {
+            throw new JoinError(message.reason, message.message || DisconnectMessages[message.reason || DisconnectReason.Error]);
         }
-
-        const { message } = data;
 
         switch (message.messageTag) {
             case RootMessageTag.JoinGame:
                 throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.Error] || message.message);
             case RootMessageTag.Redirect:
-                const username = this.username;
-
-                this.disconnect();
                 await this.connect(
                     message.ip,
-                    username,
+                    this.username,
                     message.port
                 );
 
-                return await this.createGame(host_settings, doJoin);
+                return await this.createGame(hostSettings, doJoin);
             case RootMessageTag.HostGame:
                 this.settings.patch(settings);
 
