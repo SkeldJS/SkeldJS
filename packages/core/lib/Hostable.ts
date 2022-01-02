@@ -1119,8 +1119,9 @@ export class Hostable<
                     object.ownerId,
                     _flags,
                     object.components.map((component) => {
-                        const writer = HazelWriter.alloc(0);
+                        const writer = HazelWriter.alloc(512);
                         writer.write(component, true);
+                        writer.realloc(writer.cursor);
 
                         return new ComponentSpawnData(
                             component.netId,
