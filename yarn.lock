@@ -4631,7 +4631,7 @@ resolve@^1.1.6:
     typedoc-plugin-pages: "patch:typedoc-plugin-pages@^1.1.0#./typedoc-plugin-pages-pr-41.diff"
     typedoc-plugin-remove-references: ^0.0.5
     typedoc-plugin-yarn: "portal:./typedoc-plugin-yarn"
-    typescript: latest
+    typescript: 4.5.4
   dependenciesMeta:
     highlight.js:
       built: false
@@ -5308,6 +5308,16 @@ typedoc-plugin-pages@^1.1.0:
   languageName: node
   linkType: hard
 
+typescript@4.5.4:
+  version: 4.5.4
+  resolution: "typescript@npm:4.5.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 59f3243f9cd6fe3161e6150ff6bf795fc843b4234a655dbd938a310515e0d61afd1ac942799e7415e4334255e41c2c49b7dd5d9fd38a17acd25a6779ca7e0961
+  languageName: node
+  linkType: hard
+
 typescript@^3.8.3:
   version: 3.9.10
   resolution: "typescript@npm:3.9.10"
@@ -5325,6 +5335,16 @@ typescript@latest:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 75e1f2769c7ff38c718523d05eaf1c2611dbf92c0ab0f85f603ead9bb23416af2009a5dac46e76ef6a207a8508fa53f51b43a41f2a91b1241b53cd744c16128c
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@4.5.4#~builtin<compat/typescript>":
+  version: 4.5.4
+  resolution: "typescript@patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=d8b4e7"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: db7fe40618f600c22a17db25bd727acbef509d8a4bd9a514f1b8c146f3cf9dd79478c5a8cd13c48a60d1ee4463319d9f72b6445f9e445f81bce6192d205d1811
   languageName: node
   linkType: hard
 
