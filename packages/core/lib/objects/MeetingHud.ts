@@ -271,11 +271,11 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         const voter = this.voteStates.get(rpc.votingid);
         const player = this.room.getPlayerByPlayerId(rpc.votingid);
         const suspect =
-            rpc.suspectid === 0xfd
+            rpc.suspectid === VoteStateSpecialId.SkippedVote
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        if (this.room.hostIsMe && player && voter && (suspect || rpc.suspectid === 0xfd)) {
+        if (this.room.hostIsMe && player && voter && (suspect || rpc.suspectid === VoteStateSpecialId.SkippedVote)) {
             this._castVote(voter, suspect);
 
             const ev = await this.emit(

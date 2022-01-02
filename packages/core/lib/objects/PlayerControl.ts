@@ -8,6 +8,7 @@ import {
     CheckNameMessage,
     CheckProtectMessage,
     CompleteTaskMessage,
+    ComponentSpawnData,
     GameSettings,
     MurderPlayerMessage,
     ProtectPlayerMessage,
@@ -30,6 +31,7 @@ import {
     SetStartCounterMessage,
     SetVisorMessage,
     ShapeshiftMessage,
+    SpawnMessage,
     StartMeetingMessage,
     SyncSettingsMessage,
     UsePlatformMessage
@@ -989,13 +991,34 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         const spawnMeetinghud = this.room.spawnPrefab(
             SpawnType.MeetingHud,
-            -2
+            -2,
+            undefined,
+            undefined,
+            false
         ) as MeetingHud<RoomType>;
 
         const callerState = spawnMeetinghud.voteStates.get(caller.playerId);
         if (callerState) {
             callerState.didReport = true;
         }
+
+        this.room.messageStream.push(
+            new SpawnMessage(
+                spawnMeetinghud.spawnType,
+                -2,
+                0,
+                spawnMeetinghud.components.map(component => {
+                    const writer = HazelWriter.alloc(512);
+                    writer.write(component, true);
+                    writer.realloc(writer.cursor);
+
+                    return new ComponentSpawnData(
+                        component.netId,
+                        writer.buffer
+                    );
+                })
+            )
+        );
 
         const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
         if (movingPlatform instanceof MovingPlatformSystem) {
@@ -1026,8 +1049,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link PlayerStartMeetingEvent | `player.startmeeting`} event.
      *
-     * @param caller The player that called this meeting.
      * @param body The body that was reported, or "emergency" if it is an emergency meeting.
+     * @param caller The player that called this meeting.
      */
     async startMeeting(body: PlayerData | "emergency", caller?: PlayerData) {
         if (!this.room.hostIsMe) {
