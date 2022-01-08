@@ -44,7 +44,7 @@ export class HostGameMessage extends BaseRootMessage {
         if (direction === MessageDirection.Clientbound) {
             writer.int32(this.code);
         } else {
-            writer.write(this.gameSettings);
+            writer.write(this.gameSettings, 2);
             writer.int32(2 ** 31 - 1); // cross play flags, max int for any crossplay
         }
     }

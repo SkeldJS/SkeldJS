@@ -22,7 +22,7 @@ export class SyncSettingsMessage extends BaseRpcMessage {
     }
 
     Serialize(writer: HazelWriter) {
-        writer.write(this.settings);
+        writer.write(this.settings, 5);
     }
 
     clone() {

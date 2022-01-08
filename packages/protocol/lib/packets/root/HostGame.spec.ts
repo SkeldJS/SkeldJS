@@ -48,7 +48,7 @@ describe("HostGameMessage", () => {
             const packet = new HostGameMessage(new GameSettings);
 
             packet.Serialize(writer, MessageDirection.Serverbound);
-            assert.ok(writer.toString("hex").startsWith("2e040a"));
+            assert.ok(writer.toString("hex").startsWith("2e020a"));
         });
     });
 });

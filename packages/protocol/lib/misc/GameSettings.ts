@@ -289,7 +289,6 @@ export class GameSettings {
         return true;
     }
 
-    version: number;
     maxPlayers: number;
     keywords: GameKeyword;
     map: GameMap;
@@ -315,7 +314,6 @@ export class GameSettings {
     roleSettings: RoleSettings;
 
     constructor(settings: DeepPartial<AllGameSettings> = {}) {
-        this.version = settings.version ?? 4;
         this.maxPlayers = settings.maxPlayers ?? 10;
         this.keywords = settings.keywords ?? GameKeyword.Other;
         this.map = settings.map ?? GameMap.MiraHQ;
@@ -342,7 +340,6 @@ export class GameSettings {
     }
 
     patch(settings: Partial<AllGameSettings>) {
-        this.version = settings.version ?? this.version;
         this.maxPlayers = settings.maxPlayers ?? this.maxPlayers;
         this.keywords = settings.keywords ?? this.keywords;
         this.map = settings.map ?? this.map;
@@ -380,7 +377,8 @@ export class GameSettings {
         const length = reader.upacked();
         const settingsReader = reader.bytes(length);
 
-        this.version = settingsReader.uint8();
+        const version = settingsReader.uint8();
+
         this.maxPlayers = settingsReader.uint8();
         this.keywords = settingsReader.uint32();
         this.map = settingsReader.uint8();
@@ -398,15 +396,15 @@ export class GameSettings {
         this.votingTime = settingsReader.uint32();
         this.isDefaults = settingsReader.bool();
 
-        if (this.version >= 2) {
+        if (version >= 2) {
             this.emergencyCooldown = settingsReader.uint8();
-            if (this.version >= 3) {
+            if (version >= 3) {
                 this.confirmEjects = settingsReader.bool();
                 this.visualTasks = settingsReader.bool();
-                if (this.version >= 4) {
+                if (version >= 4) {
                     this.anonymousVotes = settingsReader.bool();
                     this.taskbarUpdates = settingsReader.uint8();
-                    if (this.version >= 5) {
+                    if (version >= 5) {
                         this.roleSettings.Deserialize(settingsReader);
                     }
                 }
@@ -414,9 +412,9 @@ export class GameSettings {
         }
     }
 
-    Serialize(writer: HazelWriter) {
+    Serialize(writer: HazelWriter, version: number) {
         const owriter = HazelWriter.alloc(42);
-        owriter.uint8(this.version);
+        owriter.uint8(version);
         owriter.uint8(this.maxPlayers);
         owriter.uint32(this.keywords);
         owriter.uint8(this.map);
@@ -433,16 +431,16 @@ export class GameSettings {
         owriter.uint32(this.discussionTime);
         owriter.uint32(this.votingTime);
         owriter.bool(this.isDefaults);
-        if (this.version >= 2) {
+        if (version >= 2) {
             owriter.uint8(this.emergencyCooldown);
-            if (this.version >= 3) {
+            if (version >= 3) {
                 owriter.bool(this.confirmEjects);
                 owriter.bool(this.visualTasks);
-                if (this.version >= 4) {
+                if (version >= 4) {
                     owriter.bool(this.anonymousVotes);
                     owriter.uint8(this.taskbarUpdates);
 
-                    if (this.version >= 5) {
+                    if (version >= 5) {
                         owriter.write(this.roleSettings);
                     }
                 }

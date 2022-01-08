@@ -94,7 +94,7 @@ export class GetGameListMessage extends BaseRootMessage {
             writer.end();
         } else {
             writer.upacked(0x02);
-            writer.write(this.options);
+            writer.write(this.options, 2);
             writer.uint8(this.quickchat);
         }
     }
