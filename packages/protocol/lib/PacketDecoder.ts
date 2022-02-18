@@ -19,10 +19,13 @@ import {
     JoinedGameMessage,
     JoinGameMessage,
     KickPlayerMessage,
+    QueryPlatformIdsMessage,
     RedirectMessage,
     RemoveGameMessage,
     RemovePlayerMessage,
     ReportPlayerMessage,
+    SetActivePodTypeMessage,
+    SetGameSessionMessage,
     StartGameMessage,
     WaitForHostMessage,
 } from "./packets/root";
@@ -176,10 +179,13 @@ export class PacketDecoder<ContextType = any> {
             JoinedGameMessage,
             JoinGameMessage,
             KickPlayerMessage,
+            QueryPlatformIdsMessage,
             RedirectMessage,
             RemoveGameMessage,
             RemovePlayerMessage,
             ReportPlayerMessage,
+            SetActivePodTypeMessage,
+            SetGameSessionMessage,
             StartGameMessage,
             WaitForHostMessage
         );
