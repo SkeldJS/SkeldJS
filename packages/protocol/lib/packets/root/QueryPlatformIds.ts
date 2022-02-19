@@ -9,31 +9,31 @@ export class QueryPlatformIdsMessage extends BaseRootMessage {
     messageTag = RootMessageTag.QueryPlatformIds as const;
 
     readonly gameCode: number
-    readonly roomPlayersPlatformSpecificData: PlatformSpecificData[]
+    readonly roomPlayersPlatforms: PlatformSpecificData[]
 
-    constructor(gameCode: number, roomPlayersPlatformSpecificData: PlatformSpecificData[]) {
+    constructor(gameCode: number, roomPlayersPlatforms: PlatformSpecificData[]) {
         super();
 
         this.gameCode = gameCode;
-        this.roomPlayersPlatformSpecificData = roomPlayersPlatformSpecificData;
+        this.roomPlayersPlatforms = roomPlayersPlatforms;
     }
 
     static Deserialize(reader: HazelReader) {
         const gameCode = reader.int32();
-        const roomPlayersPlatformSpecificData = Array<PlatformSpecificData>();
+        const roomPlayersPlatforms = Array<PlatformSpecificData>();
 
         while (reader.left) {
-            roomPlayersPlatformSpecificData.push(PlatformSpecificData.Deserialize(reader));
+            roomPlayersPlatforms.push(PlatformSpecificData.Deserialize(reader));
         }
 
-        return new QueryPlatformIdsMessage(gameCode, roomPlayersPlatformSpecificData);
+        return new QueryPlatformIdsMessage(gameCode, roomPlayersPlatforms);
     }
 
     Serialize(writer: HazelWriter) {
         writer.int32(this.gameCode);
 
-        for (const playerPlatformSpecificData of this.roomPlayersPlatformSpecificData) {
-            playerPlatformSpecificData.Serialize(writer);
+        for (const playerPlatform of this.roomPlayersPlatforms) {
+            playerPlatform.Serialize(writer);
         }
     }
 }

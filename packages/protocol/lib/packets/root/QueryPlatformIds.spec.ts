@@ -13,7 +13,7 @@ describe("QueryPlatformIdsMessage", () => {
 
             assert.strictEqual(packet.messageTag, RootMessageTag.QueryPlatformIds);
             assert.strictEqual(packet.gameCode, -1943683525);
-            assert.deepStrictEqual(packet.roomPlayersPlatformSpecificData, Array<PlatformSpecificData>());
+            assert.deepStrictEqual(packet.roomPlayersPlatforms, Array<PlatformSpecificData>());
         });
         it("Should deserialize a client-bound query platform IDs root message.", () => {
             const reader = HazelReader.from("3bbe258c09000208544553544e414d4509000508544553544e414d450900030854" +
@@ -22,7 +22,7 @@ describe("QueryPlatformIdsMessage", () => {
 
             assert.strictEqual(packet.messageTag, RootMessageTag.QueryPlatformIds);
             assert.strictEqual(packet.gameCode, -1943683525);
-            assert.deepStrictEqual(packet.roomPlayersPlatformSpecificData, Array<PlatformSpecificData>(
+            assert.deepStrictEqual(packet.roomPlayersPlatforms, Array<PlatformSpecificData>(
                 new PlatformSpecificData(Platform.StandaloneSteamPC, "TESTNAME"),
                 new PlatformSpecificData(Platform.StandaloneItch, "TESTNAME"),
                 new PlatformSpecificData(Platform.StandaloneMac, "TESTNAME"),
