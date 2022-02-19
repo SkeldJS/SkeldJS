@@ -18,8 +18,9 @@
     "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
-    "@types/mocha": "^8.2.0",
-    "@types/node": "^14.14.16",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.18",
+    "ts-node": "latest",
     "typescript": "latest"
   },
   "files": [

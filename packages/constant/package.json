@@ -17,6 +17,7 @@
     "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
+    "ts-node": "latest",
     "typescript": "latest"
   },
   "files": [

@@ -12,6 +12,7 @@
     "prepack": "yarn build"
   },
   "devDependencies": {
+    "ts-node": "latest",
     "typescript": "latest"
   },
   "license": "GPL-3.0-only",

@@ -17,8 +17,9 @@
     "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
-    "@types/mocha": "^8.2.2",
-    "@types/node": "^14.14.41",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.18",
+    "ts-node": "latest",
     "typescript": "latest"
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
