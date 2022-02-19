@@ -16,4 +16,8 @@ export enum RootMessageTag {
     MasterServerList,
     GetGameListV2 = 16,
     ReportPlayer,
+    SetGameSession = 20, // unimplemented in-game
+    SetActivePodType,
+    QueryPlatformIds,
+    QueryLobbyInfo, // unimplemented in-game
 }
