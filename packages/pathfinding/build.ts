@@ -81,7 +81,7 @@ function get_pathname() {
 
     try {
         await fs.mkdir(path.resolve(get_pathname(), "../build"));
-    } catch (e) {
+    } catch (e: any) {
         if (e.code !== "EEXIST") {
             throw e;
         }
