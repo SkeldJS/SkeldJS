@@ -107,7 +107,7 @@ const allDelete = [
 function do_include_collider(collider) {
     if (allow.includes(collider.name))
         return true;
-	
+
 	if (collider.name.includes("Submerged")) {
 		if (
 			collider.name.includes("Hallway") ||
@@ -153,6 +153,31 @@ function do_include_collider(collider) {
     return true;
 }
 
+const mapBounds = {
+    "skeld.json": {
+        minx: -27.777778,
+        miny: 6.790123,
+        maxx: 19.242063,
+        maxy: -19.827160
+    }
+}
+
+const gapFills = {
+    "skeld.json": [
+        [{ x: -17.709921, y: -1.654321 }, { x: -17.559524, y: -1.654321 }],
+        [{ x: -10.317460, y: -0.024691 }, { x: -9.920635, y: -0.024691 }],
+        [{ x: -8.730159, y: -0.616284 }, { x: -8.382937, y: -0.617284 }],
+        [{ x: 8.184524, y: -4.024691 }, { x: 8.184524, y: -4.123457 }],
+        [{ x: 14.831349, y: -4.222222 }, { x: 14.831349, y: -4.419753 }],
+        [{ x: 0.000000, y: -7.925926}, { x: 0.099206, y: -7.925926 }],
+        [{ x: -16.220238, y: -1.703704 }, { x: -16.121032, y: -1.703704 }],
+        [{ x: -1.835317, y: -4.518519 }, { x:-1.438492, y: -4.518519 }]
+    ]
+}
+
+/**
+ * @param {String} filename
+ */
 function compile_collider(filename) {
     const input_data = fs.readFileSync(filename, "utf8");
 
@@ -174,29 +199,55 @@ function compile_collider(filename) {
                 continue;
             }
 
-            let out = "";
             const points = collider.path
                 .match(/-?\d+(\.\d+)?, ?-?\d+(\.\d+)?/g)
                 .map(str => {
                     const [ xStr, yStr ] = str.split(",");
-                    return [ parseFloat(xStr), parseFloat(yStr) ];
+                    return { x: parseFloat(xStr), y: parseFloat(yStr) };
                 });
 
-            out += "["
-            out += points.map(pt => `{"x":${pt[0]},"y":${pt[1]}}`).join(",");
-
             if (collider.path.endsWith("Z")) {
-                out += `,{"x":${points[0][0]},"y":${points[0][1]}}`;
+                points.push({
+                    x: points[0].x,
+                    y: points[0].y
+                });
             }
 
-            out += "]";
-
-            lines.push(out);
+            lines.push(points);
         }
     }
 
-    const out = "[" + lines.join(",") + "]";
-    fs.writeFileSync(path.resolve(__dirname, "./out/" + path.basename(filename).split(".")[0] + ".json"), out, "utf8");
+    const mapName = path.basename(filename);
+    if (gapFills[mapName]) {
+        lines.push(...gapFills[mapName]);
+    }
+
+    if (mapBounds[mapName]) {
+        lines.push([
+            {
+                x: mapBounds[mapName].minx,
+                y: mapBounds[mapName].miny
+            },
+            {
+                x: mapBounds[mapName].minx,
+                y: mapBounds[mapName].maxy
+            },
+            {
+                x: mapBounds[mapName].maxx,
+                y: mapBounds[mapName].maxy
+            },
+            {
+                x: mapBounds[mapName].maxx,
+                y: mapBounds[mapName].miny
+            },
+            {
+                x: mapBounds[mapName].minx,
+                y: mapBounds[mapName].miny
+            }
+        ]);
+    }
+
+    fs.writeFileSync(path.resolve(__dirname, "./out/" + path.basename(filename)), JSON.stringify(lines), "utf8");
 }
 
 const pathname = path.resolve(__dirname, ".");
