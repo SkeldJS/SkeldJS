@@ -55,9 +55,9 @@ export class DisconnectPacket extends BaseRootPacket {
             typeof this.showReason === "boolean" ||
             typeof this.reason === "number"
         ) {
-            writer.bool(this.showReason ?? true);
+            if (this.showReason && typeof this.reason === "number") {
+                writer.bool(true);
 
-            if (typeof this.reason === "number") {
                 writer.begin(0);
                 writer.uint8(this.reason);
 
