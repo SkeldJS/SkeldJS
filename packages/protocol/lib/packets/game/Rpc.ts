@@ -5,7 +5,7 @@ import { BaseRpcMessage } from "../rpc/BaseRpcMessage";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class UnknownRpc extends BaseRpcMessage {
-    static messageTag = 0 as const;
+    static messageTag = 255 as const;
 
     constructor(
         public readonly messageTag: GameDataMessageTag,
@@ -70,6 +70,7 @@ export class RpcMessage extends BaseGameDataMessage {
         decoder: PacketDecoder
     ) {
         writer.upacked(this.netId);
+
         writer.uint8(this.data.messageTag);
         writer.write(this.data, direction, decoder);
     }

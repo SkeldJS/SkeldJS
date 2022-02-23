@@ -33,7 +33,7 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         [SystemType.Laboratory]: [9, 10],
         [SystemType.Storage]: [11],
         [SystemType.Decontamination]: [12, 13, 14, 15]
-    }
+    };
 
     initialSpawnCenter = new Vector2(16.64, 2.2);
     meetingSpawnCenter = new Vector2(17.726, -16.286);

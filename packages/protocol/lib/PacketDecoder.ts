@@ -144,6 +144,8 @@ export class PacketDecoder<ContextType = any> {
     constructor(config: Partial<PacketDecoderConfig> = {}) {
         this.config = {
             useDtlsLayout: false,
+            writeUnknownRootMessages: false,
+            writeUnknownGameData: false,
             ...config
         };
 

@@ -177,7 +177,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     /**
      * The player that this player has shapeshifted as, if any.
      */
-    shapeshiftTarget?: PlayerData<RoomType>
+    shapeshiftTarget?: PlayerData<RoomType>;
 
     private _protectedByGuardianTime: number;
 

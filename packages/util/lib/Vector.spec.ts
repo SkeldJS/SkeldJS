@@ -76,7 +76,7 @@ describe("Vector2", () => {
     describe("Vector2#Serialize", () => {
         it("Should write a vector to a buffer.", () => {
             const writer = HazelWriter.alloc(4);
-            const vector = new Vector2(-1.11467154955367685, 2.492561226825366);
+            const vector = new Vector2(-1.1146715495536768, 2.492561226825366);
 
             vector.Serialize(writer);
 

@@ -16,7 +16,7 @@ import { SkeldjsClient } from "./client";
 import { AuthHelloPacket, TokenResponseMessage } from "./packets";
 
 export class AuthClient {
-    socket: DtlsSocket
+    socket: DtlsSocket;
     decoder: PacketDecoder<void>;
 
     constructor(public readonly client: SkeldjsClient) {

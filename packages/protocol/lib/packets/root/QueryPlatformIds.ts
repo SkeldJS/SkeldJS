@@ -8,8 +8,8 @@ export class QueryPlatformIdsMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.QueryPlatformIds as const;
     messageTag = RootMessageTag.QueryPlatformIds as const;
 
-    readonly gameCode: number
-    readonly roomPlayersPlatforms: PlatformSpecificData[]
+    readonly gameCode: number;
+    readonly roomPlayersPlatforms: PlatformSpecificData[];
 
     constructor(gameCode: number, roomPlayersPlatforms: PlatformSpecificData[]) {
         super();

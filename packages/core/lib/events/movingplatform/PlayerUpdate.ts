@@ -16,7 +16,7 @@ export class MovingPlatformPlayerUpdateEvent<RoomType extends Hostable = Hostabl
     eventName = "movingplatform.updateplayer" as const;
 
     private _alteredPlayer: PlayerData<RoomType>|undefined;
-    private _alteredSide: MovingPlatformSide
+    private _alteredSide: MovingPlatformSide;
 
     constructor(
         public readonly room: RoomType,

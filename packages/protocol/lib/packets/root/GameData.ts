@@ -7,6 +7,21 @@ import { BaseGameDataMessage } from "../game";
 
 import { BaseRootMessage } from "./BaseRootMessage";
 
+export class UnknownGameDataMessage extends BaseGameDataMessage {
+    static messageTag = 255 as const;
+
+    constructor(
+        public readonly messageTag: number,
+        public readonly bytes: Buffer
+    ) {
+        super();
+    }
+
+    Serialize(writer: HazelWriter) {
+        writer.bytes(this.bytes);
+    }
+}
+
 export class GameDataMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.GameData as const;
     messageTag = RootMessageTag.GameData as const;
@@ -39,7 +54,10 @@ export class GameDataMessage extends BaseRootMessage {
 
             const rootMessageClass = decoder.types.get(`gamedata:${tag}`);
 
-            if (!rootMessageClass) continue;
+            if (!rootMessageClass) {
+                children.push(new UnknownGameDataMessage(tag, mreader.buffer));
+                continue;
+            }
 
             const root = rootMessageClass.Deserialize(
                 mreader,
@@ -60,7 +78,7 @@ export class GameDataMessage extends BaseRootMessage {
         writer.int32(this.code);
 
         for (const message of this.children) {
-            if (!decoder.types.has(`gamedata:${message.messageTag}`))
+            if (!decoder.config.writeUnknownGameData && !decoder.types.has(`gamedata:${message.messageTag}`))
                 continue;
 
             writer.begin(message.messageTag);

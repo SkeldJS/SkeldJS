@@ -32,7 +32,7 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
         [SystemType.MedBay]: [10],
         [SystemType.Security]: [6],
         [SystemType.LowerEngine]: [4, 11]
-    }
+    };
 
     initialSpawnCenter = new Vector2(-0.72, 0.62);
     meetingSpawnCenter = new Vector2(-0.72, 0.62);

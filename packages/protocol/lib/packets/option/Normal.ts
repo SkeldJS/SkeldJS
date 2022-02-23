@@ -5,6 +5,21 @@ import { PacketDecoder } from "../../PacketDecoder";
 import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootPacket } from "./BaseRootPacket";
 
+export class UnknownRootMessage extends BaseRootMessage {
+    static messageTag = 255 as const;
+
+    constructor(
+        public readonly messageTag: number,
+        public readonly bytes: Buffer
+    ) {
+        super();
+    }
+
+    Serialize(writer: HazelWriter) {
+        writer.bytes(this.bytes);
+    }
+}
+
 export class NormalPacket extends BaseRootPacket {
     readonly children: BaseRootMessage[];
 
@@ -25,7 +40,10 @@ export class NormalPacket extends BaseRootPacket {
             const [tag, mreader] = reader.message();
             const rootMessageClass = decoder.types.get(`root:${tag}`);
 
-            if (!rootMessageClass) continue;
+            if (!rootMessageClass) {
+                children.push(new UnknownRootMessage(tag, mreader.buffer));
+                continue;
+            }
 
             const root = rootMessageClass.Deserialize(
                 mreader,
@@ -44,7 +62,7 @@ export class NormalPacket extends BaseRootPacket {
         decoder: PacketDecoder
     ) {
         for (const message of this.children) {
-            if (!decoder.types.has(`root:${message.messageTag}`))
+            if (!decoder.config.writeUnknownRootMessages && !decoder.types.has(`root:${message.messageTag}`))
                 continue;
 
             writer.begin(message.messageTag);

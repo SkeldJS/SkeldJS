@@ -56,7 +56,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
     countdown: number;
     resetTimer: number;
     activeConsoles: Map<number, number>;
-    completedConsoles: Set<number>
+    completedConsoles: Set<number>;
 
     /**
      * Whether or not communications is sabotaged.
