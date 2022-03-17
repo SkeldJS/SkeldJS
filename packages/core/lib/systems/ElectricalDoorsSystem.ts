@@ -55,7 +55,6 @@ export class ElectricalDoorsSystem<RoomType extends Hostable = Hostable> extends
         const dirtyBit = reader.uint32();
         for (let i = 0; i < this.doors.length; i++) {
             const isOpen = (dirtyBit & (1 << i)) > 0;
-            console.log(isOpen);
             if (isOpen) {
                 this._openDoor(i, undefined, undefined);
             } else {
