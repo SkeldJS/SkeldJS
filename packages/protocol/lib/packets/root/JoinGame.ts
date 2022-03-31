@@ -15,6 +15,8 @@ export class JoinGameMessage extends BaseRootMessage {
     readonly playerName!: string;
     readonly platform!: PlatformSpecificData;
     readonly playerLevel!: number;
+    readonly userId!: string;
+    readonly friendCode!: string;
 
     readonly error!: DisconnectReason;
     readonly message!: string;
@@ -27,7 +29,9 @@ export class JoinGameMessage extends BaseRootMessage {
         hostId: number,
         playerName: string,
         platform: PlatformSpecificData,
-        playerLevel: number
+        playerLevel: number,
+        userId: string,
+        friendCode: string
     );
     constructor(
         code: string | number,
@@ -35,7 +39,9 @@ export class JoinGameMessage extends BaseRootMessage {
         hostId?: number,
         playerName?: string,
         platform?: PlatformSpecificData,
-        playerLevel?: number
+        playerLevel?: number,
+        userId?: string,
+        friendCode?: string
     ) {
         super();
 
@@ -59,6 +65,8 @@ export class JoinGameMessage extends BaseRootMessage {
             this.playerName = playerName!;
             this.platform = platform!;
             this.playerLevel = playerLevel!;
+            this.userId = userId!;
+            this.friendCode = friendCode!;
         }
     }
 
@@ -72,8 +80,10 @@ export class JoinGameMessage extends BaseRootMessage {
                 const playerName = reader.string();
                 const platform = reader.read(PlatformSpecificData);
                 const playerLevel = reader.upacked();
+                const userId = reader.string();
+                const friendCode = reader.string();
 
-                return new JoinGameMessage(code, clientId, hostId, playerName, platform, playerLevel);
+                return new JoinGameMessage(code, clientId, hostId, playerName, platform, playerLevel, userId, friendCode);
             }
 
             const message =
@@ -98,6 +108,8 @@ export class JoinGameMessage extends BaseRootMessage {
                 writer.string(this.playerName);
                 writer.write(this.platform);
                 writer.upacked(this.playerLevel);
+                writer.string(this.userId);
+                writer.string(this.friendCode);
             } else {
                 writer.int32(this.error);
                 if (
@@ -124,7 +136,9 @@ export class JoinGameMessage extends BaseRootMessage {
                     this.platform.platformName,
                     this.platform.platformId
                 ),
-                this.playerLevel
+                this.playerLevel,
+                this.userId,
+                this.friendCode
             );
         }
         if (this.error !== undefined) {
