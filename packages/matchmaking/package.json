@@ -1,0 +1,33 @@
+{
+  "name": "@skeldjs/matchmaking",
+  "version": "2.15.19",
+  "main": "./dist/index.js",
+  "types": "./index.ts",
+  "publishConfig": {
+    "types": "./dist/index.d.ts"
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "prepack": "yarn build"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8",
+    "@types/jwk-to-pem": "^2",
+    "@types/node": "^17.0.18",
+    "ts-node": "latest",
+    "typescript": "latest"
+  },
+  "license": "GPL-3.0-only",
+  "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/util": "workspace:*",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.5",
+    "undici": "^5.2.0"
+  }
+}

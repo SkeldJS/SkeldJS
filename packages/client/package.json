@@ -14,6 +14,8 @@
   "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/node": "^17.0.18",
+    "esbuild-register": "^3.3.2",
+    "ts-eager": "latest",
     "ts-node": "latest",
     "typescript": "latest"
   },
