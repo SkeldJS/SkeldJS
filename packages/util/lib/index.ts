@@ -3,7 +3,6 @@ export * from "./DeepPartial";
 export * from "./HazelBuffer";
 export * from "./HazelReader";
 export * from "./HazelWriter";
-export * from "./ritoa";
 export * from "./sleep";
 export * from "./TextBuilder";
 export * from "./Vector";
