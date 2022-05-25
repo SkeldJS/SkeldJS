@@ -23,7 +23,7 @@ client.on("meeting.votingcomplete", ev => {
 ## Advanced Usage
 
 ```ts
-import { Int2Code } from "@skeldjs/util";
+import { GameCode } from "@skeldjs/util";
 import { TranslationController } from "@skeldjs/translations";
 
 import * as skeldjs from "@skeldjs/client";
@@ -51,7 +51,7 @@ import { Language } from "@skeldjs/client";
 
     console.log(
         "Created game @ " +
-            Int2Code(code as number) +
+            GameCode.convertV2IntToString(code) +
             " on EU servers"
     );
 })();

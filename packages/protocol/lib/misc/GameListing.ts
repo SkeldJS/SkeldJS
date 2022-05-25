@@ -1,12 +1,12 @@
 import { GameMap } from "@skeldjs/constant";
-import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
+import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
 import { PlatformSpecificData } from "./PlatformSpecificData";
 
 export class GameListing {
-    readonly code: number;
+    readonly gameCode: number;
 
     constructor(
-        code: string | number,
+        gameCode: string | number,
         public readonly ip: string,
         public readonly port: number,
         public readonly hostName: string,
@@ -17,10 +17,10 @@ export class GameListing {
         public readonly maxPlayers: number,
         public readonly platform: PlatformSpecificData
     ) {
-        if (typeof code === "string") {
-            this.code = Code2Int(code);
+        if (typeof gameCode === "string") {
+            this.gameCode = GameCode.convertStringToInt(gameCode);
         } else {
-            this.code = code;
+            this.gameCode = gameCode;
         }
     }
 
@@ -56,7 +56,7 @@ export class GameListing {
             writer.uint8(parseInt(part));
         }
         writer.uint16(this.port);
-        writer.int32(this.code);
+        writer.int32(this.gameCode);
         writer.string(this.hostName);
         writer.uint8(this.numPlayers);
         writer.upacked(this.age);
@@ -69,7 +69,7 @@ export class GameListing {
 
     clone() {
         return new GameListing(
-            this.code,
+            this.gameCode,
             this.ip,
             this.port,
             this.hostName,

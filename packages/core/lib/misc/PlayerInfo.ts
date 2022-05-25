@@ -108,7 +108,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
     static createDefault<RoomType extends Hostable = Hostable>(gamedata: GameData<RoomType>, playerId: number) {
         return new PlayerInfo(gamedata, playerId, {
             [PlayerOutfitType.Default]: PlayerOutfit.createDefault(PlayerOutfitType.Default)
-        }, 0, 0, CrewmateRole, []);
+        }, 0, 0, CrewmateRole, [], "", "");
     }
 
     currentOutfitType: PlayerOutfitType;
@@ -150,7 +150,15 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
          * All of this player's tasks, and whether or not they have been completed
          * or not by the player.
          */
-        public taskStates: TaskState[] = []
+        public taskStates: TaskState[] = [],
+        /**
+         * The player's Innersloth friend code.
+         */
+        public friendCode: string,
+        /**
+         * The player's global player UUID.
+         */
+        public puid: string
     ) {
         this.currentOutfitType = PlayerOutfitType.Default;
     }
@@ -233,11 +241,13 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         writer.upacked(this.playerLevel);
         writer.uint8(this.flags);
         writer.uint16(this.roleType.roleMetadata.roleType);
-        writer.uint8(this.taskStates?.length || 0);
+        writer.uint8(this.taskStates.length);
         for (let i = 0; i < this.taskStates.length; i++) {
             writer.upacked(i);
             writer.bool(this.taskStates[i].completed);
         }
+        writer.string(this.friendCode);
+        writer.string(this.puid);
     }
 
     /**
@@ -266,7 +276,9 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
             this.playerLevel,
             this.flags,
             this.roleType,
-            this.taskStates.map(task => new TaskState(task.taskType, task.completed))
+            this.taskStates.map(task => new TaskState(task.taskType, task.completed)),
+            this.friendCode,
+            this.puid
         );
     }
 

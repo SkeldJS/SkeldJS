@@ -14,7 +14,7 @@ import {
 } from "@skeldjs/protocol";
 
 import {
-    Code2Int,
+    GameCode,
     HazelReader,
     HazelWriter,
     sleep
@@ -526,7 +526,7 @@ export class Hostable<
      */
     setCode(code: RoomID): void {
         if (typeof code === "string") {
-            return this.setCode(Code2Int(code));
+            return this.setCode(GameCode.convertStringToInt(code));
         }
 
         this.code = code;
@@ -643,7 +643,7 @@ export class Hostable<
         if (cachedPlayer)
             return cachedPlayer;
 
-        const player = new PlayerData(this, joinInfo.clientId, joinInfo.playerName, joinInfo.platform, joinInfo.playerLevel);
+        const player = new PlayerData(this, joinInfo.clientId, joinInfo.playerName, joinInfo.platform, joinInfo.playerLevel, joinInfo.friendCode, joinInfo.puid);
         this.players.set(joinInfo.clientId, player);
 
         if (this.hostIsMe) {

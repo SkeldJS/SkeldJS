@@ -1,83 +1,76 @@
 import assert from "assert";
 
 import {
-    V1Code2Int,
-    V1Gen,
-    V1Int2Code,
-    V2Code2Int,
-    V2Gen,
-    V2Int2Code,
-    Code2Int,
-    Int2Code,
+    GameCode
 } from "./Codes";
 
-describe("Code utility functions", () => {
-    describe("V1Code2Int", () => {
+describe("GameCode", () => {
+    describe("GameCode#convertV1StringToInt", () => {
         it("Should convert a 4 letter code (version 1) to an integer.", () => {
-            assert.strictEqual(V1Code2Int("CODE"), 1162104643);
-            assert.strictEqual(V1Code2Int("LAMP"), 1347240268);
+            assert.strictEqual(GameCode.convertV1StringToInt("CODE"), 1162104643);
+            assert.strictEqual(GameCode.convertV1StringToInt("LAMP"), 1347240268);
         });
     });
 
-    describe("V1Int2Code", () => {
+    describe("GameCode#convertV1IntToString", () => {
         it("Should convert an integer to a 4 letter code (version 1).", () => {
-            assert.strictEqual(V1Int2Code(1094861377), "ABBA");
-            assert.strictEqual(V1Int2Code(1280266068), "TOOL");
+            assert.strictEqual(GameCode.convertV1IntToString(1094861377), "ABBA");
+            assert.strictEqual(GameCode.convertV1IntToString(1280266068), "TOOL");
         });
     });
 
-    describe("V1Gen", () => {
+    describe("GameCode#generateV1", () => {
         it("Should generate a random 4 letter code (version 1) as an integer.", () => {
             const regex = /^[A-Z]{4}$/;
-            const code = V1Gen();
+            const code = GameCode.generateV1();
 
             assert(code >= 1094795585);
             assert(code <= 1515870810);
-            assert(regex.test(V1Int2Code(code)));
+            assert(regex.test(GameCode.convertV1IntToString(code)));
         });
     });
 
-    describe("V2Code2Int", () => {
+    describe("GameCode#convertV2StringToInt", () => {
         it("Should convert a 6 letter code (version 2) to an integer.", () => {
-            assert.strictEqual(V2Code2Int("STRUCT"), -2061964175);
-            assert.strictEqual(V2Code2Int("REGION"), -1720475437);
+            assert.strictEqual(GameCode.convertV2StringToInt("STRUCT"), -2061964175);
+            assert.strictEqual(GameCode.convertV2StringToInt("REGION"), -1720475437);
         });
     });
 
-    describe("V2Int2Code", () => {
+    describe("GameCode#convertV2IntToString", () => {
         it("Should convert an integer to a 6 letter code (version 2).", () => {
-            assert.strictEqual(V2Int2Code(-1998843519), "BUMOLE");
-            assert.strictEqual(V2Int2Code(-1682506269), "JOJOBA");
+            assert.strictEqual(GameCode.convertV2IntToString(-1998843519), "BUMOLE");
+            assert.strictEqual(GameCode.convertV2IntToString(-1682506269), "JOJOBA");
         });
     });
 
-    describe("V2Gen", () => {
+    describe("GameCode#generateV2", () => {
         it("Should generate a random 6 letter code (version 2) as an integer.", () => {
             const regex = /^[A-Z]{6}$/;
-            const code = V2Gen();
+            const code = GameCode.generateV2();
 
             assert(code >= -2147483648);
             assert(code <= -1679540573);
-            assert(regex.test(V2Int2Code(code)));
+            assert(regex.test(GameCode.convertV2IntToString(code)));
         });
     });
 
-    describe("Code2Int", () => {
+    describe("GameCode#convertStringToInt", () => {
         it("Should convert a 4 or 6 letter code to an integer.", () => {
-            assert.strictEqual(Code2Int("HOLA"), 1095520072);
-            assert.strictEqual(Code2Int("VECTOR"), -2080903964);
+            assert.strictEqual(GameCode.convertStringToInt("HOLA"), 1095520072);
+            assert.strictEqual(GameCode.convertStringToInt("VECTOR"), -2080903964);
         });
 
         it("Should return 0 on an invalid code length.", () => {
-            assert.strictEqual(Code2Int("IMPOSTER"), 0);
-            assert.strictEqual(Code2Int("SUS"), 0);
+            assert.strictEqual(GameCode.convertStringToInt("IMPOSTER"), 0);
+            assert.strictEqual(GameCode.convertStringToInt("SUS"), 0);
         });
     });
 
-    describe("Int2Code", () => {
+    describe("GameCode#convertIntToString", () => {
         it("Should convert an integer to a 4 or 6 letter code.", () => {
-            assert.strictEqual(Int2Code(-2050590356), "QUEASY");
-            assert.strictEqual(Int2Code(1515864394), "JAZZ");
+            assert.strictEqual(GameCode.convertIntToString(-2050590356), "QUEASY");
+            assert.strictEqual(GameCode.convertIntToString(1515864394), "JAZZ");
         });
     });
 });

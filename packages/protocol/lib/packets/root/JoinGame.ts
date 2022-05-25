@@ -1,5 +1,5 @@
-import { DisconnectReason, RootMessageTag } from "@skeldjs/constant";
-import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
+import { RootMessageTag } from "@skeldjs/constant";
+import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
 import { PlatformSpecificData } from "../../misc";
 
 import { MessageDirection } from "../../PacketDecoder";
@@ -15,14 +15,12 @@ export class JoinGameMessage extends BaseRootMessage {
     readonly playerName!: string;
     readonly platform!: PlatformSpecificData;
     readonly playerLevel!: number;
-    readonly userId!: string;
+    readonly puid!: string;
     readonly friendCode!: string;
 
-    readonly error!: DisconnectReason;
     readonly message!: string;
 
     constructor(code: string | number);
-    constructor(error: DisconnectReason, message?: string);
     constructor(
         code: string | number,
         clientId: number,
@@ -30,7 +28,7 @@ export class JoinGameMessage extends BaseRootMessage {
         playerName: string,
         platform: PlatformSpecificData,
         playerLevel: number,
-        userId: string,
+        puid: string,
         friendCode: string
     );
     constructor(
@@ -40,23 +38,15 @@ export class JoinGameMessage extends BaseRootMessage {
         playerName?: string,
         platform?: PlatformSpecificData,
         playerLevel?: number,
-        userId?: string,
+        puid?: string,
         friendCode?: string
     ) {
         super();
 
         if (typeof code === "number") {
-            if (DisconnectReason[code]) {
-                this.error = code;
-
-                if (typeof clientId === "string") {
-                    this.message = clientId;
-                }
-            } else {
-                this.code = code;
-            }
+            this.code = code;
         } else {
-            this.code = Code2Int(code);
+            this.code = GameCode.convertStringToInt(code);
         }
 
         if (typeof hostId === "number") {
@@ -65,7 +55,7 @@ export class JoinGameMessage extends BaseRootMessage {
             this.playerName = playerName!;
             this.platform = platform!;
             this.playerLevel = playerLevel!;
-            this.userId = userId!;
+            this.puid = puid!;
             this.friendCode = friendCode!;
         }
     }
@@ -74,24 +64,15 @@ export class JoinGameMessage extends BaseRootMessage {
         if (direction === MessageDirection.Clientbound) {
             const code = reader.int32();
 
-            if (!DisconnectReason[code]) {
-                const clientId = reader.int32();
-                const hostId = reader.int32();
-                const playerName = reader.string();
-                const platform = reader.read(PlatformSpecificData);
-                const playerLevel = reader.upacked();
-                const userId = reader.string();
-                const friendCode = reader.string();
+            const clientId = reader.int32();
+            const hostId = reader.int32();
+            const playerName = reader.string();
+            const platform = reader.read(PlatformSpecificData);
+            const playerLevel = reader.upacked();
+            const puid = reader.string();
+            const friendCode = reader.string();
 
-                return new JoinGameMessage(code, clientId, hostId, playerName, platform, playerLevel, userId, friendCode);
-            }
-
-            const message =
-                code === DisconnectReason.Custom && reader.left
-                    ? reader.string()
-                    : undefined;
-
-            return new JoinGameMessage(code, message);
+            return new JoinGameMessage(code, clientId, hostId, playerName, platform, playerLevel, puid, friendCode);
         } else {
             const code = reader.int32();
 
@@ -101,31 +82,22 @@ export class JoinGameMessage extends BaseRootMessage {
 
     Serialize(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
-            if (this.code) {
-                writer.int32(this.code);
-                writer.int32(this.clientId);
-                writer.int32(this.hostId);
-                writer.string(this.playerName);
-                writer.write(this.platform);
-                writer.upacked(this.playerLevel);
-                writer.string(this.userId);
-                writer.string(this.friendCode);
-            } else {
-                writer.int32(this.error);
-                if (
-                    this.error === DisconnectReason.Custom &&
-                    typeof this.message === "string"
-                ) {
-                    writer.string(this.message);
-                }
-            }
+            writer.int32(this.code);
+            writer.int32(this.clientId);
+            writer.int32(this.hostId);
+            writer.string(this.playerName);
+            writer.write(this.platform);
+            writer.upacked(this.playerLevel);
+            writer.string(this.puid);
+            writer.string(this.friendCode);
         } else {
-            writer.int32(this.code ?? this.error);
+            writer.int32(this.code);
+            writer.bool(false);
         }
     }
 
     clone() {
-        if (this.hostId) {
+        if (this.hostId !== undefined) {
             return new JoinGameMessage(
                 this.code,
                 this.clientId,
@@ -137,12 +109,9 @@ export class JoinGameMessage extends BaseRootMessage {
                     this.platform.platformId
                 ),
                 this.playerLevel,
-                this.userId,
+                this.puid,
                 this.friendCode
             );
-        }
-        if (this.error !== undefined) {
-            return new JoinGameMessage(this.error, this.message);
         }
         return new JoinGameMessage(this.code);
     }

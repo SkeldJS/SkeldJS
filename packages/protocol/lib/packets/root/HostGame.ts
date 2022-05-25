@@ -1,5 +1,5 @@
 import { RootMessageTag } from "@skeldjs/constant";
-import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
+import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { GameSettings } from "../../misc";
 import { MessageDirection } from "../../PacketDecoder";
@@ -20,7 +20,7 @@ export class HostGameMessage extends BaseRootMessage {
         super();
 
         if (typeof gameSettingsOrCode === "string") {
-            this.code = Code2Int(gameSettingsOrCode);
+            this.code = GameCode.convertStringToInt(gameSettingsOrCode);
         } else if (typeof gameSettingsOrCode === "number") {
             this.code = gameSettingsOrCode;
         } else {

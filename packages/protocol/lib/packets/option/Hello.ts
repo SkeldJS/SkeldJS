@@ -17,7 +17,8 @@ export class HelloPacket extends BaseRootPacket {
         public readonly auth: string|number,
         public readonly language: Language,
         public readonly chatMode: QuickChatMode,
-        public readonly platform: PlatformSpecificData
+        public readonly platform: PlatformSpecificData,
+        public readonly friendCode?: string
     ) {
         super();
     }
@@ -40,8 +41,9 @@ export class HelloPacket extends BaseRootPacket {
         const language = reader.uint32();
         const chatMode = reader.uint8();
         const platform = reader.read(PlatformSpecificData);
+        const friendCode = reader.string();
 
-        return new HelloPacket(nonce, clientVer, username, auth, language, chatMode, platform);
+        return new HelloPacket(nonce, clientVer, username, auth, language, chatMode, platform, friendCode);
     }
 
     Serialize(writer: HazelWriter) {
@@ -57,7 +59,12 @@ export class HelloPacket extends BaseRootPacket {
         writer.uint32(this.language);
         writer.uint8(this.chatMode);
         writer.write(this.platform);
-        writer.int32(2 ** 31 - 1); // cross play flags, max int for any crossplay
+        if (typeof this.friendCode === "string") {
+            writer.string(this.friendCode);
+        } else {
+            writer.string("");
+            writer.uint32(0);
+        }
     }
 
     clone() {
@@ -72,7 +79,8 @@ export class HelloPacket extends BaseRootPacket {
                 this.platform.platformTag,
                 this.platform.platformName,
                 this.platform.platformId
-            )
+            ),
+            this.friendCode
         );
     }
 }

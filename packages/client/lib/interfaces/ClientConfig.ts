@@ -10,9 +10,17 @@ export interface ClientConfig extends HostableOptions {
     allowHost: boolean;
     /**
      * How to authenticate with the server, if any.
-     * @default AuthStyle.Dtls
+     * @default AuthMethod.SecureTransport
      */
     authMethod: AuthMethod;
+    /**
+     * Whether or not to use a HTTP matchmaking server in order to authenticate, can be
+     * disabled for private servers that don't have a HTTP matchmaking server running.
+     *
+     * Only applicable if the {@link ClientConfig.authMethod} is set to {@link AuthMethod.SecureTransport}.
+     * @default true
+     */
+    useHttpMatchmaker: boolean;
     /**
      * The client's language. Used to localise messages from the server.
      * @default Language.English

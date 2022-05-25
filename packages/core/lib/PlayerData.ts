@@ -53,26 +53,6 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     room: RoomType;
 
     /**
-     * This player's server-unique client ID.
-     */
-    clientId: number;
-
-    /**
-     * The player's login name, not necessarily the display name, see {@link PlayerInfo}.
-     */
-    username: string;
-
-    /**
-     * The platform that the player is playing on.
-     */
-    platform: PlatformSpecificData;
-
-    /**
-     * The level/rank of the player.
-     */
-    playerLevel: number;
-
-    /**
      * Whether or not this player is readied up to start the game.
      */
     isReady: boolean;
@@ -103,18 +83,34 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
 
     constructor(
         room: RoomType,
-        clientId: number,
-        playerName: string,
-        platform = new PlatformSpecificData(Platform.Unknown, "Unknown"),
-        playerLevel = 0
+        /**
+         * This player's server-unique client ID.
+         */
+        public readonly clientId: number,
+        /**
+         * The player's login name, not necessarily the display name, see {@link PlayerInfo}.
+         */
+        public readonly username: string,
+        /**
+         * The platform that the player is playing on.
+         */
+        public readonly platform = new PlatformSpecificData(Platform.Unknown, "Unknown"),
+        /**
+         * The level/rank of the player.
+         */
+        public readonly playerLevel = 0,
+        /**
+         * The player's innersloth friend code.
+         */
+        public readonly friendCode = "",
+        /**
+         * The player's unique global UUID.
+         */
+        public readonly puid = ""
     ) {
         super();
 
         this.room = room;
-        this.clientId = clientId;
-        this.username = playerName;
-        this.platform = platform;
-        this.playerLevel = playerLevel;
 
         this.stream = [];
         this.isReady = false;

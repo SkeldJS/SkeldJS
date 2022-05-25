@@ -1,4 +1,4 @@
-export enum DisconnectReason {
+    export enum DisconnectReason {
 	ExitGame,
 	GameFull,
 	GameStarted,

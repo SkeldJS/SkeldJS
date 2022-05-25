@@ -1,5 +1,5 @@
 import { DisconnectReason, RootMessageTag } from "@skeldjs/constant";
-import { Code2Int, HazelReader, HazelWriter } from "@skeldjs/util";
+import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -21,7 +21,7 @@ export class KickPlayerMessage extends BaseRootMessage {
         super();
 
         if (typeof code === "string") {
-            this.code = Code2Int(code);
+            this.code = GameCode.convertStringToInt(code);
         } else {
             this.code = code;
         }

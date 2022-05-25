@@ -1,11 +1,11 @@
-import { Int2Code } from "@skeldjs/util";
+import { GameCode } from "@skeldjs/util";
 import { QuickChatMode, RoleType } from "@skeldjs/constant";
 import * as skeldjs from "../index";
 
 const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof skeldjs.OfficialServers] || process.argv[2];
 
 (async () => {
-    const client = new skeldjs.SkeldjsClient("2021.11.9.0s", {
+    const client = new skeldjs.SkeldjsClient("2022.2.2.0s", {
         authMethod: skeldjs.AuthMethod.SecureTransport,
         chatMode: QuickChatMode.FreeChat
     });
@@ -47,7 +47,7 @@ const connectRegion = skeldjs.OfficialServers[process.argv[2] as keyof typeof sk
 
     console.log(
         "Created game @ " +
-            Int2Code(code as number) +
+            GameCode.convertIntToString(code) +
             " on " +
             connectRegion +
             " servers."

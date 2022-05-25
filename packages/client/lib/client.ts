@@ -1,7 +1,6 @@
 import dgram from "dgram";
 import dns from "dns";
 import util from "util";
-import crypto from "crypto";
 
 import {
     DisconnectReason,
@@ -52,7 +51,7 @@ import {
     VersionInfo,
     HazelWriter,
     HazelReader,
-    Code2Int,
+    GameCode,
     DeepPartial
 } from "@skeldjs/util";
 
@@ -76,7 +75,7 @@ import {
     ClientJoinEvent,
 } from "./events";
 
-import { JoinError } from "./errors/JoinError";
+import { ConnectError, JoinError } from "./errors";
 
 import { AuthClient } from "./AuthClient";
 
@@ -190,12 +189,13 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this.config = {
             doFixedUpdate: true,
             authMethod: AuthMethod.SecureTransport,
+            useHttpMatchmaker: true,
             allowHost: true,
             language: Language.English,
             chatMode: QuickChatMode.FreeChat,
             messageOrdering: false,
-            platform: new PlatformSpecificData(Platform.StandaloneSteamPC, "Steam"),
-            eosProductUserId: crypto.randomBytes(16).toString("hex"),
+            platform: new PlatformSpecificData(Platform.StandaloneSteamPC, "TESTNAME"),
+            eosProductUserId: "", // crypto.randomBytes(16).toString("hex"),
             ...options
         };
 
@@ -220,7 +220,18 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this.messageStream = [];
 
         this.decoder.on(DisconnectPacket, (message) => {
-            this.disconnect(message.reason, message.message);
+            if (this.identified && !this.sent_disconnect) {
+                this.send(new DisconnectPacket(DisconnectReason.ServerRequest, undefined, false));
+                this.sent_disconnect = true;
+            }
+            this.emit(
+                new ClientDisconnectEvent(
+                    this,
+                    message.reason,
+                    message.message || DisconnectMessages[message.reason as keyof typeof DisconnectMessages]
+                )
+            );
+            this._reset();
         });
 
         this.decoder.on(AcknowledgePacket, (message) => {
@@ -334,6 +345,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.port = typeof port === "object"
                 ? port.secureGameServer
                 : this.port + 3;
+
+            this.decoder.config.useDtlsLayout = true;
+        } else {
+            this.decoder.config.useDtlsLayout = false;
         }
 
         const authToken = this.config.authMethod === AuthMethod.NonceExchange
@@ -445,11 +460,34 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     : authToken,
                 this.config.language,
                 this.config.chatMode,
-                this.config.platform
+                this.config.platform,
+                ""
             )
         );
 
-        await this.decoder.waitf(AcknowledgePacket, ack => ack.nonce === nonce);
+        await new Promise((res, rej) => {
+            // eslint-disable-next-line @typescript-eslint/no-this-alias
+            const _this = this;
+
+            function onAck(ack: AcknowledgePacket) {
+                if (ack.nonce === nonce) {
+                    _this.decoder.off(AcknowledgePacket, onAck);
+                    _this.off("client.disconnect", onDisconnect);
+
+                    res(ack);
+                }
+            }
+
+            function onDisconnect(ev: ClientDisconnectEvent) {
+                _this.decoder.off(AcknowledgePacket, onAck);
+                _this.off("client.disconnect", onDisconnect);
+
+                rej(new ConnectError(ev.reason, ev.message || DisconnectMessages[ev.reason] || ""));
+            }
+
+            this.decoder.on(AcknowledgePacket, onAck);
+            this.on("client.disconnect", onDisconnect);
+        });
 
         this.identified = true;
         this._cachedPlatform = this.config.platform;
@@ -680,7 +718,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         if (typeof code === "string") {
-            return this.joinGame(Code2Int(code), doSpawn);
+            return this.joinGame(GameCode.convertStringToInt(code), doSpawn);
         }
 
         if (!this.ip) {
@@ -706,21 +744,13 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             )
         );
 
-        const message = await new Promise<JoinGameMessage|RedirectMessage|ClientDisconnectEvent|PlayerJoinEvent>(resolve => {
+        const message = await new Promise<RedirectMessage|ClientDisconnectEvent|PlayerJoinEvent>(resolve => {
             // eslint-disable-next-line @typescript-eslint/no-this-alias
             const _this = this;
             function removeListeners() {
-                _this.decoder.off(JoinGameMessage, onJoinGameMessage);
                 _this.decoder.off(RedirectMessage, onRedirectMessage);
                 _this.off("player.join", onPlayerJoin);
                 _this.off("client.disconnect", onDisconnect);
-            }
-
-            function onJoinGameMessage(message: JoinGameMessage) {
-                if (message.error !== undefined) {
-                    resolve(message);
-                    removeListeners();
-                }
             }
 
             function onRedirectMessage(message: RedirectMessage) {
@@ -738,7 +768,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 removeListeners();
             }
 
-            this.decoder.on(JoinGameMessage, onJoinGameMessage);
             this.decoder.on(RedirectMessage, onRedirectMessage);
             this.on("client.disconnect", onDisconnect);
             this.on("player.join", onPlayerJoin);
@@ -762,8 +791,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         switch (message.messageTag) {
-            case RootMessageTag.JoinGame:
-                throw new JoinError(message.error, message.message || DisconnectMessages[message.error || DisconnectReason.Error]);
             case RootMessageTag.Redirect:
                 const username = this.username;
                 await this.disconnect();
@@ -807,21 +834,13 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             ])
         );
 
-        const message = await new Promise<JoinGameMessage|RedirectMessage|HostGameMessage|ClientDisconnectEvent>(resolve => {
+        const message = await new Promise<RedirectMessage|HostGameMessage|ClientDisconnectEvent>(resolve => {
             // eslint-disable-next-line @typescript-eslint/no-this-alias
             const _this = this;
             function removeListeners() {
-                _this.decoder.off(JoinGameMessage, onJoinGameMessage);
                 _this.decoder.off(RedirectMessage, onRedirectMessage);
                 _this.decoder.off(HostGameMessage, onHostGameMessage);
                 _this.off("client.disconnect", onDisconnect);
-            }
-
-            function onJoinGameMessage(message: JoinGameMessage) {
-                if (message.error !== undefined) {
-                    resolve(message);
-                    removeListeners();
-                }
             }
 
             function onRedirectMessage(message: RedirectMessage) {
@@ -839,7 +858,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 removeListeners();
             }
 
-            this.decoder.on(JoinGameMessage, onJoinGameMessage);
             this.decoder.on(RedirectMessage, onRedirectMessage);
             this.decoder.on(HostGameMessage, onHostGameMessage);
             this.off("client.disconnect", onDisconnect);
@@ -850,8 +868,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         switch (message.messageTag) {
-            case RootMessageTag.JoinGame:
-                throw new JoinError(message.error, DisconnectMessages[message.error || DisconnectReason.Error] || message.message);
             case RootMessageTag.Redirect:
                 await this.connect(
                     message.ip,

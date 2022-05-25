@@ -67,7 +67,9 @@ export class SkeldjsStateManager<
                     message.clientId,
                     message.playerName,
                     message.platform,
-                    message.playerLevel
+                    message.playerLevel,
+                    message.puid,
+                    message.friendCode
                 ));
                 await this.setHost(message.hostId);
             }
@@ -126,7 +128,9 @@ export class SkeldjsStateManager<
                     message.clientId,
                     this._cachedName || "SkeldJS",
                     this._cachedPlatform || new PlatformSpecificData(Platform.StandaloneSteamPC, "Steam"),
-                    0
+                    0,
+                    "",
+                    ""
                 ));
                 for (let i = 0; i < message.otherPlayers.length; i++) {
                     await this.handleJoin(message.otherPlayers[i]);
