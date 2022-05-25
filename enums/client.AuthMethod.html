@@ -93,9 +93,15 @@
 					<div class="tsd-signature tsd-kind-icon">None<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/client/lib/interfaces/AuthMethod.ts#L2">client/lib/interfaces/AuthMethod.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/client/lib/interfaces/AuthMethod.ts#L6">client/lib/interfaces/AuthMethod.ts:6</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Don&#39;t authenticate with the server and just attempt to join/create/find a game
+							immediately.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="NonceExchange" class="tsd-anchor"></a>
@@ -103,9 +109,15 @@
 					<div class="tsd-signature tsd-kind-icon">Nonce<wbr>Exchange<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/client/lib/interfaces/AuthMethod.ts#L3">client/lib/interfaces/AuthMethod.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/client/lib/interfaces/AuthMethod.ts#L11">client/lib/interfaces/AuthMethod.ts:11</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Create a separate, secure DTLS connection to a different server before joining,
+							serving short nonce tokens that can be used to authenticate.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
 					<a name="SecureTransport" class="tsd-anchor"></a>
@@ -113,9 +125,14 @@
 					<div class="tsd-signature tsd-kind-icon">Secure<wbr>Transport<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/client/lib/interfaces/AuthMethod.ts#L4">client/lib/interfaces/AuthMethod.ts:4</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/client/lib/interfaces/AuthMethod.ts#L15">client/lib/interfaces/AuthMethod.ts:15</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Use a secure transport for all connections to the game server.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -175,6 +192,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/lan.html">lan</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/matchmaking.html">matchmaking</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html">pathfinding</a>
@@ -245,6 +265,9 @@
 								<a href="../classes/client.ClientJoinEvent.html" class="tsd-kind-icon">Client<wbr>Join<wbr>Event</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.ConnectError.html" class="tsd-kind-icon">Connect<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.JoinError.html" class="tsd-kind-icon">Join<wbr>Error</a>
 							</li>
 							<li class=" tsd-kind-interface tsd-parent-kind-module">
@@ -285,6 +308,9 @@
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/matchmaking.html" class="tsd-kind-icon">matchmaking</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -317,7 +343,6 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>

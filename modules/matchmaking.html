@@ -1,0 +1,553 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>matchmaking | SkeldJS</title>
+	<meta name="description" content="Documentation for SkeldJS">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<link rel="stylesheet" href="../assets/css/pages.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">SkeldJS</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">Globals</a>
+				</li>
+				<li>
+					<a href="matchmaking.html">matchmaking</a>
+				</li>
+			</ul>
+			<h1>Module matchmaking</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<a href="#skeldjsmatchmaking" id="skeldjsmatchmaking" style="color: inherit; text-decoration: none;">
+						<h2>@skeldjs/matchmaking</h2>
+					</a>
+					<p>This package contains a way to search for games hosted locally for the SkeldJS client. While you can install it on its own with <code>npm install --save @skeldjs/matchmaking</code> or <code>yarn add @skeldjs/matchmaking</code>, it is one package of a bigger project, <a href="https://github.com/skeldjs/SkeldJS">skeldjs</a>.</p>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="matchmaking.html#Endpoint" class="tsd-kind-icon">Endpoint</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="matchmaking.html#GetUserResponseBody" class="tsd-kind-icon">Get<wbr>User<wbr>Response<wbr>Body</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="matchmaking.html#RequestGameListResponseBody" class="tsd-kind-icon">Request<wbr>Game<wbr>List<wbr>Response<wbr>Body</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="matchmaking.html#Endpoints" class="tsd-kind-icon">Endpoints</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/matchmaking.FindGameCodeServerResponseBody.html" class="tsd-kind-icon">Find<wbr>Game<wbr>Code<wbr>Server<wbr>Response<wbr>Body</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/matchmaking.FindHostServerResponseBody.html" class="tsd-kind-icon">Find<wbr>Host<wbr>Server<wbr>Response<wbr>Body</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/matchmaking.GameListing.html" class="tsd-kind-icon">Game<wbr>Listing</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/matchmaking.GameListingResponseBody.html" class="tsd-kind-icon">Game<wbr>Listing<wbr>Response<wbr>Body</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/matchmaking.GetUserRequestBody.html" class="tsd-kind-icon">Get<wbr>User<wbr>Request<wbr>Body</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/matchmaking.HostServer.html" class="tsd-kind-icon">Host<wbr>Server</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/matchmaking.SkeldjsMatchmakerRestClient.html" class="tsd-kind-icon">Skeldjs<wbr>Matchmaker<wbr>Rest<wbr>Client</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="matchmaking.html#intToIpAddress" class="tsd-kind-icon">int<wbr>ToIp<wbr>Address</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="Endpoint" class="tsd-anchor"></a>
+					<h3>Endpoint</h3>
+					<div class="tsd-signature tsd-kind-icon">Endpoint&lt;Req, Res&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>__req<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Req</span><span class="tsd-signature-symbol">; </span>__res<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Res</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/matchmaking/lib/Endpoints.ts#L13">matchmaking/lib/Endpoints.ts:13</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Represents an endpoint that can be used to type request and response bodies.</p>
+						</div>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Req</h4>
+						</li>
+						<li>
+							<h4>Res</h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="GetUserResponseBody" class="tsd-anchor"></a>
+					<h3>Get<wbr>User<wbr>Response<wbr>Body</h3>
+					<div class="tsd-signature tsd-kind-icon">Get<wbr>User<wbr>Response<wbr>Body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/matchmaking/lib/types/response/GetUser.ts#L1">matchmaking/lib/types/response/GetUser.ts:1</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="RequestGameListResponseBody" class="tsd-anchor"></a>
+					<h3>Request<wbr>Game<wbr>List<wbr>Response<wbr>Body</h3>
+					<div class="tsd-signature tsd-kind-icon">Request<wbr>Game<wbr>List<wbr>Response<wbr>Body<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Interface">GameListingResponseBody</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/matchmaking/lib/types/response/RequestGameList.ts#L17">matchmaking/lib/types/response/RequestGameList.ts:17</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="Endpoints" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Endpoints</h3>
+					<div class="tsd-signature tsd-kind-icon">Endpoints<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>FindGameCodeServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>gameId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">FindGameCodeServerResponseBody</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>FindHostServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">FindHostServerResponseBody</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>GetToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">GetUserRequestBody</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>RequestGameList<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>mapBitfield<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, lang<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameKeyword</span>, quickChat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">QuickChatMode</span>, platformFlags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, numImpostors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">RequestGameListResponseBody</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/matchmaking/lib/Endpoints.ts#L18">matchmaking/lib/Endpoints.ts:18</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>All endpoints used by the Among Us HTTP matchmaker.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>Find<wbr>Game<wbr>Code<wbr>Server<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>gameId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">FindGameCodeServerResponseBody</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>gameId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">FindGameCodeServerResponseBody</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Used by the game to find the server that a lobby is hosted on.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>gameId: <span class="tsd-signature-type">number</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The game code of the lobby to find the server for.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">FindGameCodeServerResponseBody</a><span class="tsd-signature-symbol">&gt;</span></h4>
+												<p>The server that the lobby is hosted on.</p>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>Find<wbr>Host<wbr>Server<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">FindHostServerResponseBody</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">FindHostServerResponseBody</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Used to find a valid server that the client can connect to in order to host a game.</p>
+													</div>
+												</div>
+												<h4 class="tsd-returns-title">Returns <a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">FindHostServerResponseBody</a><span class="tsd-signature-symbol">&gt;</span></h4>
+												<p>A server that the client can host a game on.</p>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>Get<wbr>Token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">GetUserRequestBody</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">GetUserRequestBody</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Used to get the matchmaking token for the server.</p>
+													</div>
+												</div>
+												<h4 class="tsd-returns-title">Returns <a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><a href="" class="tsd-signature-type" data-tsd-kind="Interface">GetUserRequestBody</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												<p>A matchmaking token to use while connecting.</p>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li class="tsd-parameter">
+								<h5>Request<wbr>Game<wbr>List<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>mapBitfield<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, lang<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameKeyword</span>, quickChat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">QuickChatMode</span>, platformFlags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, numImpostors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">RequestGameListResponseBody</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter-signature">
+										<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-literal">
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>mapBitfield<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, lang<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GameKeyword</span>, quickChat<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">QuickChatMode</span>, platformFlags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, numImpostors<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">RequestGameListResponseBody</a><span class="tsd-signature-symbol">&gt;</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Request a short list of games that the client is able to connect to, filtered by certain parameters</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>mapBitfield: <span class="tsd-signature-type">number</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Map bitfield of games to find.</p>
+														</div>
+													</li>
+													<li>
+														<h5>lang: <span class="tsd-signature-type">GameKeyword</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The language of games to find.</p>
+														</div>
+													</li>
+													<li>
+														<h5>quickChat: <span class="tsd-signature-type">QuickChatMode</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The chat mode of games to find.</p>
+														</div>
+													</li>
+													<li>
+														<h5>platformFlags: <span class="tsd-signature-type">number</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Crossplay bitfield for platforms to find.</p>
+														</div>
+													</li>
+													<li>
+														<h5>numImpostors: <span class="tsd-signature-type">number</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The number of impostors of games to find.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <a href="matchmaking.html#Endpoint" class="tsd-signature-type" data-tsd-kind="Type alias">Endpoint</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">, </span><a href="" class="tsd-signature-type" data-tsd-kind="Type alias">RequestGameListResponseBody</a><span class="tsd-signature-symbol">&gt;</span></h4>
+												<p>Games that the client can connect to, given the parameters.</p>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="intToIpAddress" class="tsd-anchor"></a>
+					<h3>int<wbr>ToIp<wbr>Address</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">int<wbr>ToIp<wbr>Address<span class="tsd-signature-symbol">(</span>ip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/matchmaking/lib/util/intToIpAddress.ts#L1">matchmaking/lib/util/intToIpAddress.ts:1</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ip: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="label pp-nav pp-group">
+						<span>Getting <wbr>Started</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Getting Started/Basic Client Example.html">Basic <wbr>Client <wbr>Example</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Information</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Events.html">Events</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Information/Official Anti-Cheat.html">Official <wbr>Anti-<wbr><wbr>Cheat</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>Guides</span>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Writing Custom Protocol Messages.html">Writing <wbr>Custom <wbr>Protocol <wbr>Messages</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/Creating Custom INOs.html">Creating <wbr>Custom INOs</a>
+					</li>
+					<li class=" pp-nav pp-page">
+						<a href="../pages/Guides/End Game Intents.html">End <wbr>Game <wbr>Intents</a>
+					</li>
+					<li class="label pp-nav pp-group">
+						<span>API</span>
+					</li>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="client.html">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="constant.html">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="core.html">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="data.html">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="dtls.html">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="events.html">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="lan.html">lan</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="matchmaking.html">matchmaking</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="pathfinding.html">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="protocol.html">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="reactor.html">reactor</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="state.html">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="text.html">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="translations.html">translations</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="util.html">util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="client.html" class="tsd-kind-icon">client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="constant.html" class="tsd-kind-icon">constant</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="core.html" class="tsd-kind-icon">core</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="data.html" class="tsd-kind-icon">data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="dtls.html" class="tsd-kind-icon">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="events.html" class="tsd-kind-icon">events</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="lan.html" class="tsd-kind-icon">lan</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="matchmaking.html" class="tsd-kind-icon">matchmaking</a>
+						<ul>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+								<a href="matchmaking.html#Endpoint" class="tsd-kind-icon">Endpoint</a>
+							</li>
+							<li class=" tsd-kind-variable tsd-parent-kind-module">
+								<a href="matchmaking.html#Endpoints" class="tsd-kind-icon">Endpoints</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/matchmaking.FindGameCodeServerResponseBody.html" class="tsd-kind-icon">Find<wbr>Game<wbr>Code<wbr>Server<wbr>Response<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/matchmaking.FindHostServerResponseBody.html" class="tsd-kind-icon">Find<wbr>Host<wbr>Server<wbr>Response<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/matchmaking.GameListing.html" class="tsd-kind-icon">Game<wbr>Listing</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/matchmaking.GameListingResponseBody.html" class="tsd-kind-icon">Game<wbr>Listing<wbr>Response<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/matchmaking.GetUserRequestBody.html" class="tsd-kind-icon">Get<wbr>User<wbr>Request<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="matchmaking.html#GetUserResponseBody" class="tsd-kind-icon">Get<wbr>User<wbr>Response<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="../interfaces/matchmaking.HostServer.html" class="tsd-kind-icon">Host<wbr>Server</a>
+							</li>
+							<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+								<a href="matchmaking.html#RequestGameListResponseBody" class="tsd-kind-icon">Request<wbr>Game<wbr>List<wbr>Response<wbr>Body</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/matchmaking.SkeldjsMatchmakerRestClient.html" class="tsd-kind-icon">Skeldjs<wbr>Matchmaker<wbr>Rest<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-function tsd-parent-kind-module">
+								<a href="matchmaking.html#intToIpAddress" class="tsd-kind-icon">int<wbr>ToIp<wbr>Address</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-module">
+						<a href="pathfinding.html" class="tsd-kind-icon">pathfinding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="protocol.html" class="tsd-kind-icon">protocol</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="reactor.html" class="tsd-kind-icon">reactor</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="state.html" class="tsd-kind-icon">state</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="text.html" class="tsd-kind-icon">text</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="translations.html" class="tsd-kind-icon">translations</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="util.html" class="tsd-kind-icon">util</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.json"><' + '/script>');</script>
+</body>
+</html>

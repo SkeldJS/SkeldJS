@@ -94,9 +94,11 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.PlayerJoinData.html#clientId" class="tsd-kind-icon">client<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.PlayerJoinData.html#friendCode" class="tsd-kind-icon">friend<wbr>Code</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.PlayerJoinData.html#platform" class="tsd-kind-icon">platform</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.PlayerJoinData.html#playerLevel" class="tsd-kind-icon">player<wbr>Level</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.PlayerJoinData.html#playerName" class="tsd-kind-icon">player<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.PlayerJoinData.html#puid" class="tsd-kind-icon">puid</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -120,7 +122,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/protocol/lib/misc/PlayerJoinData.ts#L12">protocol/lib/misc/PlayerJoinData.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/protocol/lib/misc/PlayerJoinData.ts#L14">protocol/lib/misc/PlayerJoinData.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -143,7 +145,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/protocol/lib/misc/PlayerJoinData.ts#L21">protocol/lib/misc/PlayerJoinData.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/protocol/lib/misc/PlayerJoinData.ts#L25">protocol/lib/misc/PlayerJoinData.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -166,7 +168,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/protocol/lib/misc/PlayerJoinData.ts#L28">protocol/lib/misc/PlayerJoinData.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/protocol/lib/misc/PlayerJoinData.ts#L34">protocol/lib/misc/PlayerJoinData.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerJoinData</span></h4>
@@ -180,6 +182,13 @@
 					<a name="clientId" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> client<wbr>Id</h3>
 					<div class="tsd-signature tsd-kind-icon">client<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="friendCode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> friend<wbr>Code</h3>
+					<div class="tsd-signature tsd-kind-icon">friend<wbr>Code<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 					</aside>
 				</section>
@@ -204,6 +213,13 @@
 					<aside class="tsd-sources">
 					</aside>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="puid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> puid</h3>
+					<div class="tsd-signature tsd-kind-icon">puid<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+					</aside>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
@@ -211,13 +227,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Join<wbr>Data<span class="tsd-signature-symbol">(</span>clientId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, playerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, platform<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlatformSpecificData</span>, playerLevel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerJoinData</span></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Player<wbr>Join<wbr>Data<span class="tsd-signature-symbol">(</span>clientId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, playerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, platform<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlatformSpecificData</span>, playerLevel<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, puid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, friendCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PlayerJoinData</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/protocol/lib/misc/PlayerJoinData.ts#L5">protocol/lib/misc/PlayerJoinData.ts:5</a></li>
+									<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/protocol/lib/misc/PlayerJoinData.ts#L5">protocol/lib/misc/PlayerJoinData.ts:5</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -233,6 +249,12 @@
 								</li>
 								<li>
 									<h5>playerLevel: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>puid: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>friendCode: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PlayerJoinData</span></h4>
@@ -299,6 +321,9 @@
 						<a href="../modules/lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/matchmaking.html">matchmaking</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html">pathfinding</a>
 					</li>
 					<li class="current tsd-kind-module">
@@ -345,6 +370,9 @@
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/matchmaking.html" class="tsd-kind-icon">matchmaking</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
 				</ul>
@@ -371,6 +399,9 @@
 										<a href="protocol.PlayerJoinData.html#constructor" class="tsd-kind-icon">constructor</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="protocol.PlayerJoinData.html#friendCode" class="tsd-kind-icon">friend<wbr>Code</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="protocol.PlayerJoinData.html#platform" class="tsd-kind-icon">platform</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -378,6 +409,9 @@
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-class">
 										<a href="protocol.PlayerJoinData.html#playerName" class="tsd-kind-icon">player<wbr>Name</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class">
+										<a href="protocol.PlayerJoinData.html#puid" class="tsd-kind-icon">puid</a>
 									</li>
 								</ul>
 							</li>
@@ -410,18 +444,17 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

@@ -86,6 +86,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.PortOptions.html#authServer" class="tsd-kind-icon">auth<wbr>Server</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.PortOptions.html#httpMatchmaker" class="tsd-kind-icon">http<wbr>Matchmaker</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.PortOptions.html#insecureGameServer" class="tsd-kind-icon">insecure<wbr>Game<wbr>Server</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.PortOptions.html#secureGameServer" class="tsd-kind-icon">secure<wbr>Game<wbr>Server</a></li>
 							</ul>
@@ -101,13 +102,38 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/client/lib/interfaces/PortOptions.ts#L13">client/lib/interfaces/PortOptions.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/client/lib/interfaces/PortOptions.ts#L16">client/lib/interfaces/PortOptions.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The port number of the authentication server (default authServer + 2)</p>
+							<p>The port number of the authentication server.</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>secureGameServer + 2</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="httpMatchmaker" class="tsd-anchor"></a>
+					<h3>http<wbr>Matchmaker</h3>
+					<div class="tsd-signature tsd-kind-icon">http<wbr>Matchmaker<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/client/lib/interfaces/PortOptions.ts#L21">client/lib/interfaces/PortOptions.ts:21</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The hostname of an Among Us http matchmaker server to use.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>secureGameServer</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -116,13 +142,18 @@
 					<div class="tsd-signature tsd-kind-icon">insecure<wbr>Game<wbr>Server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/client/lib/interfaces/PortOptions.ts#L5">client/lib/interfaces/PortOptions.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/client/lib/interfaces/PortOptions.ts#L6">client/lib/interfaces/PortOptions.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The port number of the insecure game server (default 22023)</p>
+							<p>The port number of the insecure game server</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>22023</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -131,13 +162,18 @@
 					<div class="tsd-signature tsd-kind-icon">secure<wbr>Game<wbr>Server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8c0f1fa/packages/client/lib/interfaces/PortOptions.ts#L9">client/lib/interfaces/PortOptions.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/26fdb0e/packages/client/lib/interfaces/PortOptions.ts#L11">client/lib/interfaces/PortOptions.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The port number of the secure game server (default insecureGameServer + 3)</p>
+							<p>The port number of the secure game server</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>insecureGameServer + 3</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -200,6 +236,9 @@
 						<a href="../modules/lan.html">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/matchmaking.html">matchmaking</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html">pathfinding</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -257,6 +296,9 @@
 								<a href="../classes/client.ClientJoinEvent.html" class="tsd-kind-icon">Client<wbr>Join<wbr>Event</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.ConnectError.html" class="tsd-kind-icon">Connect<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.JoinError.html" class="tsd-kind-icon">Join<wbr>Error</a>
 							</li>
 							<li class="current tsd-kind-interface tsd-parent-kind-module">
@@ -264,6 +306,9 @@
 								<ul>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="client.PortOptions.html#authServer" class="tsd-kind-icon">auth<wbr>Server</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="client.PortOptions.html#httpMatchmaker" class="tsd-kind-icon">http<wbr>Matchmaker</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="client.PortOptions.html#insecureGameServer" class="tsd-kind-icon">insecure<wbr>Game<wbr>Server</a>
@@ -308,6 +353,9 @@
 						<a href="../modules/lan.html" class="tsd-kind-icon">lan</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/matchmaking.html" class="tsd-kind-icon">matchmaking</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/pathfinding.html" class="tsd-kind-icon">pathfinding</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -340,7 +388,6 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
