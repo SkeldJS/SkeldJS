@@ -2,6 +2,7 @@ export * from "./endgame";
 export * from "./misc";
 export * from "./events";
 export * from "./objects";
+export * from "./roles";
 export * from "./systems";
 
 export * from "./Hostable";
