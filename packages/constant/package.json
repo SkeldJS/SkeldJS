@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/constant",
-  "version": "2.15.21",
+  "version": "2.15.22",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
