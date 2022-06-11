@@ -1,5 +1,6 @@
 import { HazelReader, Vector2 } from "@skeldjs/util";
 import { SpawnType, SystemType } from "@skeldjs/constant";
+import { TheSkeldTasks } from "@skeldjs/data";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
@@ -110,5 +111,9 @@ export class AprilShipStatus<RoomType extends Hostable = Hostable> extends Inner
 
     getDoorsInRoom(room: SystemType) {
         return AprilShipStatus.roomDoors[room] || [];
+    }
+
+    getTasks() {
+        return Object.values(TheSkeldTasks);
     }
 }

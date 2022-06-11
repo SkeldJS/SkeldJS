@@ -1,6 +1,8 @@
 import { HazelReader, Vector2 } from "@skeldjs/util";
 import { SpawnType, SystemType } from "@skeldjs/constant";
 
+import { MiraHQTasks } from "@skeldjs/data";
+
 import {
     DeconSystem,
     HqHudSystem,
@@ -77,5 +79,13 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
             timer: 10000,
             state: 0,
         }));
+    }
+
+    getDoorsInRoom(room: SystemType) {
+        return [];
+    }
+
+    getTasks() {
+        return Object.values(MiraHQTasks);
     }
 }

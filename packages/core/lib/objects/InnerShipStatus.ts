@@ -2,7 +2,6 @@ import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import {
-    GameMap,
     RoleTeamType,
     RoleType,
     RpcMessageTag,
@@ -11,13 +10,6 @@ import {
     TaskLength,
     TaskType
 } from "@skeldjs/constant";
-
-import {
-    AirshipTasks,
-    MiraHQTasks,
-    PolusTasks,
-    TheSkeldTasks
-} from "@skeldjs/data";
 
 import {
     BaseRpcMessage,
@@ -52,28 +44,12 @@ import { PlayerData } from "../PlayerData";
 import { BaseRole, CrewmateRole, ImpostorRole } from "../roles";
 import { RoomAssignRolesEvent } from "../events";
 import { TaskState } from "../misc";
+import { TaskInfo } from "@skeldjs/data";
 
 export interface RoleAssignmentData {
     roleCtr: typeof BaseRole;
     chance: number;
     count: number;
-}
-
-interface ConsoleDataModel {
-    index: number;
-    usableDistance: number;
-    position: {
-        x: number;
-        y: number;
-    };
-}
-
-interface TaskDataModel {
-    index: number;
-    hudText: string;
-    taskType: TaskType;
-    length: TaskLength;
-    consoles: Record<number, ConsoleDataModel>;
 }
 
 function shuffleArray(array: any[]) {
@@ -115,7 +91,7 @@ export type ShipStatusType =
     | SpawnType.AprilShipStatus
     | SpawnType.Airship;
 
-export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Networkable<
+export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> extends Networkable<
     ShipStatusData,
     ShipStatusEvents<RoomType>,
     RoomType
@@ -210,7 +186,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         }
     }
 
-    private async _handleRepairSystem(rpc: RepairSystemMessage) {
+    protected async _handleRepairSystem(rpc: RepairSystemMessage) {
         const system = this.systems.get(rpc.systemId) as SystemStatus;
         const player = this.room.getPlayerByNetId(rpc.netId);
 
@@ -452,23 +428,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
         await Promise.all(promises);
     }
 
-    private getTasksForMap(map: number) {
-        switch (map) {
-            case GameMap.TheSkeld:
-                return Object.values(TheSkeldTasks);
-            case GameMap.MiraHQ:
-                return Object.values(MiraHQTasks);
-            case GameMap.Polus:
-                return Object.values(PolusTasks);
-            case GameMap.AprilFoolsTheSkeld:
-                return Object.values(TheSkeldTasks);
-            case GameMap.Airship:
-                return Object.values(AirshipTasks);
-        }
-        return [];
-    }
-
-    private addTasksFromList(start: number, count: number, tasks: number[], usedTaskTypes: Set<TaskType>, unusedTasks: TaskDataModel[]) {
+    protected addTasksFromList(start: number, count: number, tasks: number[], usedTaskTypes: Set<TaskType>, unusedTasks: TaskInfo[]) {
         if (unusedTasks.length === 0) {
             return start;
         }
@@ -503,7 +463,7 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
      * Randomly assign tasks to all players, using data from @skeldjs/data.
      */
     assignTasks() {
-        const allTasks = this.getTasksForMap(this.room.settings.map);
+        const allTasks = this.getTasks();
         const numCommon = this.room.settings.commonTasks;
         const numLong = this.room.settings.longTasks;
         const numShort = this.room.settings.shortTasks;
@@ -589,12 +549,15 @@ export class InnerShipStatus<RoomType extends Hostable = Hostable> extends Netwo
     }
 
     /**
+     * Get all tasks for this map.
+     * @returns A list of tasks for this map.
+     */
+    abstract getTasks(): TaskInfo[];
+
+    /**
      * Get the door IDs used to connect to a room.
      * @param room The room to get the door IDs for.
      * @returns The door IDs that connect to the room.
      */
-    getDoorsInRoom(room: SystemType): number[] {
-        void room;
-        return [];
-    }
+    abstract getDoorsInRoom(room: SystemType): number[];
 }

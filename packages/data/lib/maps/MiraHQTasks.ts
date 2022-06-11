@@ -18,26 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+
 import { TaskLength, TaskType } from "@skeldjs/constant";
+import { TaskInfo } from "../types/TaskInfo";
 
-interface ConsoleDataModel {
-    index: number;
-    usableDistance: number;
-    position: {
-        x: number;
-        y: number;
-    };
-}
-
-interface TaskDataModel {
-    index: number;
-    hudText: string;
-    taskType: TaskType;
-    length: TaskLength;
-    consoles: Record<number, ConsoleDataModel>;
-}
-
-export const MiraHQTasks: Record<number, TaskDataModel> = {
+export const MiraHQTasks: Record<number, TaskInfo> = {
     0: {
         index: 0,
         hudText: "Storage: Fix Wiring ({0}/3)",

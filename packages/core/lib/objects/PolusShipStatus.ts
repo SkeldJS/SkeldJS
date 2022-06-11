@@ -1,5 +1,6 @@
 import { SpawnType, SystemType } from "@skeldjs/constant";
 import { HazelReader, Vector2 } from "@skeldjs/util";
+import { PolusTasks } from "@skeldjs/data";
 
 import {
     DeconSystem,
@@ -139,5 +140,9 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
 
     getDoorsInRoom(room: SystemType) {
         return PolusShipStatus.roomDoors[room] || [];
+    }
+
+    getTasks() {
+        return Object.values(PolusTasks);
     }
 }

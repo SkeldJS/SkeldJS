@@ -17,16 +17,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-    
+
 import { TheSkeldVent } from "@skeldjs/constant";
+import { VentInfo } from "../types";
 
-interface VentDataModel {
-    id: number;
-    position: { x: number; y: number };
-    network: number[];
-}
-
-export const TheSkeldVents: Record<number, VentDataModel> = {
+export const TheSkeldVents: Record<number, VentInfo> = {
     [TheSkeldVent.Admin]: {
         id: TheSkeldVent.Admin,
         position: {

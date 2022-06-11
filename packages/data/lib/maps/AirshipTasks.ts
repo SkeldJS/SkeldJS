@@ -19,25 +19,9 @@
 */
 
 import { TaskLength, TaskType } from "@skeldjs/constant";
+import { TaskInfo } from "../types/TaskInfo";
 
-interface ConsoleDataModel {
-    index: number;
-    usableDistance: number;
-    position: {
-        x: number;
-        y: number;
-    };
-}
-
-interface TaskDataModel {
-    index: number;
-    hudText: string;
-    taskType: TaskType;
-    length: TaskLength;
-    consoles: Record<number, ConsoleDataModel>;
-}
-
-export const AirshipTasks: Record<number, TaskDataModel> = {
+export const AirshipTasks: Record<number, TaskInfo> = {
     0: {
         index: 0,
         hudText: "Viewing Deck: Fix Wiring ({0}/3)",

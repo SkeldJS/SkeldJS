@@ -35,7 +35,7 @@ try {
 const mapDataFolders = [];
 for (const fileName of filesInDirectory) {
     const resolveFileName = path.resolve(dumpostorOutputPath, fileName);
-    
+
     const stat = fs.statSync(resolveFileName);
 
     if (stat.isDirectory()) {
@@ -86,25 +86,9 @@ for (const mapDataFolder of mapDataFolders) {
 */
 
 import { TaskLength, TaskType } from "@skeldjs/constant";
+import { VentInfo } from "../types";
 
-interface ConsoleDataModel {
-    index: number;
-    usableDistance: number;
-    position: {
-        x: number;
-        y: number;
-    };
-}
-
-interface TaskDataModel {
-    index: number;
-    hudText: string;
-    taskType: TaskType;
-    length: TaskLength;
-    consoles: Record<number, ConsoleDataModel>;
-}
-
-export const ${mapName}Tasks: Record<number, TaskDataModel> = {
+export const ${mapName}Tasks: Record<number, VentInfo> = {
 `;
     for (const [ taskId, taskInfo ] of taskEntries) {
         const taskTypeName = amongus.TaskType[taskInfo.taskType];
@@ -160,16 +144,11 @@ ${t}}${taskId === taskEntries[taskEntries.length - 1][0] ? "" : ","}
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-    
+
 import { ${mapName}Vent } from "@skeldjs/constant";
+import { VentInfo } from "../types
 
-interface VentDataModel {
-    id: number;
-    position: { x: number; y: number };
-    network: number[];
-}
-
-export const ${mapName}Vents: Record<number, VentDataModel> = {
+export const ${mapName}Vents: Record<number, VentInfo> = {
 `;
     for (const [ ventId, ventInfo ] of ventEntries) {
         const ventMapConstants = amongus[mapName + "Vent"];

@@ -1,6 +1,7 @@
 import { HazelReader, Vector2 } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
 import { RepairSystemMessage } from "@skeldjs/protocol";
+import { AirshipTasks } from "@skeldjs/data";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
@@ -259,5 +260,9 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
 
     getDoorsInRoom(room: SystemType) {
         return AirshipStatus.roomDoors[room] || [];
+    }
+
+    getTasks() {
+        return Object.values(AirshipTasks);
     }
 }

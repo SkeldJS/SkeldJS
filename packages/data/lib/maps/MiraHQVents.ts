@@ -17,16 +17,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
-    
+
 import { MiraHQVent } from "@skeldjs/constant";
+import { VentInfo } from "../types";
 
-interface VentDataModel {
-    id: number;
-    position: { x: number; y: number };
-    network: number[];
-}
-
-export const MiraHQVents: Record<number, VentDataModel> = {
+export const MiraHQVents: Record<number, VentInfo> = {
     [MiraHQVent.Balcony]: {
         id: MiraHQVent.Balcony,
         position: {
