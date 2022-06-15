@@ -174,6 +174,16 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     }
 
     /**
+     * Shorthand for `player.playerInfo.defaultOutfit.name`.
+     *
+     * This will return the player's name as it appears in-game, not including
+     * the name of the player that they might have shapeshifted into.
+     */
+    get playerName() {
+        return this.playerInfo?.defaultOutfit.name;
+    }
+
+    /**
      * The room-unique player ID of the player.
      */
     get playerId() {
