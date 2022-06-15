@@ -154,7 +154,8 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     }
 
     /**
-     * The player's information.
+     * The player's game information, such as dead/impostor/disconnected states,
+     * hats, names, pets, etc.
      */
     get playerInfo(): PlayerInfo|undefined {
         if (this.playerId === undefined) {
