@@ -103,7 +103,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
         this.position = reader.vector();
         this.velocity = reader.vector();
 
-        this.emit(
+        this.emitSync(
             new PlayerMoveEvent(
                 this.room,
                 this.player,
@@ -159,7 +159,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
 
         await this.room.broadcast([ new DataMessage(this.netId, writer.buffer) ]);
 
-        this.emit(
+        this.emitSync(
             new PlayerMoveEvent(
                 this.room,
                 this.player,

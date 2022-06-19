@@ -224,7 +224,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 this.send(new DisconnectPacket(DisconnectReason.ServerRequest, undefined, false));
                 this.sent_disconnect = true;
             }
-            this.emit(
+            this.emitSync(
                 new ClientDisconnectEvent(
                     this,
                     message.reason,
@@ -418,7 +418,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 this.send(new DisconnectPacket(reason, message, true));
                 this.sent_disconnect = true;
             }
-            this.emit(
+            this.emitSync(
                 new ClientDisconnectEvent(
                     this,
                     reason,

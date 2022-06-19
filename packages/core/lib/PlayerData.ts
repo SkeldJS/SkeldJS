@@ -120,15 +120,15 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
 
         this.on("component.spawn", () => {
             if (this.hasSpawned) {
-                this.emit(new PlayerSpawnEvent(this.room, this));
+                this.emitSync(new PlayerSpawnEvent(this.room, this));
             }
         });
     }
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
-        this.room.emit(event);
+        this.room.emitSync(event);
 
-        return super.emit(event);
+        return super.emitSync(event);
     }
 
     /**

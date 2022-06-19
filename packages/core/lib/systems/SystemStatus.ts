@@ -66,10 +66,10 @@ export class SystemStatus<
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
         if (this.ship) {
-            this.ship.emit(event as any);
+            this.ship.emitSync(event as any);
         }
 
-        return super.emit(event);
+        return super.emitSync(event);
     }
 
     Deserialize(reader: HazelReader, spawn: boolean): void {

@@ -122,7 +122,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
             this._completeConsole(reader.uint8(), undefined, undefined);
         }
         if (beforeCompleted === 2 && numCompleted === 0) {
-            this.emit(
+            this.emitSync(
                 new SystemSabotageEvent(
                     this.room,
                     this,
@@ -132,7 +132,7 @@ export class HqHudSystem<RoomType extends Hostable = Hostable> extends SystemSta
             );
         }
         if (beforeCompleted < 2 && numCompleted === 2) {
-            this.emit(
+            this.emitSync(
                 new SystemRepairEvent(
                     this.room,
                     this,

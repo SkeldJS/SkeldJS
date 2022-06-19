@@ -399,7 +399,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (!this.player.playerInfo?.taskStates[taskIdx])
             return;
 
-        this.emit(
+        this.emitSync(
             new PlayerCompleteTaskEvent(
                 this.room,
                 this.player,
@@ -935,7 +935,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * Emits a {@link PlayerSendChatEvent | `player.chat`} event.
      */
     sendChat(message: string) {
-        this.emit(
+        this.emitSync(
             new PlayerSendChatEvent(
                 this.room,
                 this.player,
@@ -1234,7 +1234,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 : new QuickChatPhraseMessageData(message)
             : new QuickChatPlayerMessageData(message.playerId!);
 
-        this.emit(
+        this.emitSync(
             new PlayerSendQuickChatEvent(
                 this.room,
                 this.player,

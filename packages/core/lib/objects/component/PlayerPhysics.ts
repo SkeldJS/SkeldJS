@@ -136,7 +136,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
      */
     enterVent(ventId: number) {
         this._enterVent(ventId);
-        this.emit(
+        this.emitSync(
             new PlayerEnterVentEvent(
                 this.room,
                 this.player,
@@ -187,7 +187,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
      */
     exitVent(ventId: number) {
         this._exitVent(ventId);
-        this.emit(
+        this.emitSync(
             new PlayerExitVentEvent(
                 this.room,
                 this.player,

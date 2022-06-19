@@ -83,7 +83,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
         this.expected = SwitchSystem.readSwitches(reader.byte());
         this.actual = SwitchSystem.readSwitches(reader.byte());
         if (!before && this.sabotaged) {
-            this.emit(
+            this.emitSync(
                 new SystemSabotageEvent(
                     this.room,
                     this,
@@ -93,7 +93,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
             );
         }
         if (before && !this.sabotaged) {
-            this.emit(
+            this.emitSync(
                 new SystemRepairEvent(
                     this.room,
                     this,

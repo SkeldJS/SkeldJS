@@ -74,16 +74,16 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
 
         if ((previousState & DeconState.Closed) && !(this.state & DeconState.Closed)) {
             if (this.state & DeconState.Enter) {
-                this.emit(new DeconEnterEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
+                this.emitSync(new DeconEnterEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
             } else if (this.state & DeconState.Exit) {
-                this.emit(new DeconExitEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
+                this.emitSync(new DeconExitEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
             }
         }
 
         if (!(previousState & DeconState.Closed) && (this.state & DeconState.Closed)) {
-            this.emit(new DeconDoorsCloseEvent(this.room, this, undefined));
+            this.emitSync(new DeconDoorsCloseEvent(this.room, this, undefined));
         } else if ((previousState & DeconState.Closed) && !(this.state & DeconState.Closed)) {
-            this.emit(new DeconDoorsOpenEvent(this.room, this, undefined));
+            this.emitSync(new DeconDoorsOpenEvent(this.room, this, undefined));
         }
 
         this.dirty = spawn;
@@ -116,7 +116,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
             )
         );
 
-        this.emit(
+        this.emitSync(
             new DeconDoorsOpenEvent(
                 this.room,
                 this,
@@ -166,7 +166,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
             )
         );
 
-        this.emit(
+        this.emitSync(
             new DeconDoorsCloseEvent(
                 this.room,
                 this,
@@ -229,7 +229,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
                 if (this.state & DeconState.Enter) {
                     this.state = (this.state & ~DeconState.Enter) | DeconState.Closed;
                     this.timer = 3;
-                    this.emit(
+                    this.emitSync(
                         new DeconDoorsCloseEvent(
                             this.room,
                             this,
@@ -239,7 +239,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
                 } else if (this.state & DeconState.Closed) {
                     this.state = (this.state & ~DeconState.Closed) | DeconState.Exit;
                     this.timer = 3;
-                    this.emit(
+                    this.emitSync(
                         new DeconDoorsOpenEvent(
                             this.room,
                             this,

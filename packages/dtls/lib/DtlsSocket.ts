@@ -346,7 +346,7 @@ export class DtlsSocket extends EventEmitter {
                 this.nextEpoch.serverRandom = Buffer.alloc(32);
                 this.nextEpoch.clientRandom = Buffer.alloc(32);
                 this.nextEpoch.masterSecret = Buffer.alloc(48);
-                this.emit("ready");
+                this.emitSync("ready");
                 break;
             case ContentType.Alert:
                 break;
@@ -354,7 +354,7 @@ export class DtlsSocket extends EventEmitter {
                 this.handleHandshake(record, reader);
                 break;
             case ContentType.ApplicationData:
-                this.emit("message", reader.buffer);
+                this.emitSync("message", reader.buffer);
                 break;
         }
     }

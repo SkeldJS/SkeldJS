@@ -112,7 +112,7 @@ export class SkeldjsStateManager<
                     message.recipientid === this.clientId
                 ) {
                     for (const child of message._children) {
-                        this.decoder.emitDecoded(child, direction, context);
+                        this.decoder.emitSyncDecoded(child, direction, context);
                     }
                 }
             }

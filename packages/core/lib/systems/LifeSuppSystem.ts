@@ -82,7 +82,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         }
 
         if (timer === 10000 && this.timer < 10000) {
-            this.emit(
+            this.emitSync(
                 new SystemSabotageEvent(
                     this.room,
                     this,
@@ -91,7 +91,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
                 )
             );
         } else if (timer < 10000 && this.timer === 10000) {
-            this.emit(
+            this.emitSync(
                 new SystemRepairEvent(
                     this.room,
                     this,

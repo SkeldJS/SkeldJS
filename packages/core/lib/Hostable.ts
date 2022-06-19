@@ -747,7 +747,7 @@ export class Hostable<
 
         this.players.delete(player.clientId);
 
-        this.emit(new PlayerLeaveEvent(this, player));
+        this.emitSync(new PlayerLeaveEvent(this, player));
 
         return player;
     }
@@ -925,7 +925,7 @@ export class Hostable<
 
         this.netobjects.set(component.netId, component);
 
-        component.emit(
+        component.emitSync(
             new ComponentSpawnEvent(this, component)
         );
     }
@@ -972,7 +972,7 @@ export class Hostable<
             1
         );
 
-        component.emit(
+        component.emitSync(
             new ComponentDespawnEvent(this, component)
         );
     }
@@ -1104,7 +1104,7 @@ export class Hostable<
         }
 
         if (spawnType === SpawnType.Player && ownerClient) {
-            ownerClient.emit(
+            ownerClient.emitSync(
                 new PlayerSpawnEvent(
                     this,
                     ownerClient

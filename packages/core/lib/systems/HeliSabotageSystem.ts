@@ -118,7 +118,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
             this._completeConsole(consoleId, undefined, undefined);
         }
         if (beforeCompleted.size === 2 && numCompleted === 0) {
-            this.emit(
+            this.emitSync(
                 new SystemSabotageEvent(
                     this.room,
                     this,
@@ -128,7 +128,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
             );
         }
         if (beforeCompleted.size < 2 && numCompleted === 2) {
-            this.emit(
+            this.emitSync(
                 new SystemRepairEvent(
                     this.room,
                     this,

@@ -81,7 +81,7 @@ describe("EventEmitter", () => {
             });
 
             assert.strictEqual(listeners.length, 1);
-            emitter.emit(new TestEvent(6));
+            emitter.emitSync(new TestEvent(6));
             assert.strictEqual(listeners.length, 0);
         });
     });

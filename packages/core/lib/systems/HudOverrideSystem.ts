@@ -57,7 +57,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
         this._sabotaged = reader.bool();
 
         if (!before && this._sabotaged)
-            this.emit(
+            this.emitSync(
                 new SystemSabotageEvent(
                     this.room,
                     this,
@@ -70,7 +70,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
                 }
             });
         if (before && !this._sabotaged)
-            this.emit(
+            this.emitSync(
                 new SystemRepairEvent(
                     this.room,
                     this,

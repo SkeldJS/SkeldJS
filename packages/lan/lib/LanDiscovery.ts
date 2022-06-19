@@ -11,12 +11,12 @@ export type LanDiscoveryEvents = ExtractEventTypes<[
 
 /**
  * Represents the LAN searching for games area in Among Us.
- * 
+ *
  * Binds a UDP socket to 47777 and waits for messages containing a game name
  * and the number of players in the game.
- * 
+ *
  * Prevents duplicate games from repeated broadcast messages.
- * 
+ *
  * See {@link LanDiscoveryEvents} for events to listen to.
  * @example
  * ```ts
@@ -27,7 +27,7 @@ export type LanDiscoveryEvents = ExtractEventTypes<[
  *   client.on("client.disconnect", disconnect => {
  *     console.log("Client disconnected: %s", DisconnectReason[disconnect.reason]);
  *   });
- * 
+ *
  *   lanDiscovery.begin();
  *   const foundGame = await lanDiscovery.wait("discovery.foundgame");
  *
@@ -62,7 +62,7 @@ export class LanDiscovery extends EventEmitter<LanDiscoveryEvents> {
      * {@link LanDiscovery.foundGames} array.
      * @example
      * const lanDiscovery = new LanDiscovery;
-     * 
+     *
      * lanDiscovery.begin();
      *
      * lanDiscovery.on("discovery.foundgame", foundGame => {
@@ -109,13 +109,13 @@ export class LanDiscovery extends EventEmitter<LanDiscoveryEvents> {
 
             this.foundGames.push(foundGame);
 
-            this.emit(foundGame);
+            this.emitSync(foundGame);
         }
     }
 
     /**
      * Search for games for a specified amount of time. Clears the current {@link LanDiscovery.foundGames} array.
-     * 
+     *
      * Properly cleans up with {@link LanDiscovery.end} afterwards.
      * @param numSeconds The number of seconds to search for games for.
      * @returns The games that were found.
@@ -123,7 +123,7 @@ export class LanDiscovery extends EventEmitter<LanDiscoveryEvents> {
      * ```ts
      * const lanDiscovery = new LanDiscovery;
      * const games = await lanDiscovery.searchFor(5); // search for 5 seconds.
-     * 
+     *
      * console.log(games); // => [ DiscoveryFoundGameEvent, DiscoveryFoundGameEvent, ...]
      * ```
      */

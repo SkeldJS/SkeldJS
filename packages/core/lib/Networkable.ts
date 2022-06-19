@@ -125,7 +125,7 @@ export class Networkable<
             await this.owner.emit(event);
         }
 
-        return super.emit(event);
+        return super.emitSync(event);
     }
 
     get owner(): Hostable|PlayerData<RoomType>|undefined {

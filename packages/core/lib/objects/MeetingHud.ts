@@ -144,7 +144,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             this.voteStates.set(playerId, newState);
 
             if (!oldState?.hasVoted && newState.hasVoted) {
-                this.emit(
+                this.emitSync(
                     new MeetingHudVoteCastEvent(
                         this.room,
                         this,
@@ -154,7 +154,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     )
                 );
             } else if (oldState?.votedFor && !newState.hasVoted) {
-                this.emit(
+                this.emitSync(
                     new MeetingHudClearVoteEvent(
                         this.room,
                         this,
@@ -576,7 +576,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         await this._votingComplete(voteStates, tie, _exiled);
         this._rpcVotingComplete(voteStates, tie, _exiled);
 
-        this.emit(
+        this.emitSync(
             new MeetingHudVotingCompleteEvent(
                 this.room,
                 this,

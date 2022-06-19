@@ -59,6 +59,18 @@ export class EventEmitter<Events extends EventData> {
         return event;
     }
 
+    emitSync<Event extends BasicEvent>(
+        event: Event
+    ): Event {
+        const listeners = this.getListeners<Event>(event.eventName);
+
+        for (let i = 0; i < listeners.length; i++) {
+            listeners[i](event);
+        }
+
+        return event;
+    }
+
     on<EventName extends keyof Events>(
         event: EventName,
         listener: Listener<Events[EventName]>

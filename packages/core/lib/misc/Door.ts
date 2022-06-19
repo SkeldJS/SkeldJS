@@ -31,10 +31,10 @@ export class Door<RoomType extends Hostable = Hostable> extends EventEmitter<Doo
         event: Event
     ): Promise<Event> {
         if (this.system) {
-            this.system.emit(event);
+            this.system.emitSync(event);
         }
 
-        return super.emit(event);
+        return super.emitSync(event);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
