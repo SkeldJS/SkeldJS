@@ -88,7 +88,6 @@ import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Netwo
 import { Hostable } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
-import { AirshipStatus } from "./AirshipStatus";
 import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
@@ -1142,7 +1141,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private async _handleUsePlatform(rpc: UsePlatformMessage) {
         const airship = this.room.shipStatus;
 
-        if (!airship || !(airship instanceof AirshipStatus))
+        if (!airship || !this.room.hostIsMe)
             return;
 
         const ev = await this.emit(
@@ -1162,7 +1161,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _usePlatform(rpc: boolean) {
         const airship = this.room.shipStatus;
 
-        if (!airship || !(airship instanceof AirshipStatus))
+        if (!airship)
             return;
 
         const movingPlatform = airship.systems.get(SystemType.GapRoom);

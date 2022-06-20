@@ -126,6 +126,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
         if (ev.reverted) {
             this.target = oldTarget;
             this.side = oldSide;
+            this.dirty = true;
             return;
         }
 
