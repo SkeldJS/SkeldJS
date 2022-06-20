@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/client",
-  "version": "2.15.29",
+  "version": "2.15.30",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
