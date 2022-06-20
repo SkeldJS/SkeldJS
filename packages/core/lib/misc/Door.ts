@@ -27,9 +27,23 @@ export class Door<RoomType extends Hostable = Hostable> extends EventEmitter<Doo
         this.isOpen = isOpen;
     }
 
-    async emit<Event extends BasicEvent>(
-        event: Event
-    ): Promise<Event> {
+    async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
+        if (this.system) {
+            await this.system.emit(event);
+        }
+
+        return super.emit(event);
+    }
+
+    async emitSerial<Event extends BasicEvent>(event: Event): Promise<Event> {
+        if (this.system) {
+            await this.system.emitSerial(event);
+        }
+
+        return super.emitSerial(event);
+    }
+
+    emitSync<Event extends BasicEvent>(event: Event): Event {
         if (this.system) {
             this.system.emitSync(event);
         }

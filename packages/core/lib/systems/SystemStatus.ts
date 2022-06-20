@@ -66,6 +66,22 @@ export class SystemStatus<
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
         if (this.ship) {
+            this.ship.emit(event as any);
+        }
+
+        return super.emit(event);
+    }
+
+    async emitSerial<Event extends BasicEvent>(event: Event): Promise<Event> {
+        if (this.ship) {
+            this.ship.emitSerial(event as any);
+        }
+
+        return super.emitSerial(event);
+    }
+
+    emitSync<Event extends BasicEvent>(event: Event): Event {
+        if (this.ship) {
             this.ship.emitSync(event as any);
         }
 

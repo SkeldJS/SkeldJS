@@ -126,6 +126,18 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     }
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
+        this.room.emit(event);
+
+        return super.emit(event);
+    }
+
+    async emitSerial<Event extends BasicEvent>(event: Event): Promise<Event> {
+        this.room.emitSerial(event);
+
+        return super.emitSerial(event);
+    }
+
+    emitSync<Event extends BasicEvent>(event: Event): Event {
         this.room.emitSync(event);
 
         return super.emitSync(event);

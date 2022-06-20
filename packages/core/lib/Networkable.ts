@@ -125,6 +125,26 @@ export class Networkable<
             await this.owner.emit(event);
         }
 
+        return super.emit(event);
+    }
+
+    async emitSerial<Event extends BasicEvent>(event: Event): Promise<Event> {
+        if (this.player) {
+            await this.player.emitSerial(event);
+        } else if (this.owner) {
+            await this.owner.emitSerial(event);
+        }
+
+        return super.emitSerial(event);
+    }
+
+    emitSync<Event extends BasicEvent>(event: Event): Event {
+        if (this.player) {
+            this.player.emitSync(event);
+        } else if (this.owner) {
+            this.owner.emitSync(event);
+        }
+
         return super.emitSync(event);
     }
 
