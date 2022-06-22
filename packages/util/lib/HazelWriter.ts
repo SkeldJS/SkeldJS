@@ -518,8 +518,9 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     string(val: string) {
-        this.upacked(val.length);
-        this.bytes(val);
+        const stringBuffer = Buffer.from(val, "utf8");
+        this.upacked(stringBuffer.length);
+        this.bytes(stringBuffer);
     }
 
     /**
