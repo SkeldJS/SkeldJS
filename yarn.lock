@@ -592,22 +592,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@skeldjs/submerged@workspace:packages/mod-submerged":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/submerged@workspace:packages/mod-submerged"
-  dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/events": "workspace:*"
-    "@skeldjs/util": "workspace:*"
-    "@types/node": latest
-    ts-node: latest
-    typescript: latest
-  peerDependencies:
-    "@skeldjs/corel": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
-  languageName: unknown
-  linkType: soft
-
 "@skeldjs/text@workspace:packages/text":
   version: 0.0.0-use.local
   resolution: "@skeldjs/text@workspace:packages/text"
