@@ -430,7 +430,6 @@ __metadata:
     "@skeldjs/state": "workspace:*"
     "@skeldjs/util": "workspace:*"
     "@types/node": ^17.0.18
-    esbuild-register: ^3.3.2
     ts-eager: latest
     ts-node: latest
     typescript: latest
@@ -442,6 +441,7 @@ __metadata:
   resolution: "@skeldjs/constant@workspace:packages/constant"
   dependencies:
     "@skeldjs/util": "workspace:*"
+    "@types/node": latest
     ts-node: latest
     typescript: latest
   languageName: unknown
@@ -592,10 +592,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@skeldjs/submerged@workspace:packages/mod-submerged":
+  version: 0.0.0-use.local
+  resolution: "@skeldjs/submerged@workspace:packages/mod-submerged"
+  dependencies:
+    "@skeldjs/constant": "workspace:*"
+    "@skeldjs/events": "workspace:*"
+    "@skeldjs/util": "workspace:*"
+    "@types/node": latest
+    ts-node: latest
+    typescript: latest
+  peerDependencies:
+    "@skeldjs/corel": "workspace:*"
+    "@skeldjs/protocol": "workspace:*"
+  languageName: unknown
+  linkType: soft
+
 "@skeldjs/text@workspace:packages/text":
   version: 0.0.0-use.local
   resolution: "@skeldjs/text@workspace:packages/text"
   dependencies:
+    "@types/node": latest
     ts-node: latest
     typescript: latest
   languageName: unknown
@@ -853,6 +870,13 @@ __metadata:
   version: 17.0.18
   resolution: "@types/node@npm:17.0.18"
   checksum: 6c4edfc2b3ba2342a9c3d56e934c5245948ab752f4dc04bd6790b9603e6ebc53bc4f5befc3662e207f7dba2ddd17ccf657f915e319ea7cdd4f77b851079d1611
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:latest":
+  version: 18.0.0
+  resolution: "@types/node@npm:18.0.0"
+  checksum: aab2b325727a2599f6d25ebe0dedf58c40fb66a51ce4ca9c0226ceb70fcda2d3afccdca29db5942eb48b158ee8585a274a1e3750c718bbd5399d7f41d62dfdcc
   languageName: node
   linkType: hard
 
@@ -2163,15 +2187,6 @@ __metadata:
   version: 4.1.1
   resolution: "es6-error@npm:4.1.1"
   checksum: ae41332a51ec1323da6bbc5d75b7803ccdeddfae17c41b6166ebbafc8e8beb7a7b80b884b7fab1cc80df485860ac3c59d78605e860bb4f8cd816b3d6ade0d010
-  languageName: node
-  linkType: hard
-
-"esbuild-register@npm:^3.3.2":
-  version: 3.3.2
-  resolution: "esbuild-register@npm:3.3.2"
-  peerDependencies:
-    esbuild: ">=0.12 <1"
-  checksum: 94c353571b23f9a54d00e4551f03696c99b068699f6afaa2bed9cdf5247ec54536f50ea4c68572485904026a4fd374625418682fd240837895839aeba3f29ec2
   languageName: node
   linkType: hard
 

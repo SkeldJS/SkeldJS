@@ -12,6 +12,7 @@
     "prepack": "yarn build"
   },
   "devDependencies": {
+    "@types/node": "latest",
     "ts-node": "latest",
     "typescript": "latest"
   },
