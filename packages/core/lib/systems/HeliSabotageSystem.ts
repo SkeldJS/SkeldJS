@@ -317,7 +317,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
         const completedBefore = this.completedConsoles;
         const timerBefore = this.resetTimer;
         const countdownBefore = this.countdown;

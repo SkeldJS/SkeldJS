@@ -107,7 +107,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
         }
     }
 
-    async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
         this._sabotaged = false;
         this.dirty = true;
 
