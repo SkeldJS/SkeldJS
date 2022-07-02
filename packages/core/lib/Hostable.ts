@@ -592,7 +592,7 @@ export class Hostable<
 
     spawnNecessaryObjects() {
         if (!this.lobbyBehaviour && this.gameState === GameState.NotStarted) {
-            this.spawnPrefab(SpawnType.LobbyBehaviour, -2);
+            this.spawnPrefabOfType(SpawnType.LobbyBehaviour, -2);
         }
 
         if (!this.shipStatus && this.gameState === GameState.Started) {
@@ -604,11 +604,11 @@ export class Hostable<
                 SpawnType.Airship
             ];
 
-            this.spawnPrefab(shipPrefabs[this.settings?.map] || 0, -2);
+            this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, -2);
         }
 
         if (!this.gameData) {
-            this.spawnPrefab(SpawnType.GameData, -2);
+            this.spawnPrefabOfType(SpawnType.GameData, -2);
         }
     }
 
@@ -815,7 +815,7 @@ export class Hostable<
             ];
 
             await this.emit(new RoomGameStartEvent(this));
-            this.spawnPrefab(shipPrefabs[this.settings?.map] || 0, -2);
+            this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, -2);
             await this.shipStatus?.assignRoles();
             await this.shipStatus?.assignTasks();
 
@@ -875,7 +875,7 @@ export class Hostable<
     }
 
     /**
-     * Spawn a component (Not broadcasted to all clients, see {@link Hostable.spawnPrefab}).
+     * Spawn a component (Not broadcasted to all clients, see {@link Hostable.spawnPrefabOfType}).
      * @param component The component being spawned.
      * @example
      * ```typescript
@@ -1035,24 +1035,15 @@ export class Hostable<
         return messages;
     }
 
-    /**
-     * Spawn a prefab of an object.
-     * @param spawnType The type of object to spawn.
-     * @param owner The owner or ID of the owner of the object to spawn.
-     * @returns The object that was spawned.
-     * @example
-     *```typescript
-     * room.spawnPrefab(SpawnType.Player, client.me);
-     * ```
-     */
-    spawnPrefab(
+    protected spawnPrefab(
         spawnType: number,
+        spawnPrefab: NetworkableConstructor<any>[],
         ownerId: number|PlayerData|undefined,
         flags?: number,
         componentData: (any|ComponentSpawnData)[] = [],
         doBroadcast = true,
         doAwake = true
-    ): Networkable<any, any, this>|undefined {
+    ) {
         const _ownerId =
             ownerId === undefined
                 ? -2
@@ -1063,21 +1054,16 @@ export class Hostable<
 
         let object!: Networkable;
 
-        const spawnPrefab = this.registeredPrefabs.get(spawnType);
-
-        if (!spawnPrefab)
-            throw new Error("Cannot spawn object of type: " + spawnType + " (not registered)");
-
         for (let i = 0; i < spawnPrefab.length; i++) {
             const component = new spawnPrefab[i](
                 this,
                 spawnType,
-                componentData[i]?.netId || this.getNextNetId(),
+                componentData?.[i]?.netId || this.getNextNetId(),
                 _ownerId,
                 _flags,
-                componentData[i] instanceof ComponentSpawnData
+                componentData?.[i] instanceof ComponentSpawnData
                     ? HazelReader.from(componentData[i].data)
-                    : componentData[i],
+                    : componentData?.[i],
                 object
             );
 
@@ -1143,6 +1129,32 @@ export class Hostable<
     }
 
     /**
+     * Spawn a prefab of an object.
+     * @param spawnType The type of object to spawn.
+     * @param owner The owner or ID of the owner of the object to spawn.
+     * @returns The object that was spawned.
+     * @example
+     *```typescript
+     * room.spawnPrefab(SpawnType.Player, client.myPlayer);
+     * ```
+     */
+    spawnPrefabOfType(
+        spawnType: number,
+        ownerId: number|PlayerData|undefined,
+        flags?: number,
+        componentData?: (any|ComponentSpawnData)[],
+        doBroadcast = true,
+        doAwake = true
+    ): Networkable<any, any, this>|undefined {
+        const spawnPrefab = this.registeredPrefabs.get(spawnType);
+
+        if (!spawnPrefab)
+            throw new Error("Cannot spawn object of type: " + spawnType + " (not registered)");
+
+        return this.spawnPrefab(spawnType, spawnPrefab, ownerId, flags, componentData, doBroadcast, doAwake);
+    }
+
+    /**
      * Create a fake player in the room that doesn't need a client to be connected
      * to own it.
      *
@@ -1152,7 +1164,7 @@ export class Hostable<
      */
     createFakePlayer(isNew = true): PlayerData<this> {
         const player = new PlayerData(this, 0, "dummy");
-        const playerControl = this.spawnPrefab(SpawnType.Player, -2, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
+        const playerControl = this.spawnPrefabOfType(SpawnType.Player, -2, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
         playerControl.player = player;
         player.control = playerControl;
 

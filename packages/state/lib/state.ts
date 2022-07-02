@@ -196,7 +196,7 @@ export class SkeldjsStateManager<
                 return;
             }
 
-            this.spawnPrefab(
+            this.spawnPrefabOfType(
                 message.spawnType,
                 message.ownerid,
                 message.flags,
@@ -239,7 +239,7 @@ export class SkeldjsStateManager<
                                 [ player ]
                             );
 
-                            this.spawnPrefab(
+                            this.spawnPrefabOfType(
                                 SpawnType.Player,
                                 player.clientId,
                                 SpawnFlag.IsClientCharacter

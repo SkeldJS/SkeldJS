@@ -988,7 +988,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (caller.playerId === undefined)
             return;
 
-        const spawnMeetinghud = this.room.spawnPrefab(
+        const spawnMeetinghud = this.room.spawnPrefabOfType(
             SpawnType.MeetingHud,
             -2,
             undefined,
