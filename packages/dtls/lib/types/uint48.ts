@@ -1,23 +1,12 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { uint24 } from "./uint24";
 
 export class uint48 {
     static Deserialize(reader: HazelReader, be = false) {
-        // Fix for uint48 acting as signed int32 by @roobscoob
+        const bytes = reader.bytes(6).buffer;
         if (be) {
-            const hi = reader.read(uint24);
-            const lo = reader.read(uint24);
-
-            return (hi * 0x1000000) + lo;
+            return (bytes[0] << 40) | (bytes[1] << 32) | (bytes[2] << 24) | (bytes[3] << 16) | (bytes[4] << 8) | bytes[5];
         } else {
-            let val = reader.uint8();
-            val |= reader.uint8() << 8;
-            val |= reader.uint8() << 16;
-            val |= reader.uint8() << 24;
-            val >>>= 0;
-            val += reader.uint8() * 0x100000000;
-            val += reader.uint8() * 0x10000000000;
-            return val;
+            return (bytes[5] << 40) | (bytes[4] << 32) | (bytes[3] << 24) | (bytes[2] << 16) | (bytes[1] << 8) | bytes[0];
         }
     }
 

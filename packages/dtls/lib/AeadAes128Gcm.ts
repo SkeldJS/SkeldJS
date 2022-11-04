@@ -60,6 +60,8 @@ export class Aes128Gcm {
         nonce.copy(this.blockJ);
 
         this.generateAuthTag(this.blockScratch, ciphertext, associatedData);
+        console.log("blockScratch", this.blockScratch.toString("hex"));
+        console.log("authTag", authTag.toString("hex"), this.blockScratch.compare(authTag));
         if (Buffer.compare(this.blockScratch, authTag)) {
             throw new Error("Bad auth.");
         }
