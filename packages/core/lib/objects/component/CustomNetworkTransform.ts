@@ -223,7 +223,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
      * });
      * ```
      */
-    async snapTo(position: Vector2, rpc: boolean): Promise<void>;
+    async snapTo(position: Vector2, rpc: boolean|undefined): Promise<void>;
     /**
      * Instantly snap to a position without lerping.
      * @param x The X position to snap to.
@@ -236,7 +236,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
      * });
      * ```
      */
-    async snapTo(x: number, y: number, rpc: boolean): Promise<void>;
+    async snapTo(x: number, y: number, rpc: boolean|undefined): Promise<void>;
     async snapTo(x: number | Vector2, y?: number|boolean, rpc?: boolean) {
         this.seqId += 1;
 
