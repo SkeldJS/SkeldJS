@@ -466,7 +466,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         this._syncSettings(ev.alteredSettings);
-
         this._rpcSyncSettings(settings);
     }
 
