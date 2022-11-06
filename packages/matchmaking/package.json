@@ -6,6 +6,11 @@
   "publishConfig": {
     "types": "./dist/index.d.ts"
   },
+  "author": {
+    "email": "rose@hall.ly",
+    "name": "roobscoob",
+    "url": "https://github.com/roobscoob"
+  },
   "scripts": {
     "build": "tsc -p ./",
     "watch": "tsc -w -p ./",

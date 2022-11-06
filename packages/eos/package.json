@@ -1,5 +1,5 @@
 {
-  "name": "@skeldjs/client",
+  "name": "@skeldjs/eos",
   "version": "2.15.33",
   "main": "./dist/index.js",
   "types": "./index.ts",
@@ -15,20 +15,9 @@
   "devDependencies": {
     "@types/node": "^17.0.18",
     "@types/node-fetch": "^2.6.2",
-    "ts-eager": "latest",
-    "ts-node": "latest",
     "typescript": "latest"
   },
   "dependencies": {
-    "@skeldjs/constant": "workspace:*",
-    "@skeldjs/core": "workspace:*",
-    "@skeldjs/data": "workspace:*",
-    "@skeldjs/dtls": "workspace:*",
-    "@skeldjs/eos": "workspace:*",
-    "@skeldjs/events": "workspace:*",
-    "@skeldjs/protocol": "workspace:*",
-    "@skeldjs/state": "workspace:*",
-    "@skeldjs/util": "workspace:*",
     "node-fetch": "2"
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",

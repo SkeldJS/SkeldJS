@@ -16,8 +16,6 @@ export interface ClientConfig extends HostableOptions {
     /**
      * Whether or not to use a HTTP matchmaking server in order to authenticate, can be
      * disabled for private servers that don't have a HTTP matchmaking server running.
-     *
-     * Only applicable if the {@link ClientConfig.authMethod} is set to {@link AuthMethod.SecureTransport}.
      * @default true
      */
     useHttpMatchmaker: boolean;
@@ -43,10 +41,11 @@ export interface ClientConfig extends HostableOptions {
      */
     platform: PlatformSpecificData;
     /**
+     * An id token recieved from the EOS http api.
+     */
+    idToken: string;
+    /**
      * A Epic Online Services user ID to authenticate with the Among Us servers as.
-     * This is just a random 32 character string if not set, but you can use your
-     * own account ID from Among Us if you wish to associate this SkeldJS client with
-     * your account.
      */
     eosProductUserId: string;
 }

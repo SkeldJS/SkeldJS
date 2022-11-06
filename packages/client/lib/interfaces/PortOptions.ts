@@ -15,8 +15,8 @@ export interface PortOptions {
      */
     authServer: number;
     /**
-     * The hostname of an Among Us http matchmaker server to use.
-     * @default secureGameServer
+     * The port number of the http matchamekr server.
+     * @default insecureGameServer - 2
      */
-    httpMatchmaker: string;
+    httpMatchmaker: number;
 }

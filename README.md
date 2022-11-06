@@ -91,9 +91,10 @@ Several utility classes and functions used in SkeldJS, separated as another modu
 The following resources have been extremely useful in developing this project, and I suggest that you give the repositories a star if possible.
 
 * https://github.com/miniduikboot/Mini.Dumper - Useful for dumping game colliders for generating a pathfinding map.
-* https://github.com/js6pak/Dumpostor - Useful for dumping all kinds of enums and general data about the game. (Although I use the [SkeldJS fork](https://github.com/skeldjs/Dumpostor).)
+* https://github.com/js6pak/Dumpostor - Useful for dumping all kinds of enums and general data about the game. (Although I use the [SkeldJS fork](https://github.com/SkeldJS/Dumpostor).)
 * https://wireshark.org - Useful for recording UDP packets transmitted by Among Us.
 * https://github.com/cybershard/wireshark-amongus - Plugin for Wireshark to onvert UDP packets into browsable Among Us structures.
 * https://github.com/alexis-evelyn/Among-Us-Protocol/wiki - First Among Us protocol wiki, got me interested.
+* https://github.com/roobscoob - For providing the code for authenticating with the Epic Online Services (EOS) api, see https://github.com/SkeldJS/SkeldJS/tree/master/packages/eos
 
 This repository is held under the GPL3 license, meaning I am not responsible for any consequences that may come from using the packages in SkeldJS.

@@ -27,7 +27,7 @@ export class PlatformSpecificData {
     Serialize(writer: HazelWriter) {
         writer.begin(this.platformTag);
         writer.string(this.platformName);
-        if (this.platformTag === Platform.Xbox || this.platformTag === Platform.Playstation) {
+        if (this.platformTag === Platform.StandaloneWin10 || this.platformTag === Platform.Xbox || this.platformTag === Platform.Playstation) {
             writer.uint64(this.platformId || BigInt(0));
         }
         writer.end();

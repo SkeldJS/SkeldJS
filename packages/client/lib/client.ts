@@ -37,7 +37,6 @@ import {
     BaseRootPacket,
     MessageDirection,
     HostGameMessage,
-    GetGameListMessage,
     GameListing,
     RemovePlayerMessage,
     StartGameMessage,
@@ -78,6 +77,7 @@ import {
 import { ConnectError, JoinError } from "./errors";
 
 import { AuthClient } from "./AuthClient";
+import { HttpMatchmakerClient } from "./HttpMatchmakerClient";
 
 const lookupDns = util.promisify(dns.lookup);
 
@@ -120,6 +120,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     authClient: AuthClient;
     /**
+     * Http matchmaker client responsible for retrieving information about games
+     * on the server to connect to.
+     */
+    httpMatchmakerClient: HttpMatchmakerClient;
+    /**
      * The IP of the server that the client is currently connected to.
      */
     ip?: string;
@@ -152,7 +157,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * The username of the client.
      */
-    username?: string;
+    username: string;
     /**
      * The version of the client.
      */
@@ -182,6 +187,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     constructor(
         version: string | number | VersionInfo,
+        username: string,
         options: Partial<ClientConfig> = {}
     ) {
         super({ doFixedUpdate: true });
@@ -195,11 +201,15 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             chatMode: QuickChatMode.FreeChat,
             messageOrdering: false,
             platform: new PlatformSpecificData(Platform.StandaloneSteamPC, "TESTNAME"),
+            idToken: "",
             eosProductUserId: "", // crypto.randomBytes(16).toString("hex"),
             ...options
         };
 
+        this.username = username;
+
         this.authClient = new AuthClient(this);
+        this.httpMatchmakerClient = new HttpMatchmakerClient(this);
 
         if (version instanceof VersionInfo) {
             this.version = version;
@@ -312,34 +322,14 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         );
     }
 
-    /**
-     * Connect to a region or IP. Optionally identify with a username (can be done later with the {@link SkeldjsClient.identify} method).
-     * @param host The hostname to connect to.
-     * @param username The username to identify with
-     * @param port The port to connect to.
-     * @param eosProductUserId An Epic Online Services user ID to use, found in the "show account id" in the game account settings.
-     * @example
-     *```typescript
-     * // Connect to an official Among Us region.
-     * await connect(OfficialServers.EU, "weakeyes", 432432);
-     *
-     * // Connect to a locally hosted private server.
-     * await connect("127.0.0.1", "weakeyes", 3423432);
-     * ```
-     */
-    async connect(
-        host: string,
-        username?: string,
-        port?: number|PortOptions
-    ) {
-        this.disconnect();
+    async _connect(host: string, port: number|PortOptions) {
         const ip = await lookupDns(host);
+        this.ip = ip.address;
 
         this.nextExpectedNonce = undefined;
-        this.ip = ip.address;
         this.port = typeof port === "number"
             ? port
-            : port?.insecureGameServer || 22023;
+            : port.insecureGameServer;
 
         if (this.config.authMethod === AuthMethod.SecureTransport) {
             this.port = typeof port === "object"
@@ -381,10 +371,43 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 await this.socket.connect(this.port, this.ip);
                 this.connected = true;
             }
-            if (typeof username === "string") {
-                await this.identify(username, authToken);
+            if (typeof this.username === "string") {
+                await this.identify(this.username, authToken);
             }
         }
+    }
+
+    /**
+     * Connect to a region or IP. Optionally identify with {@link SkeldsClient.username} (can be done later with the {@link SkeldjsClient.identify} method).
+     * @param host The hostname to connect to.
+     * @param port The port to connect to.
+     * @param eosProductUserId An Epic Online Services user ID to use, found in the "show account id" in the game account settings.
+     * @example
+     *```typescript
+     * // Connect to an official Among Us region.
+     * await connect(OfficialServers.EU, "weakeyes", 432432);
+     *
+     * // Connect to a locally hosted private server.
+     * await connect("127.0.0.1", "weakeyes", 3423432);
+     * ```
+     */
+    async connect(
+        host: string,
+        port?: number|PortOptions
+    ) {
+        this.disconnect();
+
+        if (this.config.useHttpMatchmaker) {
+            this.httpMatchmakerClient.hostname = host.startsWith("http") ? host : "https://" + host;
+            this.httpMatchmakerClient.port = typeof port === "undefined"
+                ? 22021
+                : typeof port === "number"
+                    ? port
+                    : port.httpMatchmaker;
+            return;
+        }
+
+        await this._connect(host, port || 22023);
     }
 
     protected _reset() {
@@ -400,7 +423,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this.sent_disconnect = false;
         this.connected = false;
         this.identified = false;
-        this.username = undefined;
         this._nonce = 0;
 
         this.packetsSent = [];
@@ -461,7 +483,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 this.config.language,
                 this.config.chatMode,
                 this.config.platform,
-                ""
+                undefined
             )
         );
 
@@ -492,7 +514,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         this.identified = true;
         this._cachedPlatform = this.config.platform;
         this._cachedName = username;
-        this.username = username;
     }
 
     private _send(buffer: Buffer) {
@@ -702,25 +723,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
     }
 
-    /**
-     * Join a room given the 4 or 6 digit code.
-     * @param code The code of the room to join.
-     * @param doSpawn Whether or not to spawn the player. If false, the client will be unaware of any existing objects in the game until {@link SkeldjsClient.spawnSelf} is called.
-     * @returns The code of the room joined.
-     * @example
-     *```typescript
-     * await client.joinGame("ABCDEF");
-     * ```
-     */
-    async joinGame(code: RoomID, doSpawn: boolean = true): Promise<RoomID> {
-        if (typeof code === "undefined") {
-            throw new TypeError("No code provided.");
-        }
-
-        if (typeof code === "string") {
-            return this.joinGame(GameCode.convertStringToInt(code), doSpawn);
-        }
-
+    async _joinGame(code: RoomID, doSpawn: boolean): Promise<number> {
         if (!this.ip) {
             throw new Error("Tried to join while not connected.");
         }
@@ -730,9 +733,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         if (this.myPlayer && this.code !== code) {
-            const username = this.username;
-            await this.disconnect();
-            await this.connect(this.ip, username, this.port);
+            throw new Error("Already in a room, leave first before joining another");
         }
 
         this.send(
@@ -792,42 +793,45 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
         switch (message.messageTag) {
             case RootMessageTag.Redirect:
-                const username = this.username;
-                await this.disconnect();
+                this.disconnect();
                 await this.connect(
                     message.ip,
-                    username,
                     message.port
                 );
 
-                return await this.joinGame(code, doSpawn);
+                return await this._joinGame(code, doSpawn);
         }
     }
 
     /**
-     * Create a game with given settings.
-     * @param hostSettings The settings to create the game with.
-     * @param doJoin Whether or not to join the game after created.
-     * @returns The game code of the room.
+     * Join a room given the 4 or 6 digit code.
+     * @param code The code of the room to join.
+     * @param doSpawn Whether or not to spawn the player. If false, the client will be unaware of any existing objects in the game until {@link SkeldjsClient.spawnSelf} is called.
+     * @returns The code of the room joined.
      * @example
      *```typescript
-     * // Create a game on The Skeld with an English chat with 2 impostors.
-     * await client.createGame({
-     *   map: GameMap.TheSkeld,
-     *   keywords: GameKeyword.English,
-     *   numImpostors: 2
-     * });
+     * await client.joinGame("ABCDEF");
      * ```
      */
-    async createGame(
-        hostSettings: DeepPartial<AllGameSettings> = {},
-        doJoin: boolean = true
-    ): Promise<number> {
-        const settings = new GameSettings({
-            ...hostSettings,
-            version: 2,
-        });
+    async joinGame(code: RoomID, doSpawn: boolean = true): Promise<number> {
+        if (typeof code === "undefined") {
+            throw new TypeError("No code provided.");
+        }
 
+        if (typeof code === "string") {
+            return this.joinGame(GameCode.convertStringToInt(code), doSpawn);
+        }
+
+        if (this.config.useHttpMatchmaker) {
+            await this.httpMatchmakerClient.login();
+            const { ip, port } = await this.httpMatchmakerClient.getIpToJoinGame(code);
+            await this._connect(ip, port);
+        }
+
+        return await this._joinGame(code, doSpawn);
+    }
+
+    async _createGame(settings: GameSettings, doJoin: boolean): Promise<number> {
         this.send(
             new ReliablePacket(this.getNextNonce(), [
                 new HostGameMessage(settings),
@@ -871,21 +875,53 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             case RootMessageTag.Redirect:
                 await this.connect(
                     message.ip,
-                    this.username,
                     message.port
                 );
 
-                return await this.createGame(hostSettings, doJoin);
+                return await this._createGame(settings, doJoin);
             case RootMessageTag.HostGame:
                 this.settings.patch(settings);
 
                 if (doJoin) {
-                    await this.joinGame(message.code);
+                    await this._joinGame(message.code, true);
                     return message.code;
                 } else {
                     return message.code;
                 }
         }
+    }
+
+    /**
+     * Create a game with given settings.
+     * @param hostSettings The settings to create the game with.
+     * @param doJoin Whether or not to join the game after created.
+     * @returns The game code of the room.
+     * @example
+     *```typescript
+     * // Create a game on The Skeld with an English chat with 2 impostors.
+     * await client.createGame({
+     *   map: GameMap.TheSkeld,
+     *   keywords: GameKeyword.English,
+     *   numImpostors: 2
+     * });
+     * ```
+     */
+    async createGame(
+        hostSettings: DeepPartial<AllGameSettings> = {},
+        doJoin: boolean = true
+    ): Promise<number> {
+        const settings = new GameSettings({
+            ...hostSettings,
+            version: 2,
+        });
+
+        if (this.config.useHttpMatchmaker) {
+            await this.httpMatchmakerClient.login();
+            const { ip, port } = await this.httpMatchmakerClient.getIpToHostGame();
+            await this._connect(ip, port);
+        }
+
+        return await this._createGame(settings, doJoin);
     }
 
     /**
@@ -911,7 +947,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         maps: number | GameMap[] = 0x7 /* all maps */,
         impostors = 0 /* any impostors */,
         keyword = GameKeyword.All,
-        quickchat = QuickChatMode.QuickChat
+        quickChat = QuickChatMode.QuickChat
     ): Promise<GameListing[]> {
         if (Array.isArray(maps)) {
             return await this.findGames(
@@ -924,21 +960,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             );
         }
 
-        const options = new GameSettings({
-            map: maps,
-            numImpostors: 0,
-            keywords: GameKeyword.English,
-        });
-
-        this.send(
-            new ReliablePacket(this.getNextNonce(), [
-                new GetGameListMessage(options, quickchat),
-            ])
-        );
-
-        const { message } = await this.decoder.wait(GetGameListMessage);
-
-        return message.gameList;
+        return await this.httpMatchmakerClient.findGames(maps, keyword, quickChat, 0xff, impostors);
     }
 
     /**
