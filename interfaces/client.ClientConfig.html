@@ -95,6 +95,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.ClientConfig.html#chatMode" class="tsd-kind-icon">chat<wbr>Mode</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="client.ClientConfig.html#doFixedUpdate" class="tsd-kind-icon">do<wbr>Fixed<wbr>Update</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.ClientConfig.html#eosProductUserId" class="tsd-kind-icon">eos<wbr>Product<wbr>User<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.ClientConfig.html#idToken" class="tsd-kind-icon">id<wbr>Token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.ClientConfig.html#language" class="tsd-kind-icon">language</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.ClientConfig.html#messageOrdering" class="tsd-kind-icon">message<wbr>Ordering</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="client.ClientConfig.html#platform" class="tsd-kind-icon">platform</a></li>
@@ -112,7 +113,7 @@
 					<div class="tsd-signature tsd-kind-icon">allow<wbr>Host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/client/lib/interfaces/ClientConfig.ts#L10">client/lib/interfaces/ClientConfig.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L10">client/lib/interfaces/ClientConfig.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -132,7 +133,7 @@
 					<div class="tsd-signature tsd-kind-icon">auth<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AuthMethod</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/client/lib/interfaces/ClientConfig.ts#L15">client/lib/interfaces/ClientConfig.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L15">client/lib/interfaces/ClientConfig.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -152,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">chat<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">QuickChatMode</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/client/lib/interfaces/ClientConfig.ts#L34">client/lib/interfaces/ClientConfig.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L32">client/lib/interfaces/ClientConfig.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -174,7 +175,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from HostableOptions.doFixedUpdate</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/core/lib/misc/HostableOptions.ts#L6">core/lib/misc/HostableOptions.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/core/lib/misc/HostableOptions.ts#L6">core/lib/misc/HostableOptions.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -194,15 +195,27 @@
 					<div class="tsd-signature tsd-kind-icon">eos<wbr>Product<wbr>User<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/client/lib/interfaces/ClientConfig.ts#L51">client/lib/interfaces/ClientConfig.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L50">client/lib/interfaces/ClientConfig.ts:50</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A Epic Online Services user ID to authenticate with the Among Us servers as.
-								This is just a random 32 character string if not set, but you can use your
-								own account ID from Among Us if you wish to associate this SkeldJS client with
-							your account.</p>
+							<p>A Epic Online Services user ID to authenticate with the Among Us servers as.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="idToken" class="tsd-anchor"></a>
+					<h3>id<wbr>Token</h3>
+					<div class="tsd-signature tsd-kind-icon">id<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L46">client/lib/interfaces/ClientConfig.ts:46</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An id token recieved from the EOS http api.</p>
 						</div>
 					</div>
 				</section>
@@ -212,7 +225,7 @@
 					<div class="tsd-signature tsd-kind-icon">language<span class="tsd-signature-symbol">:</span> <a href="" class="tsd-signature-type" data-tsd-kind="Enumeration">Language</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/client/lib/interfaces/ClientConfig.ts#L28">client/lib/interfaces/ClientConfig.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L26">client/lib/interfaces/ClientConfig.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -232,7 +245,7 @@
 					<div class="tsd-signature tsd-kind-icon">message<wbr>Ordering<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/client/lib/interfaces/ClientConfig.ts#L40">client/lib/interfaces/ClientConfig.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L38">client/lib/interfaces/ClientConfig.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -253,7 +266,7 @@
 					<div class="tsd-signature tsd-kind-icon">platform<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PlatformSpecificData</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/client/lib/interfaces/ClientConfig.ts#L44">client/lib/interfaces/ClientConfig.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L42">client/lib/interfaces/ClientConfig.ts:42</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -268,7 +281,7 @@
 					<div class="tsd-signature tsd-kind-icon">use<wbr>Http<wbr>Matchmaker<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/0325b56/packages/client/lib/interfaces/ClientConfig.ts#L23">client/lib/interfaces/ClientConfig.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/SkeldJS/SkeldJS/blob/8a1cea9/packages/client/lib/interfaces/ClientConfig.ts#L21">client/lib/interfaces/ClientConfig.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -276,7 +289,6 @@
 							<p>Whether or not to use a HTTP matchmaking server in order to authenticate, can be
 							disabled for private servers that don&#39;t have a HTTP matchmaking server running.</p>
 						</div>
-						<p>Only applicable if the <a href="client.ClientConfig.html#authMethod">ClientConfig.authMethod</a> is set to <a href="../enums/client.AuthMethod.html#SecureTransport">AuthMethod.SecureTransport</a>.</p>
 						<dl class="tsd-comment-tags">
 							<dt>default</dt>
 							<dd><p>true</p>
@@ -316,56 +328,11 @@
 					<li class=" pp-nav pp-page">
 						<a href="../pages/Guides/End Game Intents.html">End <wbr>Game <wbr>Intents</a>
 					</li>
-					<li class="label pp-nav pp-group">
-						<span>API</span>
-					</li>
 					<li class=" ">
 						<a href="../modules.html">Modules</a>
 					</li>
 					<li class="current tsd-kind-module">
 						<a href="../modules/client.html">client</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/constant.html">constant</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/core.html">core</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/data.html">data</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/dtls.html">dtls</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/events.html">events</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/lan.html">lan</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/matchmaking.html">matchmaking</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/pathfinding.html">pathfinding</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/protocol.html">protocol</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/reactor.html">reactor</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/state.html">state</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/text.html">text</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/translations.html">translations</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util.html">util</a>
 					</li>
 				</ul>
 			</nav>
@@ -404,6 +371,9 @@
 										<a href="client.ClientConfig.html#eosProductUserId" class="tsd-kind-icon">eos<wbr>Product<wbr>User<wbr>Id</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="client.ClientConfig.html#idToken" class="tsd-kind-icon">id<wbr>Token</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
 										<a href="client.ClientConfig.html#language" class="tsd-kind-icon">language</a>
 									</li>
 									<li class=" tsd-kind-property tsd-parent-kind-interface">
@@ -434,6 +404,15 @@
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.ConnectError.html" class="tsd-kind-icon">Connect<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="client.GameListingResponse.html" class="tsd-kind-icon">Game<wbr>Listing<wbr>Response</a>
+							</li>
+							<li class=" tsd-kind-interface tsd-parent-kind-module">
+								<a href="client.HostServerResponse.html" class="tsd-kind-icon">Host<wbr>Server<wbr>Response</a>
+							</li>
+							<li class=" tsd-kind-class tsd-parent-kind-module">
+								<a href="../classes/client.HttpMatchmakerClient.html" class="tsd-kind-icon">Http<wbr>Matchmaker<wbr>Client</a>
 							</li>
 							<li class=" tsd-kind-class tsd-parent-kind-module">
 								<a href="../classes/client.JoinError.html" class="tsd-kind-icon">Join<wbr>Error</a>
@@ -468,6 +447,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/dtls.html" class="tsd-kind-icon">dtls</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/eos.html" class="tsd-kind-icon">eos</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/events.html" class="tsd-kind-icon">events</a>
