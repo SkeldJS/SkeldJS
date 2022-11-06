@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/core",
-  "version": "2.15.33",
+  "version": "2.15.34",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
