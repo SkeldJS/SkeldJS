@@ -16,14 +16,14 @@ export class RoomAssignRolesEvent<RoomType extends Hostable = Hostable> extends 
     static eventName = "room.assignroles" as const;
     eventName = "room.assignroles" as const;
 
-    private _alteredAssignments: Map<PlayerData, typeof BaseRole>;
+    private _alteredAssignments: Map<PlayerData<RoomType>, typeof BaseRole>;
 
     constructor(
         public readonly room: RoomType,
         /**
          * The players that were chosen to be impostors.
          */
-        public readonly roleAssignments: Map<PlayerData, typeof BaseRole>
+        public readonly roleAssignments: Map<PlayerData<RoomType>, typeof BaseRole>
     ) {
         super();
 
@@ -41,7 +41,7 @@ export class RoomAssignRolesEvent<RoomType extends Hostable = Hostable> extends 
      * Change which roles to assign to which players.
      * @param roleAssignments The roles to assign instead.
      */
-    setAssignments(roleAssignments: Map<PlayerData, typeof BaseRole>) {
+    setAssignments(roleAssignments: Map<PlayerData<RoomType>, typeof BaseRole>) {
         this._alteredAssignments = roleAssignments;
     }
 
@@ -50,7 +50,7 @@ export class RoomAssignRolesEvent<RoomType extends Hostable = Hostable> extends 
      * @param player The player to change the assignment for.
      * @param assignment The role to assign for the player instead.
      */
-    setAssignment(player: PlayerData, assignment: typeof BaseRole) {
+    setAssignment(player: PlayerData<RoomType>, assignment: typeof BaseRole) {
         this._alteredAssignments.set(player, assignment);
     }
 }
