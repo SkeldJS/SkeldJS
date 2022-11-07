@@ -260,10 +260,6 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             }
 
             this.votingComplete(tie, exiled);
-            sleep(5000).then(() => {
-                this.exiled?.control?.kill("exiled");
-                this.close();
-            });
         }
     }
 
@@ -465,7 +461,8 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             return new PlayerVoteState(this.room, state.playerId, state.votedForId);
         });
 
-        await this._votingComplete(playerStates, rpc.tie, exiled);
+        this._populateStates(playerStates);
+        await this._votingComplete(rpc.tie, exiled);
 
         await this.emit(
             new MeetingHudVotingCompleteEvent(
@@ -479,62 +476,71 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         );
     }
 
-    private async _votingComplete(
-        states: PlayerVoteState<RoomType>[],
-        tie: boolean,
-        exiled?: PlayerData<RoomType>
-    ) {
+    private _populateStates(states: PlayerVoteState<RoomType>[]) {
         for (let i = 0; i < states.length; i++) {
             const state = this.voteStates.get(i);
             if (state) {
                 state.votedForId = states[i].votedForId;
             }
         }
+    }
+
+    private async _votingComplete(
+        tie: boolean,
+        exiled?: PlayerData<RoomType>
+    ) {
         this.tie = tie;
         this.exiled = exiled;
 
-        if (exiled && this.room.gameData) {
-            let aliveCrewmates = 0;
-            let aliveImpostors = 0;
-            for (const [ , playerInfo ] of this.room.gameData.players) {
-                if (!playerInfo.isDisconnected && !playerInfo.isDead)
-                {
-                    if (playerInfo.isImpostor)
+        if (this.room.hostIsMe) {
+            await sleep(5000);
+            exiled?.control?.kill("exiled");
+            this.close();
+            await sleep(5000);
+
+            if (exiled && this.room.gameData) {
+                let aliveCrewmates = 0;
+                let aliveImpostors = 0;
+                for (const [ , playerInfo ] of this.room.gameData.players) {
+                    if (!playerInfo.isDisconnected && !playerInfo.isDead)
                     {
-                        aliveImpostors++;
-                    } else {
-                        aliveCrewmates++;
+                        if (playerInfo.isImpostor)
+                        {
+                            aliveImpostors++;
+                        } else {
+                            aliveCrewmates++;
+                        }
                     }
                 }
-            }
 
-            if (exiled.playerInfo?.isImpostor) {
-                if (aliveImpostors <= 0) {
-                    this.room.registerEndGameIntent(
-                        new EndGameIntent<PlayersVoteOutEndgameMetadata>(
-                            AmongUsEndGames.PlayersVoteOut,
-                            GameOverReason.HumansByVote,
-                            {
-                                exiled,
-                                aliveCrewmates,
-                                aliveImpostors
-                            }
-                        )
-                    );
-                }
-            } else {
-                if (aliveCrewmates <= aliveImpostors) {
-                    this.room.registerEndGameIntent(
-                        new EndGameIntent<PlayersVoteOutEndgameMetadata>(
-                            AmongUsEndGames.PlayersVoteOut,
-                            GameOverReason.ImpostorByVote,
-                            {
-                                exiled,
-                                aliveCrewmates,
-                                aliveImpostors
-                            }
-                        )
-                    );
+                if (exiled.playerInfo?.isImpostor) {
+                    if (aliveImpostors <= 0) {
+                        this.room.registerEndGameIntent(
+                            new EndGameIntent<PlayersVoteOutEndgameMetadata>(
+                                AmongUsEndGames.PlayersVoteOut,
+                                GameOverReason.HumansByVote,
+                                {
+                                    exiled,
+                                    aliveCrewmates,
+                                    aliveImpostors
+                                }
+                            )
+                        );
+                    }
+                } else {
+                    if (aliveCrewmates <= aliveImpostors) {
+                        this.room.registerEndGameIntent(
+                            new EndGameIntent<PlayersVoteOutEndgameMetadata>(
+                                AmongUsEndGames.PlayersVoteOut,
+                                GameOverReason.ImpostorByVote,
+                                {
+                                    exiled,
+                                    aliveCrewmates,
+                                    aliveImpostors
+                                }
+                            )
+                        );
+                    }
                 }
             }
         }
@@ -573,8 +579,9 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             i++;
         }
 
-        await this._votingComplete(voteStates, tie, _exiled);
+        this._populateStates(voteStates);
         this._rpcVotingComplete(voteStates, tie, _exiled);
+        await this._votingComplete(tie, _exiled);
 
         this.emitSync(
             new MeetingHudVotingCompleteEvent(
