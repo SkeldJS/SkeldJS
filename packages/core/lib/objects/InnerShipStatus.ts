@@ -461,7 +461,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
     /**
      * Randomly assign tasks to all players, using data from @skeldjs/data.
      */
-    assignTasks() {
+    async assignTasks() {
         const allTasks = this.getTasks();
         const numCommon = this.room.settings.commonTasks;
         const numLong = this.room.settings.longTasks;
@@ -506,7 +506,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
             shortIdx = this.addTasksFromList(shortIdx, numShort, playerTasks, usedTaskTypes, allShort);
             longIdx = this.addTasksFromList(longIdx, numLong, playerTasks, usedTaskTypes, allLong);
 
-            player.playerInfo.setTaskIds(playerTasks);
+            await player.playerInfo.setTaskIds(playerTasks);
         }
     }
 

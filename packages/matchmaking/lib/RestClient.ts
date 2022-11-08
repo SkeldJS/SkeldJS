@@ -87,8 +87,6 @@ export class SkeldjsMatchmakerRestClient {
             }
         });
 
-        console.log(req.statusCode);
-
         if (req.statusCode < 200 || req.statusCode >= 300) {
             throw new Error("Request to get game token was not successful");
         }

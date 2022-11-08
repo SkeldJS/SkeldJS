@@ -5,6 +5,7 @@ import { Platform } from "@skeldjs/constant";
 import {
     CustomNetworkTransform,
     CustomNetworkTransformEvents,
+    GameData,
     PlayerControl,
     PlayerControlEvents,
     PlayerPhysics,
@@ -80,6 +81,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
 
     private _playerInfoCachedPlayerId?: number;
     private _playerInfoCached?: PlayerInfo;
+    private _cacheGameData?: GameData;
 
     constructor(
         room: RoomType,
@@ -173,15 +175,17 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
         if (this.playerId === undefined) {
             this._playerInfoCachedPlayerId = undefined;
             this._playerInfoCached = undefined;
+            this._cacheGameData = undefined;
             return undefined;
         }
 
-        if (this.playerId === this._playerInfoCachedPlayerId && this._playerInfoCached) {
+        if (this.playerId === this._playerInfoCachedPlayerId && this._playerInfoCached && this.room.gameData === this._cacheGameData) {
             return this._playerInfoCached;
         }
 
         this._playerInfoCachedPlayerId = this.playerId;
-        this._playerInfoCached = this.room.gameData?.players?.get(this.playerId);
+        this._cacheGameData = this.room.gameData;
+        this._playerInfoCached = this._cacheGameData?.players?.get(this.playerId);
 
         return this._playerInfoCached;
     }

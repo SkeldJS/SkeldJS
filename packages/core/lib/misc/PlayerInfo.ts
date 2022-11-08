@@ -408,8 +408,8 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      * Set the tasks of this player.
      * @param taskIds The IDs of each task.
      */
-    setTaskIds(taskIds: number[]) {
-        this.gamedata.setTasks(this, taskIds); // todo: player.settasks event
+    async setTaskIds(taskIds: number[]) {
+        await this.gamedata.setTasks(this, taskIds); // todo: player.settasks event
     }
 
     /**
