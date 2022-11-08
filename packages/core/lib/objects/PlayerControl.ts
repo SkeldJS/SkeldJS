@@ -752,7 +752,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         if (!ev.canceled) {
-            this.room.host?.control?.startMeeting(ev.alteredBody, this.player);
+            this.startMeeting(ev.alteredBody, this.player);
         }
     }
 
