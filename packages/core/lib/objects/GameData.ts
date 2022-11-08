@@ -183,7 +183,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
         if (playerData) {
             const oldTasks = playerData.taskStates;
-            this._setTasks(playerData, rpc.taskIds.map(taskType => new TaskState(taskType, false)));
+            playerData.setTaskStates(rpc.taskIds.map(taskType => new TaskState(taskType, false)));
             const playerTasks = playerData.taskStates;
 
             const ev = await this.emit(
@@ -196,16 +196,12 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
                 )
             );
 
-            playerData.taskStates = ev.alteredTasks;
+            playerData.setTaskStates(ev.alteredTasks);
 
             if (ev.alteredTasks !== playerTasks) {
                 this._rpcSetTasks(playerData, playerData.taskStates);
             }
         }
-    }
-
-    private _setTasks(player: PlayerInfo, taskStates: TaskState[]) {
-        player.taskStates = taskStates;
     }
 
     private _rpcSetTasks(player: PlayerInfo, taskStates: TaskState[]) {
@@ -236,7 +232,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
 
         if (playerData) {
             const oldTasks = playerData.taskStates;
-            this._setTasks(playerData, taskTypes.map(taskType => new TaskState(taskType, false)));
+            playerData.setTaskStates(taskTypes.map(taskType => new TaskState(taskType, false)));
             const ev = await this.emit(
                 new GameDataSetTasksEvent(
                     this.room,
@@ -247,7 +243,7 @@ export class GameData<RoomType extends Hostable = Hostable> extends Networkable<
                 )
             );
 
-            this._setTasks(playerData, ev.alteredTasks);
+            playerData.setTaskStates(ev.alteredTasks);
 
             if (playerData.taskStates !== oldTasks) {
                 this._rpcSetTasks(playerData, playerData.taskStates);

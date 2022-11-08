@@ -43,7 +43,6 @@ import { PlayerData } from "../PlayerData";
 
 import { BaseRole, CrewmateRole, ImpostorRole } from "../roles";
 import { RoomAssignRolesEvent } from "../events";
-import { TaskState } from "../misc";
 import { TaskInfo } from "@skeldjs/data";
 
 export interface RoleAssignmentData {
@@ -508,9 +507,6 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
             longIdx = this.addTasksFromList(longIdx, numLong, playerTasks, usedTaskTypes, allLong);
 
             player.playerInfo.setTaskIds(playerTasks);
-            player.playerInfo.setTaskStates(playerTasks.map((task, taskIdx) => {
-                return new TaskState(taskIdx, false);
-            }));
         }
     }
 
