@@ -104,7 +104,7 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
         if (player.playerId === undefined)
             return;
 
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._joinQueue(player, undefined);
         } else {
             await this._sendRepair(player.playerId | 0x80);
@@ -150,7 +150,7 @@ export class MedScanSystem<RoomType extends Hostable = Hostable> extends SystemS
         if (player.playerId === undefined)
             return;
 
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._leaveQueue(player, undefined);
         } else {
             await this._sendRepair(player.playerId | 0x40);

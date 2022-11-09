@@ -238,7 +238,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         if (!this.room.myPlayer)
             return;
 
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this.openConsoleAs(consoleId, this.room.myPlayer);
         } else {
             this._sendRepair(0x40 | consoleId);
@@ -279,7 +279,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         if (!this.room.myPlayer)
             return;
 
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this.closeConsoleAs(consoleId, this.room.myPlayer);
         } else {
             await this._sendRepair(0x20 | consoleId);
@@ -310,7 +310,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
      * @param consoleId The ID of the console to mark as completed.
      */
     async completeConsole(consoleId: number) {
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._completeConsole(consoleId, this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(0x10 | consoleId);
@@ -341,7 +341,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
     }
 
     async repair() {
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._repair(this.room.myPlayer, undefined);
         } else {
             await this.completeConsole(0);

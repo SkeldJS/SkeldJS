@@ -380,6 +380,16 @@ export class Hostable<
         return false;
     }
 
+    /**
+     * Whether or not this client/room is able to manage an object, i.e. perform
+     * host actions on it.
+     * @param object The object to manage.
+     * @returns Whether or not the object can be managed by this client/room.
+     */
+    canManageObject(object: Networkable) {
+        return this.hostIsMe;
+    }
+
     async broadcast(
         gamedata: BaseGameDataMessage[],
         payloads: BaseRootMessage[] = [],

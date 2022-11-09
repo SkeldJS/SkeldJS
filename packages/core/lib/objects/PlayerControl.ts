@@ -277,12 +277,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 await this._handleSyncSettings(rpc as SyncSettingsMessage);
                 break;
             case RpcMessageTag.CheckName:
-                if (this.room.hostIsMe) {
+                if (this.canBeManaged()) {
                     await this._handleCheckName(rpc as CheckNameMessage);
                 }
                 break;
             case RpcMessageTag.CheckColor:
-                if (this.room.hostIsMe) {
+                if (this.canBeManaged()) {
                     await this._handleCheckColor(rpc as CheckColorMessage);
                 }
                 break;
@@ -293,7 +293,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 await this._handleSetColor(rpc as SetColorMessage);
                 break;
             case RpcMessageTag.ReportDeadBody:
-                if (this.room.hostIsMe) {
+                if (this.canBeManaged()) {
                     await this._handleReportDeadBody(
                         rpc as ReportDeadBodyMessage
                     );
@@ -552,7 +552,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setName(PlayerOutfitType.Default, ev.alteredName);
-        if (playerInfo && this.room.hostIsMe) {
+        if (playerInfo && this.canBeManaged()) {
             this.room.gameData?.markDirty(this.playerId);
         }
 
@@ -682,7 +682,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setColor(PlayerOutfitType.Default, ev.alteredColor);
-        if (playerInfo && this.room.hostIsMe) {
+        if (playerInfo && this.canBeManaged()) {
             this.room.gameData?.markDirty(this.playerId);
         }
 
@@ -810,7 +810,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         this._checkMurderEndGame();
 
-        if (victim.playerInfo?.isDead && this.room.hostIsMe) {
+        if (victim.playerInfo?.isDead && this.canBeManaged()) {
             await this.room.shipStatus?.tryAssignGhostRole(victim);
         }
     }
@@ -841,7 +841,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @returns
      */
     async murderPlayer(victim: PlayerData) {
-        if (!this.room.hostIsMe) {
+        if (!this.canBeManaged()) {
             await this._rpcCheckMurder(victim);
             return;
         }
@@ -866,7 +866,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this._rpcMurderPlayer(victim);
         this._checkMurderEndGame();
 
-        if (victim.playerInfo?.isDead && this.room.hostIsMe) {
+        if (victim.playerInfo?.isDead && this.canBeManaged()) {
             await this.room.shipStatus?.tryAssignGhostRole(victim);
         }
     }
@@ -978,7 +978,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
 
-        if (this.room.hostIsMe) {
+        if (this.canBeManaged()) {
             this._startMeeting(this.player);
         }
     }
@@ -1051,7 +1051,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param caller The player that called this meeting.
      */
     async startMeeting(body: PlayerData | "emergency", caller?: PlayerData) {
-        if (!this.room.hostIsMe) {
+        if (!this.canBeManaged()) {
             await this._rpcReportDeadBody(body);
             return;
         }
@@ -1140,7 +1140,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private async _handleUsePlatform(rpc: UsePlatformMessage) {
         const airship = this.room.shipStatus;
 
-        if (!airship || !this.room.hostIsMe)
+        if (!airship || !this.canBeManaged())
             return;
 
         const ev = await this.emit(
@@ -1261,7 +1261,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
-        if (playerInfo && this.room.hostIsMe) {
+        if (playerInfo && this.canBeManaged()) {
             this.room.gameData?.markDirty(this.playerId);
         }
 
@@ -1330,7 +1330,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
-        if (playerInfo && this.room.hostIsMe) {
+        if (playerInfo && this.canBeManaged()) {
             this.room.gameData?.markDirty(this.playerId);
         }
 
@@ -1399,7 +1399,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
-        if (playerInfo && this.room.hostIsMe) {
+        if (playerInfo && this.canBeManaged()) {
             this.room.gameData?.markDirty(this.playerId);
         }
 
@@ -1468,7 +1468,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
-        if (playerInfo && this.room.hostIsMe) {
+        if (playerInfo && this.canBeManaged()) {
             this.room.gameData?.markDirty(this.playerId);
         }
 
@@ -1537,7 +1537,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
-        if (playerInfo && this.room.hostIsMe) {
+        if (playerInfo && this.canBeManaged()) {
             this.room.gameData?.markDirty(this.playerId);
         }
 
@@ -1695,7 +1695,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     async protectPlayer(target: PlayerData, angelColor = this.player.playerInfo?.defaultOutfit.color || Color.Red) {
-        if (!this.room.hostIsMe) {
+        if (!this.canBeManaged()) {
             await this._rpcCheckProtect(target);
             return;
         }
@@ -1860,7 +1860,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private async _handleCheckMurder(rpc: CheckMurderMessage) {
         const victim = this.room.getPlayerByNetId(rpc.victimNetId);
 
-        if (!victim || !this.room.hostIsMe)
+        if (!victim || !this.canBeManaged())
             return;
 
         const ev = await this.emit(
@@ -1940,7 +1940,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private async _handleCheckProtect(rpc: CheckProtectMessage) {
         const target = this.room.getPlayerByNetId(rpc.targetNetId);
 
-        if (!target || !this.room.hostIsMe)
+        if (!target || !this.canBeManaged())
             return;
 
         const ev = await this.emit(

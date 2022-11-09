@@ -137,7 +137,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
     }
 
     async enterDecon(headingUp: boolean) {
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._enterDecon(headingUp, this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(headingUp ? 1 : 2);
@@ -187,7 +187,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
     }
 
     async exitDecon(headingUp: boolean) {
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._exitDecon(headingUp, this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(headingUp ? 3 : 4);

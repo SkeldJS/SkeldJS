@@ -206,7 +206,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
      * ```
      */
     async flip(num: number) {
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._setSwitch(num, !this.actual[num], this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(num);
@@ -232,7 +232,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
     }
 
     async repair() {
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._repair(this.room.myPlayer, undefined);
         } else {
             for (let i = 0; i < 5; i++) {

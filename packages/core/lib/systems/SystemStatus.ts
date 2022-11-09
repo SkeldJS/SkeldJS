@@ -120,7 +120,7 @@ export class SystemStatus<
         if (!this.room.myPlayer?.control)
             return;
 
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this.ship.systems.get(SystemType.Sabotage)
                 ?.HandleRepair(this.room.myPlayer, this.systemType, undefined);
         } else {

@@ -105,7 +105,7 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
         if (!this.room.myPlayer)
             return;
 
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this.addPlayer(this.room.myPlayer);
         } else {
             await this._sendRepair(1);
@@ -146,7 +146,7 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
         if (!this.room.myPlayer)
             return;
 
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this.removePlayer(this.room.myPlayer);
         } else {
             await this._sendRepair(0);

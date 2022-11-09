@@ -271,7 +271,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        if (this.room.hostIsMe && player && voter && (suspect || rpc.suspectid === VoteStateSpecialId.SkippedVote)) {
+        if (this.canBeManaged() && player && voter && (suspect || rpc.suspectid === VoteStateSpecialId.SkippedVote)) {
             this._castVote(voter, suspect);
 
             const ev = await this.emit(
@@ -352,7 +352,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             const votingState = this.voteStates.get(player.playerId);
 
             if (votingState) {
-                if (this.room.hostIsMe) {
+                if (this.canBeManaged()) {
                     this._castVote(votingState, _suspect);
 
                     const ev = await this.emit(
@@ -492,7 +492,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         this.tie = tie;
         this.exiled = exiled;
 
-        if (this.room.hostIsMe) {
+        if (this.canBeManaged()) {
             await sleep(5000);
             exiled?.control?.kill("exiled");
             this.close();

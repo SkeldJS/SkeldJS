@@ -81,6 +81,14 @@ export class Networkable<
 
     components: Networkable<any, NetworkableEvents, RoomType>[];
 
+    get owner(): Hostable|PlayerData<RoomType>|undefined {
+        if (this.ownerId !== -2) {
+            return this.room.players.get(this.ownerId);
+        }
+
+        return this.room;
+    }
+
     constructor(
         room: RoomType,
         spawnType: SpawnType,
@@ -148,14 +156,6 @@ export class Networkable<
         return super.emitSync(event);
     }
 
-    get owner(): Hostable|PlayerData<RoomType>|undefined {
-        if (this.ownerId !== -2) {
-            return this.room.players.get(this.ownerId);
-        }
-
-        return this.room;
-    }
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     Deserialize(reader: HazelReader, spawn: boolean = false) {}
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
@@ -201,5 +201,12 @@ export class Networkable<
      */
     despawn(): void {
         return this.room.despawnComponent(this);
+    }
+
+    /**
+     * Whether or not this object
+     */
+    canBeManaged() {
+        return this.room.canManageObject(this);
     }
 }

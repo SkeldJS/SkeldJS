@@ -131,7 +131,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
      * @param doorId The ID of the door to opne.
      */
     async openDoor(doorId: number) {
-        if (this.room.hostIsMe) {
+        if (this.ship.canBeManaged()) {
             await this._openDoor(doorId, this.room.myPlayer, undefined);
         } else {
             await this._sendRepair(doorId);
