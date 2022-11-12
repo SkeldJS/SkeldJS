@@ -255,9 +255,8 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                 }
             }
 
-            if (numSkips >= exiledVotes) {
+            if (numSkips >= exiledVotes)
                 exiled = undefined;
-            }
 
             this.votingComplete(tie, exiled);
         }
@@ -494,7 +493,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
         if (this.canBeManaged()) {
             await sleep(5000);
-            exiled?.control?.kill("exiled");
+            await exiled?.control?.kill("exiled");
             this.close();
             await sleep(5000);
 
