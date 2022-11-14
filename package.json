@@ -84,6 +84,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "2.15.40",
+  "version": "2.15.41",
   "packageManager": "yarn@3.1.1"
 }
