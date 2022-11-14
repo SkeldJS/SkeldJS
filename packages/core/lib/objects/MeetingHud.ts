@@ -99,15 +99,17 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     }));
         }
 
-        this.ranOutOfTimeTimeout = setTimeout(() => {
-            for (const [ , voteState ] of this.voteStates) {
-                if (voteState.votedForId === 255) {
-                    voteState.setMissed();
+        if (this.room.settings.votingTime > 0) {
+            this.ranOutOfTimeTimeout = setTimeout(() => {
+                for (const [ , voteState ] of this.voteStates) {
+                    if (voteState.votedForId === 255) {
+                        voteState.setMissed();
+                    }
                 }
-            }
 
-            this.checkForVoteComplete(true);
-        }, 8000 + this.room.settings.discussionTime * 1000 + this.room.settings.votingTime * 1000);
+                this.checkForVoteComplete(true);
+            }, 8000 + this.room.settings.discussionTime * 1000 + this.room.settings.votingTime * 1000);
+        }
     }
 
     getComponent<T extends Networkable>(
