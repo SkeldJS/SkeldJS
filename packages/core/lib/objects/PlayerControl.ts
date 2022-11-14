@@ -1018,6 +1018,10 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             )
         );
 
+        this.room.shipStatus?.systems.get(SystemType.Laboratory)?.repair();
+        this.room.shipStatus?.systems.get(SystemType.Reactor)?.repair();
+        this.room.shipStatus?.systems.get(SystemType.O2)?.repair();
+
         const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
         if (movingPlatform instanceof MovingPlatformSystem) {
             movingPlatform.setSide(MovingPlatformSide.Left);
