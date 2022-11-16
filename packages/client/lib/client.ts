@@ -385,7 +385,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * @example
      *```typescript
      * // Connect to an official Among Us region.
-     * await connect(OfficialServers.EU, "weakeyes", 432432);
+     * await connect("https://matchmaker.among.us", "weakeyes", 443);
      *
      * // Connect to a locally hosted private server.
      * await connect("127.0.0.1", "weakeyes", 3423432);
