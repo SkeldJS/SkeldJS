@@ -1,5 +1,6 @@
-## @skeldjs/events
+## skeldjs-generate-eos-token
 
-A simple cancellable asynchronous event emitter.
+This package is not to be installed, but to be used with NPM's `npx` command to generate EOS (Epic Online Services) tokens to use with the SkeldJS client.
 
-You can view auto-updating documentation for this package hosted at github pages at https://skeld.js.org/modules/data.html
+## Basic Usage
+Use the command `npx skeldjs-generate-eos-token` to generate a set of tokens.
