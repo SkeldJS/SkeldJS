@@ -67,6 +67,7 @@ console.log("Created game @ %s", GameCode.convertIntToString(code));
 
 ## Official regions
 Each region on the official servers has its own dedicated endpoint/url to connect to:
+
 | Region name | Endpoint |
 |-------------|----------|
 | North America | `https://matchmaker.among.us` |
