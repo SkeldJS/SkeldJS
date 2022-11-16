@@ -63,6 +63,7 @@ export class SkeldjsStateManager<
                 direction === MessageDirection.Clientbound &&
                 message.code === this.code
             ) {
+                await this.setHost(message.hostId);
                 await this.handleJoin(new PlayerJoinData(
                     message.clientId,
                     message.playerName,
@@ -71,7 +72,6 @@ export class SkeldjsStateManager<
                     message.puid,
                     message.friendCode
                 ));
-                await this.setHost(message.hostId);
             }
         });
 
@@ -98,8 +98,8 @@ export class SkeldjsStateManager<
                 direction === MessageDirection.Clientbound &&
                 message.code === this.code
             ) {
-                await this.handleLeave(message.clientId);
                 await this.setHost(message.hostId);
+                await this.handleLeave(message.clientId);
             }
         });
 
@@ -244,6 +244,8 @@ export class SkeldjsStateManager<
                                 player.clientId,
                                 SpawnFlag.IsClientCharacter
                             );
+
+                            console.log(this.host?.control?.syncSettings);
 
                             this.host?.control?.syncSettings(this.settings);
                         }
