@@ -1,0 +1,29 @@
+{
+  "name": "skeldjs-generate-eos-token",
+  "version": "2.15.41",
+  "main": "./dist/index.js",
+  "types": "./index.ts",
+  "publishConfig": {
+    "types": "./dist/index.d.ts"
+  },
+  "bin": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -w -p ./",
+    "prepack": "yarn build"
+  },
+  "devDependencies": {
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.18",
+    "ts-node": "latest",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "@skeldjs/eos": "workspace:*"
+  },
+  "license": "GPL-3.0-only",
+  "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
+  "files": [
+    "dist"
+  ]
+}

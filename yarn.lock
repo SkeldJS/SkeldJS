@@ -4926,6 +4926,20 @@ resolve@^1.1.6:
   languageName: node
   linkType: hard
 
+"skeldjs-generate-eos-token@workspace:packages/generate-eos-token":
+  version: 0.0.0-use.local
+  resolution: "skeldjs-generate-eos-token@workspace:packages/generate-eos-token"
+  dependencies:
+    "@skeldjs/eos": "workspace:*"
+    "@types/mocha": ^9.1.0
+    "@types/node": ^17.0.18
+    ts-node: latest
+    typescript: latest
+  bin:
+    skeldjs-generate-eos-token: ./dist/index.js
+  languageName: unknown
+  linkType: soft
+
 "skeldjs@workspace:.":
   version: 0.0.0-use.local
   resolution: "skeldjs@workspace:."
