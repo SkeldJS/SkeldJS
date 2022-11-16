@@ -157,7 +157,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
         const writer = HazelWriter.alloc(10);
         this.Serialize(writer, false);
 
-        await this.room.broadcast([ new DataMessage(this.netId, writer.buffer) ]);
+        await this.room.broadcast([ new DataMessage(this.netId, writer.buffer) ], undefined, undefined, undefined, false);
 
         this.emitSync(
             new PlayerMoveEvent(
