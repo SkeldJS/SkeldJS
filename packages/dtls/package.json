@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/dtls",
-  "version": "2.15.41",
+  "version": "2.15.42",
   "main": "./dist/index.js",
   "types": "./index.ts",
   "publishConfig": {
