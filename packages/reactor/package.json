@@ -1,11 +1,7 @@
 {
   "name": "@skeldjs/reactor",
   "version": "2.15.42",
-  "main": "./dist/index.js",
-  "types": "./index.ts",
-  "publishConfig": {
-    "types": "./dist/index.d.ts"
-  },
+  "main": "./dist",
   "scripts": {
     "build": "tsc -p ./",
     "watch": "tsc -w -p ./",

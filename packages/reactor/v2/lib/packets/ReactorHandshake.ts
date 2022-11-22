@@ -6,7 +6,7 @@ import { ReactorMessageTag } from "./ReactorMessage";
 export class ReactorHandshakeMessage extends BaseReactorMessage {
     static messageTag = ReactorMessageTag.Handshake as const;
     messageTag = ReactorMessageTag.Handshake as const;
-    
+
     servername: string;
     serverver: string;
     plugincount: number;
