@@ -10,10 +10,9 @@ export class ReactorMod {
     ) {}
 
     static Deserialize(reader: HazelReader) {
-        console.log(reader);
         const id = reader.string();
         const version = reader.string();
-        const flags = reader.uint8();
+        const flags = reader.uint16();
 
         if ((flags & ModFlags.RequireOnAllClients) > 0) {
             const name = reader.string();
@@ -26,7 +25,7 @@ export class ReactorMod {
     Serialize(writer: HazelWriter) {
         writer.string(this.id);
         writer.string(this.version);
-        writer.uint8(this.flags);
+        writer.uint16(this.flags);
         if (this.flags & ModFlags.RequireOnAllClients) {
             writer.string(this.name);
         }
