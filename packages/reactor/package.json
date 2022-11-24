@@ -3,7 +3,8 @@
   "version": "2.15.47",
   "exports": {
     "./v2": "./dist/v2/index.js",
-    "./v3": "./dist/v3/index.js"
+    "./v3": "./dist/v3/index.js",
+    "./shared": "./dist/shared/index.js"
   },
   "scripts": {
     "build": "tsc -p ./",
