@@ -1,5 +1,5 @@
 import { AuthMethod, SkeldjsClient } from "@skeldjs/client";
-import { AcknowledgePacket, ReliablePacket } from "@skeldjs/protocol";
+import { AcknowledgePacket, HelloPacket, ReliablePacket } from "@skeldjs/protocol";
 import { ReactorMod } from "./ReactorMod";
 
 import {
@@ -31,15 +31,17 @@ export class ReactorClient {
 
             await client.send(
                 new ModdedHelloPacket(
-                    nonce,
-                    client.version,
-                    identify.username,
-                    client.config.authMethod === AuthMethod.SecureTransport
-                        ? client.config.eosProductUserId
-                        : identify.authToken,
-                    client.config.language,
-                    client.config.chatMode,
-                    client.config.platform,
+                    new HelloPacket(
+                        nonce,
+                        client.version,
+                        identify.username,
+                        client.config.authMethod === AuthMethod.SecureTransport
+                            ? client.config.eosProductUserId
+                            : identify.authToken,
+                        client.config.language,
+                        client.config.chatMode,
+                        client.config.platform,
+                    ),
                     1,
                     this.mods.size
                 )

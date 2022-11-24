@@ -56,6 +56,8 @@ export class ReactorHandshakeMessage extends BaseReactorMessage {
 
             return new ReactorHandshakeMessage(serverName, serverVersion, numPlugins);
         }
+
+        throw new Error("Invalid message direction");
     }
 
     Serialize(writer: HazelWriter, direction: MessageDirection) {

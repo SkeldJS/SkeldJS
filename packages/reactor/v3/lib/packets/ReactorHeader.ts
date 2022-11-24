@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { ReactorProtocolVersion } from "../../../shared";
 
 export class ReactorHeader {
-    static magicString = Buffer.from("72656163746f72", "hex");
+    static magicString = Buffer.from("726f7463616572", "hex");
 
     constructor(public readonly version?: ReactorProtocolVersion) {}
 
@@ -11,20 +11,23 @@ export class ReactorHeader {
     }
 
     static Deserialize(reader: HazelReader) {
+        if (reader.left === 0)
+            return new ReactorHeader(undefined);
+
         const bReader = HazelReader.from(reader.buffer);
         bReader.goto(reader.cursor);
+        const version = bReader.uint8();
         try {
             const magicString = bReader.bytes(ReactorHeader.magicString.byteLength);
+            reader.jump(ReactorHeader.magicString.byteLength + 1);
 
             if (Buffer.compare(magicString.buffer, ReactorHeader.magicString) !== 0)
                 return new ReactorHeader(undefined);
-
-            reader.jump(ReactorHeader.magicString.byteLength);
         } catch (e) {
+            reader.jump(ReactorHeader.magicString.byteLength);
             return new ReactorHeader(undefined);
         }
 
-        const version = reader.uint8();
         return new ReactorHeader(version);
     }
 
@@ -32,7 +35,7 @@ export class ReactorHeader {
         if (!this.version)
             return;
 
-        writer.bytes(ReactorHeader.magicString);
         writer.uint8(this.version);
+        writer.bytes(ReactorHeader.magicString);
     }
 }

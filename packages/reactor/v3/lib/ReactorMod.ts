@@ -10,6 +10,7 @@ export class ReactorMod {
     ) {}
 
     static Deserialize(reader: HazelReader) {
+        console.log(reader);
         const id = reader.string();
         const version = reader.string();
         const flags = reader.uint8();

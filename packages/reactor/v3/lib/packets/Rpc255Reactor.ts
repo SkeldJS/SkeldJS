@@ -64,15 +64,15 @@ export class Rpc255Reactor extends BaseRpcMessage {
         decoder: PacketDecoder
     ) {
         const modId = reader.read(ModIdentifier);
-        const callid = reader.uint8();
+        const callId = reader.uint8();
 
-        const mreader = reader.bytes(reader.left);
-        const rpcMessageClass = decoder.types.get(`reactor-rpc:${callid}`);
+        const [ , mReader ] = reader.message();
+        const rpcMessageClass = decoder.types.get(`reactor-rpc:${callId}`);
 
         if (!rpcMessageClass)
-            return new Rpc255Reactor(modId, new UnknownReactorRpc(callid, mreader.buffer));
+            return new Rpc255Reactor(modId, new UnknownReactorRpc(callId, mReader.buffer));
 
-        const rpc = rpcMessageClass.Deserialize(mreader, direction, decoder);
+        const rpc = rpcMessageClass.Deserialize(mReader, direction, decoder);
 
         return new Rpc255Reactor(modId, rpc as BaseReactorRpcMessage);
     }
