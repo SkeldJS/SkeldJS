@@ -27,6 +27,9 @@
     "dist",
     "shared.js",
     "v2.js",
-    "v3.js"
+    "v3.js",
+    "shared.d.ts",
+    "v2.d.ts",
+    "v3.d.ts"
   ]
 }
