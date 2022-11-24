@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/matchmaking",
-  "version": "2.15.47",
+  "version": "2.15.48",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"

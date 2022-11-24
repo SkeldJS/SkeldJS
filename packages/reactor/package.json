@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/reactor",
-  "version": "2.15.47",
+  "version": "2.15.48",
   "exports": {
     "./v2": "./dist/v2/index.js",
     "./v3": "./dist/v3/index.js",
@@ -28,12 +28,6 @@
     "@skeldjs/client": "*"
   },
   "files": [
-    "dist",
-    "shared.js",
-    "v2.js",
-    "v3.js",
-    "shared.d.ts",
-    "v2.d.ts",
-    "v3.d.ts"
+    "dist"
   ]
 }
