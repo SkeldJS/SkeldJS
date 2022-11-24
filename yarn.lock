@@ -4971,7 +4971,7 @@ resolve@^1.1.6:
     typedoc-plugin-pages: "patch:typedoc-plugin-pages@^1.1.0#./typedoc-plugin-pages-pr-41.diff"
     typedoc-plugin-remove-references: ^0.0.5
     typedoc-plugin-yarn: "portal:./typedoc-plugin-yarn"
-    typescript: latest
+    typescript: next
   dependenciesMeta:
     highlight.js:
       built: false
@@ -5714,6 +5714,16 @@ typescript@latest:
   languageName: node
   linkType: hard
 
+"typescript@npm:next":
+  version: 5.0.0-dev.20221124
+  resolution: "typescript@npm:5.0.0-dev.20221124"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 7cbfa694de9b376dd6603847df676d626c51bb90666feeb3acdd652cb089c1ba98e031b6605754ba6ea377a610881a8d7381d335d94ba47f2274abebf1df774e
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@^3.8.3#~builtin<compat/typescript>":
   version: 3.9.10
   resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=493e53"
@@ -5731,6 +5741,16 @@ typescript@latest:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 49f3e6734d6f27c1931d3a665439350d9015b28eee87ba26ebcae0ba35fc609962ad8eb0b09f0324366497d65260c4222b8735098325bba46d508b5cab7b4640
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@next#~builtin<compat/typescript>":
+  version: 5.0.0-dev.20221124
+  resolution: "typescript@patch:typescript@npm%3A5.0.0-dev.20221124#~builtin<compat/typescript>::version=5.0.0-dev.20221124&hash=493e53"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: a7aa667280a938a325c460ac01f41086dc2e7d76f8740648648bbdbe02db002a17605c62ce82abbb82bf6d81255b83d0be0d1c85322eb833d62e0f7a85511ab0
   languageName: node
   linkType: hard
 

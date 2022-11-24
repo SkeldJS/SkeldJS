@@ -63,7 +63,7 @@
     "typedoc-plugin-pages": "patch:typedoc-plugin-pages@^1.1.0#./typedoc-plugin-pages-pr-41.diff",
     "typedoc-plugin-remove-references": "^0.0.5",
     "typedoc-plugin-yarn": "portal:./typedoc-plugin-yarn",
-    "typescript": "latest"
+    "typescript": "next"
   },
   "dependenciesMeta": {
     "highlight.js": {

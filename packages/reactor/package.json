@@ -1,7 +1,10 @@
 {
   "name": "@skeldjs/reactor",
   "version": "2.15.46",
-  "main": "./dist",
+  "exports": {
+    "./v2": "./dist/v2/index.js",
+    "./v3": "./dist/v3/index.js"
+  },
   "scripts": {
     "build": "tsc -p ./",
     "watch": "tsc -w -p ./",
