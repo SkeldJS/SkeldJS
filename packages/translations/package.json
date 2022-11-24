@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/translations",
-  "version": "2.15.46",
+  "version": "2.15.47",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"
