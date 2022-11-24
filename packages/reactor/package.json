@@ -1,7 +1,23 @@
 {
   "name": "@skeldjs/reactor",
-  "version": "2.15.43",
+  "version": "2.15.44",
   "main": "./dist",
+  "exports": {
+    "./v2": {
+      "types": "./dist/v2/index.d.ts",
+      "node": "./dist/v2/index.js",
+      "require": "./dist/v2/index.js",
+      "default": "./dist/v2/index.js",
+      "import": "./dist/v2/index.js"
+    },
+    "./v3": {
+      "types": "./dist/v3/index.d.ts",
+      "node": "./dist/v3/index.js",
+      "require": "./dist/v3/index.js",
+      "default": "./dist/v3/index.js",
+      "import": "./dist/v3/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc -p ./",
     "watch": "tsc -w -p ./",

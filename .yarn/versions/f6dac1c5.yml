@@ -3,6 +3,7 @@ undecided:
   - "@skeldjs/client"
   - "@skeldjs/constant"
   - "@skeldjs/core"
+  - "@skeldjs/data"
   - "@skeldjs/dtls"
   - "@skeldjs/eos"
   - "@skeldjs/events"
@@ -15,4 +16,3 @@ undecided:
   - "@skeldjs/state"
   - "@skeldjs/text"
   - "@skeldjs/translations"
-  - "@skeldjs/util"

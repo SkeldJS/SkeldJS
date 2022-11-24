@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/pathfinding",
-  "version": "2.15.43",
+  "version": "2.15.44",
   "main": "./dist/lib/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"
