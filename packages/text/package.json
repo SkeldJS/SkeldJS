@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/text",
-  "version": "2.15.45",
+  "version": "2.15.46",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"
