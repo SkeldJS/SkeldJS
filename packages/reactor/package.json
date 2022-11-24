@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/reactor",
-  "version": "2.15.42",
+  "version": "2.15.43",
   "main": "./dist",
   "scripts": {
     "build": "tsc -p ./",
