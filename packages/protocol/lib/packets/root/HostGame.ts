@@ -11,11 +11,13 @@ export class HostGameMessage extends BaseRootMessage {
 
     readonly code!: number;
     readonly gameSettings!: GameSettings;
+    readonly filters!: string[];
 
     constructor(code: string | number);
-    constructor(gameSettings: GameSettings);
+    constructor(gameSettings: GameSettings, filters: string[]);
     constructor(
-        gameSettingsOrCode: GameSettings | string | number
+        gameSettingsOrCode: GameSettings | string | number,
+        filters?: string[]
     ) {
         super();
 
@@ -25,6 +27,7 @@ export class HostGameMessage extends BaseRootMessage {
             this.code = gameSettingsOrCode;
         } else {
             this.gameSettings = gameSettingsOrCode;
+            this.filters = filters!;
         }
     }
 
@@ -35,8 +38,11 @@ export class HostGameMessage extends BaseRootMessage {
             return new HostGameMessage(code);
         } else {
             const gameOptions = GameSettings.Deserialize(reader);
+            /*const crossplayFlags = */reader.uint32(); // crossplayFlags not used yet
+            const numFilters = reader.upacked();
+            const filters = reader.list(numFilters, r => r.string());
 
-            return new HostGameMessage(gameOptions);
+            return new HostGameMessage(gameOptions, filters);
         }
     }
 
@@ -51,7 +57,7 @@ export class HostGameMessage extends BaseRootMessage {
 
     clone() {
         if (this.gameSettings) {
-            return new HostGameMessage(this.gameSettings);
+            return new HostGameMessage(this.gameSettings, [...this.filters]);
         } else {
             return new HostGameMessage(this.code);
         }
