@@ -137,6 +137,7 @@ client.on("player.setname", ev => {
 * {@link PlayerLeaveEvent | `player.leave`}
 * {@link PlayerMoveEvent | `player.move`}
 * {@link PlayerMurderEvent | `player.murder`}
+* {@link PlayerPetPetEvent | `player.pet`}
 * {@link PlayerProtectEvent | `player.protect`}
 * {@link PlayerReadyEvent | `player.ready`}
 * {@link PlayerRemoveProtectionEvent | `player.removeprotection`}

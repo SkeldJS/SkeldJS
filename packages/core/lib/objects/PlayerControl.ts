@@ -932,8 +932,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link PlayerSendChatEvent | `player.chat`} event.
      */
-    sendChat(message: string) {
-        this.emitSync(
+    async sendChat(message: string) {
+        await this.emit(
             new PlayerSendChatEvent(
                 this.room,
                 this.player,
