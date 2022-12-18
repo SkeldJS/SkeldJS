@@ -1,5 +1,6 @@
 export * from "./AddVote";
 export * from "./BaseRpcMessage";
+export * from "./CancelPet";
 export * from "./CastVote";
 export * from "./CheckColor";
 export * from "./CheckMurder";
@@ -14,6 +15,7 @@ export * from "./EnterVent";
 export * from "./Exiled";
 export * from "./ExitVent";
 export * from "./MurderPlayer";
+export * from "./Pet";
 export * from "./PlayAnimation";
 export * from "./Protect";
 export * from "./RepairSystem";
