@@ -50,8 +50,12 @@ export class HostGameMessage extends BaseRootMessage {
         if (direction === MessageDirection.Clientbound) {
             writer.int32(this.code);
         } else {
-            writer.write(this.gameSettings, 2);
-            writer.int32(2 ** 31 - 1); // cross play flags, max int for any crossplay
+            writer.write(this.gameSettings, 7);
+            writer.int32(4);//2 ** 31 - 1); // cross play flags, max int for any crossplay
+            writer.upacked(this.filters.length);
+            for (const filter of this.filters) {
+                writer.string(filter);
+            }
         }
     }
 

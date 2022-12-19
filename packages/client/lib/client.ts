@@ -478,7 +478,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 this.version,
                 username,
                 this.config.authMethod === AuthMethod.SecureTransport
-                    ? this.config.eosProductUserId
+                    ? this.httpMatchmakerClient.matchmakerToken!
                     : authToken,
                 this.config.language,
                 this.config.chatMode,
@@ -740,7 +740,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             new ReliablePacket(
                 this.getNextNonce(),
                 [
-                    new JoinGameMessage(code)
+                    new JoinGameMessage(code, true)
                 ]
             )
         );

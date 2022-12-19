@@ -6,6 +6,7 @@ export * from "./protocol";
 export * from "./AlterGameTag";
 export * from "./GameKeyword";
 export * from "./GameMap";
+export * from "./GameMode";
 export * from "./GameOverReason";
 export * from "./GameState";
 export * from "./KillDistance";

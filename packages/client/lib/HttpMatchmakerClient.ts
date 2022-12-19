@@ -24,7 +24,7 @@ export interface GameListingResponse {
 }
 
 export class HttpMatchmakerClient {
-    protected _matchmakerToken?: string;
+    public matchmakerToken?: string;
 
     hostname?: string;
     port?: number;
@@ -50,8 +50,8 @@ export class HttpMatchmakerClient {
             throw new Error(`Invalid response @ POST ${this.hostname}:${this.port}/api/user: ${res.status}`);
         }
 
-        this._matchmakerToken = await res.text();
-        return this._matchmakerToken;
+        this.matchmakerToken = await res.text();
+        return this.matchmakerToken;
     }
 
     ipIntToString(ip: number) {
@@ -68,12 +68,12 @@ export class HttpMatchmakerClient {
     }
 
     async getIpToHostGame() {
-        if (!this._matchmakerToken)
+        if (!this.matchmakerToken)
             throw new Error("Not logged in, use .login()");
 
         const res = await fetch(`${this.hostname}:${this.port}/api/games`, {
             method: "PUT",
-            headers: [ [ "Authorization", "Bearer " + this._matchmakerToken ] ]
+            headers: [ [ "Authorization", "Bearer " + this.matchmakerToken ] ]
         });
 
         if (!res.ok) {
@@ -87,12 +87,12 @@ export class HttpMatchmakerClient {
     }
 
     async getIpToJoinGame(gameCode: number) {
-        if (!this._matchmakerToken)
+        if (!this.matchmakerToken)
             throw new Error("Not logged in, use .login()");
 
         const res = await fetch(`${this.hostname}:${this.port}/api/games?gameId=${gameCode}`, {
             method: "POST",
-            headers: [ [ "Authorization", "Bearer " + this._matchmakerToken ] ]
+            headers: [ [ "Authorization", "Bearer " + this.matchmakerToken ] ]
         });
 
         if (!res.ok) {
@@ -107,12 +107,12 @@ export class HttpMatchmakerClient {
     }
 
     async findGames(mapId: number, lang: number, quickChat: number, platformFlags: number, numImpostors: number) {
-        if (!this._matchmakerToken)
+        if (!this.matchmakerToken)
             throw new Error("Not logged in, use .login()");
 
         const res = await fetch(`${this.hostname}:${this.port}/api/games?mapId=${mapId}&lang=${lang}&quickChat=${quickChat}&platformFlags=${platformFlags}&numImpostors=${numImpostors}`, {
             method: "POST",
-            headers: [ [ "Authorization", "Bearer " + this._matchmakerToken ] ]
+            headers: [ [ "Authorization", "Bearer " + this.matchmakerToken ] ]
         });
 
         if (!res.ok) {
@@ -140,7 +140,7 @@ export class HttpMatchmakerClient {
     async getServerGameTags(language: Language) {
         const res = await fetch(`${this.hostname}:${this.port}/api/filtertags?lang=${language}`, {
             method: "GET",
-            headers: [ [ "Authorization", "Bearer " + this._matchmakerToken ]]
+            headers: [ [ "Authorization", "Bearer " + this.matchmakerToken ]]
         });
 
         if (!res.ok) {
