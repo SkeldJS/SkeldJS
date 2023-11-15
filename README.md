@@ -32,9 +32,6 @@ SkeldJS is a complete implementation of everything in Among Us, and is designed 
 ### ⚡ Fast
 SkeldJS uses lots of caching techniques and does no more work than absolutely necessary to remain as close as possible to the game.
 
-### 🚧 Maintained
-Being actively maintained, you can be sure that SkeldJS will be updated as soon as possible to remain in sync with the game.
-
 ### <div style="display: flex; align-items: center;"><img style="margin-right: 8px" src="https://user-images.githubusercontent.com/60631511/142680560-76aad99f-5f6c-4ee1-8399-42d8f63fe31a.png" width=20> Written in TypeScript
 SkeldJS is written in TypeScript, not only meaning that there is a much less chance of bugs in your code, but also that you get full editor support for SkeldJS.
 
