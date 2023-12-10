@@ -13,7 +13,7 @@ import { AuthMethod, EosHttpApi } from "../index";
 
 const clientId = "xyza7891qtrmoYLr86we6DlfCA1RRsp8";
 const clientSecret = "nGThQanzvthA2HPaARXe/xutzsKyx5WJveNkBx44ti4";
-const deploymentId = "3ce14d8292084c80a8364a8b5f0dfbf4";
+const deploymentId = "503cd077a7804777aee5a6eeb5cfe62d";
 
 const randomDeviceModel = EosHttpApi.generateRandomDeviceModel();
 const { access_token } = await EosHttpApi.authRequestGetDeviceIdAccessToken(clientId, clientSecret, randomDeviceModel);
