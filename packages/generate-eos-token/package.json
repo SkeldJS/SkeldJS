@@ -1,6 +1,6 @@
 {
   "name": "skeldjs-generate-eos-token",
-  "version": "2.15.49",
+  "version": "2.16.0",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"

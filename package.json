@@ -44,6 +44,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "2.14.35",
+  "version": "2.15.0",
   "packageManager": "yarn@3.6.3"
 }
