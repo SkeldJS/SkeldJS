@@ -36,7 +36,7 @@ const account = await EosHttpApi.authRequestEosAccessToken({
 |----------|-------|
 | `clientId` | `xyza7891qtrmoYLr86we6DlfCA1RRsp8` |
 | `clientSecret` | `nGThQanzvthA2HPaARXe/xutzsKyx5WJveNkBx44ti4` |
-| `deploymentId` | `3ce14d8292084c80a8364a8b5f0dfbf4` |
+| `deploymentId` | `503cd077a7804777aee5a6eeb5cfe62d` |
 
 Now the values used in `account` are quick to expire, and last about an hour before you have to run that function again.
 

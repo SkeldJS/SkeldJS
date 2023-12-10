@@ -62,32 +62,32 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
     Setup() {
         this.systems.set(SystemType.Reactor, new ReactorSystem(this, SystemType.Reactor, {
             timer: 10000,
-            completed: new Set,
+            completed: new Set
         }),);
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical, {
             expected: [false, false, false, false, false],
             actual: [false, false, false, false, false],
-            brightness: 255,
+            brightness: 255
         }));
         this.systems.set(SystemType.O2, new LifeSuppSystem(this, SystemType.O2, {
             timer: 10000,
-            completed: new Set,
+            completed: new Set
         }));
         this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay, {
-            queue: [],
+            queue: []
         }));
         this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security, {
-            players: new Set,
+            players: new Set
         }));
         this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications, {
-            sabotaged: false,
+            sabotaged: false
         }));
         this.systems.set(SystemType.Doors, new AutoDoorsSystem(this, SystemType.Doors, {
             dirtyBit: 0,
-            doors: [],
+            doors: []
         }));
         this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage, {
-            cooldown: 0,
+            cooldown: 0
         }));
 
         const autodoor = this.systems.get(SystemType.Doors)! as AutoDoorsSystem;
@@ -104,7 +104,7 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
             new AutoOpenDoor(autodoor, 9, true),
             new AutoOpenDoor(autodoor, 10, true),
             new AutoOpenDoor(autodoor, 11, true),
-            new AutoOpenDoor(autodoor, 12, true),
+            new AutoOpenDoor(autodoor, 12, true)
         ];
     }
 

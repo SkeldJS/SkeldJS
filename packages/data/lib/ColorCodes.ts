@@ -34,8 +34,8 @@ export const ColorCodes = {
     [Color.Yellow]: {
         highlightHex: "f6f657",
         highlightRGB: [246, 246, 87],
-        shadowHex: "ffff67",
-        shadowRGB: [255, 255, 103]
+        shadowHex: "c38822",
+        shadowRGB: [195, 136, 34]
     },
     [Color.Black]: {
         highlightHex: "4a565e",

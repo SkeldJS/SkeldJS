@@ -1,5 +1,5 @@
-export enum TaskBarUpdate {
-    Always,
-    Meetings,
-    Never,
+export enum TaskBarMode {
+    Normal,
+    MeetingOnly,
+    Invisible
 }

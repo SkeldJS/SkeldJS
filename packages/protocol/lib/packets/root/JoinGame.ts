@@ -10,6 +10,8 @@ export class JoinGameMessage extends BaseRootMessage {
     messageTag = RootMessageTag.JoinGame as const;
 
     readonly code!: number;
+    readonly crossPlay: boolean;
+
     readonly clientId!: number;
     readonly hostId!: number;
     readonly playerName!: string;
@@ -20,7 +22,7 @@ export class JoinGameMessage extends BaseRootMessage {
 
     readonly message!: string;
 
-    constructor(code: string | number);
+    constructor(code: string | number, crossPlay: boolean);
     constructor(
         code: string | number,
         clientId: number,
@@ -33,7 +35,7 @@ export class JoinGameMessage extends BaseRootMessage {
     );
     constructor(
         code: string | number,
-        clientId?: number | string,
+        clientId?: number | string | boolean,
         hostId?: number,
         playerName?: string,
         platform?: PlatformSpecificData,
@@ -45,8 +47,10 @@ export class JoinGameMessage extends BaseRootMessage {
 
         if (typeof code === "number") {
             this.code = code;
+            this.crossPlay = clientId as boolean;
         } else {
             this.code = GameCode.convertStringToInt(code);
+            this.crossPlay = clientId as boolean;
         }
 
         if (typeof hostId === "number") {
@@ -75,8 +79,9 @@ export class JoinGameMessage extends BaseRootMessage {
             return new JoinGameMessage(code, clientId, hostId, playerName, platform, playerLevel, puid, friendCode);
         } else {
             const code = reader.int32();
+            const crossPlayBlocked = reader.bool();
 
-            return new JoinGameMessage(code);
+            return new JoinGameMessage(code, !crossPlayBlocked);
         }
     }
 
@@ -92,7 +97,7 @@ export class JoinGameMessage extends BaseRootMessage {
             writer.string(this.friendCode);
         } else {
             writer.int32(this.code);
-            writer.bool(false);
+            writer.bool(!this.crossPlay);
         }
     }
 
@@ -113,6 +118,6 @@ export class JoinGameMessage extends BaseRootMessage {
                 this.friendCode
             );
         }
-        return new JoinGameMessage(this.code);
+        return new JoinGameMessage(this.code, this.crossPlay);
     }
 }

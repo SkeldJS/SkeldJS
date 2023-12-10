@@ -8,4 +8,6 @@ export enum SpawnType {
     Polus,
     AprilShipStatus,
     Airship,
+    HideAndSeekManager,
+    NormalGameManager
 }

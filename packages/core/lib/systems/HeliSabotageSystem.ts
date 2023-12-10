@@ -380,17 +380,17 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
             return;
 
         this.resetTimer -= delta;
+        this.countdown -= delta;
         if (this.resetTimer < 0) {
             this.resetTimer = 10;
-            this.countdown -= delta;
 
             this._resetConsoles();
+        }
 
-            this._syncTimer -= delta;
-            if (this._syncTimer <= 0) {
-                this._syncTimer = 1;
-                this.dirty = true;
-            }
+        this._syncTimer -= delta;
+        if (this._syncTimer <= 0) {
+            this._syncTimer = 1;
+            this.dirty = true;
         }
     }
 }

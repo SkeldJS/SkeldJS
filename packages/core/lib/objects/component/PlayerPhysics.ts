@@ -1,11 +1,13 @@
-import { HazelReader } from "@skeldjs/util";
+import { HazelReader, Vector2 } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import {
     BaseRpcMessage,
+    CancelPetMessage,
     ClimbLadderMessage,
     EnterVentMessage,
     ExitVentMessage,
+    PetMessage,
     RpcMessage,
 } from "@skeldjs/protocol";
 
@@ -18,9 +20,11 @@ import { Hostable } from "../../Hostable";
 import { NetworkUtils } from "../../utils/net";
 
 import {
+    PlayerCancelPetEvent,
     PlayerClimbLadderEvent,
     PlayerEnterVentEvent,
     PlayerExitVentEvent,
+    PlayerPetPetEvent,
 } from "../../events";
 
 import { PlayerControl } from "../PlayerControl";
@@ -93,6 +97,12 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
             }
             case RpcMessageTag.ClimbLadder:
                 await this._handleClimbLadder(rpc as ClimbLadderMessage);
+                break;
+            case RpcMessageTag.Pet:
+                await this._handlePet(rpc as PetMessage);
+                break;
+            case RpcMessageTag.CancelPet:
+                await this._handleCancelPet(rpc as CancelPetMessage);
                 break;
         }
     }
@@ -249,5 +259,95 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
                 ladderid
             )
         );
+    }
+
+    private async _handlePet(rpc: PetMessage) {
+        const ev = await this.emit(
+            new PlayerPetPetEvent(
+                this.room,
+                this.player,
+                undefined,
+                rpc.playerPos,
+                rpc.petPos
+            )
+        );
+
+        if (ev.canceled) {
+            await this.cancelPet();
+            return;
+        }
+    }
+
+    private _rpcPet(playerPos: Vector2, petPos: Vector2) {
+        this.room.messageStream.push(
+            new RpcMessage(
+                this.netId,
+                new PetMessage(
+                    playerPos,
+                    petPos
+                )
+            )
+        );
+    }
+
+    /**
+     * Visibly pet your pet or another player's pet.
+     *
+     * Unfortunately, due to technical limitations (as SkeldJS doesn't implement
+     * various Unity physics/transform mechanics), there is no good way to get the
+     * position of the pet except through manual scuffing, which is out of scope
+     * of SkeldJS.
+     * @param playerPos The position of the player while petting.
+     * @param petPos The position of the pet to pet.
+     */
+    async petPet(playerPos: Vector2, petPos: Vector2) {
+        const ev = await this.emit(
+            new PlayerPetPetEvent(
+                this.room,
+                this.player,
+                undefined,
+                playerPos,
+                petPos
+            )
+        );
+
+        if (ev.canceled)
+            return;
+
+        this._rpcPet(playerPos, petPos);
+    }
+
+    private async _handleCancelPet(rpc: CancelPetMessage) {
+        await this.emit(
+            new PlayerCancelPetEvent(
+                this.room,
+                this.player,
+                rpc
+            )
+        );
+    }
+
+    private _rpcCancelPet() {
+        this.room.messageStream.push(
+            new RpcMessage(
+                this.netId,
+                new CancelPetMessage
+            )
+        );
+    }
+
+    /**
+     * Stop petting your or another player's pet.
+     */
+    async cancelPet() {
+        await this.emit(
+            new PlayerCancelPetEvent(
+                this.room,
+                this.player,
+                undefined
+            )
+        );
+
+        this._rpcCancelPet();
     }
 }

@@ -3,9 +3,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export enum QuickChatContentType {
-    Sentence,
-    Phrase,
-    Player
+    Empty,
+    Player,
+    Simple,
+    Complex
 }
 
 export class BaseQuickChatMessageData {
@@ -46,15 +47,15 @@ export class QuickChatPlayerMessageData extends BaseQuickChatMessageData {
     }
 }
 
-export class QuickChatPhraseMessageData extends BaseQuickChatMessageData {
+export class QuickChatSimpleMessageData extends BaseQuickChatMessageData {
     constructor(
         public readonly formatString: number
     ) {
-        super(QuickChatContentType.Phrase);
+        super(QuickChatContentType.Simple);
     }
 
     static Deserialize(reader: HazelReader) {
-        return new QuickChatPhraseMessageData(reader.uint16());
+        return new QuickChatSimpleMessageData(reader.uint16());
     }
 
     Serialize(writer: HazelWriter) {
@@ -62,52 +63,59 @@ export class QuickChatPhraseMessageData extends BaseQuickChatMessageData {
     }
 
     clone() {
-        return new QuickChatPhraseMessageData(this.formatString);
+        return new QuickChatSimpleMessageData(this.formatString);
     }
 }
 
-export class QuickChatSentenceMessageData extends BaseQuickChatMessageData {
+export class QuickChatComplexMessageData extends BaseQuickChatMessageData {
     constructor(
         public readonly formatString: number,
-        public readonly elements: (QuickChatPlayerMessageData|number)[]
+        public readonly elements: (QuickChatSimpleMessageData|QuickChatPlayerMessageData|undefined)[]
     ) {
-        super(QuickChatContentType.Sentence);
+        super(QuickChatContentType.Complex);
     }
 
     static Deserialize(reader: HazelReader) {
-        const elements = reader.list(() => {
-            const stringId = reader.uint16();
-            if (stringId === StringNames.ANY) {
-                return QuickChatPlayerMessageData.Deserialize(reader);
-            }
-
-            return stringId;
-        });
         const formatString = reader.uint16();
-        return new QuickChatSentenceMessageData(formatString, elements);
+        const numElements = reader.byte();
+        const elements = reader.list(numElements, () => {
+            const phraseType = reader.byte();
+            switch (phraseType) {
+            case QuickChatContentType.Empty:
+            case QuickChatContentType.Complex:
+                break;
+            case QuickChatContentType.Player:
+                return QuickChatPlayerMessageData.Deserialize(reader);
+            case QuickChatContentType.Simple:
+                return QuickChatSimpleMessageData.Deserialize(reader);
+            default:
+                break;
+            }
+        });
+        return new QuickChatComplexMessageData(formatString, elements);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.list(true, this.elements, item => {
-            if (typeof item === "number") {
-                writer.uint16(item);
-                return;
-            }
-            writer.uint16(StringNames.ANY);
-            writer.uint8(item.playerId);
-        });
         writer.uint16(this.formatString);
+        writer.byte(this.elements.length);
+        for (const element of this.elements) {
+            if (element === undefined)
+                continue;
+            
+            writer.byte(element.contentType);
+            writer.write(element);
+        }
     }
 
     clone() {
-        return new QuickChatSentenceMessageData(this.formatString, this.elements.map(elem => typeof elem === "number" ? elem : elem.clone()));
+        return new QuickChatComplexMessageData(this.formatString, this.elements.map(elem => elem === undefined ? elem : elem.clone()));
     }
 }
 
 export type QuickChatMessageData =
     QuickChatPlayerMessageData |
-    QuickChatPhraseMessageData |
-    QuickChatSentenceMessageData;
+    QuickChatSimpleMessageData |
+    QuickChatComplexMessageData;
 
 export class SendQuickChatMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SendQuickChat as const;
@@ -123,14 +131,14 @@ export class SendQuickChatMessage extends BaseRpcMessage {
         const contentType = reader.uint8();
 
         switch (contentType) {
-        case QuickChatContentType.Sentence:
-            return new SendQuickChatMessage(QuickChatSentenceMessageData.Deserialize(reader));
         case QuickChatContentType.Player:
             return new SendQuickChatMessage(QuickChatPlayerMessageData.Deserialize(reader));
-        case QuickChatContentType.Phrase:
-            return new SendQuickChatMessage(QuickChatPhraseMessageData.Deserialize(reader));
+        case QuickChatContentType.Simple:
+            return new SendQuickChatMessage(QuickChatSimpleMessageData.Deserialize(reader));
+        case QuickChatContentType.Complex:
+            return new SendQuickChatMessage(QuickChatComplexMessageData.Deserialize(reader));
         default:
-            return new SendQuickChatMessage(new QuickChatPhraseMessageData(StringNames.ANY));
+            return new SendQuickChatMessage(new QuickChatSimpleMessageData(StringNames.ANY));
         }
     }
 

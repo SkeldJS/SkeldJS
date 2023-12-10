@@ -11,11 +11,13 @@ export class HostGameMessage extends BaseRootMessage {
 
     readonly code!: number;
     readonly gameSettings!: GameSettings;
+    readonly filters!: string[];
 
     constructor(code: string | number);
-    constructor(gameSettings: GameSettings);
+    constructor(gameSettings: GameSettings, filters: string[]);
     constructor(
-        gameSettingsOrCode: GameSettings | string | number
+        gameSettingsOrCode: GameSettings | string | number,
+        filters?: string[]
     ) {
         super();
 
@@ -25,6 +27,7 @@ export class HostGameMessage extends BaseRootMessage {
             this.code = gameSettingsOrCode;
         } else {
             this.gameSettings = gameSettingsOrCode;
+            this.filters = filters!;
         }
     }
 
@@ -35,8 +38,11 @@ export class HostGameMessage extends BaseRootMessage {
             return new HostGameMessage(code);
         } else {
             const gameOptions = GameSettings.Deserialize(reader);
+            /*const crossplayFlags = */reader.uint32(); // crossplayFlags not used yet
+            const numFilters = reader.upacked();
+            const filters = reader.list(numFilters, r => r.string());
 
-            return new HostGameMessage(gameOptions);
+            return new HostGameMessage(gameOptions, filters);
         }
     }
 
@@ -44,14 +50,18 @@ export class HostGameMessage extends BaseRootMessage {
         if (direction === MessageDirection.Clientbound) {
             writer.int32(this.code);
         } else {
-            writer.write(this.gameSettings, 2);
-            writer.int32(2 ** 31 - 1); // cross play flags, max int for any crossplay
+            writer.write(this.gameSettings, 7);
+            writer.int32(2 ** 31 - 1);//2 ** 31 - 1); // cross play flags, max int for any crossplay
+            writer.upacked(this.filters.length);
+            for (const filter of this.filters) {
+                writer.string(filter);
+            }
         }
     }
 
     clone() {
         if (this.gameSettings) {
-            return new HostGameMessage(this.gameSettings);
+            return new HostGameMessage(this.gameSettings, [...this.filters]);
         } else {
             return new HostGameMessage(this.code);
         }

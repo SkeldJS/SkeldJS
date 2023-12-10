@@ -4,8 +4,8 @@ import {
     AlterGameTag,
     GameState,
     Hostable,
+    HostableConfig,
     HostableEvents,
-    HostableOptions,
     Platform,
     PlayerSceneChangeEvent,
     RoomSetPrivacyEvent,
@@ -46,8 +46,8 @@ export class SkeldjsStateManager<
     clientId: number;
     decoder: PacketDecoder;
 
-    constructor(options: HostableOptions = {}) {
-        super({ doFixedUpdate: false, ...options });
+    constructor(config: HostableConfig = {}) {
+        super({ doFixedUpdate: false, ...config });
 
         this.clientId = 0;
         this.decoder = new PacketDecoder;
@@ -244,8 +244,6 @@ export class SkeldjsStateManager<
                                 player.clientId,
                                 SpawnFlag.IsClientCharacter
                             );
-
-                            console.log(this.host?.control?.syncSettings);
 
                             this.host?.control?.syncSettings(this.settings);
                         }

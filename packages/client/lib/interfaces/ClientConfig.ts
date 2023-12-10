@@ -1,8 +1,8 @@
-import { HostableOptions, Language, QuickChatMode } from "@skeldjs/core";
+import { HostableConfig, Language, QuickChatMode } from "@skeldjs/core";
 import { PlatformSpecificData } from "@skeldjs/protocol";
 import { AuthMethod } from "./AuthMethod";
 
-export interface ClientConfig extends HostableOptions {
+export interface ClientConfig extends HostableConfig {
     /**
      * Whether or not to allow host actions to take place.
      * @default true

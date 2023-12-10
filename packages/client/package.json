@@ -1,8 +1,7 @@
 {
   "name": "@skeldjs/client",
-  "version": "2.15.42",
+  "version": "2.15.49",
   "main": "./dist/index.js",
-  "types": "./index.ts",
   "publishConfig": {
     "types": "./dist/index.d.ts"
   },
@@ -13,10 +12,7 @@
   },
   "license": "GPL-3.0-only",
   "devDependencies": {
-    "@types/node": "^17.0.18",
-    "@types/node-fetch": "^2.6.2",
-    "ts-eager": "latest",
-    "ts-node": "latest",
+    "@types/node": "latest",
     "typescript": "latest"
   },
   "dependencies": {

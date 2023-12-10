@@ -36,9 +36,9 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         [SystemType.Decontamination]: [12, 13, 14, 15]
     };
 
-    initialSpawnCenter = new Vector2(16.64, 2.2);
-    meetingSpawnCenter = new Vector2(17.726, -16.286);
-    meetingSpawnCenter2 = new Vector2(17.726, -17.515);
+    initialSpawnCenter = new Vector2(16.64, -2.46);
+    meetingSpawnCenter = new Vector2(17.4, -16.286);
+    meetingSpawnCenter2 = new Vector2(17.4, -17.515);
 
     constructor(
         room: RoomType,
@@ -84,11 +84,11 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
             cooldown: 0,
         }));
         this.systems.set(SystemType.Decontamination, new DeconSystem(this, SystemType.Decontamination, {
-            timer: 10000,
+            timer: 0,
             state: 0,
         }));
         this.systems.set(SystemType.Decontamination2, new DeconSystem(this, SystemType.Decontamination2, {
-            timer: 10000,
+            timer: 0,
             state: 0,
         }));
         this.systems.set(SystemType.Laboratory, new ReactorSystem(this, SystemType.Laboratory, {

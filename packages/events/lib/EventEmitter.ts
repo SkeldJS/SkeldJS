@@ -21,7 +21,7 @@ export type ExtractEventTypes<Events extends Eventable[]> = {
 
 export type EventData = Record<string | number | symbol, Eventable>;
 
-type Listener<Event extends Eventable> = (ev: Event) => void | Promise<void>;
+type Listener<Event extends Eventable> = (ev: Event, off: () => void) => void | Promise<void>;
 
 export class EventEmitter<Events extends EventData> {
     private readonly listeners: Map<
@@ -39,10 +39,14 @@ export class EventEmitter<Events extends EventData> {
         const listeners = this.getListeners<Event>(event.eventName);
 
         const promises = [];
+        const removeAfterwards: Listener<Event>[] = [];
         for (let i = 0; i < listeners.length; i++) {
-            promises.push(listeners[i](event));
+            promises.push(listeners[i](event, () => removeAfterwards.push(listeners[i])));
         }
         await Promise.all(promises);
+        for (let i = 0; i < removeAfterwards.length; i++) {
+            this.off(event.eventName, removeAfterwards[i]);
+        }
 
         return event;
     }
@@ -52,8 +56,12 @@ export class EventEmitter<Events extends EventData> {
     ): Promise<Event> {
         const listeners = this.getListeners<Event>(event.eventName);
 
+        const removeAfterwards: Listener<Event>[] = [];
         for (let i = 0; i < listeners.length; i++) {
-            await listeners[i](event);
+            await listeners[i](event, () => removeAfterwards.push(listeners[i]));
+        }
+        for (let i = 0; i < removeAfterwards.length; i++) {
+            this.off(event.eventName, removeAfterwards[i]);
         }
 
         return event;
@@ -64,8 +72,12 @@ export class EventEmitter<Events extends EventData> {
     ): Event {
         const listeners = this.getListeners<Event>(event.eventName);
 
+        const removeAfterwards: Listener<Event>[] = [];
         for (let i = 0; i < listeners.length; i++) {
-            listeners[i](event);
+            listeners[i](event, () => removeAfterwards.push(listeners[i]));
+        }
+        for (let i = 0; i < removeAfterwards.length; i++) {
+            this.off(event.eventName, removeAfterwards[i]);
         }
 
         return event;
@@ -91,7 +103,7 @@ export class EventEmitter<Events extends EventData> {
     once(event: string, listener: Listener<any>): () => void {
         const removeListener = this.on(event, async (ev) => {
             removeListener();
-            await listener(ev);
+            await listener(ev, () => {});
         });
         return removeListener;
     }

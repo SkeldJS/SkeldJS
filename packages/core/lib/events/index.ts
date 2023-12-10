@@ -39,6 +39,7 @@ export * from "./oxygen/ConsolesClear";
 
 export * from "./movingplatform/PlayerUpdate";
 
+export * from "./player/CancelPet";
 export * from "./player/CheckColor";
 export * from "./player/CheckMurder";
 export * from "./player/CheckName";
@@ -53,6 +54,7 @@ export * from "./player/Join";
 export * from "./player/Leave";
 export * from "./player/Move";
 export * from "./player/Murder";
+export * from "./player/PetPet";
 export * from "./player/Protect";
 export * from "./player/Ready";
 export * from "./player/RemoveProtection";

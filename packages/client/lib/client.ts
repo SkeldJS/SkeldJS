@@ -65,7 +65,7 @@ import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { DtlsSocket } from "@skeldjs/dtls";
 
-import { AuthMethod, ClientConfig, PortOptions } from "./interfaces";
+import { AuthMethod, ClientConfig, FindGamesOptions, PortOptions } from "./interfaces";
 
 import {
     ClientConnectEvent,
@@ -200,7 +200,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             language: Language.English,
             chatMode: QuickChatMode.FreeChat,
             messageOrdering: false,
-            platform: new PlatformSpecificData(Platform.StandaloneSteamPC, "TESTNAME"),
+            platform: new PlatformSpecificData(Platform.StandaloneItch, "TESTNAME"),
             idToken: "",
             eosProductUserId: "", // crypto.randomBytes(16).toString("hex"),
             ...options
@@ -478,7 +478,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                 this.version,
                 username,
                 this.config.authMethod === AuthMethod.SecureTransport
-                    ? this.config.eosProductUserId
+                    ? this.httpMatchmakerClient.matchmakerToken!
                     : authToken,
                 this.config.language,
                 this.config.chatMode,
@@ -638,7 +638,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             this.packetsReceived.unshift(parsedReliable.nonce);
             this.packetsReceived.splice(8);
 
-            await this.acknowledgeNonce(parsedReliable.nonce);
+            this.acknowledgeNonce(parsedReliable.nonce);
 
             if (parsedReliable.nonce < this.nextExpectedNonce - 1) {
                 return;
@@ -740,7 +740,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             new ReliablePacket(
                 this.getNextNonce(),
                 [
-                    new JoinGameMessage(code)
+                    new JoinGameMessage(code, true)
                 ]
             )
         );
@@ -831,10 +831,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         return await this._joinGame(code, doSpawn);
     }
 
-    async _createGame(settings: GameSettings, doJoin: boolean): Promise<number> {
+    async _createGame(settings: GameSettings, filterTags: string[], doJoin: boolean): Promise<number> {
         this.send(
             new ReliablePacket(this.getNextNonce(), [
-                new HostGameMessage(settings),
+                new HostGameMessage(settings, filterTags),
             ])
         );
 
@@ -864,7 +864,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
             this.decoder.on(RedirectMessage, onRedirectMessage);
             this.decoder.on(HostGameMessage, onHostGameMessage);
-            this.off("client.disconnect", onDisconnect);
+            this.on("client.disconnect", onDisconnect);
         });
 
         if (message instanceof ClientDisconnectEvent) {
@@ -878,7 +878,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
                     message.port
                 );
 
-                return await this._createGame(settings, doJoin);
+                return await this._createGame(settings, filterTags, doJoin);
             case RootMessageTag.HostGame:
                 this.settings.patch(settings);
 
@@ -894,6 +894,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * Create a game with given settings.
      * @param hostSettings The settings to create the game with.
+     * @param filterTags The search tags to use for the created game.
      * @param doJoin Whether or not to join the game after created.
      * @returns The game code of the room.
      * @example
@@ -908,6 +909,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     async createGame(
         hostSettings: DeepPartial<AllGameSettings> = {},
+        filterTags = ["Beginner", "Casual", "Serious", "Expert"],
         doJoin: boolean = true
     ): Promise<number> {
         const settings = new GameSettings({
@@ -921,14 +923,12 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             await this._connect(ip, port);
         }
 
-        return await this._createGame(settings, doJoin);
+        return await this._createGame(settings, filterTags, doJoin);
     }
 
     /**
      * Search for public games.
-     * @param maps The maps of games to look for. If a number, it will be a bitfield of the maps, else, it will be an array of the maps.
-     * @param impostors The number of impostors to look for. 0 for any amount.
-     * @param keyword The language of the game to look for, use {@link GameKeyword.All} for any.
+     * @param options Search options to further slim down the search results.
      * @returns An array of game listings.
      * @example
 	 *```typescript
@@ -943,24 +943,18 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * const code = await game.join();
      * ```
 	 */
-    async findGames(
-        maps: number | GameMap[] = 0x7 /* all maps */,
-        impostors = 0 /* any impostors */,
-        keyword = GameKeyword.All,
-        quickChat = QuickChatMode.QuickChat
-    ): Promise<GameListing[]> {
-        if (Array.isArray(maps)) {
-            return await this.findGames(
-                maps.reduce(
-                    (acc, cur) => acc | (1 << cur),
-                    0
-                ) /* convert to bitfield */,
-                impostors,
-                keyword
-            );
-        }
+    async findGames(options: Partial<FindGamesOptions> = {}): Promise<GameListing[]> {
+        const fullOptions: FindGamesOptions = {
+            maps: [ GameMap.TheSkeld, GameMap.MiraHQ, GameMap.Polus, GameMap.AprilFoolsTheSkeld, GameMap.Airship ],
+            numImpostors: 0,
+            chatLanguage: GameKeyword.All,
+            quickChatMode: QuickChatMode.FreeChat,
+            filterTags: ["Beginner", "Casual", "Serious", "Expert"],
+            ...options
+        };
 
-        return await this.httpMatchmakerClient.findGames(maps, keyword, quickChat, 0xff, impostors);
+        const mapBitfield = fullOptions.maps.reduce((acc, cur) => acc | (1 << cur), 0);
+        return await this.httpMatchmakerClient.findGames(mapBitfield, fullOptions.chatLanguage, fullOptions.quickChatMode, 0xff, fullOptions.numImpostors);
     }
 
     /**

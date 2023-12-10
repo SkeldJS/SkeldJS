@@ -17,7 +17,6 @@ export class SyncSettingsMessage extends BaseRpcMessage {
 
     static Deserialize(reader: HazelReader) {
         const options = reader.read(GameSettings);
-
         return new SyncSettingsMessage(options);
     }
 

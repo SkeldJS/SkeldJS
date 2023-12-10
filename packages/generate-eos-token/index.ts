@@ -18,7 +18,7 @@ while ((currentArg = argv.shift()) !== undefined) {
 
 const clientId = parsedArgs.clientId || "xyza7891qtrmoYLr86we6DlfCA1RRsp8";
 const clientSecret = parsedArgs.clientSecret || "nGThQanzvthA2HPaARXe/xutzsKyx5WJveNkBx44ti4";
-const deploymentId = parsedArgs.deploymentId || "3ce14d8292084c80a8364a8b5f0dfbf4";
+const deploymentId = parsedArgs.deploymentId || "503cd077a7804777aee5a6eeb5cfe62d";
 const displayName = parsedArgs.displayName || Math.random().toString(16).substr(2);
 
 (async () => {

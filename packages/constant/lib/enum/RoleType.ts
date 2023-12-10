@@ -4,5 +4,7 @@ export enum RoleType {
     Scientist,
     Engineer,
     GuardianAngel,
-    Shapeshifter
+    Shapeshifter,
+    ImpostorGhost,
+    CrewmateGhost
 }

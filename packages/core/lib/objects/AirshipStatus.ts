@@ -93,8 +93,8 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         ]
     ];
 
-    initialSpawnCenter = new Vector2(50, 50);
-    meetingSpawnCenter = new Vector2(50, 50);
+    initialSpawnCenter = new Vector2(25, 40);
+    meetingSpawnCenter = new Vector2(25, 40);
 
     constructor(
         room: RoomType,

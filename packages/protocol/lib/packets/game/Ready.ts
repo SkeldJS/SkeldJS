@@ -16,7 +16,6 @@ export class ReadyMessage extends BaseGameDataMessage {
 
     static Deserialize(reader: HazelReader) {
         const clientId = reader.packed();
-
         return new ReadyMessage(clientId);
     }
 

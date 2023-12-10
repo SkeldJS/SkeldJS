@@ -28,7 +28,9 @@ import {
     SpawnFlag,
     GameState,
     RoleType,
-    RoleTeamType
+    RoleTeamType,
+    GameMode,
+    GameMap
 } from "@skeldjs/constant";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
@@ -53,12 +55,13 @@ import {
     VoteBanSystemEvents,
     PlayerIDResolvable,
     InnerShipStatus,
+    HideAndSeekManager,
+    NormalGameManager,
+    InnerGameManager,
 } from "./objects";
 
 import { Networkable, NetworkableEvents, NetworkableConstructor } from "./Networkable";
 import { PlayerData, PlayerDataEvents } from "./PlayerData";
-
-import { HostableOptions as HostableConfig } from "./misc/HostableOptions";
 
 import {
     ComponentDespawnEvent,
@@ -76,6 +79,8 @@ import {
 
 import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
 import { BaseRole, CrewmateRole, EngineerRole, GuardianAngelRole, ImpostorRole, ScientistRole, ShapeshifterRole } from "./roles";
+import { HostableConfig } from "./misc";
+import { ImpostorGhost } from "./roles/ImpostorGhost";
 
 export type RoomID = string | number;
 
@@ -258,12 +263,16 @@ export class Hostable<
      */
     voteBanSystem: VoteBanSystem<this>|undefined;
 
+    gameManager: InnerGameManager<this>|undefined;
+
     /**
      * A map of spawn type -> objects used in the protocol. Useful to register
      * custom INO (inner net objects) such as replicating behaviour from a client
      * mod, see {@link Hostable.registerPrefab}.
      */
     registeredPrefabs: Map<number, NetworkableConstructor<any>[]>;
+
+    shipPrefabIds: Map<number, number>;
 
     /**
      * All roles that can be assigned to players. See {@link Hostable.registerRole}.
@@ -309,6 +318,7 @@ export class Hostable<
         this.lobbyBehaviour = undefined;
         this.gameData = undefined;
         this.voteBanSystem = undefined;
+        this.gameManager = undefined;
 
         this.registeredPrefabs = new Map([
             [SpawnType.SkeldShipStatus, [ SkeldShipStatus ]],
@@ -319,8 +329,18 @@ export class Hostable<
             [SpawnType.MiraShipStatus, [ MiraShipStatus ]],
             [SpawnType.Polus, [ PolusShipStatus ]],
             [SpawnType.AprilShipStatus, [ AprilShipStatus ]],
-            [SpawnType.Airship, [ AirshipStatus ]]
+            [SpawnType.Airship, [ AirshipStatus ]],
+            [SpawnType.HideAndSeekManager, [ HideAndSeekManager ]],
+            [SpawnType.NormalGameManager, [ NormalGameManager ]]
         ]);
+        
+        this.shipPrefabIds = new Map([
+            [ GameMap.TheSkeld, SpawnType.SkeldShipStatus ],
+            [ GameMap.MiraHQ, SpawnType.MiraShipStatus ],
+            [ GameMap.Polus, SpawnType.Polus ],
+            [ GameMap.AprilFoolsTheSkeld, SpawnType.AprilShipStatus ],
+            [ GameMap.Airship, SpawnType.Airship ],
+        ])
 
         this.registeredRoles = new Map([
             [ RoleType.Crewmate, CrewmateRole ],
@@ -426,14 +446,13 @@ export class Hostable<
             if (this.hostIsMe) {
                 for (let i = 0; i < endGameIntents.length; i++) {
                     const intent = endGameIntents[i];
-                    const ev = await this.emit(
-                        new RoomEndGameIntentEvent(
-                            this,
-                            intent.name,
-                            intent.reason,
-                            intent.metadata
-                        )
-                    );
+                    const ev = await this.emit(new RoomEndGameIntentEvent(
+                        this,
+                        intent.name,
+                        intent.reason,
+                        intent.metadata
+                    ));
+            
                     if (ev.canceled) {
                         endGameIntents.splice(i, 1);
                         i--;
@@ -620,6 +639,14 @@ export class Hostable<
         if (!this.gameData) {
             this.spawnPrefabOfType(SpawnType.GameData, -2);
         }
+
+        if (!this.gameManager) {
+            if (this.settings.gameMode === GameMode.Normal) {
+                this.spawnPrefabOfType(SpawnType.NormalGameManager, -2);
+            } else if (this.settings.gameMode === GameMode.HideNSeek) {
+                this.spawnPrefabOfType(SpawnType.HideAndSeekManager, -2);
+            }
+        }
     }
 
     /**
@@ -669,32 +696,34 @@ export class Hostable<
         if (!this.gameData || !this.shipStatus)
             return;
 
+        let aliveCrewmates = 0;
         let aliveImpostors = 0;
         let totalImpostors = 0;
-        let totalCrewmates = 0;
-        for (const [ , playerInfo ] of this.gameData.players) {
-            if (!playerInfo.isDisconnected)
-            {
-                if (playerInfo.isImpostor)
-                {
-                    totalImpostors++;
-                } else {
-                    totalCrewmates++;
-                }
 
-                if (!playerInfo.isDead)
-                {
-                    if (playerInfo.isImpostor)
-                    {
-                        aliveImpostors++;
-                    }
+        for (const [ , playerInfo ] of this.gameData.players) {
+            if (playerInfo.isDisconnected)
+                continue;
+
+            if (playerInfo.roleType?.roleMetadata.roleTeam === RoleTeamType.Impostor) {
+                totalImpostors++;
+                if (!playerInfo.isDead) {
+                    aliveImpostors++;
                 }
+                continue;
+            }
+
+            if (playerInfo.isDead) {
+                if (playerInfo.roleType?.roleMetadata.roleType === RoleType.ImpostorGhost && (playerInfo.getPlayer()?.role as ImpostorGhost|undefined)?.wasManuallyPicked) {
+                    aliveImpostors++;
+                }
+            } else {
+                aliveCrewmates++;
             }
         }
 
         const reason = totalImpostors === 0
             ? GameOverReason.ImpostorDisconnect
-            : totalCrewmates <= aliveImpostors
+            : aliveCrewmates <= aliveImpostors
                 ? GameOverReason.HumansDisconnect
                 : -1;
 
@@ -706,7 +735,7 @@ export class Hostable<
                     {
                         aliveImpostors,
                         totalImpostors,
-                        totalCrewmates
+                        aliveCrewmates
                     }
                 )
             );
@@ -772,11 +801,17 @@ export class Hostable<
         this.gameState = GameState.Started;
 
         if (this.hostIsMe) {
+            if (this.gameData) this.gameData.dirtyBit = 2 ** 32 - 1;
+            if (this.lobbyBehaviour) this.lobbyBehaviour.despawn();
+
+            const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
+            this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, -2);
+
             await Promise.all([
                 Promise.race([
                     Promise.all(
                         [...this.players.values()].map((player) => {
-                            if (player.isReady) {
+                            if (player.isReady || player.isMe) {
                                 return Promise.resolve();
                             }
 
@@ -788,13 +823,12 @@ export class Hostable<
                         })
                     ),
                     sleep(3000),
-                ]),
-                this.myPlayer?.setReady(),
+                ])
             ]);
 
             const removes = [];
             for (const [ clientId, player ] of this.players) {
-                if (!player.isReady) {
+                if (!player.isReady && !player.isMe) {
                     await this.handleLeave(player);
                     removes.push(clientId);
                 }
@@ -813,27 +847,17 @@ export class Hostable<
                 );
             }
 
-            if (this.lobbyBehaviour)
-                this.lobbyBehaviour.despawn();
-
-            const shipPrefabs = [
-                SpawnType.SkeldShipStatus,
-                SpawnType.MiraShipStatus,
-                SpawnType.Polus,
-                SpawnType.AprilShipStatus,
-                SpawnType.Airship
-            ];
-
-            await this.emit(new RoomGameStartEvent(this));
-            this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, -2);
-            await this.shipStatus?.assignRoles();
+            await this.gameManager?.onGameStart();
             await this.shipStatus?.assignTasks();
 
             if (this.shipStatus) {
                 for (const [ , player ] of this.players) {
-                    this.shipStatus.spawnPlayer(player, true);
+                    this.shipStatus.spawnPlayer(player, true, false);
                 }
             }
+            
+            await this.emit(new RoomGameStartEvent(this));
+            await this.myPlayer?.setReady();
         } else {
             await this.emit(new RoomGameStartEvent(this));
             await this.myPlayer?.setReady();
@@ -933,6 +957,10 @@ export class Hostable<
             this.meetingHud = component;
         }
 
+        if (component instanceof InnerGameManager) {
+            this.gameManager = component;
+        }
+
         this.netobjects.set(component.netId, component);
 
         component.emitSync(
@@ -967,6 +995,10 @@ export class Hostable<
 
         if (component === this.meetingHud) {
             this.meetingHud = undefined;
+        }
+
+        if (component === this.gameManager) {
+            this.gameManager = undefined;
         }
 
         component.Destroy();
@@ -1093,8 +1125,8 @@ export class Hostable<
         if (!object)
             return;
 
-        for (const component of object.components) {
-            if (doAwake) {
+        if (doAwake) {
+            for (const component of object.components) {
                 component.Awake();
             }
         }
@@ -1274,7 +1306,7 @@ export class Hostable<
         if (this.gameState !== GameState.Started)
             return false;
 
-        if (murderer.playerInfo?.isDead || murderer.playerInfo?.roleType.roleMetadata.roleTeam !== RoleTeamType.Impostor || murderer.playerInfo?.isDisconnected) {
+        if (murderer.playerInfo?.isDead || !murderer.playerInfo?.roleType || murderer.playerInfo.roleType.roleMetadata.roleTeam !== RoleTeamType.Impostor || murderer.playerInfo?.isDisconnected) {
             return false;
         }
 

@@ -41,9 +41,16 @@ export class HelloPacket extends BaseRootPacket {
         const language = reader.uint32();
         const chatMode = reader.uint8();
         const platform = reader.read(PlatformSpecificData);
-        const friendCode = reader.string();
+        if (decoder.config.useDtlsLayout) {
+            const friendCode = reader.string();
 
-        return new HelloPacket(nonce, clientVer, username, auth, language, chatMode, platform, friendCode);
+            return new HelloPacket(nonce, clientVer, username, auth, language, chatMode, platform, friendCode);
+        } else {
+            reader.string(); // random bytes??
+            reader.uint32();
+
+            return new HelloPacket(nonce, clientVer, username, auth, language, chatMode, platform, "");
+        }
     }
 
     Serialize(writer: HazelWriter) {

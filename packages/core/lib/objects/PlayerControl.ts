@@ -1,5 +1,4 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { ExtractEventTypes } from "@skeldjs/events";
 
 import {
     BaseRpcMessage,
@@ -12,10 +11,10 @@ import {
     GameSettings,
     MurderPlayerMessage,
     ProtectPlayerMessage,
+    QuickChatComplexMessageData,
     QuickChatMessageData,
-    QuickChatPhraseMessageData,
     QuickChatPlayerMessageData,
-    QuickChatSentenceMessageData,
+    QuickChatSimpleMessageData,
     ReportDeadBodyMessage,
     RpcMessage,
     SendChatMessage,
@@ -54,6 +53,8 @@ import {
     RoleType,
     GameState
 } from "@skeldjs/constant";
+
+import { ExtractEventTypes } from "@skeldjs/events";
 
 import {
     PlayerCheckColorEvent,
@@ -811,7 +812,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this._checkMurderEndGame();
 
         if (victim.playerInfo?.isDead && this.canBeManaged()) {
-            await this.room.shipStatus?.tryAssignGhostRole(victim);
+            // await this.room.shipStatus?.tryAssignGhostRole(victim); todo: fix
         }
     }
 
@@ -867,7 +868,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this._checkMurderEndGame();
 
         if (victim.playerInfo?.isDead && this.canBeManaged()) {
-            await this.room.shipStatus?.tryAssignGhostRole(victim);
+            // await this.room.shipStatus?.tryAssignGhostRole(victim); todo: fix
         }
     }
 
@@ -932,8 +933,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link PlayerSendChatEvent | `player.chat`} event.
      */
-    sendChat(message: string) {
-        this.emitSync(
+    async sendChat(message: string) {
+        await this.emit(
             new PlayerSendChatEvent(
                 this.room,
                 this.player,
@@ -1026,6 +1027,30 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         if (movingPlatform instanceof MovingPlatformSystem) {
             movingPlatform.setSide(MovingPlatformSide.Left);
         }
+
+        for (const [ , player ] of this.room.players) {
+            const playerPhysics = player.physics;
+            if (playerPhysics && playerPhysics.ventId !== -1) {
+                playerPhysics.exitVent(playerPhysics.ventId)
+            }
+        }
+        
+        this.room.messageStream.push(
+            new SpawnMessage(
+                SpawnType.MeetingHud,
+                -2,
+                0,
+                spawnMeetinghud.components.map((component) => {
+                    const writer = HazelWriter.alloc(0);
+                    writer.write(component, true);
+
+                    return new ComponentSpawnData(
+                        component.netId,
+                        writer.buffer
+                    );
+                })
+            )
+        );
     }
 
     private _rpcStartMeeting(player: PlayerData|"emergency"): void {
@@ -1228,12 +1253,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     sendQuickChat(message: PlayerData|StringNames, format?: (PlayerData|StringNames)[]) {
         const quickChatMessage = typeof message === "number"
             ? format
-                ? new QuickChatSentenceMessageData(message, format.map(format => {
+                ? new QuickChatComplexMessageData(message, format.map(format => {
                     return typeof format === "number"
-                        ? format
+                        ? new QuickChatSimpleMessageData(format)
                         : new QuickChatPlayerMessageData(format.playerId!);
                 }))
-                : new QuickChatPhraseMessageData(message)
+                : new QuickChatSimpleMessageData(message)
             : new QuickChatPlayerMessageData(message.playerId!);
 
         this.emitSync(
@@ -1601,6 +1626,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         const newRole = this.room.registeredRoles.get(rpc.roleType) || UnknownRole(rpc.roleType);
         playerInfo.roleType = newRole;
         this.player.role = new newRole(this.player);
+        if (newRole.roleMetadata.roleType !== RoleType.ImpostorGhost && newRole.roleMetadata.roleType !== RoleType.CrewmateGhost) {
+            playerInfo.roleTypeWhenAlive = newRole;
+        }
 
         const ev = await this.emit(
             new PlayerSetRoleEvent(
@@ -1632,12 +1660,16 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     async setRole(roleCtr: typeof BaseRole) {
         const playerInfo = this.player.playerInfo;
-        if (!playerInfo)
+        if (!playerInfo || !this.room.gameData)
             return;
 
         const oldRoleType = playerInfo.roleType;
         playerInfo.roleType = roleCtr;
+        this.room.gameData.markDirty(playerInfo);
         this.player.role = new roleCtr(this.player);
+        if (roleCtr.roleMetadata.roleType !== RoleType.ImpostorGhost && roleCtr.roleMetadata.roleType !== RoleType.CrewmateGhost) {
+            playerInfo.roleTypeWhenAlive = roleCtr;
+        }
 
         const ev = await this.emit(
             new PlayerSetRoleEvent(
@@ -1648,6 +1680,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 roleCtr
             )
         );
+
+        if (ev.canceled) {
+            playerInfo.roleType = oldRoleType;
+            this.player.role = oldRoleType ? new oldRoleType(this.player) : undefined;
+            return;
+        }
 
         if (ev.alteredRole !== roleCtr) {
             playerInfo.roleType = ev.alteredRole;

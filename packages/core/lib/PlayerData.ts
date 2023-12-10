@@ -235,7 +235,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
         this.isReady = true;
         await this.emit(new PlayerReadyEvent(this.room, this));
 
-        if (this.isMe && !this.isHost) {
+        if (this.isMe) {
             await this.room.broadcast([ new ReadyMessage(this.clientId) ]);
         }
     }

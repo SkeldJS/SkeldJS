@@ -6,10 +6,10 @@ import {
 } from "@skeldjs/core";
 
 import {
+    QuickChatComplexMessageData,
     QuickChatMessageData,
-    QuickChatPhraseMessageData,
     QuickChatPlayerMessageData,
-    QuickChatSentenceMessageData
+    QuickChatSimpleMessageData
 } from "@skeldjs/protocol";
 
 import { AllTranslations } from "./translations";
@@ -48,7 +48,7 @@ export class TranslationController {
      * @param language The language of the string.
      * @returns The formatted string.
      */
-    formatString(str: string|StringNames, elements: (number|QuickChatPlayerMessageData|PlayerData)[], language: Language) {
+    formatString(str: string|StringNames, elements: (undefined|number|QuickChatSimpleMessageData|QuickChatPlayerMessageData|PlayerData)[], language: Language) {
         const translationString = typeof str === "string"
             ? str
             : this.getTranslation(str, language);
@@ -59,6 +59,10 @@ export class TranslationController {
 
             if (!element) {
                 return "";
+            }
+
+            if (element instanceof QuickChatSimpleMessageData) {
+                return this.getTranslation(element.formatString, language);
             }
 
             if (typeof element === "number") {
@@ -104,9 +108,9 @@ export class TranslationController {
     serializeQuickChat(quickChatMessage: QuickChatMessageData, language: Language): string {
         if (quickChatMessage instanceof QuickChatPlayerMessageData) {
             return this.getPlayerName(quickChatMessage.playerId);
-        } else if (quickChatMessage instanceof QuickChatPhraseMessageData) {
+        } else if (quickChatMessage instanceof QuickChatSimpleMessageData) {
             return this.getTranslation(quickChatMessage.formatString as StringNames, language);
-        } else if (quickChatMessage instanceof QuickChatSentenceMessageData) {
+        } else if (quickChatMessage instanceof QuickChatComplexMessageData) {
             const formatTranslation = this.getQuickchatTranslation(quickChatMessage.formatString, language);
 
             if (typeof formatTranslation === "string") {
@@ -115,12 +119,14 @@ export class TranslationController {
 
             const elementTypes = [];
             for (const element of quickChatMessage.elements) {
-                if (element === StringNames.QCCrewNoOne) {
-                    elementTypes.push("QCCrewNoOne");
-                } else if (element === StringNames.QCCrewMe || element === StringNames.QCCrewI) {
-                    elementTypes.push("QCCrewMe");
-                } else {
-                    elementTypes.push("ANY");
+                if (element instanceof QuickChatSimpleMessageData) {
+                    if (element.formatString === StringNames.QCCrewNoOne) {
+                        elementTypes.push("QCCrewNoOne");
+                    } else if (element.formatString === StringNames.QCCrewMe || element.formatString === StringNames.QCCrewI) {
+                        elementTypes.push("QCCrewMe");
+                    } else {
+                        elementTypes.push("ANY");
+                    }
                 }
             }
 

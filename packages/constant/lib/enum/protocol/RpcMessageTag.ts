@@ -41,5 +41,7 @@ export enum RpcMessageTag {
     ProtectPlayer,
     Shapeshift,
     CheckMurder,
-    CheckProtect
+    CheckProtect,
+    Pet,
+    CancelPet
 }

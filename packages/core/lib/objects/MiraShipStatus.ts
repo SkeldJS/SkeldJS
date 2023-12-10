@@ -23,7 +23,7 @@ import { Hostable } from "../Hostable";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
-    initialSpawnCenter = new Vector2(16.64, 2.2);
+    initialSpawnCenter = new Vector2(-4.4, 2.2);
     meetingSpawnCenter = new Vector2(24.043, 1.72);
 
     constructor(
@@ -76,7 +76,7 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
             cooldown: 0,
         }));
         this.systems.set(SystemType.Decontamination, new DeconSystem(this, SystemType.Decontamination, {
-            timer: 10000,
+            timer: 0,
             state: 0,
         }));
     }

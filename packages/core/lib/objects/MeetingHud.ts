@@ -208,6 +208,11 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
     private _close() {
         this.room["_despawnComponent"](this);
+        if (this.room.shipStatus) {
+            for (const [ , player ] of this.room.players) {
+                this.room.shipStatus.spawnPlayer(player, true, true);
+            }
+        }
     }
 
     private _rpcClose() {
@@ -477,7 +482,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         );
     }
 
-    private _populateStates(states: PlayerVoteState<RoomType>[]) {
+    protected _populateStates(states: PlayerVoteState<RoomType>[]) {
         for (let i = 0; i < states.length; i++) {
             const state = this.voteStates.get(i);
             if (state) {
@@ -486,7 +491,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         }
     }
 
-    private async _votingComplete(
+    protected async _votingComplete(
         tie: boolean,
         exiled?: PlayerData<RoomType>
     ) {
@@ -550,7 +555,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
             clearInterval(this.ranOutOfTimeTimeout);
     }
 
-    private _rpcVotingComplete(
+    protected _rpcVotingComplete(
         states: PlayerVoteState<RoomType>[],
         tie: boolean,
         exiled?: PlayerData<RoomType>
@@ -573,7 +578,10 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     async votingComplete(tie: boolean = false, exiled?: PlayerDataResolvable) {
         const _exiled = exiled ? this.room.resolvePlayer(exiled) : undefined;
 
-        const voteStates: PlayerVoteState<RoomType>[] = new Array(this.room.gameData!.players.size);
+        if (!this.room.gameData)
+            return;
+
+        const voteStates: PlayerVoteState<RoomType>[] = new Array(this.room.gameData.players.size);
         let i = 0;
         for (const [ playerId, state ] of this.voteStates) {
             voteStates[i] = new PlayerVoteState(this.room, playerId, state.votedForId);

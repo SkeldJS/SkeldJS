@@ -116,7 +116,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         return this.transform?.position;
     }
 
-    get transform(): CustomNetworkTransform|undefined {
+    get transform(): CustomNetworkTransform<SkeldjsClient>|undefined {
         return this.myPlayer?.transform;
     }
 

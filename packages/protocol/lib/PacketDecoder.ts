@@ -53,7 +53,7 @@ import {
     CloseMessage,
     CompleteTaskMessage,
     EnterVentMessage,
-    ExiledMessage,
+    PetMessage,
     ExitVentMessage,
     MurderPlayerMessage,
     PlayAnimationMessage,
@@ -214,7 +214,7 @@ export class PacketDecoder<ContextType = any> {
             CloseDoorsOfTypeMessage,
             CompleteTaskMessage,
             EnterVentMessage,
-            ExiledMessage,
+            PetMessage,
             ExitVentMessage,
             MurderPlayerMessage,
             PlayAnimationMessage,
@@ -402,7 +402,7 @@ export class PacketDecoder<ContextType = any> {
             listeners.push(listener);
         }
 
-        return this.off.bind(this, messageClass, listener);
+        return () => this.off(messageClass, listener);
     }
 
     /**

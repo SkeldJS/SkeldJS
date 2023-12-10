@@ -25,5 +25,5 @@ export const DisconnectMessages = {
     [DisconnectReason.PlatformParentalControlsBlock]: "Your parental controls, or the parental controls of the players you are attempting to join do not allow you to play together.",
     [DisconnectReason.QuickchatLock]: "Incorrect chat mode.",
     [DisconnectReason.PlatformUserBlock]: "Unable to join: Lobby contains user on block list or user blocking you. Please try another.",
-    [DisconnectReason.PlatformLock]: "The room you joined is crossplatform, but you have disabled crossplatform in your local settings"
+    [DisconnectReason.SelfPlatformLock]: "The room you joined is crossplatform, but you have disabled crossplatform in your local settings"
 } as Record<number, string>;

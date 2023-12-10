@@ -1,8 +1,7 @@
 {
   "name": "@skeldjs/translations",
-  "version": "2.15.42",
+  "version": "2.15.49",
   "main": "./dist/index.js",
-  "types": "./index.ts",
   "publishConfig": {
     "types": "./dist/index.d.ts"
   },
@@ -12,10 +11,12 @@
     "prepack": "yarn build"
   },
   "license": "GPL-3.0-only",
-  "devDependencies": {
+  "dependencies": {
     "@skeldjs/constant": "workspace:*",
     "@skeldjs/core": "workspace:*",
-    "@skeldjs/protocol": "workspace:*",
+    "@skeldjs/protocol": "workspace:*"
+  },
+  "devDependencies": {
     "@types/node": "^17.0.18",
     "ts-node": "latest",
     "typescript": "latest"

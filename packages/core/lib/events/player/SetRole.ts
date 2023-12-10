@@ -1,4 +1,4 @@
-import { BasicEvent } from "@skeldjs/events";
+import { CancelableEvent } from "@skeldjs/events";
 import { SetRoleMessage } from "@skeldjs/protocol";
 
 import { RoomEvent } from "../RoomEvent";
@@ -11,7 +11,7 @@ import { BaseRole } from "../../roles";
 /**
  * Emitted when a player has their player role updated.
  */
-export class PlayerSetRoleEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetRoleEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setrole" as const;
     eventName = "player.setrole" as const;
 
@@ -24,7 +24,7 @@ export class PlayerSetRoleEvent<RoomType extends Hostable = Hostable> extends Ba
         /**
          * The role that the player had before, if any.
          */
-        public readonly oldRole: typeof BaseRole,
+        public readonly oldRole: typeof BaseRole|undefined,
         /**
          * The new role that the player has, if any.
          */
@@ -40,13 +40,6 @@ export class PlayerSetRoleEvent<RoomType extends Hostable = Hostable> extends Ba
      */
     get alteredRole() {
         return this._alteredRole;
-    }
-
-    /**
-     * Revert the player's role back to their old role.
-     */
-    revert() {
-        this.setRole(this.oldRole);
     }
 
     /**

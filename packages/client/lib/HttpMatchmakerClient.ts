@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import { GameListing, PlatformSpecificData } from "@skeldjs/protocol";
 import { SkeldjsClient } from "./client";
+import { Language } from "@skeldjs/constant";
 
 export interface HostServerResponse {
     IP: number;
@@ -23,7 +24,7 @@ export interface GameListingResponse {
 }
 
 export class HttpMatchmakerClient {
-    protected _matchmakerToken?: string;
+    public matchmakerToken?: string;
 
     hostname?: string;
     port?: number;
@@ -34,7 +35,7 @@ export class HttpMatchmakerClient {
         if (!this.hostname)
             throw new Error("No hostname; cannot login");
 
-        const res = await fetch(this.hostname + ":" + this.port + "/api/user", {
+        const res = await fetch(`${this.hostname}:${this.port}/api/user`, {
             method: "POST",
             headers: [ [ "Content-Type", "application/json" ], [ "Authorization", "Bearer " + this.client.config.idToken ] ],
             body: JSON.stringify({
@@ -46,11 +47,11 @@ export class HttpMatchmakerClient {
         });
 
         if (!res.ok) {
-            throw new Error("Invalid response @ POST " + this.hostname + ":" + this.port + "/api/user: " + res.status);
+            throw new Error(`Invalid response @ POST ${this.hostname}:${this.port}/api/user: ${res.status}`);
         }
 
-        this._matchmakerToken = await res.text();
-        return this._matchmakerToken;
+        this.matchmakerToken = await res.text();
+        return this.matchmakerToken;
     }
 
     ipIntToString(ip: number) {
@@ -67,16 +68,16 @@ export class HttpMatchmakerClient {
     }
 
     async getIpToHostGame() {
-        if (!this._matchmakerToken)
+        if (!this.matchmakerToken)
             throw new Error("Not logged in, use .login()");
 
-        const res = await fetch(this.hostname + ":" + this.port + "/api/games", {
+        const res = await fetch(`${this.hostname}:${this.port}/api/games`, {
             method: "PUT",
-            headers: [ [ "Authorization", "Bearer " + this._matchmakerToken ] ]
+            headers: [ [ "Authorization", "Bearer " + this.matchmakerToken ] ]
         });
 
         if (!res.ok) {
-            throw new Error("Invalid response @ PUT " + this.hostname + ":" + this.port + "/api/games: " + res.status);
+            throw new Error(`Invalid response @ PUT ${this.hostname}:${this.port}/api/games: ${res.status}`);
         }
 
         const { IP, Port } = await res.json() as HostServerResponse;
@@ -86,16 +87,16 @@ export class HttpMatchmakerClient {
     }
 
     async getIpToJoinGame(gameCode: number) {
-        if (!this._matchmakerToken)
+        if (!this.matchmakerToken)
             throw new Error("Not logged in, use .login()");
 
-        const res = await fetch(this.hostname + ":" + this.port + "/api/games?gameId=" + gameCode, {
+        const res = await fetch(`${this.hostname}:${this.port}/api/games?gameId=${gameCode}`, {
             method: "POST",
-            headers: [ [ "Authorization", "Bearer " + this._matchmakerToken ] ]
+            headers: [ [ "Authorization", "Bearer " + this.matchmakerToken ] ]
         });
 
         if (!res.ok) {
-            throw new Error("Invalid response @ POST " + this.hostname + ":" + this.port + "/api/games: " + res.status);
+            throw new Error(`Invalid response @ POST ${this.hostname}:${this.port}/api/games: ${res.status}`);
         }
 
         const { IP, Port } = await res.json() as HostServerResponse;
@@ -106,16 +107,16 @@ export class HttpMatchmakerClient {
     }
 
     async findGames(mapId: number, lang: number, quickChat: number, platformFlags: number, numImpostors: number) {
-        if (!this._matchmakerToken)
+        if (!this.matchmakerToken)
             throw new Error("Not logged in, use .login()");
 
-        const res = await fetch(this.hostname + ":" + this.port + "/api/games?mapId=" + mapId + "&lang=" + lang + "&quickChat=" + quickChat + "&platformFlags=" + platformFlags + "&numImpostors=" + numImpostors, {
+        const res = await fetch(`${this.hostname}:${this.port}/api/games?mapId=${mapId}&lang=${lang}&quickChat=${quickChat}&platformFlags=${platformFlags}&numImpostors=${numImpostors}`, {
             method: "POST",
-            headers: [ [ "Authorization", "Bearer " + this._matchmakerToken ] ]
+            headers: [ [ "Authorization", "Bearer " + this.matchmakerToken ] ]
         });
 
         if (!res.ok) {
-            throw new Error("Invalid response @ POST " + this.hostname + ":" + this.port + "/api/games: " + res.status);
+            throw new Error(`Invalid response @ POST ${this.hostname}:${this.port}/api/games: ${res.status}`);
         }
 
         const gameListings = await res.json() as GameListingResponse[];
@@ -134,5 +135,18 @@ export class HttpMatchmakerClient {
                 new PlatformSpecificData(listing.Platform, listing.HostPlatformName)
             );
         });
+    }
+
+    async getServerGameTags(language: Language) {
+        const res = await fetch(`${this.hostname}:${this.port}/api/filtertags?lang=${language}`, {
+            method: "GET",
+            headers: [ [ "Authorization", "Bearer " + this.matchmakerToken ]]
+        });
+
+        if (!res.ok) {
+            throw new Error(`Invalid response @ GET ${this.hostname}:${this.port}/api/filtertags: ${res.status}`);
+        }
+
+        return await res.json() as string[];
     }
 }

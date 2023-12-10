@@ -9,7 +9,7 @@ import {
 
 import { Hostable } from "../Hostable";
 import { GameData } from "../objects";
-import { BaseRole, CrewmateRole, UnknownRole } from "../roles";
+import { BaseRole, UnknownRole } from "../roles";
 
 export class TaskState {
     constructor(
@@ -44,7 +44,7 @@ export class PlayerOutfit {
 
     get isIncomplete() {
         return this.name === ""
-            || this.color === -1 as Color
+            || this.color === Color.Red
             || this.hatId === "missing"
             || this.petId === "missing"
             || this.skinId === "missing"
@@ -53,7 +53,7 @@ export class PlayerOutfit {
     }
 
     static createDefault(outfitType: PlayerOutfitType) {
-        return new PlayerOutfit(outfitType, "", -1, "missing", "missing", "missing", "missing", "missing");
+        return new PlayerOutfit(outfitType, "", Color.Red, "missing", "missing", "missing", "missing", "missing");
     }
 
     static Deserialize(reader: HazelReader, type: PlayerOutfitType) {
@@ -108,7 +108,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
     static createDefault<RoomType extends Hostable = Hostable>(gamedata: GameData<RoomType>, playerId: number) {
         return new PlayerInfo(gamedata, playerId, {
             [PlayerOutfitType.Default]: PlayerOutfit.createDefault(PlayerOutfitType.Default)
-        }, 0, 0, CrewmateRole, [], "", "");
+        }, 0, 0, undefined, undefined, [], "", "");
     }
 
     currentOutfitType: PlayerOutfitType;
@@ -145,7 +145,8 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
          * }
          * ```
          */
-        public roleType: typeof BaseRole,
+        public roleType: typeof BaseRole|undefined,
+        public roleTypeWhenAlive: typeof BaseRole|undefined,
         /**
          * All of this player's tasks, and whether or not they have been completed
          * or not by the player.
@@ -188,6 +189,9 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      * Whether this player has been flagged as the impostor.
      */
     get isImpostor() {
+        if (!this.roleType)
+            return false;
+
         return this.roleType.roleMetadata.roleTeam === RoleTeamType.Impostor;
     }
 
@@ -240,7 +244,11 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         }
         writer.upacked(this.playerLevel);
         writer.uint8(this.flags);
-        writer.uint16(this.roleType.roleMetadata.roleType);
+        writer.uint16(this.roleType?.roleMetadata.roleType ? this.roleType.roleMetadata.roleType : 0);
+        writer.bool(this.roleTypeWhenAlive !== undefined);
+        if (this.roleTypeWhenAlive !== undefined) {
+            writer.uint16(this.roleTypeWhenAlive.roleMetadata.roleType);
+        }
         writer.uint8(this.taskStates.length);
         for (let i = 0; i < this.taskStates.length; i++) {
             writer.upacked(i);
@@ -276,6 +284,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
             this.playerLevel,
             this.flags,
             this.roleType,
+            this.roleTypeWhenAlive,
             this.taskStates.map(task => new TaskState(task.taskType, task.completed)),
             this.friendCode,
             this.puid

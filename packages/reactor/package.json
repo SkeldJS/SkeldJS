@@ -1,10 +1,10 @@
 {
   "name": "@skeldjs/reactor",
-  "version": "2.15.42",
-  "main": "./dist/index.js",
-  "types": "./index.ts",
-  "publishConfig": {
-    "types": "./dist/index.d.ts"
+  "version": "2.15.49",
+  "exports": {
+    "./v2": "./dist/v2/index.js",
+    "./v3": "./dist/v3/index.js",
+    "./shared": "./dist/shared/index.js"
   },
   "scripts": {
     "build": "tsc -p ./",
@@ -13,12 +13,12 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
+    "@skeldjs/client": "workspace:*",
     "@skeldjs/constant": "workspace:*",
     "@skeldjs/protocol": "workspace:*",
     "@skeldjs/util": "workspace:*"
   },
   "devDependencies": {
-    "@skeldjs/client": "workspace:*",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.18",
     "ts-node": "latest",
