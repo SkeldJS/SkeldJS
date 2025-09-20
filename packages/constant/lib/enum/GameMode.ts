@@ -1,5 +1,7 @@
 export enum GameMode {
     None,
     Normal,
-    HideNSeek
+    HideNSeek,
+    NormalFools,
+    HideNSeekFools,
 }

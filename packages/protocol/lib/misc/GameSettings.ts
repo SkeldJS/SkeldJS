@@ -5,6 +5,8 @@ import {
     TaskBarMode,
     RoleType,
     GameMode,
+    SpecialGameModes,
+    RulesPreset,
 } from "@skeldjs/constant";
 
 import { DeepPartial, HazelReader, HazelWriter } from "@skeldjs/util";
@@ -29,6 +31,8 @@ export interface AllRoleSettings {
 }
 
 export interface AllGameSettings {
+    specialMode: SpecialGameModes;
+    rulesPreset: RulesPreset;
     version: number;
     maxPlayers: number;
     keywords: GameKeyword;
@@ -70,7 +74,7 @@ export interface AllGameSettings {
 export class RoleSettings implements AllRoleSettings {
     static isValid(settings: RoleSettings) {
         const roleChances = Object.entries(settings.roleChances);
-        for (const [ , roleChance ] of roleChances) {
+        for (const [, roleChance] of roleChances) {
             if (roleChance.maxPlayers < 0 || roleChance.maxPlayers > 15) {
                 return false;
             }
@@ -143,7 +147,7 @@ export class RoleSettings implements AllRoleSettings {
 
         if (roleSettings.roleChances) {
             const roleChances = Object.entries(roleSettings.roleChances);
-            for (const [ roleType, roleChance ] of roleChances) {
+            for (const [roleType, roleChance] of roleChances) {
                 this.roleChances[roleType as unknown as RoleType] = {
                     maxPlayers: 0,
                     chance: 0,
@@ -197,27 +201,27 @@ export class RoleSettings implements AllRoleSettings {
                     chance
                 };
 
-                const [ , mreader ] = reader.message();
+                const [, mreader] = reader.message();
 
                 switch (roleType) {
-                case RoleType.Scientist:
-                    this.scientistCooldown = mreader.uint8();
-                    this.scientistBatteryCharge = mreader.uint8();
-                    break;
-                case RoleType.Engineer:
-                    this.engineerCooldown = mreader.uint8();
-                    this.engineerInVentMaxTime = mreader.uint8();
-                    break;
-                case RoleType.GuardianAngel:
-                    this.guardianAngelCooldown = mreader.uint8();
-                    this.protectionDurationSeconds = mreader.uint8();
-                    this.impostorsCanSeeProtected = mreader.bool();
-                    break;
-                case RoleType.Shapeshifter:
-                    this.shapeshifterLeaveSkin = mreader.bool();
-                    this.shapeshifterCooldown = mreader.uint8();
-                    this.shapeshiftDuration = mreader.uint8();
-                    break;
+                    case RoleType.Scientist:
+                        this.scientistCooldown = mreader.uint8();
+                        this.scientistBatteryCharge = mreader.uint8();
+                        break;
+                    case RoleType.Engineer:
+                        this.engineerCooldown = mreader.uint8();
+                        this.engineerInVentMaxTime = mreader.uint8();
+                        break;
+                    case RoleType.GuardianAngel:
+                        this.guardianAngelCooldown = mreader.uint8();
+                        this.protectionDurationSeconds = mreader.uint8();
+                        this.impostorsCanSeeProtected = mreader.bool();
+                        break;
+                    case RoleType.Shapeshifter:
+                        this.shapeshifterLeaveSkin = mreader.bool();
+                        this.shapeshifterCooldown = mreader.uint8();
+                        this.shapeshiftDuration = mreader.uint8();
+                        break;
                 }
             }
             return;
@@ -253,7 +257,7 @@ export class RoleSettings implements AllRoleSettings {
             const roleChances = Object.entries(this.roleChances);
             writer.upacked(roleChances.length);
             for (let i = 0; i < roleChances.length; i++) {
-                const [ roleType, roleChance ] = roleChances[i];
+                const [roleType, roleChance] = roleChances[i];
 
                 writer.uint16(parseInt(roleType));
                 writer.uint8(roleChance.maxPlayers);
@@ -262,24 +266,24 @@ export class RoleSettings implements AllRoleSettings {
                 writer.begin(0);
 
                 switch (parseInt(roleType)) {
-                case RoleType.Scientist:
-                    writer.uint8(this.scientistCooldown);
-                    writer.uint8(this.scientistBatteryCharge);
-                    break;
-                case RoleType.Engineer:
-                    writer.uint8(this.engineerCooldown);
-                    writer.uint8(this.engineerInVentMaxTime);
-                    break;
-                case RoleType.GuardianAngel:
-                    writer.uint8(this.guardianAngelCooldown);
-                    writer.uint8(this.protectionDurationSeconds);
-                    writer.bool(this.impostorsCanSeeProtected);
-                    break;
-                case RoleType.Shapeshifter:
-                    writer.bool(this.shapeshifterLeaveSkin);
-                    writer.uint8(this.shapeshifterCooldown);
-                    writer.uint8(this.shapeshiftDuration);
-                    break;
+                    case RoleType.Scientist:
+                        writer.uint8(this.scientistCooldown);
+                        writer.uint8(this.scientistBatteryCharge);
+                        break;
+                    case RoleType.Engineer:
+                        writer.uint8(this.engineerCooldown);
+                        writer.uint8(this.engineerInVentMaxTime);
+                        break;
+                    case RoleType.GuardianAngel:
+                        writer.uint8(this.guardianAngelCooldown);
+                        writer.uint8(this.protectionDurationSeconds);
+                        writer.bool(this.impostorsCanSeeProtected);
+                        break;
+                    case RoleType.Shapeshifter:
+                        writer.bool(this.shapeshifterLeaveSkin);
+                        writer.uint8(this.shapeshifterCooldown);
+                        writer.uint8(this.shapeshiftDuration);
+                        break;
                 }
 
                 writer.end();
@@ -289,7 +293,7 @@ export class RoleSettings implements AllRoleSettings {
 
         const roleChances = Object.entries(this.roleChances);
         writer.int32(roleChances.length);
-        for (const [ roleType, roleChance ] of roleChances) {
+        for (const [roleType, roleChance] of roleChances) {
             writer.uint16(parseInt(roleType));
             writer.uint8(roleChance.maxPlayers);
             writer.uint8(roleChance.chance);
@@ -385,6 +389,8 @@ export class GameSettings {
     }
 
     gameMode: GameMode;
+    specialMode: SpecialGameModes;
+    rulesPreset: RulesPreset;
 
     maxPlayers: number;
     keywords: GameKeyword;
@@ -424,8 +430,12 @@ export class GameSettings {
     maxPingTime: number;
     crewmateTimeInVent: number;
 
+    tag: number; // don't know what this does right now
+
     constructor(settings: DeepPartial<AllGameSettings> = {}) {
         this.gameMode = GameMode.Normal;
+        this.specialMode = SpecialGameModes.None;
+        this.rulesPreset = RulesPreset.Custom;
 
         this.maxPlayers = settings.maxPlayers ?? 10;
         this.keywords = settings.keywords ?? GameKeyword.Other;
@@ -464,10 +474,15 @@ export class GameSettings {
         this.maxPingTime = settings.maxPingTime ?? 6;
         this.crewmateTimeInVent = settings.crewmateTimeInVent ?? 3;
 
+        this.tag = 0;
+
         this.roleSettings = new RoleSettings(settings.roleSettings || {});
     }
 
     patch(settings: Partial<AllGameSettings>) {
+        this.specialMode = settings.specialMode ?? SpecialGameModes.None;
+        this.rulesPreset = settings.rulesPreset ?? RulesPreset.Custom;
+
         this.maxPlayers = settings.maxPlayers ?? this.maxPlayers;
         this.keywords = settings.keywords ?? this.keywords;
         this.map = settings.map ?? this.map;
@@ -522,12 +537,14 @@ export class GameSettings {
         const version = sreader.uint8();
 
         if (version >= 7) {
-            const [ , mreader ] = sreader.message();
+            const [, mreader] = sreader.message();
             this.gameMode = mreader.uint8();
 
             if (this.gameMode === GameMode.None)
                 return;
 
+            this.specialMode = mreader.uint8();
+            this.rulesPreset = mreader.uint8();
             this.maxPlayers = mreader.uint8();
             this.keywords = mreader.uint32();
             this.map = mreader.uint8();
@@ -535,41 +552,49 @@ export class GameSettings {
             this.crewmateVision = mreader.float();
             this.impostorVision = mreader.float();
 
-            if (this.gameMode === GameMode.Normal) this.killCooldown = mreader.float();
+            switch (this.gameMode) {
+                case GameMode.Normal:
+                case GameMode.NormalFools:
+                    this.killCooldown = mreader.float();
+                    this.commonTasks = mreader.uint8();
+                    this.longTasks = mreader.uint8();
+                    this.shortTasks = mreader.uint8();
+                    this.numEmergencies = mreader.int32();
+                    this.numImpostors = mreader.uint8();
+                    this.killDistance = mreader.uint8();
+                    this.discussionTime = mreader.int32();
+                    this.votingTime = mreader.int32();
+                    this.isDefaults = mreader.bool();
+                    this.emergencyCooldown = mreader.uint8();
+                    this.confirmEjects = mreader.bool();
+                    this.visualTasks = mreader.bool();
+                    this.anonymousVotes = mreader.bool();
+                    this.taskbarUpdates = mreader.uint8();
+                    this.tag = mreader.uint8();
 
-            this.commonTasks = mreader.uint8();
-            this.longTasks = mreader.uint8();
-            this.shortTasks = mreader.uint8();
-
-            if (this.gameMode === GameMode.HideNSeek) {
-                this.isDefaults = mreader.bool();
-                this.crewmateVentUses = mreader.int32();
-                this.hidingTime = mreader.float();
-                this.crewmateFlashlightSize = mreader.float();
-                this.impostorFlashlightSize = mreader.float();
-                this.useFlashlight = mreader.bool();
-                this.finalHideSeekMap = mreader.bool();
-                this.finalHideTime = mreader.float();
-                this.finalSeekerSpeed = mreader.float();
-                this.finalHidePing = mreader.bool();
-                this.showNames = mreader.bool();
-                this.seekerPlayerId = mreader.uint32();
-                this.maxPingTime = mreader.float();
-                this.crewmateTimeInVent = mreader.float();
-            } else {
-                this.numEmergencies = mreader.int32();
-                this.numImpostors = mreader.uint8();
-                this.killDistance = mreader.uint8();
-                this.discussionTime = mreader.int32();
-                this.votingTime = mreader.int32();
-                this.isDefaults = mreader.bool();
-                this.emergencyCooldown = mreader.uint8();
-                this.confirmEjects = mreader.bool();
-                this.visualTasks = mreader.bool();
-                this.anonymousVotes = mreader.bool();
-                this.taskbarUpdates = mreader.uint8();
-
-                this.roleSettings.Deserialize(mreader, version);
+                    this.roleSettings.Deserialize(mreader, version);
+                    break;
+                case GameMode.HideNSeek:
+                case GameMode.HideNSeekFools:
+                    this.commonTasks = mreader.uint8();
+                    this.longTasks = mreader.uint8();
+                    this.shortTasks = mreader.uint8();
+                    this.isDefaults = mreader.bool();
+                    this.crewmateVentUses = mreader.int32();
+                    this.hidingTime = mreader.float();
+                    this.crewmateFlashlightSize = mreader.float();
+                    this.impostorFlashlightSize = mreader.float();
+                    this.useFlashlight = mreader.bool();
+                    this.finalHideSeekMap = mreader.bool();
+                    this.finalHideTime = mreader.float();
+                    this.finalSeekerSpeed = mreader.float();
+                    this.finalHidePing = mreader.bool();
+                    this.showNames = mreader.bool();
+                    this.seekerPlayerId = mreader.uint32();
+                    this.maxPingTime = mreader.float();
+                    this.crewmateTimeInVent = mreader.float();
+                    this.tag = mreader.uint8();
+                    break;
             }
         } else {
             this.maxPlayers = sreader.uint8();
