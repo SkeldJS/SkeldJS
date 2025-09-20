@@ -5,6 +5,11 @@ export enum RoleType {
     Engineer,
     GuardianAngel,
     Shapeshifter,
+    CrewmateGhost,
     ImpostorGhost,
-    CrewmateGhost
+    Noisemaker,
+    Phantom,
+    Tracker,
+    Detective = 12,
+    Viper = 18,
 }

@@ -18,16 +18,25 @@ export interface RoleChanceSettings {
 
 export interface AllRoleSettings {
     roleChances: Partial<Record<RoleType, RoleChanceSettings>>;
+    scientistCooldown: number;
+    scientistBatteryCharge: number;
+    engineerCooldown: number;
+    engineerInVentMaxTime: number;
+    guardianAngelCooldown: number;
+    guardianAngelPotectionDuration: number;
+    guardianAngelsImpostorCanSeeProtected: boolean;
     shapeshifterLeaveSkin: boolean;
     shapeshifterCooldown: number;
     shapeshiftDuration: number;
-    scientistCooldown: number;
-    guardianAngelCooldown: number;
-    engineerCooldown: number;
-    engineerInVentMaxTime: number;
-    scientistBatteryCharge: number;
-    protectionDurationSeconds: number;
-    impostorsCanSeeProtected: boolean;
+    noisemakerAlertDuration: number;
+    noisemakerImpostorAlert: boolean;
+    phantomCooldown: number;
+    phantomDuration: number;
+    trackerCooldown: number;
+    trackerDuration: number;
+    trackerDelay: number;
+    detectiveSuspectLimit: number;
+    viperDissolveTime: number;
 }
 
 export interface AllGameSettings {
@@ -103,7 +112,7 @@ export class RoleSettings implements AllRoleSettings {
         if (settings.scientistBatteryCharge < 5 || settings.scientistBatteryCharge > 30) {
             return false;
         }
-        if (settings.protectionDurationSeconds < 5 || settings.protectionDurationSeconds > 30) {
+        if (settings.guardianAngelPotectionDuration < 5 || settings.guardianAngelPotectionDuration > 30) {
             return false;
         }
         return true;
@@ -118,31 +127,38 @@ export class RoleSettings implements AllRoleSettings {
     engineerInVentMaxTime: number;
 
     guardianAngelCooldown: number;
-    protectionDurationSeconds: number;
-    impostorsCanSeeProtected: boolean;
+    guardianAngelPotectionDuration: number;
+    guardianAngelsImpostorCanSeeProtected: boolean;
 
     shapeshifterLeaveSkin: boolean;
     shapeshifterCooldown: number;
     shapeshiftDuration: number;
 
+    noisemakerAlertDuration: number;
+    noisemakerImpostorAlert: boolean;
+
+    phantomCooldown: number;
+    phantomDuration: number;
+
+    trackerCooldown: number;
+    trackerDuration: number;
+    trackerDelay: number;
+
+    detectiveSuspectLimit: number;
+
+    viperDissolveTime: number;
+
     constructor(roleSettings: DeepPartial<AllRoleSettings>) {
         this.roleChances = {
-            [RoleType.Scientist]: {
-                maxPlayers: 0,
-                chance: 0
-            },
-            [RoleType.Engineer]: {
-                maxPlayers: 0,
-                chance: 0
-            },
-            [RoleType.GuardianAngel]: {
-                maxPlayers: 0,
-                chance: 0
-            },
-            [RoleType.Shapeshifter]: {
-                maxPlayers: 0,
-                chance: 0
-            }
+            [RoleType.Scientist]: { maxPlayers: 0, chance: 0 },
+            [RoleType.Engineer]: { maxPlayers: 0, chance: 0 },
+            [RoleType.GuardianAngel]: { maxPlayers: 0, chance: 0 },
+            [RoleType.Shapeshifter]: { maxPlayers: 0, chance: 0 },
+            [RoleType.Noisemaker]: { maxPlayers: 0, chance: 0 },
+            [RoleType.Phantom]: { maxPlayers: 0, chance: 0 },
+            [RoleType.Tracker]: { maxPlayers: 0, chance: 0 },
+            [RoleType.Detective]: { maxPlayers: 0, chance: 0 },
+            [RoleType.Viper]: { maxPlayers: 0, chance: 0 },
         };
 
         if (roleSettings.roleChances) {
@@ -156,30 +172,64 @@ export class RoleSettings implements AllRoleSettings {
             }
         }
 
-        this.shapeshifterLeaveSkin = roleSettings.shapeshifterLeaveSkin || false;
-        this.shapeshifterCooldown = roleSettings.shapeshifterCooldown ?? 10;
-        this.shapeshiftDuration = roleSettings.shapeshiftDuration ?? 30;
         this.scientistCooldown = roleSettings.scientistCooldown ?? 15;
-        this.guardianAngelCooldown = roleSettings.guardianAngelCooldown ?? 60;
+        this.scientistBatteryCharge = roleSettings.scientistBatteryCharge ?? 5;
+
         this.engineerCooldown = roleSettings.engineerCooldown ?? 30;
         this.engineerInVentMaxTime = roleSettings.engineerInVentMaxTime ?? 15;
-        this.scientistBatteryCharge = roleSettings.scientistBatteryCharge ?? 5;
-        this.protectionDurationSeconds = roleSettings.protectionDurationSeconds ?? 10;
-        this.impostorsCanSeeProtected = roleSettings.impostorsCanSeeProtected || false;
+
+        this.guardianAngelCooldown = roleSettings.guardianAngelCooldown ?? 60;
+        this.guardianAngelPotectionDuration = roleSettings.guardianAngelPotectionDuration ?? 10;
+        this.guardianAngelsImpostorCanSeeProtected = roleSettings.guardianAngelsImpostorCanSeeProtected || false;
+
+        this.shapeshifterLeaveSkin = roleSettings.shapeshifterLeaveSkin || false;
+        this.shapeshifterCooldown = roleSettings.shapeshifterCooldown ?? 10;
+        this.shapeshiftDuration = roleSettings.shapeshiftDuration ?? 8;
+
+        this.noisemakerAlertDuration = roleSettings.noisemakerAlertDuration ?? 10;
+        this.noisemakerImpostorAlert = roleSettings.noisemakerImpostorAlert ?? true;
+
+        this.phantomCooldown = roleSettings.phantomCooldown ?? 15;
+        this.phantomDuration = roleSettings.phantomDuration ?? 30;
+
+        this.trackerCooldown = roleSettings.trackerCooldown ?? 15;
+        this.trackerDelay = roleSettings.trackerDelay ?? 1;
+        this.trackerDuration = roleSettings.trackerDuration ?? 30;
+
+        this.detectiveSuspectLimit = roleSettings.detectiveSuspectLimit ?? 3;
+
+        this.viperDissolveTime = roleSettings.viperDissolveTime ?? 15;
     }
 
-    patch(settings: Partial<AllRoleSettings>) {
-        this.roleChances = settings.roleChances || this.roleChances;
-        this.shapeshifterLeaveSkin = settings.shapeshifterLeaveSkin ?? this.shapeshifterLeaveSkin;
-        this.shapeshifterCooldown = settings.shapeshifterCooldown ?? this.shapeshifterCooldown;
-        this.shapeshiftDuration = settings.shapeshiftDuration ?? this.shapeshiftDuration;
-        this.scientistCooldown = settings.scientistCooldown ?? this.scientistCooldown;
-        this.guardianAngelCooldown = settings.guardianAngelCooldown ?? this.guardianAngelCooldown;
-        this.engineerCooldown = settings.engineerCooldown ?? this.engineerCooldown;
-        this.engineerInVentMaxTime = settings.engineerInVentMaxTime ?? this.engineerInVentMaxTime;
-        this.scientistBatteryCharge = settings.scientistBatteryCharge ?? this.scientistBatteryCharge;
-        this.protectionDurationSeconds = settings.protectionDurationSeconds ?? this.protectionDurationSeconds;
-        this.impostorsCanSeeProtected = settings.impostorsCanSeeProtected ?? this.impostorsCanSeeProtected;
+    patch(roleSettings: Partial<AllRoleSettings>) {
+        this.roleChances = roleSettings.roleChances || this.roleChances;
+        this.scientistCooldown = roleSettings.scientistCooldown ?? this.scientistCooldown;
+        this.scientistBatteryCharge = roleSettings.scientistBatteryCharge ?? this.scientistBatteryCharge;
+
+        this.engineerCooldown = roleSettings.engineerCooldown ?? this.engineerCooldown;
+        this.engineerInVentMaxTime = roleSettings.engineerInVentMaxTime ?? this.engineerInVentMaxTime;
+
+        this.guardianAngelCooldown = roleSettings.guardianAngelCooldown ?? this.guardianAngelCooldown;
+        this.guardianAngelPotectionDuration = roleSettings.guardianAngelPotectionDuration ?? this.guardianAngelPotectionDuration;
+        this.guardianAngelsImpostorCanSeeProtected = roleSettings.guardianAngelsImpostorCanSeeProtected || this.guardianAngelsImpostorCanSeeProtected;
+
+        this.shapeshifterLeaveSkin = roleSettings.shapeshifterLeaveSkin || this.shapeshifterLeaveSkin;
+        this.shapeshifterCooldown = roleSettings.shapeshifterCooldown ?? this.shapeshifterCooldown;
+        this.shapeshiftDuration = roleSettings.shapeshiftDuration ?? this.shapeshiftDuration;
+
+        this.noisemakerAlertDuration = roleSettings.noisemakerAlertDuration ?? this.noisemakerAlertDuration;
+        this.noisemakerImpostorAlert = roleSettings.noisemakerImpostorAlert ?? this.noisemakerImpostorAlert;
+
+        this.phantomCooldown = roleSettings.phantomCooldown ?? this.phantomCooldown;
+        this.phantomDuration = roleSettings.phantomDuration ?? this.phantomDuration;
+
+        this.trackerCooldown = roleSettings.trackerCooldown ?? this.trackerCooldown;
+        this.trackerDelay = roleSettings.trackerDelay ?? this.trackerDelay;
+        this.trackerDuration = roleSettings.trackerDuration ?? this.trackerDuration;
+
+        this.detectiveSuspectLimit = roleSettings.detectiveSuspectLimit ?? this.detectiveSuspectLimit;
+
+        this.viperDissolveTime = roleSettings.viperDissolveTime ?? this.viperDissolveTime;
     }
 
     static Deserialize(reader: HazelReader, version: number) {
@@ -214,13 +264,32 @@ export class RoleSettings implements AllRoleSettings {
                         break;
                     case RoleType.GuardianAngel:
                         this.guardianAngelCooldown = mreader.uint8();
-                        this.protectionDurationSeconds = mreader.uint8();
-                        this.impostorsCanSeeProtected = mreader.bool();
+                        this.guardianAngelPotectionDuration = mreader.uint8();
+                        this.guardianAngelsImpostorCanSeeProtected = mreader.bool();
                         break;
                     case RoleType.Shapeshifter:
                         this.shapeshifterLeaveSkin = mreader.bool();
                         this.shapeshifterCooldown = mreader.uint8();
                         this.shapeshiftDuration = mreader.uint8();
+                        break;
+                    case RoleType.Noisemaker:
+                        this.noisemakerAlertDuration = mreader.uint8();
+                        this.noisemakerImpostorAlert = mreader.bool();
+                        break;
+                    case RoleType.Phantom:
+                        this.phantomCooldown = mreader.uint8();
+                        this.phantomDuration = mreader.uint8();
+                        break;
+                    case RoleType.Tracker:
+                        this.trackerCooldown = mreader.uint8();
+                        this.trackerDuration = mreader.uint8();
+                        this.trackerDelay = mreader.uint8();
+                        break;
+                    case RoleType.Detective:
+                        this.detectiveSuspectLimit = mreader.uint8();
+                        break;
+                    case RoleType.Viper:
+                        this.viperDissolveTime = mreader.uint8();
                         break;
                 }
             }
@@ -247,8 +316,8 @@ export class RoleSettings implements AllRoleSettings {
         this.engineerCooldown = reader.uint8();
         this.engineerInVentMaxTime = reader.uint8();
         this.scientistBatteryCharge = reader.uint8();
-        this.protectionDurationSeconds = reader.uint8();
-        this.impostorsCanSeeProtected = reader.bool();
+        this.guardianAngelPotectionDuration = reader.uint8();
+        this.guardianAngelsImpostorCanSeeProtected = reader.bool();
     }
 
     Serialize(writer: HazelWriter, version: number) {
@@ -276,13 +345,32 @@ export class RoleSettings implements AllRoleSettings {
                         break;
                     case RoleType.GuardianAngel:
                         writer.uint8(this.guardianAngelCooldown);
-                        writer.uint8(this.protectionDurationSeconds);
-                        writer.bool(this.impostorsCanSeeProtected);
+                        writer.uint8(this.guardianAngelPotectionDuration);
+                        writer.bool(this.guardianAngelsImpostorCanSeeProtected);
                         break;
                     case RoleType.Shapeshifter:
                         writer.bool(this.shapeshifterLeaveSkin);
                         writer.uint8(this.shapeshifterCooldown);
                         writer.uint8(this.shapeshiftDuration);
+                        break;
+                    case RoleType.Noisemaker:
+                        writer.uint8(this.noisemakerAlertDuration);
+                        writer.bool(this.noisemakerImpostorAlert);
+                        break;
+                    case RoleType.Phantom:
+                        writer.uint8(this.phantomCooldown);
+                        writer.uint8(this.phantomDuration);
+                        break;
+                    case RoleType.Tracker:
+                        writer.uint8(this.trackerCooldown);
+                        writer.uint8(this.trackerDuration);
+                        writer.uint8(this.trackerDelay);
+                        break;
+                    case RoleType.Detective:
+                        writer.uint8(this.detectiveSuspectLimit);
+                        break;
+                    case RoleType.Viper:
+                        writer.uint8(this.viperDissolveTime);
                         break;
                 }
 
@@ -306,8 +394,8 @@ export class RoleSettings implements AllRoleSettings {
         writer.uint8(this.engineerCooldown);
         writer.uint8(this.engineerInVentMaxTime);
         writer.uint8(this.scientistBatteryCharge);
-        writer.uint8(this.protectionDurationSeconds);
-        writer.bool(this.impostorsCanSeeProtected);
+        writer.uint8(this.guardianAngelPotectionDuration);
+        writer.bool(this.guardianAngelsImpostorCanSeeProtected);
     }
 }
 
