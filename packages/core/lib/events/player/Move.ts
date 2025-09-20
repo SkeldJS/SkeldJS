@@ -17,13 +17,13 @@ export class PlayerMoveEvent<RoomType extends Hostable = Hostable> extends Basic
         public readonly room: RoomType,
         public readonly player: PlayerData<RoomType>,
         /**
+         * The old position of the player.
+         */
+        public readonly oldPosition: Vector2,
+        /**
          * The new position of the player.
          */
-        public readonly position: Vector2,
-        /**
-         * The velocity of the player.
-         */
-        public readonly velocity: Vector2
+        public readonly newPosition: Vector2,
     ) {
         super();
     }

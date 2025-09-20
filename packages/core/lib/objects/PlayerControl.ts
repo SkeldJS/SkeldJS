@@ -223,7 +223,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
-    ): T|undefined {
+    ): T | undefined {
         if (this.spawnType === SpawnType.Player) {
             if (component === PlayerControl as NetworkableConstructor<any>) {
                 return this.components[0] as unknown as T;
@@ -522,7 +522,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ),
             ],
             undefined,
-            [ this.room.hostId ]
+            [this.room.hostId]
         );
     }
 
@@ -651,7 +651,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ),
             ],
             undefined,
-            [ this.room.hostId ]
+            [this.room.hostId]
         );
     }
 
@@ -771,7 +771,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                         : body.playerId!
                 )
             )
-        ], undefined, [ this.room.hostId ]);
+        ], undefined, [this.room.hostId]);
     }
 
     async kill(reason: string) {
@@ -878,11 +878,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         let aliveCrewmates = 0;
         let aliveImpostors = 0;
-        for (const [ , playerInfo ] of this.room.gameData.players) {
-            if (!playerInfo.isDisconnected && !playerInfo.isDead)
-            {
-                if (playerInfo.isImpostor)
-                {
+        for (const [, playerInfo] of this.room.gameData.players) {
+            if (!playerInfo.isDisconnected && !playerInfo.isDead) {
+                if (playerInfo.isImpostor) {
                     aliveImpostors++;
                 } else {
                     aliveCrewmates++;
@@ -1028,13 +1026,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             movingPlatform.setSide(MovingPlatformSide.Left);
         }
 
-        for (const [ , player ] of this.room.players) {
+        for (const [, player] of this.room.players) {
             const playerPhysics = player.physics;
             if (playerPhysics && playerPhysics.ventId !== -1) {
                 playerPhysics.exitVent(playerPhysics.ventId)
             }
         }
-        
+
         this.room.messageStream.push(
             new SpawnMessage(
                 SpawnType.MeetingHud,
@@ -1053,7 +1051,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
     }
 
-    private _rpcStartMeeting(player: PlayerData|"emergency"): void {
+    private _rpcStartMeeting(player: PlayerData | "emergency"): void {
         if (player !== "emergency" && player.playerId === undefined) {
             return this._rpcStartMeeting("emergency");
         }
@@ -1250,7 +1248,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link PlayerSendChatEvent | `player.quickchat`} event.
      */
-    sendQuickChat(message: PlayerData|StringNames, format?: (PlayerData|StringNames)[]) {
+    sendQuickChat(message: PlayerData | StringNames, format?: (PlayerData | StringNames)[]) {
         const quickChatMessage = typeof message === "number"
             ? format
                 ? new QuickChatComplexMessageData(message, format.map(format => {
@@ -1710,7 +1708,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.player,
                 rpc,
                 target,
-                this.room.settings.roleSettings.protectionDurationSeconds
+                this.room.settings.roleSettings.guardianAngelPotectionDuration
             )
         );
     }
@@ -1718,7 +1716,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     private _addProtection(guardianProtector: PlayerData<RoomType>) {
         this.protectedByGuardian = true;
         this.guardianProtector = guardianProtector;
-        this._protectedByGuardianTime = this.room.settings.roleSettings.protectionDurationSeconds;
+        this._protectedByGuardianTime = this.room.settings.roleSettings.guardianAngelPotectionDuration;
     }
 
     private _rpcProtectPlayer(target: PlayerData, angelColor: Color) {
@@ -1751,7 +1749,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.player,
                 undefined,
                 target,
-                this.room.settings.roleSettings.protectionDurationSeconds
+                this.room.settings.roleSettings.guardianAngelPotectionDuration,
             )
         );
     }

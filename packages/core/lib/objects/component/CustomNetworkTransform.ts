@@ -92,25 +92,26 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelReader, spawn: boolean = false) {
-        const newSeqId = reader.uint16();
-
-        if (!NetworkUtils.seqIdGreaterThan(newSeqId, this.seqId)) {
-            return;
+        if (spawn) {
+            const newSeqId = reader.uint16();
+            this.deserializePosition(newSeqId, reader);
+        } else {
+            const baseSeqId = reader.uint16();
+            const numPositions = reader.packed();
+            for (let i = 0; i < numPositions; i++) {
+                const newSeqId = baseSeqId + i;
+                this.deserializePosition(newSeqId, reader);
+            }
         }
+    }
 
-        this.seqId = newSeqId;
-
-        this.position = reader.vector();
-        this.velocity = reader.vector();
-
-        this.emitSync(
-            new PlayerMoveEvent(
-                this.room,
-                this.player,
-                new Vector2(this.position),
-                new Vector2(this.velocity)
-            )
-        );
+    private deserializePosition(sequenceId: number, reader: HazelReader) {
+        const newPosition = reader.vector();
+        if (!NetworkUtils.seqIdGreaterThan(sequenceId, this.seqId)) return;
+        const oldPosition = this.position;
+        this.position = newPosition;
+        this.seqId = sequenceId;
+        this.emitSync(new PlayerMoveEvent(this.room, this.player, oldPosition, newPosition));
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -157,7 +158,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
         const writer = HazelWriter.alloc(10);
         this.Serialize(writer, false);
 
-        await this.room.broadcast([ new DataMessage(this.netId, writer.buffer) ], undefined, undefined, undefined, false);
+        await this.room.broadcast([new DataMessage(this.netId, writer.buffer)], undefined, undefined, undefined, false);
 
         this.emitSync(
             new PlayerMoveEvent(
@@ -236,8 +237,8 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
      * });
      * ```
      */
-    async snapTo(x: number, y: number, rpc?: boolean|undefined): Promise<void>;
-    async snapTo(x: number | Vector2, y?: number|boolean, rpc?: boolean) {
+    async snapTo(x: number, y: number, rpc?: boolean | undefined): Promise<void>;
+    async snapTo(x: number | Vector2, y?: number | boolean, rpc?: boolean) {
         this.seqId += 1;
 
         if (this.seqId > 2 ** 16 - 1) {

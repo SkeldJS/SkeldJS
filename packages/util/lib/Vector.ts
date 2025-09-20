@@ -8,12 +8,12 @@ export class Vector2 {
     /**
      * The X coordinate of the vector.
      */
-    x: number;
+    readonly x: number;
 
     /**
      * The Y coordinate of the vector.
      */
-    y: number;
+    readonly y: number;
 
     /**
      * Add two vectors together
@@ -142,10 +142,10 @@ export class Vector2 {
     }
 
     static rotate(a: Vector2, radians: number) {
-        const out = new Vector2;
-        out.x = a.x * Math.cos(radians) - a.y * Math.sin(radians);
-        out.y = a.x * Math.sin(radians) + a.y * Math.cos(radians);
-        return out;
+        return new Vector2(
+            a.x * Math.cos(radians) - a.y * Math.sin(radians),
+            a.x * Math.sin(radians) + a.y * Math.cos(radians)
+        );
     }
 
     static rotateDeg(a: Vector2, degrees: number) {
