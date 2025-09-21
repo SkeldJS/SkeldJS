@@ -729,6 +729,9 @@ export class GameSettings {
             if (this.gameMode === GameMode.None)
                 return;
 
+            owriter.uint8(this.specialMode);
+            owriter.uint8(this.rulesPreset);
+
             owriter.uint8(this.maxPlayers);
             owriter.uint32(this.keywords);
             owriter.uint8(this.map);
@@ -736,42 +739,51 @@ export class GameSettings {
             owriter.float(this.crewmateVision);
             owriter.float(this.impostorVision);
 
-            if (this.gameMode === GameMode.Normal) owriter.float(this.killCooldown);
+            switch (this.gameMode) {
+                case GameMode.Normal:
+                case GameMode.NormalFools:
+                    owriter.uint8(this.killCooldown);
+                    owriter.uint8(this.commonTasks);
+                    owriter.uint8(this.longTasks);
+                    owriter.uint8(this.shortTasks);
+                    owriter.int32(this.numEmergencies);
+                    owriter.uint8(this.numImpostors);
+                    owriter.uint8(this.killDistance);
+                    owriter.int32(this.discussionTime);
+                    owriter.int32(this.votingTime);
+                    owriter.bool(this.isDefaults);
+                    owriter.uint8(this.emergencyCooldown);
+                    owriter.bool(this.confirmEjects);
+                    owriter.bool(this.visualTasks);
+                    owriter.bool(this.anonymousVotes);
+                    owriter.uint8(this.taskbarUpdates);
+                    owriter.uint8(this.tag);
 
-            owriter.uint8(this.commonTasks);
-            owriter.uint8(this.longTasks);
-            owriter.uint8(this.shortTasks);
-
-            if (this.gameMode === GameMode.HideNSeek) {
-                owriter.bool(this.isDefaults);
-                owriter.int32(this.crewmateVentUses);
-                owriter.float(this.hidingTime);
-                owriter.float(this.crewmateFlashlightSize);
-                owriter.float(this.impostorFlashlightSize);
-                owriter.bool(this.useFlashlight);
-                owriter.bool(this.finalHideSeekMap);
-                owriter.float(this.finalHideTime);
-                owriter.float(this.finalSeekerSpeed);
-                owriter.bool(this.finalHidePing);
-                owriter.bool(this.showNames);
-                owriter.uint32(this.seekerPlayerId);
-                owriter.float(this.maxPingTime);
-                owriter.float(this.crewmateTimeInVent);
-            } else {
-                owriter.int32(this.numEmergencies);
-                owriter.uint8(this.numImpostors);
-                owriter.uint8(this.killDistance);
-                owriter.int32(this.discussionTime);
-                owriter.int32(this.votingTime);
-                owriter.bool(this.isDefaults);
-                owriter.uint8(this.emergencyCooldown);
-                owriter.bool(this.confirmEjects);
-                owriter.bool(this.visualTasks);
-                owriter.bool(this.anonymousVotes);
-                owriter.uint8(this.taskbarUpdates);
-
-                owriter.write(this.roleSettings, version);
+                    owriter.write(this.roleSettings, version);
+                    break;
+                case GameMode.HideNSeek:
+                case GameMode.HideNSeekFools:
+                    owriter.uint8(this.commonTasks);
+                    owriter.uint8(this.longTasks);
+                    owriter.uint8(this.shortTasks);
+                    owriter.bool(this.isDefaults);
+                    owriter.int32(this.crewmateVentUses);
+                    owriter.float(this.hidingTime);
+                    owriter.float(this.crewmateFlashlightSize);
+                    owriter.float(this.impostorFlashlightSize);
+                    owriter.bool(this.useFlashlight);
+                    owriter.bool(this.finalHideSeekMap);
+                    owriter.float(this.finalHideTime);
+                    owriter.float(this.finalSeekerSpeed);
+                    owriter.bool(this.finalHidePing);
+                    owriter.bool(this.showNames);
+                    owriter.uint32(this.seekerPlayerId);
+                    owriter.float(this.maxPingTime);
+                    owriter.float(this.crewmateTimeInVent);
+                    owriter.uint8(this.tag);
+                    break;
             }
+
             owriter.end();
             owriter.realloc(owriter.cursor);
             writer.upacked(owriter.size);
