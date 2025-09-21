@@ -1,4 +1,4 @@
-import { TaskState } from "../misc";
+import { TaskState } from "../objects";
 
 export interface TasksCompleteEndgameMetadata {
     totalTasks: number;

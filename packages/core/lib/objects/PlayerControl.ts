@@ -92,8 +92,6 @@ import { PlayerData } from "../PlayerData";
 import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { PlayerInfo } from "../misc";
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
 import { AmongUsEndGames, EndGameIntent, PlayersKillEndgameMetadata } from "../endgame";
@@ -203,10 +201,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     Awake() {
         this.playerId ||= this.room.getAvailablePlayerID();
 
-        if (this.room.gameData) {
-            this.room.gameData.add(this.playerId);
-        }
-
         if (this.isNew) {
             if (this.room.lobbyBehaviour) {
                 const spawnPosition = LobbyBehaviour.spawnPositions[this.playerId % LobbyBehaviour.spawnPositions.length];
@@ -239,6 +233,10 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
 
         return undefined;
+    }
+
+    getPlayerInfo() {
+        return this.room.playerInfo.get(this.playerId);
     }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
@@ -354,7 +352,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
-        if (!this.player.playerInfo?.taskStates)
+        const playerInfo = this.getPlayerInfo();
+        if (!playerInfo?.taskStates)
             return;
 
         this._completeTask(rpc.taskIdx);
@@ -364,13 +363,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.room,
                 this.player,
                 rpc,
-                this.player.playerInfo.taskStates[rpc.taskIdx]
+                playerInfo.taskStates[rpc.taskIdx]
             )
         );
     }
 
     private _completeTask(taskIdx: number) {
-        this.room.gameData?.completeTask(this.playerId, taskIdx);
+        this.getPlayerInfo()?.completeTask(taskIdx);
     }
 
     private async _rpcCompleteTask(taskIdx: number) {
@@ -396,7 +395,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * ```
      */
     completeTask(taskIdx: number) {
-        if (!this.player.playerInfo?.taskStates[taskIdx])
+        const taskState = this.getPlayerInfo()?.taskStates[taskIdx];
+        if (!taskState)
             return;
 
         this.emitSync(
@@ -404,7 +404,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 this.room,
                 this.player,
                 undefined,
-                this.player.playerInfo.taskStates[taskIdx]
+                taskState,
             )
         );
 
@@ -471,12 +471,9 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleCheckName(rpc: CheckNameMessage) {
-        if (!this.room.gameData)
-            return;
-
         let newName = rpc.name;
 
-        const players = [...this.room.gameData.players.values()];
+        const players = [...this.room.playerInfo.values()];
         if (
             players.some(
                 (player) =>
@@ -536,7 +533,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetName(rpc: SetNameMessage) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldName = defaultOutfit?.name;
         if (defaultOutfit)
@@ -553,9 +550,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setName(PlayerOutfitType.Default, ev.alteredName);
-        if (playerInfo && this.canBeManaged()) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredName !== rpc.name)
             this._rpcSetName(ev.alteredName);
@@ -579,7 +573,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param name The name to set this player's name to.
      */
     async setName(name: string) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldName = defaultOutfit?.name;
         if (defaultOutfit)
@@ -596,21 +590,15 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setName(PlayerOutfitType.Default, ev.alteredName);
-        if (playerInfo) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredName !== oldName)
             this._rpcSetName(ev.alteredName);
     }
 
     private async _handleCheckColor(rpc: CheckColorMessage) {
-        if (!this.room.gameData)
-            return;
-
         let newColor = rpc.color;
 
-        const players = [...this.room.gameData.players.values()];
+        const players = [...this.room.playerInfo.values()];
         let i = 0;
         while (
             players.some(
@@ -666,7 +654,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetColor(rpc: SetColorMessage) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldColor = defaultOutfit?.color;
         if (defaultOutfit)
@@ -683,9 +671,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setColor(PlayerOutfitType.Default, ev.alteredColor);
-        if (playerInfo && this.canBeManaged()) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredColor !== rpc.color)
             this._rpcSetColor(ev.alteredColor);
@@ -709,7 +694,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param color The color to set this player's name to.
      */
     async setColor(color: Color) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldColor = defaultOutfit?.color;
         if (defaultOutfit)
@@ -726,9 +711,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setColor(PlayerOutfitType.Default, ev.alteredColor);
-        if (playerInfo) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredColor !== oldColor) {
             this._rpcSetColor(ev.alteredColor);
@@ -775,7 +757,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     async kill(reason: string) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
 
         playerInfo?.setDead(true);
 
@@ -794,6 +776,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
     private async _handleMurderPlayer(rpc: MurderPlayerMessage) {
         const victim = this.room.getPlayerByNetId(rpc.victimNetId);
+        const victimPlayerInfo = victim?.getPlayerInfo();
 
         if (!victim)
             return;
@@ -811,7 +794,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         this._checkMurderEndGame();
 
-        if (victim.playerInfo?.isDead && this.canBeManaged()) {
+        if (victimPlayerInfo?.isDead && this.canBeManaged()) {
             // await this.room.shipStatus?.tryAssignGhostRole(victim); todo: fix
         }
     }
@@ -842,6 +825,8 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @returns
      */
     async murderPlayer(victim: PlayerData) {
+        const victimPlayerInfo = victim?.getPlayerInfo();
+
         if (!this.canBeManaged()) {
             await this._rpcCheckMurder(victim);
             return;
@@ -867,18 +852,15 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this._rpcMurderPlayer(victim);
         this._checkMurderEndGame();
 
-        if (victim.playerInfo?.isDead && this.canBeManaged()) {
+        if (victimPlayerInfo?.isDead && this.canBeManaged()) {
             // await this.room.shipStatus?.tryAssignGhostRole(victim); todo: fix
         }
     }
 
     private _checkMurderEndGame(victim?: PlayerData) {
-        if (!this.room.gameData)
-            return;
-
         let aliveCrewmates = 0;
         let aliveImpostors = 0;
-        for (const [, playerInfo] of this.room.gameData.players) {
+        for (const [, playerInfo] of this.room.playerInfo) {
             if (!playerInfo.isDisconnected && !playerInfo.isDead) {
                 if (playerInfo.isImpostor) {
                     aliveImpostors++;
@@ -1271,7 +1253,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleSetHat(rpc: SetHatMessage) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldHat = defaultOutfit?.hatId;
         if (defaultOutfit)
@@ -1288,9 +1270,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
-        if (playerInfo && this.canBeManaged()) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredHatId !== rpc.hatId)
             this._rpcSetHat(ev.alteredHatId);
@@ -1314,7 +1293,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param hatId The hat to set this player's hat to, see {@link Hat}.
      */
     async setHat(hatId: string) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldHat = defaultOutfit?.hatId;
         if (defaultOutfit)
@@ -1331,16 +1310,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
-        if (playerInfo) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredHatId !== oldHat)
             this._rpcSetHat(ev.alteredHatId);
     }
 
     private async _handleSetSkin(rpc: SetSkinMessage) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldSkin = defaultOutfit?.skinId;
         if (defaultOutfit)
@@ -1357,9 +1333,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
-        if (playerInfo && this.canBeManaged()) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredSkin !== rpc.skinId)
             this._rpcSetSkin(ev.alteredSkin);
@@ -1383,7 +1356,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param skinId The skin to set this player's skin to, see {@link Skin}.
      */
     async setSkin(skinId: string) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldSkin = defaultOutfit?.skinId;
         if (defaultOutfit)
@@ -1400,16 +1373,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
-        if (playerInfo) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredSkin !== oldSkin)
             this._rpcSetSkin(ev.alteredSkin);
     }
 
     private async _handleSetPet(rpc: SetPetMessage) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldPet = defaultOutfit?.petId;
         if (defaultOutfit)
@@ -1426,9 +1396,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
-        if (playerInfo && this.canBeManaged()) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredPetId !== rpc.petId)
             this._rpcSetPet(ev.alteredPetId);
@@ -1452,7 +1419,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param petId The pet to set this player's pet to, see {@link Pet}.
      */
     async setPet(petId: string) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldPet = defaultOutfit?.petId;
         if (defaultOutfit)
@@ -1469,16 +1436,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
-        if (playerInfo) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredPetId !== oldPet)
             this._rpcSetPet(ev.alteredPetId);
     }
 
     private async _handleSetVisor(rpc: SetVisorMessage) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldVisor = defaultOutfit?.visorId;
         if (defaultOutfit)
@@ -1495,9 +1459,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
-        if (playerInfo && this.canBeManaged()) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredVisorId !== rpc.visorId)
             this._rpcSetVisor(ev.alteredVisorId);
@@ -1521,7 +1482,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param visorId The visor to set this player's visor to, see {@link Visor}.
      */
     async setVisor(visorId: string) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldVisor = defaultOutfit?.visorId;
         if (defaultOutfit)
@@ -1538,16 +1499,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
-        if (playerInfo) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredVisorId !== oldVisor)
             this._rpcSetVisor(ev.alteredVisorId);
     }
 
     private async _handleSetNameplate(rpc: SetNameplateMessage) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldNameplate = defaultOutfit?.nameplateId;
         if (defaultOutfit)
@@ -1564,9 +1522,6 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
-        if (playerInfo && this.canBeManaged()) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredNameplateId !== rpc.nameplateId)
             this._rpcSetNameplate(ev.alteredNameplateId);
@@ -1590,7 +1545,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param nameplateId The nameplate to set this player's nameplate to, see {@link Nameplate}.
      */
     async setNameplate(nameplateId: string) {
-        const playerInfo = this.room.gameData?.players.get(this.playerId);
+        const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldNameplate = defaultOutfit?.nameplateId;
         if (defaultOutfit)
@@ -1607,16 +1562,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
 
         playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
-        if (playerInfo) {
-            this.room.gameData?.markDirty(this.playerId);
-        }
 
         if (ev.alteredNameplateId !== oldNameplate)
             this._rpcSetNameplate(ev.alteredNameplateId);
     }
 
     private async _handleSetRole(rpc: SetRoleMessage) {
-        const playerInfo = this.player.playerInfo;
+        const playerInfo = this.getPlayerInfo();
         if (!playerInfo)
             return;
 
@@ -1657,13 +1609,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     async setRole(roleCtr: typeof BaseRole) {
-        const playerInfo = this.player.playerInfo;
-        if (!playerInfo || !this.room.gameData)
+        const playerInfo = this.getPlayerInfo();
+        if (!playerInfo)
             return;
 
         const oldRoleType = playerInfo.roleType;
-        playerInfo.roleType = roleCtr;
-        this.room.gameData.markDirty(playerInfo);
+        playerInfo.setRoleType(roleCtr);
         this.player.role = new roleCtr(this.player);
         if (roleCtr.roleMetadata.roleType !== RoleType.ImpostorGhost && roleCtr.roleMetadata.roleType !== RoleType.CrewmateGhost) {
             playerInfo.roleTypeWhenAlive = roleCtr;
@@ -1734,7 +1685,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
     }
 
-    async protectPlayer(target: PlayerData, angelColor = this.player.playerInfo?.defaultOutfit.color || Color.Red) {
+    async protectPlayer(target: PlayerData, angelColor = this.getPlayerInfo()?.defaultOutfit.color || Color.Red) {
         if (!this.canBeManaged()) {
             await this._rpcCheckProtect(target);
             return;
@@ -1814,14 +1765,18 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
             ? undefined
             : target;
 
-        if (!target.playerInfo || !this.player.playerInfo)
+        const myPlayerInfo = this.getPlayerInfo();
+        const targetPlayerInfo = target.getPlayerInfo();
+
+        if (!myPlayerInfo || !targetPlayerInfo || !this.getPlayerInfo())
             return;
 
+
         if (target === this.player) {
-            this.player.playerInfo.deleteOutfit(PlayerOutfitType.Shapeshifter);
+            myPlayerInfo.deleteOutfit(PlayerOutfitType.Shapeshifter);
         } else {
-            this.player.playerInfo.setOutfit(target.playerInfo.defaultOutfit.clone(PlayerOutfitType.Shapeshifter));
-            this.player.playerInfo.currentOutfitType = PlayerOutfitType.Shapeshifter;
+            myPlayerInfo.setOutfit(targetPlayerInfo.defaultOutfit.clone(PlayerOutfitType.Shapeshifter));
+            myPlayerInfo.currentOutfitType = PlayerOutfitType.Shapeshifter;
         }
     }
 
@@ -1964,14 +1919,14 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _protectIsValid(target: PlayerData) {
+    private _protectIsValid(target: PlayerData<RoomType>) {
         if (this.room.gameState !== GameState.Started)
             return false;
 
-        if (this.player.playerInfo?.roleType !== GuardianAngelRole || this.player.playerInfo.isImpostor || this.player.playerInfo.isDisconnected)
-            return false;
+        const myPlayerInfo = this.getPlayerInfo();
+        const targetPlayerInfo = target.getPlayerInfo();
 
-        if (!target.playerInfo || target.playerInfo?.isDead)
+        if (!myPlayerInfo || !targetPlayerInfo || myPlayerInfo.roleType !== GuardianAngelRole || myPlayerInfo.isImpostor || myPlayerInfo.isDisconnected || targetPlayerInfo.isDead)
             return false;
 
         return true;
@@ -1998,16 +1953,18 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private async _rpcCheckProtect(target: PlayerData) {
+    private async _rpcCheckProtect(target: PlayerData<Hostable>) {
         if (!target.control)
             return;
+
+        const targetPlayerInfo = target.getPlayerInfo();
 
         await this.room.broadcast([
             new RpcMessage(
                 this.netId,
                 new ProtectPlayerMessage(
                     target.control.netId,
-                    target.playerInfo?.defaultOutfit.color || Color.Red
+                    targetPlayerInfo?.defaultOutfit.color || Color.Red
                 )
             )
         ]);

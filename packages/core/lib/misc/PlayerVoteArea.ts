@@ -9,7 +9,7 @@ export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
         public playerId: number,
         public votedForId: number,
         public didReport: boolean
-    ) {}
+    ) { }
 
     get dirty() {
         return this.meetinghud.dirtyBit > 0;
@@ -54,7 +54,7 @@ export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
     }
 
     get canVote() {
-        const playerInfo = this.player?.playerInfo;
+        const playerInfo = this.player?.getPlayerInfo();
         return !playerInfo?.isDead && !playerInfo?.isDisconnected;
     }
 

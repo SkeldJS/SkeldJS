@@ -9,9 +9,7 @@ export * from "./decon/Exit";
 export * from "./doors/Close";
 export * from "./doors/Open";
 
-export * from "./gamedata/AddPlayer";
-export * from "./gamedata/RemovePlayer";
-export * from "./gamedata/SetTasks";
+export * from "./playerinfo/SetTasks";
 
 export * from "./heli/ConsoleClose";
 export * from "./heli/ConsoleComplete";
@@ -99,7 +97,7 @@ export * from "./cameras/SecurityCameraEvent";
 export * from "./decon/DeconEvent";
 export * from "./doors/DoorsEvent";
 export * from "./electrical/ElectricalEvent";
-export * from "./gamedata/GameDataEvent";
+export * from "./playerinfo/PlayerInfoEvent";
 export * from "./heli/HeliSabotageEvent";
 export * from "./hqhud/HqHudEvent";
 export * from "./medscan/MedScanEvent";

@@ -18,7 +18,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      */
     matchRoles(settings: Partial<Record<RoleType, RoleChanceSettings>>, filter: (roleCtr: typeof BaseRole, roleChance: RoleChanceSettings) => any) {
         const filteredRoles = [];
-        for (const [ , roleCtr ] of this.manager.room.registeredRoles) {
+        for (const [, roleCtr] of this.manager.room.registeredRoles) {
             const roleChance = settings[roleCtr.roleMetadata.roleType as RoleType];
             if (roleChance && filter(roleCtr, roleChance)) {
                 filteredRoles.push(roleCtr);
@@ -171,8 +171,9 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      */
     async assignRoles() {
         const allPlayers = [];
-        for (const [ , player ] of this.manager.room.players) {
-            if (player.playerInfo && !player.playerInfo?.isDisconnected && !player.playerInfo?.isDead) {
+        for (const [, player] of this.manager.room.players) {
+            const playerInfo = player.getPlayerInfo();
+            if (playerInfo && !playerInfo?.isDisconnected && !playerInfo?.isDead) {
                 allPlayers.push(player);
             }
         }
@@ -183,13 +184,13 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
         const assignedImpostors = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(adjustedImpostors, this.manager.room.settings.numImpostors), ImpostorRole);
         const assignedCrewmates = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, CrewmateRole);
 
-        for (const [ player, roleCtr ] of assignedImpostors) {
+        for (const [player, roleCtr] of assignedImpostors) {
             roleAssignments.set(player, roleCtr);
         }
-        for (const [ player, roleCtr ] of assignedCrewmates) {
+        for (const [player, roleCtr] of assignedCrewmates) {
             roleAssignments.set(player, roleCtr);
         }
-        for (const [ , playerController ] of this.manager.room.netobjects) {
+        for (const [, playerController] of this.manager.room.netobjects) {
             if (playerController instanceof PlayerControl && playerController.player.isFakePlayer) {
                 roleAssignments.set(playerController.player, CrewmateRole);
             }
@@ -212,7 +213,8 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      * @param player The player to assign the role to.
      */
     async tryAssignGhostRole(player: PlayerData) {
-        if (!player.playerInfo?.isDead || player.playerInfo.isImpostor)
+        const playerInfo = player.getPlayerInfo();
+        if (!playerInfo?.isDead || playerInfo.isImpostor)
             return;
 
         const ghostRoles = this.matchRoles(this.manager.room.settings.roleSettings.roleChances, (roleCtr, roleChance) => {
@@ -243,7 +245,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      */
     async assignRolesFromAssignments(roleAssignments: Map<PlayerData, typeof BaseRole>) {
         const promises = [];
-        for (const [ player, roleCtr ] of roleAssignments) {
+        for (const [player, roleCtr] of roleAssignments) {
             promises.push(player.control?.setRole(roleCtr));
         }
         await Promise.all(promises);

@@ -1,14 +1,13 @@
 import { BasicEvent } from "@skeldjs/events";
 import { RoomEvent } from "../RoomEvent";
-import { GameData } from "../../objects";
 import { Hostable } from "../../Hostable";
-import { PlayerInfo, TaskState } from "../../misc";
-import { GameDataEvent } from "./GameDataEvent";
+import { NetworkedPlayerInfo, TaskState } from "../../objects";
+import { PlayerInfoEvent } from "./PlayerInfoEvent";
 
 /**
  * Emitted when a player's tasks are set.
  */
-export class GameDataSetTasksEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, GameDataEvent {
+export class PlayerInfoSetTasksEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerInfoEvent {
     static eventName = "gamedata.settasks" as const;
     eventName = "gamedata.settasks" as const;
 
@@ -16,11 +15,10 @@ export class GameDataSetTasksEvent<RoomType extends Hostable = Hostable> extends
 
     constructor(
         public readonly room: RoomType,
-        public readonly gamedata: GameData<RoomType>,
         /**
          * Information about the player that had their tasks set.
          */
-        public readonly player: PlayerInfo<RoomType>,
+        public readonly playerInfo: NetworkedPlayerInfo<RoomType>,
         /**
          * The player's old tasks.
          */

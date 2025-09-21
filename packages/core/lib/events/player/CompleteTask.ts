@@ -6,7 +6,7 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { Hostable } from "../../Hostable";
 import { PlayerData } from "../../PlayerData";
-import { TaskState } from "../../misc/PlayerInfo";
+import { TaskState } from "../../objects";
 
 /**
  * Emitted when a player completes one of their tasks.
@@ -18,7 +18,7 @@ export class PlayerCompleteTaskEvent<RoomType extends Hostable = Hostable> exten
     constructor(
         public readonly room: RoomType,
         public readonly player: PlayerData<RoomType>,
-        public readonly message: CompleteTaskMessage|undefined,
+        public readonly message: CompleteTaskMessage | undefined,
         /**
          * The state of the task that the player completed.
          */

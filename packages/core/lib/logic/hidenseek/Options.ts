@@ -37,13 +37,14 @@ export class HideNSeekOptionsLogicComponent<RoomType extends Hostable = Hostable
     }
 
     getPlayerSpeedMod(player: PlayerData) {
-        if (player.playerInfo === undefined || player.playerInfo.roleType === undefined)
+        const playerInfo = player.getPlayerInfo();
+        if (playerInfo === undefined || playerInfo.roleType === undefined)
             return super.getPlayerSpeedMod(player);
 
-        if (player.playerInfo.isDead)
+        if (playerInfo.isDead)
             return this.manager.room.settings.playerSpeed + 1;
 
-        if (player.playerInfo.roleType.roleMetadata.roleTeam === RoleTeamType.Impostor)
+        if (playerInfo.roleType.roleMetadata.roleTeam === RoleTeamType.Impostor)
             return this.manager.room.settings.playerSpeed;
 
         const gameSpeed = this.manager.room.settings.playerSpeed * 1.25;
@@ -98,10 +99,7 @@ export class HideNSeekOptionsLogicComponent<RoomType extends Hostable = Hostable
     }
 
     getCommonTaskTimeValue() {
-        if (!this.manager.room.gameData)
-            throw new Error("No gamedata!");
-
-        return 10 - this.manager.room.gameData.players.size /2;
+        return 10 - this.manager.room.playerInfo.size / 2;
     }
 
     getShortTaskTimeValue() {
@@ -109,10 +107,7 @@ export class HideNSeekOptionsLogicComponent<RoomType extends Hostable = Hostable
     }
 
     getLongTaskTimeValue() {
-        if (!this.manager.room.gameData)
-            throw new Error("No gamedata!");
-
-        return 20 - this.manager.room.gameData.players.size;
+        return 20 - this.manager.room.playerInfo.size;
     }
 
     getSeekerFinalMap() {

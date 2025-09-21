@@ -9,10 +9,9 @@ import {
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../../Networkable";
-import { PlayerDataResolvable, Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
-import { GameData } from "../GameData";
+import { Networkable, NetworkableEvents } from "../Networkable";
+import { PlayerDataResolvable, Hostable } from "../Hostable";
+import { PlayerData } from "../PlayerData";
 
 export interface VoteBanSystemData {
     voted: Map<number, [PlayerData, PlayerData, PlayerData]>;
@@ -33,7 +32,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     /**
      * The accumulated votes.
      */
-    voted: Map<number, [PlayerData<RoomType>|undefined, PlayerData<RoomType>|undefined, PlayerData<RoomType>|undefined]>;
+    voted: Map<number, [PlayerData<RoomType> | undefined, PlayerData<RoomType> | undefined, PlayerData<RoomType> | undefined]>;
 
     constructor(
         room: RoomType,
@@ -42,15 +41,10 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
         ownerid: number,
         flags: number,
         data?: HazelReader | VoteBanSystemData,
-        gameData?: GameData<RoomType>
     ) {
         super(room, spawnType, netId, ownerid, flags, data);
 
         this.voted ||= new Map;
-
-        if (gameData) {
-            this.components = gameData.components;
-        }
     }
 
     get owner() {

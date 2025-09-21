@@ -39,8 +39,6 @@ import {
     AirshipStatus,
     AprilShipStatus,
     CustomNetworkTransform,
-    GameData,
-    GameDataEvents,
     MiraShipStatus,
     LobbyBehaviour,
     LobbyBehaviourEvents,
@@ -53,11 +51,11 @@ import {
     ShipStatusEvents,
     VoteBanSystem,
     VoteBanSystemEvents,
-    PlayerIDResolvable,
     InnerShipStatus,
     HideAndSeekManager,
     NormalGameManager,
     InnerGameManager,
+    NetworkedPlayerInfo,
 } from "./objects";
 
 import { Networkable, NetworkableEvents, NetworkableConstructor } from "./Networkable";
@@ -104,7 +102,6 @@ export type AnyNetworkable<RoomType extends Hostable = Hostable> =
     | AirshipStatus<RoomType>
     | AprilShipStatus<RoomType>
     | CustomNetworkTransform<RoomType>
-    | GameData<RoomType>
     | MiraShipStatus<RoomType>
     | LobbyBehaviour<RoomType>
     | MeetingHud<RoomType>
@@ -116,7 +113,6 @@ export type AnyNetworkable<RoomType extends Hostable = Hostable> =
 
 export type HostableEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
     PlayerDataEvents<RoomType> &
-    GameDataEvents<RoomType> &
     LobbyBehaviourEvents<RoomType> &
     MeetingHudEvents<RoomType> &
     ShipStatusEvents<RoomType> &
@@ -239,17 +235,7 @@ export class Hostable<
      */
     lobbyBehaviour: LobbyBehaviour<this> | undefined;
 
-    /**
-     * An instance of the game data in the room. Contains information about players
-     * such as their name, colour, hat etc.
-     *
-     * It is possible for more than one game data to be spawned, however this
-     * property is set and cleared for simplicity.
-     *
-     * See {@link Hostable.objectList} if you're looking to find all game data
-     * objects that have been spawned.
-     */
-    gameData: GameData<this> | undefined;
+    gameManager: InnerGameManager<this> | undefined;
 
     /**
      * An instance of the voting ban system in the room. Used as a utility object
@@ -263,7 +249,7 @@ export class Hostable<
      */
     voteBanSystem: VoteBanSystem<this> | undefined;
 
-    gameManager: InnerGameManager<this> | undefined;
+    playerInfo: Map<number, NetworkedPlayerInfo>;
 
     /**
      * A map of spawn type -> objects used in the protocol. Useful to register
@@ -316,22 +302,25 @@ export class Hostable<
         this.shipStatus = undefined;
         this.meetingHud = undefined;
         this.lobbyBehaviour = undefined;
-        this.gameData = undefined;
-        this.voteBanSystem = undefined;
         this.gameManager = undefined;
+        this.voteBanSystem = undefined;
+
+        this.playerInfo = new Map;
 
         this.registeredPrefabs = new Map([
             [SpawnType.SkeldShipStatus, [SkeldShipStatus]],
             [SpawnType.MeetingHud, [MeetingHud]],
             [SpawnType.LobbyBehaviour, [LobbyBehaviour]],
-            [SpawnType.GameData, [GameData, VoteBanSystem]],
             [SpawnType.Player, [PlayerControl, PlayerPhysics, CustomNetworkTransform]],
             [SpawnType.MiraShipStatus, [MiraShipStatus]],
             [SpawnType.Polus, [PolusShipStatus]],
             [SpawnType.AprilShipStatus, [AprilShipStatus]],
             [SpawnType.Airship, [AirshipStatus]],
             [SpawnType.HideAndSeekManager, [HideAndSeekManager]],
-            [SpawnType.NormalGameManager, [NormalGameManager]]
+            [SpawnType.NormalGameManager, [NormalGameManager]],
+            [SpawnType.PlayerInfo, [NetworkedPlayerInfo]], // TODO
+            [SpawnType.VoteBanSystem, [VoteBanSystem]],
+            [SpawnType.FungleShipStatus, []], // TODO
         ]);
 
         this.shipPrefabIds = new Map([
@@ -505,23 +494,6 @@ export class Hostable<
     }
 
     /**
-     * Resolve a player ID by some identifier.
-     * @param player The identifier to resolve to a player ID.
-     * @returns The resolved player ID.
-     */
-    resolvePlayerId(player: PlayerIDResolvable) {
-        if (typeof player === "undefined") {
-            return undefined;
-        }
-
-        if (typeof player === "number") {
-            return player;
-        }
-
-        return player.playerId;
-    }
-
-    /**
      * Resolve a client id by some identifier.
      * @param player The identifier to resolve to a client ID.
      * @returns The resolved client ID.
@@ -636,9 +608,7 @@ export class Hostable<
             this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, -2);
         }
 
-        if (!this.gameData) {
-            this.spawnPrefabOfType(SpawnType.GameData, -2);
-        }
+        // TODO: spawn game data replacement
 
         if (!this.gameManager) {
             if (this.settings.gameMode === GameMode.Normal) {
@@ -693,14 +663,14 @@ export class Hostable<
     }
 
     checkPlayersRemaining() {
-        if (!this.gameData || !this.shipStatus)
+        if (!this.shipStatus)
             return;
 
         let aliveCrewmates = 0;
         let aliveImpostors = 0;
         let totalImpostors = 0;
 
-        for (const [, playerInfo] of this.gameData.players) {
+        for (const [, playerInfo] of this.playerInfo) {
             if (playerInfo.isDisconnected)
                 continue;
 
@@ -754,14 +724,14 @@ export class Hostable<
 
         if (player.playerId !== undefined) {
             if (this.gameState === GameState.Started) {
-                const gamedataEntry = this.gameData?.players.get(player.playerId);
+                const gamedataEntry = this.playerInfo.get(player.playerId);
                 if (gamedataEntry) {
                     gamedataEntry.setDisconnected(true);
                 }
 
                 this.checkPlayersRemaining();
             } else {
-                this.gameData?.players.delete(player.playerId);
+                this.playerInfo.delete(player.playerId);
             }
 
             if (this.hostIsMe && this.meetingHud) {
@@ -801,7 +771,9 @@ export class Hostable<
         this.gameState = GameState.Started;
 
         if (this.hostIsMe) {
-            if (this.gameData) this.gameData.dirtyBit = 2 ** 32 - 1;
+            for (const [, playerInfo] of this.playerInfo) {
+                playerInfo.dirtyBit = 1;
+            }
             if (this.lobbyBehaviour) this.lobbyBehaviour.despawn();
 
             const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
@@ -937,12 +909,6 @@ export class Hostable<
             }
         }
 
-        if (component instanceof GameData) {
-            if (!this.gameData) {
-                this.gameData = component;
-            }
-        }
-
         if (component instanceof InnerShipStatus) {
             if (!this.shipStatus) {
                 this.shipStatus = component;
@@ -979,10 +945,6 @@ export class Hostable<
 
         if (component === this.lobbyBehaviour) {
             this.lobbyBehaviour = undefined;
-        }
-
-        if (component === this.gameData) {
-            this.gameData = undefined;
         }
 
         if (component === this.shipStatus) {
@@ -1044,11 +1006,8 @@ export class Hostable<
      * ```
      */
     getAvailablePlayerID() {
-        if (!this.gameData)
-            return 0;
-
         for (let i = 0; ; i++) {
-            if (!this.gameData.players.get(i)) {
+            if (!this.playerInfo.has(i)) {
                 return i;
             }
         }
@@ -1083,7 +1042,7 @@ export class Hostable<
         ownerId: number | PlayerData | undefined,
         flags?: number,
         componentData: (any | ComponentSpawnData)[] = [],
-        doBroadcast = true,
+        doBroadcast: boolean | undefined = true,
         doAwake = true
     ) {
         const _ownerId =
@@ -1109,7 +1068,6 @@ export class Hostable<
                 object
             );
 
-            this._incrNetId = component.netId;
             if (this.netobjects.get(component.netId))
                 continue;
 
@@ -1140,7 +1098,22 @@ export class Hostable<
             );
         }
 
-        if (this.hostIsMe && doBroadcast) {
+        if ((this.hostIsMe && doBroadcast === undefined) || doBroadcast) {
+            console.log(new SpawnMessage(
+                spawnType,
+                object.ownerId,
+                _flags,
+                object.components.map((component) => {
+                    const writer = HazelWriter.alloc(512);
+                    writer.write(component, true);
+                    writer.realloc(writer.cursor);
+
+                    return new ComponentSpawnData(
+                        component.netId,
+                        writer.buffer
+                    );
+                })
+            ));
             this.messageStream.push(
                 new SpawnMessage(
                     spawnType,
@@ -1287,7 +1260,7 @@ export class Hostable<
     findPlayersWithName(displayName: string) {
         const players = [];
         for (const [, player] of this.players) {
-            if (player.playerInfo?.defaultOutfit.name === displayName) {
+            if (player.getPlayerInfo()?.defaultOutfit.name === displayName) {
                 players.push(player);
             }
         }
@@ -1306,11 +1279,14 @@ export class Hostable<
         if (this.gameState !== GameState.Started)
             return false;
 
-        if (murderer.playerInfo?.isDead || !murderer.playerInfo?.roleType || murderer.playerInfo.roleType.roleMetadata.roleTeam !== RoleTeamType.Impostor || murderer.playerInfo?.isDisconnected) {
+        const murdererPlayerInfo = murderer.getPlayerInfo();
+        const victimPlayerInfo = victim.getPlayerInfo();
+
+        if (murdererPlayerInfo?.isDead || !murdererPlayerInfo?.roleType || murdererPlayerInfo?.roleType.roleMetadata.roleTeam !== RoleTeamType.Impostor || murdererPlayerInfo?.isDisconnected) {
             return false;
         }
 
-        if (!victim.playerInfo || victim.playerInfo.isDead || victim.physics?.isInVent) {
+        if (!victimPlayerInfo || victimPlayerInfo.isDead || victim.physics?.isInVent) {
             return false;
         }
 

@@ -12,7 +12,7 @@ export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 export class HideNSeekRoleSelectionLogicComponent<RoomType extends Hostable = Hostable> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
     matchRoles(settings: Partial<Record<RoleType, RoleChanceSettings>>, filter: (roleCtr: typeof BaseRole, roleChance: RoleChanceSettings) => any) {
         const filteredRoles = [];
-        for (const [ , roleCtr ] of this.manager.room.registeredRoles) {
+        for (const [, roleCtr] of this.manager.room.registeredRoles) {
             const roleChance = settings[roleCtr.roleMetadata.roleType as RoleType];
             if (roleChance && filter(roleCtr, roleChance)) {
                 filteredRoles.push(roleCtr);
@@ -39,8 +39,9 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends Hostable = Ho
 
     async assignRoles() {
         const allPlayers = [];
-        for (const [ , player ] of this.manager.room.players) {
-            if (player.playerInfo && !player.playerInfo?.isDisconnected && !player.playerInfo?.isDead) {
+        for (const [, player] of this.manager.room.players) {
+            const playerInfo = player.getPlayerInfo();
+            if (playerInfo && !playerInfo?.isDisconnected && !playerInfo?.isDead) {
                 allPlayers.push(player);
             }
         }
@@ -51,10 +52,10 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends Hostable = Ho
         const assignedImpostors = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(adjustedImpostors, this.manager.room.settings.numImpostors), ImpostorRole);
         const assignedCrewmates = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, CrewmateRole);
 
-        for (const [ player, roleCtr ] of assignedImpostors) {
+        for (const [player, roleCtr] of assignedImpostors) {
             roleAssignments.set(player, roleCtr);
         }
-        for (const [ player, roleCtr ] of assignedCrewmates) {
+        for (const [player, roleCtr] of assignedCrewmates) {
             roleAssignments.set(player, roleCtr);
         }
 
@@ -69,10 +70,10 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends Hostable = Ho
             await this.assignRolesFromAssignments(ev.alteredAssignments);
         }
     }
-    
+
     async assignRolesFromAssignments(roleAssignments: Map<PlayerData, typeof BaseRole>) {
         const promises = [];
-        for (const [ player, roleCtr ] of roleAssignments) {
+        for (const [player, roleCtr] of roleAssignments) {
             promises.push(player.control?.setRole(roleCtr));
         }
         await Promise.all(promises);

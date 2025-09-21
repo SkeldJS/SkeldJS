@@ -2,12 +2,15 @@ export enum SpawnType {
     SkeldShipStatus,
     MeetingHud,
     LobbyBehaviour,
-    GameData,
-    Player,
+    // GameData, removed
+    Player = 4,
     MiraShipStatus,
     Polus,
     AprilShipStatus,
     Airship,
     HideAndSeekManager,
-    NormalGameManager
+    NormalGameManager,
+    PlayerInfo,
+    VoteBanSystem,
+    FungleShipStatus,
 }

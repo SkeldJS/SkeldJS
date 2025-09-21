@@ -94,7 +94,7 @@ export type ShipStatusEvents<RoomType extends Hostable = Hostable> = Networkable
     SabotageSystemEvents<RoomType> &
     SecurityCameraSystemEvents<RoomType> &
     SwitchSystemEvents<RoomType> &
-    ExtractEventTypes<[ RoomAssignRolesEvent<RoomType> ]>;
+    ExtractEventTypes<[RoomAssignRolesEvent<RoomType>]>;
 
 export type ShipStatusType =
     | SpawnType.SkeldShipStatus
@@ -140,7 +140,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    Setup() {}
+    Setup() { }
 
     Deserialize(reader: HazelReader, spawn: boolean = false) {
         if (!this.systems) {
@@ -160,7 +160,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
 
     /* eslint-disable-next-line */
     Serialize(writer: HazelWriter, spawn: boolean = false) {
-        for (const [, system ] of this.systems) {
+        for (const [, system] of this.systems) {
             if (system.dirty || spawn) {
                 writer.begin(system.systemType);
                 system.Serialize(writer, spawn);
@@ -184,7 +184,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
     }
 
     protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const doors = this.systems.get(SystemType.Doors)! as DoorsSystem|AutoDoorsSystem;
+        const doors = this.systems.get(SystemType.Doors)! as DoorsSystem | AutoDoorsSystem;
         const doorsInRoom = this.getDoorsInRoom(rpc.systemId);
 
         if ("cooldowns" in doors) {
@@ -196,7 +196,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
     }
 
     FixedUpdate(delta: number) {
-        for (const [, system ] of this.systems) {
+        for (const [, system] of this.systems) {
             system.Detoriorate(delta);
         }
     }
@@ -273,14 +273,16 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
         shuffleArray(allShort);
 
         const usedTaskTypes: Set<TaskType> = new Set;
-        const commonTasks: number [] = [];
+        const commonTasks: number[] = [];
 
         this.addTasksFromList(0, numCommon, commonTasks, usedTaskTypes, allCommon);
 
         let shortIdx = 0;
         let longIdx = 0;
-        for (const [ , player ] of this.room.players) {
-            if (!player.playerInfo)
+        for (const [, player] of this.room.players) {
+            const playerInfo = player.getPlayerInfo();
+
+            if (!playerInfo)
                 continue;
 
             usedTaskTypes.clear();
@@ -289,7 +291,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
             shortIdx = this.addTasksFromList(shortIdx, numShort, playerTasks, usedTaskTypes, allShort);
             longIdx = this.addTasksFromList(longIdx, numLong, playerTasks, usedTaskTypes, allLong);
 
-            await player.playerInfo.setTaskIds(playerTasks);
+            await playerInfo.setTasks(playerTasks);
         }
     }
 
@@ -300,7 +302,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
      * @param initialSpawn Whther or not this is a spawn after starting the game.
      * @returns The spawn position of the player.
      */
-    getSpawnPosition(player: PlayerData|number, initialSpawn: boolean) {
+    getSpawnPosition(player: PlayerData | number, initialSpawn: boolean) {
         const playerId = typeof player === "number"
             ? player
             : player.playerId!;

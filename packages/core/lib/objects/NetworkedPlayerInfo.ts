@@ -1,15 +1,19 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-
 import {
+    SpawnType,
     Color,
     PlayerDataFlags,
     PlayerOutfitType,
     RoleTeamType
 } from "@skeldjs/constant";
+import { SetTasksMessage } from "@skeldjs/protocol";
+import { ExtractEventTypes } from "@skeldjs/events";
 
+import { Networkable, NetworkableEvents } from "../Networkable";
 import { Hostable } from "../Hostable";
-import { GameData } from "../objects";
-import { BaseRole, UnknownRole } from "../roles";
+
+
+import { BaseRole, CrewmateRole, UnknownRole } from "../roles";
 
 export class TaskState {
     constructor(
@@ -22,7 +26,7 @@ export class TaskState {
          * Whether or not this task has been completed or not by the player.
          */
         public completed: boolean
-    ) {}
+    ) { }
 }
 
 /**
@@ -31,6 +35,12 @@ export class TaskState {
  * into another player.
  */
 export class PlayerOutfit {
+    hatSequenceId: number;
+    petSequenceId: number;
+    skinSequenceId: number;
+    visorSequenceId: number;
+    nameplateSequenceId: number;
+
     constructor(
         public outfitType: PlayerOutfitType,
         public name: string,
@@ -40,11 +50,16 @@ export class PlayerOutfit {
         public skinId: string,
         public visorId: string,
         public nameplateId: string
-    ) {}
+    ) {
+        this.hatSequenceId = 0;
+        this.petSequenceId = 0;
+        this.skinSequenceId = 0;
+        this.visorSequenceId = 0;
+        this.nameplateSequenceId = 0;
+    }
 
     get isIncomplete() {
         return this.name === ""
-            || this.color === Color.Red
             || this.hatId === "missing"
             || this.petId === "missing"
             || this.skinId === "missing"
@@ -57,15 +72,20 @@ export class PlayerOutfit {
     }
 
     static Deserialize(reader: HazelReader, type: PlayerOutfitType) {
-        const name = reader.string();
-        const color = reader.packed();
-        const hatId = reader.string();
-        const petId = reader.string();
-        const skinId = reader.string();
-        const visorId = reader.string();
-        const nameplateId = reader.string();
-
-        return new PlayerOutfit(type, name, color, hatId, petId, skinId, visorId, nameplateId);
+        const outfit = new PlayerOutfit(type, "", Color.Red, "missing", "mising", "missing", "missing", "missing");
+        outfit.name = reader.string();
+        outfit.color = reader.packed();
+        outfit.hatId = reader.string();
+        outfit.petId = reader.string();
+        outfit.skinId = reader.string();
+        outfit.visorId = reader.string();
+        outfit.nameplateId = reader.string();
+        outfit.hatSequenceId = reader.uint8();
+        outfit.petSequenceId = reader.uint8();
+        outfit.skinSequenceId = reader.uint8();
+        outfit.visorSequenceId = reader.uint8();
+        outfit.nameplateSequenceId = reader.uint8();
+        return outfit;
     }
 
     Serialize(writer: HazelWriter) {
@@ -76,6 +96,11 @@ export class PlayerOutfit {
         writer.string(this.skinId);
         writer.string(this.visorId);
         writer.string(this.nameplateId);
+        writer.uint8(this.hatSequenceId);
+        writer.uint8(this.petSequenceId);
+        writer.uint8(this.skinSequenceId);
+        writer.uint8(this.visorSequenceId);
+        writer.uint8(this.nameplateSequenceId);
     }
 
     clone(outfitType: PlayerOutfitType) {
@@ -94,87 +119,111 @@ export class PlayerOutfit {
 
 export type PlayerOutfits = Partial<Record<PlayerOutfitType, PlayerOutfit>>;
 
-/**
- * Represents information about a player, including any cosmetics they have equipped,
- * whether they are dead or the impostor, their role and whatever tasks they have.
- */
-export class PlayerInfo<RoomType extends Hostable = Hostable> {
-    /**
-     * Create a default player info object.
-     * @param gamedata The gamedata object that this player information belongs to.
-     * @param playerId The ID of the player.
-     * @returns A default player info object.
-     */
-    static createDefault<RoomType extends Hostable = Hostable>(gamedata: GameData<RoomType>, playerId: number) {
-        return new PlayerInfo(gamedata, playerId, {
-            [PlayerOutfitType.Default]: PlayerOutfit.createDefault(PlayerOutfitType.Default)
-        }, 0, 0, undefined, undefined, [], "", "");
-    }
 
+/* eslint-disable-next-line @typescript-eslint/no-empty-interface */
+export interface NetworkedPlayerInfoData {
     currentOutfitType: PlayerOutfitType;
+    playerId: number;
+    clientId: number;
+    outfits: PlayerOutfits;
+    playerLevel: number;
+    flags: number;
+    roleType: typeof BaseRole;
+    roleTypeWhenAlive: typeof BaseRole | undefined;
+    taskStates: TaskState[];
+    friendCode: string;
+    puid: string;
+}
+
+export type NetworkedPlayerInfoEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
+
+export class NetworkedPlayerInfo<RoomType extends Hostable = Hostable> extends Networkable<
+    NetworkedPlayerInfoData,
+    NetworkedPlayerInfoEvents<RoomType>,
+    RoomType
+> {
+    currentOutfitType: PlayerOutfitType;
+    playerId: number;
+    clientId: number;
+    /**
+     * A collection of this player's outfits as they should be displayed.
+     * Somewhat of a layer system, the Default outfit shouldn't be displayed
+     * if there is another outfit in this object.
+     */
+    outfits: PlayerOutfits;
+    /**
+     * This player's level/rank.
+     */
+    playerLevel: number;
+    /**
+     * Any flags that this player has, see {@link PlayerDataFlags}.
+     */
+    flags: number;
+    /**
+     * Which role this player is. Note that this is not their actual instance
+     * of this role, see {@link PlayerData.role}, but is instead the class
+     * used to create the instance, and holds metadata about the role, such as
+     * the team it is for and whether it's a role for ghosts or not.
+     *
+     * You can use this to know what class {@link PlayerData.role} will be an
+     * instance of.
+     * @example
+     * ```ts
+     * if (player.playerInfo.roleType === ImpostorRole) {
+     *   player.role instanceof ImpostorRole // true
+     * }
+     * ```
+     */
+    roleType: typeof BaseRole;
+    roleTypeWhenAlive: typeof BaseRole | null;
+    /**
+     * All of this player's tasks, and whether or not they have been completed
+     * or not by the player.
+     */
+    taskStates: TaskState[];
+    /**
+     * The player's Innersloth friend code.
+     */
+    friendCode: string;
+    /**
+     * The player's global player UUID.
+     */
+    puid: string;
 
     constructor(
-        public readonly gamedata: GameData<RoomType>,
-        public readonly playerId: number,
-        /**
-         * A collection of this player's outfits as they should be displayed.
-         * Somewhat of a layer system, the Default outfit shouldn't be displayed
-         * if there is another outfit in this object.
-         */
-        public outfits: PlayerOutfits,
-        /**
-         * This player's level/rank.
-         */
-        public playerLevel: number,
-        /**
-         * Any flags that this player has, see {@link PlayerDataFlags}.
-         */
-        public flags = 0,
-        /**
-         * Which player this role is. Note that this is not their actual instance
-         * of this role, see {@link PlayerData.role}, but is instead the class
-         * used to create the instance, and holds metadata about the role, such as
-         * the team it is for and whether it's a role for ghosts or not.
-         *
-         * You can use this to know what class {@link PlayerData.role} will be an
-         * instance of.
-         * @example
-         * ```ts
-         * if (player.playerInfo.roleType === ImpostorRole) {
-         *   player.role instanceof ImpostorRole // true
-         * }
-         * ```
-         */
-        public roleType: typeof BaseRole|undefined,
-        public roleTypeWhenAlive: typeof BaseRole|undefined,
-        /**
-         * All of this player's tasks, and whether or not they have been completed
-         * or not by the player.
-         */
-        public taskStates: TaskState[] = [],
-        /**
-         * The player's Innersloth friend code.
-         */
-        public friendCode: string,
-        /**
-         * The player's global player UUID.
-         */
-        public puid: string
+        room: RoomType,
+        spawnType: SpawnType,
+        netId: number,
+        ownerid: number,
+        flags: number,
+        data?: HazelReader | NetworkedPlayerInfoData
     ) {
+        super(room, spawnType, netId, ownerid, flags, data);
+
         this.currentOutfitType = PlayerOutfitType.Default;
+        this.playerId ??= 0;
+        this.clientId ??= 0;
+        this.outfits ??= {
+            [PlayerOutfitType.Default]: new PlayerOutfit(PlayerOutfitType.Default, "", Color.Red, "missing", "missing", "missing", "missing", "missing"),
+        };
+        this.playerLevel ??= 0;
+        this.flags ??= 0;
+        this.roleType ??= CrewmateRole;
+        this.roleTypeWhenAlive ??= null;
+        this.taskStates ??= [];
+        this.friendCode ??= "";
+        this.puid ??= "";
     }
 
-    static Deserialize<RoomType extends Hostable = Hostable>(reader: HazelReader, gamedata: GameData<RoomType>, playerId: number) {
-        const player = this.createDefault(gamedata, playerId);
-        player.Deserialize(reader);
-        return player;
+    get owner() {
+        return super.owner as RoomType;
     }
 
     /**
      * The player that this info is for.
      */
     getPlayer() {
-        return this.gamedata.room.getPlayerByPlayerId(this.playerId);
+        return this.room.getPlayerByPlayerId(this.playerId);
     }
 
     /**
@@ -212,6 +261,8 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
     }
 
     Deserialize(reader: HazelReader) {
+        this.playerId = reader.uint8();
+        this.clientId = reader.packed();
         this.outfits = {};
         const numOutfits = reader.uint8();
         for (let i = 0; i < numOutfits; i++) {
@@ -221,7 +272,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         this.playerLevel = reader.upacked();
         this.flags = reader.uint8();
         const roleType = reader.uint16();
-        this.roleType = this.gamedata.room.registeredRoles.get(roleType) || UnknownRole(roleType);
+        this.roleType = this.room.registeredRoles.get(roleType) || UnknownRole(roleType);
         this.taskStates = [];
         const numTasks = reader.uint8();
         for (let i = 0; i < numTasks; i++) {
@@ -236,6 +287,8 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
     }
 
     Serialize(writer: HazelWriter) {
+        writer.uint8(this.playerId);
+        writer.packed(this.clientId);
         const outfitVals = Object.values(this.outfits);
         writer.uint8(outfitVals.length);
         for (const outfit of outfitVals) {
@@ -245,8 +298,8 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         writer.upacked(this.playerLevel);
         writer.uint8(this.flags);
         writer.uint16(this.roleType?.roleMetadata.roleType ? this.roleType.roleMetadata.roleType : 0);
-        writer.bool(this.roleTypeWhenAlive !== undefined);
-        if (this.roleTypeWhenAlive !== undefined) {
+        writer.bool(this.roleTypeWhenAlive !== null);
+        if (this.roleTypeWhenAlive !== null) {
             writer.uint16(this.roleTypeWhenAlive.roleMetadata.roleType);
         }
         writer.uint8(this.taskStates.length);
@@ -256,39 +309,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         }
         writer.string(this.friendCode);
         writer.string(this.puid);
-    }
-
-    /**
-     * Clone the player info for another player.
-     */
-    clone(playerId: number) {
-        const clonedOutfits: PlayerOutfits = {};
-        const outfitEntries = Object.values(this.outfits);
-        for (const outfit of outfitEntries) {
-            clonedOutfits[outfit.outfitType] = new PlayerOutfit(
-                outfit.outfitType,
-                outfit.name,
-                outfit.color,
-                outfit.hatId,
-                outfit.petId,
-                outfit.skinId,
-                outfit.visorId,
-                outfit.nameplateId
-            );
-        }
-
-        return new PlayerInfo(
-            this.gamedata,
-            playerId,
-            clonedOutfits,
-            this.playerLevel,
-            this.flags,
-            this.roleType,
-            this.roleTypeWhenAlive,
-            this.taskStates.map(task => new TaskState(task.taskType, task.completed)),
-            this.friendCode,
-            this.puid
-        );
+        return true;
     }
 
     /**
@@ -330,7 +351,7 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
      */
     setOutfit(outfit: PlayerOutfit) {
         this.outfits[outfit.outfitType] = outfit;
-        this.gamedata.markDirty(this);
+        this.dirtyBit = 1;
 
         // todo outfit update events
     }
@@ -367,73 +388,97 @@ export class PlayerInfo<RoomType extends Hostable = Hostable> {
         if (this.currentOutfitType === outfitType) {
             this.currentOutfitType = PlayerOutfitType.Default;
         }
+        this.dirtyBit = 1;
     }
 
     setName(outfitType: PlayerOutfitType, name: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.name = name;
+        this.dirtyBit = 1;
     }
 
     setColor(outfitType: PlayerOutfitType, color: Color) {
         const outfit = this.getOutfit(outfitType);
         outfit.color = color;
+        this.dirtyBit = 1;
     }
 
     setHat(outfitType: PlayerOutfitType, hatId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.hatId = hatId;
+        this.dirtyBit = 1;
     }
 
     setPet(outfitType: PlayerOutfitType, petId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.petId = petId;
+        this.dirtyBit = 1;
     }
 
     setSkin(outfitType: PlayerOutfitType, skinId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.skinId = skinId;
+        this.dirtyBit = 1;
     }
 
     setVisor(outfitType: PlayerOutfitType, visorId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.visorId = visorId;
+        this.dirtyBit = 1;
     }
 
     setNameplate(outfitType: PlayerOutfitType, nameplateId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.nameplateId = nameplateId;
+        this.dirtyBit = 1;
     }
-
 
     /**
      * Set the flags of this player.
      */
     setFlags(flags: number) {
         this.flags = flags;
-        this.gamedata.markDirty(this);
+        this.dirtyBit = 1;
     }
 
-    /**
-     * Set the tasks of this player.
-     * @param taskIds The IDs of each task.
-     */
-    async setTaskIds(taskIds: number[]) {
-        await this.gamedata.setTasks(this, taskIds); // todo: player.settasks event
+    setRoleType(roleCtr: typeof BaseRole) {
+        this.roleType = roleCtr;
+        this.dirtyBit = 1;
     }
 
-    /**
-     * Set the task states of this player.
-     */
-    setTaskStates(taskStates: TaskState[]) {
-        this.taskStates = taskStates;
-        this.gamedata.markDirty(this);
+    // TODO: task rpcs
+
+    private async _handleSetTasks(rpc: SetTasksMessage) {
+        // TODO: events
+
+        this._setTasks(rpc.taskIds);
     }
 
-    /**
-     * Mark a task of this player as completed.
-     */
-    completeTask(state: TaskState) {
-        state.completed = true;
-        this.gamedata.markDirty(this);
+    private _setTasks(taskIds: number[]) {
+        this.taskStates = [];
+        for (let i = 0; i < taskIds.length; i++) {
+            const taskId = taskIds[i];
+            this.taskStates.push(new TaskState(taskId, false));
+        }
+        this.dirtyBit = 1;
+    }
+
+    private async _rpcSetTasks(taskIds: number[]) {
+
+    }
+
+    async setTasks(taskIds: number[]) {
+        // TODO: events
+
+        this.setTasks(taskIds);
+        await this._rpcSetTasks(taskIds);
+    }
+
+    completeTask(taskIdx: number) {
+        const taskState = this.taskStates[taskIdx];
+        if (!taskState) return;
+
+        taskState.completed = true;
+        this.dirtyBit = 1;
     }
 }

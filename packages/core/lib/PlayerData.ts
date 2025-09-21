@@ -5,7 +5,7 @@ import { Platform } from "@skeldjs/constant";
 import {
     CustomNetworkTransform,
     CustomNetworkTransformEvents,
-    GameData,
+    NetworkedPlayerInfo,
     PlayerControl,
     PlayerControlEvents,
     PlayerPhysics,
@@ -24,7 +24,6 @@ import {
 } from "./events";
 
 import { NetworkableEvents } from "./Networkable";
-import { PlayerInfo } from "./misc";
 import { BaseRole } from "./roles";
 
 export type PlayerDataEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
@@ -71,17 +70,13 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     /**
      * This player's player control component.
      */
-    control: PlayerControl<RoomType>|undefined;
+    control: PlayerControl<RoomType> | undefined;
 
     /**
      * The actual instance of this player's role manager, see {@link PlayerInfo.roleType}
      * to know which role this is.
      */
     role?: BaseRole;
-
-    private _playerInfoCachedPlayerId?: number;
-    private _playerInfoCached?: PlayerInfo;
-    private _cacheGameData?: GameData;
 
     constructor(
         room: RoomType,
@@ -148,15 +143,15 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
     /**
      * The player's physics component.
      */
-    get physics(): PlayerPhysics<RoomType>|undefined {
-        return this.control?.getComponent(PlayerPhysics) as PlayerPhysics<RoomType>|undefined;
+    get physics(): PlayerPhysics<RoomType> | undefined {
+        return this.control?.getComponent(PlayerPhysics) as PlayerPhysics<RoomType> | undefined;
     }
 
     /**
      * The player's movement component.
      */
-    get transform(): CustomNetworkTransform<RoomType>|undefined {
-        return this.control?.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType>|undefined;
+    get transform(): CustomNetworkTransform<RoomType> | undefined {
+        return this.control?.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType> | undefined;
     }
 
     /**
@@ -171,23 +166,9 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * The player's game information, such as dead/impostor/disconnected states,
      * hats, names, pets, etc.
      */
-    get playerInfo(): PlayerInfo|undefined {
-        if (this.playerId === undefined) {
-            this._playerInfoCachedPlayerId = undefined;
-            this._playerInfoCached = undefined;
-            this._cacheGameData = undefined;
-            return undefined;
-        }
-
-        if (this.playerId === this._playerInfoCachedPlayerId && this._playerInfoCached && this.room.gameData === this._cacheGameData) {
-            return this._playerInfoCached;
-        }
-
-        this._playerInfoCachedPlayerId = this.playerId;
-        this._cacheGameData = this.room.gameData;
-        this._playerInfoCached = this._cacheGameData?.players?.get(this.playerId);
-
-        return this._playerInfoCached;
+    getPlayerInfo(): NetworkedPlayerInfo | undefined {
+        if (this.playerId === undefined) return undefined;
+        return this.room.playerInfo.get(this.playerId);
     }
 
     /**
@@ -197,7 +178,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * the name of the player that they might have shapeshifted into.
      */
     get playerName() {
-        return this.playerInfo?.defaultOutfit.name;
+        return this.getPlayerInfo()?.defaultOutfit.name;
     }
 
     /**
@@ -236,7 +217,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
         await this.emit(new PlayerReadyEvent(this.room, this));
 
         if (this.isMe) {
-            await this.room.broadcast([ new ReadyMessage(this.clientId) ]);
+            await this.room.broadcast([new ReadyMessage(this.clientId)]);
         }
     }
 
