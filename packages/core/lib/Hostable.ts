@@ -1099,21 +1099,6 @@ export class Hostable<
         }
 
         if ((this.hostIsMe && doBroadcast === undefined) || doBroadcast) {
-            console.log(new SpawnMessage(
-                spawnType,
-                object.ownerId,
-                _flags,
-                object.components.map((component) => {
-                    const writer = HazelWriter.alloc(512);
-                    writer.write(component, true);
-                    writer.realloc(writer.cursor);
-
-                    return new ComponentSpawnData(
-                        component.netId,
-                        writer.buffer
-                    );
-                })
-            ));
             this.messageStream.push(
                 new SpawnMessage(
                     spawnType,

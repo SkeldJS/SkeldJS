@@ -742,7 +742,7 @@ export class GameSettings {
             switch (this.gameMode) {
                 case GameMode.Normal:
                 case GameMode.NormalFools:
-                    owriter.uint8(this.killCooldown);
+                    owriter.float(this.killCooldown);
                     owriter.uint8(this.commonTasks);
                     owriter.uint8(this.longTasks);
                     owriter.uint8(this.shortTasks);
