@@ -608,7 +608,9 @@ export class Hostable<
             this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, -2);
         }
 
-        // TODO: spawn game data replacement
+        if (!this.voteBanSystem) {
+            this.spawnPrefabOfType(SpawnType.VoteBanSystem, -2);
+        }
 
         if (!this.gameManager) {
             if (this.settings.gameMode === GameMode.Normal) {
