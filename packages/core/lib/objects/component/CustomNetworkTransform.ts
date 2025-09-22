@@ -23,7 +23,6 @@ import { PlayerControl } from "../PlayerControl";
 export interface CustomNetworkTransformData {
     seqId: number;
     position: Vector2;
-    velocity: Vector2;
 }
 
 export type CustomNetworkTransformEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
@@ -43,11 +42,6 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     RoomType
 > implements CustomNetworkTransformData {
     /**
-     * The previous sequence ID.
-     */
-    oldSeqId: number;
-
-    /**
      * The current sequence ID.
      */
     seqId: number;
@@ -56,11 +50,6 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
      * The current position of the player.
      */
     position: Vector2;
-
-    /**
-     * The velocity of the player.
-     */
-    velocity: Vector2;
 
     /**
      * The player that this component belongs to.
@@ -78,10 +67,8 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     ) {
         super(room, spawnType, netId, ownerid, flags, data);
 
-        this.oldSeqId ||= 0;
         this.seqId ||= 0;
         this.position ||= Vector2.null;
-        this.velocity ||= Vector2.null;
 
         this.player = this.owner as PlayerData<RoomType>;
 
@@ -116,10 +103,15 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelWriter, spawn: boolean = false) {
-        writer.uint16(this.seqId);
-        writer.vector(this.position);
-        writer.vector(this.velocity);
-        this.dirtyBit = 0;
+        if (spawn) {
+            writer.uint8(this.seqId);
+            writer.vector(this.position);
+        } else {
+            // TODO: position queue
+            writer.uint16(this.seqId);
+            writer.packed(1);
+            writer.vector(this.position);
+        }
         return true;
     }
 
@@ -134,29 +126,28 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     /**
      * Move to a position (lerps towards).
      * @param position The position to move towards.
-     * @param velocity The velocity to display moving at.
      * @example
      *```typescript
      * // Follow the host
      * host.transform.on("player.move", ev => {
-     *   player.transform.move(ev.position.x, ev.position.y);
+     *   player.transform.move(ev.position);
      * });
      * ```
      */
-    async move(x: number, y: number, velocity: Vector2 = Vector2.null) {
+    async move(position: Vector2) {
         this.seqId += 1;
 
         if (this.seqId > 2 ** 16 - 1) {
             this.seqId = 1;
         }
 
-        this.position.x = x;
-        this.position.y = y;
-        this.velocity = velocity;
+        const oldPosition = new Vector2(this.position);
+        this.position = new Vector2(position);
 
         this.dirtyBit = 1;
         const writer = HazelWriter.alloc(10);
         this.Serialize(writer, false);
+        this.dirtyBit = 0;
 
         await this.room.broadcast([new DataMessage(this.netId, writer.buffer)], undefined, undefined, undefined, false);
 
@@ -164,8 +155,8 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
             new PlayerMoveEvent(
                 this.room,
                 this.player,
-                new Vector2(this.position),
-                new Vector2(this.velocity)
+                new Vector2(oldPosition),
+                new Vector2(this.position)
             )
         );
     }
@@ -176,7 +167,6 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
 
             this.seqId = rpc.sequenceid;
             this.position = rpc.position;
-            this.velocity = Vector2.null;
 
             const newPosition = new Vector2(this.position);
 
