@@ -104,7 +104,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelWriter, spawn: boolean = false) {
         if (spawn) {
-            writer.uint8(this.seqId);
+            writer.uint16(this.seqId);
             writer.vector(this.position);
         } else {
             // TODO: position queue

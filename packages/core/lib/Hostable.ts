@@ -905,27 +905,27 @@ export class Hostable<
             return;
         }
 
-        if (component instanceof LobbyBehaviour) {
+        if (component instanceof LobbyBehaviour && !this.lobbyBehaviour) {
             if (!this.lobbyBehaviour) {
                 this.lobbyBehaviour = component as LobbyBehaviour<this>; // (??)
             }
         }
 
-        if (component instanceof InnerShipStatus) {
+        if (component instanceof InnerShipStatus && !this.shipStatus) {
             if (!this.shipStatus) {
                 this.shipStatus = component;
             }
         }
 
-        if (component instanceof VoteBanSystem) {
+        if (component instanceof VoteBanSystem && !this.voteBanSystem) {
             this.voteBanSystem = component;
         }
 
-        if (component instanceof MeetingHud) {
+        if (component instanceof MeetingHud && !this.meetingHud) {
             this.meetingHud = component;
         }
 
-        if (component instanceof InnerGameManager) {
+        if (component instanceof InnerGameManager && !this.gameManager) {
             this.gameManager = component;
         }
 
@@ -1019,6 +1019,7 @@ export class Hostable<
         const messages: SpawnMessage[] = [];
 
         for (const object of this.objectList) {
+            console.log(object);
             messages.push(
                 new SpawnMessage(
                     object.spawnType,

@@ -6,7 +6,7 @@ import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Netwo
 import { Hostable } from "../Hostable";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
-export interface LobbyBehaviourData {}
+export interface LobbyBehaviourData { }
 
 export type LobbyBehaviourEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
 
@@ -17,7 +17,7 @@ export type LobbyBehaviourEvents<RoomType extends Hostable = Hostable> = Network
  */
 export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networkable<
     LobbyBehaviourData,
-    LobbyBehaviourEvents<RoomType>,
+    LobbyBehaviourEvents,
     RoomType
 > {
     static spawnPositions = [
@@ -46,7 +46,7 @@ export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networ
 
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
-    ): T|undefined {
+    ): T | undefined {
         if (this.spawnType === SpawnType.LobbyBehaviour && component === LobbyBehaviour as NetworkableConstructor<any>) {
             return this.components[0] as unknown as T;
         }
