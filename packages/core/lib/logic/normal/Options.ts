@@ -106,6 +106,6 @@ export class NormalOptionsLogicComponent<RoomType extends Hostable = Hostable> e
     }
 
     Serialize(writer: HazelWriter, initialState: boolean): void {
-        writer.write(this.manager.room.settings, 7);
+        writer.write(this.manager.room.settings, 10);
     }
 }
