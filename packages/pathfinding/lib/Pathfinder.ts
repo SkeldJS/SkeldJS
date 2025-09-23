@@ -116,7 +116,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         return this.transform?.position;
     }
 
-    get transform(): CustomNetworkTransform<SkeldjsClient>|undefined {
+    get transform(): CustomNetworkTransform<SkeldjsClient> | undefined {
         return this.myPlayer?.transform;
     }
 
@@ -194,11 +194,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
             const dist = this.position ? Vector2.dist(this.position, pos) : 0;
             const ev = await this.emit(new EngineMoveEvent(pos));
             if (!ev.canceled) {
-                this.transform?.move(
-                    pos.x,
-                    pos.y,
-                    new Vector2(dist * this.client.settings.playerSpeed)
-                );
+                this.transform?.move(pos);
             }
 
             if (this.path?.length === 0) {
@@ -298,7 +294,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
 
     private _handleMove(ev: PlayerMoveEvent) {
         if (ev.player === this.following) {
-            this.destination = new Vector2(ev.position);
+            this.destination = new Vector2(ev.newPosition);
             this._moved = true;
         }
     }

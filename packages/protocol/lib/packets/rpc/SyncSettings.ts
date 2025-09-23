@@ -16,12 +16,12 @@ export class SyncSettingsMessage extends BaseRpcMessage {
     }
 
     static Deserialize(reader: HazelReader) {
-        const options = reader.read(GameSettings);
+        const options = reader.read(GameSettings, true);
         return new SyncSettingsMessage(options);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.write(this.settings, 5);
+        writer.write(this.settings, true, 10);
     }
 
     clone() {

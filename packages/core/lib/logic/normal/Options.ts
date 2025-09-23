@@ -102,10 +102,10 @@ export class NormalOptionsLogicComponent<RoomType extends Hostable = Hostable> e
     }
 
     Deserialize(reader: HazelReader, initialState: boolean): void {
-        this.manager.room.settings = reader.read(GameSettings);
+        this.manager.room.settings = reader.read(GameSettings, true);
     }
 
     Serialize(writer: HazelWriter, initialState: boolean): void {
-        writer.write(this.manager.room.settings, 10);
+        writer.write(this.manager.room.settings, true, 10);
     }
 }

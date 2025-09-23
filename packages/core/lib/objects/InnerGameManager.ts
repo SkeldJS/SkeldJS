@@ -7,7 +7,7 @@ import { Hostable } from "../Hostable";
 import { GameLogicComponent } from "../logic";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
-export interface InnerGameManagerData {}
+export interface InnerGameManagerData { }
 
 export type InnerGameManagerEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
 
@@ -41,7 +41,7 @@ export abstract class InnerGameManager<RoomType extends Hostable = Hostable> ext
         if (this.logicComponents === undefined || this.logicComponents.length === 0) this.initComponents();
 
         while (reader.left > 0) {
-            const [ tag, mreader ] = reader.message();
+            const [tag, mreader] = reader.message();
             if (tag >= this.logicComponents.length) continue;
 
             this.logicComponents[tag].Deserialize(mreader, spawn);
@@ -53,7 +53,6 @@ export abstract class InnerGameManager<RoomType extends Hostable = Hostable> ext
         for (let i = 0; i < this.logicComponents.length; i++) {
             const logicComponent = this.logicComponents[i];
             if (spawn || logicComponent.isDirty) {
-
                 didWrite = true;
                 writer.begin(i);
                 logicComponent.Serialize(writer, spawn);

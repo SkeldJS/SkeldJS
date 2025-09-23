@@ -240,7 +240,7 @@ export class RoleSettings implements AllRoleSettings {
 
     Deserialize(reader: HazelReader, version: number) {
         if (version >= 7) {
-            const numRoles = reader.upacked();
+            const numRoles = reader.packed();
             for (let i = 0; i < numRoles; i++) {
                 const roleType = reader.uint16() as RoleType;
                 const maxPlayers = reader.uint8();
@@ -613,15 +613,15 @@ export class GameSettings {
         }
     }
 
-    static Deserialize(reader: HazelReader) {
+    static Deserialize(reader: HazelReader, readLength: boolean) {
         const gameOptions = new GameSettings;
-        gameOptions.Deserialize(reader);
+        gameOptions.Deserialize(reader, readLength);
         return gameOptions;
     }
 
-    Deserialize(reader: HazelReader) {
-        const length = reader.upacked();
-        const sreader = reader.bytes(length);
+    Deserialize(reader: HazelReader, readLength: boolean) {
+        const length = readLength ? reader.upacked() : null;
+        const sreader = reader.bytes(length ?? reader.left);
         const version = sreader.uint8();
 
         if (version >= 7) {
@@ -719,74 +719,75 @@ export class GameSettings {
         }
     }
 
-    Serialize(writer: HazelWriter, version: number) {
+    Serialize(writer: HazelWriter, writeSize: boolean, version: number) {
         if (version >= 7) {
             const owriter = HazelWriter.alloc(256);
             owriter.uint8(version);
             owriter.begin(0);
             owriter.uint8(this.gameMode);
 
-            if (this.gameMode === GameMode.None)
-                return;
+            if (this.gameMode !== GameMode.None) {
+                owriter.uint8(this.specialMode);
+                owriter.uint8(this.rulesPreset);
 
-            owriter.uint8(this.specialMode);
-            owriter.uint8(this.rulesPreset);
+                owriter.uint8(this.maxPlayers);
+                owriter.uint32(this.keywords);
+                owriter.uint8(this.map);
+                owriter.float(this.playerSpeed);
+                owriter.float(this.crewmateVision);
+                owriter.float(this.impostorVision);
 
-            owriter.uint8(this.maxPlayers);
-            owriter.uint32(this.keywords);
-            owriter.uint8(this.map);
-            owriter.float(this.playerSpeed);
-            owriter.float(this.crewmateVision);
-            owriter.float(this.impostorVision);
+                switch (this.gameMode) {
+                    case GameMode.Normal:
+                    case GameMode.NormalFools:
+                        owriter.float(this.killCooldown);
+                        owriter.uint8(this.commonTasks);
+                        owriter.uint8(this.longTasks);
+                        owriter.uint8(this.shortTasks);
+                        owriter.int32(this.numEmergencies);
+                        owriter.uint8(this.numImpostors);
+                        owriter.uint8(this.killDistance);
+                        owriter.int32(this.discussionTime);
+                        owriter.int32(this.votingTime);
+                        owriter.bool(this.isDefaults);
+                        owriter.uint8(this.emergencyCooldown);
+                        owriter.bool(this.confirmEjects);
+                        owriter.bool(this.visualTasks);
+                        owriter.bool(this.anonymousVotes);
+                        owriter.uint8(this.taskbarUpdates);
+                        owriter.uint8(this.tag);
 
-            switch (this.gameMode) {
-                case GameMode.Normal:
-                case GameMode.NormalFools:
-                    owriter.float(this.killCooldown);
-                    owriter.uint8(this.commonTasks);
-                    owriter.uint8(this.longTasks);
-                    owriter.uint8(this.shortTasks);
-                    owriter.int32(this.numEmergencies);
-                    owriter.uint8(this.numImpostors);
-                    owriter.uint8(this.killDistance);
-                    owriter.int32(this.discussionTime);
-                    owriter.int32(this.votingTime);
-                    owriter.bool(this.isDefaults);
-                    owriter.uint8(this.emergencyCooldown);
-                    owriter.bool(this.confirmEjects);
-                    owriter.bool(this.visualTasks);
-                    owriter.bool(this.anonymousVotes);
-                    owriter.uint8(this.taskbarUpdates);
-                    owriter.uint8(this.tag);
-
-                    owriter.write(this.roleSettings, version);
-                    break;
-                case GameMode.HideNSeek:
-                case GameMode.HideNSeekFools:
-                    owriter.uint8(this.commonTasks);
-                    owriter.uint8(this.longTasks);
-                    owriter.uint8(this.shortTasks);
-                    owriter.bool(this.isDefaults);
-                    owriter.int32(this.crewmateVentUses);
-                    owriter.float(this.hidingTime);
-                    owriter.float(this.crewmateFlashlightSize);
-                    owriter.float(this.impostorFlashlightSize);
-                    owriter.bool(this.useFlashlight);
-                    owriter.bool(this.finalHideSeekMap);
-                    owriter.float(this.finalHideTime);
-                    owriter.float(this.finalSeekerSpeed);
-                    owriter.bool(this.finalHidePing);
-                    owriter.bool(this.showNames);
-                    owriter.uint32(this.seekerPlayerId);
-                    owriter.float(this.maxPingTime);
-                    owriter.float(this.crewmateTimeInVent);
-                    owriter.uint8(this.tag);
-                    break;
+                        owriter.write(this.roleSettings, version);
+                        break;
+                    case GameMode.HideNSeek:
+                    case GameMode.HideNSeekFools:
+                        owriter.uint8(this.commonTasks);
+                        owriter.uint8(this.longTasks);
+                        owriter.uint8(this.shortTasks);
+                        owriter.bool(this.isDefaults);
+                        owriter.int32(this.crewmateVentUses);
+                        owriter.float(this.hidingTime);
+                        owriter.float(this.crewmateFlashlightSize);
+                        owriter.float(this.impostorFlashlightSize);
+                        owriter.bool(this.useFlashlight);
+                        owriter.bool(this.finalHideSeekMap);
+                        owriter.float(this.finalHideTime);
+                        owriter.float(this.finalSeekerSpeed);
+                        owriter.bool(this.finalHidePing);
+                        owriter.bool(this.showNames);
+                        owriter.uint32(this.seekerPlayerId);
+                        owriter.float(this.maxPingTime);
+                        owriter.float(this.crewmateTimeInVent);
+                        owriter.uint8(this.tag);
+                        break;
+                }
             }
 
             owriter.end();
             owriter.realloc(owriter.cursor);
-            writer.upacked(owriter.size);
+            if (writeSize) {
+                writer.upacked(owriter.size);
+            }
             writer.bytes(owriter);
         } else {
             const owriter = HazelWriter.alloc(128);
@@ -823,7 +824,9 @@ export class GameSettings {
                 }
             }
             owriter.realloc(owriter.cursor);
-            writer.upacked(owriter.size);
+            if (writeSize) {
+                writer.upacked(owriter.size);
+            }
             writer.bytes(owriter);
         }
     }

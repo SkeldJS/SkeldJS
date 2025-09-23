@@ -23,10 +23,10 @@ export class TranslationController {
      * it with player names for quick chat messages.
      * @param room The room to connect the translation controller to.
      */
-    constructor(public readonly room?: Hostable) {}
+    constructor(public readonly room?: Hostable) { }
 
     private getPlayerName(playerId: number) {
-        return this.room?.getPlayerByPlayerId(playerId)?.playerInfo?.defaultOutfit.name || "";
+        return this.room?.getPlayerByPlayerId(playerId)?.getPlayerInfo()?.defaultOutfit.name || "";
     }
 
     private getQuickchatTranslation(stringName: StringNames, language: Language) {
@@ -48,7 +48,7 @@ export class TranslationController {
      * @param language The language of the string.
      * @returns The formatted string.
      */
-    formatString(str: string|StringNames, elements: (undefined|number|QuickChatSimpleMessageData|QuickChatPlayerMessageData|PlayerData)[], language: Language) {
+    formatString(str: string | StringNames, elements: (undefined | number | QuickChatSimpleMessageData | QuickChatPlayerMessageData | PlayerData)[], language: Language) {
         const translationString = typeof str === "string"
             ? str
             : this.getTranslation(str, language);
@@ -70,7 +70,7 @@ export class TranslationController {
             }
 
             if (element instanceof PlayerData) {
-                return element.playerInfo?.defaultOutfit.name || "";
+                return element.getPlayerInfo()?.defaultOutfit.name || "";
             }
 
             return this.getPlayerName(element.playerId);

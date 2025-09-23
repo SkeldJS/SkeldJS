@@ -37,7 +37,7 @@ export class HostGameMessage extends BaseRootMessage {
 
             return new HostGameMessage(code);
         } else {
-            const gameOptions = GameSettings.Deserialize(reader);
+            const gameOptions = GameSettings.Deserialize(reader, true);
             /*const crossplayFlags = */reader.uint32(); // crossplayFlags not used yet
             const numFilters = reader.upacked();
             const filters = reader.list(numFilters, r => r.string());
@@ -50,7 +50,7 @@ export class HostGameMessage extends BaseRootMessage {
         if (direction === MessageDirection.Clientbound) {
             writer.int32(this.code);
         } else {
-            writer.write(this.gameSettings, 7);
+            writer.write(this.gameSettings, true, 10);
             writer.int32(2 ** 31 - 1);//2 ** 31 - 1); // cross play flags, max int for any crossplay
             writer.upacked(this.filters.length);
             for (const filter of this.filters) {
