@@ -21,7 +21,7 @@ export class PlayerSnapToEvent<RoomType extends Hostable = Hostable> extends Bas
     constructor(
         public readonly room: RoomType,
         public readonly player: PlayerData<RoomType>,
-        public readonly message: SnapToMessage|undefined,
+        public readonly message: SnapToMessage | undefined,
         /**
          * The old position of the player.
          */
@@ -55,7 +55,6 @@ export class PlayerSnapToEvent<RoomType extends Hostable = Hostable> extends Bas
      * @param position The position to snap to.
      */
     setPosition(position: Vector2) {
-        this._alteredPosition.x = position.x;
-        this._alteredPosition.y = position.y;
+        this._alteredPosition = new Vector2(position);
     }
 }
