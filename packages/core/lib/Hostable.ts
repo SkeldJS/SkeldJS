@@ -929,6 +929,10 @@ export class Hostable<
             this.gameManager = component;
         }
 
+        if (component instanceof NetworkedPlayerInfo) {
+            this.playerInfo.set(component.playerId, component);
+        }
+
         this.netobjects.set(component.netId, component);
 
         component.emitSync(
@@ -1019,7 +1023,6 @@ export class Hostable<
         const messages: SpawnMessage[] = [];
 
         for (const object of this.objectList) {
-            console.log(object);
             messages.push(
                 new SpawnMessage(
                     object.spawnType,
