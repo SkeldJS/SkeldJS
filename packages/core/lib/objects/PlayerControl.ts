@@ -199,7 +199,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     Awake() {
-        this.playerId ||= this.room.getAvailablePlayerID();
+        this.playerId ??= this.room.getAvailablePlayerID();
 
         if (this.isNew) {
             if (this.room.lobbyBehaviour) {
