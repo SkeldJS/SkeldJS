@@ -82,6 +82,15 @@ import { ImpostorGhost } from "./roles/ImpostorGhost";
 
 export type RoomID = string | number;
 
+export enum SpecialOwnerId {
+    Global = -2,
+    /**
+     * Only used internally, not by SkeldJS
+     */
+    CurrentClient = -3,
+    Server = -4,
+}
+
 export type PlayerDataResolvable =
     | number
     | PlayerData
@@ -593,7 +602,7 @@ export class Hostable<
 
     spawnNecessaryObjects() {
         if (!this.lobbyBehaviour && this.gameState === GameState.NotStarted) {
-            this.spawnPrefabOfType(SpawnType.LobbyBehaviour, -2);
+            this.spawnPrefabOfType(SpawnType.LobbyBehaviour, SpecialOwnerId.Global);
         }
 
         if (!this.shipStatus && this.gameState === GameState.Started) {
@@ -605,18 +614,18 @@ export class Hostable<
                 SpawnType.Airship,
             ];
 
-            this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, -2);
+            this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, SpecialOwnerId.Global);
         }
 
         if (!this.voteBanSystem) {
-            this.spawnPrefabOfType(SpawnType.VoteBanSystem, -2);
+            this.spawnPrefabOfType(SpawnType.VoteBanSystem, SpecialOwnerId.Global);
         }
 
         if (!this.gameManager) {
             if (this.settings.gameMode === GameMode.Normal) {
-                this.spawnPrefabOfType(SpawnType.NormalGameManager, -2);
+                this.spawnPrefabOfType(SpawnType.NormalGameManager, SpecialOwnerId.Global);
             } else if (this.settings.gameMode === GameMode.HideNSeek) {
-                this.spawnPrefabOfType(SpawnType.HideAndSeekManager, -2);
+                this.spawnPrefabOfType(SpawnType.HideAndSeekManager, SpecialOwnerId.Global);
             }
         }
     }
@@ -779,7 +788,7 @@ export class Hostable<
             if (this.lobbyBehaviour) this.lobbyBehaviour.despawn();
 
             const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
-            this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, -2);
+            this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global);
 
             await Promise.all([
                 Promise.race([
@@ -1019,27 +1028,23 @@ export class Hostable<
         }
     }
 
+    protected createObjectSpawnMessage(object: Networkable): SpawnMessage {
+        return new SpawnMessage(
+            object.spawnType,
+            object.ownerId,
+            object.flags,
+            object.components.map(component => {
+                const writer = HazelWriter.alloc(512);
+                writer.write(component, true);
+                writer.realloc(writer.cursor);
+
+                return new ComponentSpawnData(component.netId, writer.buffer);
+            })
+        );
+    }
+
     getExistingObjectSpawn() {
-        const messages: SpawnMessage[] = [];
-
-        for (const object of this.objectList) {
-            messages.push(
-                new SpawnMessage(
-                    object.spawnType,
-                    object.ownerId,
-                    object.flags,
-                    object.components.map(component => {
-                        const writer = HazelWriter.alloc(512);
-                        writer.write(component, true);
-                        writer.realloc(writer.cursor);
-
-                        return new ComponentSpawnData(component.netId, writer.buffer);
-                    })
-                )
-            );
-        }
-
-        return messages;
+        return this.objectList.map(object => this.createObjectSpawnMessage(object));
     }
 
     protected spawnPrefab(
@@ -1053,7 +1058,7 @@ export class Hostable<
     ) {
         const _ownerId =
             ownerId === undefined
-                ? -2
+                ? SpecialOwnerId.Global
                 : typeof ownerId === "number" ? ownerId : ownerId.clientId;
 
         const ownerClient = this.players.get(_ownerId);
@@ -1170,7 +1175,7 @@ export class Hostable<
      */
     createFakePlayer(isNew = true): PlayerData<this> {
         const player = new PlayerData(this, 0, "dummy");
-        const playerControl = this.spawnPrefabOfType(SpawnType.Player, -2, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
+        const playerControl = this.spawnPrefabOfType(SpawnType.Player, SpecialOwnerId.Global, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
         playerControl.player = player;
         player.control = playerControl;
 

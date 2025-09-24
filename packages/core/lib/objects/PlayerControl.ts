@@ -86,7 +86,7 @@ import {
 } from "../events";
 
 import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
-import { Hostable } from "../Hostable";
+import { Hostable, SpecialOwnerId } from "../Hostable";
 import { PlayerData } from "../PlayerData";
 
 import { LobbyBehaviour } from "./LobbyBehaviour";
@@ -971,7 +971,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
 
         const spawnMeetinghud = this.room.spawnPrefabOfType(
             SpawnType.MeetingHud,
-            -2,
+            SpecialOwnerId.Global,
             undefined,
             undefined,
             false
@@ -985,7 +985,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this.room.messageStream.push(
             new SpawnMessage(
                 spawnMeetinghud.spawnType,
-                -2,
+                SpecialOwnerId.Global,
                 0,
                 spawnMeetinghud.components.map(component => {
                     const writer = HazelWriter.alloc(512);
@@ -1019,7 +1019,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this.room.messageStream.push(
             new SpawnMessage(
                 SpawnType.MeetingHud,
-                -2,
+                SpecialOwnerId.Global,
                 0,
                 spawnMeetinghud.components.map((component) => {
                     const writer = HazelWriter.alloc(0);

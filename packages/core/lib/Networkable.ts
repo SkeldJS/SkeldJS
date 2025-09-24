@@ -4,13 +4,13 @@ import { SpawnType, SpawnFlag } from "@skeldjs/constant";
 import { BaseRpcMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { Hostable } from "./Hostable";
+import { Hostable, SpecialOwnerId } from "./Hostable";
 
 import { ComponentDespawnEvent, ComponentSpawnEvent } from "./events";
 import { PlayerData } from "./PlayerData";
 
 export type NetworkableConstructor<T> = {
-    new (
+    new(
         room: Hostable<any>,
         spawnType: SpawnType,
         netId: number,
@@ -18,8 +18,8 @@ export type NetworkableConstructor<T> = {
         flags: number,
         data?: HazelReader | any
     ): T;
-}|{
-    new (
+} | {
+    new(
         room: Hostable<any>,
         spawnType: SpawnType,
         netId: number,
@@ -81,8 +81,8 @@ export class Networkable<
 
     components: Networkable<any, NetworkableEvents, RoomType>[];
 
-    get owner(): Hostable|PlayerData<RoomType>|undefined {
-        if (this.ownerId !== -2) {
+    get owner(): Hostable | PlayerData<RoomType> | undefined {
+        if (this.ownerId !== SpecialOwnerId.Global) {
             return this.room.players.get(this.ownerId);
         }
 
@@ -105,7 +105,7 @@ export class Networkable<
         this.ownerId = ownerId;
         this.flags = flags;
 
-        if (this.ownerId > -2) {
+        if (this.ownerId >= 0) {
             this.player = this.owner as PlayerData<RoomType>;
         } else {
             this.player = undefined;
@@ -157,21 +157,21 @@ export class Networkable<
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    Deserialize(reader: HazelReader, spawn: boolean = false) {}
+    Deserialize(reader: HazelReader, spawn: boolean = false) { }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     Serialize(writer: HazelWriter, spawn: boolean = false): boolean {
         return false;
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    PreSerialize() {}
+    PreSerialize() { }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    async HandleRpc(rpc: BaseRpcMessage) {}
+    async HandleRpc(rpc: BaseRpcMessage) { }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    FixedUpdate(delta: number) {}
+    FixedUpdate(delta: number) { }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    Awake() {}
+    Awake() { }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    Destroy() {}
+    Destroy() { }
 
     /**
      * Get a certain component from the object.
@@ -179,7 +179,7 @@ export class Networkable<
      */
     getComponent<T extends Networkable>(
         component: NetworkableConstructor<T>
-    ): T|undefined {
+    ): T | undefined {
         for (const comp of this.components) {
             if (comp instanceof component) {
                 return comp;
