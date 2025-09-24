@@ -12,13 +12,13 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { Networkable, NetworkableEvents } from "../../Networkable";
 import { PlayerData } from "../../PlayerData";
 import { Hostable } from "../../Hostable";
-import { NetworkUtils } from "../../utils/net";
 
 import {
     PlayerMoveEvent,
     PlayerSnapToEvent
 } from "../../events";
 import { PlayerControl } from "../PlayerControl";
+import { sequenceIdGreaterThan, SequenceIdType } from "../../utils/sequenceIds";
 
 export interface CustomNetworkTransformData {
     seqId: number;
@@ -94,7 +94,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
 
     private deserializePosition(sequenceId: number, reader: HazelReader) {
         const newPosition = reader.vector();
-        if (!NetworkUtils.seqIdGreaterThan(sequenceId, this.seqId)) return;
+        if (!sequenceIdGreaterThan(sequenceId, this.seqId, SequenceIdType.Integer)) return;
         const oldPosition = this.position;
         this.position = newPosition;
         this.seqId = sequenceId;
@@ -162,7 +162,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     }
 
     private async _handleSnapTo(rpc: SnapToMessage) {
-        if (NetworkUtils.seqIdGreaterThan(rpc.sequenceid, this.seqId)) {
+        if (sequenceIdGreaterThan(rpc.sequenceid, this.seqId, SequenceIdType.Short)) {
             const oldPosition = this.position;
 
             this.seqId = rpc.sequenceid;

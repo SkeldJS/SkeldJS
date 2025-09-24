@@ -115,6 +115,36 @@ export class PlayerOutfit {
             this.nameplateId
         );
     }
+
+    nextHatSequenceId(): number {
+        this.hatSequenceId++;
+        if (this.hatSequenceId > 255) this.hatSequenceId = 0;
+        return this.hatSequenceId;
+    }
+
+    nextPetSequenceId(): number {
+        this.petSequenceId++;
+        if (this.petSequenceId > 255) this.petSequenceId = 0;
+        return this.petSequenceId;
+    }
+
+    nextSkinSequenceId(): number {
+        this.skinSequenceId++;
+        if (this.skinSequenceId > 255) this.skinSequenceId = 0;
+        return this.skinSequenceId;
+    }
+
+    nextVisorSequenceId(): number {
+        this.visorSequenceId++;
+        if (this.visorSequenceId > 255) this.visorSequenceId = 0;
+        return this.visorSequenceId;
+    }
+
+    nextNameplateSequenceId(): number {
+        this.nameplateSequenceId++;
+        if (this.nameplateSequenceId > 255) this.nameplateSequenceId = 0;
+        return this.nameplateSequenceId;
+    }
 }
 
 export type PlayerOutfits = Partial<Record<PlayerOutfitType, PlayerOutfit>>;

@@ -17,7 +17,7 @@ import { Networkable, NetworkableEvents } from "../../Networkable";
 import { PlayerData } from "../../PlayerData";
 import { Hostable } from "../../Hostable";
 
-import { NetworkUtils } from "../../utils/net";
+import { sequenceIdGreaterThan, SequenceIdType } from "../../utils/sequenceIds";
 
 import {
     PlayerCancelPetEvent,
@@ -209,13 +209,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     }
 
     private async _handleClimbLadder(rpc: ClimbLadderMessage) {
-        if (
-            NetworkUtils.seqIdGreaterThan(
-                rpc.sequenceid,
-                this.ladderClimbSeqId,
-                1
-            )
-        ) {
+        if (sequenceIdGreaterThan(rpc.sequenceid, this.ladderClimbSeqId, SequenceIdType.Byte)) {
             this.ladderClimbSeqId = rpc.sequenceid;
 
             await this.emit(

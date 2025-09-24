@@ -13,13 +13,13 @@ import { SystemStatus } from "./SystemStatus";
 import { PlayerData } from "../PlayerData";
 
 import { Hostable, PlayerDataResolvable } from "../Hostable";
-import { NetworkUtils } from "../utils/net";
+import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { MovingPlatformPlayerUpdateEvent } from "../events";
 import { SystemStatusEvents } from "./events";
 
 export interface MovingPlatformSystemData {
     useId: number;
-    target: PlayerData|undefined;
+    target: PlayerData | undefined;
     side: MovingPlatformSide;
 }
 
@@ -42,7 +42,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
     RoomType
 > implements MovingPlatformSystemData {
     useId: number;
-    target: PlayerData<RoomType>|undefined;
+    target: PlayerData<RoomType> | undefined;
     side: MovingPlatformSide;
 
     constructor(
@@ -80,7 +80,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
             );
         } else {
             const newSid = reader.uint8();
-            if (NetworkUtils.seqIdGreaterThan(newSid, this.useId, 1)) {
+            if (sequenceIdGreaterThan(newSid, this.useId, SequenceIdType.Byte)) {
                 this.useId = newSid;
                 const targetId = reader.uint32();
                 this._setTarget(
@@ -106,7 +106,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
         this.dirty = spawn;
     }
 
-    private async _setTarget(player: PlayerData<RoomType>|undefined, side: MovingPlatformSide, rpc: RepairSystemMessage|undefined) {
+    private async _setTarget(player: PlayerData<RoomType> | undefined, side: MovingPlatformSide, rpc: RepairSystemMessage | undefined) {
         const oldTarget = player;
         const oldSide = this.side;
         this.target = player;

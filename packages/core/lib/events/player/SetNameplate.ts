@@ -19,7 +19,7 @@ export class PlayerSetNameplateEvent<RoomType extends Hostable = Hostable> exten
     constructor(
         public readonly room: RoomType,
         public readonly player: PlayerData<RoomType>,
-        public readonly message: SetNameplateMessage|undefined,
+        public readonly message: SetNameplateMessage | undefined,
         /**
          * The nameplate that the player had before.
          */

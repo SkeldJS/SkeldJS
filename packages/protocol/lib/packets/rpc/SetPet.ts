@@ -6,25 +6,23 @@ export class SetPetMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SetPet as const;
     messageTag = RpcMessageTag.SetPet as const;
 
-    petId: string;
-
-    constructor(petId: string) {
+    constructor(public readonly petId: string, public readonly sequenceId: number) {
         super();
-
-        this.petId = petId;
     }
 
     static Deserialize(reader: HazelReader) {
         const petId = reader.string();
+        const sequenceId = reader.uint8();
 
-        return new SetPetMessage(petId);
+        return new SetPetMessage(petId, sequenceId);
     }
 
     Serialize(writer: HazelWriter) {
         writer.string(this.petId);
+        writer.uint8(this.sequenceId);
     }
 
     clone() {
-        return new SetPetMessage(this.petId);
+        return new SetPetMessage(this.petId, this.sequenceId);
     }
 }

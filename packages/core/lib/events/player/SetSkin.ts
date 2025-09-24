@@ -19,7 +19,7 @@ export class PlayerSetSkinEvent<RoomType extends Hostable = Hostable> extends Ba
     constructor(
         public readonly room: RoomType,
         public readonly player: PlayerData<RoomType>,
-        public readonly message: SetSkinMessage|undefined,
+        public readonly message: SetSkinMessage | undefined,
         /**
          * The skin that the player had before.
          */

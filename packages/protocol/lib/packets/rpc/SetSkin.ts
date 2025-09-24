@@ -6,25 +6,23 @@ export class SetSkinMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SetSkin as const;
     messageTag = RpcMessageTag.SetSkin as const;
 
-    skinId: string;
-
-    constructor(skinId: string) {
+    constructor(public readonly skinId: string, public readonly sequenceId: number) {
         super();
-
-        this.skinId = skinId;
     }
 
     static Deserialize(reader: HazelReader) {
         const skinId = reader.string();
+        const sequenceId = reader.uint8();
 
-        return new SetSkinMessage(skinId);
+        return new SetSkinMessage(skinId, sequenceId);
     }
 
     Serialize(writer: HazelWriter) {
         writer.string(this.skinId);
+        writer.uint8(this.sequenceId);
     }
 
     clone() {
-        return new SetSkinMessage(this.skinId);
+        return new SetSkinMessage(this.skinId, this.sequenceId);
     }
 }

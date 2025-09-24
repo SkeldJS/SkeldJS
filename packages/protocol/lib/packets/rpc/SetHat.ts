@@ -6,25 +6,23 @@ export class SetHatMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SetHat as const;
     messageTag = RpcMessageTag.SetHat as const;
 
-    hatId: string;
-
-    constructor(hatId: string) {
+    constructor(public readonly hatId: string, public readonly sequenceId: number) {
         super();
-
-        this.hatId = hatId;
     }
 
     static Deserialize(reader: HazelReader) {
         const hatId = reader.string();
+        const sequenceId = reader.uint8();
 
-        return new SetHatMessage(hatId);
+        return new SetHatMessage(hatId, sequenceId);
     }
 
     Serialize(writer: HazelWriter) {
         writer.string(this.hatId);
+        writer.uint8(this.sequenceId);
     }
 
     clone() {
-        return new SetHatMessage(this.hatId);
+        return new SetHatMessage(this.hatId, this.sequenceId);
     }
 }

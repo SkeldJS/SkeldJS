@@ -6,25 +6,23 @@ export class SetNameplateMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SetNameplate as const;
     messageTag = RpcMessageTag.SetNameplate as const;
 
-    nameplateId: string;
-
-    constructor(nameplateId: string) {
+    constructor(public readonly nameplateId: string, public readonly sequenceId: number) {
         super();
-
-        this.nameplateId = nameplateId;
     }
 
     static Deserialize(reader: HazelReader) {
         const nameplateId = reader.string();
+        const sequenceId = reader.uint8();
 
-        return new SetNameplateMessage(nameplateId);
+        return new SetNameplateMessage(nameplateId, sequenceId);
     }
 
     Serialize(writer: HazelWriter) {
         writer.string(this.nameplateId);
+        writer.uint8(this.sequenceId);
     }
 
     clone() {
-        return new SetNameplateMessage(this.nameplateId);
+        return new SetNameplateMessage(this.nameplateId, this.sequenceId);
     }
 }

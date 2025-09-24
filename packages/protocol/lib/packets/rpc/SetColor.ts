@@ -6,24 +6,22 @@ export class SetColorMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SetColor as const;
     messageTag = RpcMessageTag.SetColor as const;
 
-    color: Color;
-
-    constructor(color: Color) {
+    constructor(public readonly netIdToColor: number, public readonly color: Color) {
         super();
-
-        this.color = color;
     }
 
     static Deserialize(reader: HazelReader) {
+        const netIdToColor = reader.uint32();
         const color = reader.uint8();
-        return new SetColorMessage(color);
+        return new SetColorMessage(netIdToColor, color);
     }
 
     Serialize(writer: HazelWriter) {
-        writer.uint8(this.color < 0 ? 0 : this.color);
+        writer.uint32(this.netIdToColor);
+        writer.uint8(this.color);
     }
 
     clone() {
-        return new SetColorMessage(this.color);
+        return new SetColorMessage(this.netIdToColor, this.color);
     }
 }

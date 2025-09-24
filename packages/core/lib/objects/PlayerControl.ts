@@ -96,6 +96,7 @@ import { CustomNetworkTransform, PlayerPhysics } from "./component";
 import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
 import { AmongUsEndGames, EndGameIntent, PlayersKillEndgameMetadata } from "../endgame";
 import { BaseRole, GuardianAngelRole, UnknownRole } from "../roles";
+import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 
 export interface PlayerControlData {
     isNew: boolean;
@@ -559,7 +560,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetNameMessage(name)
+                new SetNameMessage(this.netId, name)
             )
         );
     }
@@ -680,7 +681,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetColorMessage(color)
+                new SetColorMessage(this.netId, color)
             )
         );
     }
@@ -1256,8 +1257,11 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldHat = defaultOutfit?.hatId;
-        if (defaultOutfit)
+
+        if (defaultOutfit) {
+            if (!sequenceIdGreaterThan(rpc.sequenceId, defaultOutfit.hatSequenceId, SequenceIdType.Byte)) return;
             defaultOutfit.hatId = rpc.hatId;
+        }
 
         const ev = await this.emit(
             new PlayerSetHatEvent(
@@ -1272,14 +1276,14 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
 
         if (ev.alteredHatId !== rpc.hatId)
-            this._rpcSetHat(ev.alteredHatId);
+            this._rpcSetHat(ev.alteredHatId, defaultOutfit?.nextHatSequenceId() || 0);
     }
 
-    private _rpcSetHat(hatId: string) {
+    private _rpcSetHat(hatId: string, sequenceId: number) {
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetHatMessage(hatId)
+                new SetHatMessage(hatId, sequenceId)
             )
         );
     }
@@ -1312,15 +1316,18 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setHat(PlayerOutfitType.Default, ev.alteredHatId);
 
         if (ev.alteredHatId !== oldHat)
-            this._rpcSetHat(ev.alteredHatId);
+            this._rpcSetHat(ev.alteredHatId, defaultOutfit?.nextHatSequenceId() || 0);
     }
 
     private async _handleSetSkin(rpc: SetSkinMessage) {
         const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldSkin = defaultOutfit?.skinId;
-        if (defaultOutfit)
+
+        if (defaultOutfit) {
+            if (!sequenceIdGreaterThan(rpc.sequenceId, defaultOutfit.skinSequenceId, SequenceIdType.Byte)) return;
             defaultOutfit.skinId = rpc.skinId;
+        }
 
         const ev = await this.emit(
             new PlayerSetSkinEvent(
@@ -1335,14 +1342,14 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
 
         if (ev.alteredSkin !== rpc.skinId)
-            this._rpcSetSkin(ev.alteredSkin);
+            this._rpcSetSkin(ev.alteredSkin, defaultOutfit?.nextSkinSequenceId() || 0);
     }
 
-    private _rpcSetSkin(skinId: string) {
+    private _rpcSetSkin(skinId: string, sequenceId: number) {
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetSkinMessage(skinId)
+                new SetSkinMessage(skinId, sequenceId)
             )
         );
     }
@@ -1375,15 +1382,17 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setSkin(PlayerOutfitType.Default, ev.alteredSkin);
 
         if (ev.alteredSkin !== oldSkin)
-            this._rpcSetSkin(ev.alteredSkin);
+            this._rpcSetSkin(ev.alteredSkin, defaultOutfit?.nextSkinSequenceId() || 0);
     }
 
     private async _handleSetPet(rpc: SetPetMessage) {
         const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldPet = defaultOutfit?.petId;
-        if (defaultOutfit)
+        if (defaultOutfit) {
+            if (!sequenceIdGreaterThan(rpc.sequenceId, defaultOutfit.petSequenceId, SequenceIdType.Byte)) return;
             defaultOutfit.petId = rpc.petId;
+        }
 
         const ev = await this.emit(
             new PlayerSetPetEvent(
@@ -1398,14 +1407,14 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
 
         if (ev.alteredPetId !== rpc.petId)
-            this._rpcSetPet(ev.alteredPetId);
+            this._rpcSetPet(ev.alteredPetId, defaultOutfit?.nextPetSequenceId() || 0);
     }
 
-    private _rpcSetPet(petId: string) {
+    private _rpcSetPet(petId: string, sequenceId: number) {
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetPetMessage(petId)
+                new SetPetMessage(petId, sequenceId)
             )
         );
     }
@@ -1438,15 +1447,17 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setPet(PlayerOutfitType.Default, ev.alteredPetId);
 
         if (ev.alteredPetId !== oldPet)
-            this._rpcSetPet(ev.alteredPetId);
+            this._rpcSetPet(ev.alteredPetId, defaultOutfit?.nextPetSequenceId() || 0);
     }
 
     private async _handleSetVisor(rpc: SetVisorMessage) {
         const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldVisor = defaultOutfit?.visorId;
-        if (defaultOutfit)
+        if (defaultOutfit) {
+            if (!sequenceIdGreaterThan(rpc.sequenceId, defaultOutfit.visorSequenceId, SequenceIdType.Byte)) return;
             defaultOutfit.visorId = rpc.visorId;
+        }
 
         const ev = await this.emit(
             new PlayerSetVisorEvent(
@@ -1461,14 +1472,14 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
 
         if (ev.alteredVisorId !== rpc.visorId)
-            this._rpcSetVisor(ev.alteredVisorId);
+            this._rpcSetVisor(ev.alteredVisorId, defaultOutfit?.nextVisorSequenceId() || 0);
     }
 
-    private _rpcSetVisor(visorId: string) {
+    private _rpcSetVisor(visorId: string, sequenceId: number) {
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetVisorMessage(visorId)
+                new SetVisorMessage(visorId, sequenceId)
             )
         );
     }
@@ -1501,15 +1512,17 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setVisor(PlayerOutfitType.Default, ev.alteredVisorId);
 
         if (ev.alteredVisorId !== oldVisor)
-            this._rpcSetVisor(ev.alteredVisorId);
+            this._rpcSetVisor(ev.alteredVisorId, defaultOutfit?.nextVisorSequenceId() || 0);
     }
 
     private async _handleSetNameplate(rpc: SetNameplateMessage) {
         const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldNameplate = defaultOutfit?.nameplateId;
-        if (defaultOutfit)
+        if (defaultOutfit) {
+            if (!sequenceIdGreaterThan(rpc.sequenceId, defaultOutfit.nameplateSequenceId, SequenceIdType.Byte)) return;
             defaultOutfit.nameplateId = rpc.nameplateId;
+        }
 
         const ev = await this.emit(
             new PlayerSetNameplateEvent(
@@ -1524,14 +1537,14 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
 
         if (ev.alteredNameplateId !== rpc.nameplateId)
-            this._rpcSetNameplate(ev.alteredNameplateId);
+            this._rpcSetNameplate(ev.alteredNameplateId, defaultOutfit?.nextNameplateSequenceId() || 0);
     }
 
-    private _rpcSetNameplate(nameplateId: string) {
+    private _rpcSetNameplate(nameplateId: string, sequenceId: number) {
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SetNameplateMessage(nameplateId)
+                new SetNameplateMessage(nameplateId, sequenceId)
             )
         );
     }
@@ -1564,7 +1577,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         playerInfo?.setNameplate(PlayerOutfitType.Default, ev.alteredNameplateId);
 
         if (ev.alteredNameplateId !== oldNameplate)
-            this._rpcSetNameplate(ev.alteredNameplateId);
+            this._rpcSetNameplate(ev.alteredNameplateId, defaultOutfit?.nextNameplateSequenceId() || 0);
     }
 
     private async _handleSetRole(rpc: SetRoleMessage) {

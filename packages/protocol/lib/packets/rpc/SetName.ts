@@ -6,25 +6,23 @@ export class SetNameMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SetName as const;
     messageTag = RpcMessageTag.SetName as const;
 
-    name: string;
-
-    constructor(name: string) {
+    constructor(public readonly netIdToName: number, public readonly name: string) {
         super();
-
-        this.name = name;
     }
 
     static Deserialize(reader: HazelReader) {
+        const netIdToName = reader.uint32(); // unused 
         const name = reader.string();
 
-        return new SetNameMessage(name);
+        return new SetNameMessage(netIdToName, name);
     }
 
     Serialize(writer: HazelWriter) {
+        writer.uint32(this.netIdToName);
         writer.string(this.name);
     }
 
     clone() {
-        return new SetNameMessage(this.name);
+        return new SetNameMessage(this.netIdToName, this.name);
     }
 }
