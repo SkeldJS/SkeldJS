@@ -3,14 +3,14 @@ import { SetNameMessage } from "@skeldjs/protocol";
 
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player has their player name updated.
  */
-export class PlayerSetNameEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetNameEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setname" as const;
     eventName = "player.setname" as const;
 
@@ -18,8 +18,8 @@ export class PlayerSetNameEvent<RoomType extends Hostable = Hostable> extends Ba
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: SetNameMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: SetNameMessage | undefined,
         /**
          * The name that the player had before.
          */

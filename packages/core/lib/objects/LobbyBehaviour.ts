@@ -2,20 +2,20 @@ import { HazelBuffer, Vector2 } from "@skeldjs/util";
 import { SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
-import { Hostable } from "../Hostable";
+import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "../NetworkedObject";
+import { StatefulRoom } from "../StatefulRoom";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface LobbyBehaviourData { }
 
-export type LobbyBehaviourEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
+export type LobbyBehaviourEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for the Lobby map.
  *
  * See {@link LobbyBehaviourEvents} for events to listen to.
  */
-export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networkable<
+export class LobbyBehaviour<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     LobbyBehaviourData,
     LobbyBehaviourEvents,
     RoomType
@@ -44,10 +44,10 @@ export class LobbyBehaviour<RoomType extends Hostable = Hostable> extends Networ
         super(room, spawnType, netId, ownerid, flags, data);
     }
 
-    getComponent<T extends Networkable>(
-        component: NetworkableConstructor<T>
+    getComponent<T extends NetworkedObject>(
+        component: NetworkedObjectConstructor<T>
     ): T | undefined {
-        if (this.spawnType === SpawnType.LobbyBehaviour && component === LobbyBehaviour as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.LobbyBehaviour && component === LobbyBehaviour as NetworkedObjectConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

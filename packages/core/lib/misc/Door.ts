@@ -1,11 +1,11 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem} from "../systems";
+import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem } from "../systems";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
-export type DoorEvents<RoomType extends Hostable = Hostable> = ExtractEventTypes<
+export type DoorEvents<RoomType extends StatefulRoom = StatefulRoom> = ExtractEventTypes<
     [DoorsDoorOpenEvent<RoomType>, DoorsDoorCloseEvent<RoomType>]
 >;
 
@@ -14,11 +14,11 @@ export type DoorEvents<RoomType extends Hostable = Hostable> = ExtractEventTypes
  *
  * See {@link DoorEvents} for events to listen to.
  */
-export class Door<RoomType extends Hostable = Hostable> extends EventEmitter<DoorEvents> {
+export class Door<RoomType extends StatefulRoom = StatefulRoom> extends EventEmitter<DoorEvents> {
     isOpen: boolean;
 
     constructor(
-        protected system: AutoDoorsSystem<RoomType>|DoorsSystem<RoomType>|ElectricalDoorsSystem<RoomType>,
+        protected system: AutoDoorsSystem<RoomType> | DoorsSystem<RoomType> | ElectricalDoorsSystem<RoomType>,
         readonly doorId: number,
         isOpen: boolean
     ) {

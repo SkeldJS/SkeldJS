@@ -1,7 +1,7 @@
 import { RevertableEvent } from "@skeldjs/events";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
@@ -12,13 +12,13 @@ import { PlayerEvent } from "./PlayerEvent";
  * See {@link PlayerProtectEvent} to listen for when a player gets protected
  * initially.
  */
-export class PlayerRemoveProtectionEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, PlayerEvent {
+export class PlayerRemoveProtectionEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, PlayerEvent {
     static eventName = "player.removeprotection" as const;
     eventName = "player.removeprotection" as const;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
+        public readonly player: Player<RoomType>,
         /**
          * Whether or not the player ran out of protection because of a murder attempt.
          */

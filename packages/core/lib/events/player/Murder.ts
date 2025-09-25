@@ -1,8 +1,8 @@
 import { BasicEvent } from "@skeldjs/events";
 import { MurderPlayerMessage } from "@skeldjs/protocol";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
@@ -15,18 +15,18 @@ import { PlayerEvent } from "./PlayerEvent";
  * However, see {@link PlayerCheckMurderEvent} to see about canceling a murder
  * before it happens if you are the host.
  */
-export class PlayerMurderEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerMurderEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.murder" as const;
     eventName = "player.murder" as const;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: MurderPlayerMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: MurderPlayerMessage | undefined,
         /**
          * The player that was murdered.
          */
-        public readonly victim: PlayerData<RoomType>
+        public readonly victim: Player<RoomType>
     ) {
         super();
     }

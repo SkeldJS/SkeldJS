@@ -38,12 +38,12 @@ export enum AmongUsEndGames {
 }
 
 /**
- * Represents an intent to end the current game, can be used with {@link Hostable.registerEndGameIntent}.
+ * Represents an intent to end the current game, can be used with {@link StatefulRoom.registerEndGameIntent}.
  */
- export class EndGameIntent<T = {}> {
+export class EndGameIntent<T = {}> {
     constructor(
         public readonly name: string,
         public readonly reason: GameOverReason,
         public readonly metadata: T
-    ) {}
+    ) { }
 }

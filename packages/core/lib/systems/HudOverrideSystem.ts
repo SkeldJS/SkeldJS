@@ -5,17 +5,17 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import { SystemRepairEvent, SystemSabotageEvent } from "../events";
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 export interface HudOverrideSystemData {
     sabotaged: boolean;
 }
 
-export type HudOverrideSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+export type HudOverrideSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[]>;
 
 /**
@@ -23,7 +23,7 @@ export type HudOverrideSystemEvents<RoomType extends Hostable = Hostable> = Syst
  *
  * See {@link HudOverrideSystemEvents} for events to listen to.
  */
-export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     HudOverrideSystemData,
     HudOverrideSystemEvents,
     RoomType
@@ -89,7 +89,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
         writer.bool(this.sabotaged);
     }
 
-    async HandleSabotage(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    async HandleSabotage(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         this._sabotaged = true;
         this.dirty = true;
 
@@ -107,7 +107,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
         }
     }
 
-    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         this._sabotaged = false;
         this.dirty = true;
 
@@ -133,7 +133,7 @@ export class HudOverrideSystem<RoomType extends Hostable = Hostable> extends Sys
         }
     }
 
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         if (amount === 0) {
             await this._repair(player, rpc);
         }

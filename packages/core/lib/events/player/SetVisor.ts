@@ -4,13 +4,13 @@ import { SetVisorMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player has their player visor updated.
  */
-export class PlayerSetVisorEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetVisorEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setvisor" as const;
     eventName = "player.setvisor" as const;
 
@@ -18,8 +18,8 @@ export class PlayerSetVisorEvent<RoomType extends Hostable = Hostable> extends B
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: SetVisorMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: SetVisorMessage | undefined,
         /**
          * The visor that the player had before.
          */

@@ -10,16 +10,16 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
-import { Hostable, PlayerDataResolvable } from "../Hostable";
+import { StatefulRoom, PlayerResolvable } from "../StatefulRoom";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { MovingPlatformPlayerUpdateEvent } from "../events";
 import { SystemStatusEvents } from "./events";
 
 export interface MovingPlatformSystemData {
     useId: number;
-    target: PlayerData | undefined;
+    target: Player | undefined;
     side: MovingPlatformSide;
 }
 
@@ -28,7 +28,7 @@ export enum MovingPlatformSide {
     Left,
 }
 
-export type MovingPlatformSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+export type MovingPlatformSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[MovingPlatformPlayerUpdateEvent<RoomType>]>;
 
 /**
@@ -36,13 +36,13 @@ export type MovingPlatformSystemEvents<RoomType extends Hostable = Hostable> = S
  *
  * See {@link MovingPlatformSystemEvents} for events to listen to.
  */
-export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     MovingPlatformSystemData,
     MovingPlatformSystemEvents,
     RoomType
 > implements MovingPlatformSystemData {
     useId: number;
-    target: PlayerData<RoomType> | undefined;
+    target: Player<RoomType> | undefined;
     side: MovingPlatformSide;
 
     constructor(
@@ -106,7 +106,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
         this.dirty = spawn;
     }
 
-    private async _setTarget(player: PlayerData<RoomType> | undefined, side: MovingPlatformSide, rpc: RepairSystemMessage | undefined) {
+    private async _setTarget(player: Player<RoomType> | undefined, side: MovingPlatformSide, rpc: RepairSystemMessage | undefined) {
         const oldTarget = player;
         const oldSide = this.side;
         this.target = player;
@@ -140,7 +140,7 @@ export class MovingPlatformSystem<RoomType extends Hostable = Hostable> extends 
      * @param player The player to set.
      * @param side The direction to move the moving platform in.
      */
-    async setTarget(player: PlayerDataResolvable, side: MovingPlatformSide, sendRpc: boolean) {
+    async setTarget(player: PlayerResolvable, side: MovingPlatformSide, sendRpc: boolean) {
         const resolved = this.ship.room.resolvePlayer(player);
 
         if (!resolved)

@@ -4,28 +4,28 @@ import { RepairSystemMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { HqHudEvent } from "./HqHudEvent";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { HqHudSystem } from "../../systems";
-import { PlayerData } from "../../PlayerData";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player closes a communications console on Mira HQ.
  */
-export class HqHudConsoleCloseEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
+export class HqHudConsoleCloseEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
     static eventName = "hqhud.consoles.close" as const;
     eventName = "hqhud.consoles.close" as const;
 
     private _alteredConsoleId: number;
-    private _alteredPlayer: PlayerData<RoomType>;
+    private _alteredPlayer: Player<RoomType>;
 
     constructor(
         public readonly room: RoomType,
         public readonly hqhudsystem: HqHudSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player that closed the console.
          */
-        public readonly player: PlayerData<RoomType>,
+        public readonly player: Player<RoomType>,
         /**
          * The ID of the console that was closed.
          */
@@ -63,7 +63,7 @@ export class HqHudConsoleCloseEvent<RoomType extends Hostable = Hostable> extend
      * Change the player that closed the console.
      * @param player The player to close the console.
      */
-    setPlayer(player: PlayerData<RoomType>) {
+    setPlayer(player: Player<RoomType>) {
         this._alteredPlayer = player;
     }
 }

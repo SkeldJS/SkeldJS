@@ -1,8 +1,8 @@
 import { CancelableEvent } from "@skeldjs/events";
 import { ReportDeadBodyMessage } from "@skeldjs/protocol";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
@@ -16,21 +16,21 @@ import { PlayerEvent } from "./PlayerEvent";
  * a meeting actually being started, and regardless of whether the client is the
  * host or not.
  */
-export class PlayerReportDeadBodyEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerReportDeadBodyEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.reportbody" as const;
     eventName = "player.reportbody" as const;
 
-    private _alteredBody: PlayerData<RoomType>|"emergency";
+    private _alteredBody: Player<RoomType> | "emergency";
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: ReportDeadBodyMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: ReportDeadBodyMessage | undefined,
         /**
          * The body that the player reported, or "emergency" if the player called
          * an emergency meeting.
          */
-        public readonly body: PlayerData<RoomType>|"emergency"
+        public readonly body: Player<RoomType> | "emergency"
     ) {
         super();
 
@@ -55,7 +55,7 @@ export class PlayerReportDeadBodyEvent<RoomType extends Hostable = Hostable> ext
      * Change the body that will be reported.
      * @param body The body for the player to report.
      */
-    setBody(body: PlayerData<RoomType>|"emergency") {
+    setBody(body: Player<RoomType> | "emergency") {
         this._alteredBody = body;
     }
 }

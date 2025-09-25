@@ -5,19 +5,19 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import { Door, DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 export interface DoorsSystemData {
     cooldowns: Map<number, number>;
     doors: boolean[];
 }
 
-export type DoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
+export type DoorsSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents &
     DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
@@ -26,7 +26,7 @@ export type DoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStat
  *
  * See {@link DoorsSystemEvents} for events to listen to.
  */
-export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     DoorsSystemData,
     DoorsSystemEvents,
     RoomType
@@ -96,7 +96,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
-    private async _openDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _openDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -138,7 +138,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
-    private async _closeDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _closeDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -176,7 +176,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
         this._closeDoor(doorId, this.room.myPlayer, undefined);
     }
 
-    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const doorId = amount & 0x1f;
 
         await this._openDoor(doorId, player, rpc);
@@ -184,7 +184,7 @@ export class DoorsSystem<RoomType extends Hostable = Hostable> extends SystemSta
 
     Detoriorate(delta: number) {
         this.lastUpdate += delta;
-        for (const [ systemType, prevTime ] of this.cooldowns) {
+        for (const [systemType, prevTime] of this.cooldowns) {
             const newTime = prevTime - delta;
             if (newTime < 0) {
                 this.cooldowns.delete(systemType);

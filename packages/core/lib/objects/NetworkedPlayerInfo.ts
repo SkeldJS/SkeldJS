@@ -9,8 +9,8 @@ import {
 import { SetTasksMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { Hostable } from "../Hostable";
+import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { StatefulRoom } from "../StatefulRoom";
 
 
 import { BaseRole, CrewmateRole, UnknownRole } from "../roles";
@@ -165,9 +165,9 @@ export interface NetworkedPlayerInfoData {
     puid: string;
 }
 
-export type NetworkedPlayerInfoEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
+export type NetworkedPlayerInfoEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
-export class NetworkedPlayerInfo<RoomType extends Hostable = Hostable> extends Networkable<
+export class NetworkedPlayerInfo<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     NetworkedPlayerInfoData,
     NetworkedPlayerInfoEvents<RoomType>,
     RoomType
@@ -191,11 +191,11 @@ export class NetworkedPlayerInfo<RoomType extends Hostable = Hostable> extends N
     flags: number;
     /**
      * Which role this player is. Note that this is not their actual instance
-     * of this role, see {@link PlayerData.role}, but is instead the class
+     * of this role, see {@link Player.role}, but is instead the class
      * used to create the instance, and holds metadata about the role, such as
      * the team it is for and whether it's a role for ghosts or not.
      *
-     * You can use this to know what class {@link PlayerData.role} will be an
+     * You can use this to know what class {@link Player.role} will be an
      * instance of.
      * @example
      * ```ts

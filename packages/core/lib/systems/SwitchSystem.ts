@@ -5,7 +5,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import {
     ElectricalSwitchFlipEvent,
@@ -14,7 +14,7 @@ import {
 } from "../events";
 
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
@@ -24,7 +24,7 @@ export interface SwitchSystemData {
     brightness: number;
 }
 
-export type SwitchSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+export type SwitchSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         ElectricalSwitchFlipEvent<RoomType>
     ]>;
@@ -34,7 +34,7 @@ export type SwitchSystemEvents<RoomType extends Hostable = Hostable> = SystemSta
  *
  * See {@link SwitchSystemEvents} for events to listen to.
  */
-export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     SwitchSystemData,
     SwitchSystemEvents,
     RoomType
@@ -111,7 +111,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
         writer.uint8(this.brightness);
     }
 
-    async HandleSabotage(player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
+    async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         if (this.sabotaged)
             return;
 
@@ -141,7 +141,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
         }
     }
 
-    private async _setSwitch(num: number, value: boolean, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _setSwitch(num: number, value: boolean, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         if (this.actual[num] === value)
             return;
 
@@ -213,7 +213,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
         }
     }
 
-    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const oldActual = this.actual;
         this.actual = [...this.expected];
 
@@ -246,7 +246,7 @@ export class SwitchSystem<RoomType extends Hostable = Hostable> extends SystemSt
         }
     }
 
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         await this._setSwitch(amount, !this.actual[amount], player, rpc);
     }
 

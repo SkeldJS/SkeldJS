@@ -4,14 +4,14 @@ import { RepairSystemMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { HeliSabotageEvent } from "./HeliSabotageEvent";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { HeliSabotageSystem } from "../../systems";
-import { PlayerData } from "../../PlayerData";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player completes a console while the heli is sabotaged on Airship.
  */
-export class HeliSabotageConsoleCompleteEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HeliSabotageEvent, ProtocolEvent {
+export class HeliSabotageConsoleCompleteEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, HeliSabotageEvent, ProtocolEvent {
     static eventName = "heli.consoles.complete" as const;
     eventName = "heli.consoles.complete" as const;
 
@@ -20,12 +20,12 @@ export class HeliSabotageConsoleCompleteEvent<RoomType extends Hostable = Hostab
     constructor(
         public readonly room: RoomType,
         public readonly helisabotagesystem: HeliSabotageSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player that completed the console. Only availabe if the client
          * is the host.
          */
-        public readonly player: PlayerData<RoomType>|undefined,
+        public readonly player: Player<RoomType> | undefined,
         /**
          * The ID of the console that was completed.
          */

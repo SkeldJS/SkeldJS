@@ -6,7 +6,6 @@ export * from "./objects";
 export * from "./roles";
 export * from "./systems";
 
-export * from "./Hostable";
-export * from "./Networkable";
-export * from "./PlayerData";
-export * from "./Hostable";
+export * from "./NetworkedObject";
+export * from "./Player";
+export * from "./StatefulRoom";

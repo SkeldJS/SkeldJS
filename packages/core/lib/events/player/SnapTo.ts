@@ -2,8 +2,8 @@ import { BasicEvent } from "@skeldjs/events";
 import { SnapToMessage } from "@skeldjs/protocol";
 import { Vector2 } from "@skeldjs/util";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
@@ -12,7 +12,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * Emitted when a player snaps to a position, without lerping. Typically emitted
  * when the player is moves between vents.
  */
-export class PlayerSnapToEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSnapToEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.snapto" as const;
     eventName = "player.snapto" as const;
 
@@ -20,7 +20,7 @@ export class PlayerSnapToEvent<RoomType extends Hostable = Hostable> extends Bas
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
+        public readonly player: Player<RoomType>,
         public readonly message: SnapToMessage | undefined,
         /**
          * The old position of the player.

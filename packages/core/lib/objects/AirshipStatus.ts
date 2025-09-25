@@ -5,7 +5,7 @@ import { AirshipTasks } from "@skeldjs/data";
 
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
 
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 import {
     AutoDoorsSystem,
@@ -21,7 +21,7 @@ import {
     HeliSabotageSystem,
 } from "../systems";
 
-import { Networkable, NetworkableConstructor } from "../Networkable";
+import { NetworkedObject, NetworkedObjectConstructor } from "../NetworkedObject";
 import { Door } from "../misc/Door";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
@@ -45,7 +45,7 @@ export enum ElectricalDoorsAirship {
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
+export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends InnerShipStatus<RoomType> {
     static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Communications]: [0, 1, 2, 3],
         [SystemType.Brig]: [4, 5, 6],
@@ -107,10 +107,10 @@ export class AirshipStatus<RoomType extends Hostable = Hostable> extends InnerSh
         super(room, spawnType, netId, ownerId, flags, data);
     }
 
-    getComponent<T extends Networkable>(
-        component: NetworkableConstructor<T>
-    ): T|undefined {
-        if (this.spawnType === SpawnType.Airship && component === AirshipStatus as NetworkableConstructor<any>) {
+    getComponent<T extends NetworkedObject>(
+        component: NetworkedObjectConstructor<T>
+    ): T | undefined {
+        if (this.spawnType === SpawnType.Airship && component === AirshipStatus as NetworkedObjectConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

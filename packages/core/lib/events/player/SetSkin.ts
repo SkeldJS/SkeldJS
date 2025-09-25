@@ -4,13 +4,13 @@ import { SetSkinMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player has their player skin updated.
  */
-export class PlayerSetSkinEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetSkinEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setskin" as const;
     eventName = "player.setskin" as const;
 
@@ -18,7 +18,7 @@ export class PlayerSetSkinEvent<RoomType extends Hostable = Hostable> extends Ba
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
+        public readonly player: Player<RoomType>,
         public readonly message: SetSkinMessage | undefined,
         /**
          * The skin that the player had before.

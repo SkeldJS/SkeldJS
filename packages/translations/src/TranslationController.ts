@@ -1,7 +1,7 @@
 import {
-    Hostable,
+    StatefulRoom,
     Language,
-    PlayerData,
+    Player,
     StringNames
 } from "@skeldjs/core";
 
@@ -23,7 +23,7 @@ export class TranslationController {
      * it with player names for quick chat messages.
      * @param room The room to connect the translation controller to.
      */
-    constructor(public readonly room?: Hostable) { }
+    constructor(public readonly room?: StatefulRoom) { }
 
     private getPlayerName(playerId: number) {
         return this.room?.getPlayerByPlayerId(playerId)?.getPlayerInfo()?.defaultOutfit.name || "";
@@ -48,7 +48,7 @@ export class TranslationController {
      * @param language The language of the string.
      * @returns The formatted string.
      */
-    formatString(str: string | StringNames, elements: (undefined | number | QuickChatSimpleMessageData | QuickChatPlayerMessageData | PlayerData)[], language: Language) {
+    formatString(str: string | StringNames, elements: (undefined | number | QuickChatSimpleMessageData | QuickChatPlayerMessageData | Player)[], language: Language) {
         const translationString = typeof str === "string"
             ? str
             : this.getTranslation(str, language);
@@ -69,7 +69,7 @@ export class TranslationController {
                 return this.getTranslation(element as StringNames, language);
             }
 
-            if (element instanceof PlayerData) {
+            if (element instanceof Player) {
                 return element.getPlayerInfo()?.defaultOutfit.name || "";
             }
 

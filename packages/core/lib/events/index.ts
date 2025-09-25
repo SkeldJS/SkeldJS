@@ -29,8 +29,8 @@ export * from "./meetinghud/VoteCast";
 export * from "./meetinghud/ClearVote";
 export * from "./meetinghud/VotingComplete";
 
-export * from "./networkable/Despawn";
-export * from "./networkable/Spawn";
+export * from "./networkedobject/Despawn";
+export * from "./networkedobject/Spawn";
 
 export * from "./oxygen/ConsoleComplete";
 export * from "./oxygen/ConsolesClear";
@@ -103,7 +103,7 @@ export * from "./hqhud/HqHudEvent";
 export * from "./medscan/MedScanEvent";
 export * from "./meetinghud/MeetingHudEvent";
 export * from "./movingplatform/MovingPlatformEvent";
-export * from "./networkable/NetworkableEvent";
+export * from "./networkedobject/NetworkedObjectEvent";
 export * from "./oxygen/O2Event";
 export * from "./player/PlayerEvent";
 export * from "./reactor/ReactorEvent";

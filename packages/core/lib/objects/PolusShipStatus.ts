@@ -15,16 +15,16 @@ import {
 
 import { Door } from "../misc/Door";
 import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
-import { Hostable } from "../Hostable";
-import { Networkable, NetworkableConstructor } from "../Networkable";
-import { PlayerData } from "../PlayerData";
+import { StatefulRoom } from "../StatefulRoom";
+import { NetworkedObject, NetworkedObjectConstructor } from "../NetworkedObject";
+import { Player } from "../Player";
 
 /**
  * Represents a room object for the Polus map.
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class PolusShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
+export class PolusShipStatus<RoomType extends StatefulRoom = StatefulRoom> extends InnerShipStatus<RoomType> {
     static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Electrical]: [0, 1, 2],
         [SystemType.O2]: [3, 4],
@@ -51,10 +51,10 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         super(room, spawnType, netId, ownerid, flags, data);
     }
 
-    getComponent<T extends Networkable>(
-        component: NetworkableConstructor<T>
+    getComponent<T extends NetworkedObject>(
+        component: NetworkedObjectConstructor<T>
     ): T | undefined {
-        if (this.spawnType === SpawnType.Polus && component === PolusShipStatus as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.Polus && component === PolusShipStatus as NetworkedObjectConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 
@@ -113,7 +113,7 @@ export class PolusShipStatus<RoomType extends Hostable = Hostable> extends Inner
         ];
     }
 
-    getSpawnPosition(player: PlayerData | number, initialSpawn: boolean) {
+    getSpawnPosition(player: Player | number, initialSpawn: boolean) {
         const playerId = typeof player === "number"
             ? player
             : player.playerId!;

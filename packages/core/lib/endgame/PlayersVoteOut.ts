@@ -1,7 +1,7 @@
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 export interface PlayersVoteOutEndgameMetadata {
-    exiled: PlayerData;
+    exiled: Player;
     aliveCrewmates: number;
     aliveImpostors: number;
 }

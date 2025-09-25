@@ -4,14 +4,14 @@ import { SpawnType, SpawnFlag } from "@skeldjs/constant";
 import { BaseRpcMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { Hostable, SpecialOwnerId } from "./Hostable";
+import { StatefulRoom, SpecialOwnerId } from "./StatefulRoom";
 
 import { ComponentDespawnEvent, ComponentSpawnEvent } from "./events";
-import { PlayerData } from "./PlayerData";
+import { Player } from "./Player";
 
-export type NetworkableConstructor<T> = {
+export type NetworkedObjectConstructor<T> = {
     new(
-        room: Hostable<any>,
+        room: StatefulRoom<any>,
         spawnType: SpawnType,
         netId: number,
         ownerId: number,
@@ -20,29 +20,29 @@ export type NetworkableConstructor<T> = {
     ): T;
 } | {
     new(
-        room: Hostable<any>,
+        room: StatefulRoom<any>,
         spawnType: SpawnType,
         netId: number,
         ownerId: number,
         flags: number,
         data?: HazelReader | any,
-        object?: Networkable<any, any>
+        object?: NetworkedObject<any, any>
     ): T;
 };
 
-export type NetworkableEvents<RoomType extends Hostable = Hostable> = ExtractEventTypes<
+export type NetworkedObjectEvents<RoomType extends StatefulRoom = StatefulRoom> = ExtractEventTypes<
     [ComponentSpawnEvent<RoomType>, ComponentDespawnEvent<RoomType>]
 >;
 
 /**
- * Represents a basic networkable object in Among Us.
+ * Represents a basic networked object in Among Us.
  *
- * See {@link NetworkableEvents} for events to listen to.
+ * See {@link NetworkedObjectEvents} for events to listen to.
  */
-export class Networkable<
+export class NetworkedObject<
     DataT = any,
-    T extends NetworkableEvents = NetworkableEvents,
-    RoomType extends Hostable = Hostable
+    T extends NetworkedObjectEvents = NetworkedObjectEvents,
+    RoomType extends StatefulRoom = StatefulRoom
 > extends EventEmitter<T> {
     /**
      * The room that this component belongs to.
@@ -77,11 +77,11 @@ export class Networkable<
     /**
      * The player that this component belongs to.
      */
-    player?: PlayerData<RoomType>;
+    player?: Player<RoomType>;
 
-    components: Networkable<any, NetworkableEvents, RoomType>[];
+    components: NetworkedObject<any, NetworkedObjectEvents, RoomType>[];
 
-    get owner(): Hostable | PlayerData<RoomType> | undefined {
+    get owner(): StatefulRoom | Player<RoomType> | undefined {
         if (this.ownerId !== SpecialOwnerId.Global) {
             return this.room.players.get(this.ownerId);
         }
@@ -106,7 +106,7 @@ export class Networkable<
         this.flags = flags;
 
         if (this.ownerId >= 0) {
-            this.player = this.owner as PlayerData<RoomType>;
+            this.player = this.owner as Player<RoomType>;
         } else {
             this.player = undefined;
         }
@@ -177,8 +177,8 @@ export class Networkable<
      * Get a certain component from the object.
      * @param component The component class to get.
      */
-    getComponent<T extends Networkable>(
-        component: NetworkableConstructor<T>
+    getComponent<T extends NetworkedObject>(
+        component: NetworkedObjectConstructor<T>
     ): T | undefined {
         for (const comp of this.components) {
             if (comp instanceof component) {

@@ -1,5 +1,5 @@
 import { HazelBuffer } from "@skeldjs/util";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 import { HideNSeekDangerLevelLogicComponent, HideNSeekDeathPopupLevelLogicComponent, HideNSeekFlowLogicComponent, HideNSeekMinigameLogicComponent, HideNSeekMusicLogicComponent, HideNSeekOptionsLogicComponent, HideNSeekPingLogicComponent, HideNSeekRoleSelectionLogicComponent, HideNSeekUsablesLogicComponent } from "../logic";
 import { InnerGameManager, InnerGameManagerData } from "./InnerGameManager";
 import { SpawnType } from "@skeldjs/constant";
@@ -7,7 +7,7 @@ import { SpawnType } from "@skeldjs/constant";
 /**
  * Represents a class for managing various events for the Hide'N'Seek gamemode.
  */
-export class HideAndSeekManager<RoomType extends Hostable = Hostable> extends InnerGameManager<RoomType> {
+export class HideAndSeekManager<RoomType extends StatefulRoom = StatefulRoom> extends InnerGameManager<RoomType> {
     music!: HideNSeekMusicLogicComponent<RoomType>;
     minigame!: HideNSeekMinigameLogicComponent<RoomType>;
     flow!: HideNSeekFlowLogicComponent<RoomType>;
@@ -16,7 +16,7 @@ export class HideAndSeekManager<RoomType extends Hostable = Hostable> extends In
     options!: HideNSeekOptionsLogicComponent<RoomType>;
     dangerLevels!: HideNSeekDangerLevelLogicComponent<RoomType>;
     ping!: HideNSeekPingLogicComponent<RoomType>;
-    deathPopup!: HideNSeekDeathPopupLevelLogicComponent<RoomType>; 
+    deathPopup!: HideNSeekDeathPopupLevelLogicComponent<RoomType>;
 
     constructor(
         room: RoomType,
@@ -31,7 +31,7 @@ export class HideAndSeekManager<RoomType extends Hostable = Hostable> extends In
 
     initComponents(): void {
         this.logicComponents = [];
-        
+
         this.music = new HideNSeekMusicLogicComponent(this);
         this.minigame = new HideNSeekMinigameLogicComponent(this);
         this.flow = new HideNSeekFlowLogicComponent(this);

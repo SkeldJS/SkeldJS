@@ -1,4 +1,4 @@
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 import { AutoDoorsSystem } from "../systems";
 import { Door } from "./Door";
 
@@ -7,7 +7,7 @@ import { Door } from "./Door";
  *
  * See {@link DoorEvents} for events to listen to.
  */
-export class AutoOpenDoor<RoomType extends Hostable = Hostable> extends Door {
+export class AutoOpenDoor<RoomType extends StatefulRoom = StatefulRoom> extends Door {
     timer: number;
 
     constructor(

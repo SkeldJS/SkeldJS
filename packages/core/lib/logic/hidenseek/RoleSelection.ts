@@ -1,7 +1,7 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
-import { PlayerData } from "../../PlayerData";
+import { Player } from "../../Player";
 import { BaseRole, CrewmateRole, EngineerRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
@@ -9,7 +9,7 @@ import { RoleChanceSettings } from "@skeldjs/protocol";
 
 export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekRoleSelectionLogicComponent<RoomType extends Hostable = Hostable> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
+export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
     matchRoles(settings: Partial<Record<RoleType, RoleChanceSettings>>, filter: (roleCtr: typeof BaseRole, roleChance: RoleChanceSettings) => any) {
         const filteredRoles = [];
         for (const [, roleCtr] of this.manager.room.registeredRoles) {
@@ -22,12 +22,12 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends Hostable = Ho
     }
 
     getRoleAssignmentsForTeam(
-        playerPool: PlayerData[],
+        playerPool: Player[],
         settings: Partial<Record<RoleType, RoleChanceSettings>>,
         roleTeam: RoleTeamType,
         maxAssignable: number,
         defaultRole?: typeof BaseRole,
-        roleAssignments: Map<PlayerData, typeof BaseRole> = new Map
+        roleAssignments: Map<Player, typeof BaseRole> = new Map
     ) {
         if (roleTeam === RoleTeamType.Crewmate) {
             return new Array(playerPool.length).fill(EngineerRole);
@@ -46,7 +46,7 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends Hostable = Ho
             }
         }
 
-        const roleAssignments: Map<PlayerData, typeof BaseRole> = new Map;
+        const roleAssignments: Map<Player, typeof BaseRole> = new Map;
 
         const adjustedImpostors = allPlayers.length < 7 ? 1 : allPlayers.length < 9 ? 2 : 3;
         const assignedImpostors = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(adjustedImpostors, this.manager.room.settings.numImpostors), ImpostorRole);
@@ -71,7 +71,7 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends Hostable = Ho
         }
     }
 
-    async assignRolesFromAssignments(roleAssignments: Map<PlayerData, typeof BaseRole>) {
+    async assignRolesFromAssignments(roleAssignments: Map<Player, typeof BaseRole>) {
         const promises = [];
         for (const [player, roleCtr] of roleAssignments) {
             promises.push(player.control?.setRole(roleCtr));

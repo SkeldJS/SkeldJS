@@ -1,11 +1,11 @@
 import { BasicEvent } from "@skeldjs/events";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { RoomEvent } from "../RoomEvent";
 
 /**
  * Emitted when a game is started.
  */
-export class RoomGameStartEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent {
+export class RoomGameStartEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent {
     static eventName = "room.gamestart" as const;
     eventName = "room.gamestart" as const;
 

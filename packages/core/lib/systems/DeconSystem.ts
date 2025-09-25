@@ -5,10 +5,10 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 import {
     DeconDoorsCloseEvent,
@@ -30,7 +30,7 @@ export interface DeconSystemData {
     state: number;
 }
 
-export type DeconSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> & ExtractEventTypes<[
+export type DeconSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[
     DeconDoorsCloseEvent,
     DeconDoorsOpenEvent,
     DeconEnterEvent,
@@ -41,7 +41,7 @@ export type DeconSystemEvents<RoomType extends Hostable = Hostable> = SystemStat
  *
  * See {@link DeconSystemEvents} for events to listen to.
  */
-export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     DeconSystemData,
     DeconSystemEvents,
     RoomType
@@ -94,7 +94,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
         writer.byte(this.state);
     }
 
-    private async _enterDecon(headingUp: boolean, player: PlayerData|undefined, message: RepairSystemMessage|undefined) {
+    private async _enterDecon(headingUp: boolean, player: Player | undefined, message: RepairSystemMessage | undefined) {
         if ((this.state & DeconState.Enter) && !!(this.state & DeconState.HeadingUp) === headingUp) {
             return;
         }
@@ -144,7 +144,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
-    private async _exitDecon(headingUp: boolean, player: PlayerData|undefined, message: RepairSystemMessage|undefined) {
+    private async _exitDecon(headingUp: boolean, player: Player | undefined, message: RepairSystemMessage | undefined) {
         if ((this.state & DeconState.Exit) && !!(this.state & DeconState.HeadingUp) === headingUp) {
             return;
         }
@@ -194,7 +194,7 @@ export class DeconSystem<RoomType extends Hostable = Hostable> extends SystemSta
         }
     }
 
-    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         if (this.state !== DeconState.Idle)
             return;
 

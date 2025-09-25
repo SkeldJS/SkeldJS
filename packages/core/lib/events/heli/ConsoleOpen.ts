@@ -4,28 +4,28 @@ import { RepairSystemMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { HeliSabotageEvent } from "./HeliSabotageEvent";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { HeliSabotageSystem } from "../../systems";
-import { PlayerData } from "../../PlayerData";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player opens a heli sabotage console on Airship.
  */
-export class HeliSabotageConsoleOpenEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HeliSabotageEvent, ProtocolEvent {
+export class HeliSabotageConsoleOpenEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, HeliSabotageEvent, ProtocolEvent {
     static eventName = "heli.consoles.open" as const;
     eventName = "heli.consoles.open" as const;
 
     private _alteredConsoleId: number;
-    private _alteredPlayer: PlayerData<RoomType>;
+    private _alteredPlayer: Player<RoomType>;
 
     constructor(
         public readonly room: RoomType,
         public readonly helisabotagesystem: HeliSabotageSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player that opened the console.
          */
-        public readonly player: PlayerData<RoomType>,
+        public readonly player: Player<RoomType>,
         /**
          * The ID of the console that was opened.
          */
@@ -63,7 +63,7 @@ export class HeliSabotageConsoleOpenEvent<RoomType extends Hostable = Hostable> 
      * Change the player that opened the console.
      * @param player The player to open the console.
      */
-    setPlayer(player: PlayerData<RoomType>) {
+    setPlayer(player: Player<RoomType>) {
         this._alteredPlayer = player;
     }
 }

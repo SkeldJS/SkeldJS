@@ -7,8 +7,8 @@ import { SkeldjsClient } from "@skeldjs/client";
 
 import {
     CustomNetworkTransform,
-    PlayerData,
-    PlayerDataResolvable,
+    Player,
+    PlayerResolvable,
     PlayerLeaveEvent,
     PlayerMoveEvent,
     GameMap,
@@ -75,7 +75,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
     /**
      * The player that the pathfinder is currently finding.
      */
-    following?: PlayerData;
+    following?: Player;
 
     constructor(
         private client: SkeldjsClient,
@@ -253,7 +253,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         this.start();
     }
 
-    go(pos: PlayerDataResolvable | Vector2 | Node): void {
+    go(pos: PlayerResolvable | Vector2 | Node): void {
         const vec = pos as Vector2;
 
         if (vec.x) {
@@ -270,7 +270,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
             return;
         }
 
-        const resolved = this.client.resolvePlayer(pos as PlayerDataResolvable);
+        const resolved = this.client.resolvePlayer(pos as PlayerResolvable);
 
         if (resolved && resolved.hasSpawned) {
             const position = resolved.transform?.position;
@@ -306,7 +306,7 @@ export class SkeldjsPathfinder extends EventEmitter<SkeldjsPathfinderEvents> {
         }
     }
 
-    follow(player: PlayerDataResolvable) {
+    follow(player: PlayerResolvable) {
         const resolved = this.client.resolvePlayer(player);
 
         if (resolved && resolved.hasSpawned) {

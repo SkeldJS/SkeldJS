@@ -1,14 +1,14 @@
 import { KillDistances } from "@skeldjs/data";
 import { ExtractEventTypes } from "@skeldjs/events";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { GameSettings } from "@skeldjs/protocol";
 
 export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class NormalOptionsLogicComponent<RoomType extends Hostable = Hostable> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
+export class NormalOptionsLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
     getMapId() {
         return this.manager.room.settings.map;
     }
@@ -33,7 +33,7 @@ export class NormalOptionsLogicComponent<RoomType extends Hostable = Hostable> e
         return this.manager.room.settings.killCooldown;
     }
 
-    getPlayerSpeedMod(player: PlayerData) {
+    getPlayerSpeedMod(player: Player) {
         return this.manager.room.settings.playerSpeed;
     }
 

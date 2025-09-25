@@ -13,9 +13,9 @@ import {
 
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../../Networkable";
-import { PlayerData } from "../../PlayerData";
-import { Hostable } from "../../Hostable";
+import { NetworkedObject, NetworkedObjectEvents } from "../../NetworkedObject";
+import { Player } from "../../Player";
+import { StatefulRoom } from "../../StatefulRoom";
 
 import { sequenceIdGreaterThan, SequenceIdType } from "../../utils/sequenceIds";
 
@@ -34,7 +34,7 @@ export interface PlayerPhysicsData {
     ventId: number;
 }
 
-export type PlayerPhysicsEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
+export type PlayerPhysicsEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<
         [PlayerEnterVentEvent<RoomType>, PlayerExitVentEvent<RoomType>, PlayerClimbLadderEvent<RoomType>]
     >;
@@ -44,7 +44,7 @@ export type PlayerPhysicsEvents<RoomType extends Hostable = Hostable> = Networka
  *
  * See {@link PlayerPhysicsEvents} for events to listen to.
  */
-export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Networkable<
+export class PlayerPhysics<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     PlayerPhysicsData,
     PlayerPhysicsEvents,
     RoomType
@@ -57,7 +57,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
     /**
      * The player that this component belongs to.
      */
-    player: PlayerData<RoomType>;
+    player: Player<RoomType>;
 
     private ladderClimbSeqId: number;
 
@@ -75,7 +75,7 @@ export class PlayerPhysics<RoomType extends Hostable = Hostable> extends Network
         this.ventId ??= -1;
         this.ladderClimbSeqId = 0;
 
-        this.player = this.owner as PlayerData<RoomType>;
+        this.player = this.owner as Player<RoomType>;
 
         if (playerControl) {
             this.components = playerControl.components;

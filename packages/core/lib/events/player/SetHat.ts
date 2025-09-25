@@ -4,13 +4,13 @@ import { SetHatMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player has their player hat updated.
  */
-export class PlayerSetHatEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetHatEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.sethat" as const;
     eventName = "player.sethat" as const;
 
@@ -18,8 +18,8 @@ export class PlayerSetHatEvent<RoomType extends Hostable = Hostable> extends Bas
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: SetHatMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: SetHatMessage | undefined,
         /**
          * The hat that the player had before.
          */

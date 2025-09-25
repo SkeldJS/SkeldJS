@@ -13,16 +13,16 @@ import {
     SwitchSystem,
 } from "../systems";
 
-import { Networkable, NetworkableConstructor } from "../Networkable";
+import { NetworkedObject, NetworkedObjectConstructor } from "../NetworkedObject";
 import { InnerShipStatus, ShipStatusData } from "./InnerShipStatus";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 /**
  * Represents a room object for the Mira HQ map.
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
+export class MiraShipStatus<RoomType extends StatefulRoom = StatefulRoom> extends InnerShipStatus<RoomType> {
     initialSpawnCenter = new Vector2(-4.4, 2.2);
     meetingSpawnCenter = new Vector2(24.043, 1.72);
 
@@ -37,10 +37,10 @@ export class MiraShipStatus<RoomType extends Hostable = Hostable> extends InnerS
         super(room, spawnType, netId, ownerid, flags, data);
     }
 
-    getComponent<T extends Networkable>(
-        component: NetworkableConstructor<T>
-    ): T|undefined {
-        if (this.spawnType === SpawnType.MiraShipStatus && component === MiraShipStatus as NetworkableConstructor<any>) {
+    getComponent<T extends NetworkedObject>(
+        component: NetworkedObjectConstructor<T>
+    ): T | undefined {
+        if (this.spawnType === SpawnType.MiraShipStatus && component === MiraShipStatus as NetworkedObjectConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

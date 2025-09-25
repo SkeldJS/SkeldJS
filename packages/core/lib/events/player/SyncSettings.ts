@@ -1,8 +1,8 @@
 import { BasicEvent } from "@skeldjs/events";
 import { AllGameSettings, GameSettings, SyncSettingsMessage } from "@skeldjs/protocol";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
@@ -10,7 +10,7 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player (i.e. the host of the room) sets the settings of the room.
  */
-export class PlayerSyncSettingsEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSyncSettingsEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.syncsettings" as const;
     eventName = "player.syncsettings" as const;
 
@@ -19,8 +19,8 @@ export class PlayerSyncSettingsEvent<RoomType extends Hostable = Hostable> exten
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: SyncSettingsMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: SyncSettingsMessage | undefined,
         /**
          * The settings that were set.
          */

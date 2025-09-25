@@ -1,8 +1,8 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { SwitchSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { ElectricalEvent } from "./ElectricalEvent";
@@ -10,7 +10,7 @@ import { ElectricalEvent } from "./ElectricalEvent";
 /**
  * Emitted when a player flips a switch while Electrical is sabotaged.
  */
-export class ElectricalSwitchFlipEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, ElectricalEvent, ProtocolEvent {
+export class ElectricalSwitchFlipEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, ElectricalEvent, ProtocolEvent {
     static eventName = "electrical.switchflip" as const;
     eventName = "electrical.switchflip" as const;
 
@@ -20,12 +20,12 @@ export class ElectricalSwitchFlipEvent<RoomType extends Hostable = Hostable> ext
     constructor(
         public readonly room: RoomType,
         public readonly switchsystem: SwitchSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player that flipped the switch. Only available if the client is
          * the host.
          */
-        public readonly player: PlayerData<RoomType>|undefined,
+        public readonly player: Player<RoomType> | undefined,
         /**
          * The ID of the switch that was flipped (from left-to-right, starting at 0).
          */

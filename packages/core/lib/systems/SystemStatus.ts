@@ -4,15 +4,15 @@ import { RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
 import { EventEmitter, BasicEvent } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 export class SystemStatus<
     DataT = any,
     T extends SystemStatusEvents = SystemStatusEvents,
-    RoomType extends Hostable<any> = Hostable<any>
+    RoomType extends StatefulRoom<any> = StatefulRoom<any>
 > extends EventEmitter<T> {
     private _dirty: boolean;
 
@@ -96,7 +96,7 @@ export class SystemStatus<
         void writer, spawn;
     }
 
-    async HandleRepair(player: PlayerData|undefined, amount: number, rpc: RepairSystemMessage|undefined): Promise<void> {
+    async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, amount, rpc;
     }
 
@@ -104,14 +104,14 @@ export class SystemStatus<
         void delta;
     }
 
-    async HandleSabotage(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined): Promise<void> {
+    async HandleSabotage(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, rpc;
     }
 
     /**
      * Fully repair this system.
      */
-    async repair(): Promise<void> {}
+    async repair(): Promise<void> { }
 
     /**
      * Sabotage this system.
@@ -133,7 +133,7 @@ export class SystemStatus<
                         this.systemType
                     )
                 )
-            ], undefined, [ this.room.hostId ]);
+            ], undefined, [this.room.authorityId]);
         }
     }
 
@@ -150,6 +150,6 @@ export class SystemStatus<
                     amount
                 )
             )
-        ], undefined, [ this.room.hostId ]);
+        ], undefined, [this.room.authorityId]);
     }
 }

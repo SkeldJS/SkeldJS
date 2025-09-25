@@ -1,7 +1,7 @@
 import { BasicEvent } from "@skeldjs/events";
 import { CheckMurderMessage } from "@skeldjs/protocol";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
@@ -15,22 +15,22 @@ import { PlayerEvent } from "./PlayerEvent";
  * before it happens. Therefore this event doesn't guarantee that the victim is
  * actually dead, see {@link PlayerMurderEvent} to listen for that.
  */
-export class PlayerCheckMurderEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCheckMurderEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.checkmurder" as const;
     eventName = "player.checkmurder" as const;
 
-    private _alteredPlayer: PlayerData<RoomType>;
-    private _alteredVictim: PlayerData<RoomType>;
+    private _alteredPlayer: Player<RoomType>;
+    private _alteredVictim: Player<RoomType>;
     private _alteredIsValid: boolean;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: CheckMurderMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: CheckMurderMessage | undefined,
         /**
          * The other player that the player is attempting to murder.
          */
-        public readonly victim: PlayerData<RoomType>,
+        public readonly victim: Player<RoomType>,
         /**
          * Whether or not this murder would normally be considered valid and thus
          * the player be murdered.
@@ -54,7 +54,7 @@ export class PlayerCheckMurderEvent<RoomType extends Hostable = Hostable> extend
     /**
      * Change the player that will actually murder the victim.
      */
-    setPlayer(player: PlayerData<RoomType>) {
+    setPlayer(player: Player<RoomType>) {
         this._alteredPlayer = player;
     }
 
@@ -69,7 +69,7 @@ export class PlayerCheckMurderEvent<RoomType extends Hostable = Hostable> extend
      * Change the player that will actually be murdered.
      * @param victim The player to murder.
      */
-    setVictim(victim: PlayerData<RoomType>) {
+    setVictim(victim: Player<RoomType>) {
         this._alteredVictim = victim;
     }
 

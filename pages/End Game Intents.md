@@ -6,7 +6,7 @@ You can hook into them and cancel them, preventing them from actually causing a 
 ending.
 
 ### Create Intent
-You can use the {@link Hostable.registerEndGameIntent} method to register an intent,
+You can use the {@link StatefulRoom.registerEndGameIntent} method to register an intent,
 and will be checked and ended on the next _fixed update_ cycle.
 
 Note that end game intents don't guarantee that the game has ended or that it will

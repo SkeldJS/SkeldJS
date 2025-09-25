@@ -5,7 +5,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import {
     HeliSabotageConsoleOpenEvent,
@@ -17,7 +17,7 @@ import {
 } from "../events";
 
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 export interface HeliSabotageSystemData {
     countdown: number;
@@ -26,7 +26,7 @@ export interface HeliSabotageSystemData {
     completedConsoles: Set<number>
 }
 
-export type HeliSabotageSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+export type HeliSabotageSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         HeliSabotageConsoleOpenEvent,
         HeliSabotageConsolesResetEvent,
@@ -46,7 +46,7 @@ export const HeliSabotageSystemRepairTag = {
  *
  * See {@link HeliSabotageSystemEvents} for events to listen to.
  */
-export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     HeliSabotageSystemData,
     HeliSabotageSystemEvents,
     RoomType
@@ -103,7 +103,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
             }
         }
 
-        for (const [ playerId, consoleId ] of beforeActive) {
+        for (const [playerId, consoleId] of beforeActive) {
             const player = this.ship.room.getPlayerByPlayerId(playerId);
             if (player) {
                 this._closeConsole(consoleId, player, undefined);
@@ -144,7 +144,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         writer.float(this.countdown);
         writer.float(this.resetTimer);
         writer.packed(this.activeConsoles.size);
-        for (const [ playerId, consoleId ] of this.activeConsoles) {
+        for (const [playerId, consoleId] of this.activeConsoles) {
             writer.uint8(playerId);
             writer.uint8(consoleId);
         }
@@ -154,7 +154,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    async HandleSabotage(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    async HandleSabotage(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const oldCountdown = 10000;
         const oldTimer = this.resetTimer;
         const oldActive = this.activeConsoles;
@@ -199,7 +199,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    private async _openConsole(consoleId: number, player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    private async _openConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
         if (player.playerId === undefined)
             return;
 
@@ -226,7 +226,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    async openConsoleAs(consoleId: number, player: PlayerData) {
+    async openConsoleAs(consoleId: number, player: Player) {
         await this._openConsole(consoleId, player, undefined);
     }
 
@@ -245,7 +245,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    private async _closeConsole(consoleId: number, player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    private async _closeConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
         if (player.playerId === undefined)
             return;
 
@@ -267,7 +267,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    async closeConsoleAs(consoleId: number, player: PlayerData) {
+    async closeConsoleAs(consoleId: number, player: Player) {
         await this._closeConsole(consoleId, player, undefined);
     }
 
@@ -286,7 +286,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    private async _completeConsole(consoleId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _completeConsole(consoleId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         if (!this.completedConsoles.has(consoleId)) {
             this.completedConsoles.add(consoleId);
             this.dirty = true;
@@ -317,7 +317,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const completedBefore = this.completedConsoles;
         const timerBefore = this.resetTimer;
         const countdownBefore = this.countdown;
@@ -333,7 +333,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
                 player
             )
         );
-        if(ev.reverted) {
+        if (ev.reverted) {
             this.resetTimer = timerBefore;
             this.completedConsoles = completedBefore;
             this.countdown = countdownBefore;
@@ -349,7 +349,7 @@ export class HeliSabotageSystem<RoomType extends Hostable = Hostable> extends Sy
         }
     }
 
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const consoleId = amount & 0xf;
         const repairOperation = amount & 0xf0;
 

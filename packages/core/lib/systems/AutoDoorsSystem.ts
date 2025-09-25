@@ -5,20 +5,20 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 import { DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 export interface AutoDoorsSystemData {
     dirtyBit: number;
     doors: boolean[];
 }
 
-export type AutoDoorsSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents &
+export type AutoDoorsSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents &
     DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
@@ -27,7 +27,7 @@ export type AutoDoorsSystemEvents<RoomType extends Hostable = Hostable> = System
  *
  * See {@link AutoDoorsSystemEvents} for events to listen to.
  */
-export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     AutoDoorsSystemData,
     AutoDoorsSystemEvents,
     RoomType
@@ -97,7 +97,7 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
         this.dirtyBit = 0;
     }
 
-    private async _openDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _openDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -136,7 +136,7 @@ export class AutoDoorsSystem<RoomType extends Hostable = Hostable> extends Syste
         await this._openDoor(doorId, this.room.myPlayer, undefined);
     }
 
-    private async _closeDoor(doorId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _closeDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)

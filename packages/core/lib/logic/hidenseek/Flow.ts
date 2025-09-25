@@ -1,12 +1,12 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { InnerGameManager } from "../../objects";
 import { GameLogicComponent } from "../GameLogicComponent";
 
 export type HideNSeekFlowLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekFlowLogicComponent<RoomType extends Hostable = Hostable> extends GameLogicComponent<HideNSeekFlowLogicComponentEvents, RoomType> {
+export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekFlowLogicComponentEvents, RoomType> {
     currentHideTime: number;
     currentFinalHideTime: number;
 

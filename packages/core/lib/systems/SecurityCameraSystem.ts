@@ -5,17 +5,17 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import { SecurityCameraJoinEvent, SecurityCameraLeaveEvent } from "../events";
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 export interface SecurityCameraSystemData {
-    players: Set<PlayerData>;
+    players: Set<Player>;
 }
 
-export type SecurityCameraSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+export type SecurityCameraSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[SecurityCameraJoinEvent<RoomType>, SecurityCameraLeaveEvent<RoomType>]>;
 
 /**
@@ -23,7 +23,7 @@ export type SecurityCameraSystemEvents<RoomType extends Hostable = Hostable> = S
  *
  * See {@link SecurityCameraSystemEvents} for events to listen to.
  */
-export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     SecurityCameraSystemData,
     SecurityCameraSystemEvents,
     RoomType
@@ -31,7 +31,7 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
     /**
      * The players currently looking at cameras.
      */
-    players: Set<PlayerData>;
+    players: Set<Player>;
 
     constructor(
         ship: InnerShipStatus<RoomType>,
@@ -71,7 +71,7 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
         }
     }
 
-    private async _addPlayer(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    private async _addPlayer(player: Player, rpc: RepairSystemMessage | undefined) {
         this.players.add(player);
         this.dirty = true;
 
@@ -97,7 +97,7 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
      * security.addPlayer(client.me);
      * ```
      */
-    async addPlayer(player: PlayerData) {
+    async addPlayer(player: Player) {
         await this._addPlayer(player, undefined);
     }
 
@@ -112,7 +112,7 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
         }
     }
 
-    private async _removePlayer(player: PlayerData, rpc: RepairSystemMessage|undefined) {
+    private async _removePlayer(player: Player, rpc: RepairSystemMessage | undefined) {
         this.players.delete(player);
         this.dirty = true;
 
@@ -138,7 +138,7 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
      * security.removePlayer(client.me);
      * ```
      */
-    async removePlayer(player: PlayerData) {
+    async removePlayer(player: Player) {
         await this._removePlayer(player, undefined);
     }
 
@@ -153,7 +153,7 @@ export class SecurityCameraSystem<RoomType extends Hostable = Hostable> extends 
         }
     }
 
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         if (!player)
             return;
 

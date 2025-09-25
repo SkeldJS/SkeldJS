@@ -34,9 +34,9 @@ import {
     AutoDoorsSystem,
 } from "../systems";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { Hostable } from "../Hostable";
-import { PlayerData } from "../PlayerData";
+import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { StatefulRoom } from "../StatefulRoom";
+import { Player } from "../Player";
 import { SystemStatusEvents } from "../systems/events";
 import { BaseRole } from "../roles";
 import { RoomAssignRolesEvent } from "../events";
@@ -79,7 +79,7 @@ export interface ShipStatusData {
     systems: AllSystems;
 }
 
-export type ShipStatusEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
+export type ShipStatusEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
     DoorsSystemEvents<RoomType> &
     SystemStatusEvents<RoomType> &
     AutoDoorsSystemEvents<RoomType> &
@@ -103,7 +103,7 @@ export type ShipStatusType =
     | SpawnType.AprilShipStatus
     | SpawnType.Airship;
 
-export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> extends Networkable<
+export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     ShipStatusData,
     ShipStatusEvents<RoomType>,
     RoomType
@@ -302,7 +302,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
      * @param initialSpawn Whther or not this is a spawn after starting the game.
      * @returns The spawn position of the player.
      */
-    getSpawnPosition(player: PlayerData | number, initialSpawn: boolean) {
+    getSpawnPosition(player: Player | number, initialSpawn: boolean) {
         const playerId = typeof player === "number"
             ? player
             : player.playerId!;
@@ -323,7 +323,7 @@ export abstract class InnerShipStatus<RoomType extends Hostable = Hostable> exte
      * @param initialSpawn Whether or not this is a spawn after starting the game.
      * @param broadcast Whether or not to broadcast the updates.
      */
-    spawnPlayer(player: PlayerData, initialSpawn: boolean, broadcast: boolean) {
+    spawnPlayer(player: Player, initialSpawn: boolean, broadcast: boolean) {
         if (player.playerId === undefined)
             return;
 

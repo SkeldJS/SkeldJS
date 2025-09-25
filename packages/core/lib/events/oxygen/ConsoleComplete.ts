@@ -1,7 +1,7 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { LifeSuppSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
@@ -10,7 +10,7 @@ import { O2Event } from "./O2Event";
 /**
  * Emitted when a oxygen console is completed.
  */
-export class O2ConsolesCompleteEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, O2Event, ProtocolEvent {
+export class O2ConsolesCompleteEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, O2Event, ProtocolEvent {
     static eventName = "o2.consoles.complete" as const;
     eventName = "o2.consoles.complete" as const;
 
@@ -19,11 +19,11 @@ export class O2ConsolesCompleteEvent<RoomType extends Hostable = Hostable> exten
     constructor(
         public readonly room: RoomType,
         public readonly oxygen: LifeSuppSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player that completed the console. Only available is the client is the host.
          */
-        public readonly player: PlayerData<RoomType>|undefined,
+        public readonly player: Player<RoomType> | undefined,
         /**
          * The ID of the console that was completed.
          */

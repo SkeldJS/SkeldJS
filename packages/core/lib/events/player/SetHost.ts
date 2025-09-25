@@ -1,6 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
@@ -12,17 +12,17 @@ import { PlayerEvent } from "./PlayerEvent";
  * the host as a client.
  *
  * A server implementation may implement this by overriding the functions in
- * {@link Hostable} responsible for updating the host.
+ * {@link StatefulRoom} responsible for updating the host.
  */
-export class PlayerSetHostEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent {
+export class PlayerSetHostEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent {
     static eventName = "player.sethost" as const;
     eventName = "player.sethost" as const;
 
-    private _alteredHost: PlayerData<RoomType>;
+    private _alteredHost: Player<RoomType>;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>
+        public readonly player: Player<RoomType>
     ) {
         super();
 
@@ -40,7 +40,7 @@ export class PlayerSetHostEvent<RoomType extends Hostable = Hostable> extends Ba
      * Change the player that was made host.
      * @param player The player to make host.
      */
-    setHost(player: PlayerData<RoomType>) {
+    setHost(player: Player<RoomType>) {
         this._alteredHost = player;
     }
 }

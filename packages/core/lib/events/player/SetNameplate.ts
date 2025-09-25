@@ -4,13 +4,13 @@ import { SetNameplateMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player has their player nameplate updated.
  */
-export class PlayerSetNameplateEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetNameplateEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setnameplate" as const;
     eventName = "player.setnameplate" as const;
 
@@ -18,7 +18,7 @@ export class PlayerSetNameplateEvent<RoomType extends Hostable = Hostable> exten
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
+        public readonly player: Player<RoomType>,
         public readonly message: SetNameplateMessage | undefined,
         /**
          * The nameplate that the player had before.

@@ -1,6 +1,6 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemRepairEvent, SystemSabotageEvent } from "../events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 import { DoorEvents } from "../misc/Door";
 
 import { AutoDoorsSystem } from "./AutoDoorsSystem";
@@ -16,10 +16,10 @@ import { SabotageSystem } from "./SabotageSystem";
 import { SecurityCameraSystem } from "./SecurityCameraSystem";
 import { SwitchSystem } from "./SwitchSystem";
 
-export type SystemStatusEvents<RoomType extends Hostable = Hostable> = DoorEvents<RoomType> &
+export type SystemStatusEvents<RoomType extends StatefulRoom = StatefulRoom> = DoorEvents<RoomType> &
     ExtractEventTypes<[SystemSabotageEvent<RoomType>, SystemRepairEvent<RoomType>]>;
 
-export type AnySystem<RoomType extends Hostable = Hostable> =
+export type AnySystem<RoomType extends StatefulRoom = StatefulRoom> =
     | AutoDoorsSystem<RoomType>
     | DeconSystem<RoomType>
     | DoorsSystem<RoomType>

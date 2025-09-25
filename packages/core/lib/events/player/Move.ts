@@ -1,21 +1,21 @@
 import { BasicEvent } from "@skeldjs/events";
 import { Vector2 } from "@skeldjs/util";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player moves.
  */
-export class PlayerMoveEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent {
+export class PlayerMoveEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent {
     static eventName = "player.move" as const;
     eventName = "player.move" as const;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
+        public readonly player: Player<RoomType>,
         /**
          * The old position of the player.
          */

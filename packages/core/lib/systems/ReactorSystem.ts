@@ -5,7 +5,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import {
     ReactorConsoleAddEvent,
@@ -15,7 +15,7 @@ import {
 } from "../events";
 
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 import { AmongUsEndGames, EndGameIntent } from "../endgame";
 
 export interface ReactorSystemData {
@@ -23,7 +23,7 @@ export interface ReactorSystemData {
     completed: Set<number>;
 }
 
-export type ReactorSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+export type ReactorSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         ReactorConsoleAddEvent<RoomType>,
         ReactorConsoleRemoveEvent<RoomType>,
@@ -36,7 +36,7 @@ export type ReactorSystemEvents<RoomType extends Hostable = Hostable> = SystemSt
  * See {@link ReactorSystemEvents} for events to listen to.
  */
 
-export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     ReactorSystemData,
     ReactorSystemEvents,
     RoomType
@@ -87,7 +87,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
         }
     }
 
-    private async _addConsole(player: PlayerData|undefined, consoleId: number, rpc: RepairSystemMessage|undefined) {
+    private async _addConsole(player: Player | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
         this.completed.add(consoleId);
         this.dirty = true;
 
@@ -129,7 +129,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
         }
     }
 
-    private async _removeConsole(player: PlayerData|undefined, consoleId: number, rpc: RepairSystemMessage|undefined) {
+    private async _removeConsole(player: Player | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
         this.completed.delete(consoleId);
         this.dirty = true;
 
@@ -166,7 +166,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
         }
     }
 
-    async HandleSabotage(player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
+    async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this.timer = 45;
         this.dirty = true;
         const oldCompleted = this.completed;
@@ -187,7 +187,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
         }
     }
 
-    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const oldTimer = this.timer;
         const oldCompleted = this.completed;
         this.timer = 10000;
@@ -218,7 +218,7 @@ export class ReactorSystem<RoomType extends Hostable = Hostable> extends SystemS
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {

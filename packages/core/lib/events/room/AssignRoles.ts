@@ -1,6 +1,6 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { BaseRole } from "../../roles";
 import { RoomEvent } from "../RoomEvent";
 
@@ -12,18 +12,18 @@ import { RoomEvent } from "../RoomEvent";
  * Does not guarantee that the players' roles have actually been assigned, see
  * {@link PlayerSetRoleEvent}.
  */
-export class RoomAssignRolesEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent {
+export class RoomAssignRolesEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent {
     static eventName = "room.assignroles" as const;
     eventName = "room.assignroles" as const;
 
-    private _alteredAssignments: Map<PlayerData<RoomType>, typeof BaseRole>;
+    private _alteredAssignments: Map<Player<RoomType>, typeof BaseRole>;
 
     constructor(
         public readonly room: RoomType,
         /**
          * The players that were chosen to be impostors.
          */
-        public readonly roleAssignments: Map<PlayerData<RoomType>, typeof BaseRole>
+        public readonly roleAssignments: Map<Player<RoomType>, typeof BaseRole>
     ) {
         super();
 
@@ -41,7 +41,7 @@ export class RoomAssignRolesEvent<RoomType extends Hostable = Hostable> extends 
      * Change which roles to assign to which players.
      * @param roleAssignments The roles to assign instead.
      */
-    setAssignments(roleAssignments: Map<PlayerData<RoomType>, typeof BaseRole>) {
+    setAssignments(roleAssignments: Map<Player<RoomType>, typeof BaseRole>) {
         this._alteredAssignments = roleAssignments;
     }
 
@@ -50,7 +50,7 @@ export class RoomAssignRolesEvent<RoomType extends Hostable = Hostable> extends 
      * @param player The player to change the assignment for.
      * @param assignment The role to assign for the player instead.
      */
-    setAssignment(player: PlayerData<RoomType>, assignment: typeof BaseRole) {
+    setAssignment(player: Player<RoomType>, assignment: typeof BaseRole) {
         this._alteredAssignments.set(player, assignment);
     }
 }

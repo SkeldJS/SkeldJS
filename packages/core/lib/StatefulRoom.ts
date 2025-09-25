@@ -58,8 +58,8 @@ import {
     NetworkedPlayerInfo,
 } from "./objects";
 
-import { Networkable, NetworkableEvents, NetworkableConstructor } from "./Networkable";
-import { PlayerData, PlayerDataEvents } from "./PlayerData";
+import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "./NetworkedObject";
+import { Player, PlayerEvents } from "./Player";
 
 import {
     ComponentDespawnEvent,
@@ -77,7 +77,7 @@ import {
 
 import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
 import { BaseRole, CrewmateRole, EngineerRole, GuardianAngelRole, ImpostorRole, ScientistRole, ShapeshifterRole } from "./roles";
-import { HostableConfig } from "./misc";
+import { StatefulRoomConfig } from "./misc";
 import { ImpostorGhost } from "./roles/ImpostorGhost";
 
 export type RoomID = string | number;
@@ -91,9 +91,9 @@ export enum SpecialOwnerId {
     Server = -4,
 }
 
-export type PlayerDataResolvable =
+export type PlayerResolvable =
     | number
-    | PlayerData
+    | Player
     | PlayerControl
     | PlayerPhysics
     | CustomNetworkTransform;
@@ -104,10 +104,10 @@ export interface SpawnObject {
     type: number;
     ownerId: number;
     flags: number;
-    components: Networkable<any, any>[];
+    components: NetworkedObject<any, any>[];
 }
 
-export type AnyNetworkable<RoomType extends Hostable = Hostable> =
+export type AnyNetworkedObject<RoomType extends StatefulRoom = StatefulRoom> =
     | AirshipStatus<RoomType>
     | AprilShipStatus<RoomType>
     | CustomNetworkTransform<RoomType>
@@ -120,8 +120,8 @@ export type AnyNetworkable<RoomType extends Hostable = Hostable> =
     | SkeldShipStatus<RoomType>
     | VoteBanSystem<RoomType>;
 
-export type HostableEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
-    PlayerDataEvents<RoomType> &
+export type StatefulRoomEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
+    PlayerEvents<RoomType> &
     LobbyBehaviourEvents<RoomType> &
     MeetingHudEvents<RoomType> &
     ShipStatusEvents<RoomType> &
@@ -136,15 +136,15 @@ export type HostableEvents<RoomType extends Hostable = Hostable> = NetworkableEv
         ]
     >;
 
-export type GetHostableEvents<T extends Hostable<HostableEvents>> = T extends Hostable<infer X> ? X : never;
+export type GetStatefulRoomEvents<T extends StatefulRoom<StatefulRoomEvents>> = T extends StatefulRoom<infer X> ? X : never;
 
 /**
  * Represents an object capable of hosting games.
  *
- * See {@link HostableEvents} for events to listen to.
+ * See {@link StatefulRoomEvents} for events to listen to.
  */
-export class Hostable<
-    T extends HostableEvents = any
+export class StatefulRoom<
+    T extends StatefulRoomEvents = any
 > extends EventEmitter<T> {
 
     /**
@@ -161,17 +161,17 @@ export class Hostable<
     /**
      * A list of all objects in the room.
      */
-    objectList: Networkable[];
+    objectList: NetworkedObject[];
 
     /**
      * The players in the room.
      */
-    players: Map<number, PlayerData<this>>;
+    players: Map<number, Player<this>>;
 
     /**
-     * The networkable components in the room.
+     * The networked components in the room.
      */
-    netobjects: Map<number, Networkable<any, NetworkableEvents, this>>;
+    netobjects: Map<number, NetworkedObject<any, NetworkedObjectEvents, this>>;
 
     /**
      * The current message stream to be sent to the server on fixed update.
@@ -191,7 +191,7 @@ export class Hostable<
     /**
      * The ID of the host of the room.
      */
-    hostId: number;
+    authorityId: number;
 
     /**
      * The settings of the room.
@@ -215,7 +215,7 @@ export class Hostable<
      * It is possible for more than one ship status to be spawned, however this
      * property is set and cleared for simplicity.
      *
-     * See {@link Hostable.objectList} if you're looking to find all ship status
+     * See {@link StatefulRoom.objectList} if you're looking to find all ship status
      * objects that have been spawned.
      */
     shipStatus: InnerShipStatus<this> | undefined;
@@ -227,7 +227,7 @@ export class Hostable<
      * It is possible for more than one meeting hud to be spawned, however this
      * property is set and cleared for simplicity.
      *
-     * See {@link Hostable.objectList} if you're looking to find all meeting hud
+     * See {@link StatefulRoom.objectList} if you're looking to find all meeting hud
      * objects that have been spawned.
      */
     meetingHud: MeetingHud<this> | undefined;
@@ -239,7 +239,7 @@ export class Hostable<
      * It is possible for more than one lobby behaviour to be spawned, however this
      * property is set and cleared for simplicity.
      *
-     * See {@link Hostable.objectList} if you're looking to find all lobby behaviour
+     * See {@link StatefulRoom.objectList} if you're looking to find all lobby behaviour
      * objects that have been spawned.
      */
     lobbyBehaviour: LobbyBehaviour<this> | undefined;
@@ -253,7 +253,7 @@ export class Hostable<
      * It is possible for more than one vote ban system to be spawned, however this
      * property is set and cleared for simplicity.
      *
-     * See {@link Hostable.objectList} if you're looking to find all vote ban system
+     * See {@link StatefulRoom.objectList} if you're looking to find all vote ban system
      * objects that have been spawned.
      */
     voteBanSystem: VoteBanSystem<this> | undefined;
@@ -263,14 +263,14 @@ export class Hostable<
     /**
      * A map of spawn type -> objects used in the protocol. Useful to register
      * custom INO (inner net objects) such as replicating behaviour from a client
-     * mod, see {@link Hostable.registerPrefab}.
+     * mod, see {@link StatefulRoom.registerPrefab}.
      */
-    registeredPrefabs: Map<number, NetworkableConstructor<any>[]>;
+    registeredPrefabs: Map<number, NetworkedObjectConstructor<any>[]>;
 
     shipPrefabIds: Map<number, number>;
 
     /**
-     * All roles that can be assigned to players. See {@link Hostable.registerRole}.
+     * All roles that can be assigned to players. See {@link StatefulRoom.registerRole}.
      */
     registeredRoles: Map<number, typeof BaseRole>;
 
@@ -282,13 +282,13 @@ export class Hostable<
      * the second being metadata passed with it.
      *
      * See {@link RoomEndGameIntentEvent} to cancel an end game intent, or see
-     * {@link Hostable.registerEndGameIntent} to register your own.
+     * {@link StatefulRoom.registerEndGameIntent} to register your own.
      *
      * See {@link RoomGameEndEvent} to listen for a game actually ending.
      */
     endGameIntents: EndGameIntent<any>[];
 
-    constructor(public config: HostableConfig = {}) {
+    constructor(public config: StatefulRoomConfig = {}) {
         super();
 
         this.last_fixed_update = Date.now();
@@ -297,7 +297,7 @@ export class Hostable<
 
         this.code = 0;
         this.gameState = GameState.NotStarted;
-        this.hostId = -1;
+        this.authorityId = -1;
         this.counter = -1;
         this.privacy = "private";
 
@@ -354,7 +354,7 @@ export class Hostable<
         if (config.doFixedUpdate) {
             this._interval = setInterval(
                 () => this.FixedUpdate(),
-                Hostable.FixedUpdateInterval
+                StatefulRoom.FixedUpdateInterval
             );
         }
     }
@@ -376,15 +376,15 @@ export class Hostable<
     /**
      * The current client in the room.
      */
-    get myPlayer(): PlayerData<this> | undefined {
+    get myPlayer(): Player<this> | undefined {
         return undefined;
     }
 
     /**
      * The host of the room.
      */
-    get host() {
-        return this.players.get(this.hostId);
+    get playerAuthority() {
+        return this.players.get(this.authorityId);
     }
 
     get destroyed() {
@@ -394,7 +394,7 @@ export class Hostable<
     /**
      * Whether or not the current client is the host of the room.
      */
-    get hostIsMe() {
+    get isAuthoritative() {
         return false;
     }
 
@@ -404,15 +404,15 @@ export class Hostable<
      * @param object The object to manage.
      * @returns Whether or not the object can be managed by this client/room.
      */
-    canManageObject(object: Networkable) {
-        return this.hostIsMe;
+    canManageObject(object: NetworkedObject) {
+        return this.isAuthoritative;
     }
 
     async broadcast(
         gamedata: BaseGameDataMessage[],
         payloads: BaseRootMessage[] = [],
-        include?: (PlayerData | number)[],
-        exclude?: (PlayerData | number)[],
+        include?: (Player | number)[],
+        exclude?: (Player | number)[],
         reliable = true
     ) { }
 
@@ -422,7 +422,7 @@ export class Hostable<
         for (const [, component] of this.netobjects) {
             if (
                 component &&
-                (component.ownerId === this.myPlayer?.clientId || this.hostIsMe)
+                (component.ownerId === this.myPlayer?.clientId || this.isAuthoritative)
             ) {
                 component.FixedUpdate(delta / 1000);
                 if (component.dirtyBit) {
@@ -441,7 +441,7 @@ export class Hostable<
         if (this.endGameIntents.length) {
             const endGameIntents = this.endGameIntents;
             this.endGameIntents = [];
-            if (this.hostIsMe) {
+            if (this.isAuthoritative) {
                 for (let i = 0; i < endGameIntents.length; i++) {
                     const intent = endGameIntents[i];
                     const ev = await this.emit(new RoomEndGameIntentEvent(
@@ -490,9 +490,9 @@ export class Hostable<
      * const player = room.resolvePlayer(11013);
      * ```
      */
-    resolvePlayer(player: PlayerDataResolvable): PlayerData<this> | undefined {
-        if (player instanceof PlayerData)
-            return player as PlayerData<this>;
+    resolvePlayer(player: PlayerResolvable): Player<this> | undefined {
+        if (player instanceof Player)
+            return player as Player<this>;
 
         const clientId = this.resolvePlayerClientID(player);
 
@@ -507,7 +507,7 @@ export class Hostable<
      * @param player The identifier to resolve to a client ID.
      * @returns The resolved client ID.
      */
-    resolvePlayerClientID(player: PlayerDataResolvable) {
+    resolvePlayerClientID(player: PlayerResolvable) {
         if (typeof player === "undefined") {
             return undefined;
         }
@@ -516,11 +516,11 @@ export class Hostable<
             return player;
         }
 
-        if (player instanceof Networkable) {
+        if (player instanceof NetworkedObject) {
             return player.ownerId;
         }
 
-        if (player instanceof PlayerData) {
+        if (player instanceof Player) {
             return player.clientId;
         }
 
@@ -595,8 +595,8 @@ export class Hostable<
     setSettings(settings: Partial<AllGameSettings>) {
         this.settings.patch(settings);
 
-        if (this.hostIsMe && this.host && this.host.control) {
-            this.host.control.syncSettings(this.settings);
+        if (this.isAuthoritative && this.playerAuthority && this.playerAuthority.control) {
+            this.playerAuthority.control.syncSettings(this.settings);
         }
     }
 
@@ -635,20 +635,20 @@ export class Hostable<
      * e.g. Spawning objects if they are not already spawned.
      * @param host The new host of the room.
      */
-    async setHost(host: PlayerDataResolvable) {
-        const before = this.hostId;
+    async setHost(host: PlayerResolvable) {
+        const before = this.authorityId;
         const resolvedId = this.resolvePlayerClientID(host);
 
         if (!resolvedId) return;
 
-        this.hostId = resolvedId;
+        this.authorityId = resolvedId;
 
-        if (this.hostIsMe) {
+        if (this.isAuthoritative) {
             this.spawnNecessaryObjects();
         }
 
-        if (before !== this.hostId && this.host) {
-            await this.host.emit(new PlayerSetHostEvent(this, this.host));
+        if (before !== this.authorityId && this.playerAuthority) {
+            await this.playerAuthority.emit(new PlayerSetHostEvent(this, this.playerAuthority));
         }
     }
 
@@ -661,10 +661,10 @@ export class Hostable<
         if (cachedPlayer)
             return cachedPlayer;
 
-        const player = new PlayerData(this, joinInfo.clientId, joinInfo.playerName, joinInfo.platform, joinInfo.playerLevel, joinInfo.friendCode, joinInfo.puid);
+        const player = new Player(this, joinInfo.clientId, joinInfo.playerName, joinInfo.platform, joinInfo.playerLevel, joinInfo.friendCode, joinInfo.puid);
         this.players.set(joinInfo.clientId, player);
 
-        if (this.hostIsMe) {
+        if (this.isAuthoritative) {
             this.spawnNecessaryObjects();
         }
 
@@ -727,7 +727,7 @@ export class Hostable<
      * Handle when a client leaves the game.
      * @param resolvable The client that left the game.
      */
-    async handleLeave(resolvable: PlayerDataResolvable) {
+    async handleLeave(resolvable: PlayerResolvable) {
         const player = this.resolvePlayer(resolvable);
 
         if (!player)
@@ -745,7 +745,7 @@ export class Hostable<
                 this.playerInfo.delete(player.playerId);
             }
 
-            if (this.hostIsMe && this.meetingHud) {
+            if (this.isAuthoritative && this.meetingHud) {
                 for (const [, voteState] of this.meetingHud.voteStates) {
                     const voteStatePlayer = voteState.player;
                     if (voteStatePlayer && voteState.votedForId === player.playerId) {
@@ -781,7 +781,7 @@ export class Hostable<
 
         this.gameState = GameState.Started;
 
-        if (this.hostIsMe) {
+        if (this.isAuthoritative) {
             for (const [, playerInfo] of this.playerInfo) {
                 playerInfo.dirtyBit = 1;
             }
@@ -853,7 +853,7 @@ export class Hostable<
         for (const [objId] of this.players) {
             this.players.delete(objId);
         }
-        if (this.hostIsMe) {
+        if (this.isAuthoritative) {
             for (const [, component] of this.netobjects) {
                 component.despawn();
             }
@@ -883,7 +883,7 @@ export class Hostable<
      * Handle a client readying up.
      * @param player The client that readied.
      */
-    async handleReady(player: PlayerDataResolvable) {
+    async handleReady(player: PlayerResolvable) {
         const resolved = this.resolvePlayer(player);
 
         if (resolved) {
@@ -892,7 +892,7 @@ export class Hostable<
     }
 
     /**
-     * Spawn a component (Not broadcasted to all clients, see {@link Hostable.spawnPrefabOfType}).
+     * Spawn a component (Not broadcasted to all clients, see {@link StatefulRoom.spawnPrefabOfType}).
      * @param component The component being spawned.
      * @example
      * ```typescript
@@ -909,7 +909,7 @@ export class Hostable<
      * this.spawnComponent(meetinghud);
      * ```
      */
-    spawnComponent(component: Networkable<any, NetworkableEvents, this>) {
+    spawnComponent(component: NetworkedObject<any, NetworkedObjectEvents, this>) {
         if (this.netobjects.get(component.netId)) {
             return;
         }
@@ -949,10 +949,10 @@ export class Hostable<
         );
     }
 
-    protected _despawnComponent(component: Networkable<any>) {
+    protected _despawnComponent(component: NetworkedObject<any>) {
         this.netobjects.delete(component.netId);
 
-        if (component.owner instanceof PlayerData) {
+        if (component.owner instanceof Player) {
             if (component.owner.control === component) {
                 component.owner.control = undefined;
             }
@@ -1004,7 +1004,7 @@ export class Hostable<
      * room.despawnComponent(room.meetinghud);
      * ```
      */
-    despawnComponent(component: Networkable<any, NetworkableEvents, this>) {
+    despawnComponent(component: NetworkedObject<any, NetworkedObjectEvents, this>) {
         this._despawnComponent(component);
 
         this.messageStream.push(new DespawnMessage(component.netId));
@@ -1028,7 +1028,7 @@ export class Hostable<
         }
     }
 
-    protected createObjectSpawnMessage(object: Networkable): SpawnMessage {
+    protected createObjectSpawnMessage(object: NetworkedObject): SpawnMessage {
         return new SpawnMessage(
             object.spawnType,
             object.ownerId,
@@ -1049,8 +1049,8 @@ export class Hostable<
 
     protected spawnPrefab(
         spawnType: number,
-        spawnPrefab: NetworkableConstructor<any>[],
-        ownerId: number | PlayerData | undefined,
+        spawnPrefab: NetworkedObjectConstructor<any>[],
+        ownerId: number | Player | undefined,
         flags?: number,
         componentData: (any | ComponentSpawnData)[] = [],
         doBroadcast: boolean | undefined = true,
@@ -1064,7 +1064,7 @@ export class Hostable<
         const ownerClient = this.players.get(_ownerId);
         const _flags = flags ?? (spawnType === SpawnType.Player ? SpawnFlag.IsClientCharacter : 0);
 
-        let object!: Networkable;
+        let object!: NetworkedObject;
 
         for (let i = 0; i < spawnPrefab.length; i++) {
             const component = new spawnPrefab[i](
@@ -1087,7 +1087,7 @@ export class Hostable<
                 this.objectList.push(object);
             }
 
-            this.spawnComponent(component as Networkable<any, NetworkableEvents, this>);
+            this.spawnComponent(component as NetworkedObject<any, NetworkedObjectEvents, this>);
             object.components.push(component);
         }
 
@@ -1109,7 +1109,7 @@ export class Hostable<
             );
         }
 
-        if ((this.hostIsMe && doBroadcast === undefined) || doBroadcast) {
+        if ((this.isAuthoritative && doBroadcast === undefined) || doBroadcast) {
             this.messageStream.push(
                 new SpawnMessage(
                     spawnType,
@@ -1136,7 +1136,7 @@ export class Hostable<
             }
         }
 
-        return object as Networkable<any, any, this>;
+        return object as NetworkedObject<any, any, this>;
     }
 
     /**
@@ -1151,12 +1151,12 @@ export class Hostable<
      */
     spawnPrefabOfType(
         spawnType: number,
-        ownerId: number | PlayerData | undefined,
+        ownerId: number | Player | undefined,
         flags?: number,
         componentData?: (any | ComponentSpawnData)[],
         doBroadcast = true,
         doAwake = true
-    ): Networkable<any, any, this> | undefined {
+    ): NetworkedObject<any, any, this> | undefined {
         const spawnPrefab = this.registeredPrefabs.get(spawnType);
 
         if (!spawnPrefab)
@@ -1173,8 +1173,8 @@ export class Hostable<
      * @param isNew Whether or not the player should be seen jumping off of the seat in the lobby.
      * @returns The fake player created.
      */
-    createFakePlayer(isNew = true): PlayerData<this> {
-        const player = new PlayerData(this, 0, "dummy");
+    createFakePlayer(isNew = true): Player<this> {
+        const player = new Player(this, 0, "dummy");
         const playerControl = this.spawnPrefabOfType(SpawnType.Player, SpecialOwnerId.Global, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
         playerControl.player = player;
         player.control = playerControl;
@@ -1189,7 +1189,7 @@ export class Hostable<
      * @param components The components in the object. The first component should
      * be the main object which will inherit the rest of the components.
      */
-    registerPrefab(spawnType: number, components: NetworkableConstructor<Networkable>[]) {
+    registerPrefab(spawnType: number, components: NetworkedObjectConstructor<NetworkedObject>[]) {
         if (components.length < 1) {
             throw new Error("Expected at least 1 component to create an INO prefab from.");
         }
@@ -1214,7 +1214,7 @@ export class Hostable<
      * const player = room.getPlayerByPlayerId(1);
      * ```
      */
-    getPlayerByPlayerId(playerId: number): PlayerData<this> | undefined {
+    getPlayerByPlayerId(playerId: number): Player<this> | undefined {
         return this.getPlayerControlByPlayerId(playerId)?.player;
     }
 
@@ -1271,7 +1271,7 @@ export class Hostable<
         this.endGameIntents.push(endGameIntent);
     }
 
-    murderIsValid(murderer: PlayerData, victim: PlayerData) {
+    murderIsValid(murderer: Player, victim: Player) {
         if (this.gameState !== GameState.Started)
             return false;
 

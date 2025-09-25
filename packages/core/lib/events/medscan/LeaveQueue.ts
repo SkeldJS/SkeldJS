@@ -1,7 +1,7 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { MedScanSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
@@ -10,20 +10,20 @@ import { MedScanEvent } from "./MedScanEvent";
 /**
  * Emitted when a player leaves the queue for a med scan.
  */
-export class MedScanLeaveQueueEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, MedScanEvent, ProtocolEvent {
+export class MedScanLeaveQueueEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, MedScanEvent, ProtocolEvent {
     static eventName = "medscan.leavequeue" as const;
     eventName = "medscan.leavequeue" as const;
 
-    private _alteredPlayer: PlayerData<RoomType>;
+    private _alteredPlayer: Player<RoomType>;
 
     constructor(
         public readonly room: RoomType,
         public readonly medscan: MedScanSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player that left the queue.
          */
-        public readonly player: PlayerData<RoomType>
+        public readonly player: Player<RoomType>
     ) {
         super();
 
@@ -41,7 +41,7 @@ export class MedScanLeaveQueueEvent<RoomType extends Hostable = Hostable> extend
      * Change the player that left the queue.
      * @param player The player that left the queue.
      */
-    setPlayer(player: PlayerData<RoomType>) {
+    setPlayer(player: Player<RoomType>) {
         this._alteredPlayer = player;
     }
 }

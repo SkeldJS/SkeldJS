@@ -4,21 +4,21 @@ import { CheckNameMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player requests to have their name set. Only emitted if the
  * client is the host.
  */
-export class PlayerCheckNameEvent<RoomType extends Hostable = Hostable> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCheckNameEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.checkname" as const;
     eventName = "player.checkname" as const;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: CheckNameMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: CheckNameMessage | undefined,
         /**
          * The original name that the player asked for.
          */

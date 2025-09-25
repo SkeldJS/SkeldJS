@@ -13,8 +13,8 @@ import {
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
-import { PlayerDataResolvable, Hostable } from "../Hostable";
+import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "../NetworkedObject";
+import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
 import { PlayerVoteState, VoteStateSpecialId } from "../misc/PlayerVoteState";
 import { PlayerVoteArea } from "../misc/PlayerVoteArea";
 
@@ -25,16 +25,16 @@ import {
     MeetingHudVotingCompleteEvent,
 } from "../events";
 
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 import { AmongUsEndGames, EndGameIntent, PlayersVoteOutEndgameMetadata } from "../endgame";
 
 export interface MeetingHudData {
     voteStates: Map<number, PlayerVoteArea>;
     tie?: boolean;
-    exilied?: PlayerData;
+    exilied?: Player;
 }
 
-export type MeetingHudEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
+export type MeetingHudEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<
         [
             MeetingHudVoteCastEvent<RoomType>,
@@ -44,7 +44,7 @@ export type MeetingHudEvents<RoomType extends Hostable = Hostable> = Networkable
         ]
     >;
 
-export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkable<MeetingHudData, MeetingHudEvents<RoomType>, RoomType> implements MeetingHudData {
+export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<MeetingHudData, MeetingHudEvents<RoomType>, RoomType> implements MeetingHudData {
     /**
      * The dirty vote states to be updated on the next fixed update.
      */
@@ -63,7 +63,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     /**
      * The player that was exiled, if any.
      */
-    exiled?: PlayerData<RoomType>;
+    exiled?: Player<RoomType>;
 
     ranOutOfTimeTimeout?: NodeJS.Timeout;
 
@@ -110,10 +110,10 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         }
     }
 
-    getComponent<T extends Networkable>(
-        component: NetworkableConstructor<T>
+    getComponent<T extends NetworkedObject>(
+        component: NetworkedObjectConstructor<T>
     ): T | undefined {
-        if (this.spawnType === SpawnType.MeetingHud && component === MeetingHud as NetworkableConstructor<any>) {
+        if (this.spawnType === SpawnType.MeetingHud && component === MeetingHud as NetworkedObjectConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 
@@ -233,7 +233,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
         if (states.every(([, state]) => state.hasVoted || !state.canVote) || isTimeout) {
             let tie = false;
-            let exiled: PlayerData | undefined;
+            let exiled: Player | undefined;
             let exiledVotes = 0;
             let numSkips = 0;
             for (const [, state2] of states) {
@@ -293,7 +293,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     await this.clearVote(player);
                 }
             } else {
-                this.room.host?.control?.sendChatNote(
+                this.room.playerAuthority?.control?.sendChatNote(
                     player,
                     ChatNoteType.DidVote
                 );
@@ -303,7 +303,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         }
     }
 
-    private _castVote(voterState: PlayerVoteArea<RoomType>, suspect?: PlayerData<RoomType>) {
+    private _castVote(voterState: PlayerVoteArea<RoomType>, suspect?: Player<RoomType>) {
         if (voterState) {
             if (suspect) {
                 voterState.setSuspect(suspect.playerId!);
@@ -313,7 +313,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         }
     }
 
-    private async _rpcCastVote(voter: PlayerData, suspect: PlayerData | undefined) {
+    private async _rpcCastVote(voter: Player, suspect: Player | undefined) {
         await this.room.broadcast([
             new RpcMessage(
                 this.netId,
@@ -324,7 +324,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                         : 255
                 )
             )
-        ], undefined, [this.room.hostId]);
+        ], undefined, [this.room.authorityId]);
     }
 
     /**
@@ -344,8 +344,8 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
      * ```
      */
     async castVote(
-        voter: PlayerDataResolvable,
-        suspect: PlayerDataResolvable | "skip"
+        voter: PlayerResolvable,
+        suspect: PlayerResolvable | "skip"
     ) {
         const player = this.room.resolvePlayer(voter);
 
@@ -372,7 +372,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
                     if (ev.reverted) {
                         this._clearVote(votingState);
                     } else {
-                        this.room.host?.control?.sendChatNote(
+                        this.room.playerAuthority?.control?.sendChatNote(
                             player,
                             ChatNoteType.DidVote
                         );
@@ -416,7 +416,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
         }
     }
 
-    private async _rpcClearVote(voter: PlayerData) {
+    private async _rpcClearVote(voter: Player) {
         await this.room.broadcast(
             [
                 new RpcMessage(
@@ -434,7 +434,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
      * This is a host-only operation on official servers.
      * @param resolvable The player to remove the vote of.
      */
-    async clearVote(voter: PlayerDataResolvable) {
+    async clearVote(voter: PlayerResolvable) {
         const player = this.room.resolvePlayer(voter);
 
         if (player && player.playerId !== undefined) {
@@ -491,7 +491,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
 
     protected async _votingComplete(
         tie: boolean,
-        exiled?: PlayerData<RoomType>
+        exiled?: Player<RoomType>
     ) {
         this.tie = tie;
         this.exiled = exiled;
@@ -554,7 +554,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
     protected _rpcVotingComplete(
         states: PlayerVoteState<RoomType>[],
         tie: boolean,
-        exiled?: PlayerData<RoomType>
+        exiled?: Player<RoomType>
     ) {
         this.room.messageStream.push(
             new RpcMessage(
@@ -571,7 +571,7 @@ export class MeetingHud<RoomType extends Hostable = Hostable> extends Networkabl
      * @param tie Whether this meeting resulted in a tie of votes.
      * @param exiled The player that was ejected, if any.
      */
-    async votingComplete(tie: boolean = false, exiled?: PlayerDataResolvable) {
+    async votingComplete(tie: boolean = false, exiled?: PlayerResolvable) {
         const _exiled = exiled ? this.room.resolvePlayer(exiled) : undefined;
 
         const voteStates: PlayerVoteState<RoomType>[] = new Array(this.room.playerInfo.size);

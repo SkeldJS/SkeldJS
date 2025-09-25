@@ -1,4 +1,4 @@
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 export enum VoteStateSpecialId {
     IsDead = 252,
@@ -10,12 +10,12 @@ export enum VoteStateSpecialId {
 /**
  * Represents a player's voting state.
  */
-export class PlayerVoteState<RoomType extends Hostable = Hostable> {
+export class PlayerVoteState<RoomType extends StatefulRoom = StatefulRoom> {
     constructor(
         public readonly room: RoomType,
         public playerId: number,
         public votedForId: number
-    ) {}
+    ) { }
 
     /**
      * The player that this vote state is for.

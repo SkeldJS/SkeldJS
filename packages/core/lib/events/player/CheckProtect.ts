@@ -1,7 +1,7 @@
 import { BasicEvent } from "@skeldjs/events";
 import { CheckProtectMessage } from "@skeldjs/protocol";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
@@ -15,22 +15,22 @@ import { PlayerEvent } from "./PlayerEvent";
  * before it happens. Therefore this event doesn't guarantee that the target is
  * actually dead, see {@link PlayerProtectEvent} to listen for that.
  */
-export class PlayerCheckProtectEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCheckProtectEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.checkprotect" as const;
     eventName = "player.checkprotect" as const;
 
-    private _alteredPlayer: PlayerData<RoomType>;
-    private _alteredTarget: PlayerData<RoomType>;
+    private _alteredPlayer: Player<RoomType>;
+    private _alteredTarget: Player<RoomType>;
     private _alteredIsValid: boolean;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: CheckProtectMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: CheckProtectMessage | undefined,
         /**
          * The other player that the player is attempting to protect.
          */
-        public readonly target: PlayerData<RoomType>,
+        public readonly target: Player<RoomType>,
         /**
          * Whether or not this protect would normally be considered valid and thus
          * the player be protected.
@@ -54,7 +54,7 @@ export class PlayerCheckProtectEvent<RoomType extends Hostable = Hostable> exten
     /**
      * Change the player that will actually protect the target.
      */
-    setPlayer(player: PlayerData<RoomType>) {
+    setPlayer(player: Player<RoomType>) {
         this._alteredPlayer = player;
     }
 
@@ -69,7 +69,7 @@ export class PlayerCheckProtectEvent<RoomType extends Hostable = Hostable> exten
      * Change the player that will actually be protected.
      * @param target The player to protect.
      */
-    setTarget(target: PlayerData<RoomType>) {
+    setTarget(target: Player<RoomType>) {
         this._alteredTarget = target;
     }
 

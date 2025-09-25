@@ -1,7 +1,7 @@
 import { BasicEvent } from "@skeldjs/events";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
@@ -11,13 +11,13 @@ import { PlayerEvent } from "./PlayerEvent";
  * If a player fails to ready up within a specified time, they are kicked from
  * the game.
  */
-export class PlayerReadyEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent {
+export class PlayerReadyEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent {
     static eventName = "player.ready" as const;
     eventName = "player.ready" as const;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>
+        public readonly player: Player<RoomType>
     ) {
         super();
     }

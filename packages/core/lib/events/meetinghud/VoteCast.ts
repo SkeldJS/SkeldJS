@@ -2,8 +2,8 @@ import { RevertableEvent } from "@skeldjs/events";
 import { CastVoteMessage } from "@skeldjs/protocol";
 
 import { MeetingHud } from "../../objects";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
@@ -12,25 +12,25 @@ import { MeetingHudEvent } from "./MeetingHudEvent";
  * Emitted when a player casts a vote on another player or skips vote in a
  * meeting.
  */
-export class MeetingHudVoteCastEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudVoteCastEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
     static eventName = "meeting.castvote" as const;
     eventName = "meeting.castvote" as const;
 
-    private _alteredVoter: PlayerData<RoomType>;
-    private _alteredSuspect: PlayerData<RoomType>|undefined;
+    private _alteredVoter: Player<RoomType>;
+    private _alteredSuspect: Player<RoomType> | undefined;
 
     constructor(
         public readonly room: RoomType,
         public readonly meetinghud: MeetingHud<RoomType>,
-        public readonly message: CastVoteMessage|undefined,
+        public readonly message: CastVoteMessage | undefined,
         /**
          * The player that cast the vote.
          */
-        public readonly voter: PlayerData<RoomType>,
+        public readonly voter: Player<RoomType>,
         /**
          * The player that the voter voted for.
          */
-        public readonly suspect: PlayerData<RoomType>|undefined
+        public readonly suspect: Player<RoomType> | undefined
     ) {
         super();
 
@@ -63,7 +63,7 @@ export class MeetingHudVoteCastEvent<RoomType extends Hostable = Hostable> exten
      * Change the player that cast the vote.
      * @param voter The player to cast the vote.
      */
-    setVoter(voter: PlayerData<RoomType>) {
+    setVoter(voter: Player<RoomType>) {
         this._alteredVoter = voter;
     }
 
@@ -71,7 +71,7 @@ export class MeetingHudVoteCastEvent<RoomType extends Hostable = Hostable> exten
      * Change the player that the voter voted for.
      * @param suspect The player for the voter to vote for.
      */
-    setSuspect(suspect: PlayerData<RoomType>) {
+    setSuspect(suspect: Player<RoomType>) {
         this._alteredSuspect = suspect;
     }
 }

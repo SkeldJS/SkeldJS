@@ -15,8 +15,8 @@ import {
     HudOverrideSystem,
 } from "../systems";
 
-import { Hostable } from "../Hostable";
-import { Networkable, NetworkableConstructor } from "../Networkable";
+import { StatefulRoom } from "../StatefulRoom";
+import { NetworkedObject, NetworkedObjectConstructor } from "../NetworkedObject";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
 /**
@@ -24,7 +24,7 @@ import { AutoOpenDoor } from "../misc/AutoOpenDoor";
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends InnerShipStatus<RoomType> {
+export class SkeldShipStatus<RoomType extends StatefulRoom = StatefulRoom> extends InnerShipStatus<RoomType> {
     static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Storage]: [1, 7, 12],
         [SystemType.Cafeteria]: [0, 3, 8],
@@ -49,10 +49,10 @@ export class SkeldShipStatus<RoomType extends Hostable = Hostable> extends Inner
         super(room, spawnType, netId, ownerid, flags, data);
     }
 
-    getComponent<T extends Networkable>(
-        component: NetworkableConstructor<T>
-    ): T|undefined {
-        if (this.spawnType === SpawnType.SkeldShipStatus && component === SkeldShipStatus as NetworkableConstructor<any>) {
+    getComponent<T extends NetworkedObject>(
+        component: NetworkedObjectConstructor<T>
+    ): T | undefined {
+        if (this.spawnType === SpawnType.SkeldShipStatus && component === SkeldShipStatus as NetworkedObjectConstructor<any>) {
             return this.components[0] as unknown as T;
         }
 

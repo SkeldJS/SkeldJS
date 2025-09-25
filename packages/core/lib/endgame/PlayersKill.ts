@@ -1,8 +1,8 @@
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 export interface PlayersKillEndgameMetadata {
-    killer: PlayerData;
-    victim?: PlayerData;
+    killer: Player;
+    victim?: Player;
     aliveCrewmates: number;
     aliveImpostors: number;
 }

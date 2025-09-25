@@ -1,8 +1,8 @@
-import { PlayerData } from "../../PlayerData";
+import { Player } from "../../Player";
 
 export interface PlayerEvent {
     /**
      * The player that this event is for.
      */
-    player: PlayerData;
+    player: Player;
 }

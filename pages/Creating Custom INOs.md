@@ -24,7 +24,7 @@ The general skeleton for an INO component object in skeldjs is as follows, altho
 should be extended significantly to provide methods and networking utilities.
 
 ```ts
-export class MyFavouriteComponent<RoomType extends Hostable> extends Networkable<RoomType> {
+export class MyFavouriteComponent<RoomType extends StatefulRoom> extends NetworkedObject<RoomType> {
     Deserialize(
         reader: HazelReader,
         isSpawn: boolean
@@ -102,8 +102,8 @@ that the client or host can send to perform specific operations. Can modify stat
 of the component. Can also be used for clients to send commands directly to the host,
 for example the [CheckName Rpc](https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/05_checkname.md).
 
-Can be sent either via the {@link Hostable.broadcast} method on the room or with
-the {@link Hostable.messageStream}, and can be handled with the `async HandleRpc(rpc)`
+Can be sent either via the {@link StatefulRoom.broadcast} method on the room or with
+the {@link StatefulRoom.messageStream}, and can be handled with the `async HandleRpc(rpc)`
 method on the INO component.
 
 ## Lifecycle
@@ -163,7 +163,7 @@ export enum PlayerShape {
     Triangle
 }
 
-export class ShapeShifterPlayerControl<RoomType extends Hostable> extends Networkable<RoomType> {
+export class ShapeShifterPlayerControl<RoomType extends StatefulRoom> extends NetworkedObject<RoomType> {
     currentShape = PlayerShape.Square;
 
     Deserialize(
@@ -221,7 +221,7 @@ export class ShapeShifterPlayerControl<RoomType extends Hostable> extends Networ
 ```
 
 # Registering INOs
-You can use the `room.registerPrefab(number, NetworkableConstructor<Networkable>[])`
+You can use the `room.registerPrefab(number, NetworkedObjectConstructor<NetworkedObject>[])`
 method to register your INO on the game and to allow it to be spawned when the host
 or server requests.
 

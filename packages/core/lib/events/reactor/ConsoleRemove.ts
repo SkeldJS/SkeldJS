@@ -1,7 +1,7 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { ReactorSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
@@ -10,7 +10,7 @@ import { ReactorEvent } from "./ReactorEvent";
 /**
  * Emitted when a player places their hand on a reactor console.
  */
-export class ReactorConsoleRemoveEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
+export class ReactorConsoleRemoveEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
     static eventName = "reactor.consoles.remove" as const;
     eventName = "reactor.consoles.remove" as const;
 
@@ -19,12 +19,12 @@ export class ReactorConsoleRemoveEvent<RoomType extends Hostable = Hostable> ext
     constructor(
         public readonly room: RoomType,
         public readonly reactor: ReactorSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player that removed their hand from the console. Only available
          * if the client is the host.
          */
-        public readonly player: PlayerData<RoomType>|undefined,
+        public readonly player: Player<RoomType> | undefined,
         public readonly consoleId: number
     ) {
         super();

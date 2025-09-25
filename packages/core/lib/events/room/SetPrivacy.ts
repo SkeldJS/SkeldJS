@@ -1,14 +1,14 @@
 import { BasicEvent } from "@skeldjs/events";
 import { AlterGameMessage } from "@skeldjs/protocol";
 
-import { Hostable, PrivacyType } from "../../Hostable";
+import { StatefulRoom, PrivacyType } from "../../StatefulRoom";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { RoomEvent } from "../RoomEvent";
 
 /**
  * Emitted when the privacy of the room is updated.
  */
-export class RoomSetPrivacyEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, ProtocolEvent {
+export class RoomSetPrivacyEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, ProtocolEvent {
     static eventName = "room.setprivacy" as const;
     eventName = "room.setprivacy" as const;
 
@@ -16,7 +16,7 @@ export class RoomSetPrivacyEvent<RoomType extends Hostable = Hostable> extends B
 
     constructor(
         public readonly room: RoomType,
-        public readonly message: AlterGameMessage|undefined,
+        public readonly message: AlterGameMessage | undefined,
         /**
          * The old privacy of the room.
          */

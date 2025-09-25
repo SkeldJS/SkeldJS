@@ -1,8 +1,8 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { MovingPlatformSide, MovingPlatformSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { MovingPlatformEvent } from "./MovingPlatformEvent";
@@ -11,21 +11,21 @@ import { MovingPlatformEvent } from "./MovingPlatformEvent";
  * Emitted when the player on a moving platform is updated. This is also when
  * the moving platform moves left or right.
  */
-export class MovingPlatformPlayerUpdateEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, MovingPlatformEvent, ProtocolEvent {
+export class MovingPlatformPlayerUpdateEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, MovingPlatformEvent, ProtocolEvent {
     static eventName = "movingplatform.updateplayer" as const;
     eventName = "movingplatform.updateplayer" as const;
 
-    private _alteredPlayer: PlayerData<RoomType>|undefined;
+    private _alteredPlayer: Player<RoomType> | undefined;
     private _alteredSide: MovingPlatformSide;
 
     constructor(
         public readonly room: RoomType,
         public readonly movingplatform: MovingPlatformSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player on the moving platform, if any.
          */
-        public readonly player: PlayerData<RoomType>|undefined,
+        public readonly player: Player<RoomType> | undefined,
         /**
          * The direction that the moving platform is moving in.
          */
@@ -55,7 +55,7 @@ export class MovingPlatformPlayerUpdateEvent<RoomType extends Hostable = Hostabl
      * Change the player that is on the moving platform.
      * @param player The player to get onto the moving platform.
      */
-    setPlayer(player: PlayerData<RoomType>|undefined) {
+    setPlayer(player: Player<RoomType> | undefined) {
         this._alteredPlayer = player;
     }
 

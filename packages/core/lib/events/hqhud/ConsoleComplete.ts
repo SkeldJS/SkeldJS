@@ -4,14 +4,14 @@ import { RepairSystemMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { HqHudEvent } from "./HqHudEvent";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { HqHudSystem } from "../../systems";
-import { PlayerData } from "../../PlayerData";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player completes a console while communications is sabotaged on Mira HQ.
  */
-export class HqHudConsoleCompleteEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
+export class HqHudConsoleCompleteEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
     static eventName = "hqhud.consoles.complete" as const;
     eventName = "hqhud.consoles.complete" as const;
 
@@ -20,12 +20,12 @@ export class HqHudConsoleCompleteEvent<RoomType extends Hostable = Hostable> ext
     constructor(
         public readonly room: RoomType,
         public readonly hqhudsystem: HqHudSystem<RoomType>,
-        public readonly message: RepairSystemMessage|undefined,
+        public readonly message: RepairSystemMessage | undefined,
         /**
          * The player that completed the console. Only availabe if the client
          * is the host.
          */
-        public readonly player: PlayerData<RoomType>|undefined,
+        public readonly player: Player<RoomType> | undefined,
         /**
          * The ID of the console that was completed.
          */

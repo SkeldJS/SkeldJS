@@ -56,7 +56,7 @@ import {
 
 import {
     LobbyBehaviour,
-    PlayerData,
+    Player,
     PlayerJoinEvent,
     RoomID
 } from "@skeldjs/core";
@@ -87,7 +87,7 @@ export class SentPacket {
         public readonly nonce: number,
         public readonly buffer: Buffer,
         public readonly wasAcked: boolean
-    ) {}
+    ) { }
 }
 
 export type SkeldjsClientEvents = SkeldjsStateManagerEvents<SkeldjsClient> &
@@ -113,7 +113,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     /**
      * The datagram socket for the client.
      */
-    socket?: DtlsSocket|dgram.Socket;
+    socket?: DtlsSocket | dgram.Socket;
     /**
      * Auth client responsible for getting an authentication token from the
      * connected-to server.
@@ -282,11 +282,11 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         return this.players.get(this.clientId);
     }
 
-    get hostIsMe() {
-        return this.hostId === this.clientId && this.config.allowHost || false;
+    get isAuthoritative() {
+        return this.authorityId === this.clientId && this.config.allowHost || false;
     }
 
-    pingInterval(socket: DtlsSocket|dgram.Socket) {
+    pingInterval(socket: DtlsSocket | dgram.Socket) {
         if (this.socket !== socket)
             return;
 
@@ -322,7 +322,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         );
     }
 
-    async _connect(host: string, port: number|PortOptions) {
+    async _connect(host: string, port: number | PortOptions) {
         const ip = await lookupDns(host);
         this.ip = ip.address;
 
@@ -393,7 +393,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     async connect(
         host: string,
-        port?: number|PortOptions
+        port?: number | PortOptions
     ) {
         this.disconnect();
 
@@ -575,8 +575,8 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
     async broadcast(
         gamedata: BaseGameDataMessage[],
         payloads: BaseRootMessage[] = [],
-        include?: (PlayerData|number)[],
-        exclude?: (PlayerData|number)[],
+        include?: (Player | number)[],
+        exclude?: (Player | number)[],
         reliable = true
     ) {
         const includedSet = include || [...this.players.values()];
@@ -694,7 +694,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             return;
         }
 
-        if (this.hostIsMe) {
+        if (this.isAuthoritative) {
             this.spawnPrefabOfType(SpawnType.Player, this.myPlayer.clientId);
         } else {
             this.send(
@@ -745,7 +745,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             )
         );
 
-        const message = await new Promise<RedirectMessage|ClientDisconnectEvent|PlayerJoinEvent>(resolve => {
+        const message = await new Promise<RedirectMessage | ClientDisconnectEvent | PlayerJoinEvent>(resolve => {
             // eslint-disable-next-line @typescript-eslint/no-this-alias
             const _this = this;
             function removeListeners() {
@@ -838,7 +838,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
             ])
         );
 
-        const message = await new Promise<RedirectMessage|HostGameMessage|ClientDisconnectEvent>(resolve => {
+        const message = await new Promise<RedirectMessage | HostGameMessage | ClientDisconnectEvent>(resolve => {
             // eslint-disable-next-line @typescript-eslint/no-this-alias
             const _this = this;
             function removeListeners() {
@@ -931,7 +931,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * @param options Search options to further slim down the search results.
      * @returns An array of game listings.
      * @example
-	 *```typescript
+     *```typescript
      * // Search for games and join a random one.
      * const client = new SkeldjsClient("2021.4.25");
 
@@ -942,10 +942,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
 
      * const code = await game.join();
      * ```
-	 */
+     */
     async findGames(options: Partial<FindGamesOptions> = {}): Promise<GameListing[]> {
         const fullOptions: FindGamesOptions = {
-            maps: [ GameMap.TheSkeld, GameMap.MiraHQ, GameMap.Polus, GameMap.AprilFoolsTheSkeld, GameMap.Airship ],
+            maps: [GameMap.TheSkeld, GameMap.MiraHQ, GameMap.Polus, GameMap.AprilFoolsTheSkeld, GameMap.Airship],
             numImpostors: 0,
             chatLanguage: GameKeyword.All,
             quickChatMode: QuickChatMode.FreeChat,
@@ -961,6 +961,6 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      * Ask the server to start a game.
      */
     async startGame() {
-        await this.broadcast([], [ new StartGameMessage(this.code) ]);
+        await this.broadcast([], [new StartGameMessage(this.code)]);
     }
 }

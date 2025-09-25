@@ -9,22 +9,22 @@ import {
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { PlayerDataResolvable, Hostable } from "../Hostable";
-import { PlayerData } from "../PlayerData";
+import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
+import { Player } from "../Player";
 
 export interface VoteBanSystemData {
-    voted: Map<number, [PlayerData, PlayerData, PlayerData]>;
+    voted: Map<number, [Player, Player, Player]>;
 }
 
-export type VoteBanSystemEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
+export type VoteBanSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for handling vote kicks.
  *
  * See {@link VoteBanSystemEvents} for events to listen to.
  */
-export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Networkable<
+export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     VoteBanSystemData,
     VoteBanSystemEvents,
     RoomType
@@ -32,7 +32,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
     /**
      * The accumulated votes.
      */
-    voted: Map<number, [PlayerData<RoomType> | undefined, PlayerData<RoomType> | undefined, PlayerData<RoomType> | undefined]>;
+    voted: Map<number, [Player<RoomType> | undefined, Player<RoomType> | undefined, Player<RoomType> | undefined]>;
 
     constructor(
         room: RoomType,
@@ -100,7 +100,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _addVote(voter: PlayerData<RoomType>, target: PlayerData) {
+    private _addVote(voter: Player<RoomType>, target: Player) {
         const voted = this.voted.get(target.clientId);
         if (voted) {
             const next = voted.indexOf(undefined);
@@ -126,7 +126,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _rpcAddVote(voter: PlayerData, target: PlayerData) {
+    private _rpcAddVote(voter: Player, target: Player) {
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
@@ -144,7 +144,7 @@ export class VoteBanSystem<RoomType extends Hostable = Hostable> extends Network
      * room.votebansystem.addVote(client.me, player);
      * ```
      */
-    addVote(voter: PlayerDataResolvable, target: PlayerDataResolvable) {
+    addVote(voter: PlayerResolvable, target: PlayerResolvable) {
         const _voter = this.room.resolvePlayer(voter);
         const _target = this.room.resolvePlayer(target);
 

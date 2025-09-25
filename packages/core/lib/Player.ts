@@ -12,7 +12,7 @@ import {
     PlayerPhysicsEvents,
 } from "./objects";
 
-import { Hostable } from "./Hostable";
+import { StatefulRoom } from "./StatefulRoom";
 
 import {
     PlayerJoinEvent,
@@ -23,10 +23,10 @@ import {
     PlayerSpawnEvent,
 } from "./events";
 
-import { NetworkableEvents } from "./Networkable";
+import { NetworkedObjectEvents } from "./NetworkedObject";
 import { BaseRole } from "./roles";
 
-export type PlayerDataEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
+export type PlayerEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
     PlayerControlEvents<RoomType> &
     PlayerPhysicsEvents<RoomType> &
     CustomNetworkTransformEvents<RoomType> &
@@ -44,9 +44,9 @@ export type PlayerDataEvents<RoomType extends Hostable = Hostable> = Networkable
 /**
  * Represents the player of a client connected to the room.
  *
- * See {@link PlayerDataEvents} for events to listen to.
+ * See {@link PlayerEvents} for events to listen to.
  */
-export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitter<PlayerDataEvents<RoomType>> {
+export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventEmitter<PlayerEvents<RoomType>> {
     /**
      * The room that this player object belongs to.
      */
@@ -199,7 +199,7 @@ export class PlayerData<RoomType extends Hostable = Hostable> extends EventEmitt
      * Whether or not the player is the host of the room they belong in.
      */
     get isHost() {
-        return this.room.host === this;
+        return this.room.playerAuthority === this;
     }
 
     /**

@@ -1,8 +1,8 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { ProtectPlayerMessage } from "@skeldjs/protocol";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
@@ -14,7 +14,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * Use {@link PlayerShapeshiftEvent} to listen for when a player actually shapeshifts
  * initially.
  */
-export class PlayerRevertShapeshiftEvent<RoomType extends Hostable = Hostable> extends RevertableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerRevertShapeshiftEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.revertshapeshift" as const;
     eventName = "player.revertshapeshift" as const;
 
@@ -22,12 +22,12 @@ export class PlayerRevertShapeshiftEvent<RoomType extends Hostable = Hostable> e
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: ProtectPlayerMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: ProtectPlayerMessage | undefined,
         /**
          * The player that the player shapeshifted from.
          */
-        public readonly target: PlayerData<RoomType>,
+        public readonly target: Player<RoomType>,
         /**
          * Whether or not to show an animation of the player shapeshifting.
          */

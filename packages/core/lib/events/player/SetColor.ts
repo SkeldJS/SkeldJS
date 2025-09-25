@@ -4,14 +4,14 @@ import { SetColorMessage } from "@skeldjs/protocol";
 
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player has their player color updated.
  */
-export class PlayerSetColorEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetColorEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setcolor" as const;
     eventName = "player.setcolor" as const;
 
@@ -19,8 +19,8 @@ export class PlayerSetColorEvent<RoomType extends Hostable = Hostable> extends B
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: SetColorMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: SetColorMessage | undefined,
         /**
          * The color that the player had before.
          */

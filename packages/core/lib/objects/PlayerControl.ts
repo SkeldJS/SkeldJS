@@ -85,9 +85,9 @@ import {
     PlayerRevertShapeshiftEvent
 } from "../events";
 
-import { Networkable, NetworkableEvents, NetworkableConstructor } from "../Networkable";
-import { Hostable, SpecialOwnerId } from "../Hostable";
-import { PlayerData } from "../PlayerData";
+import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "../NetworkedObject";
+import { StatefulRoom, SpecialOwnerId } from "../StatefulRoom";
+import { Player } from "../Player";
 
 import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
@@ -103,7 +103,7 @@ export interface PlayerControlData {
     playerId: number;
 }
 
-export type PlayerControlEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
+export type PlayerControlEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<
         [
             PlayerCheckColorEvent<RoomType>,
@@ -140,7 +140,7 @@ export type PlayerControlEvents<RoomType extends Hostable = Hostable> = Networka
  *
  * See {@link PlayerControlEvents} for events to listen to.
  */
-export class PlayerControl<RoomType extends Hostable = Hostable> extends Networkable<
+export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     PlayerControlData,
     PlayerControlEvents<RoomType>,
     RoomType
@@ -160,7 +160,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     /**
      * The player that this component belongs to.
      */
-    player: PlayerData<RoomType>;
+    player: Player<RoomType>;
 
     /**
      * Whether or not this player has been protected bya guardian angel.
@@ -171,12 +171,12 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * The player (i.e. a guardian angel) who has protected this player, if the
      * player is being protected..
      */
-    guardianProtector?: PlayerData<RoomType>;
+    guardianProtector?: Player<RoomType>;
 
     /**
      * The player that this player has shapeshifted as, if any.
      */
-    shapeshiftTarget?: PlayerData<RoomType>;
+    shapeshiftTarget?: Player<RoomType>;
 
     private _protectedByGuardianTime: number;
 
@@ -193,7 +193,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this.isNew ??= true;
         this.playerId ||= 0;
 
-        this.player = this.owner as PlayerData<RoomType>;
+        this.player = this.owner as Player<RoomType>;
 
         this.protectedByGuardian = false;
         this._protectedByGuardianTime = 0;
@@ -216,19 +216,19 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    getComponent<T extends Networkable>(
-        component: NetworkableConstructor<T>
+    getComponent<T extends NetworkedObject>(
+        component: NetworkedObjectConstructor<T>
     ): T | undefined {
         if (this.spawnType === SpawnType.Player) {
-            if (component === PlayerControl as NetworkableConstructor<any>) {
+            if (component === PlayerControl as NetworkedObjectConstructor<any>) {
                 return this.components[0] as unknown as T;
             }
 
-            if (component === PlayerPhysics as NetworkableConstructor<any>) {
+            if (component === PlayerPhysics as NetworkedObjectConstructor<any>) {
                 return this.components[1] as unknown as T;
             }
 
-            if (component === CustomNetworkTransform as NetworkableConstructor<any>) {
+            if (component === CustomNetworkTransform as NetworkedObjectConstructor<any>) {
                 return this.components[2] as unknown as T;
             }
         }
@@ -448,7 +448,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     }
 
     /**
-     * Change the room's settings. Use {@link Hostable.setSettings} to pass a
+     * Change the room's settings. Use {@link StatefulRoom.setSettings} to pass a
      * partial game objects object. This is a host operation on official servers.
      *
      * Emits a {@link PlayerSyncSettingsEvent | `player.syncsettings`} event.
@@ -520,7 +520,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ),
             ],
             undefined,
-            [this.room.hostId]
+            [this.room.authorityId]
         );
     }
 
@@ -640,7 +640,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                 ),
             ],
             undefined,
-            [this.room.hostId]
+            [this.room.authorityId]
         );
     }
 
@@ -740,7 +740,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private async _rpcReportDeadBody(body: PlayerData | "emergency"): Promise<void> {
+    private async _rpcReportDeadBody(body: Player | "emergency"): Promise<void> {
         if (body !== "emergency" && body.playerId === undefined) {
             return this._rpcReportDeadBody("emergency");
         }
@@ -754,7 +754,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
                         : body.playerId!
                 )
             )
-        ], undefined, [this.room.hostId]);
+        ], undefined, [this.room.authorityId]);
     }
 
     async kill(reason: string) {
@@ -800,7 +800,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _rpcMurderPlayer(victim: PlayerData) {
+    private _rpcMurderPlayer(victim: Player) {
         if (!victim.control)
             return;
 
@@ -825,7 +825,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param victim The player to murder.
      * @returns
      */
-    async murderPlayer(victim: PlayerData) {
+    async murderPlayer(victim: Player) {
         const victimPlayerInfo = victim?.getPlayerInfo();
 
         if (!this.canBeManaged()) {
@@ -858,7 +858,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _checkMurderEndGame(victim?: PlayerData) {
+    private _checkMurderEndGame(victim?: Player) {
         let aliveCrewmates = 0;
         let aliveImpostors = 0;
         for (const [, playerInfo] of this.room.playerInfo) {
@@ -926,7 +926,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         this._rpcSendChat(message);
     }
 
-    private _rpcSendChatNote(player: PlayerData, type: ChatNoteType) {
+    private _rpcSendChatNote(player: Player, type: ChatNoteType) {
         if (player.playerId === undefined)
             return;
 
@@ -941,7 +941,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
     /**
      * Send a player chat note for this player, i.e. "player x voted, x remaining.".
      */
-    sendChatNote(player: PlayerData, type: ChatNoteType) {
+    sendChatNote(player: Player, type: ChatNoteType) {
         this._rpcSendChatNote(player, type);
     }
 
@@ -965,7 +965,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _startMeeting(caller: PlayerData) {
+    private _startMeeting(caller: Player) {
         if (caller.playerId === undefined)
             return;
 
@@ -1034,7 +1034,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
     }
 
-    private _rpcStartMeeting(player: PlayerData | "emergency"): void {
+    private _rpcStartMeeting(player: Player | "emergency"): void {
         if (player !== "emergency" && player.playerId === undefined) {
             return this._rpcStartMeeting("emergency");
         }
@@ -1060,13 +1060,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      * @param body The body that was reported, or "emergency" if it is an emergency meeting.
      * @param caller The player that called this meeting.
      */
-    async startMeeting(body: PlayerData | "emergency", caller?: PlayerData) {
+    async startMeeting(body: Player | "emergency", caller?: Player) {
         if (!this.canBeManaged()) {
             await this._rpcReportDeadBody(body);
             return;
         }
 
-        const actualCaller = caller || this.room.host || this.player;
+        const actualCaller = caller || this.room.playerAuthority || this.player;
         this._rpcStartMeeting(body);
         this._startMeeting(actualCaller);
 
@@ -1231,7 +1231,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
      *
      * Emits a {@link PlayerSendChatEvent | `player.quickchat`} event.
      */
-    sendQuickChat(message: PlayerData | StringNames, format?: (PlayerData | StringNames)[]) {
+    sendQuickChat(message: Player | StringNames, format?: (Player | StringNames)[]) {
         const quickChatMessage = typeof message === "number"
             ? format
                 ? new QuickChatComplexMessageData(message, format.map(format => {
@@ -1677,13 +1677,13 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
     }
 
-    private _addProtection(guardianProtector: PlayerData<RoomType>) {
+    private _addProtection(guardianProtector: Player<RoomType>) {
         this.protectedByGuardian = true;
         this.guardianProtector = guardianProtector;
         this._protectedByGuardianTime = this.room.settings.roleSettings.guardianAngelPotectionDuration;
     }
 
-    private _rpcProtectPlayer(target: PlayerData, angelColor: Color) {
+    private _rpcProtectPlayer(target: Player, angelColor: Color) {
         if (!target.control)
             return;
 
@@ -1698,7 +1698,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
     }
 
-    async protectPlayer(target: PlayerData, angelColor = this.getPlayerInfo()?.defaultOutfit.color || Color.Red) {
+    async protectPlayer(target: Player, angelColor = this.getPlayerInfo()?.defaultOutfit.color || Color.Red) {
         if (!this.canBeManaged()) {
             await this._rpcCheckProtect(target);
             return;
@@ -1773,7 +1773,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _shapeshift(target: PlayerData<RoomType>) {
+    private _shapeshift(target: Player<RoomType>) {
         this.shapeshiftTarget = target === this.player
             ? undefined
             : target;
@@ -1793,7 +1793,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _rpcShapeshift(target: PlayerData, doAnimation: boolean) {
+    private _rpcShapeshift(target: Player, doAnimation: boolean) {
         if (!target.control)
             return;
 
@@ -1808,7 +1808,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         );
     }
 
-    async shapeshift(target: PlayerData<RoomType>, doAnimation = true) {
+    async shapeshift(target: Player<RoomType>, doAnimation = true) {
         const oldTarget = this.shapeshiftTarget;
 
         if (target === this.player) {
@@ -1886,7 +1886,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private async _rpcCheckMurder(victim: PlayerData) {
+    private async _rpcCheckMurder(victim: Player) {
         if (!victim.control)
             return;
 
@@ -1932,7 +1932,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private _protectIsValid(target: PlayerData<RoomType>) {
+    private _protectIsValid(target: Player<RoomType>) {
         if (this.room.gameState !== GameState.Started)
             return false;
 
@@ -1966,7 +1966,7 @@ export class PlayerControl<RoomType extends Hostable = Hostable> extends Network
         }
     }
 
-    private async _rpcCheckProtect(target: PlayerData<Hostable>) {
+    private async _rpcCheckProtect(target: Player<StatefulRoom>) {
         if (!target.control)
             return;
 

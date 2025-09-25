@@ -1,5 +1,5 @@
 import { SpawnType } from "@skeldjs/constant";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 import { NormalFlowLogicComponent, NormalMinigameLogicComponent, NormalOptionsLogicComponent, NormalRoleSelectionLogicComponent, NormalUsablesLogicComponent } from "../logic";
 import { InnerGameManager, InnerGameManagerData } from "./InnerGameManager";
 import { HazelBuffer } from "@skeldjs/util";
@@ -7,7 +7,7 @@ import { HazelBuffer } from "@skeldjs/util";
 /**
  * Represents a class for managing various events for the original impostor/crewmate gamemode.
  */
-export class NormalGameManager<RoomType extends Hostable = Hostable> extends InnerGameManager<RoomType> {
+export class NormalGameManager<RoomType extends StatefulRoom = StatefulRoom> extends InnerGameManager<RoomType> {
     flow!: NormalFlowLogicComponent<RoomType>;
     minigame!: NormalMinigameLogicComponent<RoomType>;
     roleSelection!: NormalRoleSelectionLogicComponent<RoomType>;

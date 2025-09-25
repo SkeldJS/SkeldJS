@@ -3,9 +3,9 @@ import { HazelReader } from "@skeldjs/util";
 import {
     AlterGameTag,
     GameState,
-    Hostable,
-    HostableConfig,
-    HostableEvents,
+    StatefulRoom,
+    StatefulRoomConfig,
+    StatefulRoomEvents,
     Platform,
     PlayerSceneChangeEvent,
     RoomSetPrivacyEvent,
@@ -35,18 +35,18 @@ import {
     PacketDecoder
 } from "@skeldjs/protocol";
 
-export type SkeldjsStateManagerEvents<T extends SkeldjsStateManager = any> = HostableEvents<T>;
+export type SkeldjsStateManagerEvents<T extends SkeldjsStateManager = any> = StatefulRoomEvents<T>;
 
 export class SkeldjsStateManager<
     T extends SkeldjsStateManagerEvents = SkeldjsStateManagerEvents
-> extends Hostable<T> {
+> extends StatefulRoom<T> {
     protected _cachedPlatform?: PlatformSpecificData;
     protected _cachedName?: string;
 
     clientId: number;
     decoder: PacketDecoder;
 
-    constructor(config: HostableConfig = {}) {
+    constructor(config: StatefulRoomConfig = {}) {
         super({ doFixedUpdate: false, ...config });
 
         this.clientId = 0;
@@ -236,7 +236,7 @@ export class SkeldjsStateManager<
                             await this.broadcast(
                                 this.getExistingObjectSpawn(),
                                 undefined,
-                                [ player ]
+                                [player]
                             );
 
                             this.spawnPrefabOfType(

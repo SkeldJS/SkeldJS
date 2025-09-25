@@ -1,7 +1,7 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
-import { PlayerData } from "../../PlayerData";
+import { Player } from "../../Player";
 import { BaseRole, CrewmateRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
@@ -10,7 +10,7 @@ import { RoleChanceSettings } from "@skeldjs/protocol";
 
 export type NormalRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hostable> extends GameLogicComponent<NormalRoleSelectionLogicComponentEvents, RoomType> {
+export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<NormalRoleSelectionLogicComponentEvents, RoomType> {
     /**
      * Get all roles registered on the room that match a given filter.
      * @param filter The filter to match against.
@@ -47,12 +47,12 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      * or been assigned just as part of this method.
      */
     getRoleAssignmentsForTeam(
-        playerPool: PlayerData[],
+        playerPool: Player[],
         settings: Partial<Record<RoleType, RoleChanceSettings>>,
         roleTeam: RoleTeamType,
         maxAssignable: number,
         defaultRole?: typeof BaseRole,
-        roleAssignments: Map<PlayerData, typeof BaseRole> = new Map
+        roleAssignments: Map<Player, typeof BaseRole> = new Map
     ) {
         const teamRoles = this.matchRoles(settings, roleCtr =>
             roleCtr.roleMetadata.roleTeam === roleTeam && !roleCtr.roleMetadata.isGhostRole);
@@ -82,12 +82,12 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      * or been assigned just as part of this method.
      */
     getRoleAssignmentsFromRoleList(
-        playerPool: PlayerData[],
+        playerPool: Player[],
         settings: Partial<Record<RoleType, RoleChanceSettings>>,
         teamRoles: typeof BaseRole[],
         maxAssignable: number,
         defaultRole?: typeof BaseRole,
-        roleAssignments: Map<PlayerData, typeof BaseRole> = new Map
+        roleAssignments: Map<Player, typeof BaseRole> = new Map
     ) {
         const roleAssignmentData: RoleAssignmentData[] = [];
         for (let i = 0; i < teamRoles.length; i++) {
@@ -147,7 +147,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      * either collectively been assigned (if roleAssignments is passed)
      * or been assigned just as part of this method.
      */
-    getRoleAssignmentsForPlayers(playerPool: PlayerData[], maxAssignable: number, roleList: typeof BaseRole[], roleAssignments: Map<PlayerData, typeof BaseRole> = new Map) {
+    getRoleAssignmentsForPlayers(playerPool: Player[], maxAssignable: number, roleList: typeof BaseRole[], roleAssignments: Map<Player, typeof BaseRole> = new Map) {
         let numAssigned = 0;
         while (roleList.length > 0 && playerPool.length > 0 && numAssigned < maxAssignable) {
             const roleIdx = Math.floor(Math.random() * roleList.length);
@@ -178,7 +178,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
             }
         }
 
-        const roleAssignments: Map<PlayerData, typeof BaseRole> = new Map;
+        const roleAssignments: Map<Player, typeof BaseRole> = new Map;
 
         const adjustedImpostors = allPlayers.length < 7 ? 1 : allPlayers.length < 9 ? 2 : 3;
         const assignedImpostors = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(adjustedImpostors, this.manager.room.settings.numImpostors), ImpostorRole);
@@ -212,7 +212,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      * Try to assign a ghost role to a specific dead player.
      * @param player The player to assign the role to.
      */
-    async tryAssignGhostRole(player: PlayerData) {
+    async tryAssignGhostRole(player: Player) {
         const playerInfo = player.getPlayerInfo();
         if (!playerInfo?.isDead || playerInfo.isImpostor)
             return;
@@ -243,7 +243,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends Hostable = Hosta
      * @param roleAssignments A map of player to role assignments to assign to
      * every role.
      */
-    async assignRolesFromAssignments(roleAssignments: Map<PlayerData, typeof BaseRole>) {
+    async assignRolesFromAssignments(roleAssignments: Map<Player, typeof BaseRole>) {
         const promises = [];
         for (const [player, roleCtr] of roleAssignments) {
             promises.push(player.control?.setRole(roleCtr));

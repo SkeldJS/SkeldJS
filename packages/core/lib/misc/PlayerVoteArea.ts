@@ -1,9 +1,9 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { MeetingHud } from "..";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 import { VoteStateSpecialId } from "./PlayerVoteState";
 
-export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
+export class PlayerVoteArea<RoomType extends StatefulRoom = StatefulRoom> {
     constructor(
         public readonly meetinghud: MeetingHud<RoomType>,
         public playerId: number,
@@ -58,7 +58,7 @@ export class PlayerVoteArea<RoomType extends Hostable = Hostable> {
         return !playerInfo?.isDead && !playerInfo?.isDisconnected;
     }
 
-    static Deserialize<RoomType extends Hostable = Hostable>(reader: HazelReader, meetinghud: MeetingHud<RoomType>, playerId: number) {
+    static Deserialize<RoomType extends StatefulRoom = StatefulRoom>(reader: HazelReader, meetinghud: MeetingHud<RoomType>, playerId: number) {
         const votedForId = reader.uint8();
         const didReport = reader.bool();
         return new PlayerVoteArea(meetinghud, playerId, votedForId, didReport);

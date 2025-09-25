@@ -5,23 +5,23 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 
 export interface SabotageSystemData {
     cooldown: number;
 }
 
-export type SabotageSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
+export type SabotageSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling system sabotages.
  *
  * See {@link SabotageSystemEvents} for events to listen to.
  */
-export class SabotageSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class SabotageSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     SabotageSystemData,
     SabotageSystemEvents,
     RoomType
@@ -60,7 +60,7 @@ export class SabotageSystem<RoomType extends Hostable = Hostable> extends System
         writer.float(this.cooldown);
     }
 
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const system = this.ship.systems.get(amount) as SystemStatus;
 
         if (system) {

@@ -9,9 +9,9 @@ import {
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../../Networkable";
-import { PlayerData } from "../../PlayerData";
-import { Hostable } from "../../Hostable";
+import { NetworkedObject, NetworkedObjectEvents } from "../../NetworkedObject";
+import { Player } from "../../Player";
+import { StatefulRoom } from "../../StatefulRoom";
 
 import {
     PlayerMoveEvent,
@@ -25,7 +25,7 @@ export interface CustomNetworkTransformData {
     position: Vector2;
 }
 
-export type CustomNetworkTransformEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> &
+export type CustomNetworkTransformEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<[
         PlayerMoveEvent<RoomType>,
         PlayerSnapToEvent<RoomType>
@@ -36,7 +36,7 @@ export type CustomNetworkTransformEvents<RoomType extends Hostable = Hostable> =
  *
  * See {@link CustomNetworkTransformEvents} for events to listen to.
  */
-export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extends Networkable<
+export class CustomNetworkTransform<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     CustomNetworkTransformData,
     CustomNetworkTransformEvents<RoomType>,
     RoomType
@@ -54,7 +54,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
     /**
      * The player that this component belongs to.
      */
-    player: PlayerData<RoomType>;
+    player: Player<RoomType>;
 
     constructor(
         room: RoomType,
@@ -70,7 +70,7 @@ export class CustomNetworkTransform<RoomType extends Hostable = Hostable> extend
         this.seqId ||= 0;
         this.position ||= Vector2.null;
 
-        this.player = this.owner as PlayerData<RoomType>;
+        this.player = this.owner as Player<RoomType>;
 
         if (playerControl) {
             this.components = playerControl.components;

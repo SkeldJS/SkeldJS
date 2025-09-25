@@ -2,16 +2,16 @@ import { HazelBuffer, HazelReader, HazelWriter } from "@skeldjs/util";
 import { SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { Networkable, NetworkableEvents } from "../Networkable";
-import { Hostable } from "../Hostable";
+import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { StatefulRoom } from "../StatefulRoom";
 import { GameLogicComponent } from "../logic";
 
 /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
 export interface InnerGameManagerData { }
 
-export type InnerGameManagerEvents<RoomType extends Hostable = Hostable> = NetworkableEvents<RoomType> & ExtractEventTypes<[]>;
+export type InnerGameManagerEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
-export abstract class InnerGameManager<RoomType extends Hostable = Hostable> extends Networkable<
+export abstract class InnerGameManager<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     InnerGameManagerData,
     InnerGameManagerEvents<RoomType>,
     RoomType

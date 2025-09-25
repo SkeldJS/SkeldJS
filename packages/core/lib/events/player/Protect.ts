@@ -1,8 +1,8 @@
 import { BasicEvent } from "@skeldjs/events";
 import { ProtectPlayerMessage } from "@skeldjs/protocol";
 
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
@@ -15,18 +15,18 @@ import { PlayerEvent } from "./PlayerEvent";
  * However, see {@link PlayerCheckProtectEvent} to see about canceling a protection
  * before it happens if you are the host.
  */
-export class PlayerProtectEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerProtectEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.protect" as const;
     eventName = "player.protect" as const;
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: ProtectPlayerMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: ProtectPlayerMessage | undefined,
         /**
          * The player that was protected.
          */
-        public readonly target: PlayerData<RoomType>,
+        public readonly target: Player<RoomType>,
         /**
          * The duration, in seconds, for how long the player is protected for.
          */

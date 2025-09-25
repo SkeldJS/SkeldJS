@@ -5,7 +5,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { PlayerData } from "../PlayerData";
+import { Player } from "../Player";
 
 import {
     O2ConsolesClearEvent,
@@ -15,7 +15,7 @@ import {
 } from "../events";
 
 import { SystemStatusEvents } from "./events";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 import { AmongUsEndGames, EndGameIntent } from "../endgame";
 
 export interface LifeSuppSystemData {
@@ -23,7 +23,7 @@ export interface LifeSuppSystemData {
     completed: Set<number>;
 }
 
-export type LifeSuppSystemEvents<RoomType extends Hostable = Hostable> = SystemStatusEvents<RoomType> &
+export type LifeSuppSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         O2ConsolesClearEvent<RoomType>,
         O2ConsolesCompleteEvent<RoomType>
@@ -34,7 +34,7 @@ export type LifeSuppSystemEvents<RoomType extends Hostable = Hostable> = SystemS
  *
  * See {@link LifeSuppSystemEvents} for events to listen to.
  */
-export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends SystemStatus<
+export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
     LifeSuppSystemData,
     LifeSuppSystemEvents,
     RoomType
@@ -112,7 +112,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         }
     }
 
-    async HandleSabotage(player: PlayerData<RoomType>|undefined, rpc: RepairSystemMessage|undefined) {
+    async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this.timer = 45;
         const oldCompleted = this.completed;
         this._clearConsoles(player, rpc);
@@ -132,7 +132,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         }
     }
 
-    private async _clearConsoles(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _clearConsoles(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const completedBefore = new Set(this.completed);
         this.completed = new Set;
         this.dirty = true;
@@ -158,7 +158,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         await this._clearConsoles(this.room.myPlayer, undefined);
     }
 
-    private async _completeConsole(consoleId: number, player: PlayerData|undefined, rpc: RepairSystemMessage|undefined): Promise<void> {
+    private async _completeConsole(consoleId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         this.completed.add(consoleId);
         this.dirty = true;
 
@@ -199,7 +199,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         }
     }
 
-    private async _repair(player: PlayerData|undefined, rpc: RepairSystemMessage|undefined) {
+    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         const oldTimer = this.timer;
         const oldCompleted = this.completed;
         this.timer = 10000;
@@ -229,7 +229,7 @@ export class LifeSuppSystem<RoomType extends Hostable = Hostable> extends System
         }
     }
 
-    async HandleRepair(player: PlayerData<RoomType>|undefined, amount: number, rpc: RepairSystemMessage|undefined) {
+    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {

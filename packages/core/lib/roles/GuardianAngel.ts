@@ -1,8 +1,8 @@
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
-import { Hostable } from "../Hostable";
+import { StatefulRoom } from "../StatefulRoom";
 import { BaseRole } from "./BaseRole";
 
-export class GuardianAngelRole<RoomType extends Hostable = Hostable> extends BaseRole<RoomType> {
+export class GuardianAngelRole<RoomType extends StatefulRoom = StatefulRoom> extends BaseRole<RoomType> {
     static roleMetadata = {
         roleType: RoleType.GuardianAngel,
         roleTeam: RoleTeamType.Crewmate,

@@ -1,6 +1,6 @@
 import { RoleTeamType } from "@skeldjs/constant";
-import { Hostable } from "../Hostable";
-import { PlayerData } from "../PlayerData";
+import { StatefulRoom } from "../StatefulRoom";
+import { Player } from "../Player";
 
 export interface RoleMetadata {
     roleType: number;
@@ -8,10 +8,10 @@ export interface RoleMetadata {
     isGhostRole: boolean;
 }
 
-export class BaseRole<RoomType extends Hostable = Hostable> {
+export class BaseRole<RoomType extends StatefulRoom = StatefulRoom> {
     static roleMetadata: RoleMetadata;
 
-    constructor(public readonly player: PlayerData<RoomType>) {}
+    constructor(public readonly player: Player<RoomType>) { }
 
     onInitialize(): any {
         return;

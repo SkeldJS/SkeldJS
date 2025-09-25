@@ -4,14 +4,14 @@ import { SetStartCounterMessage } from "@skeldjs/protocol";
 import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
-import { Hostable } from "../../Hostable";
-import { PlayerData } from "../../PlayerData";
+import { StatefulRoom } from "../../StatefulRoom";
+import { Player } from "../../Player";
 
 /**
  * Emitted when a player (i.e. the host of the room) sets the starting counter
  * located above the game code while in the lobby.
  */
-export class PlayerSetStartCounterEvent<RoomType extends Hostable = Hostable> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetStartCounterEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
     static eventName = "player.setstartcounter" as const;
     eventName = "player.setstartcounter" as const;
 
@@ -19,8 +19,8 @@ export class PlayerSetStartCounterEvent<RoomType extends Hostable = Hostable> ex
 
     constructor(
         public readonly room: RoomType,
-        public readonly player: PlayerData<RoomType>,
-        public readonly message: SetStartCounterMessage|undefined,
+        public readonly player: Player<RoomType>,
+        public readonly message: SetStartCounterMessage | undefined,
         /**
          * The old value of the counter.
          */

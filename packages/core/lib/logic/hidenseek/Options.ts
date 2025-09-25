@@ -1,13 +1,13 @@
 import { RoleTeamType, TaskBarMode } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
-import { Hostable } from "../../Hostable";
+import { StatefulRoom } from "../../StatefulRoom";
 import { HideAndSeekManager } from "../../objects";
-import { PlayerData } from "../../PlayerData";
+import { Player } from "../../Player";
 import { NormalOptionsLogicComponent } from "../normal";
 
 export type HideNSeekOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekOptionsLogicComponent<RoomType extends Hostable = Hostable> extends NormalOptionsLogicComponent<RoomType> {
+export class HideNSeekOptionsLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends NormalOptionsLogicComponent<RoomType> {
     constructor(public readonly manager: HideAndSeekManager<RoomType>) {
         super(manager);
     }
@@ -36,7 +36,7 @@ export class HideNSeekOptionsLogicComponent<RoomType extends Hostable = Hostable
         return this.manager.room.settings.killCooldown;
     }
 
-    getPlayerSpeedMod(player: PlayerData) {
+    getPlayerSpeedMod(player: Player) {
         const playerInfo = player.getPlayerInfo();
         if (playerInfo === undefined || playerInfo.roleType === undefined)
             return super.getPlayerSpeedMod(player);
