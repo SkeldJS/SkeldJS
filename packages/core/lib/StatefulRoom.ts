@@ -635,7 +635,7 @@ export class StatefulRoom<
      * e.g. Spawning objects if they are not already spawned.
      * @param host The new host of the room.
      */
-    async setAuthorityHost(host: PlayerResolvable) {
+    async setPlayerAuthority(host: PlayerResolvable) {
         const before = this.authorityId;
         const resolvedId = this.resolvePlayerClientID(host);
 
