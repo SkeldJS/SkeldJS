@@ -66,7 +66,7 @@ import {
     ComponentSpawnEvent,
     PlayerJoinEvent,
     PlayerLeaveEvent,
-    PlayerSetHostEvent,
+    PlayerSetAuthoritativeEvent,
     PlayerSpawnEvent,
     RoomEndGameIntentEvent,
     RoomFixedUpdateEvent,
@@ -635,7 +635,7 @@ export class StatefulRoom<
      * e.g. Spawning objects if they are not already spawned.
      * @param host The new host of the room.
      */
-    async setHost(host: PlayerResolvable) {
+    async setAuthorityHost(host: PlayerResolvable) {
         const before = this.authorityId;
         const resolvedId = this.resolvePlayerClientID(host);
 
@@ -648,7 +648,7 @@ export class StatefulRoom<
         }
 
         if (before !== this.authorityId && this.playerAuthority) {
-            await this.playerAuthority.emit(new PlayerSetHostEvent(this, this.playerAuthority));
+            await this.playerAuthority.emit(new PlayerSetAuthoritativeEvent(this, this.playerAuthority));
         }
     }
 

@@ -147,7 +147,7 @@ client.on("player.setname", ev => {
 * {@link PlayerSendQuickChatEvent | `player.quickchat`}
 * {@link PlayerSetColorEvent | `player.setcolor`}
 * {@link PlayerSetHatEvent | `player.sethat`}
-* {@link PlayerSetHostEvent | `player.sethost`}
+* {@link PlayerSetAuthoritativeEvent | `player.setauthority`}
 * {@link PlayerSetNameEvent | `player.setname`}
 * {@link PlayerSetNameplateEvent | `player.setnameplate`}
 * {@link PlayerSetPetEvent | `player.setpet`}

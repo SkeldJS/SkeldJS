@@ -63,7 +63,7 @@ export * from "./player/SendChat";
 export * from "./player/SendQuickChat";
 export * from "./player/SetColor";
 export * from "./player/SetHat";
-export * from "./player/SetHost";
+export * from "./player/SetAuthoritative";
 export * from "./player/SetName";
 export * from "./player/SetNameplate";
 export * from "./player/SetPet";

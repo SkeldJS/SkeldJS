@@ -14,11 +14,11 @@ import { PlayerEvent } from "./PlayerEvent";
  * A server implementation may implement this by overriding the functions in
  * {@link StatefulRoom} responsible for updating the host.
  */
-export class PlayerSetHostEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent {
-    static eventName = "player.sethost" as const;
-    eventName = "player.sethost" as const;
+export class PlayerSetAuthoritativeEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent {
+    static eventName = "player.setauthoritative" as const;
+    eventName = "player.setauthoritative" as const;
 
-    private _alteredHost: Player<RoomType>;
+    private _alteredAuthority: Player<RoomType>;
 
     constructor(
         public readonly room: RoomType,
@@ -26,21 +26,21 @@ export class PlayerSetHostEvent<RoomType extends StatefulRoom = StatefulRoom> ex
     ) {
         super();
 
-        this._alteredHost = player;
+        this._alteredAuthority = player;
     }
 
     /**
      * The altered player that will be made host instead, if changed.
      */
     get alteredHost() {
-        return this._alteredHost;
+        return this._alteredAuthority;
     }
 
     /**
      * Change the player that was made host.
      * @param player The player to make host.
      */
-    setHost(player: Player<RoomType>) {
-        this._alteredHost = player;
+    setPlayerAuthority(player: Player<RoomType>) {
+        this._alteredAuthority = player;
     }
 }

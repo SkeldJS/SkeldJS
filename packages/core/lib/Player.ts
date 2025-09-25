@@ -19,7 +19,7 @@ import {
     PlayerLeaveEvent,
     PlayerReadyEvent,
     PlayerSceneChangeEvent,
-    PlayerSetHostEvent,
+    PlayerSetAuthoritativeEvent,
     PlayerSpawnEvent,
 } from "./events";
 
@@ -35,7 +35,7 @@ export type PlayerEvents<RoomType extends StatefulRoom = StatefulRoom> = Network
             PlayerReadyEvent<RoomType>,
             PlayerJoinEvent<RoomType>,
             PlayerLeaveEvent<RoomType>,
-            PlayerSetHostEvent<RoomType>,
+            PlayerSetAuthoritativeEvent<RoomType>,
             PlayerSceneChangeEvent<RoomType>,
             PlayerSpawnEvent<RoomType>
         ]
