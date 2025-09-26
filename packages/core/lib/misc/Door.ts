@@ -60,29 +60,4 @@ export class Door<RoomType extends StatefulRoom = StatefulRoom> extends EventEmi
     Serialize(writer: HazelWriter, spawn: boolean) {
         writer.bool(this.isOpen);
     }
-
-    async setOpen(isOpen: boolean) {
-        if (isOpen === this.isOpen)
-            return;
-
-        if (isOpen) {
-            await this.open();
-        } else {
-            await this.close();
-        }
-    }
-
-    /**
-     * Force the door open.
-     */
-    async open() {
-        await this.system.openDoor(this.doorId);
-    }
-
-    /**
-     * Force the door to close.
-     */
-    async close() {
-        await this.system.closeDoor(this.doorId);
-    }
 }

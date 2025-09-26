@@ -57,31 +57,23 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
         this._sabotaged = reader.bool();
 
         if (!before && this._sabotaged)
-            this.emit(
+            this.emitSync(
                 new SystemSabotageEvent(
                     this.room,
                     this,
                     undefined,
                     undefined
                 )
-            ).then(ev => {
-                if (ev.reverted) {
-                    this.repair();
-                }
-            });
+            );
         if (before && !this._sabotaged)
-            this.emit(
+            this.emitSync(
                 new SystemRepairEvent(
                     this.room,
                     this,
                     undefined,
                     undefined
                 )
-            ).then(ev => {
-                if (ev.reverted) {
-                    this.sabotage();
-                }
-            });
+            );
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -93,7 +85,7 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
         this._sabotaged = true;
         this.dirty = true;
 
-        const ev = await this.emit(
+        await this.emit(
             new SystemSabotageEvent(
                 this.room,
                 this,
@@ -101,10 +93,6 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
                 player
             )
         );
-
-        if (ev.reverted) {
-            this._sabotaged = false;
-        }
     }
 
     private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -125,12 +113,16 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
         }
     }
 
-    async repair() {
-        if (this.ship.canBeManaged()) {
-            await this._repair(this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(0);
-        }
+    async fullyRepairHost(): Promise<void> {
+        await this._repair(undefined, undefined);
+    }
+
+    async fullyRepairPlayer(player: Player) {
+        await this._repair(player, undefined);
+    }
+
+    async sendFullRepair() {
+        await this._sendRepair(0);
     }
 
     async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {

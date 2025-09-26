@@ -30,7 +30,8 @@ import {
     RoleType,
     RoleTeamType,
     GameMode,
-    GameMap
+    GameMap,
+    SystemType
 } from "@skeldjs/constant";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
@@ -79,6 +80,7 @@ import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from
 import { BaseRole, CrewmateRole, EngineerRole, GuardianAngelRole, ImpostorRole, ScientistRole, ShapeshifterRole } from "./roles";
 import { StatefulRoomConfig } from "./misc";
 import { ImpostorGhost } from "./roles/ImpostorGhost";
+import { SystemStatus } from "./systems";
 
 export type RoomID = string | number;
 
@@ -150,13 +152,13 @@ export class StatefulRoom<
     /**
      * Whether or not this room has been destroyed.
      */
-    protected _destroyed: boolean;
+    destroyed: boolean;
 
-    protected last_fixed_update: number;
+    lastFixedUpdateTimestamp: number;
 
-    protected _interval?: NodeJS.Timeout;
+    fixedUpdateInterval?: NodeJS.Timeout;
 
-    protected _incrNetId: number;
+    lastNetId: number;
 
     /**
      * A list of all objects in the room.
@@ -171,7 +173,7 @@ export class StatefulRoom<
     /**
      * The networked components in the room.
      */
-    netobjects: Map<number, NetworkedObject<any, NetworkedObjectEvents, this>>;
+    networkedObjects: Map<number, NetworkedObject<any, NetworkedObjectEvents, this>>;
 
     /**
      * The current message stream to be sent to the server on fixed update.
@@ -291,9 +293,9 @@ export class StatefulRoom<
     constructor(public config: StatefulRoomConfig = {}) {
         super();
 
-        this.last_fixed_update = Date.now();
-        this._incrNetId = 0;
-        this._destroyed = false;
+        this.lastFixedUpdateTimestamp = Date.now();
+        this.lastNetId = 0;
+        this.destroyed = false;
 
         this.code = 0;
         this.gameState = GameState.NotStarted;
@@ -305,7 +307,7 @@ export class StatefulRoom<
 
         this.objectList = [];
         this.players = new Map;
-        this.netobjects = new Map;
+        this.networkedObjects = new Map;
         this.messageStream = [];
 
         this.shipStatus = undefined;
@@ -352,7 +354,7 @@ export class StatefulRoom<
         this.endGameIntents = [];
 
         if (config.doFixedUpdate) {
-            this._interval = setInterval(
+            this.fixedUpdateInterval = setInterval(
                 () => this.FixedUpdate(),
                 StatefulRoom.FixedUpdateInterval
             );
@@ -360,24 +362,17 @@ export class StatefulRoom<
     }
 
     destroy() {
-        if (this._interval)
-            clearInterval(this._interval);
-        this._interval = undefined;
-        this._destroyed = true;
+        if (this.fixedUpdateInterval)
+            clearInterval(this.fixedUpdateInterval);
+        this.fixedUpdateInterval = undefined;
+        this.destroyed = true;
         this.gameState = GameState.Destroyed;
     }
 
     getNextNetId() {
-        this._incrNetId++;
+        this.lastNetId++;
 
-        return this._incrNetId;
-    }
-
-    /**
-     * The current client in the room.
-     */
-    get myPlayer(): Player<this> | undefined {
-        return undefined;
+        return this.lastNetId;
     }
 
     /**
@@ -385,10 +380,6 @@ export class StatefulRoom<
      */
     get playerAuthority() {
         return this.players.get(this.authorityId);
-    }
-
-    get destroyed() {
-        return this._destroyed;
     }
 
     /**
@@ -417,13 +408,10 @@ export class StatefulRoom<
     ) { }
 
     async FixedUpdate() {
-        const delta = Date.now() - this.last_fixed_update;
-        this.last_fixed_update = Date.now();
-        for (const [, component] of this.netobjects) {
-            if (
-                component &&
-                (component.ownerId === this.myPlayer?.clientId || this.isAuthoritative)
-            ) {
+        const delta = Date.now() - this.lastFixedUpdateTimestamp;
+        this.lastFixedUpdateTimestamp = Date.now();
+        for (const [, component] of this.networkedObjects) {
+            if (this.canManageObject(component)) {
                 component.FixedUpdate(delta / 1000);
                 if (component.dirtyBit) {
                     component.PreSerialize();
@@ -631,13 +619,13 @@ export class StatefulRoom<
     }
 
     /**
-     * Set the host of the room. If the current client is the host, it will conduct required host changes.
+     * Set the host of the room. If the current client is the new host, it will conduct required host changes.
      * e.g. Spawning objects if they are not already spawned.
-     * @param host The new host of the room.
+     * @param playerResolvable The new host of the room.
      */
-    async setPlayerAuthority(host: PlayerResolvable) {
+    async setPlayerAuthority(playerResolvable: PlayerResolvable) {
         const before = this.authorityId;
-        const resolvedId = this.resolvePlayerClientID(host);
+        const resolvedId = this.resolvePlayerClientID(playerResolvable);
 
         if (!resolvedId) return;
 
@@ -749,7 +737,7 @@ export class StatefulRoom<
                 for (const [, voteState] of this.meetingHud.voteStates) {
                     const voteStatePlayer = voteState.player;
                     if (voteStatePlayer && voteState.votedForId === player.playerId) {
-                        this.meetingHud.clearVote(voteStatePlayer);
+                        this.meetingHud.clearVoteBroadcast(voteStatePlayer);
                     }
                 }
             }
@@ -772,78 +760,74 @@ export class StatefulRoom<
         return player;
     }
 
+    waitingForReady(player: Player): boolean {
+        return player.isReady;
+    }
+
     /**
-     * Handle when the game is started.
+     * Start the game. If the client's player is not the host, the server may ban the client.
      */
-    async handleStart() {
+    async startGame() {
         if (this.gameState === GameState.Started)
             return;
 
         this.gameState = GameState.Started;
 
-        if (this.isAuthoritative) {
-            for (const [, playerInfo] of this.playerInfo) {
-                playerInfo.dirtyBit = 1;
-            }
-            if (this.lobbyBehaviour) this.lobbyBehaviour.despawn();
+        for (const [, playerInfo] of this.playerInfo) {
+            playerInfo.dirtyBit = 1;
+        }
+        if (this.lobbyBehaviour) this.despawnComponent(this.lobbyBehaviour);
 
-            const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
-            this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global);
+        const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
+        this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global);
 
-            await Promise.all([
-                Promise.race([
-                    Promise.all(
-                        [...this.players.values()].map((player) => {
-                            if (player.isReady || player.isMe) {
-                                return Promise.resolve();
-                            }
+        await Promise.all([
+            Promise.race([
+                Promise.all(
+                    [...this.players.values()].map((player) => {
+                        if (this.waitingForReady(player)) {
+                            return Promise.resolve();
+                        }
 
-                            return new Promise<void>((resolve) => {
-                                player.once("player.ready", () => {
-                                    resolve();
-                                });
+                        return new Promise<void>((resolve) => {
+                            player.once("player.ready", () => {
+                                resolve();
                             });
-                        })
-                    ),
-                    sleep(3000),
-                ])
-            ]);
-
-            const removes = [];
-            for (const [clientId, player] of this.players) {
-                if (!player.isReady && !player.isMe) {
-                    await this.handleLeave(player);
-                    removes.push(clientId);
-                }
-            }
-
-            if (removes.length) {
-                await this.broadcast(
-                    [],
-                    removes.map(clientId => {
-                        return new RemovePlayerMessage(
-                            this.code,
-                            clientId,
-                            DisconnectReason.Error
-                        );
+                        });
                     })
-                );
+                ),
+                sleep(3000),
+            ])
+        ]);
+
+        const removes = [];
+        for (const [clientId, player] of this.players) {
+            if (this.waitingForReady(player)) {
+                await this.handleLeave(player);
+                removes.push(clientId);
             }
+        }
 
-            await this.gameManager?.onGameStart();
-            await this.shipStatus?.assignTasks();
+        if (removes.length) {
+            await this.broadcast(
+                [],
+                removes.map(clientId => {
+                    return new RemovePlayerMessage(
+                        this.code,
+                        clientId,
+                        DisconnectReason.Error
+                    );
+                })
+            );
+        }
 
-            if (this.shipStatus) {
-                for (const [, player] of this.players) {
-                    this.shipStatus.spawnPlayer(player, true, false);
-                }
+        await this.gameManager?.onGameStart();
+        await this.shipStatus?.assignTasks();
+
+        if (this.shipStatus) {
+            for (const [, player] of this.players) {
+                this.shipStatus.spawnPlayer(player, true, false);
             }
-
-            await this.emit(new RoomGameStartEvent(this));
-            await this.myPlayer?.setReady();
-        } else {
-            await this.emit(new RoomGameStartEvent(this));
-            await this.myPlayer?.setReady();
         }
     }
 
@@ -854,8 +838,8 @@ export class StatefulRoom<
             this.players.delete(objId);
         }
         if (this.isAuthoritative) {
-            for (const [, component] of this.netobjects) {
-                component.despawn();
+            for (const [, component] of this.networkedObjects) {
+                this.despawnComponent(component);
             }
         }
         await this.emit(new RoomGameEndEvent(this, reason));
@@ -887,7 +871,7 @@ export class StatefulRoom<
         const resolved = this.resolvePlayer(player);
 
         if (resolved) {
-            await resolved.setReady();
+            await resolved.readyUp();
         }
     }
 
@@ -910,7 +894,7 @@ export class StatefulRoom<
      * ```
      */
     spawnComponent(component: NetworkedObject<any, NetworkedObjectEvents, this>) {
-        if (this.netobjects.get(component.netId)) {
+        if (this.networkedObjects.get(component.netId)) {
             return;
         }
 
@@ -942,7 +926,7 @@ export class StatefulRoom<
             this.playerInfo.set(component.playerId, component);
         }
 
-        this.netobjects.set(component.netId, component);
+        this.networkedObjects.set(component.netId, component);
 
         component.emitSync(
             new ComponentSpawnEvent(this, component)
@@ -950,7 +934,7 @@ export class StatefulRoom<
     }
 
     protected _despawnComponent(component: NetworkedObject<any>) {
-        this.netobjects.delete(component.netId);
+        this.networkedObjects.delete(component.netId);
 
         if (component.owner instanceof Player) {
             if (component.owner.control === component) {
@@ -1079,7 +1063,7 @@ export class StatefulRoom<
                 object
             );
 
-            if (this.netobjects.get(component.netId))
+            if (this.networkedObjects.get(component.netId))
                 continue;
 
             if (!object) {
@@ -1169,7 +1153,7 @@ export class StatefulRoom<
      * Create a fake player in the room that doesn't need a client to be connected
      * to own it.
      *
-     * To dispose of the player, use `player.despawn()`.
+     * To dispose of the player, use `player.destroy()`.
      * @param isNew Whether or not the player should be seen jumping off of the seat in the lobby.
      * @returns The fake player created.
      */
@@ -1287,6 +1271,14 @@ export class StatefulRoom<
         }
 
         return true;
+    }
+
+    clearMyVote(meetingHud: MeetingHud): Promise<void> {
+        throw new Error("'clearMyVote' not implemented on StatefulRoom")
+    }
+
+    sendRepairSystem(systemType: SystemType, amount: number): Promise<void> {
+        throw new Error("'repairSystem' not implemented on StatefulRoom");
     }
 
     /**

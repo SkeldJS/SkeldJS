@@ -60,12 +60,12 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom = StatefulRoom
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | CustomNetworkTransformData,
         playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
 
         this.seqId ||= 0;
         this.position ||= Vector2.null;

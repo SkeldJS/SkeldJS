@@ -37,11 +37,11 @@ export class LobbyBehaviour<RoomType extends StatefulRoom = StatefulRoom> extend
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelBuffer | LobbyBehaviourData
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
     }
 
     getComponent<T extends NetworkedObject>(

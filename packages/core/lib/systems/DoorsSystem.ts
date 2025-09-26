@@ -130,12 +130,16 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
      * Open a door by its ID.
      * @param doorId The ID of the door to opne.
      */
+    async openDoorPlayer(doorId: number, openedByPlayer: Player) {
+        await this._openDoor(doorId, openedByPlayer, undefined);
+    }
+
+    async openDoorHost(doorId: number) {
+        await this._openDoor(doorId, undefined, undefined);
+    }
+
     async openDoor(doorId: number) {
-        if (this.ship.canBeManaged()) {
-            await this._openDoor(doorId, this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(doorId);
-        }
+        await this._sendRepair(doorId);
     }
 
     private async _closeDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -172,8 +176,12 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
      * Close a door by its ID.
      * @param doorId The ID of the door to close.
      */
-    async closeDoor(doorId: number) {
-        this._closeDoor(doorId, this.room.myPlayer, undefined);
+    async closeDoorPlayer(doorId: number, closedByPlayer: Player) {
+        this._closeDoor(doorId, closedByPlayer, undefined);
+    }
+
+    async closeDoorHost(doorId: number) {
+        await this._closeDoor(doorId, undefined, undefined);
     }
 
     async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {

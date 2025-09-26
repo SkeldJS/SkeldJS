@@ -71,11 +71,11 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | MeetingHudData
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
 
         this.dirtyBit ||= 0;
         this.voteStates ||= new Map;
@@ -275,7 +275,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
                 ? undefined
                 : this.room.getPlayerByPlayerId(rpc.suspectid);
 
-        if (this.canBeManaged() && player && voter && (suspect || rpc.suspectid === VoteStateSpecialId.SkippedVote)) {
+        if (this.room.canManageObject(this) && player && voter && (suspect || rpc.suspectid === VoteStateSpecialId.SkippedVote)) {
             this._castVote(voter, suspect);
 
             const ev = await this.emit(
@@ -290,7 +290,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
 
             if (ev.reverted) {
                 if (player) {
-                    await this.clearVote(player);
+                    await this.clearVoteBroadcast(player);
                 }
             } else {
                 this.room.playerAuthority?.control?.sendChatNote(
@@ -356,7 +356,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
             const votingState = this.voteStates.get(player.playerId);
 
             if (votingState) {
-                if (this.canBeManaged()) {
+                if (this.room.canManageObject(this)) {
                     this._castVote(votingState, _suspect);
 
                     const ev = await this.emit(
@@ -389,24 +389,9 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
     private async _handleClearVote(rpc: ClearVoteMessage) {
         void rpc;
 
-        const player = this.room.myPlayer;
+        await this.room.clearMyVote(this);
 
-        if (player && player.playerId !== undefined) {
-            const voter = this.voteStates.get(player.playerId);
 
-            if (voter?.hasVoted) {
-                this._clearVote(voter);
-
-                await this.emit(
-                    new MeetingHudClearVoteEvent(
-                        this.room,
-                        this,
-                        rpc,
-                        voter.player!
-                    )
-                );
-            }
-        }
     }
 
     private _clearVote(voter: PlayerVoteArea<RoomType>) {
@@ -429,29 +414,33 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         );
     }
 
+    async setVoteCleared(player: Player) {
+        const _voter = this.voteStates.get(player.playerId!);
+
+        if (_voter) {
+            this._clearVote(_voter);
+            await this.emit(
+                new MeetingHudClearVoteEvent(
+                    this.room,
+                    this,
+                    undefined,
+                    _voter.player!
+                )
+            );
+        }
+    }
+
     /**
      * Remove someone's vote (usually due to the player they voted for getting disconnected).
      * This is a host-only operation on official servers.
      * @param resolvable The player to remove the vote of.
      */
-    async clearVote(voter: PlayerResolvable) {
+    async clearVoteBroadcast(voter: PlayerResolvable) {
         const player = this.room.resolvePlayer(voter);
 
         if (player && player.playerId !== undefined) {
-            const _voter = this.voteStates.get(player.playerId);
-
-            if (_voter) {
-                this._clearVote(_voter);
-                await this.emit(
-                    new MeetingHudClearVoteEvent(
-                        this.room,
-                        this,
-                        undefined,
-                        _voter.player!
-                    )
-                );
-                await this._rpcClearVote(player);
-            }
+            const clearedVote = await this.setVoteCleared(player);
+            await this._rpcClearVote(player);
         }
     }
 
@@ -496,7 +485,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         this.tie = tie;
         this.exiled = exiled;
 
-        if (this.canBeManaged()) {
+        if (this.room.canManageObject(this)) {
             await sleep(5000);
             await exiled?.control?.kill("exiled");
             this.close();

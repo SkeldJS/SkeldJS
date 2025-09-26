@@ -155,17 +155,13 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
     }
 
     async HandleSabotage(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
-        const oldCountdown = 10000;
-        const oldTimer = this.resetTimer;
-        const oldActive = this.activeConsoles;
-        const oldCompleted = this.completedConsoles;
         this.countdown = 90;
         this.resetTimer = -1;
         this.activeConsoles = new Map;
         this.completedConsoles = new Set;
         this.dirty = true;
 
-        const ev = await this.emit(
+        await this.emit(
             new SystemSabotageEvent(
                 this.room,
                 this,
@@ -173,13 +169,6 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
                 player
             )
         );
-
-        if (ev.reverted) {
-            this.countdown = oldCountdown;
-            this.resetTimer = oldTimer;
-            this.activeConsoles = oldActive;
-            this.completedConsoles = oldCompleted;
-        }
     }
 
     private async _resetConsoles() {
@@ -226,8 +215,8 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
         }
     }
 
-    async openConsoleAs(consoleId: number, player: Player) {
-        await this._openConsole(consoleId, player, undefined);
+    async openConsolePlayer(consoleId: number, openedByPlayer: Player) {
+        await this._openConsole(consoleId, openedByPlayer, undefined);
     }
 
     /**
@@ -235,14 +224,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
      * @param consoleId The ID of the console to mark as being used.
      */
     async openConsole(consoleId: number) {
-        if (!this.room.myPlayer)
-            return;
-
-        if (this.ship.canBeManaged()) {
-            await this.openConsoleAs(consoleId, this.room.myPlayer);
-        } else {
-            this._sendRepair(0x40 | consoleId);
-        }
+        this._sendRepair(0x40 | consoleId);
     }
 
     private async _closeConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
@@ -267,8 +249,8 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
         }
     }
 
-    async closeConsoleAs(consoleId: number, player: Player) {
-        await this._closeConsole(consoleId, player, undefined);
+    async closeConsolePlayer(consoleId: number, closedByPlayer: Player) {
+        await this._closeConsole(consoleId, closedByPlayer, undefined);
     }
 
     /**
@@ -276,14 +258,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
      * @param consoleId The ID of the console to mark as not being used.
      */
     async closeConsole(consoleId: number) {
-        if (!this.room.myPlayer)
-            return;
-
-        if (this.ship.canBeManaged()) {
-            await this.closeConsoleAs(consoleId, this.room.myPlayer);
-        } else {
-            await this._sendRepair(0x20 | consoleId);
-        }
+        await this._sendRepair(0x20 | consoleId);
     }
 
     private async _completeConsole(consoleId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -309,12 +284,12 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
      * Mark a console as completed.
      * @param consoleId The ID of the console to mark as completed.
      */
+    async completeConsolePlayer(consoleId: number, completedByPlayer: Player) {
+        await this._completeConsole(consoleId, completedByPlayer, undefined);
+    }
+
     async completeConsole(consoleId: number) {
-        if (this.ship.canBeManaged()) {
-            await this._completeConsole(consoleId, this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(0x10 | consoleId);
-        }
+        await this._sendRepair(0x10 | consoleId);
     }
 
     private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -340,13 +315,17 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
         }
     }
 
-    async repair() {
-        if (this.ship.canBeManaged()) {
-            await this._repair(this.room.myPlayer, undefined);
-        } else {
-            await this.completeConsole(0);
-            await this.completeConsole(1);
-        }
+    async fullyRepairHost(): Promise<void> {
+        await this._repair(undefined, undefined);
+    }
+
+    async fullyRepairPlayer(repairedBy: Player) {
+        await this._repair(repairedBy, undefined);
+    }
+
+    async sendFullRepair() {
+        await this.completeConsole(0);
+        await this.completeConsole(1);
     }
 
     async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {

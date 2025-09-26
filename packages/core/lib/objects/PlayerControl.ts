@@ -184,11 +184,11 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | PlayerControlData
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
 
         this.isNew ??= true;
         this.playerId ||= 0;
@@ -277,12 +277,12 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
                 await this._handleSyncSettings(rpc as SyncSettingsMessage);
                 break;
             case RpcMessageTag.CheckName:
-                if (this.canBeManaged()) {
+                if (this.room.canManageObject(this)) {
                     await this._handleCheckName(rpc as CheckNameMessage);
                 }
                 break;
             case RpcMessageTag.CheckColor:
-                if (this.canBeManaged()) {
+                if (this.room.canManageObject(this)) {
                     await this._handleCheckColor(rpc as CheckColorMessage);
                 }
                 break;
@@ -293,7 +293,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
                 await this._handleSetColor(rpc as SetColorMessage);
                 break;
             case RpcMessageTag.ReportDeadBody:
-                if (this.canBeManaged()) {
+                if (this.room.canManageObject(this)) {
                     await this._handleReportDeadBody(
                         rpc as ReportDeadBodyMessage
                     );
@@ -795,7 +795,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
 
         this._checkMurderEndGame();
 
-        if (victimPlayerInfo?.isDead && this.canBeManaged()) {
+        if (victimPlayerInfo?.isDead && this.room.canManageObject(this)) {
             // await this.room.shipStatus?.tryAssignGhostRole(victim); todo: fix
         }
     }
@@ -828,7 +828,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     async murderPlayer(victim: Player) {
         const victimPlayerInfo = victim?.getPlayerInfo();
 
-        if (!this.canBeManaged()) {
+        if (!this.room.canManageObject(this)) {
             await this._rpcCheckMurder(victim);
             return;
         }
@@ -853,7 +853,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         this._rpcMurderPlayer(victim);
         this._checkMurderEndGame();
 
-        if (victimPlayerInfo?.isDead && this.canBeManaged()) {
+        if (victimPlayerInfo?.isDead && this.room.canManageObject(this)) {
             // await this.room.shipStatus?.tryAssignGhostRole(victim); todo: fix
         }
     }
@@ -960,7 +960,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
             )
         );
 
-        if (this.canBeManaged()) {
+        if (this.room.canManageObject(this)) {
             this._startMeeting(this.player);
         }
     }
@@ -1000,9 +1000,9 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
             )
         );
 
-        this.room.shipStatus?.systems.get(SystemType.Laboratory)?.repair();
-        this.room.shipStatus?.systems.get(SystemType.Reactor)?.repair();
-        this.room.shipStatus?.systems.get(SystemType.O2)?.repair();
+        this.room.shipStatus?.systems.get(SystemType.Laboratory)?.fullyRepairHost();
+        this.room.shipStatus?.systems.get(SystemType.Reactor)?.fullyRepairHost();
+        this.room.shipStatus?.systems.get(SystemType.O2)?.fullyRepairHost();
 
         const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
         if (movingPlatform instanceof MovingPlatformSystem) {
@@ -1061,7 +1061,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
      * @param caller The player that called this meeting.
      */
     async startMeeting(body: Player | "emergency", caller?: Player) {
-        if (!this.canBeManaged()) {
+        if (!this.room.canManageObject(this)) {
             await this._rpcReportDeadBody(body);
             return;
         }
@@ -1150,7 +1150,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     private async _handleUsePlatform(rpc: UsePlatformMessage) {
         const airship = this.room.shipStatus;
 
-        if (!airship || !this.canBeManaged())
+        if (!airship || !this.room.canManageObject(this))
             return;
 
         const ev = await this.emit(
@@ -1699,7 +1699,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     async protectPlayer(target: Player, angelColor = this.getPlayerInfo()?.defaultOutfit.color || Color.Red) {
-        if (!this.canBeManaged()) {
+        if (!this.room.canManageObject(this)) {
             await this._rpcCheckProtect(target);
             return;
         }
@@ -1778,18 +1778,18 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
             ? undefined
             : target;
 
-        const myPlayerInfo = this.getPlayerInfo();
+        const thisPlayerInfo = this.getPlayerInfo();
         const targetPlayerInfo = target.getPlayerInfo();
 
-        if (!myPlayerInfo || !targetPlayerInfo || !this.getPlayerInfo())
+        if (!thisPlayerInfo || !targetPlayerInfo || !this.getPlayerInfo())
             return;
 
 
         if (target === this.player) {
-            myPlayerInfo.deleteOutfit(PlayerOutfitType.Shapeshifter);
+            thisPlayerInfo.deleteOutfit(PlayerOutfitType.Shapeshifter);
         } else {
-            myPlayerInfo.setOutfit(targetPlayerInfo.defaultOutfit.clone(PlayerOutfitType.Shapeshifter));
-            myPlayerInfo.currentOutfitType = PlayerOutfitType.Shapeshifter;
+            thisPlayerInfo.setOutfit(targetPlayerInfo.defaultOutfit.clone(PlayerOutfitType.Shapeshifter));
+            thisPlayerInfo.currentOutfitType = PlayerOutfitType.Shapeshifter;
         }
     }
 
@@ -1868,7 +1868,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     private async _handleCheckMurder(rpc: CheckMurderMessage) {
         const victim = this.room.getPlayerByNetId(rpc.victimNetId);
 
-        if (!victim || !this.canBeManaged())
+        if (!victim || !this.room.canManageObject(this))
             return;
 
         const ev = await this.emit(
@@ -1936,10 +1936,10 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         if (this.room.gameState !== GameState.Started)
             return false;
 
-        const myPlayerInfo = this.getPlayerInfo();
+        const thisPlayerInfo = this.getPlayerInfo();
         const targetPlayerInfo = target.getPlayerInfo();
 
-        if (!myPlayerInfo || !targetPlayerInfo || myPlayerInfo.roleType !== GuardianAngelRole || myPlayerInfo.isImpostor || myPlayerInfo.isDisconnected || targetPlayerInfo.isDead)
+        if (!thisPlayerInfo || !targetPlayerInfo || thisPlayerInfo.roleType !== GuardianAngelRole || thisPlayerInfo.isImpostor || thisPlayerInfo.isDisconnected || targetPlayerInfo.isDead)
             return false;
 
         return true;
@@ -1948,7 +1948,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     private async _handleCheckProtect(rpc: CheckProtectMessage) {
         const target = this.room.getPlayerByNetId(rpc.targetNetId);
 
-        if (!target || !this.canBeManaged())
+        if (!target || !this.room.canManageObject(this))
             return;
 
         const ev = await this.emit(

@@ -44,11 +44,11 @@ export class PolusShipStatus<RoomType extends StatefulRoom = StatefulRoom> exten
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
     }
 
     getComponent<T extends NetworkedObject>(

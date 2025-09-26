@@ -24,7 +24,7 @@ export class AutoOpenDoor<RoomType extends StatefulRoom = StatefulRoom> extends 
         this.timer -= delta;
 
         if (this.timer < 0) {
-            this.system.openDoor(this.doorId);
+            this.system.openDoorHost(this.doorId);
             return true;
         }
         return false;

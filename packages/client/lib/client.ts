@@ -56,9 +56,11 @@ import {
 
 import {
     LobbyBehaviour,
+    MeetingHud,
     Player,
     PlayerJoinEvent,
-    RoomID
+    RoomID,
+    SystemStatus
 } from "@skeldjs/core";
 
 import { SkeldjsStateManager, SkeldjsStateManagerEvents } from "@skeldjs/state";
@@ -962,5 +964,24 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
      */
     async startGame() {
         await this.broadcast([], [new StartGameMessage(this.code)]);
+    }
+
+    async clearMyVote(meetingHud: MeetingHud): Promise<void> {
+        if (!this.myPlayer) return;
+
+        await meetingHud.setVoteCleared(this.myPlayer);
+    }
+
+    async repairSystem(system: SystemStatus, amount: number): Promise<void> {
+        await this.broadcast([
+            new RpcMessage(
+                this.ship.netId,
+                new RepairSystemMessage(
+                    this.systemType,
+                    repairedByPlayer.control.netId,
+                    amount
+                )
+            )
+        ], undefined, [this.room.authorityId]);
     }
 }

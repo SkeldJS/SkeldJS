@@ -188,25 +188,4 @@ export class NetworkedObject<
 
         return undefined;
     }
-
-    /**
-     * Spawn this component if does not exist in the room it belongs in.
-     */
-    spawn(): void {
-        return this.room.spawnComponent(this);
-    }
-
-    /**
-     * Despawns the component from the room it belongs in.
-     */
-    despawn(): void {
-        return this.room.despawnComponent(this);
-    }
-
-    /**
-     * Whether or not this object
-     */
-    canBeManaged() {
-        return this.room.canManageObject(this);
-    }
 }

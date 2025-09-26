@@ -119,11 +119,11 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | ShipStatusData
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
 
         if (!this.systems) {
             this.systems = new Map;
@@ -191,7 +191,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
             doors.cooldowns.set(rpc.systemId, 30);
         }
         for (const doorId of doorsInRoom) {
-            doors.closeDoor(doorId);
+            doors.closeDoorHost(doorId);
         }
     }
 

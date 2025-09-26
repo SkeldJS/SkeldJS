@@ -108,48 +108,30 @@ export class SystemStatus<
         void player, rpc;
     }
 
-    /**
-     * Fully repair this system.
-     */
-    async repair(): Promise<void> { }
+    async fullyRepairHost(): Promise<void> { }
+
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
+    }
 
     /**
      * Sabotage this system.
      */
-    async sabotage() {
-        if (!this.room.myPlayer?.control)
-            return;
+    async sabotagePlayer(sabotagedByPlayer: Player) {
+        await this.ship.systems.get(SystemType.Sabotage)
+            ?.HandleRepair(sabotagedByPlayer, this.systemType, undefined);
+    }
 
-        if (this.ship.canBeManaged()) {
-            await this.ship.systems.get(SystemType.Sabotage)
-                ?.HandleRepair(this.room.myPlayer, this.systemType, undefined);
-        } else {
-            await this.room.broadcast([
-                new RpcMessage(
-                    this.ship.netId,
-                    new RepairSystemMessage(
-                        SystemType.Sabotage,
-                        this.room.myPlayer.control.netId,
-                        this.systemType
-                    )
-                )
-            ], undefined, [this.room.authorityId]);
-        }
+    async sabotage() {
+        await this.ship.systems.get(SystemType.Sabotage)
+            ?._sendRepair(this.systemType);
     }
 
     protected async _sendRepair(amount: number) {
-        if (!this.room.myPlayer?.control)
-            return;
-
-        await this.room.broadcast([
-            new RpcMessage(
-                this.ship.netId,
-                new RepairSystemMessage(
-                    this.systemType,
-                    this.room.myPlayer.control.netId,
-                    amount
-                )
-            )
-        ], undefined, [this.room.authorityId]);
+        await this.room.sendRepairSystem(this.systemType, amount);
     }
 }

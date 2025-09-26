@@ -71,9 +71,9 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
                 if (mask & (1 << i)) {
                     const isOpen = reader.bool();
                     if (isOpen) {
-                        this.openDoor(i);
+                        this._openDoor(i, undefined, undefined);
                     } else {
-                        this.closeDoor(i);
+                        this._closeDoor(i, undefined, undefined);
                     }
                 }
             }
@@ -132,8 +132,12 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
      * Open a door by its ID. This is a host operation on official servers.
      * @param doorId The ID of the door to open.
      */
-    async openDoor(doorId: number) {
-        await this._openDoor(doorId, this.room.myPlayer, undefined);
+    async openDoorPlayer(doorId: number, openedByPlayer: Player) {
+        await this._openDoor(doorId, openedByPlayer, undefined);
+    }
+
+    async openDoorHost(doorId: number) {
+        await this._openDoor(doorId, undefined, undefined);
     }
 
     private async _closeDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -172,8 +176,12 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
      * Close a door by its ID. This is a host operation on official servers.
      * @param doorId The ID of the door to close.
      */
-    async closeDoor(doorId: number) {
-        await this._closeDoor(doorId, this.room.myPlayer, undefined);
+    async closeDoorPlayer(doorId: number, closedByPlayer: Player) {
+        await this._closeDoor(doorId, closedByPlayer, undefined);
+    }
+
+    async closeDoorHost(doorId: number) {
+        await this._closeDoor(doorId, undefined, undefined);
     }
 
     Detoriorate(delta: number) {

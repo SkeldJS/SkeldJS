@@ -167,11 +167,8 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
     /**
      * Get on the moving platform as the client's player.
      */
-    async getOn() {
-        if (!this.room.myPlayer?.control)
-            return;
-
-        await this.setTarget(this.room.myPlayer, this.oppositeSide, true);
+    async movePlatform(player: Player) {
+        await this.setTarget(player, this.oppositeSide, true);
     }
 
     setSide(side: MovingPlatformSide) {

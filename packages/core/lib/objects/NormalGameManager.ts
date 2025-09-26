@@ -18,11 +18,11 @@ export class NormalGameManager<RoomType extends StatefulRoom = StatefulRoom> ext
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelBuffer | InnerGameManagerData
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
     }
 
     async onGameStart(): Promise<void> {

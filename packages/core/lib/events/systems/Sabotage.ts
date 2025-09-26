@@ -1,4 +1,4 @@
-import { RevertableEvent } from "@skeldjs/events";
+import { BasicEvent, RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
@@ -11,7 +11,7 @@ import { SystemEvent } from "./SystemEvent";
 /**
  * Emitted when a player sabotages a system.
  */
-export class SystemSabotageEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, SystemEvent, ProtocolEvent {
+export class SystemSabotageEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, SystemEvent, ProtocolEvent {
     static eventName = "system.sabotage" as const;
     eventName = "system.sabotage" as const;
 

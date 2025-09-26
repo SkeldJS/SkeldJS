@@ -97,19 +97,12 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
      * security.addPlayer(client.me);
      * ```
      */
-    async addPlayer(player: Player) {
+    async joinPlayer(player: Player) {
         await this._addPlayer(player, undefined);
     }
 
     async join() {
-        if (!this.room.myPlayer)
-            return;
-
-        if (this.ship.canBeManaged()) {
-            await this.addPlayer(this.room.myPlayer);
-        } else {
-            await this._sendRepair(1);
-        }
+        await this._sendRepair(1);
     }
 
     private async _removePlayer(player: Player, rpc: RepairSystemMessage | undefined) {
@@ -138,19 +131,12 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
      * security.removePlayer(client.me);
      * ```
      */
-    async removePlayer(player: Player) {
+    async leavePlayer(player: Player) {
         await this._removePlayer(player, undefined);
     }
 
     async leave() {
-        if (!this.room.myPlayer)
-            return;
-
-        if (this.ship.canBeManaged()) {
-            await this.removePlayer(this.room.myPlayer);
-        } else {
-            await this._sendRepair(0);
-        }
+        await this._sendRepair(0);
     }
 
     async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {

@@ -104,22 +104,13 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         if (player.playerId === undefined)
             return;
 
-        if (this.ship.canBeManaged()) {
+        if (this.ship.room.canManageObject(this.ship)) {
             await this._joinQueue(player, undefined);
         } else {
             await this._sendRepair(player.playerId | 0x80);
         }
     }
 
-    /**
-     * Join the queue as the client's player.
-     */
-    async joinQueue() {
-        if (!this.room.myPlayer)
-            return;
-
-        await this.addToQueue(this.room.myPlayer);
-    }
 
     private async _leaveQueue(player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
         if (!this.queue.includes(player))
@@ -150,21 +141,11 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         if (player.playerId === undefined)
             return;
 
-        if (this.ship.canBeManaged()) {
+        if (this.ship.room.canManageObject(this.ship)) {
             await this._leaveQueue(player, undefined);
         } else {
             await this._sendRepair(player.playerId | 0x40);
         }
-    }
-
-    /**
-     * Leave the queue as the current player.
-     */
-    async leaveQueue() {
-        if (!this.room.myPlayer)
-            return;
-
-        await this.removeFromQueue(this.room.myPlayer);
     }
 
     async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {

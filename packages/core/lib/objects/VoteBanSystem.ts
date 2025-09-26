@@ -38,11 +38,11 @@ export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | VoteBanSystemData,
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
 
         this.voted ||= new Map;
     }
@@ -110,7 +110,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
                 this.dirtyBit = 1;
             }
 
-            if (this.canBeManaged() && voted.every((v) => v !== null)) {
+            if (this.room.canManageObject(this) && voted.every((v) => v !== null)) {
                 this.room.broadcast([], [
                     new KickPlayerMessage(
                         this.room.code,

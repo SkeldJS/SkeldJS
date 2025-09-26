@@ -65,12 +65,12 @@ export class PlayerPhysics<RoomType extends StatefulRoom = StatefulRoom> extends
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | PlayerPhysicsData,
         playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
 
         this.ventId ??= -1;
         this.ladderClimbSeqId = 0;

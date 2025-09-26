@@ -224,11 +224,11 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom = StatefulRoom> e
         room: RoomType,
         spawnType: SpawnType,
         netId: number,
-        ownerid: number,
+        ownerId: number,
         flags: number,
         data?: HazelReader | NetworkedPlayerInfoData
     ) {
-        super(room, spawnType, netId, ownerid, flags, data);
+        super(room, spawnType, netId, ownerId, flags, data);
 
         this.currentOutfitType = PlayerOutfitType.Default;
         this.playerId ??= 0;

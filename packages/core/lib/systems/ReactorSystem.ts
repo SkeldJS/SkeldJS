@@ -121,12 +121,12 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
      * console)
      * @param consoleId The ID of the console to add.
      */
+    async addConsolePlayer(consoleId: number, addedPlayer: Player) {
+        await this._addConsole(addedPlayer, consoleId, undefined);
+    }
+
     async addConsole(consoleId: number) {
-        if (this.ship.canBeManaged()) {
-            await this._addConsole(this.room.myPlayer, consoleId, undefined);
-        } else {
-            await this._sendRepair(0x40 | consoleId);
-        }
+        await this._sendRepair(0x40 | consoleId);
     }
 
     private async _removeConsole(player: Player | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
@@ -158,21 +158,20 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
      * console)
      * @param consoleId The ID of the console to add.
      */
+    async removeConsolePlayer(consoleId: number, removedPlayer: Player) {
+        await this._removeConsole(removedPlayer, consoleId, undefined);
+    }
+
     async removeConsole(consoleId: number) {
-        if (this.ship.canBeManaged()) {
-            await this._removeConsole(this.room.myPlayer, consoleId, undefined);
-        } else {
-            await this._sendRepair(0x20 | consoleId);
-        }
+        await this._sendRepair(0x20 | consoleId);
     }
 
     async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this.timer = 45;
         this.dirty = true;
-        const oldCompleted = this.completed;
         this.completed = new Set;
 
-        const ev = await this.emit(
+        await this.emit(
             new SystemSabotageEvent(
                 this.room,
                 this,
@@ -180,11 +179,6 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
                 player
             )
         );
-
-        if (ev.reverted) {
-            this.timer = 10000;
-            this.completed = oldCompleted;
-        }
     }
 
     private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -209,12 +203,16 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    async repair() {
-        if (this.ship.canBeManaged()) {
-            await this._repair(this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(0x10);
-        }
+    async fullyRepairHost(): Promise<void> {
+        await this._repair(undefined, undefined);
+    }
+
+    async fullyRepairPlayer(repairedByPlayer: Player) {
+        await this._repair(repairedByPlayer, undefined);
+    }
+
+    async sendFullRepair() {
+        await this._sendRepair(0x10);
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

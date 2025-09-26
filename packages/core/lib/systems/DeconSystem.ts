@@ -136,12 +136,12 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
+    async enterDeconPlayer(headingUp: boolean, player: Player) {
+        await this._enterDecon(headingUp, player, undefined);
+    }
+
     async enterDecon(headingUp: boolean) {
-        if (this.ship.canBeManaged()) {
-            await this._enterDecon(headingUp, this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(headingUp ? 1 : 2);
-        }
+        await this._sendRepair(headingUp ? 1 : 2);
     }
 
     private async _exitDecon(headingUp: boolean, player: Player | undefined, message: RepairSystemMessage | undefined) {
@@ -186,12 +186,12 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
+    async exitDeconPlayer(headingUp: boolean, player: Player) {
+        await this._exitDecon(headingUp, player, undefined);
+    }
+
     async exitDecon(headingUp: boolean) {
-        if (this.ship.canBeManaged()) {
-            await this._exitDecon(headingUp, this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(headingUp ? 3 : 4);
-        }
+        await this._sendRepair(headingUp ? 3 : 4);
     }
 
     async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {

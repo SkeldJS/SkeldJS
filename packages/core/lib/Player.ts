@@ -203,22 +203,19 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
     }
 
     /**
-     * Whether or not the player is the current client's player.
-     */
-    get isMe() {
-        return this.room.myPlayer === this;
-    }
-
-    /**
      * Mark as readied up to start the game.
      */
     async setReady() {
         this.isReady = true;
         await this.emit(new PlayerReadyEvent(this.room, this));
+    }
 
-        if (this.isMe) {
-            await this.room.broadcast([new ReadyMessage(this.clientId)]);
-        }
+    /**
+     * Mark, and broadcast, as readied up to start the game.
+     */
+    async readyUp() {
+        await this.setReady();
+        await this.room.broadcast([new ReadyMessage(this.clientId)]);
     }
 
     /**
@@ -229,7 +226,7 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
             return;
 
         for (const component of this.control.components) {
-            component.despawn();
+            this.room.despawnComponent(component);
         }
     }
 }

@@ -115,8 +115,6 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         if (this.sabotaged)
             return;
 
-        const oldActual = this.actual;
-        const oldExpected = this.expected;
         this.brightness = 255;
 
         while (!this.sabotaged) {
@@ -126,7 +124,7 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
 
         this.dirty = true;
 
-        const ev = await this.emit(
+        await this.emit(
             new SystemSabotageEvent(
                 this.room,
                 this,
@@ -134,11 +132,6 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
                 player
             )
         );
-
-        if (ev.reverted) {
-            this.actual = oldActual;
-            this.expected = oldExpected;
-        }
     }
 
     private async _setSwitch(num: number, value: boolean, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -175,6 +168,13 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         }
     }
 
+    async setSwitchPlayer(num: number, value: boolean, setByPlayer: Player) {
+        if (this.actual[num] === value)
+            return;
+
+        await this.flipPlayer(num, setByPlayer);
+    }
+
     /**
      * Set the value of a switch as flipped or not flipped
      * @param num The ID of the switch to flip.
@@ -205,12 +205,12 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
      * }
      * ```
      */
+    async flipPlayer(num: number, flippedByPlayer: Player) {
+        await this._setSwitch(num, !this.actual[num], flippedByPlayer, undefined);
+    }
+
     async flip(num: number) {
-        if (this.ship.canBeManaged()) {
-            await this._setSwitch(num, !this.actual[num], this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(num);
-        }
+        await this._sendRepair(num);
     }
 
     private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -231,17 +231,21 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         }
     }
 
-    async repair() {
-        if (this.ship.canBeManaged()) {
-            await this._repair(this.room.myPlayer, undefined);
-        } else {
-            for (let i = 0; i < 5; i++) {
-                const actual = this.actual[i];
-                const expected = this.expected[i];
+    async fullyRepairHost(): Promise<void> {
+        await this._repair(undefined, undefined);
+    }
 
-                if (actual !== expected) {
-                    await this.flip(i);
-                }
+    async fullyRepairPlayer(repairedByPlayer: Player) {
+        await this._repair(repairedByPlayer, undefined);
+    }
+
+    async sendFullRepair() {
+        for (let i = 0; i < 5; i++) {
+            const actual = this.actual[i];
+            const expected = this.expected[i];
+
+            if (actual !== expected) {
+                await this.flip(i);
             }
         }
     }

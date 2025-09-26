@@ -163,15 +163,12 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     }
 
     async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        const oldTimer = this.timer;
-        const oldActive = this.activeConsoles;
-        const oldCompleted = this.completedConsoles;
         this.timer = -1;
         this.activeConsoles = [];
         this.completedConsoles = new Set;
         this.dirty = true;
 
-        const ev = await this.emit(
+        await this.emit(
             new SystemSabotageEvent(
                 this.room,
                 this,
@@ -179,12 +176,6 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
                 player
             )
         );
-
-        if (ev.reverted) {
-            this.timer = oldTimer;
-            this.activeConsoles = oldActive;
-            this.completedConsoles = oldCompleted;
-        }
     }
 
     private async _resetConsoles() {
@@ -234,23 +225,16 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    async openConsoleAs(consoleId: number, player: Player) {
-        await this._openConsole(consoleId, player, undefined);
-    }
-
     /**
      * Mark the console as being used by your player.
      * @param consoleId The ID of the console to mark as being used.
      */
-    async openConsole(consoleId: number) {
-        if (!this.room.myPlayer)
-            return;
+    async openConsolePlayer(consoleId: number, openedByPlayer: Player) {
+        await this._openConsole(consoleId, openedByPlayer, undefined);
+    }
 
-        if (this.ship.canBeManaged()) {
-            await this.openConsoleAs(consoleId, this.room.myPlayer);
-        } else {
-            this._sendRepair(0x40 | consoleId);
-        }
+    async openConsole(consoleId: number) {
+        this._sendRepair(0x40 | consoleId);
     }
 
     private async _closeConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
@@ -278,8 +262,8 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    async closeConsoleAs(consoleId: number, player: Player) {
-        await this._closeConsole(consoleId, player, undefined);
+    async closeConsolePlayer(consoleId: number, closedByPlayer: Player) {
+        await this._closeConsole(consoleId, closedByPlayer, undefined);
     }
 
     /**
@@ -287,14 +271,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
      * @param consoleId The ID of the console to mark as not being used.
      */
     async closeConsole(consoleId: number) {
-        if (!this.room.myPlayer)
-            return;
-
-        if (this.ship.canBeManaged()) {
-            await this.closeConsoleAs(consoleId, this.room.myPlayer);
-        } else {
-            await this._sendRepair(0x20 | consoleId);
-        }
+        await this._sendRepair(0x20 | consoleId);
     }
 
     private async _completeConsole(consoleId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -320,12 +297,12 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
      * Mark a console as completed.
      * @param consoleId The ID of the console to mark as completed.
      */
+    async completeConsolePlayer(consoleId: number, completedByPlayer: Player) {
+        await this._completeConsole(consoleId, completedByPlayer, undefined);
+    }
+
     async completeConsole(consoleId: number) {
-        if (this.ship.canBeManaged()) {
-            await this._completeConsole(consoleId, this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(0x10 | consoleId);
-        }
+        await this._sendRepair(0x10 | consoleId);
     }
 
     private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -348,13 +325,17 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    async repair() {
-        if (this.ship.canBeManaged()) {
-            await this._repair(this.room.myPlayer, undefined);
-        } else {
-            await this.completeConsole(0);
-            await this.completeConsole(1);
-        }
+    async fullyRepairHost(): Promise<void> {
+        await this._repair(undefined, undefined);
+    }
+
+    async fullyRepairPlayer(player: Player) {
+        await this._repair(player, undefined);
+    }
+
+    async sendFullRepair() {
+        await this.completeConsole(0);
+        await this.completeConsole(1);
     }
 
     async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {

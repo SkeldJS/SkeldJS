@@ -52,9 +52,9 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Deserialize(reader: HazelReader, spawn: boolean) {
-        const dirtyBit = reader.uint32();
+        const bitfield = reader.uint32();
         for (let i = 0; i < this.doors.length; i++) {
-            const isOpen = (dirtyBit & (1 << i)) > 0;
+            const isOpen = (bitfield & (1 << i)) > 0;
             if (isOpen) {
                 this._openDoor(i, undefined, undefined);
             } else {
@@ -65,11 +65,11 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     Serialize(writer: HazelWriter, spawn: boolean) {
-        let dirtyBit = 0;
+        let bitfield = 0;
         for (let i = 0; i < this.doors.length; i++) {
-            dirtyBit |= ((this.doors[i].isOpen as unknown) as number) << i;
+            bitfield |= ((this.doors[i].isOpen as unknown) as number) << i;
         }
-        writer.uint32(dirtyBit);
+        writer.uint32(bitfield);
         this.dirty = spawn;
     }
 
@@ -107,8 +107,12 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
      * Open a door by its ID. This is a host operation on official servers.
      * @param doorId the ID of the door to open
      */
-    async openDoor(doorId: number) {
-        await this._openDoor(doorId, this.room.myPlayer, undefined);
+    async openDoorPlayer(doorId: number, openedByPlayer: Player) {
+        await this._openDoor(doorId, openedByPlayer, undefined);
+    }
+
+    async openDoorHost(doorId: number) {
+        await this._openDoor(doorId, undefined, undefined);
     }
 
     private async _closeDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -145,7 +149,11 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
      * Close a door by its ID. This is a host operation on official servers.
      * @param doorId The ID of the door to close.
      */
-    async closeDoor(doorId: number) {
-        await this._closeDoor(doorId, this.room.myPlayer, undefined);
+    async closeDoorPlayer(doorId: number, closedByPlayer: Player) {
+        await this._closeDoor(doorId, closedByPlayer, undefined);
+    }
+
+    async closeDoorHost(doorId: number) {
+        await this._closeDoor(doorId, undefined, undefined);
     }
 }

@@ -114,10 +114,9 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
 
     async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this.timer = 45;
-        const oldCompleted = this.completed;
         this._clearConsoles(player, rpc);
 
-        const ev = await this.emit(
+        await this.emit(
             new SystemSabotageEvent(
                 this.room,
                 this,
@@ -125,11 +124,6 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
                 player
             )
         );
-
-        if (ev.reverted) {
-            this.timer = 10000;
-            this.completed = oldCompleted;
-        }
     }
 
     private async _clearConsoles(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -154,8 +148,8 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
     /**
      * Clear the completed consoles. This is a host operation on official servers.
      */
-    async clearConsoles() {
-        await this._clearConsoles(this.room.myPlayer, undefined);
+    async clearConsolesPlayer(clearedByPlayer: Player | undefined) {
+        await this._clearConsoles(clearedByPlayer, undefined);
     }
 
     private async _completeConsole(consoleId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
@@ -191,12 +185,12 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
      * Mark a console as being complete.
      * @param consoleId The ID of the console to mark as complete.
      */
+    async completeConsolePlayer(consoleId: number, completedByPlayer: Player) {
+        await this._completeConsole(consoleId, completedByPlayer, undefined);
+    }
+
     async completeConsole(consoleId: number) {
-        if (this.ship.canBeManaged()) {
-            await this._completeConsole(consoleId, this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(0x40 | consoleId);
-        }
+        await this._sendRepair(0x40 | consoleId);
     }
 
     private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
@@ -221,12 +215,16 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         }
     }
 
-    async repair() {
-        if (this.ship.canBeManaged()) {
-            this._repair(this.room.myPlayer, undefined);
-        } else {
-            await this._sendRepair(0x10);
-        }
+    async fullyRepairHost(): Promise<void> {
+        await this._repair(undefined, undefined);
+    }
+
+    async fullyRepairPlayer(player: Player) {
+        this._repair(player, undefined);
+    }
+
+    async sendFullRepair() {
+        await this._sendRepair(0x10);
     }
 
     async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {

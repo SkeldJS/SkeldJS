@@ -167,67 +167,67 @@ export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends
             players: new Set,
         }));
 
-        const electricaldoors = this.systems.get(SystemType.Decontamination) as ElectricalDoorsSystem;
-        electricaldoors.doors = [
-            new Door(electricaldoors, 0, false),
-            new Door(electricaldoors, 1, false),
-            new Door(electricaldoors, 2, false),
-            new Door(electricaldoors, 3, false),
-            new Door(electricaldoors, 4, false),
-            new Door(electricaldoors, 5, false),
-            new Door(electricaldoors, 6, false),
-            new Door(electricaldoors, 7, false),
-            new Door(electricaldoors, 8, false),
-            new Door(electricaldoors, 9, false),
-            new Door(electricaldoors, 10, false),
-            new Door(electricaldoors, 11, false)
+        const electricalDoors = this.systems.get(SystemType.Decontamination) as ElectricalDoorsSystem;
+        electricalDoors.doors = [
+            new Door(electricalDoors, 0, false),
+            new Door(electricalDoors, 1, false),
+            new Door(electricalDoors, 2, false),
+            new Door(electricalDoors, 3, false),
+            new Door(electricalDoors, 4, false),
+            new Door(electricalDoors, 5, false),
+            new Door(electricalDoors, 6, false),
+            new Door(electricalDoors, 7, false),
+            new Door(electricalDoors, 8, false),
+            new Door(electricalDoors, 9, false),
+            new Door(electricalDoors, 10, false),
+            new Door(electricalDoors, 11, false)
         ];
 
-        const autodoors = this.systems.get(SystemType.Decontamination2) as AutoDoorsSystem;
-        autodoors.doors = [
-            new AutoOpenDoor(autodoors, 15, true),
-            new AutoOpenDoor(autodoors, 16, true),
-            new AutoOpenDoor(autodoors, 17, true),
-            new AutoOpenDoor(autodoors, 18, true)
+        const autoDoors = this.systems.get(SystemType.Decontamination2) as AutoDoorsSystem;
+        autoDoors.doors = [
+            new AutoOpenDoor(autoDoors, 15, true),
+            new AutoOpenDoor(autoDoors, 16, true),
+            new AutoOpenDoor(autoDoors, 17, true),
+            new AutoOpenDoor(autoDoors, 18, true)
         ];
 
-        const doorsystem = this.systems.get(SystemType.Doors)! as DoorsSystem;
-        doorsystem.doors = [
-            new Door(doorsystem, 0, true),
-            new Door(doorsystem, 1, true),
-            new Door(doorsystem, 2, true),
-            new Door(doorsystem, 3, true),
-            new Door(doorsystem, 4, true),
-            new Door(doorsystem, 5, true),
-            new Door(doorsystem, 6, true),
-            new Door(doorsystem, 7, true),
-            new Door(doorsystem, 8, true),
-            new Door(doorsystem, 9, true),
-            new Door(doorsystem, 10, true),
-            new Door(doorsystem, 11, true),
-            new Door(doorsystem, 12, true),
-            new Door(doorsystem, 13, true),
-            new Door(doorsystem, 14, true),
-            new Door(doorsystem, 15, true),
-            new Door(doorsystem, 16, true),
-            new Door(doorsystem, 17, true),
-            new Door(doorsystem, 18, true),
-            new Door(doorsystem, 19, true),
-            new Door(doorsystem, 20, true)
+        const doorsSystem = this.systems.get(SystemType.Doors)! as DoorsSystem;
+        doorsSystem.doors = [
+            new Door(doorsSystem, 0, true),
+            new Door(doorsSystem, 1, true),
+            new Door(doorsSystem, 2, true),
+            new Door(doorsSystem, 3, true),
+            new Door(doorsSystem, 4, true),
+            new Door(doorsSystem, 5, true),
+            new Door(doorsSystem, 6, true),
+            new Door(doorsSystem, 7, true),
+            new Door(doorsSystem, 8, true),
+            new Door(doorsSystem, 9, true),
+            new Door(doorsSystem, 10, true),
+            new Door(doorsSystem, 11, true),
+            new Door(doorsSystem, 12, true),
+            new Door(doorsSystem, 13, true),
+            new Door(doorsSystem, 14, true),
+            new Door(doorsSystem, 15, true),
+            new Door(doorsSystem, 16, true),
+            new Door(doorsSystem, 17, true),
+            new Door(doorsSystem, 18, true),
+            new Door(doorsSystem, 19, true),
+            new Door(doorsSystem, 20, true)
         ];
 
         const hashSet: Set<ElectricalDoorsAirship[]> = new Set;
         let room = AirshipStatus.electricalRooms[0];
         let count = 0;
         while (hashSet.size < AirshipStatus.electricalRooms.length && count++ < 10000) {
-            const door = electricaldoors.doors[room[Math.floor(Math.random() * room.length)]];
+            const door = electricalDoors.doors[room[Math.floor(Math.random() * room.length)]];
             const doorSet = AirshipStatus.electricalRooms.find(r => r !== room && r.includes(door.doorId));
 
             if (!doorSet)
                 continue;
 
             if (hashSet.size !== hashSet.add(doorSet).size) {
-                door.setOpen(true);
+                electricalDoors.openDoorHost(door.doorId);
             }
             if (Math.random() >= 0.5) {
                 hashSet.add(room);
@@ -235,8 +235,13 @@ export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends
             }
         }
         const exitFlag = Math.random() >= 0.5;
-        electricaldoors.doors[ElectricalDoorsAirship.TopLeftWest].setOpen(exitFlag);
-        electricaldoors.doors[ElectricalDoorsAirship.CenterLeftWest].setOpen(!exitFlag);
+        if (exitFlag) {
+            electricalDoors.openDoorHost(ElectricalDoorsAirship.TopLeftWest);
+            electricalDoors.closeDoorHost(ElectricalDoorsAirship.CenterLeftWest);
+        } else {
+            electricalDoors.closeDoorHost(ElectricalDoorsAirship.TopLeftWest);
+            electricalDoors.openDoorHost(ElectricalDoorsAirship.CenterLeftWest);
+        }
     }
 
     async HandleRpc(rpc: RepairSystemMessage) {
