@@ -26,6 +26,7 @@ export * from "./SendQuickChat";
 export * from "./SetColor";
 export * from "./SetHat";
 export * from "./SetInfected";
+export * from "./SetLevel";
 export * from "./SetName";
 export * from "./SetNameplate";
 export * from "./SetPet";

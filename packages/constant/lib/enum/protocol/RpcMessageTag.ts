@@ -43,5 +43,16 @@ export enum RpcMessageTag {
     CheckMurder,
     CheckProtect,
     Pet,
-    CancelPet
+    CancelPet,
+    CheckZipline,
+    TriggerSpores,
+    CheckSpore,
+    CheckShapeshift,
+    RejectShapeshift,
+    LobbyTimeExpiring = 60,
+    ExtendLobbyTimer,
+    CheckVanish,
+    StartVanish,
+    CheckAppear,
+    StartAppear,
 }

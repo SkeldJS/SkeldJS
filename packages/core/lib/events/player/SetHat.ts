@@ -14,7 +14,7 @@ export class PlayerSetHatEvent<RoomType extends StatefulRoom = StatefulRoom> ext
     static eventName = "player.sethat" as const;
     eventName = "player.sethat" as const;
 
-    private _atleredHatId: string;
+    private _alteredHatId: string;
 
     constructor(
         public readonly room: RoomType,
@@ -31,14 +31,14 @@ export class PlayerSetHatEvent<RoomType extends StatefulRoom = StatefulRoom> ext
     ) {
         super();
 
-        this._atleredHatId = newHatId;
+        this._alteredHatId = newHatId;
     }
 
     /**
      * The altered hat that the player will have set instead, if changed.
      */
     get alteredHatId() {
-        return this._atleredHatId;
+        return this._alteredHatId;
     }
 
     /**
@@ -53,6 +53,6 @@ export class PlayerSetHatEvent<RoomType extends StatefulRoom = StatefulRoom> ext
      * @param hatId The hat to set.
      */
     setHat(hatId: string) {
-        this._atleredHatId = hatId;
+        this._alteredHatId = hatId;
     }
 }

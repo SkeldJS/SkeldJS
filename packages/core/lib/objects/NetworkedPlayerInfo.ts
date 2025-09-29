@@ -463,6 +463,11 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom = StatefulRoom> e
         this.dirtyBit = 1;
     }
 
+    setLevel(level: number) {
+        this.playerLevel = level;
+        this.dirtyBit = 1;
+    }
+
     /**
      * Set the flags of this player.
      */

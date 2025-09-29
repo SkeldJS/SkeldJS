@@ -81,7 +81,10 @@ import {
     SyncSettingsMessage,
     UpdateSystemMessage,
     UsePlatformMessage,
-    VotingCompleteMessage
+    VotingCompleteMessage,
+    ExiledMessage,
+    SetLevelMessage,
+    CancelPetMessage
 } from "./packets/rpc";
 
 import {
@@ -109,7 +112,7 @@ export interface Serializable {
 }
 
 export type GetSerialized<T extends Deserializable> = T extends {
-    new (...args: any[]): infer X;
+    new(...args: any[]): infer X;
 }
     ? X
     : never;
@@ -118,7 +121,7 @@ export interface Deserializable {
     messageType: string;
     messageTag: number;
 
-    new (...args: any[]): Serializable;
+    new(...args: any[]): Serializable;
 
     Deserialize(
         reader: HazelReader,
@@ -198,52 +201,53 @@ export class PacketDecoder<ContextType = any> {
             DespawnMessage,
             ReadyMessage,
             RpcMessage,
-            SpawnMessage
+            SpawnMessage,
+            SceneChangeMessage
         );
 
         this.register(
-            AddVoteMessage,
-            CastVoteMessage,
-            CheckColorMessage,
-            CheckMurderMessage,
-            CheckNameMessage,
-            CheckProtectMessage,
-            ClearVoteMessage,
-            ClimbLadderMessage,
-            CloseMessage,
-            CloseDoorsOfTypeMessage,
-            CompleteTaskMessage,
-            EnterVentMessage,
-            PetMessage,
-            ExitVentMessage,
-            MurderPlayerMessage,
             PlayAnimationMessage,
-            ProtectPlayerMessage,
-            RepairSystemMessage,
-            ReportDeadBodyMessage,
-            SceneChangeMessage,
-            SendChatMessage,
-            SendChatNoteMessage,
-            SendQuickChatMessage,
-            SetColorMessage,
-            SetInfectedMessage,
-            SetNameMessage,
-            SetNameplateMessage,
-            SetPetMessage,
-            SetRoleMessage,
-            SetScanner,
-            SetSkinMessage,
-            SetStartCounterMessage,
-            SetTasksMessage,
-            SetVisorMessage,
-            ShapeshiftMessage,
-            SnapToMessage,
-            StartMeetingMessage,
+            CompleteTaskMessage,
             SyncSettingsMessage,
-            UpdateSystemMessage,
-            UsePlatformMessage,
+            SetInfectedMessage,
+            ExiledMessage,
+            CheckNameMessage,
+            SetNameMessage,
+            CheckColorMessage,
+            SetColorMessage,
+            ReportDeadBodyMessage,
+            MurderPlayerMessage,
+            SendChatMessage,
+            StartMeetingMessage,
+            SetStartCounterMessage,
+            EnterVentMessage,
+            ExitVentMessage,
+            SnapToMessage,
+            CloseMessage,
             VotingCompleteMessage,
-            SetHatMessage
+            CastVoteMessage,
+            ClearVoteMessage,
+            AddVoteMessage,
+            CloseDoorsOfTypeMessage,
+            RepairSystemMessage,
+            SetTasksMessage,
+            ClimbLadderMessage,
+            UsePlatformMessage,
+            SendQuickChatMessage,
+            UpdateSystemMessage,
+            SetLevelMessage,
+            SetHatMessage,
+            SetSkinMessage,
+            SetPetMessage,
+            SetVisorMessage,
+            SetNameplateMessage,
+            SetRoleMessage,
+            ProtectPlayerMessage,
+            ShapeshiftMessage,
+            CheckMurderMessage,
+            CheckProtectMessage,
+            PetMessage,
+            CancelPetMessage,
         );
 
         this.register(
@@ -538,7 +542,7 @@ export class PacketDecoder<ContextType = any> {
     private _parse(
         reader: Buffer | HazelReader,
         direction: MessageDirection = MessageDirection.Clientbound
-    ): Serializable|null {
+    ): Serializable | null {
         if (Buffer.isBuffer(reader)) {
             return this._parse(HazelReader.from(reader), direction);
         }

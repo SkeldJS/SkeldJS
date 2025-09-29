@@ -22,6 +22,7 @@ import {
     SendQuickChatMessage,
     SetColorMessage,
     SetHatMessage,
+    SetLevelMessage,
     SetNameMessage,
     SetNameplateMessage,
     SetPetMessage,
@@ -82,7 +83,8 @@ import {
     PlayerProtectEvent,
     PlayerCheckProtectEvent,
     PlayerShapeshiftEvent,
-    PlayerRevertShapeshiftEvent
+    PlayerRevertShapeshiftEvent,
+    PlayerSetLevelEvent
 } from "../events";
 
 import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "../NetworkedObject";
@@ -122,6 +124,7 @@ export type PlayerControlEvents<RoomType extends StatefulRoom = StatefulRoom> = 
             PlayerSendQuickChatEvent<RoomType>,
             PlayerSetColorEvent<RoomType>,
             PlayerSetHatEvent<RoomType>,
+            PlayerSetLevelEvent<RoomType>,
             PlayerSetNameEvent<RoomType>,
             PlayerSetNameplateEvent<RoomType>,
             PlayerSetPetEvent<RoomType>,
@@ -318,6 +321,9 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
                 break;
             case RpcMessageTag.SendQuickChat:
                 await this._handleSendQuickChat(rpc as SendQuickChatMessage);
+                break;
+            case RpcMessageTag.SetLevel:
+                await this._handleSetLevel(rpc as SetLevelMessage);
                 break;
             case RpcMessageTag.SetHat:
                 await this._handleSetHat(rpc as SetHatMessage);
@@ -1251,6 +1257,53 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
             )
         );
         this._rpcSendQuickChat(quickChatMessage);
+    }
+
+    private async _handleSetLevel(rpc: SetLevelMessage) {
+        const playerInfo = this.getPlayerInfo();
+        const oldLevel = playerInfo?.playerLevel || 0;
+        playerInfo?.setLevel(rpc.level);
+
+        const ev = await this.emit(
+            new PlayerSetLevelEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldLevel,
+                rpc.level,
+            )
+        );
+
+        if (ev.alteredLevel !== rpc.level)
+            this._rpcSetLevel(ev.alteredLevel);
+    }
+
+    private _rpcSetLevel(level: number) {
+        this.room.messageStream.push(
+            new RpcMessage(
+                this.netId,
+                new SetLevelMessage(level),
+            )
+        );
+    }
+
+    async setLevel(level: number) {
+        const playerInfo = this.getPlayerInfo();
+        const oldLevel = playerInfo?.playerLevel || 0;
+        playerInfo?.setLevel(level);
+
+        const ev = await this.emit(
+            new PlayerSetLevelEvent(
+                this.room,
+                this.player,
+                undefined,
+                oldLevel,
+                level,
+            )
+        );
+
+        if (ev.alteredLevel !== oldLevel)
+            this._rpcSetLevel(ev.alteredLevel);
     }
 
     private async _handleSetHat(rpc: SetHatMessage) {
