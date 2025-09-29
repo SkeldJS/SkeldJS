@@ -141,7 +141,7 @@ constructor(
     flags: number, // The flags that the component was instantiated with
     data?: HazelReader | any // The data to instantiate the component with
 ) {
-    super(room, spawnType, netId, ownerid, flags, data);
+    super(room, spawnType, netId, ownerId, flags, data);
 }
 ```
 

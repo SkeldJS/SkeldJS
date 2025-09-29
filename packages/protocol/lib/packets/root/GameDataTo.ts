@@ -12,12 +12,12 @@ export class GameDataToMessage extends BaseRootMessage {
     messageTag = RootMessageTag.GameDataTo as const;
 
     code: number;
-    recipientid: number;
+    recipientId: number;
     _children: BaseGameDataMessage[]; // Starts with _ to avoid children getting emitted.
 
     constructor(
         code: string | number,
-        recipientid: number,
+        recipientId: number,
         children: BaseGameDataMessage[]
     ) {
         super();
@@ -28,7 +28,7 @@ export class GameDataToMessage extends BaseRootMessage {
             this.code = code;
         }
 
-        this.recipientid = recipientid;
+        this.recipientId = recipientId;
         this._children = children;
     }
 
@@ -38,7 +38,7 @@ export class GameDataToMessage extends BaseRootMessage {
         decoder: PacketDecoder
     ) {
         const code = reader.int32();
-        const recipientid = reader.packed();
+        const recipientId = reader.packed();
 
         const children: BaseGameDataMessage[] = [];
 
@@ -57,7 +57,7 @@ export class GameDataToMessage extends BaseRootMessage {
             children.push(root as BaseGameDataMessage);
         }
 
-        return new GameDataToMessage(code, recipientid, children);
+        return new GameDataToMessage(code, recipientId, children);
     }
 
     Serialize(
@@ -66,7 +66,7 @@ export class GameDataToMessage extends BaseRootMessage {
         decoder: PacketDecoder
     ) {
         writer.int32(this.code);
-        writer.packed(this.recipientid);
+        writer.packed(this.recipientId);
 
 
         for (const message of this._children) {
@@ -80,6 +80,6 @@ export class GameDataToMessage extends BaseRootMessage {
     }
 
     clone() {
-        return new GameDataToMessage(this.code, this.recipientid, this._children.map(child => child.clone()));
+        return new GameDataToMessage(this.code, this.recipientId, this._children.map(child => child.clone()));
     }
 }

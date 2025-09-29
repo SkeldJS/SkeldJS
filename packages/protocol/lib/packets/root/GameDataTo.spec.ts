@@ -28,7 +28,7 @@ describe("GameDataToMessage", () => {
 
             assert.strictEqual(packet.messageTag, RootMessageTag.GameDataTo);
             assert.strictEqual(packet.code, -1932862904);
-            assert.strictEqual(packet.recipientid, 38847);
+            assert.strictEqual(packet.recipientId, 38847);
             assert.strictEqual(packet._children.length, 3);
             assert.deepStrictEqual(
                 packet._children.map((child) => child.messageTag),
