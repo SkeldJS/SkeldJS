@@ -306,7 +306,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
     private _castVote(voterState: PlayerVoteArea<RoomType>, suspect?: Player<RoomType>) {
         if (voterState) {
             if (suspect) {
-                voterState.setSuspect(suspect.playerId!);
+                voterState.setSuspect(suspect.getPlayerId()!);
             } else {
                 voterState.setSkipped();
             }
@@ -318,9 +318,9 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
             new RpcMessage(
                 this.netId,
                 new CastVoteMessage(
-                    voter.playerId!,
+                    voter.getPlayerId()!,
                     suspect
-                        ? suspect.playerId!
+                        ? suspect.getPlayerId()!
                         : 255
                 )
             )
@@ -352,8 +352,8 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         const _suspect =
             suspect === "skip" ? undefined : this.room.resolvePlayer(suspect);
 
-        if (player && player.playerId !== undefined) {
-            const votingState = this.voteStates.get(player.playerId);
+        if (player && player.getPlayerId() !== undefined) {
+            const votingState = this.voteStates.get(player.getPlayerId()!);
 
             if (votingState) {
                 if (this.room.canManageObject(this)) {
@@ -415,7 +415,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
     }
 
     async setVoteCleared(player: Player) {
-        const _voter = this.voteStates.get(player.playerId!);
+        const _voter = this.voteStates.get(player.getPlayerId()!);
 
         if (_voter) {
             this._clearVote(_voter);
@@ -438,7 +438,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
     async clearVoteBroadcast(voter: PlayerResolvable) {
         const player = this.room.resolvePlayer(voter);
 
-        if (player && player.playerId !== undefined) {
+        if (player && player.getPlayerId() !== undefined) {
             const clearedVote = await this.setVoteCleared(player);
             await this._rpcClearVote(player);
         }
@@ -549,7 +549,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
             new RpcMessage(
                 this.netId,
                 new VotingCompleteMessage(
-                    states.map(state => new VoteState(state.playerId, state.votedForId)), exiled ? exiled.playerId ?? 0xff : 0xff, tie)
+                    states.map(state => new VoteState(state.playerId, state.votedForId)), exiled ? exiled.getPlayerId() ?? 0xff : 0xff, tie)
             )
         );
     }

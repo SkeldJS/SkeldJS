@@ -190,11 +190,6 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom = S
         for (const [player, roleCtr] of assignedCrewmates) {
             roleAssignments.set(player, roleCtr);
         }
-        for (const [, playerController] of this.manager.room.networkedObjects) {
-            if (playerController instanceof PlayerControl && playerController.player.isFakePlayer) {
-                roleAssignments.set(playerController.player, CrewmateRole);
-            }
-        }
 
         const ev = await this.emit(
             new RoomAssignRolesEvent(

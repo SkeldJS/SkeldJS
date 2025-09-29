@@ -62,8 +62,8 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         writer.upacked(this.queue.length);
 
         for (let i = 0; i < this.queue.length; i++) {
-            if (this.queue[i].playerId)
-                writer.uint8(this.queue[i].playerId!);
+            if (this.queue[i].getPlayerId())
+                writer.uint8(this.queue[i].getPlayerId()!);
         }
     }
 
@@ -100,14 +100,15 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
      * Add a player to the queue.
      * @param player The player to add.
      */
-    async addToQueue(player: Player<RoomType>) {
-        if (player.playerId === undefined)
+    async addToQueuePlayer(player: Player<RoomType>) {
+        const playerId = player.getPlayerId();
+        if (playerId === undefined)
             return;
 
         if (this.ship.room.canManageObject(this.ship)) {
             await this._joinQueue(player, undefined);
         } else {
-            await this._sendRepair(player.playerId | 0x80);
+            await this._sendRepair(playerId | 0x80);
         }
     }
 
@@ -137,14 +138,15 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
      * Remove a player from the queue.
      * @param player The player to remove.
      */
-    async removeFromQueue(player: Player<RoomType>) {
-        if (player.playerId === undefined)
+    async removeFromQueuePlayer(player: Player<RoomType>) {
+        const playerId = player.getPlayerId();
+        if (playerId === undefined)
             return;
 
         if (this.ship.room.canManageObject(this.ship)) {
             await this._leaveQueue(player, undefined);
         } else {
-            await this._sendRepair(player.playerId | 0x40);
+            await this._sendRepair(playerId | 0x40);
         }
     }
 

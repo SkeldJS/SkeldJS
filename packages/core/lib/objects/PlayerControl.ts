@@ -747,7 +747,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     private async _rpcReportDeadBody(body: Player | "emergency"): Promise<void> {
-        if (body !== "emergency" && body.playerId === undefined) {
+        if (body !== "emergency" && body.getPlayerId() === undefined) {
             return this._rpcReportDeadBody("emergency");
         }
 
@@ -757,7 +757,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
                 new ReportDeadBodyMessage(
                     body === "emergency"
                         ? 0xff
-                        : body.playerId!
+                        : body.getPlayerId()!
                 )
             )
         ], undefined, [this.room.authorityId]);
@@ -933,13 +933,14 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     private _rpcSendChatNote(player: Player, type: ChatNoteType) {
-        if (player.playerId === undefined)
+        const playerId = player.getPlayerId();
+        if (playerId === undefined)
             return;
 
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new SendChatNoteMessage(player.playerId, type)
+                new SendChatNoteMessage(playerId, type)
             )
         );
     }
@@ -972,7 +973,8 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     private _startMeeting(caller: Player) {
-        if (caller.playerId === undefined)
+        const callerPlayerId = caller.getPlayerId();
+        if (callerPlayerId === undefined)
             return;
 
         const spawnMeetinghud = this.room.spawnPrefabOfType(
@@ -983,7 +985,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
             false
         ) as MeetingHud<RoomType>;
 
-        const callerState = spawnMeetinghud.voteStates.get(caller.playerId);
+        const callerState = spawnMeetinghud.voteStates.get(callerPlayerId);
         if (callerState) {
             callerState.didReport = true;
         }
@@ -1041,7 +1043,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     private _rpcStartMeeting(player: Player | "emergency"): void {
-        if (player !== "emergency" && player.playerId === undefined) {
+        if (player !== "emergency" && player.getPlayerId() === undefined) {
             return this._rpcStartMeeting("emergency");
         }
 
@@ -1051,7 +1053,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
                 new StartMeetingMessage(
                     player === "emergency"
                         ? 0xff
-                        : player.playerId!
+                        : player.getPlayerId()!
                 )
             )
         );
@@ -1243,10 +1245,10 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
                 ? new QuickChatComplexMessageData(message, format.map(format => {
                     return typeof format === "number"
                         ? new QuickChatSimpleMessageData(format)
-                        : new QuickChatPlayerMessageData(format.playerId!);
+                        : new QuickChatPlayerMessageData(format.getPlayerId()!);
                 }))
                 : new QuickChatSimpleMessageData(message)
-            : new QuickChatPlayerMessageData(message.playerId!);
+            : new QuickChatPlayerMessageData(message.getPlayerId()!);
 
         this.emitSync(
             new PlayerSendQuickChatEvent(

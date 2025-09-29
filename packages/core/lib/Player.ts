@@ -155,36 +155,18 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
     }
 
     /**
-     * Whether or not this player is a fake player, as in they are entirely
-     * client-side and have no real player behind them.
-     */
-    get isFakePlayer() {
-        return this.control && this.clientId === 0;
-    }
-
-    /**
      * The player's game information, such as dead/impostor/disconnected states,
      * hats, names, pets, etc.
      */
     getPlayerInfo(): NetworkedPlayerInfo | undefined {
-        if (this.playerId === undefined) return undefined;
-        return this.room.playerInfo.get(this.playerId);
-    }
-
-    /**
-     * Shorthand for `player.playerInfo.defaultOutfit.name`.
-     *
-     * This will return the player's name as it appears in-game, not including
-     * the name of the player that they might have shapeshifted into.
-     */
-    get playerName() {
-        return this.getPlayerInfo()?.defaultOutfit.name;
+        if (this.getPlayerId() === undefined) return undefined;
+        return this.room.playerInfo.get(this.getPlayerId()!);
     }
 
     /**
      * The room-unique player ID of the player.
      */
-    get playerId() {
+    getPlayerId() {
         return this.control?.playerId;
     }
 
@@ -193,13 +175,6 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
      */
     get hasSpawned() {
         return !!(this.control && this.physics && this.transform);
-    }
-
-    /**
-     * Whether or not the player is the host of the room they belong in.
-     */
-    get isHost() {
-        return this.room.playerAuthority === this;
     }
 
     /**

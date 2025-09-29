@@ -196,13 +196,13 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     }
 
     private async _openConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
-        if (player.playerId === undefined)
-            return;
+        const playerId = player.getPlayerId();
+        if (playerId === undefined) return;
 
-        const idx = this._getIdx(consoleId, player.playerId);
+        const idx = this._getIdx(consoleId, playerId);
 
         if (idx === -1) {
-            const consoleEntry = { consoleId, playerId: player.playerId };
+            const consoleEntry = { consoleId, playerId: playerId };
             this.activeConsoles.push(consoleEntry);
             this.dirty = true;
             const ev = await this.emit(
@@ -238,10 +238,10 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     }
 
     private async _closeConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
-        if (player.playerId === undefined)
-            return;
+        const playerId = player.getPlayerId();
+        if (playerId === undefined) return;
 
-        const idx = this._getIdx(consoleId, player.playerId);
+        const idx = this._getIdx(consoleId, playerId);
 
         if (idx > -1) {
             const consoleEntry = this.activeConsoles[idx];

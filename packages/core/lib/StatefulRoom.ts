@@ -721,22 +721,24 @@ export class StatefulRoom<
         if (!player)
             return null;
 
-        if (player.playerId !== undefined) {
+        const playerId = player.getPlayerId();
+
+        if (playerId !== undefined) {
             if (this.gameState === GameState.Started) {
-                const gamedataEntry = this.playerInfo.get(player.playerId);
+                const gamedataEntry = this.playerInfo.get(playerId);
                 if (gamedataEntry) {
                     gamedataEntry.setDisconnected(true);
                 }
 
                 this.checkPlayersRemaining();
             } else {
-                this.playerInfo.delete(player.playerId);
+                this.playerInfo.delete(playerId);
             }
 
             if (this.isAuthoritative && this.meetingHud) {
                 for (const [, voteState] of this.meetingHud.voteStates) {
                     const voteStatePlayer = voteState.player;
-                    if (voteStatePlayer && voteState.votedForId === player.playerId) {
+                    if (voteStatePlayer && voteState.votedForId === playerId) {
                         this.meetingHud.clearVoteBroadcast(voteStatePlayer);
                     }
                 }
@@ -1147,23 +1149,6 @@ export class StatefulRoom<
             throw new Error("Cannot spawn object of type: " + spawnType + " (not registered)");
 
         return this.spawnPrefab(spawnType, spawnPrefab, ownerId, flags, componentData, doBroadcast, doAwake);
-    }
-
-    /**
-     * Create a fake player in the room that doesn't need a client to be connected
-     * to own it.
-     *
-     * To dispose of the player, use `player.destroy()`.
-     * @param isNew Whether or not the player should be seen jumping off of the seat in the lobby.
-     * @returns The fake player created.
-     */
-    createFakePlayer(isNew = true): Player<this> {
-        const player = new Player(this, 0, "dummy");
-        const playerControl = this.spawnPrefabOfType(SpawnType.Player, SpecialOwnerId.Global, undefined, !isNew ? [{ isNew: false }] : undefined) as PlayerControl<this>;
-        playerControl.player = player;
-        player.control = playerControl;
-
-        return player;
     }
 
     /**

@@ -116,7 +116,7 @@ export class PolusShipStatus<RoomType extends StatefulRoom = StatefulRoom> exten
     getSpawnPosition(player: Player | number, initialSpawn: boolean) {
         const playerId = typeof player === "number"
             ? player
-            : player.playerId!;
+            : player.getPlayerId()!;
 
         if (initialSpawn) {
             return super.getSpawnPosition(player, initialSpawn);

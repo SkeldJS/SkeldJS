@@ -305,7 +305,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
     getSpawnPosition(player: Player | number, initialSpawn: boolean) {
         const playerId = typeof player === "number"
             ? player
-            : player.playerId!;
+            : player.getPlayerId()!;
 
         return Vector2.up
             .rotateDeg((playerId - 1) * (360 / this.room.players.size))
@@ -324,7 +324,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
      * @param broadcast Whether or not to broadcast the updates.
      */
     spawnPlayer(player: Player, initialSpawn: boolean, broadcast: boolean) {
-        if (player.playerId === undefined)
+        if (player.getPlayerId() === undefined)
             return;
 
         const spawnPosition = this.getSpawnPosition(player, initialSpawn);

@@ -67,7 +67,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
         const players = [...this.players];
         writer.upacked(players.length);
         for (let i = 0; i < players.length; i++) {
-            if (players[i].playerId) writer.uint8(players[i].playerId!);
+            if (players[i].getPlayerId()) writer.uint8(players[i].getPlayerId()!);
         }
     }
 

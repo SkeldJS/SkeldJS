@@ -189,13 +189,13 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
     }
 
     private async _openConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
-        if (player.playerId === undefined)
+        const playerId = player.getPlayerId();
+        if (playerId === undefined) return;
+
+        if (this.activeConsoles.has(playerId))
             return;
 
-        if (this.activeConsoles.has(player.playerId))
-            return;
-
-        this.activeConsoles.set(player.playerId, consoleId);
+        this.activeConsoles.set(playerId, consoleId);
         this.dirty = true;
         const ev = await this.emit(
             new HeliSabotageConsoleOpenEvent(
@@ -207,11 +207,11 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
             )
         );
         if (ev.reverted) {
-            this.activeConsoles.delete(player.playerId);
+            this.activeConsoles.delete(playerId);
             return;
         }
         if (ev.alteredConsoleId !== consoleId) {
-            this.activeConsoles.set(player.playerId, ev.alteredConsoleId);
+            this.activeConsoles.set(playerId, ev.alteredConsoleId);
         }
     }
 
@@ -228,10 +228,10 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
     }
 
     private async _closeConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
-        if (player.playerId === undefined)
-            return;
+        const playerId = player.getPlayerId();
+        if (playerId === undefined) return;
 
-        if (!this.activeConsoles.delete(player.playerId))
+        if (!this.activeConsoles.delete(playerId))
             return;
 
         this.dirty = true;
@@ -245,7 +245,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
             )
         );
         if (ev.reverted) {
-            this.activeConsoles.delete(player.playerId);
+            this.activeConsoles.delete(playerId);
         }
     }
 
