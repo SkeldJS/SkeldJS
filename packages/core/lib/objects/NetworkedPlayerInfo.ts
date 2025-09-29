@@ -505,7 +505,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom = StatefulRoom> e
     async setTasks(taskIds: number[]) {
         // TODO: events
 
-        this.setTasks(taskIds);
+        this._setTasks(taskIds);
         await this._rpcSetTasks(taskIds);
     }
 
