@@ -31,7 +31,7 @@ export class KickPlayerMessage extends BaseRootMessage {
         this.reason = reason || DisconnectReason.Error;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
         const clientId = reader.packed();
         const banned = reader.bool();
@@ -40,7 +40,7 @@ export class KickPlayerMessage extends BaseRootMessage {
         return new KickPlayerMessage(code, clientId, banned, reason);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.int32(this.code);
         writer.packed(this.clientId);
         writer.bool(this.banned);

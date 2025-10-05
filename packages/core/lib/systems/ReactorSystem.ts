@@ -41,6 +41,8 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     ReactorSystemEvents,
     RoomType
 > implements ReactorSystemData {
+    private _lastUpdate = 0;
+
     /**
      * The timer before the reactor explodes.
      */
@@ -67,7 +69,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         this.timer = reader.float();
 
         const num_consoles = reader.upacked();
@@ -78,7 +80,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.float(this.timer);
         const completed = [...this.completed];
         writer.upacked(completed.length);
@@ -166,7 +168,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         await this._sendRepair(0x20 | consoleId);
     }
 
-    async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this.timer = 45;
         this.dirty = true;
         this.completed = new Set;
@@ -216,7 +218,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {
@@ -230,8 +232,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         this.dirty = true;
     }
 
-    private _lastUpdate = 0;
-    Detoriorate(delta: number) {
+    async processFixedUpdate(delta: number) {
         if (!this.sabotaged)
             return;
 

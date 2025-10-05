@@ -16,14 +16,14 @@ export class ClimbLadderMessage extends BaseRpcMessage {
         this.sequenceid = sequenceid;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const ladderid = reader.uint8();
         const sequenceid = reader.uint8();
 
         return new ClimbLadderMessage(ladderid, sequenceid);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.ladderid);
         writer.uint8(this.sequenceid);
     }

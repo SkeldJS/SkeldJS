@@ -10,14 +10,14 @@ export class SetNameplateMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const nameplateId = reader.string();
         const sequenceId = reader.uint8();
 
         return new SetNameplateMessage(nameplateId, sequenceId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.nameplateId);
         writer.uint8(this.sequenceId);
     }

@@ -1,16 +1,50 @@
 import { ExtractEventTypes } from "@skeldjs/events";
+import { RoleTeamType, RoleType } from "@skeldjs/constant";
+import { BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
+import { HazelWriter, HazelReader } from "@skeldjs/util";
+
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { Player } from "../../Player";
 import { BaseRole, CrewmateRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
-import { RoleTeamType, RoleType } from "@skeldjs/constant";
-import { PlayerControl, RoleAssignmentData } from "../../objects";
-import { RoleChanceSettings } from "@skeldjs/protocol";
+import { RoleAssignmentData } from "../../objects";
 
 export type NormalRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<NormalRoleSelectionLogicComponentEvents, RoomType> {
+    async processFixedUpdate(deltaTime: number): Promise<void> {
+        void deltaTime;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
+        void rpc;
+    }
+
+    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
+        void writer, initialState;
+    }
+
+    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
+        void reader, initialState;
+    }
+
+    async onGameStart(): Promise<void> {
+        void 0;
+    }
+
+    async onGameEnd(): Promise<void> {
+        void 0;
+    }
+
+    async onDestroy(): Promise<void> {
+        void 0;
+    }
+
+    async onPlayerDisconnect(): Promise<void> {
+        void 0;
+    }    
+
     /**
      * Get all roles registered on the room that match a given filter.
      * @param filter The filter to match against.

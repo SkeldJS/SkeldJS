@@ -14,13 +14,13 @@ export class EnterVentMessage extends BaseRpcMessage {
         this.ventId = ventId;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const ventId = reader.upacked();
 
         return new EnterVentMessage(ventId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.ventId);
     }
 

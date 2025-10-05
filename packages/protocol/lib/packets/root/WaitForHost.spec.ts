@@ -8,7 +8,7 @@ describe("WaitForHostMessage", () => {
     describe("WaitForHostMessage#Deserialize", () => {
         it("Should deserialize a start game root message.", () => {
             const reader = HazelReader.from("48daca8cbf970000", "hex");
-            const packet = WaitForHostMessage.Deserialize(reader);
+            const packet = WaitForHostMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, RootMessageTag.WaitForHost);
             assert.strictEqual(packet.code, -1932862904);
@@ -21,7 +21,7 @@ describe("WaitForHostMessage", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new WaitForHostMessage("GITWMF", 38847);
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "48daca8cbf970000");
         });

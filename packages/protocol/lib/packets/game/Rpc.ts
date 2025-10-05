@@ -14,7 +14,7 @@ export class UnknownRpc extends BaseRpcMessage {
         super();
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.bytes(this.data);
     }
 }
@@ -45,7 +45,7 @@ export class RpcMessage extends BaseGameDataMessage {
         return [ this.data ];
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -59,11 +59,11 @@ export class RpcMessage extends BaseGameDataMessage {
         if (!rpcMessageClass)
             return new RpcMessage(netId, new UnknownRpc(callId, mreader.buffer));
 
-        const rpc = rpcMessageClass.Deserialize(mreader, direction, decoder);
+        const rpc = rpcMessageClass.deserializeFromReader(mreader, direction, decoder);
         return new RpcMessage(netId, rpc as BaseRpcMessage);
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder

@@ -33,7 +33,7 @@ export class RemovePlayerMessage extends BaseRootMessage {
         if (hostId) this.hostId = hostId;
     }
 
-    static Deserialize(reader: HazelReader, direction: MessageDirection) {
+    static deserializeFromReader(reader: HazelReader, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             const code = reader.int32();
             const clientId = reader.int32();
@@ -50,7 +50,7 @@ export class RemovePlayerMessage extends BaseRootMessage {
         }
     }
 
-    Serialize(writer: HazelWriter, direction: MessageDirection) {
+    serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             writer.int32(this.code);
             writer.int32(this.clientId);

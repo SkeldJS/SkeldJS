@@ -40,7 +40,7 @@ export class GetGameListMessage extends BaseRootMessage {
         }
     }
 
-    static Deserialize(reader: HazelReader, direction: MessageDirection) {
+    static deserializeFromReader(reader: HazelReader, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             const gameCounts: Partial<GameCounts> = {};
             const gameList = [];
@@ -68,14 +68,14 @@ export class GetGameListMessage extends BaseRootMessage {
             return new GetGameListMessage(gameList, gameCounts);
         } else {
             reader.upacked(); // Skip hard-coded value at 0x02
-            const options = GameSettings.Deserialize(reader, true);
+            const options = GameSettings.deserializeFromReader(reader, true);
             const quickchat = reader.uint8();
 
             return new GetGameListMessage(options, quickchat);
         }
     }
 
-    Serialize(writer: HazelWriter, direction: MessageDirection) {
+    serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             if (this.gameCounts) {
                 writer.begin(GetGameListTag.GameCounts);

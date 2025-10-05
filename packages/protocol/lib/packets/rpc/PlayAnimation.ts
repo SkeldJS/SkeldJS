@@ -15,13 +15,13 @@ export class PlayAnimationMessage extends BaseRpcMessage {
         this.taskId = taskId;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const taskId = reader.uint8();
 
         return new PlayAnimationMessage(taskId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.taskId);
     }
 

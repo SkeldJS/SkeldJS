@@ -202,7 +202,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         this._protectedByGuardianTime = 0;
     }
 
-    Awake() {
+    processAwake() {
         this.playerId ??= this.room.getAvailablePlayerID();
 
         if (this.isNew) {
@@ -223,7 +223,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         return this.room.playerInfo.get(this.playerId);
     }
 
-    Deserialize(reader: HazelReader, spawn: boolean = false) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
         if (spawn) {
             this.isNew = reader.bool();
         }
@@ -231,7 +231,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         this.playerId = reader.uint8();
     }
 
-    Serialize(writer: HazelWriter, spawn: boolean = false) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
         if (spawn) {
             writer.bool(this.isNew);
             this.isNew = false;
@@ -241,17 +241,17 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         return true;
     }
 
-    FixedUpdate(delta: number) {
+    async processFixedUpdate(delta: number) {
         if (this.protectedByGuardian) {
             this._protectedByGuardianTime -= delta;
             if (this._protectedByGuardianTime <= 0) {
                 this._protectedByGuardianTime = 0;
-                this.removeProtection(true);
+                await this.removeProtection(true);
             }
         }
     }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
+    async handleRemoteCall(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
             case RpcMessageTag.CompleteTask:
                 await this._handleCompleteTask(rpc as CompleteTaskMessage);

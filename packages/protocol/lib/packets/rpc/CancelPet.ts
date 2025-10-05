@@ -5,7 +5,7 @@ export class CancelPetMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.CancelPet as const;
     messageTag = RpcMessageTag.CancelPet as const;
 
-    static Deserialize() {
+    static deserializeFromReader() {
         return new CancelPetMessage;
     }
 

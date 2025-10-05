@@ -136,7 +136,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     Setup() { }
 
-    Deserialize(reader: HazelReader, spawn: boolean = false) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
         if (!this.systems) {
             this.systems = new Map;
             this.Setup();
@@ -147,17 +147,17 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
             const system = this.systems.get(tag) as SystemStatus;
 
             if (system) {
-                system.Deserialize(mreader, spawn);
+                system.deserializeFromReader(mreader, spawn);
             }
         }
     }
 
     /* eslint-disable-next-line */
-    Serialize(writer: HazelWriter, spawn: boolean = false) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
         for (const [, system] of this.systems) {
             if (system.dirty || spawn) {
                 writer.begin(system.systemType);
-                system.Serialize(writer, spawn);
+                system.serializeToWriter(writer, spawn);
                 writer.end();
                 system.dirty = false;
             }
@@ -166,7 +166,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
         return true;
     }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
+    async handleRemoteCall(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
             case RpcMessageTag.CloseDoorsOfType:
                 await this._handleCloseDoorsOfType(rpc as CloseDoorsOfTypeMessage);
@@ -189,9 +189,9 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
         }
     }
 
-    FixedUpdate(delta: number) {
+    async processFixedUpdate(delta: number) {
         for (const [, system] of this.systems) {
-            system.Detoriorate(delta);
+            await system.processFixedUpdate(delta);
         }
     }
 
@@ -200,7 +200,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
         const player = this.room.getPlayerByNetId(rpc.netId);
 
         if (system && player) {
-            await system.HandleRepair(player, rpc.amount, rpc);
+            await system.handleRepairByPlayer(player, rpc.amount, rpc);
         }
     }
 

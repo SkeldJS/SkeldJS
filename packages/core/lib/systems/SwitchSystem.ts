@@ -78,7 +78,7 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         this.timer = 0;
     }
 
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const before = this.sabotaged;
         this.expected = SwitchSystem.readSwitches(reader.byte());
         this.actual = SwitchSystem.readSwitches(reader.byte());
@@ -105,13 +105,13 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         this.brightness = reader.uint8();
     }
 
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.byte(SwitchSystem.writeSwitches(this.expected));
         writer.byte(SwitchSystem.writeSwitches(this.actual));
         writer.uint8(this.brightness);
     }
 
-    async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         if (this.sabotaged)
             return;
 
@@ -250,11 +250,11 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         }
     }
 
-    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         await this._setSwitch(amount, !this.actual[amount], player, rpc);
     }
 
-    Detoriorate(delta: number) {
+    async processFixedUpdate(delta: number) {
         this.timer += delta;
         if (this.timer >= 0.03) {
             this.timer = 0;

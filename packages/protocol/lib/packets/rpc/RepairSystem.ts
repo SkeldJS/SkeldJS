@@ -18,7 +18,7 @@ export class RepairSystemMessage extends BaseRpcMessage {
         this.amount = amount;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const systemid = reader.uint8();
         const netId = reader.upacked();
         const amount = reader.uint8();
@@ -26,7 +26,7 @@ export class RepairSystemMessage extends BaseRpcMessage {
         return new RepairSystemMessage(systemid, netId, amount);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.systemId);
         writer.upacked(this.netId);
         writer.uint8(this.amount);

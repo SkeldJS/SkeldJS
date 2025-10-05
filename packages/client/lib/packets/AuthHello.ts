@@ -15,7 +15,7 @@ export class AuthHelloPacket extends BaseRootPacket {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const nonce = reader.uint16(true);
         reader.jump(1);
         const clientVersion = reader.read(VersionInfo);
@@ -25,7 +25,7 @@ export class AuthHelloPacket extends BaseRootPacket {
         return new AuthHelloPacket(nonce, clientVersion, platform, authId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
         writer.uint8(0);
         writer.write(this.clientVersion);

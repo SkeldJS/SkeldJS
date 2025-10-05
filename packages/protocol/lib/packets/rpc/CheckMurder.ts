@@ -14,13 +14,13 @@ export class CheckMurderMessage extends BaseRpcMessage {
         this.victimNetId = victimNetId;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const victimNetId = reader.upacked();
 
         return new CheckMurderMessage(victimNetId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.victimNetId);
     }
 

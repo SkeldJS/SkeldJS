@@ -32,7 +32,7 @@ export class GameDataToMessage extends BaseRootMessage {
         this._children = children;
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -49,7 +49,7 @@ export class GameDataToMessage extends BaseRootMessage {
 
             if (!rootMessageClass) continue;
 
-            const root = rootMessageClass.Deserialize(
+            const root = rootMessageClass.deserializeFromReader(
                 mreader,
                 direction,
                 decoder
@@ -60,7 +60,7 @@ export class GameDataToMessage extends BaseRootMessage {
         return new GameDataToMessage(code, recipientId, children);
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder

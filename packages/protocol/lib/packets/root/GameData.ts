@@ -17,7 +17,7 @@ export class UnknownGameDataMessage extends BaseGameDataMessage {
         super();
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.bytes(this.bytes);
     }
 }
@@ -41,7 +41,7 @@ export class GameDataMessage extends BaseRootMessage {
         this.children = children;
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -59,7 +59,7 @@ export class GameDataMessage extends BaseRootMessage {
                 continue;
             }
 
-            const root = rootMessageClass.Deserialize(
+            const root = rootMessageClass.deserializeFromReader(
                 mreader,
                 direction,
                 decoder
@@ -70,7 +70,7 @@ export class GameDataMessage extends BaseRootMessage {
         return new GameDataMessage(code, children);
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder

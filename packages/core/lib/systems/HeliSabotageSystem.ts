@@ -88,7 +88,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         this.countdown = reader.float();
         this.resetTimer = reader.float();
         const numActive = reader.packed();
@@ -140,7 +140,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.float(this.countdown);
         writer.float(this.resetTimer);
         writer.packed(this.activeConsoles.size);
@@ -154,7 +154,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
         }
     }
 
-    async HandleSabotage(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         this.countdown = 90;
         this.resetTimer = -1;
         this.activeConsoles = new Map;
@@ -328,7 +328,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
         await this.completeConsole(1);
     }
 
-    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const consoleId = amount & 0xf;
         const repairOperation = amount & 0xf0;
 
@@ -346,7 +346,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
                 this._openConsole(consoleId, player, rpc);
                 break;
             case HeliSabotageSystemRepairTag.DamageBit:
-                this.HandleSabotage(player, rpc);
+                this.handleSabotageByPlayer(player, rpc);
                 break;
             case HeliSabotageSystemRepairTag.FixBit:
                 this._completeConsole(consoleId, player, rpc);
@@ -354,7 +354,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom = StatefulRoom> ex
         }
     }
 
-    Detoriorate(delta: number) {
+    async processFixedUpdate(delta: number) {
         if (!this.sabotaged)
             return;
 

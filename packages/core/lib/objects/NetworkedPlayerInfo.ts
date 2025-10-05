@@ -71,7 +71,7 @@ export class PlayerOutfit {
         return new PlayerOutfit(outfitType, "", Color.Red, "missing", "missing", "missing", "missing", "missing");
     }
 
-    static Deserialize(reader: HazelReader, type: PlayerOutfitType) {
+    static deserializeFromReader(reader: HazelReader, type: PlayerOutfitType) {
         const outfit = new PlayerOutfit(type, "", Color.Red, "missing", "mising", "missing", "missing", "missing");
         outfit.name = reader.string();
         outfit.color = reader.packed();
@@ -88,7 +88,7 @@ export class PlayerOutfit {
         return outfit;
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.name);
         writer.packed(this.color);
         writer.string(this.hatId);
@@ -290,7 +290,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom = StatefulRoom> e
         return this.getOutfit(this.currentOutfitType);
     }
 
-    Deserialize(reader: HazelReader) {
+    deserializeFromReader(reader: HazelReader) {
         this.playerId = reader.uint8();
         this.clientId = reader.packed();
         this.outfits = {};
@@ -316,7 +316,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom = StatefulRoom> e
         }
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.playerId);
         writer.packed(this.clientId);
         const outfitVals = Object.values(this.outfits);

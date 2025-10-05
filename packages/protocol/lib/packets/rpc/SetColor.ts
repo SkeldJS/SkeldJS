@@ -10,13 +10,13 @@ export class SetColorMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const netIdToColor = reader.uint32();
         const color = reader.uint8();
         return new SetColorMessage(netIdToColor, color);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint32(this.netIdToColor);
         writer.uint8(this.color);
     }

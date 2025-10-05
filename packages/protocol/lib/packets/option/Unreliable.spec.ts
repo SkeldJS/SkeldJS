@@ -16,7 +16,7 @@ describe("UnreliablePacket", () => {
                 "12000546e43c8c0b0001050500f67b1186ff7fff7f",
                 "hex"
             );
-            const packet = UnreliablePacket.Deserialize(
+            const packet = UnreliablePacket.deserializeFromReader(
                 reader,
                 MessageDirection.Clientbound,
                 decoder
@@ -42,7 +42,7 @@ describe("UnreliablePacket", () => {
                 ]),
             ]);
 
-            packet.Serialize(writer, MessageDirection.Clientbound, decoder);
+            packet.serializeToWriter(writer, MessageDirection.Clientbound, decoder);
 
             assert.strictEqual(
                 writer.toString("hex"),

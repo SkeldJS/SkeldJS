@@ -15,13 +15,13 @@ export class RemoveGameMessage extends BaseRootMessage {
         this.reason = reason || DisconnectReason.Error;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const reason = reader.uint8();
 
         return new RemoveGameMessage(reason);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.reason);
     }
 

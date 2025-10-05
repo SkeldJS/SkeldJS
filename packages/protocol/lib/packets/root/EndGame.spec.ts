@@ -8,7 +8,7 @@ describe("EndGameMessage", () => {
     describe("EndGameMessage#Deserialize", () => {
         it("Should deserialize a end game root message.", () => {
             const reader = HazelReader.from("48daca8c0300", "hex");
-            const packet = EndGameMessage.Deserialize(reader);
+            const packet = EndGameMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, RootMessageTag.EndGame);
             assert.strictEqual(packet.code, -1932862904);
@@ -26,7 +26,7 @@ describe("EndGameMessage", () => {
                 false
             );
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "48daca8c0300");
         });

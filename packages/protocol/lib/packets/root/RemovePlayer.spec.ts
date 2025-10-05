@@ -12,7 +12,7 @@ describe("RemovePlayerMessage", () => {
                 "40f8778cd48d0000728d000011",
                 "hex"
             );
-            const packet = RemovePlayerMessage.Deserialize(
+            const packet = RemovePlayerMessage.deserializeFromReader(
                 reader,
                 MessageDirection.Clientbound
             );
@@ -26,7 +26,7 @@ describe("RemovePlayerMessage", () => {
 
         it("Should deserialize a server-bound remove game root message.", () => {
             const reader = HazelReader.from("40f8778cd49b0211", "hex");
-            const packet = RemovePlayerMessage.Deserialize(
+            const packet = RemovePlayerMessage.deserializeFromReader(
                 reader,
                 MessageDirection.Serverbound
             );
@@ -48,7 +48,7 @@ describe("RemovePlayerMessage", () => {
                 36210
             );
 
-            packet.Serialize(writer, MessageDirection.Clientbound);
+            packet.serializeToWriter(writer, MessageDirection.Clientbound);
 
             assert.strictEqual(
                 writer.toString("hex"),
@@ -64,7 +64,7 @@ describe("RemovePlayerMessage", () => {
                 DisconnectReason.Error
             );
 
-            packet.Serialize(writer, MessageDirection.Serverbound);
+            packet.serializeToWriter(writer, MessageDirection.Serverbound);
 
             assert.strictEqual(writer.toString("hex"), "40f8778cd49b0211");
         });

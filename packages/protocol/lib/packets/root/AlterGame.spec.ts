@@ -8,7 +8,7 @@ describe("AlterGameMessage", () => {
     describe("AlterGameMessage#Deserialize", () => {
         it("Should deserialize a alter game root message.", () => {
             const reader = HazelReader.from("48daca8c0101", "hex");
-            const packet = AlterGameMessage.Deserialize(reader);
+            const packet = AlterGameMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, RootMessageTag.AlterGame);
             assert.strictEqual(packet.code, -1932862904);
@@ -26,7 +26,7 @@ describe("AlterGameMessage", () => {
                 1
             );
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "48daca8c0101");
         });

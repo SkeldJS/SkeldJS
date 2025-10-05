@@ -16,14 +16,14 @@ export class SceneChangeMessage extends BaseGameDataMessage {
         this.scene = scene;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const clientId = reader.packed();
         const scene = reader.string();
 
         return new SceneChangeMessage(clientId, scene);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.packed(this.clientId);
         writer.string(this.scene);
     }

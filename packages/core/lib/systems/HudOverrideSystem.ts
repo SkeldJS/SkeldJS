@@ -52,7 +52,7 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const before = this.sabotaged;
         this._sabotaged = reader.bool();
 
@@ -77,11 +77,11 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.bool(this.sabotaged);
     }
 
-    async HandleSabotage(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
         this._sabotaged = true;
         this.dirty = true;
 
@@ -125,9 +125,13 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
         await this._sendRepair(0);
     }
 
-    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         if (amount === 0) {
             await this._repair(player, rpc);
         }
+    }
+    
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
     }
 }

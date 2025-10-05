@@ -18,7 +18,7 @@ export class ReactorSpawnMessage extends BaseGameDataMessage {
         return this.header !== undefined && this.handshake !== undefined;
     }
 
-    static Deserialize(reader: HazelReader, direction: MessageDirection, decoder: PacketDecoder) {
+    static deserializeFromReader(reader: HazelReader, direction: MessageDirection, decoder: PacketDecoder) {
         const spawn = reader.read(SpawnMessage);
         const reactorHeader = reader.read(ReactorHeader);
 
@@ -34,7 +34,7 @@ export class ReactorSpawnMessage extends BaseGameDataMessage {
         return new ReactorSpawnMessage(spawn, reactorHeader, handshake);
     }
 
-    Serialize(writer: HazelWriter, direction: MessageDirection) {
+    serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         writer.write(this.spawn);
         if (this.isModded()) {
             writer.write(this.header);

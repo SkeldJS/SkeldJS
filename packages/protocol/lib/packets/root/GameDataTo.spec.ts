@@ -20,7 +20,7 @@ describe("GameDataToMessage", () => {
                 "48daca8cbfaf0221000403feffffff0f00025e1000010100076861696c657920076d020000005f010001001e000404e9ad02010360020001000061000001620a00010100c27ab286ff7fff7f0c000402feffffff0f000163000001",
                 "hex"
             );
-            const packet = GameDataToMessage.Deserialize(
+            const packet = GameDataToMessage.deserializeFromReader(
                 reader,
                 MessageDirection.Clientbound,
                 decoder
@@ -52,7 +52,7 @@ describe("GameDataToMessage", () => {
                 new FakeSpawnMessage,
             ]);
 
-            packet.Serialize(writer, MessageDirection.Clientbound, decoder);
+            packet.serializeToWriter(writer, MessageDirection.Clientbound, decoder);
 
             assert.strictEqual(
                 writer.toString("hex"),

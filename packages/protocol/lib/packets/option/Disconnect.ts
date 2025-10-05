@@ -23,7 +23,7 @@ export class DisconnectPacket extends BaseRootPacket {
         this.showReason = showReason;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         if (reader.left) {
             const showReason = reader.bool();
 
@@ -50,7 +50,7 @@ export class DisconnectPacket extends BaseRootPacket {
         }
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         if (
             typeof this.showReason === "boolean" ||
             typeof this.reason === "number"

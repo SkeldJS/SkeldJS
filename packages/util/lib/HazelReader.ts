@@ -5,10 +5,10 @@ import { Vector2 } from "./Vector";
 type ListReader<T> = (reader: HazelReader, i: number) => T;
 
 type Deserializable<T extends any[] = any[]> = {
-    Deserialize(reader: HazelReader, ...args: T): any;
+    deserializeFromReader(reader: HazelReader, ...args: T): any;
 };
 type GetSerializable<T extends Deserializable> = T extends {
-    Deserialize(reader: HazelReader, ...args: any[]): infer X;
+    deserializeFromReader(reader: HazelReader, ...args: any[]): infer X;
 }
     ? X
     : never;
@@ -131,7 +131,7 @@ export class HazelReader extends HazelBuffer {
         deserializable: K,
         ...args: GetDeserializeArgs<K>
     ): GetSerializable<K> {
-        return deserializable.Deserialize(this, ...args);
+        return deserializable.deserializeFromReader(this, ...args);
     }
 
     /**
@@ -145,7 +145,7 @@ export class HazelReader extends HazelBuffer {
         ...args: GetDeserializeArgs<K>
     ): GetSerializable<K>[] {
         return this.list(length, (reader) =>
-            deserializable.Deserialize(reader, ...args)
+            deserializable.deserializeFromReader(reader, ...args)
         );
     }
 

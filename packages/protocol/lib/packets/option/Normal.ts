@@ -15,7 +15,7 @@ export class UnknownRootMessage extends BaseRootMessage {
         super();
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.bytes(this.bytes);
     }
 }
@@ -29,7 +29,7 @@ export class NormalPacket extends BaseRootPacket {
         this.children = children;
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -45,7 +45,7 @@ export class NormalPacket extends BaseRootPacket {
                 continue;
             }
 
-            const root = rootMessageClass.Deserialize(
+            const root = rootMessageClass.deserializeFromReader(
                 mreader,
                 direction,
                 decoder
@@ -56,7 +56,7 @@ export class NormalPacket extends BaseRootPacket {
         return new NormalPacket(children);
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder

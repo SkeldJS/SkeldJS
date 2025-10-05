@@ -24,7 +24,7 @@ export class ModdedHelloPacket extends BaseRootPacket {
         return this.protocolver === undefined;
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -73,7 +73,7 @@ export class ModdedHelloPacket extends BaseRootPacket {
         }
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
         writer.write(this.clientver);
         writer.string(this.username);

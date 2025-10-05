@@ -9,7 +9,7 @@ export class ServerHello {
         public readonly cipherSuites: CipherSuite[]
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const protocolVersion = reader.uint16(true);
         if (protocolVersion !== ProtocolVersion.DTLS1_2) {
             throw new Error("Bad protocol version: " + protocolVersion);
@@ -33,7 +33,7 @@ export class ServerHello {
         );
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(ProtocolVersion.DTLS1_2, true);
         writer.bytes(this.random);
 

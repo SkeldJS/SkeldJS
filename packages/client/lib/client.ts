@@ -192,10 +192,10 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         username: string,
         options: Partial<ClientConfig> = {}
     ) {
-        super({ doFixedUpdate: true });
+        super({ doprocessFixedUpdate: true });
 
         this.config = {
-            doFixedUpdate: true,
+            doprocessFixedUpdate: true,
             authMethod: AuthMethod.SecureTransport,
             useHttpMatchmaker: true,
             allowHost: true,

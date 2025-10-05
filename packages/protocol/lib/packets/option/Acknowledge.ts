@@ -19,7 +19,7 @@ export class AcknowledgePacket extends BaseRootPacket {
         this.missingPackets = missingPackets;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const nonce = reader.uint16(true);
         const missing = reader.uint8();
 
@@ -33,7 +33,7 @@ export class AcknowledgePacket extends BaseRootPacket {
         return new AcknowledgePacket(nonce, arr);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
 
         let bit = 0xff;

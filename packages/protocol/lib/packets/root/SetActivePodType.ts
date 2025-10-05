@@ -15,13 +15,13 @@ export class SetActivePodTypeMessage extends BaseRootMessage {
         this.podType = podType;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const podType = reader.string();
 
         return new SetActivePodTypeMessage(podType);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.podType);
     }
 }

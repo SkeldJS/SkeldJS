@@ -67,7 +67,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const timer = this.timer;
         this.timer = reader.float();
 
@@ -103,7 +103,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.float(this.timer);
 
         writer.upacked(this.completed.size);
@@ -112,7 +112,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         }
     }
 
-    async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this.timer = 45;
         this._clearConsoles(player, rpc);
 
@@ -227,7 +227,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         await this._sendRepair(0x10);
     }
 
-    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const consoleId = amount & 0x3;
 
         if (amount & 0x40) {
@@ -237,7 +237,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         }
     }
 
-    Detoriorate(delta: number) {
+    async processFixedUpdate(delta: number) {
         if (!this.sabotaged) return;
 
         this.timer -= delta;

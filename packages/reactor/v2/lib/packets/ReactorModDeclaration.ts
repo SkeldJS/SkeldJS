@@ -15,13 +15,13 @@ export class ReactorModDeclarationMessage extends BaseReactorMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const netId = reader.upacked();
         const mod = reader.read(ReactorMod);
         return new ReactorModDeclarationMessage(netId, mod);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.netId);
         writer.write(this.mod);
     }

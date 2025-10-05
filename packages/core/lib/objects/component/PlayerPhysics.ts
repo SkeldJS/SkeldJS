@@ -1,4 +1,4 @@
-import { HazelReader, Vector2 } from "@skeldjs/util";
+import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import {
@@ -85,8 +85,16 @@ export class PlayerPhysics<RoomType extends StatefulRoom = StatefulRoom> extends
     get isInVent() {
         return this.ventId > -1;
     }
+    
+    deserializeFromReader(reader: HazelReader, spawn: boolean): void {
+        void reader, spawn;
+    }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean): boolean {
+        return false;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
             case RpcMessageTag.EnterVent:
                 await this._handleEnterVent(rpc as EnterVentMessage);

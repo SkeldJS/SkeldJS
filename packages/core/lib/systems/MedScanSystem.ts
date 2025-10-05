@@ -47,7 +47,7 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const numPlayers = reader.upacked();
 
         this.queue = [];
@@ -58,7 +58,7 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.upacked(this.queue.length);
 
         for (let i = 0; i < this.queue.length; i++) {
@@ -150,7 +150,7 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const playerId = amount & 0x1f;
         const resolved = this.ship.room.getPlayerByPlayerId(playerId);
 
@@ -161,5 +161,25 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
                 await this._leaveQueue(resolved, rpc);
             }
         }
+    }
+    
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
+
+    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+        void player, rpc;
+    }
+
+    async fullyRepairHost(): Promise<void> {
+        void 0;
+    }
+
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
     }
 }

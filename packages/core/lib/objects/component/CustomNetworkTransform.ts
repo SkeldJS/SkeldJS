@@ -78,7 +78,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom = StatefulRoom
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean = false) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
         if (spawn) {
             const newSeqId = reader.uint16();
             this.deserializePosition(newSeqId, reader);
@@ -102,7 +102,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom = StatefulRoom
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean = false) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
         if (spawn) {
             writer.uint16(this.seqId);
             writer.vector(this.position);
@@ -115,7 +115,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom = StatefulRoom
         return true;
     }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
+    async handleRemoteCall(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
             case RpcMessageTag.SnapTo:
                 await this._handleSnapTo(rpc as SnapToMessage);
@@ -146,7 +146,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom = StatefulRoom
 
         this.dirtyBit = 1;
         const writer = HazelWriter.alloc(10);
-        this.Serialize(writer, false);
+        this.serializeToWriter(writer, false);
         this.dirtyBit = 0;
 
         await this.room.broadcast([new DataMessage(this.netId, writer.buffer)], undefined, undefined, undefined, false);

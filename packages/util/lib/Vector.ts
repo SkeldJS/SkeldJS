@@ -310,11 +310,11 @@ export class Vector2 {
         }
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         return reader.vector();
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.vector(this);
     }
 

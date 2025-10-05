@@ -19,13 +19,13 @@ export class StartGameMessage extends BaseRootMessage {
         }
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
 
         return new StartGameMessage(code);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.int32(this.code);
     }
 

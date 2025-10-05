@@ -14,12 +14,12 @@ export class ReadyMessage extends BaseGameDataMessage {
         this.clientId = clientId;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const clientId = reader.packed();
         return new ReadyMessage(clientId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.packed(this.clientId);
     }
 

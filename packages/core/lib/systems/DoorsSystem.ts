@@ -62,7 +62,7 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const numCooldown = reader.upacked();
 
         for (let i = 0; i < numCooldown; i++) {
@@ -73,7 +73,7 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
 
         for (const door of this.doors) {
-            door.Deserialize(reader, false);
+            door.deserializeFromReader(reader, false);
             if (door.isOpen) {
                 this._openDoor(door.doorId, undefined, undefined);
             } else {
@@ -83,7 +83,7 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.upacked(this.cooldowns.size);
 
         for (const [systemType, cooldown] of this.cooldowns) {
@@ -183,14 +183,30 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     async closeDoorHost(doorId: number) {
         await this._closeDoor(doorId, undefined, undefined);
     }
+    
+    handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
 
-    async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const doorId = amount & 0x1f;
 
         await this._openDoor(doorId, player, rpc);
     }
+    
+    async fullyRepairHost(): Promise<void> {
+        void 0;
+    }
 
-    Detoriorate(delta: number) {
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
+    }
+
+    async processFixedUpdate(delta: number) {
         this.lastUpdate += delta;
         for (const [systemType, prevTime] of this.cooldowns) {
             const newTime = prevTime - delta;

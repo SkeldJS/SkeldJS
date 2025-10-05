@@ -12,12 +12,12 @@ export class SetRoleMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const roleType = reader.uint16();
         return new SetRoleMessage(roleType);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.roleType);
     }
 }

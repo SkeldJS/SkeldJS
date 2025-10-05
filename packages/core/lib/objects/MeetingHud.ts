@@ -81,7 +81,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         this.voteStates ||= new Map;
     }
 
-    Awake() {
+    processAwake() {
         this.voteStates = new Map(
             [...this.room.playerInfo]
                 .filter(([, player]) => player.playerId !== undefined)
@@ -114,7 +114,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         return super.owner as RoomType;
     }
 
-    Deserialize(reader: HazelReader, spawn: boolean = false) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
         if (spawn) {
             this.dirtyBit = 0;
             this.voteStates = new Map;
@@ -129,7 +129,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
                 continue;
 
             const oldState = this.voteStates.get(playerId);
-            const newState = PlayerVoteArea.Deserialize(mreader, this, playerId);
+            const newState = PlayerVoteArea.deserializeFromReader(mreader, this, playerId);
 
             this.voteStates.set(playerId, newState);
 
@@ -156,18 +156,18 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         }
     }
 
-    Serialize(writer: HazelWriter, spawn: boolean = false) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
         writer.upacked(this.voteStates.size);
         for (const [, state] of this.voteStates) {
             writer.begin(state.playerId);
-            state.Serialize(writer);
+            state.serializeToWriter(writer);
             writer.end();
         }
         this.dirtyBit = 0;
         return true;
     }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
+    async handleRemoteCall(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
             case RpcMessageTag.Close:
                 await this._handleClose(rpc as CloseMessage);

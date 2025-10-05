@@ -18,7 +18,7 @@ export class ModdedHelloPacket extends BaseRootPacket {
         return this.reactorVersion === undefined;
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -39,7 +39,7 @@ export class ModdedHelloPacket extends BaseRootPacket {
         }
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.write(this.helloPacket);
         if (!this.isNormalHello()) {
             writer.uint8(this.reactorVersion || 0);

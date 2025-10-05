@@ -8,7 +8,7 @@ describe("DisconnectPacket", () => {
     describe("DisconnectPacket#Deserialize", () => {
         it("Should deserialize a disconnect packet with no extra data.", () => {
             const reader = HazelReader.from("", "hex");
-            const packet = DisconnectPacket.Deserialize(reader);
+            const packet = DisconnectPacket.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
@@ -18,7 +18,7 @@ describe("DisconnectPacket", () => {
 
         it("Should deserialize a disconnect packet with no reason.", () => {
             const reader = HazelReader.from("01", "hex");
-            const packet = DisconnectPacket.Deserialize(reader);
+            const packet = DisconnectPacket.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
@@ -28,7 +28,7 @@ describe("DisconnectPacket", () => {
 
         it("Should deserialize a disconnect packet with a reason.", () => {
             const reader = HazelReader.from("0101000001", "hex");
-            const packet = DisconnectPacket.Deserialize(reader);
+            const packet = DisconnectPacket.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
@@ -41,7 +41,7 @@ describe("DisconnectPacket", () => {
                 "010a000008087765616b65796573",
                 "hex"
             );
-            const packet = DisconnectPacket.Deserialize(reader);
+            const packet = DisconnectPacket.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, SendOption.Disconnect);
             assert.strictEqual(packet.showReason, true);
@@ -55,7 +55,7 @@ describe("DisconnectPacket", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new DisconnectPacket;
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "");
         });
@@ -64,7 +64,7 @@ describe("DisconnectPacket", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new DisconnectPacket(undefined, undefined, true);
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "01");
         });
@@ -73,7 +73,7 @@ describe("DisconnectPacket", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new DisconnectPacket(DisconnectReason.GameNotFound);
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "0101000003");
         });
@@ -85,7 +85,7 @@ describe("DisconnectPacket", () => {
                 "supercalifragilisticexpialidocious"
             );
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(
                 writer.toString("hex"),

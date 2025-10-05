@@ -10,7 +10,7 @@ describe("HostGameMessage", () => {
     describe("HostGameMessage#Deserialize", () => {
         it("Should deserialize a client-bound host game root message.", () => {
             const reader = HazelReader.from("46e43c8c", "hex");
-            const packet = HostGameMessage.Deserialize(
+            const packet = HostGameMessage.deserializeFromReader(
                 reader,
                 MessageDirection.Clientbound
             );
@@ -24,7 +24,7 @@ describe("HostGameMessage", () => {
                 "2a020a01000000000000803f0000803f0000c03f000034420101020100000002010f00000078000000000f02",
                 "hex"
             );
-            const packet = HostGameMessage.Deserialize(
+            const packet = HostGameMessage.deserializeFromReader(
                 reader,
                 MessageDirection.Serverbound
             );
@@ -38,7 +38,7 @@ describe("HostGameMessage", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new HostGameMessage("FRIDAY");
 
-            packet.Serialize(writer, MessageDirection.Clientbound);
+            packet.serializeToWriter(writer, MessageDirection.Clientbound);
 
             assert.strictEqual(writer.toString("hex"), "59986986");
         });
@@ -47,7 +47,7 @@ describe("HostGameMessage", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new HostGameMessage(new GameSettings);
 
-            packet.Serialize(writer, MessageDirection.Serverbound);
+            packet.serializeToWriter(writer, MessageDirection.Serverbound);
             assert.ok(writer.toString("hex").startsWith("2a020a"));
         });
     });

@@ -12,7 +12,7 @@ export class ReactorMod {
         public readonly networkSide: ModPluginSide
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const modId = reader.string();
         const version = reader.string();
         const networkSide = reader.uint8();
@@ -20,7 +20,7 @@ export class ReactorMod {
         return new ReactorMod(modId, version, networkSide);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.modId);
         writer.string(this.version);
         writer.uint8(this.networkSide);

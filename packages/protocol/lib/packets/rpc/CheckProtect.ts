@@ -14,13 +14,13 @@ export class CheckProtectMessage extends BaseRpcMessage {
         this.targetNetId = victimNetId;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const victimNetId = reader.upacked();
 
         return new CheckProtectMessage(victimNetId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.targetNetId);
     }
 

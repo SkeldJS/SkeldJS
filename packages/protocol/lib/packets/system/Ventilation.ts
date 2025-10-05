@@ -23,7 +23,7 @@ export class VentilationSystemMessage extends BaseSystemMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const sequenceId = reader.uint16();
         const state = reader.uint8();
         const ventId = reader.packed();
@@ -31,7 +31,7 @@ export class VentilationSystemMessage extends BaseSystemMessage {
         return new VentilationSystemMessage(sequenceId, state, ventId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.sequenceId);
         writer.uint8(this.state);
         writer.packed(this.ventId);

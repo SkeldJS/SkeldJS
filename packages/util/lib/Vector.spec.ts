@@ -66,7 +66,7 @@ describe("Vector2", () => {
     describe("Vector2#Deserialize", () => {
         it("Should create a vector from deserializing a buffer.", () => {
             const reader = HazelReader.from("257d6186", "hex");
-            const vector = Vector2.Deserialize(reader);
+            const vector = Vector2.deserializeFromReader(reader);
 
             assert.strictEqual(vector.x, -1.1146715495536768);
             assert.strictEqual(vector.y, 2.492561226825366);
@@ -78,7 +78,7 @@ describe("Vector2", () => {
             const writer = HazelWriter.alloc(4);
             const vector = new Vector2(-1.1146715495536768, 2.492561226825366);
 
-            vector.Serialize(writer);
+            vector.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "257d6186");
         });

@@ -104,7 +104,7 @@ export interface Serializable {
 
     children?: Serializable[];
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -123,7 +123,7 @@ export interface Deserializable {
 
     new(...args: any[]): Serializable;
 
-    Deserialize(
+    deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -553,7 +553,7 @@ export class PacketDecoder<ContextType = any> {
         if (!optionMessageClass)
             return null;
 
-        const message = optionMessageClass.Deserialize(
+        const message = optionMessageClass.deserializeFromReader(
             reader,
             direction,
             this

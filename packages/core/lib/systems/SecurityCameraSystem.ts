@@ -44,7 +44,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const num_players = reader.upacked();
 
         const before = new Set([...this.players]);
@@ -63,7 +63,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         const players = [...this.players];
         writer.upacked(players.length);
         for (let i = 0; i < players.length; i++) {
@@ -139,7 +139,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
         await this._sendRepair(0);
     }
 
-    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         if (!player)
             return;
 
@@ -148,5 +148,25 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
         } else {
             await this._removePlayer(player, rpc);
         }
+    }
+    
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
+    
+    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+        void player, rpc;
+    }
+    
+    async fullyRepairHost(): Promise<void> {
+        void 0;
+    }
+    
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+    
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
     }
 }

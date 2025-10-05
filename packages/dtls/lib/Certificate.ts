@@ -7,7 +7,7 @@ export class Certificate {
         public readonly certificates: x509Certificate[]
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const totalLength = reader.read(uint24, true);
 
         const certReader = reader.bytes(totalLength);
@@ -26,7 +26,7 @@ export class Certificate {
         return new Certificate(certificates);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         const certWriter = HazelWriter.alloc(0);
         for (const certificate of this.certificates) {
             certWriter.write(uint24, certificate.raw.byteLength, true);

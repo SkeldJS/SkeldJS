@@ -11,7 +11,7 @@ export class Handshake {
         public readonly fragmentLength: number
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const messageType = reader.uint8();
         const length = reader.read(uint24, true);
         const messageSequence = reader.uint16(true);
@@ -21,7 +21,7 @@ export class Handshake {
         return new Handshake(messageType, length, messageSequence, fragmentOffset, fragmentLength);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.messageType);
         writer.write(uint24, this.length, true);
         writer.uint16(this.messageSequence, true);

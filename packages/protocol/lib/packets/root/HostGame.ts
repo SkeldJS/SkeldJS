@@ -31,13 +31,13 @@ export class HostGameMessage extends BaseRootMessage {
         }
     }
 
-    static Deserialize(reader: HazelReader, direction: MessageDirection) {
+    static deserializeFromReader(reader: HazelReader, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             const code = reader.int32();
 
             return new HostGameMessage(code);
         } else {
-            const gameOptions = GameSettings.Deserialize(reader, true);
+            const gameOptions = GameSettings.deserializeFromReader(reader, true);
             /*const crossplayFlags = */reader.uint32(); // crossplayFlags not used yet
             const numFilters = reader.upacked();
             const filters = reader.list(numFilters, r => r.string());
@@ -46,7 +46,7 @@ export class HostGameMessage extends BaseRootMessage {
         }
     }
 
-    Serialize(writer: HazelWriter, direction: MessageDirection) {
+    serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             writer.int32(this.code);
         } else {

@@ -12,7 +12,7 @@ describe("SpawnMessage", () => {
                 "0484cc02010307020001010108000001090a00010000ff7fff7fff7fff7f",
                 "hex"
             );
-            const packet = SpawnMessage.Deserialize(reader);
+            const packet = SpawnMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, GameDataMessageTag.Spawn);
             assert.strictEqual(packet.spawnType, SpawnType.Player);
@@ -39,7 +39,7 @@ describe("SpawnMessage", () => {
                 ]
             );
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(
                 writer.toString("hex"),

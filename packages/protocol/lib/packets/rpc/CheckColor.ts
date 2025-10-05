@@ -14,13 +14,13 @@ export class CheckColorMessage extends BaseRpcMessage {
         this.color = color;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const color = reader.uint8();
 
         return new CheckColorMessage(color);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.color);
     }
 

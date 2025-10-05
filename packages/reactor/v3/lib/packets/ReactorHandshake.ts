@@ -43,7 +43,7 @@ export class ReactorHandshakeMessage extends BaseReactorMessage {
         return this.serverName !== undefined;
     }
 
-    static Deserialize(reader: HazelReader, direction: MessageDirection) {
+    static deserializeFromReader(reader: HazelReader, direction: MessageDirection) {
         if (direction === MessageDirection.Serverbound) {
             const numMods = reader.packed();
             const mods = reader.lread(numMods, ReactorMod);
@@ -60,7 +60,7 @@ export class ReactorHandshakeMessage extends BaseReactorMessage {
         throw new Error("Invalid message direction");
     }
 
-    Serialize(writer: HazelWriter, direction: MessageDirection) {
+    serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Serverbound) {
             writer.lwrite(true, this.mods!);
         } else if (direction === MessageDirection.Clientbound) {

@@ -39,7 +39,7 @@ export type NetworkedObjectEvents<RoomType extends StatefulRoom = StatefulRoom> 
  *
  * See {@link NetworkedObjectEvents} for events to listen to.
  */
-export class NetworkedObject<
+export abstract class NetworkedObject<
     DataT = any,
     T extends NetworkedObjectEvents = NetworkedObjectEvents,
     RoomType extends StatefulRoom = StatefulRoom
@@ -115,7 +115,7 @@ export class NetworkedObject<
 
         if (data) {
             if (data instanceof HazelReader) {
-                this.Deserialize(data, true);
+                this.deserializeFromReader(data, true);
             } else {
                 this.patch(data);
             }
@@ -157,19 +157,15 @@ export class NetworkedObject<
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    Deserialize(reader: HazelReader, spawn: boolean = false) { }
+    abstract deserializeFromReader(reader: HazelReader, spawn: boolean): void;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    Serialize(writer: HazelWriter, spawn: boolean = false): boolean {
-        return false;
-    }
+    abstract serializeToWriter(writer: HazelWriter, spawn: boolean): boolean;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    PreSerialize() { }
+    async handleRemoteCall(rpc: BaseRpcMessage) { }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    async HandleRpc(rpc: BaseRpcMessage) { }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    FixedUpdate(delta: number) { }
+    async processFixedUpdate(delta: number) { }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    Awake() { }
+    processAwake() { }
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     Destroy() { }
 

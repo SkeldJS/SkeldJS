@@ -16,14 +16,14 @@ export class SnapToMessage extends BaseRpcMessage {
         this.sequenceid = sequenceid;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const position = reader.vector();
         const sequenceid = reader.uint16();
 
         return new SnapToMessage(position, sequenceid);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.vector(this.position);
         writer.uint16(this.sequenceid);
     }

@@ -14,13 +14,13 @@ export class SetInfectedMessage extends BaseRpcMessage {
         this.impostors = impostors;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const impostors = reader.list((r) => r.uint8());
 
         return new SetInfectedMessage(impostors);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.list(true, this.impostors, (i) => writer.uint8(i));
     }
 

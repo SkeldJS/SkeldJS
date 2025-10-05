@@ -10,14 +10,14 @@ export class SetPetMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const petId = reader.string();
         const sequenceId = reader.uint8();
 
         return new SetPetMessage(petId, sequenceId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.petId);
         writer.uint8(this.sequenceId);
     }

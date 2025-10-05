@@ -17,14 +17,14 @@ export class RedirectMessage extends BaseRootMessage {
         this.port = port;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const ip = reader.bytes(4).buffer.join(".");
         const port = reader.uint16();
 
         return new RedirectMessage(ip, port);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         const split = this.ip.split(".");
         for (const part of split) {
             writer.uint8(parseInt(part));

@@ -9,7 +9,7 @@ export class ReactorMod {
         public readonly name: string
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const id = reader.string();
         const version = reader.string();
         const flags = reader.uint16();
@@ -22,7 +22,7 @@ export class ReactorMod {
         return new ReactorMod(id, version, flags, "");
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.id);
         writer.string(this.version);
         writer.uint16(this.flags);

@@ -8,7 +8,7 @@ describe("ClientInfoMessage", () => {
     describe("ClientInfoMessage#Deserialize", () => {
         it("Should deserialize a client info game data message.", () => {
             const reader = HazelReader.from("cdc8e90202", "hex");
-            const packet = ClientInfoMessage.Deserialize(reader);
+            const packet = ClientInfoMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, GameDataMessageTag.ClientInfo);
             assert.strictEqual(packet.clientId, 5923917);
@@ -24,7 +24,7 @@ describe("ClientInfoMessage", () => {
                 RuntimePlatform.WindowsPlayer
             );
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "cdc8e90202");
         });

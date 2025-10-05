@@ -1,4 +1,4 @@
-import { HazelBuffer, Vector2 } from "@skeldjs/util";
+import { HazelBuffer, HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
 import { SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -46,5 +46,13 @@ export class LobbyBehaviour<RoomType extends StatefulRoom = StatefulRoom> extend
 
     get owner() {
         return super.owner as RoomType;
+    }
+    
+    deserializeFromReader(reader: HazelReader, spawn: boolean): void {
+        void reader, spawn;
+    }
+
+    serializeToWriter(writer: HazelWriter, spawn: boolean): boolean {
+        return false;
     }
 }

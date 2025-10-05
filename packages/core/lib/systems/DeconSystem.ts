@@ -67,7 +67,7 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         this.state ||= DeconState.Idle;
     }
 
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const previousState = this.state;
         this.timer = reader.byte();
         this.state = reader.byte();
@@ -89,7 +89,7 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         this.dirty = spawn;
     }
 
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.byte(Math.ceil(this.timer));
         writer.byte(this.state);
     }
@@ -193,8 +193,12 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     async exitDecon(headingUp: boolean) {
         await this._sendRepair(headingUp ? 3 : 4);
     }
+    
+    handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
 
-    async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         if (this.state !== DeconState.Idle)
             return;
 
@@ -215,8 +219,20 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         this.timer = 3;
         this.dirty = true;
     }
+    
+    async fullyRepairHost(): Promise<void> {
+        void 0;
+    }
 
-    Detoriorate(delta: number) {
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
+    }
+
+    async processFixedUpdate(delta: number) {
         const previous = this.timer;
         this.timer -= delta;
 

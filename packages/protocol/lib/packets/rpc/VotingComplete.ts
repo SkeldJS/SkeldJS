@@ -8,13 +8,13 @@ export class VoteState {
         public readonly votedForId: number
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const [ playerId, mreader ] = reader.message();
         const votedForId = mreader.uint8();
         return new VoteState(playerId, votedForId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.begin(this.playerId);
         writer.uint8(this.votedForId);
         writer.end();
@@ -41,7 +41,7 @@ export class VotingCompleteMessage extends BaseRpcMessage {
         this.tie = tie;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const states = reader.lread(reader.packed(), VoteState);
         const exiled = reader.uint8();
         const tie = reader.bool();
@@ -49,7 +49,7 @@ export class VotingCompleteMessage extends BaseRpcMessage {
         return new VotingCompleteMessage(states, exiled, tie);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.lwrite(true, this.states);
         writer.uint8(this.exiledid);
         writer.bool(this.tie);

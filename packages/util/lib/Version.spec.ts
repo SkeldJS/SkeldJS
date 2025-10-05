@@ -36,7 +36,7 @@ describe("VersionInfo", () => {
     describe("VersionInfo#Deserialize", () => {
         it("Should create a version from deserializing a buffer.", () => {
             const reader = HazelReader.from("cc0f0303", "hex");
-            const version = VersionInfo.Deserialize(reader);
+            const version = VersionInfo.deserializeFromReader(reader);
 
             assert.strictEqual(version.year, 2021);
             assert.strictEqual(version.month, 4);
@@ -49,7 +49,7 @@ describe("VersionInfo", () => {
             const writer = HazelWriter.alloc(4);
             const version = new VersionInfo(2021, 4, 2);
 
-            version.Serialize(writer);
+            version.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "cc0f0303");
         });

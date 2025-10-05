@@ -6,7 +6,7 @@ export class HelloVerifyRequest {
         public readonly cookie: Buffer
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const protocolVersion = reader.uint16(true);
         if (protocolVersion !== ProtocolVersion.DTLS1_2) {
             throw new Error("Bad protocol version: " + protocolVersion);
@@ -18,7 +18,7 @@ export class HelloVerifyRequest {
         return new HelloVerifyRequest(cookie.buffer);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.cookie.byteLength);
         writer.bytes(this.cookie);
     }

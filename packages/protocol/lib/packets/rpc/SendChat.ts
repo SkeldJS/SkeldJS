@@ -14,13 +14,13 @@ export class SendChatMessage extends BaseRpcMessage {
         this.message = message;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const message = reader.string();
 
         return new SendChatMessage(message);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.message);
     }
 

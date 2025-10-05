@@ -28,7 +28,7 @@ export class EndGameMessage extends BaseRootMessage {
         this.showAd = showAd;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
         const reason = reader.uint8();
         const show_ad = reader.bool();
@@ -36,7 +36,7 @@ export class EndGameMessage extends BaseRootMessage {
         return new EndGameMessage(code, reason, show_ad);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.int32(this.code);
         writer.uint8(this.reason);
         writer.bool(this.showAd);

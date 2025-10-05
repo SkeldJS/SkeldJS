@@ -10,14 +10,14 @@ export class SetSkinMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const skinId = reader.string();
         const sequenceId = reader.uint8();
 
         return new SetSkinMessage(skinId, sequenceId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.skinId);
         writer.uint8(this.sequenceId);
     }

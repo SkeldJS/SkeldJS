@@ -5,7 +5,7 @@ export class UsePlatformMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.UsePlatform as const;
     messageTag = RpcMessageTag.UsePlatform as const;
 
-    static Deserialize() {
+    static deserializeFromReader() {
         return new UsePlatformMessage;
     }
 

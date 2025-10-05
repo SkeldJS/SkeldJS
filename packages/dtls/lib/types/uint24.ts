@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 export class uint24 {
-    static Deserialize(reader: HazelReader, be = false) {
+    static deserializeFromReader(reader: HazelReader, be = false) {
         const bytes = reader.bytes(3).buffer;
         if (be) {
             return (bytes[0] << 16) | (bytes[1] << 8) | bytes[2];
@@ -10,7 +10,7 @@ export class uint24 {
         }
     }
 
-    static Serialize(writer: HazelWriter, value: number, be = false) {
+    static serializeToWriter(writer: HazelWriter, value: number, be = false) {
         if (be) {
             const bytes = [
                 ~~(value / (2 ** 16)) & 0xff,

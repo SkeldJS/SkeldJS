@@ -16,14 +16,14 @@ export class ShapeshiftMessage extends BaseRpcMessage {
         this.doAnimation = doAnimation;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const victimNetId = reader.upacked();
         const doAnimation = reader.bool();
 
         return new ShapeshiftMessage(victimNetId, doAnimation);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.targetNetId);
         writer.bool(this.doAnimation);
     }

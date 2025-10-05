@@ -18,7 +18,7 @@ export class BaseMessage {
         return this._canceled;
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -26,7 +26,7 @@ export class BaseMessage {
         throw new Error("No deserialize method implemented");
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder

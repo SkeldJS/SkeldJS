@@ -18,24 +18,24 @@ export class ReliablePacket extends NormalPacket {
         this.nonce = nonce;
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
         const nonce = reader.uint16(true);
-        const normal = super.Deserialize(reader, direction, decoder);
+        const normal = super.deserializeFromReader(reader, direction, decoder);
 
         return new ReliablePacket(nonce, normal.children);
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
         writer.uint16(this.nonce, true);
-        super.Serialize(writer, direction, decoder);
+        super.serializeToWriter(writer, direction, decoder);
         writer.realloc(writer.cursor);
     }
 

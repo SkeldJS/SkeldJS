@@ -8,7 +8,7 @@ describe("ReadyMessage", () => {
     describe("ReadyMessage#Deserialize", () => {
         it("Should deserialize a ready game data message.", () => {
             const reader = HazelReader.from("e5af02", "hex");
-            const packet = ReadyMessage.Deserialize(reader);
+            const packet = ReadyMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, GameDataMessageTag.Ready);
             assert.strictEqual(packet.clientId, 38885);
@@ -20,7 +20,7 @@ describe("ReadyMessage", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new ReadyMessage(38885);
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "e5af02");
         });

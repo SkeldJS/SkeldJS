@@ -52,7 +52,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean = false) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
         const num_players = reader.upacked();
 
         for (let i = 0; i < num_players; i++) {
@@ -70,7 +70,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean = false) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
         writer.upacked(this.voted.size);
 
         for (const [clientId, voters] of this.voted) {
@@ -83,7 +83,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         return true;
     }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
+    async handleRemoteCall(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
             case RpcMessageTag.AddVote:
                 this._handleAddVote(rpc as AddVoteMessage);

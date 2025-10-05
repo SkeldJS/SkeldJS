@@ -234,7 +234,7 @@ export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    async HandleRpc(rpc: RepairSystemMessage) {
+    async handleRemoteCall(rpc: RepairSystemMessage) {
         if (rpc.messageTag === RpcMessageTag.RepairSystem) {
             if (rpc.systemId === SystemType.Doors) {
                 const player = this.room.getPlayerByNetId(rpc.netId);
@@ -243,14 +243,14 @@ export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends
                 if (doorId >= 15 && doorId <= 18) { // toilet doors go to auto doors system
                     if (player) {
                         this.systems.get(SystemType.Decontamination2)
-                            ?.HandleRepair(player, rpc.amount, rpc);
+                            ?.handleRepairByPlayer(player, rpc.amount, rpc);
                     }
                     return;
                 }
             }
         }
 
-        await super.HandleRpc(rpc);
+        await super.handleRemoteCall(rpc);
     }
 
     getDoorsInRoom(room: SystemType) {

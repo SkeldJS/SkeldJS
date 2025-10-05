@@ -24,7 +24,7 @@ export class AlterGameMessage extends BaseRootMessage {
         this.value = value;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
         const alterTag = reader.uint8();
         const value = reader.uint8();
@@ -32,7 +32,7 @@ export class AlterGameMessage extends BaseRootMessage {
         return new AlterGameMessage(code, alterTag, value);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.int32(this.code);
         writer.uint8(this.alterTag);
         writer.uint8(this.value);

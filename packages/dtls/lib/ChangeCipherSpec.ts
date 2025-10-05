@@ -5,7 +5,7 @@ export class ChangeCipherSpec {
         public readonly changeSpec: boolean
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const changeSpec = reader.bool();
         if (!changeSpec) {
             throw new Error("Invalid change cipher spec value: " + changeSpec);
@@ -14,7 +14,7 @@ export class ChangeCipherSpec {
         return new ChangeCipherSpec(changeSpec);
     }
 
-    static Serialize(writer: HazelWriter) {
+    static serializeToWriter(writer: HazelWriter) {
         writer.bool(true);
     }
 }

@@ -8,7 +8,7 @@ describe("SetActivePodTypeMessage", () => {
     describe("SetActivePodTypeMessage#Deserialize", () => {
         it("Should deserialize a set active pod type root message.", () => {
             const reader = HazelReader.from("0a706f64732f656d707479", "hex");
-            const packet = SetActivePodTypeMessage.Deserialize(reader);
+            const packet = SetActivePodTypeMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, RootMessageTag.SetActivePodType);
             assert.strictEqual(packet.podType, "pods/empty");
@@ -20,7 +20,7 @@ describe("SetActivePodTypeMessage", () => {
             const writer = HazelWriter.alloc(11);
             const packet = new SetActivePodTypeMessage("pods/empty");
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString(), "0a706f64732f656d707479");
         });

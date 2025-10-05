@@ -16,14 +16,14 @@ export class SetScanner extends BaseRpcMessage {
         this.sequenceid = sequenceid;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const scanning = reader.bool();
         const sequenceid = reader.uint8();
 
         return new SetScanner(scanning, sequenceid);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.bool(this.scanning);
         writer.uint8(this.sequenceid);
     }

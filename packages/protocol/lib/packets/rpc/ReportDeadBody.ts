@@ -14,13 +14,13 @@ export class ReportDeadBodyMessage extends BaseRpcMessage {
         this.bodyid = bodyid;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const bodyid = reader.uint8();
 
         return new ReportDeadBodyMessage(bodyid);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.bodyid);
     }
 

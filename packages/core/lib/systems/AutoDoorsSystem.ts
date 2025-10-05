@@ -57,8 +57,15 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
                 ? new AutoOpenDoor(this, i, door)
                 : door);
     }
+    
+    handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+    handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
 
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         if (spawn) {
             for (let i = 0; i < this.doors.length; i++) {
                 const open = reader.bool();
@@ -80,17 +87,17 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
         }
     }
 
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         if (spawn) {
             for (let i = 0; i < this.doors.length; i++) {
-                this.doors[i].Serialize(writer, spawn);
+                this.doors[i].serializeToWriter(writer, spawn);
             }
         } else {
             writer.upacked(this.dirtyBit);
 
             for (let i = 0; i < this.doors.length; i++) {
                 if (this.dirtyBit & (1 << i)) {
-                    this.doors[i].Serialize(writer, spawn);
+                    this.doors[i].serializeToWriter(writer, spawn);
                 }
             }
         }
@@ -183,8 +190,20 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
     async closeDoorHost(doorId: number) {
         await this._closeDoor(doorId, undefined, undefined);
     }
+    
+    async fullyRepairHost(): Promise<void> {
+        void 0;
+    }
 
-    Detoriorate(delta: number) {
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
+    }
+
+    async processFixedUpdate(delta: number) {
         for (const door of this.doors) {
             if (!door.isOpen && door.DoUpdate(delta)) {
                 this.dirty = true;

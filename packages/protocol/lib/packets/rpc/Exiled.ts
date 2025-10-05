@@ -5,7 +5,7 @@ export class ExiledMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.Exiled as const;
     messageTag = RpcMessageTag.Exiled as const;
 
-    static Deserialize() {
+    static deserializeFromReader() {
         return new ExiledMessage;
     }
 

@@ -22,14 +22,14 @@ export class WaitForHostMessage extends BaseRootMessage {
         this.clientId = clientId;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
         const clientId = reader.int32();
 
         return new WaitForHostMessage(code, clientId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.int32(this.code);
         writer.int32(this.clientId);
     }

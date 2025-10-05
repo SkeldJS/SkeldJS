@@ -23,7 +23,7 @@ export class HelloPacket extends BaseRootPacket {
         super();
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -53,7 +53,7 @@ export class HelloPacket extends BaseRootPacket {
         }
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
         writer.uint8(0);
         writer.write(this.clientVer);

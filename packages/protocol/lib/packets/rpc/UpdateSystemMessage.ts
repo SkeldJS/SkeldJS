@@ -19,7 +19,7 @@ export class UpdateSystemMessage extends BaseRpcMessage {
         return [ this.data ];
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -32,12 +32,12 @@ export class UpdateSystemMessage extends BaseRpcMessage {
         if (!rpcMessageClass)
             return new UpdateSystemMessage(netId, new BaseSystemMessage);
 
-        const rpc = rpcMessageClass.Deserialize(mreader, direction, decoder);
+        const rpc = rpcMessageClass.deserializeFromReader(mreader, direction, decoder);
 
         return new UpdateSystemMessage(netId, rpc as BaseSystemMessage);
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder

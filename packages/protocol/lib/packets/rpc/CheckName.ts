@@ -14,13 +14,13 @@ export class CheckNameMessage extends BaseRpcMessage {
         this.name = name;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const name = reader.string();
 
         return new CheckNameMessage(name);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.name);
     }
 

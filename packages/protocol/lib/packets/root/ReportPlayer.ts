@@ -48,7 +48,7 @@ export class ReportPlayerMessage extends BaseRootMessage {
         }
     }
 
-    static Deserialize(reader: HazelReader, direction: MessageDirection) {
+    static deserializeFromReader(reader: HazelReader, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             const clientId = reader.packed();
             const reason = reader.uint32();
@@ -65,7 +65,7 @@ export class ReportPlayerMessage extends BaseRootMessage {
         }
     }
 
-    Serialize(writer: HazelWriter, direction: MessageDirection) {
+    serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
             writer.packed(this.clientId);
             writer.uint32(this.reason);

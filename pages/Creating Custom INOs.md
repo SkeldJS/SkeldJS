@@ -25,14 +25,14 @@ should be extended significantly to provide methods and networking utilities.
 
 ```ts
 export class MyFavouriteComponent<RoomType extends StatefulRoom> extends NetworkedObject<RoomType> {
-    Deserialize(
+    deserializeFromReader(
         reader: HazelReader,
         isSpawn: boolean
     ) {
 
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         isSpawn: boolean
     ) {
@@ -40,19 +40,15 @@ export class MyFavouriteComponent<RoomType extends StatefulRoom> extends Network
         return true;
     }
 
-    PreSerialize() {
+    async handleRemoteCall(rpc: BaseRpcMessage) {
 
     }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
+    processFixedUpdate(delta: number) {
 
     }
 
-    FixedUpdate(delta: number) {
-
-    }
-
-    Awake() {
+    processAwake() {
 
     }
 
@@ -103,7 +99,7 @@ of the component. Can also be used for clients to send commands directly to the 
 for example the [CheckName Rpc](https://github.com/codyphobe/among-us-protocol/blob/master/04_rpc_message_types/05_checkname.md).
 
 Can be sent either via the {@link StatefulRoom.broadcast} method on the room or with
-the {@link StatefulRoom.messageStream}, and can be handled with the `async HandleRpc(rpc)`
+the {@link StatefulRoom.messageStream}, and can be handled with the `async handleRemoteCall(rpc)`
 method on the INO component.
 
 ## Lifecycle
@@ -113,14 +109,14 @@ SkeldJS also provides some useful lifecycle methods for INO components:
 Called before the serialize method, it allows you to prepare your component for
 serialization, such as setting the `dirtyBit` to `1` before-hand.
 
-### `FixedUpdate(delta: number)`
+### `processFixedUpdate(delta: number)`
 Called on every fixed update cycle, and passes a `delta` argument indicating the
 number of miliseconds passed since the last fixed update, somewhere around `20`.
 
 The time delta can be used to make time-dependent behaviours, such as a ship system
 like O2 or Reactor counting down.
 
-### `Awake()`
+### `processAwake()`
 Called as soon as the component is spawned by SkeldJS (note: not when receiving
 a spawn message). This can be used to introduce the component to the room.
 
@@ -166,14 +162,14 @@ export enum PlayerShape {
 export class ShapeShifterPlayerControl<RoomType extends StatefulRoom> extends NetworkedObject<RoomType> {
     currentShape = PlayerShape.Square;
 
-    Deserialize(
+    deserializeFromReader(
         reader: HazelReader,
         isSpawn: boolean
     ) {
         this.currentShape = reader.uint8();
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         isSpawn: boolean
     ) {
@@ -182,7 +178,7 @@ export class ShapeShifterPlayerControl<RoomType extends StatefulRoom> extends Ne
         return true;
     }
 
-    async HandleRpc(rpc: BaseRpcMessage) {
+    async handleRemoteCall(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
             case ShapeShifterRpcTags.SetShape:
                 await this._handleSetShape(rpc as SetShapeMessage);

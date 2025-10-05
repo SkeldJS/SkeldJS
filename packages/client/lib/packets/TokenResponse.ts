@@ -11,12 +11,12 @@ export class TokenResponseMessage extends BaseRootMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const token = reader.uint32();
         return new TokenResponseMessage(token);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint32(this.token);
     }
 }

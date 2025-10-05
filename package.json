@@ -17,9 +17,6 @@
     "email": "essmale2005@gmail.com",
     "url": "https://weakeyes.dev"
   },
-  "engines": {
-    "node": ">=14.x"
-  },
   "private": true,
   "scripts": {
     "lint": "eslint \"packages/**/*.ts\"",

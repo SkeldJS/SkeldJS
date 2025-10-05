@@ -10,13 +10,13 @@ export class SetLevelMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const level = reader.packed();
 
         return new SetLevelMessage(level);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.packed(this.level);
     }
 

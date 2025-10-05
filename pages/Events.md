@@ -170,7 +170,7 @@ client.on("player.setname", ev => {
 ### Room
 * {@link RoomAssignRolesEvent | `room.assignroles`}
 * {@link RoomEndGameIntentEvent | `room.endgameintent`}
-* {@link RoomFixedUpdateEvent | `room.fixedupdate`}
+* {@link RoomprocessFixedUpdateEvent | `room.fixedupdate`}
 * {@link RoomGameEndEvent | `room.gameend`}
 * {@link RoomGameStartEvent | `room.gamestart`}
 * {@link RoomSetPrivacyEvent | `room.setprivacy`}

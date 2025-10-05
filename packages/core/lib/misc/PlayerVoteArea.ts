@@ -58,13 +58,13 @@ export class PlayerVoteArea<RoomType extends StatefulRoom = StatefulRoom> {
         return !playerInfo?.isDead && !playerInfo?.isDisconnected;
     }
 
-    static Deserialize<RoomType extends StatefulRoom = StatefulRoom>(reader: HazelReader, meetinghud: MeetingHud<RoomType>, playerId: number) {
+    static deserializeFromReader<RoomType extends StatefulRoom = StatefulRoom>(reader: HazelReader, meetinghud: MeetingHud<RoomType>, playerId: number) {
         const votedForId = reader.uint8();
         const didReport = reader.bool();
         return new PlayerVoteArea(meetinghud, playerId, votedForId, didReport);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.votedForId);
         writer.bool(this.didReport);
     }

@@ -14,13 +14,13 @@ export class StartMeetingMessage extends BaseRpcMessage {
         this.bodyid = bodyid;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const bodyid = reader.uint8();
 
         return new StartMeetingMessage(bodyid);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.bodyid);
     }
 

@@ -5,7 +5,7 @@ export class CloseMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.Close as const;
     messageTag = RpcMessageTag.Close as const;
 
-    static Deserialize() {
+    static deserializeFromReader() {
         return new CloseMessage;
     }
 

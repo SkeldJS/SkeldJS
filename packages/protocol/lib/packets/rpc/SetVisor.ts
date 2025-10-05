@@ -10,14 +10,14 @@ export class SetVisorMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const visorId = reader.string();
         const sequenceId = reader.uint8();
 
         return new SetVisorMessage(visorId, sequenceId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.visorId);
         writer.uint8(this.sequenceId);
     }

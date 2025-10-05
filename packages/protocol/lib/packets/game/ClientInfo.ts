@@ -16,14 +16,14 @@ export class ClientInfoMessage extends BaseGameDataMessage {
         this.platform = platform;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const clientId = reader.packed();
         const platform = reader.upacked();
 
         return new ClientInfoMessage(clientId, platform);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.packed(this.clientId);
         writer.upacked(this.platform);
     }

@@ -8,7 +8,7 @@ describe("KickPlayerMessage", () => {
     describe("KickPlayerMessage#Deserialize", () => {
         it("Should deserialize a kick player root message.", () => {
             const reader = HazelReader.from("88fd958cc3a30211", "hex");
-            const packet = KickPlayerMessage.Deserialize(reader);
+            const packet = KickPlayerMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, RootMessageTag.KickPlayer);
             assert.strictEqual(packet.code, -1936327288);
@@ -22,7 +22,7 @@ describe("KickPlayerMessage", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new KickPlayerMessage("XJWWCF", 37315, false);
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "88fd958cc3a3020011");
         });
@@ -36,7 +36,7 @@ describe("KickPlayerMessage", () => {
                 DisconnectReason.Hacking
             );
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "88fd958cc3a302000a");
         });

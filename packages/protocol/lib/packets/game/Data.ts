@@ -16,14 +16,14 @@ export class DataMessage extends BaseGameDataMessage {
         this.data = data;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const netId = reader.upacked();
         const data = reader.bytes(reader.left);
 
         return new DataMessage(netId, data.buffer);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.netId);
         writer.bytes(this.data);
     }

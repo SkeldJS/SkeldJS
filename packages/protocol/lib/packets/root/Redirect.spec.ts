@@ -8,7 +8,7 @@ describe("RedirectMessage", () => {
     describe("RedirectMessage#Deserialize", () => {
         it("Should deserialize a redirect root message.", () => {
             const reader = HazelReader.from("800ed372cf56", "hex");
-            const packet = RedirectMessage.Deserialize(reader);
+            const packet = RedirectMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, RootMessageTag.Redirect);
             assert.strictEqual(packet.ip, "128.14.211.114");
@@ -21,7 +21,7 @@ describe("RedirectMessage", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new RedirectMessage("128.14.211.114", 22223);
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "800ed372cf56");
         });

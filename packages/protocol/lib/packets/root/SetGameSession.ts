@@ -18,13 +18,13 @@ export class SetGameSessionMessage extends BaseRootMessage {
         this.session = session;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const session = reader.string();
 
         return new SetGameSessionMessage(session);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.session);
     }
 }

@@ -12,7 +12,7 @@ describe("BaseMessage", () => {
             const reader = HazelReader.from("", "hex");
 
             assert.throws(() => {
-                BaseMessage.Deserialize(
+                BaseMessage.deserializeFromReader(
                     reader,
                     MessageDirection.Clientbound,
                     decoder
@@ -28,7 +28,7 @@ describe("BaseMessage", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new BaseMessage;
 
-            packet.Serialize(writer, MessageDirection.Clientbound, decoder);
+            packet.serializeToWriter(writer, MessageDirection.Clientbound, decoder);
 
             assert.strictEqual(writer.toString("hex"), "");
         });

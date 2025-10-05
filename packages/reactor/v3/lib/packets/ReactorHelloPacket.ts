@@ -20,7 +20,7 @@ export class ReactorHelloPacket extends BaseRootPacket {
         return this.handshake === undefined;
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -46,7 +46,7 @@ export class ReactorHelloPacket extends BaseRootPacket {
         }
     }
 
-    Serialize(writer: HazelWriter, direction: MessageDirection) {
+    serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         writer.write(this.helloPacket);
         if (!this.isNormalHello()) {
             writer.write(this.handshake!, direction);

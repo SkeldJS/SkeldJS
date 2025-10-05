@@ -12,7 +12,7 @@ export class UnknownReactorRpc extends BaseReactorRpcMessage {
         super();
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.bytes(this.data);
     }
 }
@@ -24,7 +24,7 @@ export class ModIdentifier {
         return (this.netId || this.modId)!;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const netId = reader.upacked();
 
         if (netId > 0) {
@@ -35,7 +35,7 @@ export class ModIdentifier {
         return new ModIdentifier(undefined, modId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         const identifier = this.getIdentifier();
         if (typeof identifier === "string") {
             writer.upacked(0);
@@ -58,7 +58,7 @@ export class Rpc255Reactor extends BaseRpcMessage {
         return [ this.data ];
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -72,12 +72,12 @@ export class Rpc255Reactor extends BaseRpcMessage {
         if (!rpcMessageClass)
             return new Rpc255Reactor(modId, new UnknownReactorRpc(callId, mReader.buffer));
 
-        const rpc = rpcMessageClass.Deserialize(mReader, direction, decoder);
+        const rpc = rpcMessageClass.deserializeFromReader(mReader, direction, decoder);
 
         return new Rpc255Reactor(modId, rpc as BaseReactorRpcMessage);
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder

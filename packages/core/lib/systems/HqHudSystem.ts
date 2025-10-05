@@ -92,7 +92,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const numActive = reader.upacked();
 
         const beforeActive = this.activeConsoles;
@@ -144,7 +144,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.upacked(this.activeConsoles.length);
 
         for (let i = 0; i < this.activeConsoles.length; i++) {
@@ -162,7 +162,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    async HandleSabotage(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this.timer = -1;
         this.activeConsoles = [];
         this.completedConsoles = new Set;
@@ -338,7 +338,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this.completeConsole(1);
     }
 
-    async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const consoleId = amount & 0xf;
         const repairOperation = amount & 0xf0;
 
@@ -364,7 +364,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    Detoriorate(delta: number) {
+    async processFixedUpdate(delta: number) {
         if (!this.sabotaged)
             return;
 

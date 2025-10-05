@@ -16,14 +16,14 @@ export class SendChatNoteMessage extends BaseRpcMessage {
         this.notetype = notetype;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const playerId = reader.uint8();
         const notetype = reader.uint8();
 
         return new SendChatNoteMessage(playerId, notetype);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.playerId);
         writer.uint8(this.notetype);
     }

@@ -16,14 +16,14 @@ export class CastVoteMessage extends BaseRpcMessage {
         this.suspectid = suspectid;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const votingid = reader.uint8();
         const suspectid = reader.uint8();
 
         return new CastVoteMessage(votingid, suspectid);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.votingid);
         writer.uint8(this.suspectid);
     }

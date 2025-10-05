@@ -14,13 +14,13 @@ export class CloseDoorsOfTypeMessage extends BaseRpcMessage {
         this.systemId = systemid;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const systemid = reader.uint8();
 
         return new CloseDoorsOfTypeMessage(systemid);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.systemId);
     }
 

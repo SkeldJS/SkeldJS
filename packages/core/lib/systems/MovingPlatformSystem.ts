@@ -67,7 +67,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         if (spawn) {
             this.useId = reader.uint8();
             const targetId = reader.uint32();
@@ -95,7 +95,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         this.useId++;
         if (this.useId > 255)
             this.useId = 0;
@@ -177,5 +177,29 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
 
         this.side = side;
         this.dirty = true;
+    }
+    
+    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
+        void player, amount, rpc;
+    }
+
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
+
+    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+        void player, rpc;
+    }
+
+    async fullyRepairHost(): Promise<void> {
+        void 0;
+    }
+
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
     }
 }

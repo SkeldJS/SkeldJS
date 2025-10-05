@@ -11,7 +11,7 @@ export class PlayerJoinData {
         public readonly friendCode: string
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const clientId = reader.packed();
         const playerName = reader.string();
         const platform = reader.read(PlatformSpecificData);
@@ -22,7 +22,7 @@ export class PlayerJoinData {
         return new PlayerJoinData(clientId, playerName, platform, playerLevel, puid, friendCode);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.packed(this.clientId);
         writer.string(this.playerName);
         writer.write(this.platform);

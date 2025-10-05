@@ -52,12 +52,12 @@ export class Door<RoomType extends StatefulRoom = StatefulRoom> extends EventEmi
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         this.isOpen = reader.bool(); // Use setter to emit events.
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.bool(this.isOpen);
     }
 }

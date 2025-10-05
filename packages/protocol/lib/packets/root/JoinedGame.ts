@@ -32,7 +32,7 @@ export class JoinedGameMessage extends BaseRootMessage {
         this.otherPlayers = otherPlayers;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
         const clientId = reader.int32();
         const hostId = reader.int32();
@@ -41,7 +41,7 @@ export class JoinedGameMessage extends BaseRootMessage {
         return new JoinedGameMessage(code, clientId, hostId, otherPlayers);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.int32(this.code);
         writer.int32(this.clientId);
         writer.int32(this.hostId);

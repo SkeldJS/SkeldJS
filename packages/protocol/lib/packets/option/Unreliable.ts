@@ -14,12 +14,12 @@ export class UnreliablePacket extends NormalPacket {
         super(children);
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
-        const normal = super.Deserialize(reader, direction, decoder);
+        const normal = super.deserializeFromReader(reader, direction, decoder);
 
         return new UnreliablePacket(normal.children);
     }

@@ -5,11 +5,44 @@ import { Player } from "../../Player";
 import { BaseRole, CrewmateRole, EngineerRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
-import { RoleChanceSettings } from "@skeldjs/protocol";
+import { BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
+import { HazelWriter, HazelReader } from "@skeldjs/util";
 
 export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
+    async processFixedUpdate(deltaTime: number): Promise<void> {
+        void deltaTime;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
+        void rpc;
+    }
+
+    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
+        void writer, initialState;
+    }
+
+    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
+        void reader, initialState;
+    }
+
+    async onGameStart(): Promise<void> {
+        void 0;
+    }
+
+    async onGameEnd(): Promise<void> {
+        void 0;
+    }
+
+    async onDestroy(): Promise<void> {
+        void 0;
+    }
+
+    async onPlayerDisconnect(): Promise<void> {
+        void 0;
+    }
+
     matchRoles(settings: Partial<Record<RoleType, RoleChanceSettings>>, filter: (roleCtr: typeof BaseRole, roleChance: RoleChanceSettings) => any) {
         const filteredRoles = [];
         for (const [, roleCtr] of this.manager.room.registeredRoles) {

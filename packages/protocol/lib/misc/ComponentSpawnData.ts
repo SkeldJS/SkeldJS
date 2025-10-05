@@ -9,14 +9,14 @@ export class ComponentSpawnData {
         this.data = data;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const netId = reader.upacked();
         const [, data] = reader.message();
 
         return new ComponentSpawnData(netId, data.buffer);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.netId);
         writer.begin(1);
         writer.bytes(this.data);

@@ -15,7 +15,7 @@ describe("ReliablePacket", () => {
                 "00020d000746e43c8c9a9e00009a9e00000006000a46e43c8c0100",
                 "hex"
             );
-            const packet = ReliablePacket.Deserialize(
+            const packet = ReliablePacket.deserializeFromReader(
                 reader,
                 MessageDirection.Clientbound,
                 decoder
@@ -45,7 +45,7 @@ describe("ReliablePacket", () => {
                 new AlterGameMessage("OXCJDF", AlterGameTag.ChangePrivacy, 0),
             ]);
 
-            packet.Serialize(writer, MessageDirection.Clientbound, decoder);
+            packet.serializeToWriter(writer, MessageDirection.Clientbound, decoder);
 
             assert.strictEqual(
                 writer.toString("hex"),

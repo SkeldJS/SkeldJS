@@ -90,13 +90,13 @@ export class VersionInfo {
         this.revision = revision;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const num = reader.uint32();
 
         return VersionInfo.from(num);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.int32(this.encode());
     }
 

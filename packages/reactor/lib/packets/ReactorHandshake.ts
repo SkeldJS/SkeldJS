@@ -23,7 +23,7 @@ export class ReactorHandshakeMessage extends BaseReactorMessage {
         this.plugincount = plugincount;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const servername = reader.string();
         const serverver = reader.string();
         const plugincount = reader.packed();
@@ -31,7 +31,7 @@ export class ReactorHandshakeMessage extends BaseReactorMessage {
         return new ReactorHandshakeMessage(servername, serverver, plugincount);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.string(this.servername);
         writer.string(this.serverver);
         writer.packed(this.plugincount);

@@ -10,14 +10,14 @@ export class SetNameMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const netIdToName = reader.uint32(); // unused 
         const name = reader.string();
 
         return new SetNameMessage(netIdToName, name);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint32(this.netIdToName);
         writer.string(this.name);
     }

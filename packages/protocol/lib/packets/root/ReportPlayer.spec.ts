@@ -9,7 +9,7 @@ describe("ReportPlayerMessage", () => {
     describe("ReportPlayerMessage#Deserialize", () => {
         it("Should deserialize a client-bound report player root message.", () => {
             const reader = HazelReader.from("96e101020000000400", "hex");
-            const packet = ReportPlayerMessage.Deserialize(
+            const packet = ReportPlayerMessage.deserializeFromReader(
                 reader,
                 MessageDirection.Clientbound
             );
@@ -23,7 +23,7 @@ describe("ReportPlayerMessage", () => {
 
         it("Should deserialize a server-bound report player root message", () => {
             const reader = HazelReader.from("475ac28c96e10102", "hex");
-            const packet = ReportPlayerMessage.Deserialize(
+            const packet = ReportPlayerMessage.deserializeFromReader(
                 reader,
                 MessageDirection.Serverbound
             );
@@ -45,7 +45,7 @@ describe("ReportPlayerMessage", () => {
                 ""
             );
 
-            packet.Serialize(writer, MessageDirection.Clientbound);
+            packet.serializeToWriter(writer, MessageDirection.Clientbound);
 
             assert.strictEqual(writer.toString("hex"), "96e101020000000400");
         });
@@ -58,7 +58,7 @@ describe("ReportPlayerMessage", () => {
                 ReportReason.CheatingHacking
             );
 
-            packet.Serialize(writer, MessageDirection.Serverbound);
+            packet.serializeToWriter(writer, MessageDirection.Serverbound);
 
             assert.strictEqual(writer.toString("hex"), "475ac28c96e10102");
         });

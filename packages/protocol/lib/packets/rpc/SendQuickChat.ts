@@ -14,11 +14,11 @@ export class BaseQuickChatMessageData {
         public readonly contentType: QuickChatContentType
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
 
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
 
     }
 
@@ -34,11 +34,11 @@ export class QuickChatPlayerMessageData extends BaseQuickChatMessageData {
         super(QuickChatContentType.Player);
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         return new QuickChatPlayerMessageData(reader.uint8());
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.playerId);
     }
 
@@ -54,11 +54,11 @@ export class QuickChatSimpleMessageData extends BaseQuickChatMessageData {
         super(QuickChatContentType.Simple);
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         return new QuickChatSimpleMessageData(reader.uint16());
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.formatString);
     }
 
@@ -75,7 +75,7 @@ export class QuickChatComplexMessageData extends BaseQuickChatMessageData {
         super(QuickChatContentType.Complex);
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const formatString = reader.uint16();
         const numElements = reader.byte();
         const elements = reader.list(numElements, () => {
@@ -85,9 +85,9 @@ export class QuickChatComplexMessageData extends BaseQuickChatMessageData {
             case QuickChatContentType.Complex:
                 break;
             case QuickChatContentType.Player:
-                return QuickChatPlayerMessageData.Deserialize(reader);
+                return QuickChatPlayerMessageData.deserializeFromReader(reader);
             case QuickChatContentType.Simple:
-                return QuickChatSimpleMessageData.Deserialize(reader);
+                return QuickChatSimpleMessageData.deserializeFromReader(reader);
             default:
                 break;
             }
@@ -95,7 +95,7 @@ export class QuickChatComplexMessageData extends BaseQuickChatMessageData {
         return new QuickChatComplexMessageData(formatString, elements);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.formatString);
         writer.byte(this.elements.length);
         for (const element of this.elements) {
@@ -127,22 +127,22 @@ export class SendQuickChatMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const contentType = reader.uint8();
 
         switch (contentType) {
         case QuickChatContentType.Player:
-            return new SendQuickChatMessage(QuickChatPlayerMessageData.Deserialize(reader));
+            return new SendQuickChatMessage(QuickChatPlayerMessageData.deserializeFromReader(reader));
         case QuickChatContentType.Simple:
-            return new SendQuickChatMessage(QuickChatSimpleMessageData.Deserialize(reader));
+            return new SendQuickChatMessage(QuickChatSimpleMessageData.deserializeFromReader(reader));
         case QuickChatContentType.Complex:
-            return new SendQuickChatMessage(QuickChatComplexMessageData.Deserialize(reader));
+            return new SendQuickChatMessage(QuickChatComplexMessageData.deserializeFromReader(reader));
         default:
             return new SendQuickChatMessage(new QuickChatSimpleMessageData(StringNames.ANY));
         }
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.message.contentType);
         writer.write(this.message);
     }

@@ -5,8 +5,7 @@ import { Vector2 } from "./Vector";
 type ListWriter<T> = (item: T, i: number, writer: HazelWriter) => any;
 
 type Serializable<T extends any[] = any[]> = {
-    PreSerialize?(): void;
-    Serialize(writer: HazelWriter, ...args: T): void;
+    serializeToWriter(writer: HazelWriter, ...args: T): void;
 };
 type GetSerializeArgs<T extends Serializable> = T extends Serializable<infer K>
     ? K
@@ -82,9 +81,9 @@ export class HazelWriter extends HazelBuffer {
             return this;
         }
 
-        const new_buffer = Buffer.alloc(size);
-        this._buffer.copy(new_buffer);
-        this._buffer = new_buffer;
+        const newBuffer = Buffer.alloc(size);
+        this._buffer.copy(newBuffer);
+        this._buffer = newBuffer;
 
         return this;
     }
@@ -243,11 +242,7 @@ export class HazelWriter extends HazelBuffer {
         serializable: K,
         ...args: GetSerializeArgs<K>
     ) {
-        if (serializable.PreSerialize) {
-            serializable.PreSerialize();
-        }
-
-        serializable.Serialize(this, ...args);
+        serializable.serializeToWriter(this, ...args);
         return this;
     }
 

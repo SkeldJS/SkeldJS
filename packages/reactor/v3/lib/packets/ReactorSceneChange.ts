@@ -18,7 +18,7 @@ export class ReactorSceneChangeMessage extends BaseGameDataMessage {
         return this.header !== undefined && this.handshake !== undefined;
     }
 
-    static Deserialize(reader: HazelReader, direction: MessageDirection, decoder: PacketDecoder) {
+    static deserializeFromReader(reader: HazelReader, direction: MessageDirection, decoder: PacketDecoder) {
         const sceneChange = reader.read(SceneChangeMessage);
         const reactorHeader = reader.read(ReactorHeader);
 
@@ -34,7 +34,7 @@ export class ReactorSceneChangeMessage extends BaseGameDataMessage {
         return new ReactorSceneChangeMessage(sceneChange, reactorHeader, handshake);
     }
 
-    Serialize(writer: HazelWriter, direction: MessageDirection) {
+    serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         writer.write(this.sceneChange);
         if (this.isModded()) {
             writer.write(this.header);

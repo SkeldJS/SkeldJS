@@ -10,13 +10,13 @@ export class SetTasksMessage extends BaseRpcMessage {
         super();
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const taskIds = reader.list((r) => r.uint8());
 
         return new SetTasksMessage(taskIds);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.list(true, this.taskIds, (t) => writer.uint8(t));
     }
 

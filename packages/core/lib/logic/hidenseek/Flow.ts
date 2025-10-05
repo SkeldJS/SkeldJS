@@ -3,6 +3,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { StatefulRoom } from "../../StatefulRoom";
 import { InnerGameManager } from "../../objects";
 import { GameLogicComponent } from "../GameLogicComponent";
+import { BaseRpcMessage } from "@skeldjs/protocol";
 
 export type HideNSeekFlowLogicComponentEvents = ExtractEventTypes<[]>;
 
@@ -21,11 +22,15 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom = Statefu
         return this.currentHideTime <= 0;
     }
 
-    FixedUpdate(deltaTime: number) {
-
+    async processFixedUpdate(deltaTime: number): Promise<void> {
+        void deltaTime;
     }
 
-    Deserialize(reader: HazelReader, initialState: boolean) {
+    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
+        void rpc;
+    }
+
+    deserializeFromReader(reader: HazelReader, initialState: boolean) {
         const nextCurrentHideTime = reader.float();
         this.currentFinalHideTime = reader.float();
         if (nextCurrentHideTime <= 0 && this.currentFinalHideTime >= 0) {
@@ -34,8 +39,24 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom = Statefu
         this.currentHideTime = nextCurrentHideTime;
     }
 
-    Serialize(writer: HazelWriter, initialState: boolean) {
+    serializeToWriter(writer: HazelWriter, initialState: boolean) {
         writer.float(this.currentHideTime);
         writer.float(this.currentFinalHideTime);
+    }
+
+    async onGameStart(): Promise<void> {
+        void 0;
+    }
+
+    async onGameEnd(): Promise<void> {
+        void 0;
+    }
+
+    async onDestroy(): Promise<void> {
+        void 0;
+    }
+
+    async onPlayerDisconnect(): Promise<void> {
+        void 0;
     }
 }

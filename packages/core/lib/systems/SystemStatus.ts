@@ -9,7 +9,7 @@ import { Player } from "../Player";
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export class SystemStatus<
+export abstract class SystemStatus<
     DataT = any,
     T extends SystemStatusEvents = SystemStatusEvents,
     RoomType extends StatefulRoom<any> = StatefulRoom<any>
@@ -27,7 +27,7 @@ export class SystemStatus<
 
         if (data) {
             if (data instanceof HazelReader) {
-                this.Deserialize(data, true);
+                this.deserializeFromReader(data, true);
             } else {
                 this.patch(data);
             }
@@ -88,42 +88,24 @@ export class SystemStatus<
         return super.emitSync(event);
     }
 
-    Deserialize(reader: HazelReader, spawn: boolean): void {
-        void reader, spawn;
-    }
+    abstract deserializeFromReader(reader: HazelReader, spawn: boolean): void;
+    abstract serializeToWriter(writer: HazelWriter, spawn: boolean): void;
 
-    Serialize(writer: HazelWriter, spawn: boolean): void {
-        void writer, spawn;
-    }
+    abstract handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void>;
+    abstract handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void>;
 
-    async HandleRepair(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
-        void player, amount, rpc;
-    }
+    abstract processFixedUpdate(delta: number): Promise<void>;
 
-    Detoriorate(delta: number): void {
-        void delta;
-    }
-
-    async HandleSabotage(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
-        void player, rpc;
-    }
-
-    async fullyRepairHost(): Promise<void> { }
-
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
-        void player;
-    }
-
-    async sendFullRepair(player: Player): Promise<void> {
-        void player;
-    }
+    abstract fullyRepairHost(): Promise<void>;
+    abstract fullyRepairPlayer(player: Player | undefined): Promise<void>;
+    abstract sendFullRepair(player: Player): Promise<void>;
 
     /**
      * Sabotage this system.
      */
     async sabotagePlayer(sabotagedByPlayer: Player) {
         await this.ship.systems.get(SystemType.Sabotage)
-            ?.HandleRepair(sabotagedByPlayer, this.systemType, undefined);
+            ?.handleRepairByPlayer(sabotagedByPlayer, this.systemType, undefined);
     }
 
     async sabotage() {

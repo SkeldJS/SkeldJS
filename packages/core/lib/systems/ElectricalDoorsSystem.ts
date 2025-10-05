@@ -51,7 +51,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const bitfield = reader.uint32();
         for (let i = 0; i < this.doors.length; i++) {
             const isOpen = (bitfield & (1 << i)) > 0;
@@ -64,7 +64,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         let bitfield = 0;
         for (let i = 0; i < this.doors.length; i++) {
             bitfield |= ((this.doors[i].isOpen as unknown) as number) << i;
@@ -155,5 +155,29 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
 
     async closeDoorHost(doorId: number) {
         await this._closeDoor(doorId, undefined, undefined);
+    }
+    
+    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
+        void player, amount, rpc;
+    }
+
+    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+        void player, rpc;
+    }
+
+    async fullyRepairHost(): Promise<void> {
+        void 0;
+    }
+
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
+    }
+
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
     }
 }

@@ -14,13 +14,13 @@ export class DespawnMessage extends BaseGameDataMessage {
         this.netId = netId;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const netId = reader.upacked();
 
         return new DespawnMessage(netId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.netId);
     }
 

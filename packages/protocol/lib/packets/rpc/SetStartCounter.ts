@@ -16,14 +16,14 @@ export class SetStartCounterMessage extends BaseRpcMessage {
         this.counter = counter;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const sequenceid = reader.upacked();
         const counter = reader.int8();
 
         return new SetStartCounterMessage(sequenceid, counter);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.sequenceid);
         writer.int8(this.counter);
     }

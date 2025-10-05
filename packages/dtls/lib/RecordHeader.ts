@@ -13,7 +13,7 @@ export class RecordHeader {
         public length: number
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const contentType = reader.uint8();
         const protocolVersion = reader.uint16(true);
 
@@ -28,7 +28,7 @@ export class RecordHeader {
         return new RecordHeader(contentType, epoch, sequenceNumber, length);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.contentType);
         writer.uint16(ProtocolVersion.DTLS1_2, true);
         writer.uint16(this.epoch, true);

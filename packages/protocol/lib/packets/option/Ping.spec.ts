@@ -8,7 +8,7 @@ describe("PingPacket", () => {
     describe("PingPacket#Deserialize", () => {
         it("Should deserialize a ping packet.", () => {
             const reader = HazelReader.from("0231", "hex");
-            const packet = PingPacket.Deserialize(reader);
+            const packet = PingPacket.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, SendOption.Ping);
             assert.strictEqual(packet.nonce, 561);
@@ -20,7 +20,7 @@ describe("PingPacket", () => {
             const writer = HazelWriter.alloc(2);
             const packet = new PingPacket(72);
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(writer.toString("hex"), "0048");
         });

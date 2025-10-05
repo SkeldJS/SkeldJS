@@ -51,27 +51,43 @@ export class SabotageSystem<RoomType extends StatefulRoom = StatefulRoom> extend
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Deserialize(reader: HazelReader, spawn: boolean) {
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
         this.cooldown = reader.float();
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    Serialize(writer: HazelWriter, spawn: boolean) {
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
         writer.float(this.cooldown);
     }
 
-    async HandleRepair(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const system = this.ship.systems.get(amount) as SystemStatus;
 
         if (system) {
-            await system.HandleSabotage(player, rpc);
+            await system.handleSabotageByPlayer(player, rpc);
 
             this.cooldown = 30;
             this.dirty = true;
         }
     }
+    
+    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+        void player, rpc;
+    }
 
-    Detoriorate(delta: number) {
+    async fullyRepairHost(): Promise<void> {
+        void 0;
+    }
+
+    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+        void player;
+    }
+
+    async sendFullRepair(player: Player): Promise<void> {
+        void player;
+    }
+
+    async processFixedUpdate(delta: number) {
         if (this.cooldown > 0 && !this.anySabotaged) {
             this.cooldown -= delta;
             if (this.cooldown <= 0) {
@@ -79,4 +95,5 @@ export class SabotageSystem<RoomType extends StatefulRoom = StatefulRoom> extend
             }
         }
     }
+    
 }

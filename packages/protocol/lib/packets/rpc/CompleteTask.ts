@@ -14,13 +14,13 @@ export class CompleteTaskMessage extends BaseRpcMessage {
         this.taskIdx = taskIdx;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const taskIdx = reader.upacked();
 
         return new CompleteTaskMessage(taskIdx);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.taskIdx);
     }
 

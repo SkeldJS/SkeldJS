@@ -10,7 +10,7 @@ export class Extension {
         public readonly extType: ExtensionType
     ) {}
 
-    static Deserialize(reader: HazelReader, extType: ExtensionType) {
+    static deserializeFromReader(reader: HazelReader, extType: ExtensionType) {
         switch (extType) {
             case ExtensionType.EllipticCurves:
                 const supportedCurvesLen = reader.uint16(true);
@@ -33,7 +33,7 @@ export class EllipticCurvesExtension extends Extension {
         super(ExtensionType.EllipticCurves);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.supportedCurves.length * 2, true);
         for (const curve of this.supportedCurves) {
             writer.uint16(curve, true);
@@ -49,7 +49,7 @@ export class ClientHello {
         public readonly extensions: (EllipticCurvesExtension)[]
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const protocolVersion = reader.uint16(true);
         if (protocolVersion !== ProtocolVersion.DTLS1_2) {
             throw new Error("Bad protocol version: " + protocolVersion);
@@ -103,7 +103,7 @@ export class ClientHello {
         );
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint16(ProtocolVersion.DTLS1_2, true);
         writer.bytes(this.random);
 

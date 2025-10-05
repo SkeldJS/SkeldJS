@@ -232,13 +232,13 @@ export class RoleSettings implements AllRoleSettings {
         this.viperDissolveTime = roleSettings.viperDissolveTime ?? this.viperDissolveTime;
     }
 
-    static Deserialize(reader: HazelReader, version: number) {
+    static deserializeFromReader(reader: HazelReader, version: number) {
         const roleSettingsData = new RoleSettings({});
-        roleSettingsData.Deserialize(reader, version);
+        roleSettingsData.deserializeFromReader(reader, version);
         return roleSettingsData;
     }
 
-    Deserialize(reader: HazelReader, version: number) {
+    deserializeFromReader(reader: HazelReader, version: number) {
         if (version >= 7) {
             const numRoles = reader.packed();
             for (let i = 0; i < numRoles; i++) {
@@ -320,7 +320,7 @@ export class RoleSettings implements AllRoleSettings {
         this.guardianAngelsImpostorCanSeeProtected = reader.bool();
     }
 
-    Serialize(writer: HazelWriter, version: number) {
+    serializeToWriter(writer: HazelWriter, version: number) {
         if (version >= 7) {
             // TODO: allow custom role settings
             const roleChances = Object.entries(this.roleChances);
@@ -537,13 +537,13 @@ export class GameSettings {
         }
     }
 
-    static Deserialize(reader: HazelReader, readLength: boolean) {
+    static deserializeFromReader(reader: HazelReader, readLength: boolean) {
         const gameOptions = new GameSettings;
-        gameOptions.Deserialize(reader, readLength);
+        gameOptions.deserializeFromReader(reader, readLength);
         return gameOptions;
     }
 
-    Deserialize(reader: HazelReader, readLength: boolean) {
+    deserializeFromReader(reader: HazelReader, readLength: boolean) {
         const length = readLength ? reader.upacked() : null;
         const sreader = reader.bytes(length ?? reader.left);
         const version = sreader.uint8();
@@ -584,7 +584,7 @@ export class GameSettings {
                     this.taskbarUpdates = mreader.uint8();
                     this.tag = mreader.uint8();
 
-                    this.roleSettings.Deserialize(mreader, version);
+                    this.roleSettings.deserializeFromReader(mreader, version);
                     break;
                 case GameMode.HideNSeek:
                 case GameMode.HideNSeekFools:
@@ -635,7 +635,7 @@ export class GameSettings {
                         this.anonymousVotes = sreader.bool();
                         this.taskbarUpdates = sreader.uint8();
                         if (version >= 5) {
-                            this.roleSettings.Deserialize(sreader, version);
+                            this.roleSettings.deserializeFromReader(sreader, version);
                         }
                     }
                 }
@@ -643,7 +643,7 @@ export class GameSettings {
         }
     }
 
-    Serialize(writer: HazelWriter, writeSize: boolean, version: number) {
+    serializeToWriter(writer: HazelWriter, writeSize: boolean, version: number) {
         if (version >= 7) {
             const owriter = HazelWriter.alloc(256);
             owriter.uint8(version);

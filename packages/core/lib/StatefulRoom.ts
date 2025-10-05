@@ -154,7 +154,7 @@ export class StatefulRoom<
      */
     destroyed: boolean;
 
-    lastFixedUpdateTimestamp: number;
+    lastprocessFixedUpdateTimestamp: number;
 
     fixedUpdateInterval?: NodeJS.Timeout;
 
@@ -293,7 +293,7 @@ export class StatefulRoom<
     constructor(public config: StatefulRoomConfig = {}) {
         super();
 
-        this.lastFixedUpdateTimestamp = Date.now();
+        this.lastprocessFixedUpdateTimestamp = Date.now();
         this.lastNetId = 0;
         this.destroyed = false;
 
@@ -361,10 +361,10 @@ export class StatefulRoom<
 
         this.endGameIntents = [];
 
-        if (config.doFixedUpdate) {
+        if (config.doprocessFixedUpdate) {
             this.fixedUpdateInterval = setInterval(
-                () => this.FixedUpdate(),
-                StatefulRoom.FixedUpdateInterval
+                () => this.processFixedUpdate(),
+                StatefulRoom.processFixedUpdateInterval
             );
         }
     }
@@ -415,16 +415,15 @@ export class StatefulRoom<
         reliable = true
     ) { }
 
-    async FixedUpdate() {
-        const delta = Date.now() - this.lastFixedUpdateTimestamp;
-        this.lastFixedUpdateTimestamp = Date.now();
+    async processFixedUpdate() {
+        const delta = Date.now() - this.lastprocessFixedUpdateTimestamp;
+        this.lastprocessFixedUpdateTimestamp = Date.now();
         for (const [, component] of this.networkedObjects) {
             if (this.canManageObject(component)) {
-                component.FixedUpdate(delta / 1000);
+                await component.processFixedUpdate(delta / 1000);
                 if (component.dirtyBit) {
-                    component.PreSerialize();
                     const writer = HazelWriter.alloc(0);
-                    if (component.Serialize(writer, false)) {
+                    if (component.serializeToWriter(writer, false)) {
                         this.messageStream.push(
                             new DataMessage(component.netId, writer.buffer)
                         );
@@ -1089,7 +1088,7 @@ export class StatefulRoom<
 
         if (doAwake) {
             for (const component of object.components) {
-                component.Awake();
+                component.processAwake();
             }
         }
 
@@ -1273,7 +1272,7 @@ export class StatefulRoom<
     }
 
     /**
-     * How often a FixedUpdate should be called.
+     * How often a processFixedUpdate should be called.
      */
-    static FixedUpdateInterval = 1 / 50;
+    static processFixedUpdateInterval = 1 / 50;
 }

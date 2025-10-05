@@ -18,7 +18,7 @@ class MyFavouriteMessage extends BaseMessage {
 
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader, // The message reader to read the message from.
         direction: MessageDirection, // The direction that this message is travelling in.
         decoder: PacketDecoder // The decoder that this message is going through.
@@ -26,7 +26,7 @@ class MyFavouriteMessage extends BaseMessage {
         // Should return an instance of MyFavouriteMessage
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter, // The message writer to write the message to.
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -63,12 +63,12 @@ for more information.
 Using the above classes rather than extending [BaseMessage](https://skeld.js.org/classes/protocol.basemessage.html)
 means that you don't need to specify the message type, since they will be set to `option`, `root`, `gamedata` and `rpc` respectfully if you extend them.
 
-The Deserialize and Serialize methods take 3 parameters, a [HazelReader](https://skeld.js.org/classes/util.hazelreader.html)
+The deserializeFromReader and serializeToWriter methods take 3 parameters, a [HazelReader](https://skeld.js.org/classes/util.hazelreader.html)
 or [HazelWriter](https://skeld.js.org/classes/util.hazelwriter.html)
 instance respectfully, and also both take a [MessageDirection](https://skeld.js.org/enums/protocol.messagedirection.html)
 and [PacketDecoder](https://skeld.js.org/classes/protocol.packetdecoder.html).
 
-The Deserialize method should also return an instance of the message, while
+The deserializeFromReader method should also return an instance of the message, while
 Serialize should return nothing.
 
 ### Examples

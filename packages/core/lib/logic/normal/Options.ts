@@ -4,11 +4,43 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { GameSettings } from "@skeldjs/protocol";
+import { BaseRpcMessage, GameSettings } from "@skeldjs/protocol";
 
 export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class NormalOptionsLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
+    async processFixedUpdate(deltaTime: number): Promise<void> {
+        void deltaTime;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
+        void rpc;
+    }
+
+    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
+        this.manager.room.settings = reader.read(GameSettings, true);
+    }
+
+    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
+        writer.write(this.manager.room.settings, true, 10);
+    }
+
+    async onGameStart(): Promise<void> {
+        void 0;
+    }
+
+    async onGameEnd(): Promise<void> {
+        void 0;
+    }
+
+    async onDestroy(): Promise<void> {
+        void 0;
+    }
+
+    async onPlayerDisconnect(): Promise<void> {
+        void 0;
+    }
+
     getMapId() {
         return this.manager.room.settings.map;
     }
@@ -99,13 +131,5 @@ export class NormalOptionsLogicComponent<RoomType extends StatefulRoom = Statefu
 
     getGhostsDoTasks() {
         return true;
-    }
-
-    Deserialize(reader: HazelReader, initialState: boolean): void {
-        this.manager.room.settings = reader.read(GameSettings, true);
-    }
-
-    Serialize(writer: HazelWriter, initialState: boolean): void {
-        writer.write(this.manager.room.settings, true, 10);
     }
 }

@@ -25,7 +25,7 @@ export class ReactorMessage extends BaseRootMessage {
             : [];
     }
 
-    static Deserialize(
+    static deserializeFromReader(
         reader: HazelReader,
         direction: MessageDirection,
         decoder: PacketDecoder
@@ -35,7 +35,7 @@ export class ReactorMessage extends BaseRootMessage {
 
         if (!reactorMessageClass) return new ReactorMessage;
 
-        const reactor = reactorMessageClass.Deserialize(
+        const reactor = reactorMessageClass.deserializeFromReader(
             reader,
             direction,
             decoder
@@ -44,7 +44,7 @@ export class ReactorMessage extends BaseRootMessage {
         return new ReactorMessage(reactor as BaseReactorMessage);
     }
 
-    Serialize(
+    serializeToWriter(
         writer: HazelWriter,
         direction: MessageDirection,
         decoder: PacketDecoder

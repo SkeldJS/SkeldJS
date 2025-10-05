@@ -11,7 +11,7 @@ export class PlatformSpecificData {
         public readonly platformId?: bigint
     ) {}
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const [ platformTag, platformReader ] = reader.message();
         const platformName = platformReader.string();
 
@@ -24,7 +24,7 @@ export class PlatformSpecificData {
         return new PlatformSpecificData(platformTag, platformName);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.begin(this.platformTag);
         writer.string(this.platformName);
         if (this.platformTag === Platform.StandaloneWin10 || this.platformTag === Platform.Xbox || this.platformTag === Platform.Playstation) {

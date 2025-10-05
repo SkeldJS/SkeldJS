@@ -37,25 +37,25 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom = StatefulR
         return super.owner as RoomType;
     }
 
-    Deserialize(reader: HazelReader, spawn = false): void {
+    deserializeFromReader(reader: HazelReader, spawn = false): void {
         if (this.logicComponents === undefined || this.logicComponents.length === 0) this.initComponents();
 
         while (reader.left > 0) {
             const [tag, mreader] = reader.message();
             if (tag >= this.logicComponents.length) continue;
 
-            this.logicComponents[tag].Deserialize(mreader, spawn);
+            this.logicComponents[tag].deserializeFromReader(mreader, spawn);
         }
     }
 
-    Serialize(writer: HazelWriter, spawn = false): boolean {
+    serializeToWriter(writer: HazelWriter, spawn = false): boolean {
         let didWrite = false;
         for (let i = 0; i < this.logicComponents.length; i++) {
             const logicComponent = this.logicComponents[i];
             if (spawn || logicComponent.isDirty) {
                 didWrite = true;
                 writer.begin(i);
-                logicComponent.Serialize(writer, spawn);
+                logicComponent.serializeToWriter(writer, spawn);
                 writer.end();
                 logicComponent.isDirty = false;
             }

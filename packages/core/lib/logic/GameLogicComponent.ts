@@ -37,14 +37,14 @@ export abstract class GameLogicComponent<Events extends EventData, RoomType exte
         return super.emitSync(event);
     }
 
-    FixedUpdate(deltaTime: number) { }
-    async HandleRpc(rpc: BaseRpcMessage) { }
-    Serialize(writer: HazelWriter, initialState: boolean) { }
-    Deserialize(reader: HazelReader, initialState: boolean) { }
+    abstract processFixedUpdate(deltaTime: number): Promise<void>;
+    abstract handleRemoteCall(rpc: BaseRpcMessage): Promise<void>;
+    abstract serializeToWriter(writer: HazelWriter, initialState: boolean): void;
+    abstract deserializeFromReader(reader: HazelReader, initialState: boolean): void;
 
-    async onGameStart() { }
-    async onGameEnd() { }
-    async onDestroy() { }
+    abstract onGameStart(): Promise<void>;
+    abstract onGameEnd(): Promise<void>;
+    abstract onDestroy(): Promise<void>;
 
-    async onPlayerDisconnect() { }
+    abstract onPlayerDisconnect(): Promise<void>;
 }

@@ -16,14 +16,14 @@ export class ProtectPlayerMessage extends BaseRpcMessage {
         this.colorId = colorId;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const victimNetId = reader.upacked();
         const colorId = reader.uint8();
 
         return new ProtectPlayerMessage(victimNetId, colorId);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.targetNetId);
         writer.uint8(this.colorId);
     }

@@ -18,22 +18,22 @@ export class QueryPlatformIdsMessage extends BaseRootMessage {
         this.roomPlayersPlatforms = roomPlayersPlatforms;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const gameCode = reader.int32();
         const roomPlayersPlatforms = Array<PlatformSpecificData>();
 
         while (reader.left) {
-            roomPlayersPlatforms.push(PlatformSpecificData.Deserialize(reader));
+            roomPlayersPlatforms.push(PlatformSpecificData.deserializeFromReader(reader));
         }
 
         return new QueryPlatformIdsMessage(gameCode, roomPlayersPlatforms);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.int32(this.gameCode);
 
         for (const playerPlatform of this.roomPlayersPlatforms) {
-            playerPlatform.Serialize(writer);
+            playerPlatform.serializeToWriter(writer);
         }
     }
 }

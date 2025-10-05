@@ -11,7 +11,7 @@ describe("SceneChangeMessage", () => {
                 "84cc020a4f6e6c696e6547616d65",
                 "hex"
             );
-            const packet = SceneChangeMessage.Deserialize(reader);
+            const packet = SceneChangeMessage.deserializeFromReader(reader);
 
             assert.strictEqual(packet.messageTag, GameDataMessageTag.SceneChange);
             assert.strictEqual(packet.clientId, 42500);
@@ -24,7 +24,7 @@ describe("SceneChangeMessage", () => {
             const writer = HazelWriter.alloc(0);
             const packet = new SceneChangeMessage(42500, "OnlineGame");
 
-            packet.Serialize(writer);
+            packet.serializeToWriter(writer);
 
             assert.strictEqual(
                 writer.toString("hex"),

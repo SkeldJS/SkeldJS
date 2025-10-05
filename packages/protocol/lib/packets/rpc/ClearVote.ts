@@ -5,7 +5,7 @@ export class ClearVoteMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.ClearVote as const;
     messageTag = RpcMessageTag.ClearVote as const;
 
-    static Deserialize() {
+    static deserializeFromReader() {
         return new ClearVoteMessage;
     }
 

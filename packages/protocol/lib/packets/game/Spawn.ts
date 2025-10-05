@@ -27,7 +27,7 @@ export class SpawnMessage extends BaseGameDataMessage {
         this.components = components;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         const spawnType = reader.upacked();
         const ownerId = reader.packed();
         const flags = reader.uint8();
@@ -37,7 +37,7 @@ export class SpawnMessage extends BaseGameDataMessage {
         return new SpawnMessage(spawnType, ownerId, flags, components);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.spawnType);
         writer.packed(this.ownerId);
         writer.uint8(this.flags);

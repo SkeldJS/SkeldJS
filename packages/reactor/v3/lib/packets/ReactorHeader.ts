@@ -10,7 +10,7 @@ export class ReactorHeader {
         return this.version !== undefined;
     }
 
-    static Deserialize(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader) {
         if (reader.left === 0)
             return new ReactorHeader(undefined);
 
@@ -31,7 +31,7 @@ export class ReactorHeader {
         return new ReactorHeader(version);
     }
 
-    Serialize(writer: HazelWriter) {
+    serializeToWriter(writer: HazelWriter) {
         if (!this.version)
             return;
 
