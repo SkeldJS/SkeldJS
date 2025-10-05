@@ -1,7 +1,6 @@
 import { CancelableEvent } from "@skeldjs/events";
 import { CheckNameMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -11,7 +10,7 @@ import { Player } from "../../Player";
  * Emitted when a player requests to have their name set. Only emitted if the
  * client is the host.
  */
-export class PlayerCheckNameEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCheckNameEvent<RoomType extends StatefulRoom> extends CancelableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.checkname" as const;
     eventName = "player.checkname" as const;
 

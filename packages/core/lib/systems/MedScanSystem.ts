@@ -11,11 +11,7 @@ import { SystemStatusEvents } from "./events";
 import { MedScanJoinQueueEvent, MedScanLeaveQueueEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export interface MedScanSystemData {
-    queue: Player[];
-}
-
-export type MedScanSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
+export type MedScanSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         MedScanJoinQueueEvent<RoomType>,
         MedScanLeaveQueueEvent<RoomType>
@@ -26,25 +22,11 @@ export type MedScanSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = 
  *
  * See {@link MedScanSystemEvents} for events to listen to.
  */
-export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    MedScanSystemData,
-    MedScanSystemEvents,
-    RoomType
-> implements MedScanSystemData {
+export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, MedScanSystemEvents<RoomType>> {
     /**
      * The current queue to access the medbay scan.s
      */
-    queue: Player<RoomType>[];
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | MedScanSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.queue ||= [];
-    }
+    queue: Player<RoomType>[] = [];
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     deserializeFromReader(reader: HazelReader, spawn: boolean) {
@@ -167,7 +149,7 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         void delta;
     }
 
-    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, rpc;
     }
 
@@ -175,11 +157,11 @@ export class MedScanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         void 0;
     }
 
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
         void player;
     }
 
-    async sendFullRepair(player: Player): Promise<void> {
+    async sendFullRepair(player: Player<RoomType>): Promise<void> {
         void player;
     }
 }

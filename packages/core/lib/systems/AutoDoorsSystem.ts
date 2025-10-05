@@ -13,12 +13,7 @@ import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export interface AutoDoorsSystemData {
-    dirtyBit: number;
-    doors: boolean[];
-}
-
-export type AutoDoorsSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents &
+export type AutoDoorsSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
@@ -27,41 +22,21 @@ export type AutoDoorsSystemEvents<RoomType extends StatefulRoom = StatefulRoom> 
  *
  * See {@link AutoDoorsSystemEvents} for events to listen to.
  */
-export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    AutoDoorsSystemData,
-    AutoDoorsSystemEvents,
-    RoomType
-> {
+export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, AutoDoorsSystemEvents<RoomType>> {
     /**
      * The dirty doors to be updated on the next fixed update.
      */
-    dirtyBit: number;
+    dirtyBit: number = 0;
 
     /**
      * The doors in the map.
      */
-    doors: AutoOpenDoor<RoomType>[];
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | AutoDoorsSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.dirtyBit ||= 0;
-        this.doors ||= [];
-
-        this.doors = this.doors.map((door, i) =>
-            typeof door === "boolean"
-                ? new AutoOpenDoor(this, i, door)
-                : door);
-    }
+    doors: AutoOpenDoor<RoomType>[] = [];
     
-    handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
+    handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
@@ -104,7 +79,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
         this.dirtyBit = 0;
     }
 
-    private async _openDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _openDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -139,7 +114,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
      * Open a door by its ID. This is a host operation on official servers.
      * @param doorId The ID of the door to open.
      */
-    async openDoorPlayer(doorId: number, openedByPlayer: Player) {
+    async openDoorPlayer(doorId: number, openedByPlayer: Player<RoomType>) {
         await this._openDoor(doorId, openedByPlayer, undefined);
     }
 
@@ -147,7 +122,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
         await this._openDoor(doorId, undefined, undefined);
     }
 
-    private async _closeDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _closeDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -183,7 +158,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
      * Close a door by its ID. This is a host operation on official servers.
      * @param doorId The ID of the door to close.
      */
-    async closeDoorPlayer(doorId: number, closedByPlayer: Player) {
+    async closeDoorPlayer(doorId: number, closedByPlayer: Player<RoomType>) {
         await this._closeDoor(doorId, closedByPlayer, undefined);
     }
 
@@ -195,11 +170,11 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> exten
         void 0;
     }
 
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
         void player;
     }
 
-    async sendFullRepair(player: Player): Promise<void> {
+    async sendFullRepair(player: Player<RoomType>): Promise<void> {
         void player;
     }
 

@@ -8,7 +8,7 @@ import { RoomEvent } from "../RoomEvent";
 /**
  * Emitted when the privacy of the room is updated.
  */
-export class RoomSetPrivacyEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, ProtocolEvent {
+export class RoomSetPrivacyEvent<RoomType extends StatefulRoom> extends BasicEvent implements RoomEvent<RoomType>, ProtocolEvent {
     static eventName = "room.setprivacy" as const;
     eventName = "room.setprivacy" as const;
 

@@ -14,9 +14,8 @@ import {
 } from "../systems";
 
 import { Door } from "../misc/Door";
-import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
+import { InnerShipStatus } from "./InnerShipStatus";
 import { StatefulRoom } from "../StatefulRoom";
-import { NetworkedObject, NetworkedObjectConstructor } from "../NetworkedObject";
 import { Player } from "../Player";
 
 /**
@@ -24,7 +23,7 @@ import { Player } from "../Player";
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class PolusShipStatus<RoomType extends StatefulRoom = StatefulRoom> extends InnerShipStatus<RoomType> {
+export class PolusShipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
     static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Electrical]: [0, 1, 2],
         [SystemType.O2]: [3, 4],
@@ -46,64 +45,40 @@ export class PolusShipStatus<RoomType extends StatefulRoom = StatefulRoom> exten
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | ShipStatusData
     ) {
-        super(room, spawnType, netId, ownerId, flags, data);
+        super(room, spawnType, netId, ownerId, flags);
     }
 
     Setup() {
-        this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical, {
-            expected: [false, false, false, false, false],
-            actual: [false, false, false, false, false],
-            brightness: 255,
-        }));
-        this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay, {
-            queue: [],
-        }));
-        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security, {
-            players: new Set,
-        }));
-        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications, {
-            sabotaged: false,
-        }));
-        this.systems.set(SystemType.Doors, new DoorsSystem(this, SystemType.Doors, {
-            doors: [],
-            cooldowns: new Map,
-        }));
-        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage, {
-            cooldown: 0,
-        }));
-        this.systems.set(SystemType.Decontamination, new DeconSystem(this, SystemType.Decontamination, {
-            timer: 0,
-            state: 0,
-        }));
-        this.systems.set(SystemType.Decontamination2, new DeconSystem(this, SystemType.Decontamination2, {
-            timer: 0,
-            state: 0,
-        }));
-        this.systems.set(SystemType.Laboratory, new ReactorSystem(this, SystemType.Laboratory, {
-            timer: 10000,
-            completed: new Set,
-        }));
-
-        const doorsystem = this.systems.get(SystemType.Doors)! as DoorsSystem;
-        doorsystem.doors = [
-            new Door(doorsystem, 0, true),
-            new Door(doorsystem, 1, true),
-            new Door(doorsystem, 2, true),
-            new Door(doorsystem, 3, true),
-            new Door(doorsystem, 4, true),
-            new Door(doorsystem, 5, true),
-            new Door(doorsystem, 6, true),
-            new Door(doorsystem, 7, true),
-            new Door(doorsystem, 8, true),
-            new Door(doorsystem, 9, true),
-            new Door(doorsystem, 10, true),
-            new Door(doorsystem, 11, true),
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay));
+        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security));
+        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications));
+        
+        const doorsSystem = new DoorsSystem(this, SystemType.Doors);
+        this.systems.set(SystemType.Doors, doorsSystem);
+        doorsSystem.doors = [
+            new Door(doorsSystem, 0, true),
+            new Door(doorsSystem, 1, true),
+            new Door(doorsSystem, 2, true),
+            new Door(doorsSystem, 3, true),
+            new Door(doorsSystem, 4, true),
+            new Door(doorsSystem, 5, true),
+            new Door(doorsSystem, 6, true),
+            new Door(doorsSystem, 7, true),
+            new Door(doorsSystem, 8, true),
+            new Door(doorsSystem, 9, true),
+            new Door(doorsSystem, 10, true),
+            new Door(doorsSystem, 11, true),
         ];
+
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));
+        this.systems.set(SystemType.Decontamination, new DeconSystem(this, SystemType.Decontamination));
+        this.systems.set(SystemType.Decontamination2, new DeconSystem(this, SystemType.Decontamination2));
+        this.systems.set(SystemType.Laboratory, new ReactorSystem(this, SystemType.Laboratory, 60));
     }
 
-    getSpawnPosition(player: Player | number, initialSpawn: boolean) {
+    getSpawnPosition(player: Player<RoomType> | number, initialSpawn: boolean) {
         const playerId = typeof player === "number"
             ? player
             : player.getPlayerId()!;

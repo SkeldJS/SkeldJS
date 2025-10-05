@@ -6,7 +6,7 @@ import { HazelWriter, HazelReader } from "@skeldjs/util";
 
 export type NormalUsablesLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class NormalUsablesLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<NormalUsablesLogicComponentEvents, RoomType> {
+export class NormalUsablesLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalUsablesLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicUsablesBasic.cs)
     
     async processFixedUpdate(deltaTime: number): Promise<void> {

@@ -18,13 +18,7 @@ import { StatefulRoom } from "../StatefulRoom";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
-export interface SwitchSystemData {
-    expected: SwitchSetup;
-    actual: SwitchSetup;
-    brightness: number;
-}
-
-export type SwitchSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
+export type SwitchSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         ElectricalSwitchFlipEvent<RoomType>
     ]>;
@@ -34,27 +28,23 @@ export type SwitchSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = S
  *
  * See {@link SwitchSystemEvents} for events to listen to.
  */
-export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    SwitchSystemData,
-    SwitchSystemEvents,
-    RoomType
-> implements SwitchSystemData {
+export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, SwitchSystemEvents<RoomType>> {
     /**
      * The switch states that are expected.
      */
-    expected: SwitchSetup;
+    expected: SwitchSetup = [ false, false, false, false, false ];
 
     /**
      * The current switch states.
      */
-    actual: SwitchSetup;
+    actual: SwitchSetup = [ false, false, false, false, false ];
 
     /**
      * The brightness of lights.
      */
-    brightness: number;
+    brightness: number = 255;
 
-    private timer: number;
+    private timer: number = 0;
 
     get sabotaged() {
         return this.actual[0] !== this.expected[0]
@@ -62,20 +52,6 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
             || this.actual[2] !== this.expected[2]
             || this.actual[3] !== this.expected[3]
             || this.actual[4] !== this.expected[4];
-    }
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | SwitchSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.expected ||= [false, false, false, false, false];
-        this.actual ||= [false, false, false, false, false];
-        this.brightness ??= 255;
-
-        this.timer = 0;
     }
 
     deserializeFromReader(reader: HazelReader, spawn: boolean) {
@@ -134,7 +110,7 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         );
     }
 
-    private async _setSwitch(num: number, value: boolean, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _setSwitch(num: number, value: boolean, player: Player<RoomType>| undefined, rpc: RepairSystemMessage | undefined) {
         if (this.actual[num] === value)
             return;
 
@@ -168,7 +144,7 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         }
     }
 
-    async setSwitchPlayer(num: number, value: boolean, setByPlayer: Player) {
+    async setSwitchPlayer(num: number, value: boolean, setByPlayer: Player<RoomType>) {
         if (this.actual[num] === value)
             return;
 
@@ -205,7 +181,7 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
      * }
      * ```
      */
-    async flipPlayer(num: number, flippedByPlayer: Player) {
+    async flipPlayer(num: number, flippedByPlayer: Player<RoomType>) {
         await this._setSwitch(num, !this.actual[num], flippedByPlayer, undefined);
     }
 
@@ -213,7 +189,7 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         await this._sendRepair(num);
     }
 
-    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _repair(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const oldActual = this.actual;
         this.actual = [...this.expected];
 
@@ -235,7 +211,7 @@ export class SwitchSystem<RoomType extends StatefulRoom = StatefulRoom> extends 
         await this._repair(undefined, undefined);
     }
 
-    async fullyRepairPlayer(repairedByPlayer: Player) {
+    async fullyRepairPlayer(repairedByPlayer: Player<RoomType>) {
         await this._repair(repairedByPlayer, undefined);
     }
 

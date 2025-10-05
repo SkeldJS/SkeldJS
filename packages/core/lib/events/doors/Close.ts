@@ -12,7 +12,7 @@ import { DoorsEvent } from "./DoorsEvent";
 /**
  * Emitted when a player closes a specific door.
  */
-export class DoorsDoorCloseEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, DoorsEvent, ProtocolEvent {
+export class DoorsDoorCloseEvent<RoomType extends StatefulRoom> extends RevertableEvent implements DoorsEvent<RoomType>, ProtocolEvent {
     static eventName = "doors.close" as const;
     eventName = "doors.close" as const;
 

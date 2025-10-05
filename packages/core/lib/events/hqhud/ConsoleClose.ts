@@ -1,7 +1,6 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { HqHudEvent } from "./HqHudEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -11,7 +10,7 @@ import { Player } from "../../Player";
 /**
  * Emitted when a player closes a communications console on Mira HQ.
  */
-export class HqHudConsoleCloseEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, HqHudEvent, ProtocolEvent {
+export class HqHudConsoleCloseEvent<RoomType extends StatefulRoom> extends RevertableEvent implements HqHudEvent<RoomType>, ProtocolEvent {
     static eventName = "hqhud.consoles.close" as const;
     eventName = "hqhud.consoles.close" as const;
 

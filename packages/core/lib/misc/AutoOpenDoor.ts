@@ -7,7 +7,7 @@ import { Door } from "./Door";
  *
  * See {@link DoorEvents} for events to listen to.
  */
-export class AutoOpenDoor<RoomType extends StatefulRoom = StatefulRoom> extends Door {
+export class AutoOpenDoor<RoomType extends StatefulRoom> extends Door<RoomType> {
     timer: number;
 
     constructor(

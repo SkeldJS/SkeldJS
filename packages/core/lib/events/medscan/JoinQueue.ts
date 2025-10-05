@@ -4,13 +4,12 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { MedScanSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { MedScanEvent } from "./MedScanEvent";
 
 /**
  * Emitted when a player joins the queue for a med scan.
  */
-export class MedScanJoinQueueEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, MedScanEvent, ProtocolEvent {
+export class MedScanJoinQueueEvent<RoomType extends StatefulRoom> extends RevertableEvent implements MedScanEvent<RoomType>, ProtocolEvent {
     static eventName = "medscan.joinqueue" as const;
     eventName = "medscan.joinqueue" as const;
 

@@ -1,7 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
 import { StartMeetingMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -15,7 +14,7 @@ import { Player } from "../../Player";
  * {@link PlayerReportDeadBodyEvent} for an event that can prevent a meeting from
  * being started if you are the host.
  */
-export class PlayerStartMeetingEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerStartMeetingEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.startmeeting" as const;
     eventName = "player.startmeeting" as const;
 

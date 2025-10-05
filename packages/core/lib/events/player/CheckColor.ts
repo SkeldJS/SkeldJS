@@ -2,7 +2,6 @@ import { CancelableEvent } from "@skeldjs/events";
 import { CheckColorMessage } from "@skeldjs/protocol";
 import { Color } from "@skeldjs/constant";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -12,7 +11,7 @@ import { Player } from "../../Player";
  * Emitted when a player requests to have their color set. Only emitted if the
  * client is the host.
  */
-export class PlayerCheckColorEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCheckColorEvent<RoomType extends StatefulRoom> extends CancelableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.checkcolor" as const;
     eventName = "player.checkcolor" as const;
 

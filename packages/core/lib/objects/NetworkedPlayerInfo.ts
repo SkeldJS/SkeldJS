@@ -149,29 +149,9 @@ export class PlayerOutfit {
 
 export type PlayerOutfits = Partial<Record<PlayerOutfitType, PlayerOutfit>>;
 
+export type NetworkedPlayerInfoEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
-/* eslint-disable-next-line @typescript-eslint/no-empty-interface */
-export interface NetworkedPlayerInfoData {
-    currentOutfitType: PlayerOutfitType;
-    playerId: number;
-    clientId: number;
-    outfits: PlayerOutfits;
-    playerLevel: number;
-    flags: number;
-    roleType: typeof BaseRole;
-    roleTypeWhenAlive: typeof BaseRole | undefined;
-    taskStates: TaskState[];
-    friendCode: string;
-    puid: string;
-}
-
-export type NetworkedPlayerInfoEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
-
-export class NetworkedPlayerInfo<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
-    NetworkedPlayerInfoData,
-    NetworkedPlayerInfoEvents<RoomType>,
-    RoomType
-> {
+export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, NetworkedPlayerInfoEvents<RoomType>> {
     currentOutfitType: PlayerOutfitType;
     playerId: number;
     clientId: number;
@@ -226,9 +206,8 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom = StatefulRoom> e
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | NetworkedPlayerInfoData
     ) {
-        super(room, spawnType, netId, ownerId, flags, data);
+        super(room, spawnType, netId, ownerId, flags);
 
         this.currentOutfitType = PlayerOutfitType.Default;
         this.playerId ??= 0;

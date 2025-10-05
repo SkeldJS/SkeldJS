@@ -3,7 +3,7 @@ import { MeetingHud } from "..";
 import { StatefulRoom } from "../StatefulRoom";
 import { VoteStateSpecialId } from "./PlayerVoteState";
 
-export class PlayerVoteArea<RoomType extends StatefulRoom = StatefulRoom> {
+export class PlayerVoteArea<RoomType extends StatefulRoom> {
     constructor(
         public readonly meetinghud: MeetingHud<RoomType>,
         public playerId: number,
@@ -58,7 +58,7 @@ export class PlayerVoteArea<RoomType extends StatefulRoom = StatefulRoom> {
         return !playerInfo?.isDead && !playerInfo?.isDisconnected;
     }
 
-    static deserializeFromReader<RoomType extends StatefulRoom = StatefulRoom>(reader: HazelReader, meetinghud: MeetingHud<RoomType>, playerId: number) {
+    static deserializeFromReader<RoomType extends StatefulRoom>(reader: HazelReader, meetinghud: MeetingHud<RoomType>, playerId: number) {
         const votedForId = reader.uint8();
         const didReport = reader.bool();
         return new PlayerVoteArea(meetinghud, playerId, votedForId, didReport);

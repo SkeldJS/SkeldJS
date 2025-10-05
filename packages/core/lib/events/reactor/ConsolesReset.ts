@@ -4,14 +4,13 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ReactorSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { ReactorEvent } from "./ReactorEvent";
 
 /**
  * Emitted when the reactor consoles are reset, i.e. when reactor is fully
  * repaired.
  */
-export class ReactorConsolesResetEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
+export class ReactorConsolesResetEvent<RoomType extends StatefulRoom> extends RevertableEvent implements ReactorEvent<RoomType>, ProtocolEvent {
     static eventName = "reactor.consoles.reset" as const;
     eventName = "reactor.consoles.reset" as const;
 

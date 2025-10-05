@@ -17,18 +17,12 @@ import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { MovingPlatformPlayerUpdateEvent } from "../events";
 import { SystemStatusEvents } from "./events";
 
-export interface MovingPlatformSystemData {
-    useId: number;
-    target: Player | undefined;
-    side: MovingPlatformSide;
-}
-
 export enum MovingPlatformSide {
     Right,
     Left,
 }
 
-export type MovingPlatformSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
+export type MovingPlatformSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[MovingPlatformPlayerUpdateEvent<RoomType>]>;
 
 /**
@@ -36,26 +30,10 @@ export type MovingPlatformSystemEvents<RoomType extends StatefulRoom = StatefulR
  *
  * See {@link MovingPlatformSystemEvents} for events to listen to.
  */
-export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    MovingPlatformSystemData,
-    MovingPlatformSystemEvents,
-    RoomType
-> implements MovingPlatformSystemData {
-    useId: number;
-    target: Player<RoomType> | undefined;
-    side: MovingPlatformSide;
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | MovingPlatformSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.useId ||= 0;
-        this.target ||= undefined;
-        this.side ||= MovingPlatformSide.Right;
-    }
+export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, MovingPlatformSystemEvents<RoomType>> {
+    useId: number = 0;
+    target: Player<RoomType> | undefined = undefined;
+    side: MovingPlatformSide = MovingPlatformSide.Right;
 
     /**
      * The opposite side of the moving platform to move in.
@@ -167,7 +145,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
     /**
      * Get on the moving platform as the client's player.
      */
-    async movePlatform(player: Player) {
+    async movePlatform(player: Player<RoomType>) {
         await this.setTarget(player, this.oppositeSide, true);
     }
 
@@ -179,7 +157,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
         this.dirty = true;
     }
     
-    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, amount, rpc;
     }
 
@@ -187,7 +165,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
         void delta;
     }
 
-    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, rpc;
     }
 
@@ -195,11 +173,11 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
         void 0;
     }
 
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
         void player;
     }
 
-    async sendFullRepair(player: Player): Promise<void> {
+    async sendFullRepair(player: Player<RoomType>): Promise<void> {
         void player;
     }
 }

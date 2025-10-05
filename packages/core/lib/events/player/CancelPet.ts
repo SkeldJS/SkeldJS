@@ -4,13 +4,12 @@ import { CancelPetMessage } from "@skeldjs/protocol";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player stops petting their or another player's pet.
  */
-export class PlayerCancelPetEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCancelPetEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.cancelpet" as const;
     eventName = "player.cancelpet" as const;
 

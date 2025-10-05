@@ -7,7 +7,7 @@ import { GameLogicComponent } from "../GameLogicComponent";
 
 export type NormalFlowLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class NormalFlowLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<NormalFlowLogicComponentEvents, RoomType> {
+export class NormalFlowLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalFlowLogicComponentEvents, RoomType> {
     // game ending is done inline for performance reasons
     
     async processFixedUpdate(deltaTime: number): Promise<void> {

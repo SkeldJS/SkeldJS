@@ -11,11 +11,7 @@ import { SecurityCameraJoinEvent, SecurityCameraLeaveEvent } from "../events";
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export interface SecurityCameraSystemData {
-    players: Set<Player>;
-}
-
-export type SecurityCameraSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
+export type SecurityCameraSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[SecurityCameraJoinEvent<RoomType>, SecurityCameraLeaveEvent<RoomType>]>;
 
 /**
@@ -23,25 +19,11 @@ export type SecurityCameraSystemEvents<RoomType extends StatefulRoom = StatefulR
  *
  * See {@link SecurityCameraSystemEvents} for events to listen to.
  */
-export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    SecurityCameraSystemData,
-    SecurityCameraSystemEvents,
-    RoomType
-> implements SecurityCameraSystemData {
+export class SecurityCameraSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, SecurityCameraSystemEvents<RoomType>> {
     /**
      * The players currently looking at cameras.
      */
-    players: Set<Player>;
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | SecurityCameraSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.players ||= new Set;
-    }
+    players: Set<Player<RoomType>> = new Set;
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     deserializeFromReader(reader: HazelReader, spawn: boolean) {
@@ -71,7 +53,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
         }
     }
 
-    private async _addPlayer(player: Player, rpc: RepairSystemMessage | undefined) {
+    private async _addPlayer(player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
         this.players.add(player);
         this.dirty = true;
 
@@ -97,7 +79,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
      * security.addPlayer(client.me);
      * ```
      */
-    async joinPlayer(player: Player) {
+    async joinPlayer(player: Player<RoomType>) {
         await this._addPlayer(player, undefined);
     }
 
@@ -105,7 +87,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
         await this._sendRepair(1);
     }
 
-    private async _removePlayer(player: Player, rpc: RepairSystemMessage | undefined) {
+    private async _removePlayer(player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
         this.players.delete(player);
         this.dirty = true;
 
@@ -131,7 +113,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
      * security.removePlayer(client.me);
      * ```
      */
-    async leavePlayer(player: Player) {
+    async leavePlayer(player: Player<RoomType>) {
         await this._removePlayer(player, undefined);
     }
 
@@ -154,7 +136,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
         void delta;
     }
     
-    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, rpc;
     }
     
@@ -162,11 +144,11 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom = StatefulRoom> 
         void 0;
     }
     
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
         void player;
     }
     
-    async sendFullRepair(player: Player): Promise<void> {
+    async sendFullRepair(player: Player<RoomType>): Promise<void> {
         void player;
     }
 }

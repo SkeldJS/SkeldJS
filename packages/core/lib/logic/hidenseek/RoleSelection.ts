@@ -10,7 +10,7 @@ import { HazelWriter, HazelReader } from "@skeldjs/util";
 
 export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
+export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
     async processFixedUpdate(deltaTime: number): Promise<void> {
         void deltaTime;
     }
@@ -55,12 +55,12 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom 
     }
 
     getRoleAssignmentsForTeam(
-        playerPool: Player[],
+        playerPool: Player<RoomType>[],
         settings: Partial<Record<RoleType, RoleChanceSettings>>,
         roleTeam: RoleTeamType,
         maxAssignable: number,
         defaultRole?: typeof BaseRole,
-        roleAssignments: Map<Player, typeof BaseRole> = new Map
+        roleAssignments: Map<Player<RoomType>, typeof BaseRole> = new Map
     ) {
         if (roleTeam === RoleTeamType.Crewmate) {
             return new Array(playerPool.length).fill(EngineerRole);
@@ -79,7 +79,7 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom 
             }
         }
 
-        const roleAssignments: Map<Player, typeof BaseRole> = new Map;
+        const roleAssignments: Map<Player<RoomType>, typeof BaseRole> = new Map;
 
         const adjustedImpostors = allPlayers.length < 7 ? 1 : allPlayers.length < 9 ? 2 : 3;
         const assignedImpostors = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(adjustedImpostors, this.manager.room.settings.numImpostors), ImpostorRole);
@@ -104,7 +104,7 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom 
         }
     }
 
-    async assignRolesFromAssignments(roleAssignments: Map<Player, typeof BaseRole>) {
+    async assignRolesFromAssignments(roleAssignments: Map<Player<RoomType>, typeof BaseRole>) {
         const promises = [];
         for (const [player, roleCtr] of roleAssignments) {
             promises.push(player.characterControl?.setRole(roleCtr));

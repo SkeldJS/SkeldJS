@@ -5,13 +5,12 @@ import { MeetingHud } from "../../objects";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
 /**
  * Emitted when a player's vote is cleared.
  */
-export class MeetingHudClearVoteEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudClearVoteEvent<RoomType extends StatefulRoom> extends BasicEvent implements MeetingHudEvent<RoomType>, ProtocolEvent {
     static eventName = "meeting.clearvote" as const;
     eventName = "meeting.clearvote" as const;
 

@@ -18,12 +18,7 @@ import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 import { AmongUsEndGames, EndGameIntent } from "../endgame";
 
-export interface LifeSuppSystemData {
-    timer: number;
-    completed: Set<number>;
-}
-
-export type LifeSuppSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
+export type LifeSuppSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         O2ConsolesClearEvent<RoomType>,
         O2ConsolesCompleteEvent<RoomType>
@@ -34,33 +29,18 @@ export type LifeSuppSystemEvents<RoomType extends StatefulRoom = StatefulRoom> =
  *
  * See {@link LifeSuppSystemEvents} for events to listen to.
  */
-export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    LifeSuppSystemData,
-    LifeSuppSystemEvents,
-    RoomType
-> implements LifeSuppSystemData {
+export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, LifeSuppSystemEvents<RoomType>> {
     private lastUpdate = 0;
 
     /**
      * The timer until oxygen runs out.
      */
-    timer: number;
+    timer: number = 10000;
 
     /**
      * The completed consoles.
      */
-    completed: Set<number>;
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | LifeSuppSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.timer ??= 10000;
-        this.completed ||= new Set;
-    }
+    completed: Set<number> = new Set;
 
     get sabotaged() {
         return this.timer < 10000;
@@ -126,7 +106,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         );
     }
 
-    private async _clearConsoles(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _clearConsoles(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const completedBefore = new Set(this.completed);
         this.completed = new Set;
         this.dirty = true;
@@ -148,11 +128,11 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
     /**
      * Clear the completed consoles. This is a host operation on official servers.
      */
-    async clearConsolesPlayer(clearedByPlayer: Player | undefined) {
+    async clearConsolesPlayer(clearedByPlayer: Player<RoomType> | undefined) {
         await this._clearConsoles(clearedByPlayer, undefined);
     }
 
-    private async _completeConsole(consoleId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    private async _completeConsole(consoleId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         this.completed.add(consoleId);
         this.dirty = true;
 
@@ -185,7 +165,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
      * Mark a console as being complete.
      * @param consoleId The ID of the console to mark as complete.
      */
-    async completeConsolePlayer(consoleId: number, completedByPlayer: Player) {
+    async completeConsolePlayer(consoleId: number, completedByPlayer: Player<RoomType>) {
         await this._completeConsole(consoleId, completedByPlayer, undefined);
     }
 
@@ -193,7 +173,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         await this._sendRepair(0x40 | consoleId);
     }
 
-    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _repair(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const oldTimer = this.timer;
         const oldCompleted = this.completed;
         this.timer = 10000;
@@ -219,7 +199,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         await this._repair(undefined, undefined);
     }
 
-    async fullyRepairPlayer(player: Player) {
+    async fullyRepairPlayer(player: Player<RoomType>) {
         this._repair(player, undefined);
     }
 

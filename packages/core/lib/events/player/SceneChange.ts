@@ -3,7 +3,6 @@ import { SceneChangeMessage } from "@skeldjs/protocol";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
@@ -13,7 +12,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * A player does not necessarily have to change their scene, and they will
  * simply not spawn while recieving all game packets and events.
  */
-export class PlayerSceneChangeEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSceneChangeEvent<RoomType extends StatefulRoom> extends CancelableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventNamee = "player.scenechange" as const;
     eventName = "player.scenechange" as const;
 

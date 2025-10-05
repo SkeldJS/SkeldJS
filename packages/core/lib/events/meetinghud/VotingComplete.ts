@@ -5,13 +5,12 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { PlayerVoteState } from "../../misc/PlayerVoteState";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
 /**
  * Emitted when a meeting is finished, and when the ejected player is determined.
  */
-export class MeetingHudVotingCompleteEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudVotingCompleteEvent<RoomType extends StatefulRoom> extends BasicEvent implements MeetingHudEvent<RoomType>, ProtocolEvent {
     static eventName = "meeting.votingcomplete" as const;
     eventName = "meeting.votingcomplete" as const;
 

@@ -1,9 +1,9 @@
-import { HazelReader, Vector2 } from "@skeldjs/util";
-import { RpcMessageTag, SpawnType, SystemType } from "@skeldjs/constant";
+import { Vector2 } from "@skeldjs/util";
+import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { AirshipTasks } from "@skeldjs/data";
 
-import { ShipStatusData, InnerShipStatus } from "./InnerShipStatus";
+import { InnerShipStatus } from "./InnerShipStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 
@@ -21,7 +21,6 @@ import {
     HeliSabotageSystem,
 } from "../systems";
 
-import { NetworkedObject, NetworkedObjectConstructor } from "../NetworkedObject";
 import { Door } from "../misc/Door";
 import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
@@ -45,7 +44,7 @@ export enum ElectricalDoorsAirship {
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends InnerShipStatus<RoomType> {
+export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
     static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Communications]: [0, 1, 2, 3],
         [SystemType.Brig]: [4, 5, 6],
@@ -96,68 +95,47 @@ export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends
     initialSpawnCenter = new Vector2(25, 40);
     meetingSpawnCenter = new Vector2(25, 40);
 
-    constructor(
-        room: RoomType,
-        spawnType: SpawnType,
-        netId: number,
-        ownerId: number,
-        flags: number,
-        data?: HazelReader | ShipStatusData
-    ) {
-        super(room, spawnType, netId, ownerId, flags, data);
-    }
-
     Setup() {
-        this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical, {
-            expected: [false, false, false, false, false],
-            actual: [false, false, false, false, false],
-            brightness: 255,
-        }));
+        this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
 
-        this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay, {
-            queue: []
-        }));
+        this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay));
 
-        this.systems.set(SystemType.Doors, new DoorsSystem(this, SystemType.Doors, {
-            doors: [],
-            cooldowns: new Map
-        }));
+        const doorsSystem = new DoorsSystem(this, SystemType.Doors);
+        this.systems.set(SystemType.Doors, doorsSystem);
+        new Door(doorsSystem, 0, true);
+        new Door(doorsSystem, 1, true);
+        new Door(doorsSystem, 2, true);
+        new Door(doorsSystem, 3, true);
+        new Door(doorsSystem, 4, true);
+        new Door(doorsSystem, 5, true);
+        new Door(doorsSystem, 6, true);
+        new Door(doorsSystem, 7, true);
+        new Door(doorsSystem, 8, true);
+        new Door(doorsSystem, 9, true);
+        new Door(doorsSystem, 10, true);
+        new Door(doorsSystem, 11, true);
+        new Door(doorsSystem, 12, true);
+        new Door(doorsSystem, 13, true);
+        new Door(doorsSystem, 14, true);
+        new Door(doorsSystem, 15, true);
+        new Door(doorsSystem, 16, true);
+        new Door(doorsSystem, 19, true);
+        new Door(doorsSystem, 17, true);
+        new Door(doorsSystem, 18, true);
+        new Door(doorsSystem, 20, true);
 
-        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications, {
-            sabotaged: false,
-        }));
+        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications));
 
-        this.systems.set(SystemType.GapRoom, new MovingPlatformSystem(this, SystemType.GapRoom, {
-            target: undefined,
-            side: MovingPlatformSide.Left,
-            useId: 0,
-        }));
+        const movingPlatformSystem = new MovingPlatformSystem(this, SystemType.GapRoom);
+        this.systems.set(SystemType.GapRoom, movingPlatformSystem);
+        movingPlatformSystem.side = MovingPlatformSide.Left;
 
-        this.systems.set(SystemType.Reactor, new HeliSabotageSystem(this, SystemType.Reactor, {
-            countdown: 10000,
-            resetTimer: 10000,
-            activeConsoles: new Map,
-            completedConsoles: new Set([0, 1])
-        }));
+        const heliSabotageSystem = new HeliSabotageSystem(this, SystemType.Reactor);
+        this.systems.set(SystemType.Reactor, heliSabotageSystem);
+        heliSabotageSystem.completedConsoles = new Set([0, 1]);
 
-        this.systems.set(SystemType.Decontamination, new ElectricalDoorsSystem(this, SystemType.Decontamination, {
-            doors: [],
-        }));
-
-        this.systems.set(SystemType.Decontamination2, new AutoDoorsSystem(this, SystemType.Decontamination2, {
-            dirtyBit: 0,
-            doors: [],
-        }));
-
-        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage, {
-            cooldown: 0,
-        }));
-
-        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security, {
-            players: new Set,
-        }));
-
-        const electricalDoors = this.systems.get(SystemType.Decontamination) as ElectricalDoorsSystem;
+        const electricalDoors = new ElectricalDoorsSystem(this, SystemType.Decontamination);
+        this.systems.set(SystemType.Decontamination, electricalDoors);
         electricalDoors.doors = [
             new Door(electricalDoors, 0, false),
             new Door(electricalDoors, 1, false),
@@ -173,7 +151,8 @@ export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends
             new Door(electricalDoors, 11, false)
         ];
 
-        const autoDoors = this.systems.get(SystemType.Decontamination2) as AutoDoorsSystem;
+        const autoDoors = new AutoDoorsSystem(this, SystemType.Decontamination2);
+        this.systems.set(SystemType.Decontamination2, autoDoors);
         autoDoors.doors = [
             new AutoOpenDoor(autoDoors, 15, true),
             new AutoOpenDoor(autoDoors, 16, true),
@@ -181,30 +160,9 @@ export class AirshipStatus<RoomType extends StatefulRoom = StatefulRoom> extends
             new AutoOpenDoor(autoDoors, 18, true)
         ];
 
-        const doorsSystem = this.systems.get(SystemType.Doors)! as DoorsSystem;
-        doorsSystem.doors = [
-            new Door(doorsSystem, 0, true),
-            new Door(doorsSystem, 1, true),
-            new Door(doorsSystem, 2, true),
-            new Door(doorsSystem, 3, true),
-            new Door(doorsSystem, 4, true),
-            new Door(doorsSystem, 5, true),
-            new Door(doorsSystem, 6, true),
-            new Door(doorsSystem, 7, true),
-            new Door(doorsSystem, 8, true),
-            new Door(doorsSystem, 9, true),
-            new Door(doorsSystem, 10, true),
-            new Door(doorsSystem, 11, true),
-            new Door(doorsSystem, 12, true),
-            new Door(doorsSystem, 13, true),
-            new Door(doorsSystem, 14, true),
-            new Door(doorsSystem, 15, true),
-            new Door(doorsSystem, 16, true),
-            new Door(doorsSystem, 17, true),
-            new Door(doorsSystem, 18, true),
-            new Door(doorsSystem, 19, true),
-            new Door(doorsSystem, 20, true)
-        ];
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));
+
+        this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security));
 
         const hashSet: Set<ElectricalDoorsAirship[]> = new Set;
         let room = AirshipStatus.electricalRooms[0];

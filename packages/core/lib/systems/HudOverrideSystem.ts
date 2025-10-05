@@ -11,11 +11,8 @@ import { SystemRepairEvent, SystemSabotageEvent } from "../events";
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export interface HudOverrideSystemData {
-    sabotaged: boolean;
-}
 
-export type HudOverrideSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
+export type HudOverrideSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[]>;
 
 /**
@@ -23,32 +20,14 @@ export type HudOverrideSystemEvents<RoomType extends StatefulRoom = StatefulRoom
  *
  * See {@link HudOverrideSystemEvents} for events to listen to.
  */
-export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    HudOverrideSystemData,
-    HudOverrideSystemEvents,
-    RoomType
-> implements HudOverrideSystemData {
-    private _sabotaged: boolean;
+export class HudOverrideSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, HudOverrideSystemEvents<RoomType>> {
+    private _sabotaged: boolean = false;
 
     /**
      * Whether or not communications is sabotaged.
      */
     get sabotaged() {
         return this._sabotaged;
-    }
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | HudOverrideSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this._sabotaged = false;
-    }
-
-    patch(data: HudOverrideSystemData) {
-        this._sabotaged = data.sabotaged;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -81,7 +60,7 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
         writer.bool(this.sabotaged);
     }
 
-    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this._sabotaged = true;
         this.dirty = true;
 
@@ -95,7 +74,7 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
         );
     }
 
-    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _repair(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this._sabotaged = false;
         this.dirty = true;
 
@@ -117,7 +96,7 @@ export class HudOverrideSystem<RoomType extends StatefulRoom = StatefulRoom> ext
         await this._repair(undefined, undefined);
     }
 
-    async fullyRepairPlayer(player: Player) {
+    async fullyRepairPlayer(player: Player<RoomType>) {
         await this._repair(player, undefined);
     }
 

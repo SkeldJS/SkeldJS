@@ -5,13 +5,12 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { AnySystem } from "../../systems/events";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { SystemEvent } from "./SystemEvent";
 
 /**
  * Emitted when a player fully repairs a system.
  */
-export class SystemRepairEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, SystemEvent, ProtocolEvent {
+export class SystemRepairEvent<RoomType extends StatefulRoom> extends RevertableEvent implements SystemEvent<RoomType>, ProtocolEvent {
     static eventName = "system.repair" as const;
     eventName = "system.repair" as const;
 

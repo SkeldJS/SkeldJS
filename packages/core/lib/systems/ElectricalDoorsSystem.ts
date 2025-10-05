@@ -12,11 +12,7 @@ import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export interface ElectricalDoorsSystemData {
-    doors: boolean[];
-}
-
-export type ElectricalDoorsSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents &
+export type ElectricalDoorsSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
@@ -25,30 +21,11 @@ export type ElectricalDoorsSystemEvents<RoomType extends StatefulRoom = Stateful
  *
  * See {@link ElectricalDoorsSystemEvents} for events to listen to.
  */
-export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    ElectricalDoorsSystemData,
-    ElectricalDoorsSystemEvents,
-    RoomType
-> {
+export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, ElectricalDoorsSystemEvents<RoomType>> {
     /**
      * The doors in the map.
      */
-    doors!: Door<RoomType>[];
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | ElectricalDoorsSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.doors ||= [];
-
-        this.doors = this.doors.map((door, i) =>
-            typeof door === "boolean"
-                ? new Door(this, i, door)
-                : door);
-    }
+    doors: Door<RoomType>[] = [];
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     deserializeFromReader(reader: HazelReader, spawn: boolean) {
@@ -73,7 +50,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
         this.dirty = spawn;
     }
 
-    private async _openDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _openDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -107,7 +84,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
      * Open a door by its ID. This is a host operation on official servers.
      * @param doorId the ID of the door to open
      */
-    async openDoorPlayer(doorId: number, openedByPlayer: Player) {
+    async openDoorPlayer(doorId: number, openedByPlayer: Player<RoomType>) {
         await this._openDoor(doorId, openedByPlayer, undefined);
     }
 
@@ -115,7 +92,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
         await this._openDoor(doorId, undefined, undefined);
     }
 
-    private async _closeDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _closeDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -149,7 +126,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
      * Close a door by its ID. This is a host operation on official servers.
      * @param doorId The ID of the door to close.
      */
-    async closeDoorPlayer(doorId: number, closedByPlayer: Player) {
+    async closeDoorPlayer(doorId: number, closedByPlayer: Player<RoomType>) {
         await this._closeDoor(doorId, closedByPlayer, undefined);
     }
 
@@ -157,11 +134,11 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
         await this._closeDoor(doorId, undefined, undefined);
     }
     
-    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, amount, rpc;
     }
 
-    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, rpc;
     }
 
@@ -169,11 +146,11 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom = StatefulRoom>
         void 0;
     }
 
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
         void player;
     }
 
-    async sendFullRepair(player: Player): Promise<void> {
+    async sendFullRepair(player: Player<RoomType>): Promise<void> {
         void player;
     }
 

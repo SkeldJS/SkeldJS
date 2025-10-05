@@ -7,7 +7,7 @@ import { BaseRpcMessage } from "@skeldjs/protocol";
 
 export type HideNSeekFlowLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekFlowLogicComponentEvents, RoomType> {
+export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekFlowLogicComponentEvents, RoomType> {
     currentHideTime: number;
     currentFinalHideTime: number;
 

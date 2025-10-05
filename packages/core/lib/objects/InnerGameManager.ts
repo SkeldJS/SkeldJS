@@ -6,17 +6,10 @@ import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { GameLogicComponent } from "../logic";
 
-/* eslint-disable-next-line @typescript-eslint/no-empty-interface */
-export interface InnerGameManagerData { }
+export type InnerGameManagerEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
-export type InnerGameManagerEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
-
-export abstract class InnerGameManager<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
-    InnerGameManagerData,
-    InnerGameManagerEvents<RoomType>,
-    RoomType
-> {
-    logicComponents: GameLogicComponent<any, RoomType>[];
+export abstract class InnerGameManager<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, InnerGameManagerEvents<RoomType>> {
+    logicComponents: GameLogicComponent<any, RoomType>[] = [];
 
     constructor(
         room: RoomType,
@@ -24,13 +17,10 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom = StatefulR
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelBuffer | InnerGameManagerData
     ) {
-        super(room, spawnType, netId, ownerId, flags, data);
+        super(room, spawnType, netId, ownerId, flags);
 
-        this.logicComponents ||= [];
-
-        if (this.logicComponents.length === 0) this.initComponents();
+        this.initComponents();
     }
 
     get owner() {

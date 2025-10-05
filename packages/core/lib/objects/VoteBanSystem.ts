@@ -13,22 +13,14 @@ import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";
 
-export interface VoteBanSystemData {
-    voted: Map<number, [Player, Player, Player]>;
-}
-
-export type VoteBanSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
+export type VoteBanSystemEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for handling vote kicks.
  *
  * See {@link VoteBanSystemEvents} for events to listen to.
  */
-export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
-    VoteBanSystemData,
-    VoteBanSystemEvents,
-    RoomType
-> {
+export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, VoteBanSystemEvents<RoomType>> {
     /**
      * The accumulated votes.
      */
@@ -40,11 +32,10 @@ export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | VoteBanSystemData,
     ) {
-        super(room, spawnType, netId, ownerId, flags, data);
+        super(room, spawnType, netId, ownerId, flags);
 
-        this.voted ||= new Map;
+        this.voted = new Map;
     }
 
     get owner() {
@@ -100,7 +91,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private _addVote(voter: Player<RoomType>, target: Player) {
+    private _addVote(voter: Player<RoomType>, target: Player<RoomType>) {
         const voted = this.voted.get(target.clientId);
         if (voted) {
             const next = voted.indexOf(undefined);
@@ -126,7 +117,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private _rpcAddVote(voter: Player, target: Player) {
+    private _rpcAddVote(voter: Player<RoomType>, target: Player<RoomType>) {
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,

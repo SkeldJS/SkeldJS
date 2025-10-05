@@ -7,7 +7,7 @@ import { GameLogicComponent } from "../GameLogicComponent";
 
 export type HideNSeekMusicLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekMusicLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekMusicLogicComponentEvents, RoomType> {
+export class HideNSeekMusicLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekMusicLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicMusicHnS.cs)
 
     async processFixedUpdate(deltaTime: number): Promise<void> {

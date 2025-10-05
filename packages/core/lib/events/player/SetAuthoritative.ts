@@ -1,7 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
@@ -14,7 +13,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * A server implementation may implement this by overriding the functions in
  * {@link StatefulRoom} responsible for updating the host.
  */
-export class PlayerSetAuthoritativeEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent {
+export class PlayerSetAuthoritativeEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType> {
     static eventName = "player.setauthoritative" as const;
     eventName = "player.setauthoritative" as const;
 

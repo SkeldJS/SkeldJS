@@ -8,7 +8,7 @@ export interface RoleMetadata {
     isGhostRole: boolean;
 }
 
-export class BaseRole<RoomType extends StatefulRoom = StatefulRoom> {
+export class BaseRole<RoomType extends StatefulRoom> {
     static roleMetadata: RoleMetadata;
 
     constructor(public readonly player: Player<RoomType>) { }

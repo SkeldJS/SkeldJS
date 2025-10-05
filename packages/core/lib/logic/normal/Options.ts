@@ -8,7 +8,7 @@ import { BaseRpcMessage, GameSettings } from "@skeldjs/protocol";
 
 export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class NormalOptionsLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
+export class NormalOptionsLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
     async processFixedUpdate(deltaTime: number): Promise<void> {
         void deltaTime;
     }
@@ -65,7 +65,7 @@ export class NormalOptionsLogicComponent<RoomType extends StatefulRoom = Statefu
         return this.manager.room.settings.killCooldown;
     }
 
-    getPlayerSpeedMod(player: Player) {
+    getPlayerSpeedMod(player: Player<RoomType>) {
         return this.manager.room.settings.playerSpeed;
     }
 

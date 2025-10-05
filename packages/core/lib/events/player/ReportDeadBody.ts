@@ -3,7 +3,6 @@ import { ReportDeadBodyMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
@@ -16,7 +15,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * a meeting actually being started, and regardless of whether the client is the
  * host or not.
  */
-export class PlayerReportDeadBodyEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerReportDeadBodyEvent<RoomType extends StatefulRoom> extends CancelableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.reportbody" as const;
     eventName = "player.reportbody" as const;
 

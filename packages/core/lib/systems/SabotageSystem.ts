@@ -10,36 +10,18 @@ import { Player } from "../Player";
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export interface SabotageSystemData {
-    cooldown: number;
-}
-
-export type SabotageSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
+export type SabotageSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling system sabotages.
  *
  * See {@link SabotageSystemEvents} for events to listen to.
  */
-export class SabotageSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    SabotageSystemData,
-    SabotageSystemEvents,
-    RoomType
-> implements SabotageSystemData {
+export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, SabotageSystemEvents<RoomType>> {
     /**
      * The cooldown before another sabotage can happen.
      */
-    cooldown: number;
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | SabotageSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.cooldown ??= 10000;
-    }
+    cooldown: number = 0;
 
     /**
      * Check whether any systems are currently sabotaged.
@@ -61,7 +43,7 @@ export class SabotageSystem<RoomType extends StatefulRoom = StatefulRoom> extend
     }
 
     async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
-        const system = this.ship.systems.get(amount) as SystemStatus;
+        const system = this.ship.systems.get(amount);
 
         if (system) {
             await system.handleSabotageByPlayer(player, rpc);
@@ -71,7 +53,7 @@ export class SabotageSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         }
     }
     
-    async handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         void player, rpc;
     }
 
@@ -79,11 +61,11 @@ export class SabotageSystem<RoomType extends StatefulRoom = StatefulRoom> extend
         void 0;
     }
 
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
         void player;
     }
 
-    async sendFullRepair(player: Player): Promise<void> {
+    async sendFullRepair(player: Player<RoomType>): Promise<void> {
         void player;
     }
 

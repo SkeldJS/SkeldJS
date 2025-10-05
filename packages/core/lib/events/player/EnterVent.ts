@@ -5,13 +5,12 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player goes into a vent.
  */
-export class PlayerEnterVentEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerEnterVentEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.entervent" as const;
     eventName = "player.entervent" as const;
 

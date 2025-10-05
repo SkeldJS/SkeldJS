@@ -7,7 +7,7 @@ import { GameLogicComponent } from "../GameLogicComponent";
 
 export type HideNSeekMinigameLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekMinigameLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekMinigameLogicComponentEvents, RoomType> {
+export class HideNSeekMinigameLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekMinigameLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicMinigameHnS.cs)
     
     async processFixedUpdate(deltaTime: number): Promise<void> {

@@ -12,7 +12,7 @@ import { RoomEvent } from "../RoomEvent";
  * Does not guarantee that the players' roles have actually been assigned, see
  * {@link PlayerSetRoleEvent}.
  */
-export class RoomAssignRolesEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent {
+export class RoomAssignRolesEvent<RoomType extends StatefulRoom> extends CancelableEvent implements RoomEvent<RoomType> {
     static eventName = "room.assignroles" as const;
     eventName = "room.assignroles" as const;
 

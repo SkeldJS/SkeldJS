@@ -52,7 +52,9 @@ import {
     Visor,
     Nameplate,
     RoleType,
-    GameState
+    GameState,
+    RoleTeamType,
+    SpawnFlag
 } from "@skeldjs/constant";
 
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -100,12 +102,7 @@ import { AmongUsEndGames, EndGameIntent, PlayersKillEndgameMetadata } from "../e
 import { BaseRole, GuardianAngelRole, UnknownRole } from "../roles";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 
-export interface PlayerControlData {
-    isNew: boolean;
-    playerId: number;
-}
-
-export type PlayerControlEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
+export type PlayerControlEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<
         [
             PlayerCheckColorEvent<RoomType>,
@@ -143,11 +140,7 @@ export type PlayerControlEvents<RoomType extends StatefulRoom = StatefulRoom> = 
  *
  * See {@link PlayerControlEvents} for events to listen to.
  */
-export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
-    PlayerControlData,
-    PlayerControlEvents<RoomType>,
-    RoomType
-> implements PlayerControlData {
+export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, PlayerControlEvents<RoomType>> {
     private lastStartCounter = 0;
 
     /**
@@ -189,9 +182,8 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | PlayerControlData
     ) {
-        super(room, spawnType, netId, ownerId, flags, data);
+        super(room, spawnType, netId, ownerId, flags);
 
         this.isNew ??= true;
         this.playerId ||= 0;
@@ -726,7 +718,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private async _rpcReportDeadBody(body: Player | "emergency"): Promise<void> {
+    private async _rpcReportDeadBody(body: Player<RoomType> | "emergency"): Promise<void> {
         if (body !== "emergency" && body.getPlayerId() === undefined) {
             return this._rpcReportDeadBody("emergency");
         }
@@ -786,7 +778,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private _rpcMurderPlayer(victim: Player) {
+    private _rpcMurderPlayer(victim: Player<RoomType>) {
         if (!victim.characterControl)
             return;
 
@@ -811,7 +803,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
      * @param victim The player to murder.
      * @returns
      */
-    async murderPlayer(victim: Player) {
+    async murderPlayer(victim: Player<RoomType>) {
         const victimPlayerInfo = victim?.getPlayerInfo();
 
         if (!this.room.canManageObject(this)) {
@@ -844,7 +836,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private _checkMurderEndGame(victim?: Player) {
+    private _checkMurderEndGame(victim?: Player<RoomType>) {
         let aliveCrewmates = 0;
         let aliveImpostors = 0;
         for (const [, playerInfo] of this.room.playerInfo) {
@@ -859,7 +851,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
 
         if (aliveCrewmates <= aliveImpostors) {
             this.room.registerEndGameIntent(
-                new EndGameIntent<PlayersKillEndgameMetadata>(
+                new EndGameIntent<PlayersKillEndgameMetadata<RoomType>>(
                     AmongUsEndGames.PlayersKill,
                     GameOverReason.ImpostorByKill,
                     {
@@ -912,7 +904,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         this._rpcSendChat(message);
     }
 
-    private _rpcSendChatNote(player: Player, type: ChatNoteType) {
+    private _rpcSendChatNote(player: Player<RoomType>, type: ChatNoteType) {
         const playerId = player.getPlayerId();
         if (playerId === undefined)
             return;
@@ -928,7 +920,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     /**
      * Send a player chat note for this player, i.e. "player x voted, x remaining.".
      */
-    sendChatNote(player: Player, type: ChatNoteType) {
+    sendChatNote(player: Player<RoomType>, type: ChatNoteType) {
         this._rpcSendChatNote(player, type);
     }
 
@@ -952,7 +944,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private async _startMeeting(caller: Player) {
+    private async _startMeeting(caller: Player<RoomType>) {
         const callerPlayerId = caller.getPlayerId();
         if (callerPlayerId === undefined)
             return;
@@ -960,8 +952,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         const spawnMeetinghud = await this.room.spawnPrefabOfType(
             SpawnType.MeetingHud,
             SpecialOwnerId.Global,
-            undefined,
-            undefined,
+            SpawnFlag.None,
             false
         ) as MeetingHud<RoomType>;
 
@@ -1022,7 +1013,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         );
     }
 
-    private _rpcStartMeeting(player: Player | "emergency"): void {
+    private _rpcStartMeeting(player: Player<RoomType> | "emergency"): void {
         if (player !== "emergency" && player.getPlayerId() === undefined) {
             return this._rpcStartMeeting("emergency");
         }
@@ -1048,7 +1039,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
      * @param body The body that was reported, or "emergency" if it is an emergency meeting.
      * @param caller The player that called this meeting.
      */
-    async startMeeting(body: Player | "emergency", caller?: Player) {
+    async startMeeting(body: Player<RoomType> | "emergency", caller?: Player<RoomType>) {
         if (!this.room.canManageObject(this)) {
             await this._rpcReportDeadBody(body);
             return;
@@ -1219,7 +1210,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
      *
      * Emits a {@link PlayerSendChatEvent | `player.quickchat`} event.
      */
-    sendQuickChat(message: Player | StringNames, format?: (Player | StringNames)[]) {
+    sendQuickChat(message: Player<RoomType> | StringNames, format?: (Player<RoomType> | StringNames)[]) {
         const quickChatMessage = typeof message === "number"
             ? format
                 ? new QuickChatComplexMessageData(message, format.map(format => {
@@ -1718,7 +1709,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         this._protectedByGuardianTime = this.room.settings.roleSettings.guardianAngelPotectionDuration;
     }
 
-    private _rpcProtectPlayer(target: Player, angelColor: Color) {
+    private _rpcProtectPlayer(target: Player<RoomType>, angelColor: Color) {
         if (!target.characterControl)
             return;
 
@@ -1733,7 +1724,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         );
     }
 
-    async protectPlayer(target: Player, angelColor = this.getPlayerInfo()?.defaultOutfit.color || Color.Red) {
+    async protectPlayer(target: Player<RoomType>, angelColor = this.getPlayerInfo()?.defaultOutfit.color || Color.Red) {
         if (!this.room.canManageObject(this)) {
             await this._rpcCheckProtect(target);
             return;
@@ -1828,7 +1819,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private _rpcShapeshift(target: Player, doAnimation: boolean) {
+    private _rpcShapeshift(target: Player<RoomType>, doAnimation: boolean) {
         if (!target.characterControl)
             return;
 
@@ -1899,11 +1890,31 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     async revertShapeshift() {
         await this.shapeshift(this.player);
     }
+    
+    canMurder(victim: PlayerControl<RoomType>) {
+        if (this.room.gameState !== GameState.Started)
+            return false;
+
+        const murdererPlayerInfo = this.getPlayerInfo();
+        const victimPlayerInfo = victim.getPlayerInfo();
+
+        if (murdererPlayerInfo?.isDead || !murdererPlayerInfo?.roleType || murdererPlayerInfo?.roleType.roleMetadata.roleTeam !== RoleTeamType.Impostor || murdererPlayerInfo?.isDisconnected) {
+            return false;
+        }
+
+        const victimPhysics = victim.getComponentSafe(1, PlayerPhysics);
+
+        if (!victimPlayerInfo || victimPlayerInfo.isDead || victimPhysics?.isInVent) {
+            return false;
+        }
+
+        return true;
+    }
 
     private async _handleCheckMurder(rpc: CheckMurderMessage) {
         const victim = this.room.getPlayerByNetId(rpc.victimNetId);
 
-        if (!victim || !this.room.canManageObject(this))
+        if (!victim || !victim.characterControl || !this.room.canManageObject(this))
             return;
 
         const ev = await this.emit(
@@ -1912,7 +1923,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
                 this.player,
                 rpc,
                 victim,
-                this.room.murderIsValid(this.player, victim)
+                this.canMurder(victim.characterControl),
             )
         );
 
@@ -1921,7 +1932,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private async _rpcCheckMurder(victim: Player) {
+    private async _rpcCheckMurder(victim: Player<RoomType>) {
         if (!victim.characterControl)
             return;
 

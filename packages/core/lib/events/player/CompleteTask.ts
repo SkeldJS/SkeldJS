@@ -1,7 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
 import { CompleteTaskMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -11,7 +10,7 @@ import { TaskState } from "../../objects";
 /**
  * Emitted when a player completes one of their tasks.
  */
-export class PlayerCompleteTaskEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCompleteTaskEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.completetask" as const;
     eventName = "player.completetask" as const;
 

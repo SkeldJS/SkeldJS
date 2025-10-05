@@ -1,7 +1,6 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { HeliSabotageEvent } from "./HeliSabotageEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -11,7 +10,7 @@ import { Player } from "../../Player";
 /**
  * Emitted when a player opens a heli sabotage console on Airship.
  */
-export class HeliSabotageConsoleOpenEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, HeliSabotageEvent, ProtocolEvent {
+export class HeliSabotageConsoleOpenEvent<RoomType extends StatefulRoom> extends RevertableEvent implements HeliSabotageEvent<RoomType>, ProtocolEvent {
     static eventName = "heli.consoles.open" as const;
     eventName = "heli.consoles.open" as const;
 

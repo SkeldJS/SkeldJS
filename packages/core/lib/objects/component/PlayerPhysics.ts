@@ -27,14 +27,7 @@ import {
     PlayerPetPetEvent,
 } from "../../events";
 
-import { PlayerControl } from "../PlayerControl";
-
-/* eslint-disable-next-line @typescript-eslint/no-empty-interface */
-export interface PlayerPhysicsData {
-    ventId: number;
-}
-
-export type PlayerPhysicsEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
+export type PlayerPhysicsEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<
         [PlayerEnterVentEvent<RoomType>, PlayerExitVentEvent<RoomType>, PlayerClimbLadderEvent<RoomType>]
     >;
@@ -44,11 +37,7 @@ export type PlayerPhysicsEvents<RoomType extends StatefulRoom = StatefulRoom> = 
  *
  * See {@link PlayerPhysicsEvents} for events to listen to.
  */
-export class PlayerPhysics<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
-    PlayerPhysicsData,
-    PlayerPhysicsEvents,
-    RoomType
-> implements PlayerPhysicsData {
+export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, PlayerPhysicsEvents<RoomType>> {
     /**
      * The ID of the vent that the player is currently in.
      */
@@ -67,19 +56,13 @@ export class PlayerPhysics<RoomType extends StatefulRoom = StatefulRoom> extends
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | PlayerPhysicsData,
-        playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, spawnType, netId, ownerId, flags, data);
+        super(room, spawnType, netId, ownerId, flags);
 
-        this.ventId ??= -1;
+        this.ventId = -1;
         this.ladderClimbSeqId = 0;
 
         this.player = this.owner as Player<RoomType>;
-
-        if (playerControl) {
-            this.components = playerControl.components;
-        }
     }
 
     get isInVent() {

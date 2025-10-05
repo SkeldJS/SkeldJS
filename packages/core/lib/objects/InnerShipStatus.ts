@@ -59,6 +59,7 @@ interface TaskDataModel {
     length: TaskLength;
     consoles: Record<number, ConsoleDataModel>;
 }
+
 export interface RoleAssignmentData {
     roleCtr: typeof BaseRole;
     chance: number;
@@ -74,13 +75,9 @@ function shuffleArray(array: any[]) {
     }
 }
 
-type AllSystems = Map<SystemType, SystemStatus<any, any>>;
+type AllSystems<RoomType extends StatefulRoom> = Map<SystemType, SystemStatus<RoomType, any>>;
 
-export interface ShipStatusData {
-    systems: AllSystems;
-}
-
-export type ShipStatusEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
+export type ShipStatusEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     DoorsSystemEvents<RoomType> &
     SystemStatusEvents<RoomType> &
     AutoDoorsSystemEvents<RoomType> &
@@ -97,14 +94,10 @@ export type ShipStatusEvents<RoomType extends StatefulRoom = StatefulRoom> = Net
     SwitchSystemEvents<RoomType> &
     ExtractEventTypes<[RoomAssignRolesEvent<RoomType>]>;
 
-export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
-    ShipStatusData,
-    ShipStatusEvents<RoomType>,
-    RoomType
-> {
+export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, ShipStatusEvents<RoomType>> {
     static roomDoors: Partial<Record<SystemType, number[]>>;
 
-    systems!: AllSystems;
+    systems!: AllSystems<RoomType>;
     spawnRadius: number;
     initialSpawnCenter: Vector2;
     meetingSpawnCenter: Vector2;
@@ -115,14 +108,11 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | ShipStatusData
     ) {
-        super(room, spawnType, netId, ownerId, flags, data);
+        super(room, spawnType, netId, ownerId, flags);
 
-        if (!this.systems) {
-            this.systems = new Map;
-            this.Setup();
-        }
+        this.systems = new Map;
+        this.Setup();
 
         this.spawnRadius = 1.55;
         this.initialSpawnCenter = Vector2.null;
@@ -133,8 +123,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
         return super.owner as RoomType;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    Setup() { }
+    abstract Setup(): void;
 
     deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
         if (!this.systems) {
@@ -144,7 +133,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
 
         while (reader.left) {
             const [tag, mreader] = reader.message();
-            const system = this.systems.get(tag) as SystemStatus;
+            const system = this.systems.get(tag) as SystemStatus<RoomType>;
 
             if (system) {
                 system.deserializeFromReader(mreader, spawn);
@@ -178,7 +167,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
     }
 
     protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const doors = this.systems.get(SystemType.Doors)! as DoorsSystem | AutoDoorsSystem;
+        const doors = this.systems.get(SystemType.Doors)! as DoorsSystem<RoomType> | AutoDoorsSystem<RoomType>;
         const doorsInRoom = this.getDoorsInRoom(rpc.systemId);
 
         if ("cooldowns" in doors) {
@@ -196,7 +185,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
     }
 
     protected async _handleRepairSystem(rpc: RepairSystemMessage) {
-        const system = this.systems.get(rpc.systemId) as SystemStatus;
+        const system = this.systems.get(rpc.systemId) as SystemStatus<RoomType>;
         const player = this.room.getPlayerByNetId(rpc.netId);
 
         if (system && player) {
@@ -296,7 +285,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
      * @param initialSpawn Whther or not this is a spawn after starting the game.
      * @returns The spawn position of the player.
      */
-    getSpawnPosition(player: Player | number, initialSpawn: boolean) {
+    getSpawnPosition(player: Player<RoomType> | number, initialSpawn: boolean) {
         const playerId = typeof player === "number"
             ? player
             : player.getPlayerId()!;
@@ -317,7 +306,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
      * @param initialSpawn Whether or not this is a spawn after starting the game.
      * @param broadcast Whether or not to broadcast the updates.
      */
-    async spawnPlayer(player: Player, initialSpawn: boolean, broadcast: boolean) {
+    async spawnPlayer(player: Player<RoomType>, initialSpawn: boolean, broadcast: boolean) {
         if (player.getPlayerId() === undefined)
             return;
 

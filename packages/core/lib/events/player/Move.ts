@@ -3,13 +3,12 @@ import { Vector2 } from "@skeldjs/util";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player moves.
  */
-export class PlayerMoveEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent {
+export class PlayerMoveEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType> {
     static eventName = "player.move" as const;
     eventName = "player.move" as const;
 

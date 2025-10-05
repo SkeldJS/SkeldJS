@@ -8,7 +8,7 @@ import { RoomEvent } from "../RoomEvent";
  * See {@link RoomEndGameIntentEvent} to cancel or listen
  * for before a game is ended.
  */
-export class RoomGameEndEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent {
+export class RoomGameEndEvent<RoomType extends StatefulRoom> extends BasicEvent implements RoomEvent<RoomType> {
     static eventName = "room.gameend" as const;
     eventName = "room.gameend" as const;
 

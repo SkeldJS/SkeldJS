@@ -5,7 +5,7 @@ import { RoomEvent } from "../RoomEvent";
 /**
  * Emitted when a game is started.
  */
-export class RoomGameStartEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent {
+export class RoomGameStartEvent<RoomType extends StatefulRoom> extends BasicEvent implements RoomEvent<RoomType> {
     static eventName = "room.gamestart" as const;
     eventName = "room.gamestart" as const;
 

@@ -2,7 +2,6 @@ import { RevertableEvent } from "@skeldjs/events";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
@@ -12,7 +11,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * See {@link PlayerProtectEvent} to listen for when a player gets protected
  * initially.
  */
-export class PlayerRemoveProtectionEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, PlayerEvent {
+export class PlayerRemoveProtectionEvent<RoomType extends StatefulRoom> extends RevertableEvent implements PlayerEvent<RoomType> {
     static eventName = "player.removeprotection" as const;
     eventName = "player.removeprotection" as const;
 

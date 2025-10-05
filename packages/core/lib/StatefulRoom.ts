@@ -77,10 +77,25 @@ import {
 } from "./events";
 
 import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
-import { BaseRole, CrewmateGhostRole, CrewmateRole, DetectiveRole, EngineerRole, GuardianAngelRole, ImpostorRole, NoisemakerRole, PhantomRole, ScientistRole, ShapeshifterRole, TrackerRole, ViperRole } from "./roles";
+
+import {
+    BaseRole,
+    CrewmateGhostRole,
+    CrewmateRole,
+    DetectiveRole,
+    EngineerRole,
+    GuardianAngelRole,
+    ImpostorRole,
+    NoisemakerRole,
+    PhantomRole,
+    ScientistRole,
+    ShapeshifterRole,
+    TrackerRole,
+    ViperRole,
+} from "./roles";
+
 import { StatefulRoomConfig } from "./misc";
 import { ImpostorGhostRole } from "./roles/ImpostorGhost";
-import { SystemStatus } from "./systems";
 import { FungleShipStatus } from "./objects/FungleShipStatus";
 
 export type RoomID = string | number;
@@ -94,12 +109,12 @@ export enum SpecialOwnerId {
     Server = -4,
 }
 
-export type PlayerResolvable =
+export type PlayerResolvable<RoomType extends StatefulRoom = StatefulRoom> =
     | number
-    | Player
-    | PlayerControl
-    | PlayerPhysics
-    | CustomNetworkTransform;
+    | Player<RoomType>
+    | PlayerControl<RoomType>
+    | PlayerPhysics<RoomType>
+    | CustomNetworkTransform<RoomType>;
 
 export type PrivacyType = "public" | "private";
 
@@ -110,7 +125,7 @@ export interface SpawnObject {
     components: NetworkedObject<any, any>[];
 }
 
-export type AnyNetworkedObject<RoomType extends StatefulRoom = StatefulRoom> =
+export type AnyNetworkedObject<RoomType extends StatefulRoom> =
     | AirshipStatus<RoomType>
     | AprilShipStatus<RoomType>
     | CustomNetworkTransform<RoomType>
@@ -123,7 +138,7 @@ export type AnyNetworkedObject<RoomType extends StatefulRoom = StatefulRoom> =
     | SkeldShipStatus<RoomType>
     | VoteBanSystem<RoomType>;
 
-export type StatefulRoomEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
+export type StatefulRoomEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     PlayerEvents<RoomType> &
     LobbyBehaviourEvents<RoomType> &
     MeetingHudEvents<RoomType> &
@@ -139,16 +154,12 @@ export type StatefulRoomEvents<RoomType extends StatefulRoom = StatefulRoom> = N
         ]
     >;
 
-export type GetStatefulRoomEvents<T extends StatefulRoom<StatefulRoomEvents>> = T extends StatefulRoom<infer X> ? X : never;
-
 /**
  * Represents an object capable of hosting games.
  *
  * See {@link StatefulRoomEvents} for events to listen to.
  */
-export class StatefulRoom<
-    T extends StatefulRoomEvents = any
-> extends EventEmitter<T> {
+export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> extends EventEmitter<T> {
 
     /**
      * Whether or not this room has been destroyed.
@@ -164,7 +175,7 @@ export class StatefulRoom<
     /**
      * A list of all objects in the room.
      */
-    objectList: NetworkedObject[];
+    objectList: NetworkedObject<this>[];
 
     /**
      * The players in the room.
@@ -174,7 +185,7 @@ export class StatefulRoom<
     /**
      * The networked components in the room.
      */
-    networkedObjects: Map<number, NetworkedObject<any, NetworkedObjectEvents, this>>;
+    networkedObjects: Map<number, NetworkedObject<this>>;
 
     /**
      * The current message stream to be sent to the server on fixed update.
@@ -261,7 +272,7 @@ export class StatefulRoom<
      */
     voteBanSystem: VoteBanSystem<this> | undefined;
 
-    playerInfo: Map<number, NetworkedPlayerInfo>;
+    playerInfo: Map<number, NetworkedPlayerInfo<this>>;
 
     /**
      * A map of spawn type -> objects used in the protocol. Useful to register
@@ -404,15 +415,15 @@ export class StatefulRoom<
      * @param object The object to manage.
      * @returns Whether or not the object can be managed by this client/room.
      */
-    canManageObject(object: NetworkedObject) {
+    canManageObject(object: NetworkedObject<this>) {
         return this.isAuthoritative;
     }
 
     async broadcast(
         gamedata: BaseGameDataMessage[],
         payloads: BaseRootMessage[] = [],
-        include?: (Player | number)[],
-        exclude?: (Player | number)[],
+        include?: (Player<this> | number)[],
+        exclude?: (Player<this> | number)[],
         reliable = true
     ) { }
 
@@ -598,7 +609,7 @@ export class StatefulRoom<
 
     async spawnNecessaryObjects() {
         if (!this.lobbyBehaviour && this.gameState === GameState.NotStarted) {
-            await this.spawnPrefabOfType(SpawnType.LobbyBehaviour, SpecialOwnerId.Global);
+            await this.spawnPrefabOfType(SpawnType.LobbyBehaviour, SpecialOwnerId.Global, SpawnFlag.None);
         }
 
         if (!this.shipStatus && this.gameState === GameState.Started) {
@@ -610,18 +621,18 @@ export class StatefulRoom<
                 SpawnType.AirshipShipStatus,
             ];
 
-            await this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, SpecialOwnerId.Global);
+            await this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, SpecialOwnerId.Global, SpawnFlag.None);
         }
 
         if (!this.voteBanSystem) {
-            await this.spawnPrefabOfType(SpawnType.VoteBanSystem, SpecialOwnerId.Global);
+            await this.spawnPrefabOfType(SpawnType.VoteBanSystem, SpecialOwnerId.Global, SpawnFlag.None);
         }
 
         if (!this.gameManager) {
             if (this.settings.gameMode === GameMode.Normal) {
-                await this.spawnPrefabOfType(SpawnType.NormalGameManager, SpecialOwnerId.Global);
+                await this.spawnPrefabOfType(SpawnType.NormalGameManager, SpecialOwnerId.Global, SpawnFlag.None);
             } else if (this.settings.gameMode === GameMode.HideNSeek) {
-                await this.spawnPrefabOfType(SpawnType.HideAndSeekManager, SpecialOwnerId.Global);
+                await this.spawnPrefabOfType(SpawnType.HideAndSeekManager, SpecialOwnerId.Global, SpawnFlag.None);
             }
         }
     }
@@ -690,7 +701,7 @@ export class StatefulRoom<
             }
 
             if (playerInfo.isDead) {
-                if (playerInfo.roleType?.roleMetadata.roleType === RoleType.ImpostorGhost && (playerInfo.getPlayer()?.role as ImpostorGhostRole | undefined)?.wasManuallyPicked) {
+                if (playerInfo.roleType?.roleMetadata.roleType === RoleType.ImpostorGhost && (playerInfo.getPlayer()?.role as ImpostorGhostRole<this> | undefined)?.wasManuallyPicked) {
                     aliveImpostors++;
                 }
             } else {
@@ -770,7 +781,7 @@ export class StatefulRoom<
         return player;
     }
 
-    waitingForReady(player: Player): boolean {
+    waitingForReady(player: Player<this>): boolean {
         return player.isReady;
     }
 
@@ -789,7 +800,7 @@ export class StatefulRoom<
         if (this.lobbyBehaviour) this.despawnComponent(this.lobbyBehaviour);
 
         const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
-        await this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global);
+        await this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global, SpawnFlag.None);
 
         await Promise.all([
             Promise.race([
@@ -903,7 +914,7 @@ export class StatefulRoom<
      * this.spawnComponent(meetinghud);
      * ```
      */
-    spawnComponent(component: NetworkedObject<any, NetworkedObjectEvents, this>) {
+    spawnComponent(component: NetworkedObject<this>) {
         if (this.networkedObjects.get(component.netId)) {
             return;
         }
@@ -938,12 +949,10 @@ export class StatefulRoom<
 
         this.networkedObjects.set(component.netId, component);
 
-        component.emitSync(
-            new ComponentSpawnEvent(this, component)
-        );
+        component.emitSync(new ComponentSpawnEvent(this, component));
     }
 
-    protected _despawnComponent(component: NetworkedObject<any>) {
+    protected _despawnComponent(component: NetworkedObject<this>) {
         this.networkedObjects.delete(component.netId);
 
         if (component.owner instanceof Player) {
@@ -998,7 +1007,7 @@ export class StatefulRoom<
      * room.despawnComponent(room.meetinghud);
      * ```
      */
-    despawnComponent(component: NetworkedObject<any, NetworkedObjectEvents, this>) {
+    despawnComponent(component: NetworkedObject<this>) {
         this._despawnComponent(component);
 
         this.messageStream.push(new DespawnMessage(component.netId));
@@ -1022,7 +1031,7 @@ export class StatefulRoom<
         }
     }
 
-    protected createObjectSpawnMessage(object: NetworkedObject): SpawnMessage {
+    protected createObjectSpawnMessage(object: NetworkedObject<this>): SpawnMessage {
         return new SpawnMessage(
             object.spawnType,
             object.ownerId,
@@ -1044,32 +1053,20 @@ export class StatefulRoom<
     protected async spawnPrefab(
         spawnType: number,
         spawnPrefab: NetworkedObjectConstructor<any>[],
-        ownerId: number | Player | undefined,
-        flags?: number,
-        componentData: (any | ComponentSpawnData)[] = [],
+        ownerId: number,
+        flags: number,
         doBroadcast: boolean | undefined = true,
         doAwake = true
     ) {
-        const _ownerId =
-            ownerId === undefined
-                ? SpecialOwnerId.Global
-                : typeof ownerId === "number" ? ownerId : ownerId.clientId;
-
-        const _flags = flags ?? (spawnType === SpawnType.Player ? SpawnFlag.IsClientCharacter : 0);
-
-        let object!: NetworkedObject;
+        let object!: NetworkedObject<this>;
 
         for (let i = 0; i < spawnPrefab.length; i++) {
             const component = new spawnPrefab[i](
                 this,
                 spawnType,
-                componentData?.[i]?.netId || this.getNextNetId(),
-                _ownerId,
-                _flags,
-                componentData?.[i] instanceof ComponentSpawnData
-                    ? HazelReader.from(componentData[i].data)
-                    : componentData?.[i],
-                object
+                this.getNextNetId(),
+                ownerId,
+                flags,
             );
 
             if (this.networkedObjects.get(component.netId))
@@ -1080,8 +1077,11 @@ export class StatefulRoom<
                 this.objectList.push(object);
             }
 
-            this.spawnComponent(component as NetworkedObject<any, NetworkedObjectEvents, this>);
+            // A whole prefab's components are all shared
+            component.components = object.components;
             object.components.push(component);
+
+            this.spawnComponent(component);
         }
 
         if (!object)
@@ -1098,7 +1098,7 @@ export class StatefulRoom<
                 new SpawnMessage(
                     spawnType,
                     object.ownerId,
-                    _flags,
+                    flags,
                     object.components.map((component) => {
                         const writer = HazelWriter.alloc(512);
                         writer.write(component, true);
@@ -1113,9 +1113,9 @@ export class StatefulRoom<
             );
         }
         
-        const ownerPlayer = this.players.get(_ownerId);
+        const ownerPlayer = this.players.get(ownerId);
 
-        if ((_flags & SpawnFlag.IsClientCharacter) > 0 && ownerPlayer) {
+        if ((flags & SpawnFlag.IsClientCharacter) > 0 && ownerPlayer) {
             if (!ownerPlayer.characterControl) {
                 ownerPlayer.characterControl = object as PlayerControl<this>;
                 ownerPlayer.inScene = true;
@@ -1126,7 +1126,7 @@ export class StatefulRoom<
             await ownerPlayer.emit(new PlayerSpawnEvent(this, ownerPlayer));
         }
 
-        return object as NetworkedObject<any, any, this>;
+        return object;
     }
 
     /**
@@ -1141,18 +1141,17 @@ export class StatefulRoom<
      */
     async spawnPrefabOfType(
         spawnType: number,
-        ownerId: number | Player | undefined,
-        flags?: number,
-        componentData?: (any | ComponentSpawnData)[],
+        ownerId: number,
+        flags: number,
         doBroadcast = true,
         doAwake = true
-    ): Promise<NetworkedObject<any, any, this> | undefined> {
+    ): Promise<NetworkedObject<this> | undefined> {
         const spawnPrefab = this.registeredPrefabs.get(spawnType);
 
         if (!spawnPrefab)
             throw new Error("Cannot spawn object of type: " + spawnType + " (not registered)");
 
-        return this.spawnPrefab(spawnType, spawnPrefab, ownerId, flags, componentData, doBroadcast, doAwake);
+        return this.spawnPrefab(spawnType, spawnPrefab, ownerId, flags, doBroadcast, doAwake);
     }
 
     /**
@@ -1162,9 +1161,9 @@ export class StatefulRoom<
      * @param components The components in the object. The first component should
      * be the main object which will inherit the rest of the components.
      */
-    registerPrefab(spawnType: number, components: NetworkedObjectConstructor<NetworkedObject>[]) {
+    registerPrefab(spawnType: number, components: NetworkedObjectConstructor<this>[]) {
         if (components.length < 1) {
-            throw new Error("Expected at least 1 component to create an INO prefab from.");
+            throw new Error("Expected at least 1 component to create a networked object prefab from.");
         }
 
         this.registeredPrefabs.set(spawnType, components);
@@ -1244,27 +1243,8 @@ export class StatefulRoom<
         this.endGameIntents.push(endGameIntent);
     }
 
-    murderIsValid(murderer: Player, victim: Player) {
-        if (this.gameState !== GameState.Started)
-            return false;
 
-        const murdererPlayerInfo = murderer.getPlayerInfo();
-        const victimPlayerInfo = victim.getPlayerInfo();
-
-        if (murdererPlayerInfo?.isDead || !murdererPlayerInfo?.roleType || murdererPlayerInfo?.roleType.roleMetadata.roleTeam !== RoleTeamType.Impostor || murdererPlayerInfo?.isDisconnected) {
-            return false;
-        }
-
-        const victimPhysics = victim.characterControl?.getComponentSafe(1, PlayerPhysics);
-
-        if (!victimPlayerInfo || victimPlayerInfo.isDead || victimPhysics?.isInVent) {
-            return false;
-        }
-
-        return true;
-    }
-
-    clearMyVote(meetingHud: MeetingHud): Promise<void> {
+    clearMyVote(meetingHud: MeetingHud<this>): Promise<void> {
         throw new Error("'clearMyVote' not implemented on StatefulRoom")
     }
 

@@ -7,7 +7,7 @@ import { GameLogicComponent } from "../GameLogicComponent";
 
 export type NormalMinigameLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class NormalMinigameLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<NormalMinigameLogicComponentEvents, RoomType> {
+export class NormalMinigameLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalMinigameLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicMinigame.cs, no file for normal gamemode logic)
     
     async processFixedUpdate(deltaTime: number): Promise<void> {

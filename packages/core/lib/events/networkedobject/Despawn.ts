@@ -7,7 +7,7 @@ import { NetworkedObjectEvent } from "./NetworkedObjectEvent";
 /**
  * Emitted when a component is despawned.
  */
-export class ComponentDespawnEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, NetworkedObjectEvent {
+export class ComponentDespawnEvent<RoomType extends StatefulRoom> extends BasicEvent implements NetworkedObjectEvent<RoomType> {
     static eventName = "component.despawn" as const;
     eventName = "component.despawn" as const;
 

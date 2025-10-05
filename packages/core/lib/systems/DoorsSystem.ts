@@ -12,12 +12,7 @@ import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export interface DoorsSystemData {
-    cooldowns: Map<number, number>;
-    doors: boolean[];
-}
-
-export type DoorsSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents &
+export type DoorsSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     DoorEvents<RoomType> &
     ExtractEventTypes<[]>;
 
@@ -26,40 +21,18 @@ export type DoorsSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = Sy
  *
  * See {@link DoorsSystemEvents} for events to listen to.
  */
-export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    DoorsSystemData,
-    DoorsSystemEvents,
-    RoomType
-> {
+export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, DoorsSystemEvents<RoomType>> {
     /**
      * The cooldowns of every door.
      */
-    cooldowns: Map<number, number>;
+    cooldowns: Map<number, number> = new Map;
 
     /**
      * The doors in the map.
      */
-    doors: Door<RoomType>[];
+    doors: Door<RoomType>[] = [];
 
-    private lastUpdate: number;
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | DoorsSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.cooldowns ||= new Map;
-        this.doors ||= [];
-
-        this.doors = this.doors.map((door, i) =>
-            typeof door === "boolean"
-                ? new Door(this, i, door)
-                : door);
-
-        this.lastUpdate = 0;
-    }
+    private lastUpdate: number = 0;
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     deserializeFromReader(reader: HazelReader, spawn: boolean) {
@@ -96,7 +69,7 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    private async _openDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _openDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -130,7 +103,7 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
      * Open a door by its ID.
      * @param doorId The ID of the door to opne.
      */
-    async openDoorPlayer(doorId: number, openedByPlayer: Player) {
+    async openDoorPlayer(doorId: number, openedByPlayer: Player<RoomType>) {
         await this._openDoor(doorId, openedByPlayer, undefined);
     }
 
@@ -142,7 +115,7 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this._sendRepair(doorId);
     }
 
-    private async _closeDoor(doorId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _closeDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const door = this.doors[doorId];
 
         if (!door)
@@ -176,7 +149,7 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
      * Close a door by its ID.
      * @param doorId The ID of the door to close.
      */
-    async closeDoorPlayer(doorId: number, closedByPlayer: Player) {
+    async closeDoorPlayer(doorId: number, closedByPlayer: Player<RoomType>) {
         this._closeDoor(doorId, closedByPlayer, undefined);
     }
 
@@ -184,11 +157,11 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this._closeDoor(doorId, undefined, undefined);
     }
     
-    handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
-    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const doorId = amount & 0x1f;
 
         await this._openDoor(doorId, player, rpc);
@@ -198,11 +171,11 @@ export class DoorsSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         void 0;
     }
 
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
         void player;
     }
 
-    async sendFullRepair(player: Player): Promise<void> {
+    async sendFullRepair(player: Player<RoomType>): Promise<void> {
         void player;
     }
 

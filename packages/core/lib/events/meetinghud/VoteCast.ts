@@ -5,14 +5,13 @@ import { MeetingHud } from "../../objects";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
 /**
  * Emitted when a player casts a vote on another player or skips vote in a
  * meeting.
  */
-export class MeetingHudVoteCastEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudVoteCastEvent<RoomType extends StatefulRoom> extends RevertableEvent implements MeetingHudEvent<RoomType>, ProtocolEvent {
     static eventName = "meeting.castvote" as const;
     eventName = "meeting.castvote" as const;
 

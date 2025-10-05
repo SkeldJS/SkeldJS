@@ -3,7 +3,6 @@ import { ProtectPlayerMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
@@ -15,7 +14,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * However, see {@link PlayerCheckProtectEvent} to see about canceling a protection
  * before it happens if you are the host.
  */
-export class PlayerProtectEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerProtectEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.protect" as const;
     eventName = "player.protect" as const;
 

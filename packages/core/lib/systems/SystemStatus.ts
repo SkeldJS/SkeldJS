@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage, RpcMessage } from "@skeldjs/protocol";
+import { RepairSystemMessage } from "@skeldjs/protocol";
 import { EventEmitter, BasicEvent } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -9,11 +9,7 @@ import { Player } from "../Player";
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export abstract class SystemStatus<
-    DataT = any,
-    T extends SystemStatusEvents = SystemStatusEvents,
-    RoomType extends StatefulRoom<any> = StatefulRoom<any>
-> extends EventEmitter<T> {
+export abstract class SystemStatus<RoomType extends StatefulRoom, T extends SystemStatusEvents<RoomType> = SystemStatusEvents<RoomType>> extends EventEmitter<T> {
     private _dirty: boolean;
 
     systemType: SystemType;
@@ -21,17 +17,8 @@ export abstract class SystemStatus<
     constructor(
         protected ship: InnerShipStatus<RoomType>,
         systemType: SystemType,
-        data?: HazelReader | DataT
     ) {
         super();
-
-        if (data) {
-            if (data instanceof HazelReader) {
-                this.deserializeFromReader(data, true);
-            } else {
-                this.patch(data);
-            }
-        }
 
         this.systemType = systemType;
         this._dirty = false;
@@ -44,10 +31,6 @@ export abstract class SystemStatus<
     set dirty(isDirty: boolean) {
         this._dirty = isDirty;
         this.ship.dirtyBit = 1;
-    }
-
-    protected patch(data: DataT) {
-        Object.assign(this, data);
     }
 
     /**
@@ -91,19 +74,19 @@ export abstract class SystemStatus<
     abstract deserializeFromReader(reader: HazelReader, spawn: boolean): void;
     abstract serializeToWriter(writer: HazelWriter, spawn: boolean): void;
 
-    abstract handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void>;
-    abstract handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void>;
+    abstract handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void>;
+    abstract handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void>;
 
     abstract processFixedUpdate(delta: number): Promise<void>;
 
     abstract fullyRepairHost(): Promise<void>;
-    abstract fullyRepairPlayer(player: Player | undefined): Promise<void>;
-    abstract sendFullRepair(player: Player): Promise<void>;
+    abstract fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void>;
+    abstract sendFullRepair(player: Player<RoomType>): Promise<void>;
 
     /**
      * Sabotage this system.
      */
-    async sabotagePlayer(sabotagedByPlayer: Player) {
+    async sabotagePlayer(sabotagedByPlayer: Player<RoomType>) {
         await this.ship.systems.get(SystemType.Sabotage)
             ?.handleRepairByPlayer(sabotagedByPlayer, this.systemType, undefined);
     }

@@ -9,28 +9,17 @@ import { StatefulRoom, SpecialOwnerId } from "./StatefulRoom";
 import { ComponentDespawnEvent, ComponentSpawnEvent } from "./events";
 import { Player } from "./Player";
 
-export type NetworkedObjectConstructor<T> = {
+export type NetworkedObjectConstructor<RoomType extends StatefulRoom> = {
     new(
-        room: StatefulRoom<any>,
+        room: RoomType,
         spawnType: SpawnType,
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | any
-    ): T;
-} | {
-    new(
-        room: StatefulRoom<any>,
-        spawnType: SpawnType,
-        netId: number,
-        ownerId: number,
-        flags: number,
-        data?: HazelReader | any,
-        object?: NetworkedObject<any, any>
-    ): T;
+    ): NetworkedObject<RoomType>;
 };
 
-export type NetworkedObjectEvents<RoomType extends StatefulRoom = StatefulRoom> = ExtractEventTypes<
+export type NetworkedObjectEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
     [ComponentSpawnEvent<RoomType>, ComponentDespawnEvent<RoomType>]
 >;
 
@@ -39,11 +28,7 @@ export type NetworkedObjectEvents<RoomType extends StatefulRoom = StatefulRoom> 
  *
  * See {@link NetworkedObjectEvents} for events to listen to.
  */
-export abstract class NetworkedObject<
-    DataT = any,
-    T extends NetworkedObjectEvents = NetworkedObjectEvents,
-    RoomType extends StatefulRoom = StatefulRoom
-> extends EventEmitter<T> {
+export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends NetworkedObjectEvents<RoomType> = NetworkedObjectEvents<RoomType>> extends EventEmitter<T> {
     /**
      * The room that this component belongs to.
      */
@@ -79,7 +64,7 @@ export abstract class NetworkedObject<
      */
     player?: Player<RoomType>;
 
-    components: NetworkedObject<any, NetworkedObjectEvents, RoomType>[];
+    components: NetworkedObject<RoomType, any>[];
 
     get owner(): StatefulRoom | Player<RoomType> | undefined {
         if (this.ownerId !== SpecialOwnerId.Global) {
@@ -95,7 +80,6 @@ export abstract class NetworkedObject<
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | DataT
     ) {
         super();
 
@@ -112,18 +96,6 @@ export abstract class NetworkedObject<
         }
 
         this.components = [];
-
-        if (data) {
-            if (data instanceof HazelReader) {
-                this.deserializeFromReader(data, true);
-            } else {
-                this.patch(data);
-            }
-        }
-    }
-
-    protected patch(data: DataT) {
-        Object.assign(this, data);
     }
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
@@ -173,13 +145,13 @@ export abstract class NetworkedObject<
      * Get a certain component from the object.
      * @param ComponentType The component class to get.
      */
-    getComponentSafe<T>(
+    getComponentSafe<T extends NetworkedObjectConstructor<RoomType>>(
         index: number,
-        ComponentType: NetworkedObjectConstructor<T>,
-    ): T | undefined {
+        ComponentType: T,
+    ): InstanceType<T> | undefined {
         const component = this.components[index];
         if (!component) return undefined;
         if (!(component instanceof ComponentType)) return undefined;
-        return component as T;
+        return component as InstanceType<T>;
     }
 }

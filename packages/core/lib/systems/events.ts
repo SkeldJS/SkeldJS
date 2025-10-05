@@ -16,10 +16,10 @@ import { SabotageSystem } from "./SabotageSystem";
 import { SecurityCameraSystem } from "./SecurityCameraSystem";
 import { SwitchSystem } from "./SwitchSystem";
 
-export type SystemStatusEvents<RoomType extends StatefulRoom = StatefulRoom> = DoorEvents<RoomType> &
+export type SystemStatusEvents<RoomType extends StatefulRoom> = DoorEvents<RoomType> &
     ExtractEventTypes<[SystemSabotageEvent<RoomType>, SystemRepairEvent<RoomType>]>;
 
-export type AnySystem<RoomType extends StatefulRoom = StatefulRoom> =
+export type AnySystem<RoomType extends StatefulRoom> =
     | AutoDoorsSystem<RoomType>
     | DeconSystem<RoomType>
     | DoorsSystem<RoomType>

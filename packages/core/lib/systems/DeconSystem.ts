@@ -25,47 +25,27 @@ export const DeconState = {
     HeadingUp: 0x8,
 };
 
-export interface DeconSystemData {
-    timer: number;
-    state: number;
-}
-
-export type DeconSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[
-    DeconDoorsCloseEvent,
-    DeconDoorsOpenEvent,
-    DeconEnterEvent,
-    DeconExitEvent
+export type DeconSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[
+    DeconDoorsCloseEvent<RoomType>,
+    DeconDoorsOpenEvent<RoomType>,
+    DeconEnterEvent<RoomType>,
+    DeconExitEvent<RoomType>,
 ]>;
 /**
  * Represents a system responsible for the decontamination doors.
  *
  * See {@link DeconSystemEvents} for events to listen to.
  */
-export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    DeconSystemData,
-    DeconSystemEvents,
-    RoomType
-> implements DeconSystemData {
+export class DeconSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType> {
     /**
      * How long before decontamination doors open.
      */
-    timer: number;
+    timer: number = 0;
 
     /**
      * The state of the decontamination system, to be calculated with {@link DeconState}
      */
-    state: number;
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | DeconSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.timer ||= 0;
-        this.state ||= DeconState.Idle;
-    }
+    state: number = DeconState.Idle;
 
     deserializeFromReader(reader: HazelReader, spawn: boolean) {
         const previousState = this.state;
@@ -94,7 +74,7 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         writer.byte(this.state);
     }
 
-    private async _enterDecon(headingUp: boolean, player: Player | undefined, message: RepairSystemMessage | undefined) {
+    private async _enterDecon(headingUp: boolean, player: Player<RoomType> | undefined, message: RepairSystemMessage | undefined) {
         if ((this.state & DeconState.Enter) && !!(this.state & DeconState.HeadingUp) === headingUp) {
             return;
         }
@@ -136,7 +116,7 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    async enterDeconPlayer(headingUp: boolean, player: Player) {
+    async enterDeconPlayer(headingUp: boolean, player: Player<RoomType>) {
         await this._enterDecon(headingUp, player, undefined);
     }
 
@@ -144,7 +124,7 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this._sendRepair(headingUp ? 1 : 2);
     }
 
-    private async _exitDecon(headingUp: boolean, player: Player | undefined, message: RepairSystemMessage | undefined) {
+    private async _exitDecon(headingUp: boolean, player: Player<RoomType> | undefined, message: RepairSystemMessage | undefined) {
         if ((this.state & DeconState.Exit) && !!(this.state & DeconState.HeadingUp) === headingUp) {
             return;
         }
@@ -186,7 +166,7 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    async exitDeconPlayer(headingUp: boolean, player: Player) {
+    async exitDeconPlayer(headingUp: boolean, player: Player<RoomType>) {
         await this._exitDecon(headingUp, player, undefined);
     }
 
@@ -194,11 +174,11 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this._sendRepair(headingUp ? 3 : 4);
     }
     
-    handleSabotageByPlayer(player: Player | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
+    handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
-    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         if (this.state !== DeconState.Idle)
             return;
 
@@ -224,11 +204,11 @@ export class DeconSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         void 0;
     }
 
-    async fullyRepairPlayer(player: Player | undefined): Promise<void> {
+    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
         void player;
     }
 
-    async sendFullRepair(player: Player): Promise<void> {
+    async sendFullRepair(player: Player<RoomType>): Promise<void> {
         void player;
     }
 

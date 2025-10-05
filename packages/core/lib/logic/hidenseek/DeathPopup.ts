@@ -7,7 +7,7 @@ import { GameLogicComponent } from "../GameLogicComponent";
 
 export type HideNSeekDeathPopupLevelLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekDeathPopupLevelLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekDeathPopupLevelLogicComponentEvents, RoomType> {
+export class HideNSeekDeathPopupLevelLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekDeathPopupLevelLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicHnSDeathPopup.cs)
 
     async processFixedUpdate(deltaTime: number): Promise<void> {

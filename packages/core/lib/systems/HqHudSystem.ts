@@ -18,18 +18,12 @@ import {
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export interface UserConsolePair {
+export type UserConsolePair = {
     playerId: number;
     consoleId: number;
-}
+};
 
-export interface HqHudSystemData {
-    timer: number;
-    activeConsoles: UserConsolePair[];
-    completedConsoles: Set<number>;
-}
-
-export type HqHudSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
+export type HqHudSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<
         [
             HqHudConsolesResetEvent<RoomType>,
@@ -50,40 +44,24 @@ export const HqHudSystemRepairTag = {
  *
  * See {@link HqHudSystemEvents} for events to listen to.
  */
-export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    HqHudSystemData,
-    HqHudSystemEvents,
-    RoomType
-> implements HqHudSystemData {
+export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, HqHudSystemEvents<RoomType>> {
     /**
      * The timer until the consoles are reset.
      */
-    timer: number;
+    timer: number = 10000;
 
     /**
      * The currently opened consoles.
      */
-    activeConsoles: UserConsolePair[];
+    activeConsoles: UserConsolePair[] = [];
 
     /**
      * The completed consoles.
      */
-    completedConsoles: Set<number>;
+    completedConsoles: Set<number> = new Set([0, 1]);
 
     get sabotaged() {
         return this.completedConsoles.size < 2;
-    }
-
-    constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        data?: HazelReader | HqHudSystemData
-    ) {
-        super(ship, systemType, data);
-
-        this.timer ??= 10000;
-        this.activeConsoles ||= [];
-        this.completedConsoles ||= new Set([0, 1]);
     }
 
     private _getIdx(consoleId: number, playerId: number) {
@@ -196,7 +174,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    private async _openConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
+    private async _openConsole(consoleId: number, player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
         const playerId = player.getPlayerId();
         if (playerId === undefined) return;
 
@@ -230,7 +208,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
      * Mark the console as being used by your player.
      * @param consoleId The ID of the console to mark as being used.
      */
-    async openConsolePlayer(consoleId: number, openedByPlayer: Player) {
+    async openConsolePlayer(consoleId: number, openedByPlayer: Player<RoomType>) {
         await this._openConsole(consoleId, openedByPlayer, undefined);
     }
 
@@ -238,7 +216,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         this._sendRepair(0x40 | consoleId);
     }
 
-    private async _closeConsole(consoleId: number, player: Player, rpc: RepairSystemMessage | undefined) {
+    private async _closeConsole(consoleId: number, player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
         const playerId = player.getPlayerId();
         if (playerId === undefined) return;
 
@@ -263,7 +241,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         }
     }
 
-    async closeConsolePlayer(consoleId: number, closedByPlayer: Player) {
+    async closeConsolePlayer(consoleId: number, closedByPlayer: Player<RoomType>) {
         await this._closeConsole(consoleId, closedByPlayer, undefined);
     }
 
@@ -275,7 +253,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this._sendRepair(0x20 | consoleId);
     }
 
-    private async _completeConsole(consoleId: number, player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _completeConsole(consoleId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         if (!this.completedConsoles.has(consoleId)) {
             this.completedConsoles.add(consoleId);
             this.dirty = true;
@@ -298,7 +276,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
      * Mark a console as completed.
      * @param consoleId The ID of the console to mark as completed.
      */
-    async completeConsolePlayer(consoleId: number, completedByPlayer: Player) {
+    async completeConsolePlayer(consoleId: number, completedByPlayer: Player<RoomType>) {
         await this._completeConsole(consoleId, completedByPlayer, undefined);
     }
 
@@ -306,7 +284,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this._sendRepair(0x10 | consoleId);
     }
 
-    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _repair(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const completedBefore = this.completedConsoles;
         const timerBefore = this.timer;
         this.completedConsoles = new Set([0, 1]);
@@ -330,7 +308,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this._repair(undefined, undefined);
     }
 
-    async fullyRepairPlayer(player: Player) {
+    async fullyRepairPlayer(player: Player<RoomType>) {
         await this._repair(player, undefined);
     }
 
@@ -339,7 +317,7 @@ export class HqHudSystem<RoomType extends StatefulRoom = StatefulRoom> extends S
         await this.completeConsole(1);
     }
 
-    async handleRepairByPlayer(player: Player | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
+    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
         const consoleId = amount & 0xf;
         const repairOperation = amount & 0xf0;
 

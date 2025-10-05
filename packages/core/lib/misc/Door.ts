@@ -5,7 +5,7 @@ import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem } from "../systems"
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
 
-export type DoorEvents<RoomType extends StatefulRoom = StatefulRoom> = ExtractEventTypes<
+export type DoorEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
     [DoorsDoorOpenEvent<RoomType>, DoorsDoorCloseEvent<RoomType>]
 >;
 
@@ -14,7 +14,7 @@ export type DoorEvents<RoomType extends StatefulRoom = StatefulRoom> = ExtractEv
  *
  * See {@link DoorEvents} for events to listen to.
  */
-export class Door<RoomType extends StatefulRoom = StatefulRoom> extends EventEmitter<DoorEvents> {
+export class Door<RoomType extends StatefulRoom> extends EventEmitter<DoorEvents<RoomType>> {
     isOpen: boolean;
 
     constructor(

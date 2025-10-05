@@ -1,7 +1,6 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Door } from "../../misc/Door";
 import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem } from "../../systems";
@@ -14,7 +13,7 @@ import { DoorsEvent } from "./DoorsEvent";
  * the doors on Polus, or opened automatically after some time, i.e. the doors
  * on The Skeld.
  */
-export class DoorsDoorOpenEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, DoorsEvent, ProtocolEvent {
+export class DoorsDoorOpenEvent<RoomType extends StatefulRoom> extends RevertableEvent implements DoorsEvent<RoomType>, ProtocolEvent {
     static eventName = "doors.open" as const;
     eventName = "doors.open" as const;
 

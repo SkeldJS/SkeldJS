@@ -4,13 +4,12 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { LifeSuppSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { O2Event } from "./O2Event";
 
 /**
  * Emitted when a oxygen console is completed.
  */
-export class O2ConsolesCompleteEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, O2Event, ProtocolEvent {
+export class O2ConsolesCompleteEvent<RoomType extends StatefulRoom> extends RevertableEvent implements O2Event<RoomType>, ProtocolEvent {
     static eventName = "o2.consoles.complete" as const;
     eventName = "o2.consoles.complete" as const;
 

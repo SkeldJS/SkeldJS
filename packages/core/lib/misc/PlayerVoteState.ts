@@ -10,7 +10,7 @@ export enum VoteStateSpecialId {
 /**
  * Represents a player's voting state.
  */
-export class PlayerVoteState<RoomType extends StatefulRoom = StatefulRoom> {
+export class PlayerVoteState<RoomType extends StatefulRoom> {
     constructor(
         public readonly room: RoomType,
         public playerId: number,

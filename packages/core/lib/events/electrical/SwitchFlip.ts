@@ -1,6 +1,5 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
-import { RoomEvent } from "../RoomEvent";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { SwitchSystem } from "../../systems";
@@ -10,7 +9,7 @@ import { ElectricalEvent } from "./ElectricalEvent";
 /**
  * Emitted when a player flips a switch while Electrical is sabotaged.
  */
-export class ElectricalSwitchFlipEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, ElectricalEvent, ProtocolEvent {
+export class ElectricalSwitchFlipEvent<RoomType extends StatefulRoom> extends RevertableEvent implements ElectricalEvent<RoomType>, ProtocolEvent {
     static eventName = "electrical.switchflip" as const;
     eventName = "electrical.switchflip" as const;
 

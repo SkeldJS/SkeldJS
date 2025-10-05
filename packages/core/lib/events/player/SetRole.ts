@@ -1,7 +1,6 @@
 import { CancelableEvent } from "@skeldjs/events";
 import { SetRoleMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -11,7 +10,7 @@ import { BaseRole } from "../../roles";
 /**
  * Emitted when a player has their player role updated.
  */
-export class PlayerSetRoleEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetRoleEvent<RoomType extends StatefulRoom> extends CancelableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.setrole" as const;
     eventName = "player.setrole" as const;
 

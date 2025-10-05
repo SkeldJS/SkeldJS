@@ -4,13 +4,12 @@ import { AllGameSettings, GameSettings, SyncSettingsMessage } from "@skeldjs/pro
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player (i.e. the host of the room) sets the settings of the room.
  */
-export class PlayerSyncSettingsEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSyncSettingsEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.syncsettings" as const;
     eventName = "player.syncsettings" as const;
 

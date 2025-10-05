@@ -7,7 +7,7 @@ import { GameLogicComponent } from "../GameLogicComponent";
 
 export type HideNSeekDangerLevelLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekDangerLevelLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekDangerLevelLogicComponentEvents, RoomType> {
+export class HideNSeekDangerLevelLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekDangerLevelLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicHnSDangerLevel.cs)
 
     async processFixedUpdate(deltaTime: number): Promise<void> {

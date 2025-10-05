@@ -4,13 +4,12 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ReactorSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { ReactorEvent } from "./ReactorEvent";
 
 /**
  * Emitted when a player places their hand on a reactor console.
  */
-export class ReactorConsoleAddEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, ReactorEvent, ProtocolEvent {
+export class ReactorConsoleAddEvent<RoomType extends StatefulRoom> extends RevertableEvent implements ReactorEvent<RoomType>, ProtocolEvent {
     static eventName = "reactor.consoles.add" as const;
     eventName = "reactor.consoles.add" as const;
 

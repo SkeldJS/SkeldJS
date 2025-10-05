@@ -7,7 +7,7 @@ import { GameLogicComponent } from "../GameLogicComponent";
 
 export type HideNSeekUsablesLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekUsablesLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends GameLogicComponent<HideNSeekUsablesLogicComponentEvents, RoomType> {
+export class HideNSeekUsablesLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekUsablesLogicComponentEvents, RoomType> {
     // TODO: Implement (LogicUsablesHnS.cs)
     
     async processFixedUpdate(deltaTime: number): Promise<void> {

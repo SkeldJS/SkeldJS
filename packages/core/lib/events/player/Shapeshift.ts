@@ -3,14 +3,13 @@ import { ProtectPlayerMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player (who is a shapeshifter) shapeshifts into another player.
  */
-export class PlayerShapeshiftEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerShapeshiftEvent<RoomType extends StatefulRoom> extends RevertableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.shapeshift" as const;
     eventName = "player.shapeshift" as const;
 

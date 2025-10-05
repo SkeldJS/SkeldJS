@@ -3,7 +3,6 @@ import { ProtectPlayerMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
@@ -14,7 +13,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * Use {@link PlayerShapeshiftEvent} to listen for when a player actually shapeshifts
  * initially.
  */
-export class PlayerRevertShapeshiftEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerRevertShapeshiftEvent<RoomType extends StatefulRoom> extends RevertableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.revertshapeshift" as const;
     eventName = "player.revertshapeshift" as const;
 

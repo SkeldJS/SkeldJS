@@ -3,7 +3,6 @@ import { CheckProtectMessage } from "@skeldjs/protocol";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
@@ -15,7 +14,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * before it happens. Therefore this event doesn't guarantee that the target is
  * actually dead, see {@link PlayerProtectEvent} to listen for that.
  */
-export class PlayerCheckProtectEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerCheckProtectEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.checkprotect" as const;
     eventName = "player.checkprotect" as const;
 

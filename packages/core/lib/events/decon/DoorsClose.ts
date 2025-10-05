@@ -3,14 +3,13 @@ import { RepairSystemMessage } from "@skeldjs/protocol";
 import { StatefulRoom } from "../../StatefulRoom";
 import { DeconSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { DeconEvent } from "./DeconEvent";
 
 /**
  * Emitted when the doors in a decontamination zone close, before the sprayers
  * activate.
  */
-export class DeconDoorsCloseEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, DeconEvent, ProtocolEvent {
+export class DeconDoorsCloseEvent<RoomType extends StatefulRoom> extends BasicEvent implements DeconEvent<RoomType>, ProtocolEvent {
     static eventName = "decon.doors.close" as const;
     eventName = "decon.doors.close" as const;
 

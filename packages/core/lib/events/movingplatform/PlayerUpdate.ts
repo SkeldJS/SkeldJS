@@ -1,6 +1,5 @@
 import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
-import { RoomEvent } from "../RoomEvent";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { MovingPlatformSide, MovingPlatformSystem } from "../../systems";
@@ -11,7 +10,7 @@ import { MovingPlatformEvent } from "./MovingPlatformEvent";
  * Emitted when the player on a moving platform is updated. This is also when
  * the moving platform moves left or right.
  */
-export class MovingPlatformPlayerUpdateEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, MovingPlatformEvent, ProtocolEvent {
+export class MovingPlatformPlayerUpdateEvent<RoomType extends StatefulRoom> extends RevertableEvent implements MovingPlatformEvent<RoomType>, ProtocolEvent {
     static eventName = "movingplatform.updateplayer" as const;
     eventName = "movingplatform.updateplayer" as const;
 

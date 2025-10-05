@@ -26,7 +26,7 @@ import {
 import { NetworkedObjectEvents } from "./NetworkedObject";
 import { BaseRole } from "./roles";
 
-export type PlayerEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
+export type PlayerEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     PlayerControlEvents<RoomType> &
     PlayerPhysicsEvents<RoomType> &
     CustomNetworkTransformEvents<RoomType> &
@@ -46,7 +46,7 @@ export type PlayerEvents<RoomType extends StatefulRoom = StatefulRoom> = Network
  *
  * See {@link PlayerEvents} for events to listen to.
  */
-export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventEmitter<PlayerEvents<RoomType>> {
+export class Player<RoomType extends StatefulRoom> extends EventEmitter<PlayerEvents<RoomType>> {
     /**
      * The room that this player object belongs to.
      */
@@ -76,7 +76,7 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
      * The actual instance of this player's role manager, see {@link PlayerInfo.roleType}
      * to know which role this is.
      */
-    role?: BaseRole;
+    role?: BaseRole<RoomType>;
 
     constructor(
         room: RoomType,
@@ -138,7 +138,7 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
      * The player's game information, such as dead/impostor/disconnected states,
      * hats, names, pets, etc.
      */
-    getPlayerInfo(): NetworkedPlayerInfo | undefined {
+    getPlayerInfo(): NetworkedPlayerInfo<RoomType> | undefined {
         if (this.getPlayerId() === undefined) return undefined;
         return this.room.playerInfo.get(this.getPlayerId()!);
     }

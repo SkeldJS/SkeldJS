@@ -1,7 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
 import { SetSkinMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -10,7 +9,7 @@ import { Player } from "../../Player";
 /**
  * Emitted when a player has their player skin updated.
  */
-export class PlayerSetSkinEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetSkinEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.setskin" as const;
     eventName = "player.setskin" as const;
 

@@ -3,7 +3,6 @@ import { MurderPlayerMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
@@ -15,7 +14,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * However, see {@link PlayerCheckMurderEvent} to see about canceling a murder
  * before it happens if you are the host.
  */
-export class PlayerMurderEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerMurderEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.murder" as const;
     eventName = "player.murder" as const;
 

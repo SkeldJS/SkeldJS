@@ -4,13 +4,12 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { SecurityCameraSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { SecurityCameraEvent } from "./SecurityCameraEvent";
 
 /**
  * Emitted when a player stops watching security cameras.
  */
-export class SecurityCameraLeaveEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, SecurityCameraEvent, ProtocolEvent {
+export class SecurityCameraLeaveEvent<RoomType extends StatefulRoom> extends RevertableEvent implements SecurityCameraEvent<RoomType>, ProtocolEvent {
     static eventName = "security.cameras.leave" as const;
     eventName = "security.cameras.leave" as const;
 

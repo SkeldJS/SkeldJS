@@ -17,15 +17,9 @@ import {
     PlayerMoveEvent,
     PlayerSnapToEvent
 } from "../../events";
-import { PlayerControl } from "../PlayerControl";
 import { sequenceIdGreaterThan, SequenceIdType } from "../../utils/sequenceIds";
 
-export interface CustomNetworkTransformData {
-    seqId: number;
-    position: Vector2;
-}
-
-export type CustomNetworkTransformEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
+export type CustomNetworkTransformEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<[
         PlayerMoveEvent<RoomType>,
         PlayerSnapToEvent<RoomType>
@@ -36,11 +30,7 @@ export type CustomNetworkTransformEvents<RoomType extends StatefulRoom = Statefu
  *
  * See {@link CustomNetworkTransformEvents} for events to listen to.
  */
-export class CustomNetworkTransform<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
-    CustomNetworkTransformData,
-    CustomNetworkTransformEvents<RoomType>,
-    RoomType
-> implements CustomNetworkTransformData {
+export class CustomNetworkTransform<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, CustomNetworkTransformEvents<RoomType>> {
     /**
      * The current sequence ID.
      */
@@ -62,19 +52,13 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom = StatefulRoom
         netId: number,
         ownerId: number,
         flags: number,
-        data?: HazelReader | CustomNetworkTransformData,
-        playerControl?: PlayerControl<RoomType>
     ) {
-        super(room, spawnType, netId, ownerId, flags, data);
+        super(room, spawnType, netId, ownerId, flags);
 
-        this.seqId ||= 0;
-        this.position ||= Vector2.null;
+        this.seqId = 0;
+        this.position = Vector2.null;
 
         this.player = this.owner as Player<RoomType>;
-
-        if (playerControl) {
-            this.components = playerControl.components;
-        }
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */

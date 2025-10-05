@@ -1,7 +1,6 @@
 import { RevertableEvent } from "@skeldjs/events";
 
 import { StatefulRoom } from "../../StatefulRoom";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { Player } from "../../Player";
 
@@ -11,7 +10,7 @@ import { Player } from "../../Player";
  * to life, but note that their body will not be removed due to technical
  * limitations.
  */
-export class PlayerDieEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, PlayerEvent {
+export class PlayerDieEvent<RoomType extends StatefulRoom> extends RevertableEvent implements PlayerEvent<RoomType> {
     static eventName = "player.die" as const;
     eventName = "player.die" as const;
 

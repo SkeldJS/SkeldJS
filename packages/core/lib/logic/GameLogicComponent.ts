@@ -4,7 +4,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { StatefulRoom } from "../StatefulRoom";
 import { InnerGameManager } from "../objects";
 
-export abstract class GameLogicComponent<Events extends EventData, RoomType extends StatefulRoom = StatefulRoom> extends EventEmitter<Events> {
+export abstract class GameLogicComponent<Events extends EventData, RoomType extends StatefulRoom> extends EventEmitter<Events> {
     isDirty: boolean;
 
     constructor(public readonly manager: InnerGameManager<RoomType>) {

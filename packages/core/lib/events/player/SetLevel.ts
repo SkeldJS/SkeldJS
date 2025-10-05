@@ -1,7 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
 import { SetHatMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -10,7 +9,7 @@ import { Player } from "../../Player";
 /**
  * Emitted when a player has their level updated.
  */
-export class PlayerSetLevelEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetLevelEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.setlevel" as const;
     eventName = "player.setlevel" as const;
 

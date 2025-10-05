@@ -2,13 +2,12 @@ import { BasicEvent } from "@skeldjs/events";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { RoomEvent } from "../RoomEvent";
 import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player joins the room.
  */
-export class PlayerJoinEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent {
+export class PlayerJoinEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType> {
     static eventName = "player.join" as const;
     eventName = "player.join" as const;
 

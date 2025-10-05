@@ -10,7 +10,7 @@ import { NormalOptionsLogicComponent } from "../normal";
 
 export type HideNSeekOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
-export class HideNSeekOptionsLogicComponent<RoomType extends StatefulRoom = StatefulRoom> extends NormalOptionsLogicComponent<RoomType> {
+export class HideNSeekOptionsLogicComponent<RoomType extends StatefulRoom> extends NormalOptionsLogicComponent<RoomType> {
     constructor(public readonly manager: HideAndSeekManager<RoomType>) {
         super(manager);
     }
@@ -71,7 +71,7 @@ export class HideNSeekOptionsLogicComponent<RoomType extends StatefulRoom = Stat
         return this.manager.room.settings.killCooldown;
     }
 
-    getPlayerSpeedMod(player: Player) {
+    getPlayerSpeedMod(player: Player<RoomType>) {
         const playerInfo = player.getPlayerInfo();
         if (playerInfo === undefined || playerInfo.roleType === undefined)
             return super.getPlayerSpeedMod(player);

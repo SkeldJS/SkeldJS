@@ -3,7 +3,6 @@ import { CloseMessage } from "@skeldjs/protocol";
 import { MeetingHud } from "../../objects";
 import { StatefulRoom } from "../../StatefulRoom";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { MeetingHudEvent } from "./MeetingHudEvent";
 
 /**
@@ -12,7 +11,7 @@ import { MeetingHudEvent } from "./MeetingHudEvent";
  * To listen for when a meeting actually ends and when a player gets ejected,
  * see {@link MeetingHudVotingCompleteEvent}.
  */
-export class MeetingHudCloseEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent, MeetingHudEvent, ProtocolEvent {
+export class MeetingHudCloseEvent<RoomType extends StatefulRoom> extends CancelableEvent implements MeetingHudEvent<RoomType>, ProtocolEvent {
     static eventName = "meeting.close" as const;
     eventName = "meeting.close" as const;
 

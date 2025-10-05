@@ -18,12 +18,7 @@ import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 import { AmongUsEndGames, EndGameIntent } from "../endgame";
 
-export interface ReactorSystemData {
-    timer: number;
-    completed: Set<number>;
-}
-
-export type ReactorSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = SystemStatusEvents<RoomType> &
+export type ReactorSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
         ReactorConsoleAddEvent<RoomType>,
         ReactorConsoleRemoveEvent<RoomType>,
@@ -36,33 +31,25 @@ export type ReactorSystemEvents<RoomType extends StatefulRoom = StatefulRoom> = 
  * See {@link ReactorSystemEvents} for events to listen to.
  */
 
-export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends SystemStatus<
-    ReactorSystemData,
-    ReactorSystemEvents,
-    RoomType
-> implements ReactorSystemData {
+export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, ReactorSystemEvents<RoomType>> {
     private _lastUpdate = 0;
 
     /**
      * The timer before the reactor explodes.
      */
-    timer: number;
+    timer: number = 10000;
 
     /**
      * The completed consoles.
      */
-    completed: Set<number>;
-
+    completed: Set<number> = new Set;
+    
     constructor(
         ship: InnerShipStatus<RoomType>,
         systemType: SystemType,
-        data?: HazelReader | ReactorSystemData,
-        public readonly maxTimer: number = 0,
+        public readonly maxTimer: number,
     ) {
-        super(ship, systemType, data);
-
-        this.timer ??= 10000;
-        this.completed ||= new Set;
+        super(ship, systemType);
     }
 
     get sabotaged() {
@@ -90,7 +77,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         }
     }
 
-    private async _addConsole(player: Player | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
+    private async _addConsole(player: Player<RoomType> | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
         this.completed.add(consoleId);
         this.dirty = true;
 
@@ -124,7 +111,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
      * console)
      * @param consoleId The ID of the console to add.
      */
-    async addConsolePlayer(consoleId: number, addedPlayer: Player) {
+    async addConsolePlayer(consoleId: number, addedPlayer: Player<RoomType>) {
         await this._addConsole(addedPlayer, consoleId, undefined);
     }
 
@@ -132,7 +119,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         await this._sendRepair(0x40 | consoleId);
     }
 
-    private async _removeConsole(player: Player | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
+    private async _removeConsole(player: Player<RoomType> | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
         this.completed.delete(consoleId);
         this.dirty = true;
 
@@ -161,7 +148,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
      * console)
      * @param consoleId The ID of the console to add.
      */
-    async removeConsolePlayer(consoleId: number, removedPlayer: Player) {
+    async removeConsolePlayer(consoleId: number, removedPlayer: Player<RoomType>) {
         await this._removeConsole(removedPlayer, consoleId, undefined);
     }
 
@@ -184,7 +171,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         );
     }
 
-    private async _repair(player: Player | undefined, rpc: RepairSystemMessage | undefined) {
+    private async _repair(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const oldTimer = this.timer;
         const oldCompleted = this.completed;
         this.timer = 10000;
@@ -210,7 +197,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
         await this._repair(undefined, undefined);
     }
 
-    async fullyRepairPlayer(repairedByPlayer: Player) {
+    async fullyRepairPlayer(repairedByPlayer: Player<RoomType>) {
         await this._repair(repairedByPlayer, undefined);
     }
 

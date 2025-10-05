@@ -1,7 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
 import { SetStartCounterMessage } from "@skeldjs/protocol";
 
-import { RoomEvent } from "../RoomEvent";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
@@ -11,7 +10,7 @@ import { Player } from "../../Player";
  * Emitted when a player (i.e. the host of the room) sets the starting counter
  * located above the game code while in the lobby.
  */
-export class PlayerSetStartCounterEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, PlayerEvent, ProtocolEvent {
+export class PlayerSetStartCounterEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.setstartcounter" as const;
     eventName = "player.setstartcounter" as const;
 

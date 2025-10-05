@@ -28,13 +28,7 @@ import {
 import { Player } from "../Player";
 import { AmongUsEndGames, EndGameIntent, PlayersVoteOutEndgameMetadata } from "../endgame";
 
-export interface MeetingHudData {
-    voteStates: Map<number, PlayerVoteArea>;
-    tie?: boolean;
-    exilied?: Player;
-}
-
-export type MeetingHudEvents<RoomType extends StatefulRoom = StatefulRoom> = NetworkedObjectEvents<RoomType> &
+export type MeetingHudEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<
         [
             MeetingHudVoteCastEvent<RoomType>,
@@ -44,16 +38,16 @@ export type MeetingHudEvents<RoomType extends StatefulRoom = StatefulRoom> = Net
         ]
     >;
 
-export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<MeetingHudData, MeetingHudEvents<RoomType>, RoomType> implements MeetingHudData {
+export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, MeetingHudEvents<RoomType>> {
     /**
      * The dirty vote states to be updated on the next fixed update.
      */
-    dirtyBit: number;
+    dirtyBit: number = 0;
 
     /**
      * The vote states in the meeting hud.
      */
-    voteStates: Map<number, PlayerVoteArea<RoomType>>;
+    voteStates: Map<number, PlayerVoteArea<RoomType>> = new Map;
 
     /**
      * Whether the vote resulted in a tie.
@@ -66,20 +60,6 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
     exiled?: Player<RoomType>;
 
     ranOutOfTimeTimeout?: NodeJS.Timeout;
-
-    constructor(
-        room: RoomType,
-        spawnType: SpawnType,
-        netId: number,
-        ownerId: number,
-        flags: number,
-        data?: HazelReader | MeetingHudData
-    ) {
-        super(room, spawnType, netId, ownerId, flags, data);
-
-        this.dirtyBit ||= 0;
-        this.voteStates ||= new Map;
-    }
 
     processAwake() {
         this.voteStates = new Map(
@@ -223,7 +203,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
 
         if (states.every(([, state]) => state.hasVoted || !state.canVote) || isTimeout) {
             let tie = false;
-            let exiled: Player | undefined;
+            let exiled: Player<RoomType> | undefined;
             let exiledVotes = 0;
             let numSkips = 0;
             for (const [, state2] of states) {
@@ -303,7 +283,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         }
     }
 
-    private async _rpcCastVote(voter: Player, suspect: Player | undefined) {
+    private async _rpcCastVote(voter: Player<RoomType>, suspect: Player<RoomType> | undefined) {
         await this.room.broadcast([
             new RpcMessage(
                 this.netId,
@@ -391,7 +371,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         }
     }
 
-    private async _rpcClearVote(voter: Player) {
+    private async _rpcClearVote(voter: Player<RoomType>) {
         await this.room.broadcast(
             [
                 new RpcMessage(
@@ -404,7 +384,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         );
     }
 
-    async setVoteCleared(player: Player) {
+    async setVoteCleared(player: Player<RoomType>) {
         const _voter = this.voteStates.get(player.getPlayerId()!);
 
         if (_voter) {
@@ -497,7 +477,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
                 if (exiled.getPlayerInfo()?.isImpostor) {
                     if (aliveImpostors <= 0) {
                         this.room.registerEndGameIntent(
-                            new EndGameIntent<PlayersVoteOutEndgameMetadata>(
+                            new EndGameIntent<PlayersVoteOutEndgameMetadata<RoomType>>(
                                 AmongUsEndGames.PlayersVoteOut,
                                 GameOverReason.HumansByVote,
                                 {
@@ -511,7 +491,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
                 } else {
                     if (aliveCrewmates <= aliveImpostors) {
                         this.room.registerEndGameIntent(
-                            new EndGameIntent<PlayersVoteOutEndgameMetadata>(
+                            new EndGameIntent<PlayersVoteOutEndgameMetadata<RoomType>>(
                                 AmongUsEndGames.PlayersVoteOut,
                                 GameOverReason.ImpostorByVote,
                                 {

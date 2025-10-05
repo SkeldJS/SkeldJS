@@ -4,10 +4,9 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { DeconSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
-import { RoomEvent } from "../RoomEvent";
 import { DeconEvent } from "./DeconEvent";
 
-export class DeconExitEvent<RoomType extends StatefulRoom = StatefulRoom> extends RevertableEvent implements RoomEvent, DeconEvent, ProtocolEvent {
+export class DeconExitEvent<RoomType extends StatefulRoom> extends RevertableEvent implements DeconEvent<RoomType>, ProtocolEvent {
     static eventName = "decon.exit" as const;
     eventName = "decon.exit" as const;
 

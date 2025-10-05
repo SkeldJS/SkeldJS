@@ -11,7 +11,7 @@ import { RoomEvent } from "../RoomEvent";
  * too long so that the next fixed update is called before it has finished, then
  * it will cascade and eventually crash due to a memory leak.
  */
-export class RoomFixedUpdateEvent<RoomType extends StatefulRoom = StatefulRoom> extends CancelableEvent implements RoomEvent {
+export class RoomFixedUpdateEvent<RoomType extends StatefulRoom> extends CancelableEvent implements RoomEvent<RoomType> {
     static eventName = "room.fixedupdate" as const;
     eventName = "room.fixedupdate" as const;
 

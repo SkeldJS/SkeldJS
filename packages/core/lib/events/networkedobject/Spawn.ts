@@ -7,7 +7,7 @@ import { NetworkedObjectEvent } from "./NetworkedObjectEvent";
 /**
  * Emitted when a component is spawned.
  */
-export class ComponentSpawnEvent<RoomType extends StatefulRoom = StatefulRoom> extends BasicEvent implements RoomEvent, NetworkedObjectEvent {
+export class ComponentSpawnEvent<RoomType extends StatefulRoom> extends BasicEvent implements NetworkedObjectEvent<RoomType> {
     static eventName = "component.spawn" as const;
     eventName = "component.spawn" as const;
 
