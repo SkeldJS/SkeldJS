@@ -61,7 +61,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
 
     ranOutOfTimeTimeout?: NodeJS.Timeout;
 
-    processAwake() {
+    async processAwake() {
         this.voteStates = new Map(
             [...this.room.playerInfo]
                 .filter(([, player]) => player.playerId !== undefined)
@@ -163,6 +163,10 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                 break;
         }
     }
+    
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
 
     private async _handleClose(rpc: CloseMessage) {
         await this.emit(
@@ -184,7 +188,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     }
 
     private _rpcClose() {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(this.netId, new CloseMessage)
         );
     }
@@ -284,7 +288,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     }
 
     private async _rpcCastVote(voter: Player<RoomType>, suspect: Player<RoomType> | undefined) {
-        await this.room.broadcast([
+        await this.room.broadcastImmediate([
             new RpcMessage(
                 this.netId,
                 new CastVoteMessage(
@@ -372,7 +376,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     }
 
     private async _rpcClearVote(voter: Player<RoomType>) {
-        await this.room.broadcast(
+        await this.room.broadcastImmediate(
             [
                 new RpcMessage(
                     this.netId,
@@ -515,7 +519,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         tie: boolean,
         exiled?: Player<RoomType>
     ) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new VotingCompleteMessage(

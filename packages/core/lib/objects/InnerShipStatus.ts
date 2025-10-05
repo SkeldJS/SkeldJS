@@ -112,7 +112,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         super(room, spawnType, netId, ownerId, flags);
 
         this.systems = new Map;
-        this.Setup();
+        this.setupSystems();
 
         this.spawnRadius = 1.55;
         this.initialSpawnCenter = Vector2.null;
@@ -123,12 +123,12 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         return super.owner as RoomType;
     }
 
-    abstract Setup(): void;
+    abstract setupSystems(): void;
 
     deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
         if (!this.systems) {
             this.systems = new Map;
-            this.Setup();
+            this.setupSystems();
         }
 
         while (reader.left) {

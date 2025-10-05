@@ -163,7 +163,7 @@ export class Player<RoomType extends StatefulRoom> extends EventEmitter<PlayerEv
      */
     async readyUp() {
         await this.setReady();
-        await this.room.broadcast([new ReadyMessage(this.clientId)]);
+        await this.room.broadcastImmediate([new ReadyMessage(this.clientId)]);
     }
 
     /**

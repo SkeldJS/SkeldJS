@@ -28,8 +28,12 @@ export class MiraShipStatus<RoomType extends StatefulRoom> extends InnerShipStat
     get owner() {
         return super.owner as RoomType;
     }
+    
+    async processAwake(): Promise<void> {
+        void 0;
+    }
 
-    Setup() {
+    setupSystems() {
         this.systems.set(SystemType.Reactor, new ReactorSystem(this, SystemType.Reactor, 60));
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
         this.systems.set(SystemType.O2, new LifeSuppSystem(this, SystemType.O2));

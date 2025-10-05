@@ -48,8 +48,12 @@ export class PolusShipStatus<RoomType extends StatefulRoom> extends InnerShipSta
     ) {
         super(room, spawnType, netId, ownerId, flags);
     }
+    
+    async processAwake(): Promise<void> {
+        void 0;
+    }
 
-    Setup() {
+    setupSystems() {
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
         this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay));
         this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security));

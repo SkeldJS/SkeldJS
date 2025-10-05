@@ -41,6 +41,14 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
     get owner() {
         return super.owner as RoomType;
     }
+    
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
+
+    async processAwake(): Promise<void> {
+        void 0;
+    }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
@@ -102,7 +110,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
             }
 
             if (this.room.canManageObject(this) && voted.every((v) => v !== null)) {
-                this.room.broadcast([], [
+                this.room.broadcastImmediate([], [
                     new KickPlayerMessage(
                         this.room.code,
                         target.clientId,
@@ -118,7 +126,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcAddVote(voter: Player<RoomType>, target: Player<RoomType>) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new AddVoteMessage(voter.clientId, target.clientId)

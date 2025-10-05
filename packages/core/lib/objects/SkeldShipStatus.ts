@@ -37,8 +37,12 @@ export class SkeldShipStatus<RoomType extends StatefulRoom> extends InnerShipSta
 
     initialSpawnCenter = new Vector2(-0.72, 0.62);
     meetingSpawnCenter = new Vector2(-0.72, 0.62);
+    
+    async processAwake(): Promise<void> {
+        void 0;
+    }
 
-    Setup() {
+    setupSystems() {
         this.systems.set(SystemType.Reactor, new ReactorSystem(this, SystemType.Reactor, 60));
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
         this.systems.set(SystemType.O2, new LifeSuppSystem(this, SystemType.O2));

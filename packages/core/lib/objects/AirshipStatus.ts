@@ -95,7 +95,7 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatu
     initialSpawnCenter = new Vector2(25, 40);
     meetingSpawnCenter = new Vector2(25, 40);
 
-    Setup() {
+    setupSystems() {
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
 
         this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay));
@@ -190,6 +190,10 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatu
             electricalDoors.closeDoorHost(ElectricalDoorsAirship.TopLeftWest);
             electricalDoors.openDoorHost(ElectricalDoorsAirship.CenterLeftWest);
         }
+    }
+    
+    async processAwake(): Promise<void> {
+        void 0;
     }
 
     async handleRemoteCall(rpc: RepairSystemMessage) {

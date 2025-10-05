@@ -5,6 +5,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { GameLogicComponent } from "../logic";
+import { BaseRpcMessage } from "@skeldjs/protocol";
 
 export type InnerGameManagerEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
@@ -25,6 +26,18 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
 
     get owner() {
         return super.owner as RoomType;
+    }
+    
+    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
+        void rpc;
+    }
+
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
+
+    async processAwake(): Promise<void> {
+        void 0;
     }
 
     deserializeFromReader(reader: HazelReader, spawn = false): void {

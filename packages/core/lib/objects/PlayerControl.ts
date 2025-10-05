@@ -194,7 +194,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         this._protectedByGuardianTime = 0;
     }
 
-    processAwake() {
+    async processAwake() {
         this.playerId ??= this.room.getAvailablePlayerID();
 
         if (this.isNew) {
@@ -203,10 +203,10 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 const offsetted = spawnPosition
                     .add(spawnPosition.negate().normalize().div(4));
 
-                this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(offsetted, false);
+                await this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(offsetted, false);
             } else if (this.room.shipStatus) {
                 const spawnPosition = this.room.shipStatus.getSpawnPosition(this.playerId, true);
-                this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(spawnPosition, false);
+                await this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(spawnPosition, false);
             }
         }
     }
@@ -352,7 +352,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _rpcCompleteTask(taskIdx: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new CompleteTaskMessage(taskIdx)
@@ -417,7 +417,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _rpcSyncSettings(settings: GameSettings) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SyncSettingsMessage(settings)
@@ -490,7 +490,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _rpcCheckName(name: string) {
-        await this.room.broadcast(
+        await this.room.broadcastImmediate(
             [
                 new RpcMessage(
                     this.netId,
@@ -535,7 +535,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetName(name: string) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetNameMessage(this.netId, name)
@@ -610,7 +610,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _rpcCheckColor(color: Color) {
-        await this.room.broadcast(
+        await this.room.broadcastImmediate(
             [
                 new RpcMessage(
                     this.netId,
@@ -656,7 +656,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetColor(color: Color) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetColorMessage(this.netId, color)
@@ -723,7 +723,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             return this._rpcReportDeadBody("emergency");
         }
 
-        await this.room.broadcast([
+        await this.room.broadcastImmediate([
             new RpcMessage(
                 this.netId,
                 new ReportDeadBodyMessage(
@@ -782,7 +782,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (!victim.characterControl)
             return;
 
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new MurderPlayerMessage(victim.characterControl.netId)
@@ -877,7 +877,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSendChat(message: string) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SendChatMessage(message)
@@ -909,7 +909,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (playerId === undefined)
             return;
 
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SendChatNoteMessage(playerId, type)
@@ -949,35 +949,20 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (callerPlayerId === undefined)
             return;
 
-        const spawnMeetinghud = await this.room.spawnPrefabOfType(
+        const spawnMeetingHud = await this.room.createObjectOfType(
             SpawnType.MeetingHud,
             SpecialOwnerId.Global,
-            SpawnFlag.None,
-            false
+            SpawnFlag.None
         ) as MeetingHud<RoomType>;
 
-        const callerState = spawnMeetinghud.voteStates.get(callerPlayerId);
+        await spawnMeetingHud.processAwake();
+
+        const callerState = spawnMeetingHud.voteStates.get(callerPlayerId);
         if (callerState) {
             callerState.didReport = true;
         }
 
-        this.room.messageStream.push(
-            new SpawnMessage(
-                spawnMeetinghud.spawnType,
-                SpecialOwnerId.Global,
-                0,
-                spawnMeetinghud.components.map(component => {
-                    const writer = HazelWriter.alloc(512);
-                    writer.write(component, true);
-                    writer.realloc(writer.cursor);
-
-                    return new ComponentSpawnData(
-                        component.netId,
-                        writer.buffer
-                    );
-                })
-            )
-        );
+        this.room.broadcastLazy(this.room.createObjectSpawnMessage(spawnMeetingHud));
 
         this.room.shipStatus?.systems.get(SystemType.Laboratory)?.fullyRepairHost();
         this.room.shipStatus?.systems.get(SystemType.Reactor)?.fullyRepairHost();
@@ -995,12 +980,12 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             }
         }
 
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new SpawnMessage(
                 SpawnType.MeetingHud,
                 SpecialOwnerId.Global,
                 0,
-                spawnMeetinghud.components.map((component) => {
+                spawnMeetingHud.components.map((component) => {
                     const writer = HazelWriter.alloc(0);
                     writer.write(component, true);
 
@@ -1018,7 +1003,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             return this._rpcStartMeeting("emergency");
         }
 
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new StartMeetingMessage(
@@ -1087,7 +1072,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetStartCounter(counter: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetStartCounterMessage(
@@ -1195,7 +1180,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSendQuickChat(message: QuickChatMessageData) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SendQuickChatMessage(message)
@@ -1252,7 +1237,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetLevel(level: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetLevelMessage(level),
@@ -1306,7 +1291,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetHat(hatId: string, sequenceId: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetHatMessage(hatId, sequenceId)
@@ -1372,7 +1357,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetSkin(skinId: string, sequenceId: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetSkinMessage(skinId, sequenceId)
@@ -1437,7 +1422,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetPet(petId: string, sequenceId: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetPetMessage(petId, sequenceId)
@@ -1502,7 +1487,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetVisor(visorId: string, sequenceId: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetVisorMessage(visorId, sequenceId)
@@ -1567,7 +1552,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetNameplate(nameplateId: string, sequenceId: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetNameplateMessage(nameplateId, sequenceId)
@@ -1639,7 +1624,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcSetRole(roleType: RoleType) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SetRoleMessage(roleType)
@@ -1713,7 +1698,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (!target.characterControl)
             return;
 
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new ProtectPlayerMessage(
@@ -1823,7 +1808,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (!target.characterControl)
             return;
 
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new ShapeshiftMessage(
@@ -1936,7 +1921,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (!victim.characterControl)
             return;
 
-        await this.room.broadcast([
+        await this.room.broadcastImmediate([
             new RpcMessage(
                 this.netId,
                 new CheckMurderMessage(
@@ -2018,7 +2003,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
         const targetPlayerInfo = target.getPlayerInfo();
 
-        await this.room.broadcast([
+        await this.room.broadcastImmediate([
             new RpcMessage(
                 this.netId,
                 new ProtectPlayerMessage(

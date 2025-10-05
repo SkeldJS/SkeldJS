@@ -9,14 +9,14 @@ import { StatefulRoom, SpecialOwnerId } from "./StatefulRoom";
 import { ComponentDespawnEvent, ComponentSpawnEvent } from "./events";
 import { Player } from "./Player";
 
-export type NetworkedObjectConstructor<RoomType extends StatefulRoom> = {
+export type NetworkedObjectConstructor<T> = {
     new(
-        room: RoomType,
+        room: StatefulRoom,
         spawnType: SpawnType,
         netId: number,
         ownerId: number,
         flags: number,
-    ): NetworkedObject<RoomType>;
+    ): T;
 };
 
 export type NetworkedObjectEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
@@ -128,30 +128,24 @@ export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends N
         return super.emitSync(event);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     abstract deserializeFromReader(reader: HazelReader, spawn: boolean): void;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
     abstract serializeToWriter(writer: HazelWriter, spawn: boolean): boolean;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    async handleRemoteCall(rpc: BaseRpcMessage) { }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-    async processFixedUpdate(delta: number) { }
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    processAwake() { }
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    abstract handleRemoteCall(rpc: BaseRpcMessage): Promise<void>;
+    abstract processFixedUpdate(delta: number): Promise<void>;
+    abstract processAwake(): Promise<void>;
     Destroy() { }
 
     /**
      * Get a certain component from the object.
      * @param ComponentType The component class to get.
      */
-    getComponentSafe<T extends NetworkedObjectConstructor<RoomType>>(
+    getComponentSafe<T>(
         index: number,
-        ComponentType: T,
-    ): InstanceType<T> | undefined {
+        ComponentType: NetworkedObjectConstructor<T>,
+    ): T | undefined {
         const component = this.components[index];
         if (!component) return undefined;
         if (!(component instanceof ComponentType)) return undefined;
-        return component as InstanceType<T>;
+        return component;
     }
 }

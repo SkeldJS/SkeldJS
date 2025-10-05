@@ -60,6 +60,14 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
 
         this.player = this.owner as Player<RoomType>;
     }
+    
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
+
+    async processAwake(): Promise<void> {
+        void 0;
+    }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
@@ -133,9 +141,9 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         this.serializeToWriter(writer, false);
         this.dirtyBit = 0;
 
-        await this.room.broadcast([new DataMessage(this.netId, writer.buffer)], undefined, undefined, undefined, false);
+        await this.room.broadcastImmediate([new DataMessage(this.netId, writer.buffer)], undefined, undefined, undefined, false);
 
-        this.emitSync(
+        await this.emit(
             new PlayerMoveEvent(
                 this.room,
                 this.player,
@@ -179,7 +187,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
     }
 
     private _rpcSnapTo(position: Vector2) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new SnapToMessage(new Vector2(position), this.seqId)

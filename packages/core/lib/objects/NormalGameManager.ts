@@ -3,6 +3,7 @@ import { SpawnType } from "@skeldjs/constant";
 import { StatefulRoom } from "../StatefulRoom";
 import { NormalFlowLogicComponent, NormalMinigameLogicComponent, NormalOptionsLogicComponent, NormalRoleSelectionLogicComponent, NormalUsablesLogicComponent } from "../logic";
 import { InnerGameManager } from "./InnerGameManager";
+import { BaseRpcMessage } from "@skeldjs/protocol";
 
 /**
  * Represents a class for managing various events for the original impostor/crewmate gamemode.

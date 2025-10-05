@@ -419,7 +419,11 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         return this.isAuthoritative;
     }
 
-    async broadcast(
+    broadcastLazy(gameDataMessage: BaseGameDataMessage) {
+        this.messageStream.push(gameDataMessage);
+    }
+
+    async broadcastImmediate(
         gamedata: BaseGameDataMessage[],
         payloads: BaseRootMessage[] = [],
         include?: (Player<this> | number)[],
@@ -436,9 +440,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
                 if (component.dirtyBit) {
                     const writer = HazelWriter.alloc(0);
                     if (component.serializeToWriter(writer, false)) {
-                        this.messageStream.push(
-                            new DataMessage(component.netId, writer.buffer)
-                        );
+                        this.broadcastLazy(new DataMessage(component.netId, writer.buffer));
                     }
                     component.dirtyBit = 0;
                 }
@@ -483,7 +485,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
             this.messageStream = [];
 
             if (!ev.canceled)
-                await this.broadcast(stream);
+                await this.broadcastImmediate(stream);
         }
     }
 
@@ -578,7 +580,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         this._setPrivacy(ev.alteredPrivacy);
 
         if (ev.alteredPrivacy !== oldPrivacy) {
-            await this.broadcast([], [
+            await this.broadcastImmediate([], [
                 new AlterGameMessage(
                     this.code,
                     AlterGameTag.ChangePrivacy,
@@ -609,7 +611,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
 
     async spawnNecessaryObjects() {
         if (!this.lobbyBehaviour && this.gameState === GameState.NotStarted) {
-            await this.spawnPrefabOfType(SpawnType.LobbyBehaviour, SpecialOwnerId.Global, SpawnFlag.None);
+            await this.spawnObjectOfType(SpawnType.LobbyBehaviour, SpecialOwnerId.Global, SpawnFlag.None);
         }
 
         if (!this.shipStatus && this.gameState === GameState.Started) {
@@ -621,18 +623,18 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
                 SpawnType.AirshipShipStatus,
             ];
 
-            await this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, SpecialOwnerId.Global, SpawnFlag.None);
+            await this.spawnObjectOfType(shipPrefabs[this.settings?.map] || 0, SpecialOwnerId.Global, SpawnFlag.None);
         }
 
         if (!this.voteBanSystem) {
-            await this.spawnPrefabOfType(SpawnType.VoteBanSystem, SpecialOwnerId.Global, SpawnFlag.None);
+            await this.spawnObjectOfType(SpawnType.VoteBanSystem, SpecialOwnerId.Global, SpawnFlag.None);
         }
 
         if (!this.gameManager) {
             if (this.settings.gameMode === GameMode.Normal) {
-                await this.spawnPrefabOfType(SpawnType.NormalGameManager, SpecialOwnerId.Global, SpawnFlag.None);
+                await this.spawnObjectOfType(SpawnType.NormalGameManager, SpecialOwnerId.Global, SpawnFlag.None);
             } else if (this.settings.gameMode === GameMode.HideNSeek) {
-                await this.spawnPrefabOfType(SpawnType.HideAndSeekManager, SpecialOwnerId.Global, SpawnFlag.None);
+                await this.spawnObjectOfType(SpawnType.HideAndSeekManager, SpecialOwnerId.Global, SpawnFlag.None);
             }
         }
     }
@@ -800,7 +802,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         if (this.lobbyBehaviour) this.despawnComponent(this.lobbyBehaviour);
 
         const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
-        await this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global, SpawnFlag.None);
+        await this.spawnObjectOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global, SpawnFlag.None);
 
         await Promise.all([
             Promise.race([
@@ -830,7 +832,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         }
 
         if (removes.length) {
-            await this.broadcast(
+            await this.broadcastImmediate(
                 [],
                 removes.map(clientId => {
                     return new RemovePlayerMessage(
@@ -879,7 +881,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
             return;
 
         this.gameState = GameState.Ended;
-        await this.broadcast([], [
+        await this.broadcastImmediate([], [
             new EndGameMessage(this.code, reason, false)
         ]);
     }
@@ -897,7 +899,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
     }
 
     /**
-     * Spawn a component (Not broadcasted to all clients, see {@link StatefulRoom.spawnPrefabOfType}).
+     * Spawn a component (Not broadcasted to all clients, see {@link StatefulRoom.spawnObjectOfType}).
      * @param component The component being spawned.
      * @example
      * ```typescript
@@ -1009,8 +1011,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
      */
     despawnComponent(component: NetworkedObject<this>) {
         this._despawnComponent(component);
-
-        this.messageStream.push(new DespawnMessage(component.netId));
+        this.broadcastLazy(new DespawnMessage(component.netId));
     }
 
     /**
@@ -1031,7 +1032,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         }
     }
 
-    protected createObjectSpawnMessage(object: NetworkedObject<this>): SpawnMessage {
+    createObjectSpawnMessage(object: NetworkedObject<this>): SpawnMessage {
         return new SpawnMessage(
             object.spawnType,
             object.ownerId,
@@ -1050,27 +1051,31 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         return this.objectList.map(object => this.createObjectSpawnMessage(object));
     }
 
-    protected async spawnPrefab(
+    protected async createObjectWithNetIds(
         spawnType: number,
-        spawnPrefab: NetworkedObjectConstructor<any>[],
+        componentPrefab: NetworkedObjectConstructor<any>[],
         ownerId: number,
         flags: number,
-        doBroadcast: boolean | undefined = true,
-        doAwake = true
+        netIds: number[],
     ) {
+        if (componentPrefab.length === 0) throw new Error("Invalid spawn prefab, 0 components");
+        if (netIds.length !== componentPrefab.length) throw new Error("Expected " + componentPrefab.length + " net ids, got " + netIds.length);
+
         let object!: NetworkedObject<this>;
 
-        for (let i = 0; i < spawnPrefab.length; i++) {
-            const component = new spawnPrefab[i](
+        for (let i = 0; i < componentPrefab.length; i++) {
+            const netId = netIds[i];
+
+            if (this.networkedObjects.get(netId))
+                throw new Error("Duplicate NetID: " + netId);
+
+            const component = new componentPrefab[i](
                 this,
                 spawnType,
-                this.getNextNetId(),
+                netId,
                 ownerId,
                 flags,
             );
-
-            if (this.networkedObjects.get(component.netId))
-                continue;
 
             if (!object) {
                 object = component;
@@ -1082,35 +1087,6 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
             object.components.push(component);
 
             this.spawnComponent(component);
-        }
-
-        if (!object)
-            return;
-
-        if (doAwake) {
-            for (const component of object.components) {
-                component.processAwake();
-            }
-        }
-
-        if ((this.isAuthoritative && doBroadcast === undefined) || doBroadcast) {
-            this.messageStream.push(
-                new SpawnMessage(
-                    spawnType,
-                    object.ownerId,
-                    flags,
-                    object.components.map((component) => {
-                        const writer = HazelWriter.alloc(512);
-                        writer.write(component, true);
-                        writer.realloc(writer.cursor);
-
-                        return new ComponentSpawnData(
-                            component.netId,
-                            writer.buffer
-                        );
-                    })
-                )
-            );
         }
         
         const ownerPlayer = this.players.get(ownerId);
@@ -1129,6 +1105,22 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         return object;
     }
 
+    protected async createObject(
+        spawnType: number,
+        spawnPrefab: NetworkedObjectConstructor<any>[],
+        ownerId: number,
+        flags: number,
+        doBroadcast: boolean,
+        doAwake: boolean,
+    ) {
+        const netIds = [];
+        for (let i = 0; i < spawnPrefab.length; i++) {
+            const netId = this.getNextNetId();
+            netIds.push(netId);
+        }
+        return await this.createObjectWithNetIds(spawnType, spawnPrefab, ownerId, flags, netIds);
+    }
+
     /**
      * Spawn a prefab of an object.
      * @param spawnType The type of object to spawn.
@@ -1139,19 +1131,24 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
      * room.spawnPrefab(SpawnType.Player, client.myPlayer);
      * ```
      */
-    async spawnPrefabOfType(
+    async createObjectOfType(
         spawnType: number,
         ownerId: number,
         flags: number,
-        doBroadcast = true,
-        doAwake = true
-    ): Promise<NetworkedObject<this> | undefined> {
+    ): Promise<NetworkedObject<this>> {
         const spawnPrefab = this.registeredPrefabs.get(spawnType);
 
         if (!spawnPrefab)
             throw new Error("Cannot spawn object of type: " + spawnType + " (not registered)");
 
-        return this.spawnPrefab(spawnType, spawnPrefab, ownerId, flags, doBroadcast, doAwake);
+        return this.createObject(spawnType, spawnPrefab, ownerId, flags, false, false);
+    }
+
+    async spawnObjectOfType(spawnType: number, ownerId: number, flags: number): Promise<NetworkedObject<this>> {
+        const object = await this.createObjectOfType(spawnType, ownerId, flags);
+        for (const component of object.components) await component.processAwake();
+        this.broadcastLazy(this.createObjectSpawnMessage(object));
+        return object;
     }
 
     /**
@@ -1161,7 +1158,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
      * @param components The components in the object. The first component should
      * be the main object which will inherit the rest of the components.
      */
-    registerPrefab(spawnType: number, components: NetworkedObjectConstructor<this>[]) {
+    registerPrefab(spawnType: number, components: NetworkedObjectConstructor<NetworkedObject<this>>[]) {
         if (components.length < 1) {
             throw new Error("Expected at least 1 component to create a networked object prefab from.");
         }

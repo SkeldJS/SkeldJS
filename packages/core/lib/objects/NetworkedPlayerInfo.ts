@@ -6,7 +6,7 @@ import {
     PlayerOutfitType,
     RoleTeamType
 } from "@skeldjs/constant";
-import { SetTasksMessage } from "@skeldjs/protocol";
+import { BaseRpcMessage, SetTasksMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
@@ -267,6 +267,18 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
 
     get currentOutfit() {
         return this.getOutfit(this.currentOutfitType);
+    }
+    
+    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
+        void rpc;
+    }
+
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
+
+    async processAwake(): Promise<void> {
+        void 0;
     }
 
     deserializeFromReader(reader: HazelReader) {

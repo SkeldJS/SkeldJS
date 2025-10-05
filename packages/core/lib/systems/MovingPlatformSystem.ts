@@ -132,7 +132,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
 
         if (sendRpc && this.side !== oldSide) {
             if (this.target?.characterControl) {
-                this.ship.room.messageStream.push(
+                this.ship.room.broadcastLazy(
                     new RpcMessage(
                         this.target.characterControl.netId,
                         new UsePlatformMessage

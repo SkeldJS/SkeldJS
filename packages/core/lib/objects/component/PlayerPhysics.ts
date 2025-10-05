@@ -69,6 +69,14 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
         return this.ventId > -1;
     }
     
+    async processFixedUpdate(delta: number): Promise<void> {
+        void delta;
+    }
+
+    async processAwake(): Promise<void> {
+        void 0;
+    }
+    
     deserializeFromReader(reader: HazelReader, spawn: boolean): void {
         void reader, spawn;
     }
@@ -116,7 +124,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcEnterVent(ventId: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new EnterVentMessage(ventId)
@@ -166,7 +174,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcExitVent(ventId: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new ExitVentMessage(ventId)
@@ -215,7 +223,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcClimbLadder(ladderid: number) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new ClimbLadderMessage(ladderid, this.ladderClimbSeqId)
@@ -264,7 +272,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcPet(playerPos: Vector2, petPos: Vector2) {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new PetMessage(
@@ -313,7 +321,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private _rpcCancelPet() {
-        this.room.messageStream.push(
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new CancelPetMessage

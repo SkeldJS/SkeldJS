@@ -29,7 +29,7 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipSt
         [SystemType.Medical]: [19, 20]
     };
 
-    Setup() {
+    setupSystems() {
         this.systems.set(SystemType.Ventilation, new VentilationSystem(this, SystemType.Ventilation));
 
         const hqHudSystem = new HqHudSystem(this, SystemType.Communications);
@@ -45,6 +45,10 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipSt
         // todo: register fungle doors
 
         this.systems.set(SystemType.MushroomMixupSabotage, new MushroomMixupSabotageSystem(this, SystemType.MushroomMixupSabotage));
+    }
+    
+    async processAwake(): Promise<void> {
+        void 0;
     }
 
     getDoorsInRoom(room: SystemType) {
