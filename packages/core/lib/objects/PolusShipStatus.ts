@@ -51,16 +51,6 @@ export class PolusShipStatus<RoomType extends StatefulRoom = StatefulRoom> exten
         super(room, spawnType, netId, ownerId, flags, data);
     }
 
-    getComponent<T extends NetworkedObject>(
-        component: NetworkedObjectConstructor<T>
-    ): T | undefined {
-        if (this.spawnType === SpawnType.Polus && component === PolusShipStatus as NetworkedObjectConstructor<any>) {
-            return this.components[0] as unknown as T;
-        }
-
-        return undefined;
-    }
-
     Setup() {
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical, {
             expected: [false, false, false, false, false],

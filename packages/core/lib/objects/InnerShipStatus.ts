@@ -41,6 +41,7 @@ import { SystemStatusEvents } from "../systems/events";
 import { BaseRole } from "../roles";
 import { RoomAssignRolesEvent } from "../events";
 import { TaskInfo } from "@skeldjs/data";
+import { CustomNetworkTransform } from "./component";
 
 interface ConsoleDataModel {
     index: number;
@@ -95,13 +96,6 @@ export type ShipStatusEvents<RoomType extends StatefulRoom = StatefulRoom> = Net
     SecurityCameraSystemEvents<RoomType> &
     SwitchSystemEvents<RoomType> &
     ExtractEventTypes<[RoomAssignRolesEvent<RoomType>]>;
-
-export type ShipStatusType =
-    | SpawnType.SkeldShipStatus
-    | SpawnType.MiraShipStatus
-    | SpawnType.Polus
-    | SpawnType.AprilShipStatus
-    | SpawnType.Airship;
 
 export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRoom> extends NetworkedObject<
     ShipStatusData,
@@ -323,12 +317,13 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom = StatefulRo
      * @param initialSpawn Whether or not this is a spawn after starting the game.
      * @param broadcast Whether or not to broadcast the updates.
      */
-    spawnPlayer(player: Player, initialSpawn: boolean, broadcast: boolean) {
+    async spawnPlayer(player: Player, initialSpawn: boolean, broadcast: boolean) {
         if (player.getPlayerId() === undefined)
             return;
 
         const spawnPosition = this.getSpawnPosition(player, initialSpawn);
-        player.transform?.snapTo(spawnPosition, broadcast);
+        const playerTransform = player.characterControl?.getComponentSafe(2, CustomNetworkTransform);
+        await playerTransform?.snapTo(spawnPosition, broadcast);
     }
 
     /**

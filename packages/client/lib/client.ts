@@ -697,7 +697,7 @@ export class SkeldjsClient extends SkeldjsStateManager<SkeldjsClientEvents> {
         }
 
         if (this.isAuthoritative) {
-            this.spawnPrefabOfType(SpawnType.Player, this.myPlayer.clientId);
+            await this.spawnPefabOfType(SpawnType.Player, this.myPlayer.clientId);
         } else {
             this.send(
                 new ReliablePacket(this.getNextNonce(), [

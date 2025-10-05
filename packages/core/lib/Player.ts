@@ -70,7 +70,7 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
     /**
      * This player's player control component.
      */
-    control: PlayerControl<RoomType> | undefined;
+    characterControl: PlayerControl<RoomType> | undefined;
 
     /**
      * The actual instance of this player's role manager, see {@link PlayerInfo.roleType}
@@ -113,13 +113,7 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
         this.isReady = false;
         this.inScene = false;
 
-        this.control = undefined;
-
-        this.on("component.spawn", () => {
-            if (this.hasSpawned) {
-                this.emitSync(new PlayerSpawnEvent(this.room, this));
-            }
-        });
+        this.characterControl = undefined;
     }
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
@@ -141,20 +135,6 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
     }
 
     /**
-     * The player's physics component.
-     */
-    get physics(): PlayerPhysics<RoomType> | undefined {
-        return this.control?.getComponent(PlayerPhysics) as PlayerPhysics<RoomType> | undefined;
-    }
-
-    /**
-     * The player's movement component.
-     */
-    get transform(): CustomNetworkTransform<RoomType> | undefined {
-        return this.control?.getComponent(CustomNetworkTransform) as CustomNetworkTransform<RoomType> | undefined;
-    }
-
-    /**
      * The player's game information, such as dead/impostor/disconnected states,
      * hats, names, pets, etc.
      */
@@ -167,14 +147,7 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
      * The room-unique player ID of the player.
      */
     getPlayerId() {
-        return this.control?.playerId;
-    }
-
-    /**
-     * Whether or not the player has fully spawned.
-     */
-    get hasSpawned() {
-        return !!(this.control && this.physics && this.transform);
+        return this.characterControl?.playerId;
     }
 
     /**
@@ -197,10 +170,10 @@ export class Player<RoomType extends StatefulRoom = StatefulRoom> extends EventE
      * Despawn all components on the player,
      */
     destroy() {
-        if (!this.control)
+        if (!this.characterControl)
             return;
 
-        for (const component of this.control.components) {
+        for (const component of this.characterControl.components) {
             this.room.despawnComponent(component);
         }
     }

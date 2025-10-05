@@ -101,7 +101,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
             this.useId = 0;
 
         writer.uint8(this.useId);
-        writer.uint32(this.target?.control?.netId ?? 255);
+        writer.uint32(this.target?.characterControl?.netId ?? 255);
         writer.uint8(this.side);
         this.dirty = spawn;
     }
@@ -153,10 +153,10 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom = StatefulRoom> 
         await this._setTarget(resolved, side, undefined);
 
         if (sendRpc && this.side !== oldSide) {
-            if (this.target?.control) {
+            if (this.target?.characterControl) {
                 this.ship.room.messageStream.push(
                     new RpcMessage(
-                        this.target.control.netId,
+                        this.target.characterControl.netId,
                         new UsePlatformMessage
                     )
                 );

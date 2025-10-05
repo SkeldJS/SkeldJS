@@ -5,9 +5,9 @@ export enum SpawnType {
     // GameData, removed
     Player = 4,
     MiraShipStatus,
-    Polus,
+    PolusShipStatus,
     AprilShipStatus,
-    Airship,
+    AirshipShipStatus,
     HideAndSeekManager,
     NormalGameManager,
     PlayerInfo,

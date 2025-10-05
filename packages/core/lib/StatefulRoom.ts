@@ -77,9 +77,9 @@ import {
 } from "./events";
 
 import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
-import { BaseRole, CrewmateRole, EngineerRole, GuardianAngelRole, ImpostorRole, ScientistRole, ShapeshifterRole } from "./roles";
+import { BaseRole, CrewmateGhostRole, CrewmateRole, DetectiveRole, EngineerRole, GuardianAngelRole, ImpostorRole, NoisemakerRole, PhantomRole, ScientistRole, ShapeshifterRole, TrackerRole, ViperRole } from "./roles";
 import { StatefulRoomConfig } from "./misc";
-import { ImpostorGhost } from "./roles/ImpostorGhost";
+import { ImpostorGhostRole } from "./roles/ImpostorGhost";
 import { SystemStatus } from "./systems";
 
 export type RoomID = string | number;
@@ -324,9 +324,9 @@ export class StatefulRoom<
             [SpawnType.LobbyBehaviour, [LobbyBehaviour]],
             [SpawnType.Player, [PlayerControl, PlayerPhysics, CustomNetworkTransform]],
             [SpawnType.MiraShipStatus, [MiraShipStatus]],
-            [SpawnType.Polus, [PolusShipStatus]],
+            [SpawnType.PolusShipStatus, [PolusShipStatus]],
             [SpawnType.AprilShipStatus, [AprilShipStatus]],
-            [SpawnType.Airship, [AirshipStatus]],
+            [SpawnType.AirshipShipStatus, [AirshipStatus]],
             [SpawnType.HideAndSeekManager, [HideAndSeekManager]],
             [SpawnType.NormalGameManager, [NormalGameManager]],
             [SpawnType.PlayerInfo, [NetworkedPlayerInfo]], // TODO
@@ -337,18 +337,26 @@ export class StatefulRoom<
         this.shipPrefabIds = new Map([
             [GameMap.TheSkeld, SpawnType.SkeldShipStatus],
             [GameMap.MiraHQ, SpawnType.MiraShipStatus],
-            [GameMap.Polus, SpawnType.Polus],
+            [GameMap.Polus, SpawnType.PolusShipStatus],
             [GameMap.AprilFoolsTheSkeld, SpawnType.AprilShipStatus],
-            [GameMap.Airship, SpawnType.Airship],
+            [GameMap.Airship, SpawnType.AirshipShipStatus],
+            [GameMap.Fungal, SpawnType.FungleShipStatus],
         ])
 
         this.registeredRoles = new Map([
             [RoleType.Crewmate, CrewmateRole],
-            [RoleType.Engineer, EngineerRole],
-            [RoleType.GuardianAngel, GuardianAngelRole],
             [RoleType.Impostor, ImpostorRole],
             [RoleType.Scientist, ScientistRole],
-            [RoleType.Shapeshifter, ShapeshifterRole]
+            [RoleType.Engineer, EngineerRole],
+            [RoleType.GuardianAngel, GuardianAngelRole],
+            [RoleType.Shapeshifter, ShapeshifterRole],
+            [RoleType.CrewmateGhost, CrewmateGhostRole],
+            [RoleType.ImpostorGhost, ImpostorGhostRole],
+            [RoleType.Noisemaker, NoisemakerRole],
+            [RoleType.Phantom, PhantomRole],
+            [RoleType.Tracker, TrackerRole],
+            [RoleType.Detective, DetectiveRole],
+            [RoleType.Viper, ViperRole],
         ]);
 
         this.endGameIntents = [];
@@ -583,37 +591,37 @@ export class StatefulRoom<
     setSettings(settings: Partial<AllGameSettings>) {
         this.settings.patch(settings);
 
-        if (this.isAuthoritative && this.playerAuthority && this.playerAuthority.control) {
-            this.playerAuthority.control.syncSettings(this.settings);
+        if (this.isAuthoritative && this.playerAuthority && this.playerAuthority.characterControl) {
+            this.playerAuthority.characterControl.syncSettings(this.settings);
         }
     }
 
-    spawnNecessaryObjects() {
+    async spawnNecessaryObjects() {
         if (!this.lobbyBehaviour && this.gameState === GameState.NotStarted) {
-            this.spawnPrefabOfType(SpawnType.LobbyBehaviour, SpecialOwnerId.Global);
+            await this.spawnPrefabOfType(SpawnType.LobbyBehaviour, SpecialOwnerId.Global);
         }
 
         if (!this.shipStatus && this.gameState === GameState.Started) {
             const shipPrefabs = [
                 SpawnType.SkeldShipStatus,
                 SpawnType.MiraShipStatus,
-                SpawnType.Polus,
+                SpawnType.PolusShipStatus,
                 SpawnType.AprilShipStatus,
-                SpawnType.Airship,
+                SpawnType.AirshipShipStatus,
             ];
 
-            this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, SpecialOwnerId.Global);
+            await this.spawnPrefabOfType(shipPrefabs[this.settings?.map] || 0, SpecialOwnerId.Global);
         }
 
         if (!this.voteBanSystem) {
-            this.spawnPrefabOfType(SpawnType.VoteBanSystem, SpecialOwnerId.Global);
+            await this.spawnPrefabOfType(SpawnType.VoteBanSystem, SpecialOwnerId.Global);
         }
 
         if (!this.gameManager) {
             if (this.settings.gameMode === GameMode.Normal) {
-                this.spawnPrefabOfType(SpawnType.NormalGameManager, SpecialOwnerId.Global);
+                await this.spawnPrefabOfType(SpawnType.NormalGameManager, SpecialOwnerId.Global);
             } else if (this.settings.gameMode === GameMode.HideNSeek) {
-                this.spawnPrefabOfType(SpawnType.HideAndSeekManager, SpecialOwnerId.Global);
+                await this.spawnPrefabOfType(SpawnType.HideAndSeekManager, SpecialOwnerId.Global);
             }
         }
     }
@@ -682,7 +690,7 @@ export class StatefulRoom<
             }
 
             if (playerInfo.isDead) {
-                if (playerInfo.roleType?.roleMetadata.roleType === RoleType.ImpostorGhost && (playerInfo.getPlayer()?.role as ImpostorGhost | undefined)?.wasManuallyPicked) {
+                if (playerInfo.roleType?.roleMetadata.roleType === RoleType.ImpostorGhost && (playerInfo.getPlayer()?.role as ImpostorGhostRole | undefined)?.wasManuallyPicked) {
                     aliveImpostors++;
                 }
             } else {
@@ -749,8 +757,8 @@ export class StatefulRoom<
             this.voteBanSystem.voted.delete(player.clientId);
         }
 
-        if (player.control) {
-            for (const component of player.control.components) {
+        if (player.characterControl) {
+            for (const component of player.characterControl.components) {
                 this.despawnComponent(component);
             }
         }
@@ -781,7 +789,7 @@ export class StatefulRoom<
         if (this.lobbyBehaviour) this.despawnComponent(this.lobbyBehaviour);
 
         const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
-        this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global);
+        await this.spawnPrefabOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global);
 
         await Promise.all([
             Promise.race([
@@ -828,7 +836,7 @@ export class StatefulRoom<
 
         if (this.shipStatus) {
             for (const [, player] of this.players) {
-                this.shipStatus.spawnPlayer(player, true, false);
+                await this.shipStatus.spawnPlayer(player, true, false);
             }
         }
     }
@@ -939,8 +947,8 @@ export class StatefulRoom<
         this.networkedObjects.delete(component.netId);
 
         if (component.owner instanceof Player) {
-            if (component.owner.control === component) {
-                component.owner.control = undefined;
+            if (component.owner.characterControl === component) {
+                component.owner.characterControl = undefined;
             }
         }
 
@@ -1033,7 +1041,7 @@ export class StatefulRoom<
         return this.objectList.map(object => this.createObjectSpawnMessage(object));
     }
 
-    protected spawnPrefab(
+    protected async spawnPrefab(
         spawnType: number,
         spawnPrefab: NetworkedObjectConstructor<any>[],
         ownerId: number | Player | undefined,
@@ -1047,7 +1055,6 @@ export class StatefulRoom<
                 ? SpecialOwnerId.Global
                 : typeof ownerId === "number" ? ownerId : ownerId.clientId;
 
-        const ownerClient = this.players.get(_ownerId);
         const _flags = flags ?? (spawnType === SpawnType.Player ? SpawnFlag.IsClientCharacter : 0);
 
         let object!: NetworkedObject;
@@ -1086,15 +1093,6 @@ export class StatefulRoom<
             }
         }
 
-        if (spawnType === SpawnType.Player && ownerClient) {
-            ownerClient.emitSync(
-                new PlayerSpawnEvent(
-                    this,
-                    ownerClient
-                )
-            );
-        }
-
         if ((this.isAuthoritative && doBroadcast === undefined) || doBroadcast) {
             this.messageStream.push(
                 new SpawnMessage(
@@ -1114,12 +1112,18 @@ export class StatefulRoom<
                 )
             );
         }
+        
+        const ownerPlayer = this.players.get(_ownerId);
 
-        if ((_flags & SpawnFlag.IsClientCharacter) > 0 && ownerClient) {
-            if (!ownerClient.control) {
-                ownerClient.control = object as PlayerControl<this>;
-                ownerClient.inScene = true;
+        if ((_flags & SpawnFlag.IsClientCharacter) > 0 && ownerPlayer) {
+            if (!ownerPlayer.characterControl) {
+                ownerPlayer.characterControl = object as PlayerControl<this>;
+                ownerPlayer.inScene = true;
             }
+        }
+
+        if (spawnType === SpawnType.Player && ownerPlayer) {
+            await ownerPlayer.emit(new PlayerSpawnEvent(this, ownerPlayer));
         }
 
         return object as NetworkedObject<any, any, this>;
@@ -1135,14 +1139,14 @@ export class StatefulRoom<
      * room.spawnPrefab(SpawnType.Player, client.myPlayer);
      * ```
      */
-    spawnPrefabOfType(
+    async spawnPrefabOfType(
         spawnType: number,
         ownerId: number | Player | undefined,
         flags?: number,
         componentData?: (any | ComponentSpawnData)[],
         doBroadcast = true,
         doAwake = true
-    ): NetworkedObject<any, any, this> | undefined {
+    ): Promise<NetworkedObject<any, any, this> | undefined> {
         const spawnPrefab = this.registeredPrefabs.get(spawnType);
 
         if (!spawnPrefab)
@@ -1211,10 +1215,10 @@ export class StatefulRoom<
      */
     getPlayerByNetId(netId: number) {
         for (const [, player] of this.players) {
-            if (!player.control)
+            if (!player.characterControl)
                 continue;
 
-            if (player.control.components.find(component => component.netId === netId)) {
+            if (player.characterControl.components.find(component => component.netId === netId)) {
                 return player;
             }
         }
@@ -1251,7 +1255,9 @@ export class StatefulRoom<
             return false;
         }
 
-        if (!victimPlayerInfo || victimPlayerInfo.isDead || victim.physics?.isInVent) {
+        const victimPhysics = victim.characterControl?.getComponentSafe(1, PlayerPhysics);
+
+        if (!victimPlayerInfo || victimPlayerInfo.isDead || victimPhysics?.isInVent) {
             return false;
         }
 

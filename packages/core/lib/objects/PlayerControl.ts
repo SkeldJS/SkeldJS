@@ -211,32 +211,12 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
                 const offsetted = spawnPosition
                     .add(spawnPosition.negate().normalize().div(4));
 
-                this.getComponent(CustomNetworkTransform)!.snapTo(offsetted, false);
+                this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(offsetted, false);
             } else if (this.room.shipStatus) {
                 const spawnPosition = this.room.shipStatus.getSpawnPosition(this.playerId, true);
-                this.getComponent(CustomNetworkTransform)!.snapTo(spawnPosition, false);
+                this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(spawnPosition, false);
             }
         }
-    }
-
-    getComponent<T extends NetworkedObject>(
-        component: NetworkedObjectConstructor<T>
-    ): T | undefined {
-        if (this.spawnType === SpawnType.Player) {
-            if (component === PlayerControl as NetworkedObjectConstructor<any>) {
-                return this.components[0] as unknown as T;
-            }
-
-            if (component === PlayerPhysics as NetworkedObjectConstructor<any>) {
-                return this.components[1] as unknown as T;
-            }
-
-            if (component === CustomNetworkTransform as NetworkedObjectConstructor<any>) {
-                return this.components[2] as unknown as T;
-            }
-        }
-
-        return undefined;
     }
 
     getPlayerInfo() {
@@ -788,7 +768,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         if (!victim)
             return;
 
-        await victim.control?.kill("murder");
+        await victim.characterControl?.kill("murder");
 
         await this.emit(
             new PlayerMurderEvent(
@@ -807,13 +787,13 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     private _rpcMurderPlayer(victim: Player) {
-        if (!victim.control)
+        if (!victim.characterControl)
             return;
 
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
-                new MurderPlayerMessage(victim.control.netId)
+                new MurderPlayerMessage(victim.characterControl.netId)
             )
         );
     }
@@ -839,13 +819,13 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
             return;
         }
 
-        if (victim.control?.protectedByGuardian) {
+        if (victim.characterControl?.protectedByGuardian) {
             this._rpcMurderPlayer(victim);
-            await victim.control.removeProtection();
+            await victim.characterControl.removeProtection();
             return;
         }
 
-        await victim.control?.kill("murder");
+        await victim.characterControl?.kill("murder");
 
         await this.emit(
             new PlayerMurderEvent(
@@ -968,16 +948,16 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         );
 
         if (this.room.canManageObject(this)) {
-            this._startMeeting(this.player);
+            await this._startMeeting(this.player);
         }
     }
 
-    private _startMeeting(caller: Player) {
+    private async _startMeeting(caller: Player) {
         const callerPlayerId = caller.getPlayerId();
         if (callerPlayerId === undefined)
             return;
 
-        const spawnMeetinghud = this.room.spawnPrefabOfType(
+        const spawnMeetinghud = await this.room.spawnPrefabOfType(
             SpawnType.MeetingHud,
             SpecialOwnerId.Global,
             undefined,
@@ -1018,7 +998,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         }
 
         for (const [, player] of this.room.players) {
-            const playerPhysics = player.physics;
+            const playerPhysics = player.characterControl?.getComponentSafe(1, PlayerPhysics);
             if (playerPhysics && playerPhysics.ventId !== -1) {
                 playerPhysics.exitVent(playerPhysics.ventId)
             }
@@ -1076,7 +1056,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
 
         const actualCaller = caller || this.room.playerAuthority || this.player;
         this._rpcStartMeeting(body);
-        this._startMeeting(actualCaller);
+        await this._startMeeting(actualCaller);
 
         await this.emit(
             new PlayerStartMeetingEvent(
@@ -1719,7 +1699,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         if (!target)
             return;
 
-        target.control?._addProtection(this.player);
+        target.characterControl?._addProtection(this.player);
 
         await this.emit(
             new PlayerProtectEvent(
@@ -1739,14 +1719,14 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     private _rpcProtectPlayer(target: Player, angelColor: Color) {
-        if (!target.control)
+        if (!target.characterControl)
             return;
 
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new ProtectPlayerMessage(
-                    target.control.netId,
+                    target.characterControl.netId,
                     angelColor
                 )
             )
@@ -1759,7 +1739,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
             return;
         }
 
-        target.control?._addProtection(this.player);
+        target.characterControl?._addProtection(this.player);
         this._rpcProtectPlayer(target, angelColor);
 
         await this.emit(
@@ -1849,14 +1829,14 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     private _rpcShapeshift(target: Player, doAnimation: boolean) {
-        if (!target.control)
+        if (!target.characterControl)
             return;
 
         this.room.messageStream.push(
             new RpcMessage(
                 this.netId,
                 new ShapeshiftMessage(
-                    target.control.netId,
+                    target.characterControl.netId,
                     doAnimation
                 )
             )
@@ -1937,19 +1917,19 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         );
 
         if (ev.alteredIsValid) {
-            ev.alteredPlayer.control?.murderPlayer(ev.alteredVictim);
+            ev.alteredPlayer.characterControl?.murderPlayer(ev.alteredVictim);
         }
     }
 
     private async _rpcCheckMurder(victim: Player) {
-        if (!victim.control)
+        if (!victim.characterControl)
             return;
 
         await this.room.broadcast([
             new RpcMessage(
                 this.netId,
                 new CheckMurderMessage(
-                    victim.control.netId
+                    victim.characterControl.netId
                 )
             )
         ]);
@@ -2017,12 +1997,12 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
         );
 
         if (ev.alteredIsValid) {
-            await ev.alteredPlayer.control?.protectPlayer(ev.alteredTarget);
+            await ev.alteredPlayer.characterControl?.protectPlayer(ev.alteredTarget);
         }
     }
 
     private async _rpcCheckProtect(target: Player<StatefulRoom>) {
-        if (!target.control)
+        if (!target.characterControl)
             return;
 
         const targetPlayerInfo = target.getPlayerInfo();
@@ -2031,7 +2011,7 @@ export class PlayerControl<RoomType extends StatefulRoom = StatefulRoom> extends
             new RpcMessage(
                 this.netId,
                 new ProtectPlayerMessage(
-                    target.control.netId,
+                    target.characterControl.netId,
                     targetPlayerInfo?.defaultOutfit.color || Color.Red
                 )
             )

@@ -49,16 +49,6 @@ export class SkeldShipStatus<RoomType extends StatefulRoom = StatefulRoom> exten
         super(room, spawnType, netId, ownerId, flags, data);
     }
 
-    getComponent<T extends NetworkedObject>(
-        component: NetworkedObjectConstructor<T>
-    ): T | undefined {
-        if (this.spawnType === SpawnType.SkeldShipStatus && component === SkeldShipStatus as NetworkedObjectConstructor<any>) {
-            return this.components[0] as unknown as T;
-        }
-
-        return undefined;
-    }
-
     Setup() {
         this.systems.set(SystemType.Reactor, new ReactorSystem(this, SystemType.Reactor, {
             timer: 10000,

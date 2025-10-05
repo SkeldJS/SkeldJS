@@ -175,17 +175,15 @@ export class NetworkedObject<
 
     /**
      * Get a certain component from the object.
-     * @param component The component class to get.
+     * @param ComponentType The component class to get.
      */
-    getComponent<T extends NetworkedObject>(
-        component: NetworkedObjectConstructor<T>
+    getComponentSafe<T>(
+        index: number,
+        ComponentType: NetworkedObjectConstructor<T>,
     ): T | undefined {
-        for (const comp of this.components) {
-            if (comp instanceof component) {
-                return comp;
-            }
-        }
-
-        return undefined;
+        const component = this.components[index];
+        if (!component) return undefined;
+        if (!(component instanceof ComponentType)) return undefined;
+        return component as T;
     }
 }

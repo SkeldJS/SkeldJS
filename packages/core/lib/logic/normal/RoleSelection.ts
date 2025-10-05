@@ -229,7 +229,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom = S
             return;
 
         const randomRole = ghostRoles[Math.floor(Math.random() * ghostRoles.length)];
-        await player.control?.setRole(randomRole);
+        await player.characterControl?.setRole(randomRole);
     }
 
     /**
@@ -241,7 +241,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom = S
     async assignRolesFromAssignments(roleAssignments: Map<Player, typeof BaseRole>) {
         const promises = [];
         for (const [player, roleCtr] of roleAssignments) {
-            promises.push(player.control?.setRole(roleCtr));
+            promises.push(player.characterControl?.setRole(roleCtr));
         }
         await Promise.all(promises);
     }

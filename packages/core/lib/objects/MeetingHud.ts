@@ -110,16 +110,6 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         }
     }
 
-    getComponent<T extends NetworkedObject>(
-        component: NetworkedObjectConstructor<T>
-    ): T | undefined {
-        if (this.spawnType === SpawnType.MeetingHud && component === MeetingHud as NetworkedObjectConstructor<any>) {
-            return this.components[0] as unknown as T;
-        }
-
-        return super.getComponent(component);
-    }
-
     get owner() {
         return super.owner as RoomType;
     }
@@ -204,11 +194,11 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
         );
     }
 
-    private _close() {
+    private async _close() {
         this.room["_despawnComponent"](this);
         if (this.room.shipStatus) {
             for (const [, player] of this.room.players) {
-                this.room.shipStatus.spawnPlayer(player, true, true);
+                await this.room.shipStatus.spawnPlayer(player, true, true);
             }
         }
     }
@@ -223,8 +213,8 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
      * Close the meeting hud for all clients. This is a host-only operation on
      * official servers.
      */
-    close() {
-        this._close();
+    async close() {
+        await this._close();
         this._rpcClose();
     }
 
@@ -293,7 +283,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
                     await this.clearVoteBroadcast(player);
                 }
             } else {
-                this.room.playerAuthority?.control?.sendChatNote(
+                this.room.playerAuthority?.characterControl?.sendChatNote(
                     player,
                     ChatNoteType.DidVote
                 );
@@ -372,7 +362,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
                     if (ev.reverted) {
                         this._clearVote(votingState);
                     } else {
-                        this.room.playerAuthority?.control?.sendChatNote(
+                        this.room.playerAuthority?.characterControl?.sendChatNote(
                             player,
                             ChatNoteType.DidVote
                         );
@@ -487,7 +477,7 @@ export class MeetingHud<RoomType extends StatefulRoom = StatefulRoom> extends Ne
 
         if (this.room.canManageObject(this)) {
             await sleep(5000);
-            await exiled?.control?.kill("exiled");
+            await exiled?.characterControl?.kill("exiled");
             this.close();
             await sleep(5000);
 

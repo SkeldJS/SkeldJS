@@ -37,16 +37,6 @@ export class MiraShipStatus<RoomType extends StatefulRoom = StatefulRoom> extend
         super(room, spawnType, netId, ownerId, flags, data);
     }
 
-    getComponent<T extends NetworkedObject>(
-        component: NetworkedObjectConstructor<T>
-    ): T | undefined {
-        if (this.spawnType === SpawnType.MiraShipStatus && component === MiraShipStatus as NetworkedObjectConstructor<any>) {
-            return this.components[0] as unknown as T;
-        }
-
-        return super.getComponent(component);
-    }
-
     get owner() {
         return super.owner as RoomType;
     }

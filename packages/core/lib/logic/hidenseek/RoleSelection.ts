@@ -74,7 +74,7 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom 
     async assignRolesFromAssignments(roleAssignments: Map<Player, typeof BaseRole>) {
         const promises = [];
         for (const [player, roleCtr] of roleAssignments) {
-            promises.push(player.control?.setRole(roleCtr));
+            promises.push(player.characterControl?.setRole(roleCtr));
         }
         await Promise.all(promises);
     }
