@@ -2,6 +2,7 @@ export * from "./component";
 
 export * from "./AirshipStatus";
 export * from "./AprilShipStatus";
+export * from "./FungleShipStatus";
 export * from "./HideAndSeekManager";
 export * from "./InnerGameManager";
 export * from "./InnerShipStatus";

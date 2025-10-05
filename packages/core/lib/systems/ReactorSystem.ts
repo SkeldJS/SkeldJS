@@ -56,7 +56,8 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     constructor(
         ship: InnerShipStatus<RoomType>,
         systemType: SystemType,
-        data?: HazelReader | ReactorSystemData
+        data?: HazelReader | ReactorSystemData,
+        public readonly maxTimer: number = 0,
     ) {
         super(ship, systemType, data);
 
@@ -169,7 +170,7 @@ export class ReactorSystem<RoomType extends StatefulRoom = StatefulRoom> extends
     }
 
     async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        this.timer = 45;
+        this.timer = this.maxTimer;
         this.dirty = true;
         this.completed = new Set;
 

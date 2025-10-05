@@ -81,6 +81,7 @@ import { BaseRole, CrewmateGhostRole, CrewmateRole, DetectiveRole, EngineerRole,
 import { StatefulRoomConfig } from "./misc";
 import { ImpostorGhostRole } from "./roles/ImpostorGhost";
 import { SystemStatus } from "./systems";
+import { FungleShipStatus } from "./objects/FungleShipStatus";
 
 export type RoomID = string | number;
 
@@ -154,7 +155,7 @@ export class StatefulRoom<
      */
     destroyed: boolean;
 
-    lastprocessFixedUpdateTimestamp: number;
+    lastFixedUpdateTimestamp: number;
 
     fixedUpdateInterval?: NodeJS.Timeout;
 
@@ -293,7 +294,7 @@ export class StatefulRoom<
     constructor(public config: StatefulRoomConfig = {}) {
         super();
 
-        this.lastprocessFixedUpdateTimestamp = Date.now();
+        this.lastFixedUpdateTimestamp = Date.now();
         this.lastNetId = 0;
         this.destroyed = false;
 
@@ -331,7 +332,7 @@ export class StatefulRoom<
             [SpawnType.NormalGameManager, [NormalGameManager]],
             [SpawnType.PlayerInfo, [NetworkedPlayerInfo]], // TODO
             [SpawnType.VoteBanSystem, [VoteBanSystem]],
-            [SpawnType.FungleShipStatus, []], // TODO
+            [SpawnType.FungleShipStatus, [ FungleShipStatus ]], // TODO
         ]);
 
         this.shipPrefabIds = new Map([
@@ -340,7 +341,7 @@ export class StatefulRoom<
             [GameMap.Polus, SpawnType.PolusShipStatus],
             [GameMap.AprilFoolsTheSkeld, SpawnType.AprilShipStatus],
             [GameMap.Airship, SpawnType.AirshipShipStatus],
-            [GameMap.Fungal, SpawnType.FungleShipStatus],
+            [GameMap.Fungle, SpawnType.FungleShipStatus],
         ])
 
         this.registeredRoles = new Map([
@@ -361,7 +362,7 @@ export class StatefulRoom<
 
         this.endGameIntents = [];
 
-        if (config.doprocessFixedUpdate) {
+        if (config.doFixedUpdate) {
             this.fixedUpdateInterval = setInterval(
                 () => this.processFixedUpdate(),
                 StatefulRoom.processFixedUpdateInterval
@@ -416,8 +417,8 @@ export class StatefulRoom<
     ) { }
 
     async processFixedUpdate() {
-        const delta = Date.now() - this.lastprocessFixedUpdateTimestamp;
-        this.lastprocessFixedUpdateTimestamp = Date.now();
+        const delta = Date.now() - this.lastFixedUpdateTimestamp;
+        this.lastFixedUpdateTimestamp = Date.now();
         for (const [, component] of this.networkedObjects) {
             if (this.canManageObject(component)) {
                 await component.processFixedUpdate(delta / 1000);

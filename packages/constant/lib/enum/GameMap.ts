@@ -4,5 +4,5 @@ export enum GameMap {
     Polus,
     AprilFoolsTheSkeld,
     Airship,
-    Fungal,
+    Fungle,
 }

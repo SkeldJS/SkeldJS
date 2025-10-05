@@ -24,6 +24,7 @@ export interface UserConsolePair {
 }
 
 export interface HqHudSystemData {
+    timer: number;
     activeConsoles: UserConsolePair[];
     completedConsoles: Set<number>;
 }

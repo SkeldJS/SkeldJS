@@ -59,6 +59,7 @@ export class MiraShipStatus<RoomType extends StatefulRoom = StatefulRoom> extend
             queue: [],
         }));
         this.systems.set(SystemType.Communications, new HqHudSystem(this, SystemType.Communications, {
+            timer: 10000,
             activeConsoles: [],
             completedConsoles: new Set([0, 1]),
         }));
