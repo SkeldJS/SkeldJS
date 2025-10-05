@@ -174,7 +174,6 @@ __metadata:
     "@skeldjs/eos": "workspace:*"
     "@skeldjs/events": "workspace:*"
     "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/state": "workspace:*"
     "@skeldjs/util": "workspace:*"
     "@types/node": latest
     node-fetch: 2
@@ -332,20 +331,6 @@ __metadata:
     typescript: latest
   peerDependencies:
     "@skeldjs/client": "*"
-  languageName: unknown
-  linkType: soft
-
-"@skeldjs/state@workspace:*, @skeldjs/state@workspace:packages/state":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/state@workspace:packages/state"
-  dependencies:
-    "@skeldjs/core": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/util": "workspace:*"
-    "@types/mocha": ^9.1.0
-    "@types/node": ^17.0.18
-    ts-node: latest
-    typescript: latest
   languageName: unknown
   linkType: soft
 

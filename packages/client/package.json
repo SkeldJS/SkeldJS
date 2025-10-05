@@ -23,7 +23,6 @@
     "@skeldjs/eos": "workspace:*",
     "@skeldjs/events": "workspace:*",
     "@skeldjs/protocol": "workspace:*",
-    "@skeldjs/state": "workspace:*",
     "@skeldjs/util": "workspace:*",
     "node-fetch": "2"
   },
