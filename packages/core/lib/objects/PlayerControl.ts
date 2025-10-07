@@ -575,24 +575,22 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _handleCheckColor(rpc: CheckColorMessage) {
-        let newColor = rpc.color;
+        const maxColor = Math.max(...Object.values(Color).filter(x => typeof x === "number") as number[]);
+        const set: Partial<Record<Color, boolean>> = {};
 
-        const players = [...this.room.playerInfo.values()];
-        let i = 0;
-        while (
-            players.some(
-                (player) =>
-                    player.playerId !== this.playerId &&
-                    player.defaultOutfit.color === newColor
-            )
-        ) {
-            newColor++;
-            if (newColor >= 18)
+        for (const [ , playerInfo ] of this.room.playerInfo) {
+            if (playerInfo.playerId === this.playerId) continue;
+            set[playerInfo.defaultOutfit.color] = true;
+        }
+
+        var newColor = rpc.color;
+        while (true) {
+            if (newColor >= maxColor) {
                 newColor = 0;
-
-            i++;
-            if (i >= 18)
                 break;
+            }
+            if (!set[newColor]) break;
+            newColor++;
         }
 
         const ev = await this.emit(

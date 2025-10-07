@@ -36,10 +36,13 @@ import {
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
+import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "./NetworkedObject";
+
 import {
     AirshipStatus,
     AprilShipStatus,
     CustomNetworkTransform,
+    FungleShipStatus,
     MiraShipStatus,
     LobbyBehaviour,
     LobbyBehaviourEvents,
@@ -59,7 +62,6 @@ import {
     NetworkedPlayerInfo,
 } from "./objects";
 
-import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "./NetworkedObject";
 import { Player, PlayerEvents } from "./Player";
 
 import {
@@ -81,6 +83,7 @@ import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from
 import {
     BaseRole,
     CrewmateGhostRole,
+    ImpostorGhostRole,
     CrewmateRole,
     DetectiveRole,
     EngineerRole,
@@ -95,8 +98,6 @@ import {
 } from "./roles";
 
 import { StatefulRoomConfig } from "./misc";
-import { ImpostorGhostRole } from "./roles/ImpostorGhost";
-import { FungleShipStatus } from "./objects/FungleShipStatus";
 
 export type RoomID = string | number;
 
@@ -945,10 +946,6 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
             this.gameManager = component;
         }
 
-        if (component instanceof NetworkedPlayerInfo) {
-            this.playerInfo.set(component.playerId, component);
-        }
-
         this.networkedObjects.set(component.netId, component);
 
         component.emitSync(new ComponentSpawnEvent(this, component));
@@ -1110,8 +1107,6 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         spawnPrefab: NetworkedObjectConstructor<any>[],
         ownerId: number,
         flags: number,
-        doBroadcast: boolean,
-        doAwake: boolean,
     ) {
         const netIds = [];
         for (let i = 0; i < spawnPrefab.length; i++) {
@@ -1141,7 +1136,7 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         if (!spawnPrefab)
             throw new Error("Cannot spawn object of type: " + spawnType + " (not registered)");
 
-        return this.createObject(spawnType, spawnPrefab, ownerId, flags, false, false);
+        return this.createObject(spawnType, spawnPrefab, ownerId, flags);
     }
 
     async spawnObjectOfType(spawnType: number, ownerId: number, flags: number): Promise<NetworkedObject<this>> {

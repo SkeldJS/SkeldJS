@@ -3,12 +3,10 @@ import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 import { Platform } from "@skeldjs/constant";
 
 import {
-    CustomNetworkTransform,
     CustomNetworkTransformEvents,
     NetworkedPlayerInfo,
     PlayerControl,
     PlayerControlEvents,
-    PlayerPhysics,
     PlayerPhysicsEvents,
 } from "./objects";
 
