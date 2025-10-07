@@ -1,5 +1,5 @@
 import { SpawnType, SystemType } from "@skeldjs/constant";
-import { AirshipTasks } from "@skeldjs/data";
+import { AirshipTasks, TheFungleTasks } from "@skeldjs/data";
 
 import { InnerShipStatus } from "./InnerShipStatus";
 
@@ -56,6 +56,6 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipSt
     }
 
     getTasks() {
-        return Object.values(AirshipTasks);
+        return Object.values(TheFungleTasks);
     }
 }

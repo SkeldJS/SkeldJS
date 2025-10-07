@@ -1,8 +1,8 @@
 /*
     Generated using https://github.com/skeldjs/SkeldJS/tree/master/packages/data/scripts/maps.js
-    Data dumped from https://github.com/js6pak/Dumpostor
+    Data dumped from https://github.com/Impostor/Dumpostor
 
-    Copyright (C) 2021  Edward Smale
+    Copyright (C) 2025 Edward Smale
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -25,23 +25,23 @@ export const MiraHQVents: Record<number, VentInfo> = {
     [MiraHQVent.Balcony]: {
         id: MiraHQVent.Balcony,
         position: {
-            x: 23.7699986,
-            y: -1.93999994
+            x: 23.769999,
+            y: -1.9399999
         },
         network: [MiraHQVent.MedBay, MiraHQVent.Cafeteria]
     },
     [MiraHQVent.Cafeteria]: {
         id: MiraHQVent.Cafeteria,
         position: {
-            x: 23.8999996,
-            y: 7.18000031
+            x: 23.9,
+            y: 7.1800003
         },
         network: [MiraHQVent.Admin, MiraHQVent.Balcony]
     },
     [MiraHQVent.Reactor]: {
         id: MiraHQVent.Reactor,
         position: {
-            x: 0.480000138,
+            x: 0.48000014,
             y: 10.6970005
         },
         network: [MiraHQVent.Laboratory, MiraHQVent.Decontamination, MiraHQVent.Launchpad]
@@ -49,7 +49,7 @@ export const MiraHQVents: Record<number, VentInfo> = {
     [MiraHQVent.Laboratory]: {
         id: MiraHQVent.Laboratory,
         position: {
-            x: 11.6060009,
+            x: 11.606001,
             y: 13.816
         },
         network: [MiraHQVent.Reactor, MiraHQVent.Decontamination, MiraHQVent.Office]
@@ -57,56 +57,56 @@ export const MiraHQVents: Record<number, VentInfo> = {
     [MiraHQVent.Office]: {
         id: MiraHQVent.Office,
         position: {
-            x: 13.2800007,
-            y: 20.1299992
+            x: 13.280001,
+            y: 20.13
         },
         network: [MiraHQVent.Laboratory, MiraHQVent.Admin, MiraHQVent.Greenhouse]
     },
     [MiraHQVent.Admin]: {
         id: MiraHQVent.Admin,
         position: {
-            x: 22.3900013,
-            y: 17.2299995
+            x: 22.390001,
+            y: 17.23
         },
         network: [MiraHQVent.Greenhouse, MiraHQVent.Cafeteria, MiraHQVent.Office]
     },
     [MiraHQVent.Greenhouse]: {
         id: MiraHQVent.Greenhouse,
         position: {
-            x: 17.8500004,
-            y: 25.2299995
+            x: 17.85,
+            y: 25.23
         },
         network: [MiraHQVent.Admin, MiraHQVent.Office]
     },
     [MiraHQVent.MedBay]: {
         id: MiraHQVent.MedBay,
         position: {
-            x: 15.4099998,
-            y: -1.81999969
+            x: 15.41,
+            y: -1.8199997
         },
         network: [MiraHQVent.Balcony, MiraHQVent.LockerRoom]
     },
     [MiraHQVent.Decontamination]: {
         id: MiraHQVent.Decontamination,
         position: {
-            x: 6.82999992,
-            y: 3.14499998
+            x: 6.83,
+            y: 3.145
         },
         network: [MiraHQVent.Reactor, MiraHQVent.LockerRoom, MiraHQVent.Laboratory]
     },
     [MiraHQVent.LockerRoom]: {
         id: MiraHQVent.LockerRoom,
         position: {
-            x: 4.28999996,
-            y: 0.529999733
+            x: 4.29,
+            y: 0.52999973
         },
         network: [MiraHQVent.MedBay, MiraHQVent.Launchpad, MiraHQVent.Decontamination]
     },
     [MiraHQVent.Launchpad]: {
         id: MiraHQVent.Launchpad,
         position: {
-            x: -6.18000031,
-            y: 3.56000018
+            x: -6.1800003,
+            y: 3.5600002
         },
         network: [MiraHQVent.Reactor, MiraHQVent.LockerRoom]
     }

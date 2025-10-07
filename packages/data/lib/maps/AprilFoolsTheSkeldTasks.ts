@@ -21,67 +21,111 @@
 import { TaskLength, TaskType } from "@skeldjs/constant";
 import { TaskInfo } from "../types";
 
-export const MiraHQTasks: Record<number, TaskInfo> = {
+export const AprilFoolsTheSkeldTasks: Record<number, TaskInfo> = {
     0: {
         id: 0,
-        taskType: TaskType.FixWiring,
+        taskType: TaskType.SwipeCard,
         length: TaskLength.Common,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 18.39,
-                    y: 1.2
-                }
-            },            {
-                index: 1,
-                usableDistance: 1,
-                position: {
-                    x: 12.096,
-                    y: 8.04
-                }
-            },            {
-                index: 4,
-                usableDistance: 1,
-                position: {
-                    x: 6.125,
-                    y: 14.958
-                }
-            },            {
-                index: 2,
-                usableDistance: 1,
-                position: {
-                    x: 4.3559995,
-                    y: 2.5340002
-                }
-            },            {
-                index: 3,
-                usableDistance: 1,
-                position: {
-                    x: 16.980001,
-                    y: 21.394
+                    x: -5.6352005,
+                    y: -8.632801
                 }
             }
         ]
     },
     1: {
         id: 1,
-        taskType: TaskType.EnterIdCode,
+        taskType: TaskType.FixWiring,
         length: TaskLength.Common,
         consoles: [
             {
+                index: 2,
+                usableDistance: 1,
+                position: {
+                    x: -1.392,
+                    y: -6.4092
+                }
+            },            {
+                index: 4,
+                usableDistance: 1,
+                position: {
+                    x: 5.2811995,
+                    y: 5.2464
+                }
+            },            {
+                index: 3,
+                usableDistance: 1,
+                position: {
+                    x: -14.5199995,
+                    y: -3.7740002
+                }
+            },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 19.894001,
-                    y: 19.024
+                    x: 7.7279997,
+                    y: -7.6668
+                }
+            },            {
+                index: 1,
+                usableDistance: 1,
+                position: {
+                    x: 1.932,
+                    y: -8.7204
+                }
+            },            {
+                index: 5,
+                usableDistance: 1,
+                position: {
+                    x: 15.5592,
+                    y: -4.5923996
                 }
             }
         ]
     },
     2: {
         id: 2,
+        taskType: TaskType.ClearAsteroids,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1.2,
+                position: {
+                    x: -9.087601,
+                    y: 1.812
+                }
+            }
+        ]
+    },
+    3: {
+        id: 3,
+        taskType: TaskType.AlignEngineOutput,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 19.150799,
+                    y: -12.618
+                }
+            },            {
+                index: 1,
+                usableDistance: 1,
+                position: {
+                    x: 19.176,
+                    y: -0.41442212
+                }
+            }
+        ]
+    },
+    4: {
+        id: 4,
         taskType: TaskType.SubmitScan,
         length: TaskLength.Long,
         consoles: [
@@ -89,212 +133,175 @@ export const MiraHQTasks: Record<number, TaskInfo> = {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 16.233,
-                    y: 0.262
-                }
-            }
-        ]
-    },
-    3: {
-        id: 3,
-        taskType: TaskType.ClearAsteroids,
-        length: TaskLength.Long,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1.8,
-                position: {
-                    x: 19.213,
-                    y: -2.414
-                }
-            }
-        ]
-    },
-    4: {
-        id: 4,
-        taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 0.77700007,
-                    y: 11.484
+                    x: 7.3284,
+                    y: -5.2476006
                 }
             }
         ]
     },
     5: {
         id: 5,
-        taskType: TaskType.DivertPower,
+        taskType: TaskType.InspectSample,
         length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 0.77700007,
-                    y: 11.484
+                    x: 6.144,
+                    y: -4.2599998
                 }
             }
         ]
     },
     6: {
         id: 6,
-        taskType: TaskType.DivertPower,
+        taskType: TaskType.FuelEngines,
         length: TaskLength.Long,
         consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 0.77700007,
-                    y: 11.484
-                }
-            }
+
         ]
     },
     7: {
         id: 7,
-        taskType: TaskType.DivertPower,
+        taskType: TaskType.StartReactor,
         length: TaskLength.Long,
         consoles: [
             {
-                index: 0,
+                index: 2,
                 usableDistance: 1,
                 position: {
-                    x: 0.77700007,
-                    y: 11.484
+                    x: 21.792,
+                    y: -5.5728
                 }
             }
         ]
     },
     8: {
         id: 8,
-        taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 0.77700007,
-                    y: 11.484
-                }
-            }
-        ]
-    },
-    9: {
-        id: 9,
-        taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 0.77700007,
-                    y: 11.484
-                }
-            }
-        ]
-    },
-    10: {
-        id: 10,
-        taskType: TaskType.WaterPlants,
+        taskType: TaskType.EmptyChute,
         length: TaskLength.Long,
         consoles: [
 
         ]
     },
-    11: {
-        id: 11,
-        taskType: TaskType.StartReactor,
+    9: {
+        id: 9,
+        taskType: TaskType.EmptyGarbage,
         length: TaskLength.Long,
+        consoles: [
+
+        ]
+    },
+    10: {
+        id: 10,
+        taskType: TaskType.UploadData,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 2.549,
-                    y: 12.407001
+                    x: -2.5079997,
+                    y: -6.2652006
+                }
+            }
+        ]
+    },
+    11: {
+        id: 11,
+        taskType: TaskType.CalibrateDistributor,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 5.8644004,
+                    y: -7.4772
                 }
             }
         ]
     },
     12: {
         id: 12,
-        taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 0.77700007,
-                    y: 11.484
-                }
-            }
-        ]
-    },
-    13: {
-        id: 13,
         taskType: TaskType.ChartCourse,
         length: TaskLength.Short,
         consoles: [
 
         ]
     },
-    14: {
-        id: 14,
+    13: {
+        id: 13,
         taskType: TaskType.CleanO2Filter,
         length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
-                usableDistance: 2,
+                usableDistance: 0.8,
                 position: {
-                    x: 17.221,
-                    y: 24.505001
+                    x: -5.7432,
+                    y: -2.9772
+                }
+            }
+        ]
+    },
+    14: {
+        id: 14,
+        taskType: TaskType.UnlockManifolds,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 2,
+                usableDistance: 1,
+                position: {
+                    x: 22.536001,
+                    y: -2.4996
                 }
             }
         ]
     },
     15: {
         id: 15,
-        taskType: TaskType.FuelEngines,
-        length: TaskLength.Short,
-        consoles: [
-
-        ]
-    },
-    16: {
-        id: 16,
-        taskType: TaskType.AssembleArtifact,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 1,
-                usableDistance: 1,
-                position: {
-                    x: 9.402,
-                    y: 14.568001
-                }
-            }
-        ]
-    },
-    17: {
-        id: 17,
-        taskType: TaskType.SortSamples,
+        taskType: TaskType.UploadData,
         length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 9.660001,
-                    y: 11.115001
+                    x: -2.5079997,
+                    y: -6.2652006
+                }
+            }
+        ]
+    },
+    16: {
+        id: 16,
+        taskType: TaskType.StabilizeSteering,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1.25,
+                position: {
+                    x: -18.732,
+                    y: -4.728
+                }
+            }
+        ]
+    },
+    17: {
+        id: 17,
+        taskType: TaskType.UploadData,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: -2.5079997,
+                    y: -6.2652006
                 }
             }
         ]
@@ -308,31 +315,38 @@ export const MiraHQTasks: Record<number, TaskInfo> = {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 21.169,
-                    y: 17.945
+                    x: -7.526399,
+                    y: -13.981199
                 }
             }
         ]
     },
     19: {
         id: 19,
-        taskType: TaskType.EmptyGarbage,
-        length: TaskLength.Short,
-        consoles: [
-
-        ]
-    },
-    20: {
-        id: 20,
-        taskType: TaskType.MeasureWeather,
+        taskType: TaskType.UploadData,
         length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 28.911999,
-                    y: -1.701
+                    x: -2.5079997,
+                    y: -6.2652006
+                }
+            }
+        ]
+    },
+    20: {
+        id: 20,
+        taskType: TaskType.UploadData,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: -2.5079997,
+                    y: -6.2652006
                 }
             }
         ]
@@ -346,153 +360,219 @@ export const MiraHQTasks: Record<number, TaskInfo> = {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 0.77700007,
-                    y: 11.484
+                    x: 9,
+                    y: -7.2936006
                 }
             }
         ]
     },
     22: {
         id: 22,
-        taskType: TaskType.BuyBeverage,
+        taskType: TaskType.DivertPower,
         length: TaskLength.Short,
         consoles: [
             {
-                index: 2,
+                index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 27.49,
-                    y: 5.665
+                    x: 9,
+                    y: -7.2936006
                 }
             }
         ]
     },
     23: {
         id: 23,
-        taskType: TaskType.ProcessData,
+        taskType: TaskType.DivertPower,
         length: TaskLength.Short,
         consoles: [
             {
-                index: 2,
+                index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 15.776001,
-                    y: 21.403
+                    x: 9,
+                    y: -7.2936006
                 }
             }
         ]
     },
     24: {
         id: 24,
-        taskType: TaskType.RunDiagnostics,
+        taskType: TaskType.DivertPower,
         length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
-                usableDistance: 1.5,
+                usableDistance: 1,
                 position: {
-                    x: -2.499,
-                    y: 1.8730001
+                    x: 9,
+                    y: -7.2936006
                 }
             }
         ]
     },
     25: {
         id: 25,
-        taskType: TaskType.UnlockManifolds,
+        taskType: TaskType.DivertPower,
         length: TaskLength.Short,
         consoles: [
             {
-                index: 2,
+                index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 0.44200015,
-                    y: 13.2560005
+                    x: 9,
+                    y: -7.2936006
                 }
             }
         ]
     },
     26: {
         id: 26,
+        taskType: TaskType.DivertPower,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 9,
+                    y: -7.2936006
+                }
+            }
+        ]
+    },
+    27: {
+        id: 27,
+        taskType: TaskType.DivertPower,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 9,
+                    y: -7.2936006
+                }
+            }
+        ]
+    },
+    28: {
+        id: 28,
+        taskType: TaskType.DivertPower,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 9,
+                    y: -7.2936006
+                }
+            }
+        ]
+    },
+    29: {
+        id: 29,
         taskType: TaskType.VentCleaning,
         length: TaskLength.Short,
         consoles: [
             {
-                index: 11,
+                index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -6.1800003,
-                    y: 3.5600002
-                }
-            },            {
-                index: 1,
-                usableDistance: 1,
-                position: {
-                    x: 23.769999,
-                    y: -1.9399999
+                    x: -2.544,
+                    y: -9.955201
                 }
             },            {
                 index: 2,
                 usableDistance: 1,
                 position: {
-                    x: 23.9,
-                    y: 7.1800003
+                    x: -4.2588,
+                    y: -0.27600002
                 }
             },            {
-                index: 3,
+                index: 13,
                 usableDistance: 1,
                 position: {
-                    x: 0.48000014,
-                    y: 10.6970005
+                    x: -16.008001,
+                    y: -6.3840003
                 }
             },            {
-                index: 4,
+                index: 12,
                 usableDistance: 1,
                 position: {
-                    x: 11.606001,
-                    y: 13.816
-                }
-            },            {
-                index: 10,
-                usableDistance: 1,
-                position: {
-                    x: 4.29,
-                    y: 0.52999973
-                }
-            },            {
-                index: 6,
-                usableDistance: 1,
-                position: {
-                    x: 22.390001,
-                    y: 17.23
-                }
-            },            {
-                index: 5,
-                usableDistance: 1,
-                position: {
-                    x: 13.280001,
-                    y: 20.13
+                    x: -16.008001,
+                    y: -3.1680002
                 }
             },            {
                 index: 7,
                 usableDistance: 1,
                 position: {
-                    x: 17.85,
-                    y: 25.23
+                    x: -8.820001,
+                    y: 3.3240001
+                }
+            },            {
+                index: 10,
+                usableDistance: 1,
+                position: {
+                    x: -9.5232,
+                    y: -14.337601
+                }
+            },            {
+                index: 1,
+                usableDistance: 1,
+                position: {
+                    x: -9.384,
+                    y: -6.438
+                }
+            },            {
+                index: 3,
+                usableDistance: 1,
+                position: {
+                    x: 9.7764,
+                    y: -8.034
                 }
             },            {
                 index: 8,
                 usableDistance: 1,
                 position: {
-                    x: 15.41,
-                    y: -1.8199997
+                    x: 20.796001,
+                    y: -6.9528003
+                }
+            },            {
+                index: 11,
+                usableDistance: 1,
+                position: {
+                    x: 21.876,
+                    y: -3.0516002
                 }
             },            {
                 index: 9,
                 usableDistance: 1,
                 position: {
-                    x: 6.83,
-                    y: 3.145
+                    x: 15.2508,
+                    y: -13.656001
+                }
+            },            {
+                index: 4,
+                usableDistance: 1,
+                position: {
+                    x: 15.288,
+                    y: 2.52
+                }
+            },            {
+                index: 5,
+                usableDistance: 1,
+                position: {
+                    x: 12.534,
+                    y: -6.9492
+                }
+            },            {
+                index: 6,
+                usableDistance: 1,
+                position: {
+                    x: 10.608001,
+                    y: -4.176
                 }
             }
         ]

@@ -1,8 +1,8 @@
 /*
     Generated using https://github.com/skeldjs/SkeldJS/tree/master/packages/data/scripts/maps.js
-    Data dumped from https://github.com/js6pak/Dumpostor
+    Data dumped from https://github.com/Impostor/Dumpostor
 
-    Copyright (C) 2021  Edward Smale
+    Copyright (C) 2025 Edward Smale
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -26,63 +26,63 @@ export const PolusVents: Record<number, VentInfo> = {
         id: PolusVent.Security,
         position: {
             x: 1.9289999,
-            y: -9.55800056
+            y: -9.558001
         },
         network: [PolusVent.O2, PolusVent.Electrical]
     },
     [PolusVent.Electrical]: {
         id: PolusVent.Electrical,
         position: {
-            x: 6.9000001,
-            y: -14.4099998
+            x: 6.9,
+            y: -14.41
         },
         network: [PolusVent.O2]
     },
     [PolusVent.O2]: {
         id: PolusVent.O2,
         position: {
-            x: 3.50999999,
-            y: -16.5799999
+            x: 3.51,
+            y: -16.58
         },
         network: [PolusVent.Electrical]
     },
     [PolusVent.Communications]: {
         id: PolusVent.Communications,
         position: {
-            x: 12.3039999,
-            y: -18.8979988
+            x: 12.304,
+            y: -18.897999
         },
         network: [PolusVent.Storage, PolusVent.Office]
     },
     [PolusVent.Office]: {
         id: PolusVent.Office,
         position: {
-            x: 16.3789997,
-            y: -19.5990009
+            x: 16.379,
+            y: -19.599
         },
         network: [PolusVent.Communications, PolusVent.Storage]
     },
     [PolusVent.Admin]: {
         id: PolusVent.Admin,
         position: {
-            x: 20.0890026,
-            y: -25.5170002
+            x: 20.089003,
+            y: -25.517
         },
         network: [PolusVent.OutsideAdmin, PolusVent.LavaPool]
     },
     [PolusVent.Laboratory]: {
         id: PolusVent.Laboratory,
         position: {
-            x: 32.9630013,
-            y: -9.52600002
+            x: 32.963,
+            y: -9.526
         },
         network: [PolusVent.LavaPool]
     },
     [PolusVent.LavaPool]: {
         id: PolusVent.LavaPool,
         position: {
-            x: 30.9070034,
-            y: -11.8600006
+            x: 30.907003,
+            y: -11.860001
         },
         network: [PolusVent.Laboratory, PolusVent.Admin]
     },
@@ -90,31 +90,31 @@ export const PolusVents: Record<number, VentInfo> = {
         id: PolusVent.Storage,
         position: {
             x: 22,
-            y: -12.1900005
+            y: -12.190001
         },
         network: [PolusVent.Communications, PolusVent.Office]
     },
     [PolusVent.RightSeismic]: {
         id: PolusVent.RightSeismic,
         position: {
-            x: 23.7199993,
-            y: -7.82000017
+            x: 23.72,
+            y: -7.82
         },
         network: [PolusVent.LeftSeismic]
     },
     [PolusVent.LeftSeismic]: {
         id: PolusVent.LeftSeismic,
         position: {
-            x: 9.64000034,
-            y: -7.71999979
+            x: 9.64,
+            y: -7.72
         },
         network: [PolusVent.RightSeismic]
     },
     [PolusVent.OutsideAdmin]: {
         id: PolusVent.OutsideAdmin,
         position: {
-            x: 18.9300003,
-            y: -24.8500004
+            x: 18.93,
+            y: -24.85
         },
         network: [PolusVent.Admin]
     }

@@ -1,8 +1,8 @@
 /*
     Generated using https://github.com/skeldjs/SkeldJS/tree/master/packages/data/scripts/maps.js
-    Data dumped from https://github.com/js6pak/Dumpostor
+    Data dumped from https://github.com/Impostor/Dumpostor
 
-    Copyright (C) 2021  Edward Smale
+    Copyright (C) 2025 Edward Smale
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,70 +19,68 @@
 */
 
 import { TaskLength, TaskType } from "@skeldjs/constant";
-import { TaskInfo } from "../types/TaskInfo";
+import { TaskInfo } from "../types";
 
 export const AirshipTasks: Record<number, TaskInfo> = {
     0: {
-        index: 0,
-        hudText: "Viewing Deck: Fix Wiring ({0}/3)",
+        id: 0,
         taskType: TaskType.FixWiring,
         length: TaskLength.Common,
         consoles: [
             {
                 index: 1,
-                usableDistance: 0.699999988,
+                usableDistance: 0.7,
                 position: {
-                    x: -7.02099991,
-                    y: 1.49099994
+                    x: -7.021,
+                    y: 1.4909999
                 }
             },            {
                 index: 0,
-                usableDistance: 0.699999988,
+                usableDistance: 0.7,
                 position: {
                     x: -10.290699,
-                    y: -11.3343983
+                    y: -11.334398
                 }
             },            {
                 index: 2,
-                usableDistance: 0.699999988,
+                usableDistance: 0.7,
                 position: {
-                    x: 16.2119999,
-                    y: 2.86300039
+                    x: 16.212,
+                    y: 2.8630004
                 }
             },            {
                 index: 3,
-                usableDistance: 0.699999988,
+                usableDistance: 0.7,
                 position: {
-                    x: 17.0820999,
-                    y: 5.48099995
+                    x: 17.0821,
+                    y: 5.481
                 }
             },            {
                 index: 4,
-                usableDistance: 0.699999988,
+                usableDistance: 0.7,
                 position: {
-                    x: 27.3574009,
-                    y: 10.3879995
+                    x: 27.3574,
+                    y: 10.388
                 }
             },            {
                 index: 5,
-                usableDistance: 0.699999988,
+                usableDistance: 0.7,
                 position: {
-                    x: 35.1539993,
-                    y: 3.91299963
+                    x: 35.154,
+                    y: 3.9129996
                 }
             },            {
                 index: 6,
-                usableDistance: 0.699999988,
+                usableDistance: 0.7,
                 position: {
-                    x: 14.0770006,
-                    y: 16.4849987
+                    x: 14.077001,
+                    y: 16.484999
                 }
             }
         ]
     },
     1: {
-        index: 1,
-        hudText: "Meeting Room: Enter Id Code",
+        id: 1,
         taskType: TaskType.EnterIdCode,
         length: TaskLength.Common,
         consoles: [
@@ -90,770 +88,735 @@ export const AirshipTasks: Record<number, TaskInfo> = {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 16.2014275,
-                    y: 16.3309994
+                    x: 16.201427,
+                    y: 16.331
                 }
             }
         ]
     },
     2: {
-        index: 2,
-        hudText: "Electrical: Calibrate Distributor",
+        id: 2,
         taskType: TaskType.CalibrateDistributor,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
                     x: 16.346632,
-                    y: -5.49989939
+                    y: -5.4998994
                 }
             }
         ]
     },
     3: {
-        index: 3,
-        hudText: "Electrical: Reset Breakers ({0}/7)",
+        id: 3,
         taskType: TaskType.ResetBreakers,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.2900009,
-                    y: -10.1534996
+                    x: 17.29,
+                    y: -10.1535
                 }
             },            {
                 index: 1,
                 usableDistance: 1,
                 position: {
                     x: 20.267416,
-                    y: -10.1534996
+                    y: -10.1535
                 }
             },            {
                 index: 2,
                 usableDistance: 1,
                 position: {
-                    x: 18.4239998,
-                    y: -7.73850012
+                    x: 18.424,
+                    y: -7.7385
                 }
             },            {
                 index: 3,
                 usableDistance: 1,
                 position: {
-                    x: 17.2900009,
-                    y: -7.73850012
+                    x: 17.29,
+                    y: -7.7385
                 }
             },            {
                 index: 4,
                 usableDistance: 1,
                 position: {
-                    x: 12.3340006,
-                    y: -7.73850012
+                    x: 12.334001,
+                    y: -7.7385
                 }
             },            {
                 index: 5,
                 usableDistance: 1,
                 position: {
-                    x: 18.4169998,
-                    y: -5.3375001
+                    x: 18.417,
+                    y: -5.3375
                 }
             },            {
                 index: 6,
                 usableDistance: 1,
                 position: {
-                    x: 15.3650007,
-                    y: -7.73850012
+                    x: 15.365001,
+                    y: -7.7385
                 }
             }
         ]
     },
     4: {
-        index: 4,
-        hudText: "Vault: Download Data ({0}/2) ",
+        id: 4,
         taskType: TaskType.UploadData,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     5: {
-        index: 5,
-        hudText: "Brig: Download Data ({0}/2) ",
+        id: 5,
         taskType: TaskType.UploadData,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     6: {
-        index: 6,
-        hudText: "Cargo Bay: Download Data ({0}/2) ",
+        id: 6,
         taskType: TaskType.UploadData,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     7: {
-        index: 7,
-        hudText: "Gap Room: Download Data ({0}/2) ",
+        id: 7,
         taskType: TaskType.UploadData,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     8: {
-        index: 8,
-        hudText: "Records: Download Data ({0}/2) ",
+        id: 8,
         taskType: TaskType.UploadData,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     9: {
-        index: 9,
-        hudText: "Cargo Bay: Unlock Safe",
+        id: 9,
         taskType: TaskType.UnlockSafe,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 36.3019981,
-                    y: -2.68799996
+                    x: 36.302,
+                    y: -2.688
                 }
             }
         ]
     },
     10: {
-        index: 10,
-        hudText: "Ventilation: Start Fans",
+        id: 10,
         taskType: TaskType.StartFans,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
 
         ]
     },
     11: {
-        index: 11,
-        hudText: "Main Hall: Empty Garbage ({0}/2)",
+        id: 11,
         taskType: TaskType.EmptyGarbage,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
 
         ]
     },
     12: {
-        index: 12,
-        hudText: "Medical: Empty Garbage ({0}/2)",
+        id: 12,
         taskType: TaskType.EmptyGarbage,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
 
         ]
     },
     13: {
-        index: 13,
-        hudText: "Kitchen: Empty Garbage ({0}/2)",
+        id: 13,
         taskType: TaskType.EmptyGarbage,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
 
         ]
     },
     14: {
-        index: 14,
-        hudText: "Main Hall: Develop Photos",
+        id: 14,
         taskType: TaskType.DevelopPhotos,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
                     x: 13.527709,
-                    y: 2.34949136
+                    y: 2.3494914
                 }
             }
         ]
     },
     15: {
-        index: 15,
-        hudText: "Cargo Bay: Fuel Engines",
+        id: 15,
         taskType: TaskType.FuelEngines,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
 
         ]
     },
     16: {
-        index: 16,
-        hudText: "Security: Rewind Tapes",
+        id: 16,
         taskType: TaskType.RewindTapes,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
-                usableDistance: 1.39999998,
+                usableDistance: 1.4,
                 position: {
-                    x: 8.13049984,
-                    y: -11.5352983
+                    x: 8.1305,
+                    y: -11.535298
                 }
             }
         ]
     },
     17: {
-        index: 17,
-        hudText: "Lounge: Empty Garbage ({0}/2)",
+        id: 17,
         taskType: TaskType.EmptyGarbage,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
 
         ]
     },
     18: {
-        index: 18,
-        hudText: "Showers: Empty Garbage ({0}/2)",
+        id: 18,
         taskType: TaskType.EmptyGarbage,
-        length: TaskLength.Short,
+        length: TaskLength.Long,
         consoles: [
 
         ]
     },
     19: {
-        index: 19,
-        hudText: "Vault: Polish Ruby",
+        id: 19,
         taskType: TaskType.PolishRuby,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -8.8514986,
-                    y: 9.09999943
+                    x: -8.851499,
+                    y: 9.099999
                 }
             }
         ]
     },
     20: {
-        index: 20,
-        hudText: "Cockpit: Stabilize Steering",
+        id: 20,
         taskType: TaskType.StabilizeSteering,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -19.6769981,
-                    y: -0.791000009
+                    x: -19.676998,
+                    y: -0.791
                 }
             }
         ]
     },
     21: {
-        index: 21,
-        hudText: "Armory: Download Data ({0}/2) ",
+        id: 21,
         taskType: TaskType.UploadData,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     22: {
-        index: 22,
-        hudText: "Cockpit: Download Data ({0}/2) ",
+        id: 22,
         taskType: TaskType.UploadData,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     23: {
-        index: 23,
-        hudText: "Communications: Download Data ({0}/2) ",
+        id: 23,
         taskType: TaskType.UploadData,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     24: {
-        index: 24,
-        hudText: "Medical: Download Data ({0}/2) ",
+        id: 24,
         taskType: TaskType.UploadData,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     25: {
-        index: 25,
-        hudText: "Viewing Deck: Download Data ({0}/2) ",
+        id: 25,
         taskType: TaskType.UploadData,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -14.4640999,
+                    x: -14.4641,
                     y: -16.387701
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 10.4685001,
+                    x: 10.4685,
                     y: -16.218298
                 }
             }
         ]
     },
     26: {
-        index: 26,
-        hudText: "Electrical: Divert Power to Armory ({0}/2)",
+        id: 26,
         taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.5952892,
-                    y: -3.71420002
+                    x: 17.59529,
+                    y: -3.7142
                 }
             }
         ]
     },
     27: {
-        index: 27,
-        hudText: "Electrical: Divert Power to Cockpit ({0}/2)",
+        id: 27,
         taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.5952892,
-                    y: -3.71420002
+                    x: 17.59529,
+                    y: -3.7142
                 }
             }
         ]
     },
     28: {
-        index: 28,
-        hudText: "Electrical: Divert Power to Gap Room ({0}/2)",
+        id: 28,
         taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.5952892,
-                    y: -3.71420002
+                    x: 17.59529,
+                    y: -3.7142
                 }
             }
         ]
     },
     29: {
-        index: 29,
-        hudText: "Electrical: Divert Power to Main Hall ({0}/2)",
+        id: 29,
         taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.5952892,
-                    y: -3.71420002
+                    x: 17.59529,
+                    y: -3.7142
                 }
             }
         ]
     },
     30: {
-        index: 30,
-        hudText: "Electrical: Divert Power to Meeting Room ({0}/2)",
+        id: 30,
         taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.5952892,
-                    y: -3.71420002
+                    x: 17.59529,
+                    y: -3.7142
                 }
             }
         ]
     },
     31: {
-        index: 31,
-        hudText: "Electrical: Divert Power to Showers ({0}/2)",
+        id: 31,
         taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.5952892,
-                    y: -3.71420002
+                    x: 17.59529,
+                    y: -3.7142
                 }
             }
         ]
     },
     32: {
-        index: 32,
-        hudText: "Electrical: Divert Power to Engine Room ({0}/2)",
+        id: 32,
         taskType: TaskType.DivertPower,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.5952892,
-                    y: -3.71420002
+                    x: 17.59529,
+                    y: -3.7142
                 }
             }
         ]
     },
     33: {
-        index: 33,
-        hudText: "Showers: Pick Up Towels ({0}/8)",
+        id: 33,
         taskType: TaskType.PickUpTowels,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 17.3159008,
-                    y: 4.74695349
+                    x: 17.3159,
+                    y: 4.7469535
                 }
             },            {
                 index: 1,
                 usableDistance: 1,
                 position: {
-                    x: 20.3819008,
-                    y: 4.57099962
+                    x: 20.3819,
+                    y: 4.5709996
                 }
             },            {
                 index: 2,
                 usableDistance: 1,
                 position: {
-                    x: 21.8169003,
-                    y: 2.46399999
+                    x: 21.8169,
+                    y: 2.464
                 }
             },            {
                 index: 3,
                 usableDistance: 1,
                 position: {
-                    x: 18.8489017,
-                    y: -0.909999967
+                    x: 18.848902,
+                    y: -0.90999997
                 }
             },            {
                 index: 4,
                 usableDistance: 1,
                 position: {
-                    x: 24.0359001,
-                    y: -2.18399978
+                    x: 24.0359,
+                    y: -2.1839998
                 }
             },            {
                 index: 5,
                 usableDistance: 1,
                 position: {
-                    x: 20.5499001,
-                    y: -1.73599994
+                    x: 20.5499,
+                    y: -1.736
                 }
             },            {
                 index: 6,
                 usableDistance: 1,
                 position: {
-                    x: 22.0128994,
-                    y: -1.42799997
+                    x: 22.0129,
+                    y: -1.428
                 }
             },            {
                 index: 7,
                 usableDistance: 1,
                 position: {
-                    x: 20.0809002,
-                    y: -0.0419999585
+                    x: 20.0809,
+                    y: -0.04199996
                 }
             },            {
                 index: 8,
                 usableDistance: 1,
                 position: {
-                    x: 19.1849003,
-                    y: 3.36699986
+                    x: 19.1849,
+                    y: 3.3669999
                 }
             },            {
                 index: 9,
                 usableDistance: 1,
                 position: {
-                    x: 22.9648991,
-                    y: 0.0559999458
+                    x: 22.9649,
+                    y: 0.055999946
                 }
             },            {
                 index: 10,
                 usableDistance: 1,
                 position: {
                     x: 18.134901,
-                    y: 2.07200003
+                    y: 2.072
                 }
             },            {
                 index: 11,
                 usableDistance: 1,
                 position: {
-                    x: 23.0418987,
-                    y: -1.49100006
+                    x: 23.041899,
+                    y: -1.491
                 }
             },            {
                 index: 12,
                 usableDistance: 1,
                 position: {
-                    x: 22.9173012,
-                    y: -1.35240006
+                    x: 22.917301,
+                    y: -1.3524001
                 }
             },            {
                 index: 13,
                 usableDistance: 1,
                 position: {
-                    x: 23.1231003,
-                    y: -1.39999998
+                    x: 23.1231,
+                    y: -1.4
                 }
             },            {
                 index: 255,
                 usableDistance: 1,
                 position: {
-                    x: 18.7929001,
-                    y: 5.13800001
+                    x: 18.7929,
+                    y: 5.138
                 }
             }
         ]
     },
     34: {
-        index: 34,
-        hudText: "Lounge: Clean Toilet",
+        id: 34,
         taskType: TaskType.CleanToilet,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
                     x: 29.191824,
-                    y: 7.73951101
+                    y: 7.739511
                 }
             },            {
                 index: 1,
                 usableDistance: 1,
                 position: {
-                    x: 30.8083954,
-                    y: 7.72099972
+                    x: 30.808395,
+                    y: 7.7209997
                 }
             },            {
                 index: 2,
                 usableDistance: 1,
                 position: {
                     x: 32.320076,
-                    y: 7.76419115
+                    y: 7.764191
                 }
             },            {
                 index: 3,
                 usableDistance: 1,
                 position: {
-                    x: 33.7358627,
-                    y: 7.79169893
+                    x: 33.735863,
+                    y: 7.791699
                 }
             }
         ]
     },
     35: {
-        index: 35,
-        hudText: "Vault: Dress Mannequin",
+        id: 35,
         taskType: TaskType.DressMannequin,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -7.38429832,
-                    y: 6.43019962
+                    x: -7.3842983,
+                    y: 6.4301996
                 }
             }
         ]
     },
     36: {
-        index: 36,
-        hudText: "Records: Sort Records ({0}/4)",
+        id: 36,
         taskType: TaskType.SortRecords,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 5,
                 usableDistance: 1,
                 position: {
-                    x: 17.9353981,
-                    y: 11.4015999
+                    x: 17.935398,
+                    y: 11.4016
                 }
             },            {
                 index: 6,
                 usableDistance: 1,
                 position: {
-                    x: 21.8547001,
-                    y: 11.4162998
+                    x: 21.8547,
+                    y: 11.4163
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 19.8938465,
-                    y: 9.27367783
+                    x: 19.893847,
+                    y: 9.273678
                 }
             },            {
                 index: 1,
                 usableDistance: 1,
                 position: {
-                    x: 18.6878967,
+                    x: 18.687897,
                     y: 12.503397
                 }
             },            {
@@ -861,201 +824,195 @@ export const AirshipTasks: Record<number, TaskInfo> = {
                 usableDistance: 1,
                 position: {
                     x: 19.2549,
-                    y: 12.7014999
+                    y: 12.7015
                 }
             },            {
                 index: 3,
                 usableDistance: 1,
                 position: {
-                    x: 20.5196018,
-                    y: 12.7189989
+                    x: 20.519602,
+                    y: 12.718999
                 }
             },            {
                 index: 4,
                 usableDistance: 1,
                 position: {
-                    x: 21.1070976,
-                    y: 12.5278969
+                    x: 21.107098,
+                    y: 12.527897
                 }
             },            {
                 index: 7,
                 usableDistance: 1,
                 position: {
-                    x: 21.5991993,
-                    y: 7.07000017
+                    x: 21.5992,
+                    y: 7.07
                 }
             },            {
                 index: 8,
                 usableDistance: 1,
                 position: {
-                    x: 18.1866989,
-                    y: 7.06510019
+                    x: 18.186699,
+                    y: 7.0651
                 }
             }
         ]
     },
     37: {
-        index: 37,
-        hudText: "Armory: Put Away Pistols",
+        id: 37,
         taskType: TaskType.PutAwayPistols,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
 
         ]
     },
     38: {
-        index: 38,
-        hudText: "Armory: Put Away Rifles",
+        id: 38,
         taskType: TaskType.PutAwayRifles,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
 
         ]
     },
     39: {
-        index: 39,
-        hudText: "Main Hall: Decontaminate",
+        id: 39,
         taskType: TaskType.Decontaminate,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 14.7915564,
-                    y: 3.70299983
+                    x: 14.791556,
+                    y: 3.7029998
                 }
             },            {
                 index: 0,
-                usableDistance: 0.800000012,
+                usableDistance: 0.8,
                 position: {
-                    x: 14.7915564,
-                    y: 3.70299983
+                    x: 14.791556,
+                    y: 3.7029998
                 }
             }
         ]
     },
     40: {
-        index: 40,
-        hudText: "Kitchen: Make Burger",
+        id: 40,
         taskType: TaskType.MakeBurger,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -5.17929983,
-                    y: -8.52390003
+                    x: -5.1793,
+                    y: -8.5239
                 }
             }
         ]
     },
     41: {
-        index: 41,
-        hudText: "Showers: Fix Shower",
+        id: 41,
         taskType: TaskType.FixShower,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 20.8159008,
-                    y: 3.27599978
+                    x: 20.8159,
+                    y: 3.2759998
                 }
             }
         ]
     },
     42: {
-        index: 42,
-        hudText: "Viewing Deck: Clean Vent",
-        taskType: TaskType.ViewingDeck,
-        length: TaskLength.Long,
+        id: 42,
+        taskType: TaskType.VentCleaning,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 1,
                 usableDistance: 1,
                 position: {
                     x: -22.098999,
-                    y: -1.51200008
+                    y: -1.5120001
                 }
             },            {
                 index: 3,
                 usableDistance: 1,
                 position: {
-                    x: 0.202999964,
-                    y: -2.53610039
+                    x: 0.20299996,
+                    y: -2.5361004
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: -12.6321983,
-                    y: 8.47350025
+                    x: -12.632198,
+                    y: 8.4735
                 }
             },            {
                 index: 4,
                 usableDistance: 1,
                 position: {
-                    x: -2.60189986,
-                    y: -9.3380003
+                    x: -2.6018999,
+                    y: -9.338
                 }
             },            {
                 index: 2,
                 usableDistance: 1,
                 position: {
-                    x: -15.6589994,
+                    x: -15.658999,
                     y: -11.6991005
                 }
             },            {
                 index: 8,
                 usableDistance: 1,
                 position: {
-                    x: 3.60499978,
-                    y: 6.92300034
+                    x: 3.6049998,
+                    y: 6.9230003
                 }
             },            {
                 index: 7,
                 usableDistance: 1,
                 position: {
-                    x: 12.6630001,
-                    y: 5.92199993
+                    x: 12.663,
+                    y: 5.922
                 }
             },            {
                 index: 5,
                 usableDistance: 1,
                 position: {
-                    x: 7.02100039,
-                    y: -3.73099947
+                    x: 7.0210004,
+                    y: -3.7309995
                 }
             },            {
                 index: 6,
                 usableDistance: 1,
                 position: {
-                    x: 9.81400013,
-                    y: 3.20600033
+                    x: 9.814,
+                    y: 3.2060003
                 }
             },            {
                 index: 9,
                 usableDistance: 1,
                 position: {
-                    x: 23.9869003,
-                    y: -1.38600004
+                    x: 23.9869,
+                    y: -1.386
                 }
             },            {
                 index: 10,
                 usableDistance: 1,
                 position: {
-                    x: 23.2798977,
-                    y: 8.25999832
+                    x: 23.279898,
+                    y: 8.259998
                 }
             },            {
                 index: 11,
                 usableDistance: 1,
                 position: {
                     x: 30.440897,
-                    y: -3.57700014
+                    y: -3.5770001
                 }
             }
         ]

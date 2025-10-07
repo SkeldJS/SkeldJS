@@ -1,6 +1,6 @@
 import { Vector2 } from "@skeldjs/util";
 import { SystemType } from "@skeldjs/constant";
-import { TheSkeldTasks } from "@skeldjs/data";
+import { AprilFoolsTheSkeldTasks, TheSkeldTasks } from "@skeldjs/data";
 
 import { InnerShipStatus } from "./InnerShipStatus";
 
@@ -76,6 +76,6 @@ export class AprilShipStatus<RoomType extends StatefulRoom> extends InnerShipSta
     }
 
     getTasks() {
-        return Object.values(TheSkeldTasks);
+        return Object.values(AprilFoolsTheSkeldTasks);
     }
 }

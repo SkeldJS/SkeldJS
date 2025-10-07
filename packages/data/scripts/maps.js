@@ -9,9 +9,11 @@ const dumpostorOutputPath = process.argv[2];
 
 const mapNamesToId = {
     "Skeld": "TheSkeld",
-    "MiraHQ": "MiraHQ",
+    "April": "AprilFoolsTheSkeld",
+    "Mira": "MiraHQ",
     "Polus": "Polus",
-    "Airship": "Airship"
+    "Airship": "Airship",
+    "Fungle": "TheFungle",
 };
 
 if (!dumpostorOutputPath) {
@@ -49,7 +51,7 @@ for (const fileName of filesInDirectory) {
 }
 
 try {
-    fs.mkdirSync("maps");
+    fs.mkdirSync(path.resolve(__dirname, "maps"), { recursive: true });
 } catch (e) {}
 
 for (const mapDataFolder of mapDataFolders) {
@@ -67,9 +69,9 @@ for (const mapDataFolder of mapDataFolders) {
     const taskEntries = Object.entries(taskFileJson);
     let taskOutput = `/*
     Generated using https://github.com/skeldjs/SkeldJS/tree/master/packages/data/scripts/maps.js
-    Data dumped from https://github.com/js6pak/Dumpostor
+    Data dumped from https://github.com/Impostor/Dumpostor
 
-    Copyright (C) 2021  Edward Smale
+    Copyright (C) 2025 Edward Smale
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -86,20 +88,15 @@ for (const mapDataFolder of mapDataFolders) {
 */
 
 import { TaskLength, TaskType } from "@skeldjs/constant";
-import { VentInfo } from "../types";
+import { TaskInfo } from "../types";
 
-export const ${mapName}Tasks: Record<number, VentInfo> = {
+export const ${mapName}Tasks: Record<number, TaskInfo> = {
 `;
     for (const [ taskId, taskInfo ] of taskEntries) {
-        const taskTypeName = amongus.TaskType[taskInfo.taskType];
-        if (!taskTypeName) {
-            console.log(taskInfo.taskType);
-        }
         taskOutput += `${t}${taskId}: {
-${t}${t}index: ${taskId},
-${t}${t}hudText: "${taskInfo.hudText.replace("0/", "{0}/")}",
-${t}${t}taskType: TaskType.${taskTypeName},
-${t}${t}length: TaskLength.${amongus.TaskLength[taskInfo.length]},
+${t}${t}id: ${taskId},
+${t}${t}taskType: TaskType.${taskInfo.taskType},
+${t}${t}length: TaskLength.${taskInfo.length},
 ${t}${t}consoles: [
 `;
         for (let i = 0; i < taskInfo.consoles.length; i++) {
@@ -127,9 +124,9 @@ ${t}}${taskId === taskEntries[taskEntries.length - 1][0] ? "" : ","}
     const ventEntries = Object.entries(ventFileJson);
     let ventOutput = `/*
     Generated using https://github.com/skeldjs/SkeldJS/tree/master/packages/data/scripts/maps.js
-    Data dumped from https://github.com/js6pak/Dumpostor
+    Data dumped from https://github.com/Impostor/Dumpostor
 
-    Copyright (C) 2021  Edward Smale
+    Copyright (C) 2025 Edward Smale
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -146,7 +143,7 @@ ${t}}${taskId === taskEntries[taskEntries.length - 1][0] ? "" : ","}
 */
 
 import { ${mapName}Vent } from "@skeldjs/constant";
-import { VentInfo } from "../types
+import { VentInfo } from "../types";
 
 export const ${mapName}Vents: Record<number, VentInfo> = {
 `;

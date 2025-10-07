@@ -1,8 +1,8 @@
 /*
     Generated using https://github.com/skeldjs/SkeldJS/tree/master/packages/data/scripts/maps.js
-    Data dumped from https://github.com/js6pak/Dumpostor
+    Data dumped from https://github.com/Impostor/Dumpostor
 
-    Copyright (C) 2021  Edward Smale
+    Copyright (C) 2025 Edward Smale
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,14 +18,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-
 import { TaskLength, TaskType } from "@skeldjs/constant";
-import { TaskInfo } from "../types/TaskInfo";
+import { TaskInfo } from "../types";
 
 export const PolusTasks: Record<number, TaskInfo> = {
     0: {
-        index: 0,
-        hudText: "Office: Swipe Card",
+        id: 0,
         taskType: TaskType.SwipeCard,
         length: TaskLength.Common,
         consoles: [
@@ -33,15 +31,14 @@ export const PolusTasks: Record<number, TaskInfo> = {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 24.8164444,
-                    y: -16.2175217
+                    x: 24.816444,
+                    y: -16.217522
                 }
             }
         ]
     },
     1: {
-        index: 1,
-        hudText: "Dropship: Insert Keys",
+        id: 1,
         taskType: TaskType.InsertKeys,
         length: TaskLength.Common,
         consoles: [
@@ -49,15 +46,14 @@ export const PolusTasks: Record<number, TaskInfo> = {
                 index: 2,
                 usableDistance: 1,
                 position: {
-                    x: 17.3807602,
-                    y: 0.0840201378
+                    x: 17.38076,
+                    y: 0.08402014
                 }
             }
         ]
     },
     2: {
-        index: 2,
-        hudText: "Office: Scan Boarding Pass",
+        id: 2,
         taskType: TaskType.ScanBoardingPass,
         length: TaskLength.Common,
         consoles: [
@@ -65,15 +61,14 @@ export const PolusTasks: Record<number, TaskInfo> = {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 25.7500095,
-                    y: -16.0308094
+                    x: 25.75001,
+                    y: -16.03081
                 }
             }
         ]
     },
     3: {
-        index: 3,
-        hudText: "Electrical: Fix Wiring ({0}/3)",
+        id: 3,
         taskType: TaskType.FixWiring,
         length: TaskLength.Common,
         consoles: [
@@ -81,723 +76,694 @@ export const PolusTasks: Record<number, TaskInfo> = {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 3.06727982,
-                    y: -8.69147587
+                    x: 3.0672798,
+                    y: -8.691476
                 }
             },            {
                 index: 1,
-                usableDistance: 0.769999981,
+                usableDistance: 0.77,
                 position: {
-                    x: 6.49900007,
-                    y: -18.4580002
+                    x: 6.499,
+                    y: -18.458
                 }
             },            {
                 index: 2,
-                usableDistance: 0.800000012,
+                usableDistance: 0.8,
                 position: {
-                    x: 16.3737488,
-                    y: -18.5055885
+                    x: 16.373749,
+                    y: -18.505589
                 }
             },            {
                 index: 3,
                 usableDistance: 1,
                 position: {
-                    x: 40.6100006,
-                    y: -8.96000004
+                    x: 40.61,
+                    y: -8.96
                 }
             },            {
                 index: 4,
                 usableDistance: 1,
                 position: {
                     x: 37.321003,
-                    y: -8.94400024
+                    y: -8.944
                 }
             },            {
                 index: 5,
                 usableDistance: 1,
                 position: {
-                    x: 32.9750023,
-                    y: -9.03136539
+                    x: 32.975002,
+                    y: -9.031365
                 }
             }
         ]
     },
     4: {
-        index: 4,
-        hudText: "Weapons: Download Data ({0}/2) ",
+        id: 4,
         taskType: TaskType.UploadData,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 11.71978,
-                    y: -15.1451921
-                }
-            }
-        ]
-    },
-    5: {
-        index: 5,
-        hudText: "Office: Download Data ({0}/2) ",
-        taskType: TaskType.UploadData,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 11.71978,
-                    y: -15.1451921
-                }
-            }
-        ]
-    },
-    6: {
-        index: 6,
-        hudText: "Electrical: Download Data ({0}/2) ",
-        taskType: TaskType.UploadData,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 11.71978,
-                    y: -15.1451921
-                }
-            }
-        ]
-    },
-    7: {
-        index: 7,
-        hudText: "Specimen Room: Download Data ({0}/2) ",
-        taskType: TaskType.UploadData,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 11.71978,
-                    y: -15.1451921
-                }
-            }
-        ]
-    },
-    8: {
-        index: 8,
-        hudText: "O2: Download Data ({0}/2) ",
-        taskType: TaskType.UploadData,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 11.71978,
-                    y: -15.1451921
-                }
-            }
-        ]
-    },
-    9: {
-        index: 9,
-        hudText: "Specimen Room: Start Reactor",
-        taskType: TaskType.StartReactor,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 34.7577744,
-                    y: -18.8785362
-                }
-            }
-        ]
-    },
-    10: {
-        index: 10,
-        hudText: "Storage: Fuel Engines ({0}/2)",
-        taskType: TaskType.FuelEngines,
-        length: TaskLength.Short,
-        consoles: [
-
-        ]
-    },
-    11: {
-        index: 11,
-        hudText: "Boiler Room: Open Waterways ({0}/3)",
-        taskType: TaskType.OpenWaterways,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 3.66899991,
-                    y: -24.1499996
-                }
-            },            {
-                index: 1,
-                usableDistance: 1,
-                position: {
-                    x: 0.943000078,
-                    y: -24.1499996
-                }
-            },            {
-                index: 2,
-                usableDistance: 1,
-                position: {
-                    x: 18.4170017,
-                    y: -23.7199993
-                }
-            }
-        ]
-    },
-    12: {
-        index: 12,
-        hudText: "MedBay: Inspect Sample",
-        taskType: TaskType.InspectSample,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 36.5284805,
-                    y: -5.56934738
-                }
-            }
-        ]
-    },
-    13: {
-        index: 13,
-        hudText: "Boiler Room: Replace Water Jug ({0}/2)",
-        taskType: TaskType.ReplaceWaterJug,
-        length: TaskLength.Short,
-        consoles: [
-
-        ]
-    },
-    14: {
-        index: 14,
-        hudText: "Node_GI: Fix Weather Node ({0}/2)",
-        taskType: TaskType.ActivateWeatherNodes,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 23.0400009,
-                    y: -6.94000006
-                }
-            },            {
-                index: 1,
-                usableDistance: 1,
-                position: {
-                    x: 8.36999989,
-                    y: -15.46
-                }
-            },            {
-                index: 2,
-                usableDistance: 1,
-                position: {
-                    x: 7.15999985,
-                    y: -25.3600006
-                }
-            },            {
-                index: 3,
-                usableDistance: 1,
-                position: {
-                    x: 14.96,
-                    y: -25.4400005
-                }
-            },            {
-                index: 4,
-                usableDistance: 1,
-                position: {
-                    x: 14.4799995,
-                    y: -12.1700001
-                }
-            },            {
-                index: 5,
-                usableDistance: 1,
-                position: {
-                    x: 30.8600006,
-                    y: -12.2299995
-                }
-            }
-        ]
-    },
-    15: {
-        index: 15,
-        hudText: "Node_IRO: Fix Weather Node ({0}/2)",
-        taskType: TaskType.ActivateWeatherNodes,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 23.0400009,
-                    y: -6.94000006
-                }
-            },            {
-                index: 1,
-                usableDistance: 1,
-                position: {
-                    x: 8.36999989,
-                    y: -15.46
-                }
-            },            {
-                index: 2,
-                usableDistance: 1,
-                position: {
-                    x: 7.15999985,
-                    y: -25.3600006
-                }
-            },            {
-                index: 3,
-                usableDistance: 1,
-                position: {
-                    x: 14.96,
-                    y: -25.4400005
-                }
-            },            {
-                index: 4,
-                usableDistance: 1,
-                position: {
-                    x: 14.4799995,
-                    y: -12.1700001
-                }
-            },            {
-                index: 5,
-                usableDistance: 1,
-                position: {
-                    x: 30.8600006,
-                    y: -12.2299995
-                }
-            }
-        ]
-    },
-    16: {
-        index: 16,
-        hudText: "Node_PD: Fix Weather Node ({0}/2)",
-        taskType: TaskType.ActivateWeatherNodes,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 23.0400009,
-                    y: -6.94000006
-                }
-            },            {
-                index: 1,
-                usableDistance: 1,
-                position: {
-                    x: 8.36999989,
-                    y: -15.46
-                }
-            },            {
-                index: 2,
-                usableDistance: 1,
-                position: {
-                    x: 7.15999985,
-                    y: -25.3600006
-                }
-            },            {
-                index: 3,
-                usableDistance: 1,
-                position: {
-                    x: 14.96,
-                    y: -25.4400005
-                }
-            },            {
-                index: 4,
-                usableDistance: 1,
-                position: {
-                    x: 14.4799995,
-                    y: -12.1700001
-                }
-            },            {
-                index: 5,
-                usableDistance: 1,
-                position: {
-                    x: 30.8600006,
-                    y: -12.2299995
-                }
-            }
-        ]
-    },
-    17: {
-        index: 17,
-        hudText: "Node_TB: Fix Weather Node ({0}/2)",
-        taskType: TaskType.ActivateWeatherNodes,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 23.0400009,
-                    y: -6.94000006
-                }
-            },            {
-                index: 1,
-                usableDistance: 1,
-                position: {
-                    x: 8.36999989,
-                    y: -15.46
-                }
-            },            {
-                index: 2,
-                usableDistance: 1,
-                position: {
-                    x: 7.15999985,
-                    y: -25.3600006
-                }
-            },            {
-                index: 3,
-                usableDistance: 1,
-                position: {
-                    x: 14.96,
-                    y: -25.4400005
-                }
-            },            {
-                index: 4,
-                usableDistance: 1,
-                position: {
-                    x: 14.4799995,
-                    y: -12.1700001
-                }
-            },            {
-                index: 5,
-                usableDistance: 1,
-                position: {
-                    x: 30.8600006,
-                    y: -12.2299995
-                }
-            }
-        ]
-    },
-    18: {
-        index: 18,
-        hudText: "Communications: Reboot Wifi",
-        taskType: TaskType.RebootWifi,
-        length: TaskLength.Short,
-        consoles: [
-            {
-                index: 0,
-                usableDistance: 1,
-                position: {
-                    x: 11.0479994,
-                    y: -15.2979116
-                }
-            }
-        ]
-    },
-    19: {
-        index: 19,
-        hudText: "O2: Monitor Tree",
-        taskType: TaskType.MonitorO2,
         length: TaskLength.Long,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 1.65400004,
+                    x: 11.71978,
+                    y: -15.145192
+                }
+            }
+        ]
+    },
+    5: {
+        id: 5,
+        taskType: TaskType.UploadData,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 11.71978,
+                    y: -15.145192
+                }
+            }
+        ]
+    },
+    6: {
+        id: 6,
+        taskType: TaskType.UploadData,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 11.71978,
+                    y: -15.145192
+                }
+            }
+        ]
+    },
+    7: {
+        id: 7,
+        taskType: TaskType.UploadData,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 11.71978,
+                    y: -15.145192
+                }
+            }
+        ]
+    },
+    8: {
+        id: 8,
+        taskType: TaskType.UploadData,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 11.71978,
+                    y: -15.145192
+                }
+            }
+        ]
+    },
+    9: {
+        id: 9,
+        taskType: TaskType.StartReactor,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 34.757774,
+                    y: -18.878536
+                }
+            }
+        ]
+    },
+    10: {
+        id: 10,
+        taskType: TaskType.FuelEngines,
+        length: TaskLength.Long,
+        consoles: [
+
+        ]
+    },
+    11: {
+        id: 11,
+        taskType: TaskType.OpenWaterways,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 3.669,
+                    y: -24.15
+                }
+            },            {
+                index: 1,
+                usableDistance: 1,
+                position: {
+                    x: 0.9430001,
+                    y: -24.15
+                }
+            },            {
+                index: 2,
+                usableDistance: 1,
+                position: {
+                    x: 18.417002,
+                    y: -23.72
+                }
+            }
+        ]
+    },
+    12: {
+        id: 12,
+        taskType: TaskType.InspectSample,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 36.52848,
+                    y: -5.5693474
+                }
+            }
+        ]
+    },
+    13: {
+        id: 13,
+        taskType: TaskType.ReplaceWaterJug,
+        length: TaskLength.Long,
+        consoles: [
+
+        ]
+    },
+    14: {
+        id: 14,
+        taskType: TaskType.FixWeatherNode,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 23.04,
+                    y: -6.94
+                }
+            },            {
+                index: 1,
+                usableDistance: 1,
+                position: {
+                    x: 8.37,
+                    y: -15.46
+                }
+            },            {
+                index: 2,
+                usableDistance: 1,
+                position: {
+                    x: 7.16,
+                    y: -25.36
+                }
+            },            {
+                index: 3,
+                usableDistance: 1,
+                position: {
+                    x: 14.96,
+                    y: -25.44
+                }
+            },            {
+                index: 4,
+                usableDistance: 1,
+                position: {
+                    x: 14.48,
+                    y: -12.17
+                }
+            },            {
+                index: 5,
+                usableDistance: 1,
+                position: {
+                    x: 30.86,
+                    y: -12.23
+                }
+            }
+        ]
+    },
+    15: {
+        id: 15,
+        taskType: TaskType.FixWeatherNode,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 23.04,
+                    y: -6.94
+                }
+            },            {
+                index: 1,
+                usableDistance: 1,
+                position: {
+                    x: 8.37,
+                    y: -15.46
+                }
+            },            {
+                index: 2,
+                usableDistance: 1,
+                position: {
+                    x: 7.16,
+                    y: -25.36
+                }
+            },            {
+                index: 3,
+                usableDistance: 1,
+                position: {
+                    x: 14.96,
+                    y: -25.44
+                }
+            },            {
+                index: 4,
+                usableDistance: 1,
+                position: {
+                    x: 14.48,
+                    y: -12.17
+                }
+            },            {
+                index: 5,
+                usableDistance: 1,
+                position: {
+                    x: 30.86,
+                    y: -12.23
+                }
+            }
+        ]
+    },
+    16: {
+        id: 16,
+        taskType: TaskType.FixWeatherNode,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 23.04,
+                    y: -6.94
+                }
+            },            {
+                index: 1,
+                usableDistance: 1,
+                position: {
+                    x: 8.37,
+                    y: -15.46
+                }
+            },            {
+                index: 2,
+                usableDistance: 1,
+                position: {
+                    x: 7.16,
+                    y: -25.36
+                }
+            },            {
+                index: 3,
+                usableDistance: 1,
+                position: {
+                    x: 14.96,
+                    y: -25.44
+                }
+            },            {
+                index: 4,
+                usableDistance: 1,
+                position: {
+                    x: 14.48,
+                    y: -12.17
+                }
+            },            {
+                index: 5,
+                usableDistance: 1,
+                position: {
+                    x: 30.86,
+                    y: -12.23
+                }
+            }
+        ]
+    },
+    17: {
+        id: 17,
+        taskType: TaskType.FixWeatherNode,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 23.04,
+                    y: -6.94
+                }
+            },            {
+                index: 1,
+                usableDistance: 1,
+                position: {
+                    x: 8.37,
+                    y: -15.46
+                }
+            },            {
+                index: 2,
+                usableDistance: 1,
+                position: {
+                    x: 7.16,
+                    y: -25.36
+                }
+            },            {
+                index: 3,
+                usableDistance: 1,
+                position: {
+                    x: 14.96,
+                    y: -25.44
+                }
+            },            {
+                index: 4,
+                usableDistance: 1,
+                position: {
+                    x: 14.48,
+                    y: -12.17
+                }
+            },            {
+                index: 5,
+                usableDistance: 1,
+                position: {
+                    x: 30.86,
+                    y: -12.23
+                }
+            }
+        ]
+    },
+    18: {
+        id: 18,
+        taskType: TaskType.RebootWifi,
+        length: TaskLength.Long,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 11.047999,
+                    y: -15.297912
+                }
+            }
+        ]
+    },
+    19: {
+        id: 19,
+        taskType: TaskType.MonitorOxygen,
+        length: TaskLength.Short,
+        consoles: [
+            {
+                index: 0,
+                usableDistance: 1,
+                position: {
+                    x: 1.654,
                     y: -16.012001
                 }
             }
         ]
     },
     20: {
-        index: 20,
-        hudText: "Specimen Room: Unlock Manifolds",
+        id: 20,
         taskType: TaskType.UnlockManifolds,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 34.3813057,
-                    y: -19.4866753
+                    x: 34.381306,
+                    y: -19.486675
                 }
             }
         ]
     },
     21: {
-        index: 21,
-        hudText: "Specimen Room: Store Artifacts",
+        id: 21,
         taskType: TaskType.StoreArtifacts,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 36.4811172,
-                    y: -18.8286705
+                    x: 36.481117,
+                    y: -18.82867
                 }
             }
         ]
     },
     22: {
-        index: 22,
-        hudText: "O2: Fill Canisters",
+        id: 22,
         taskType: TaskType.FillCanisters,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
-                usableDistance: 0.600000024,
+                usableDistance: 0.6,
                 position: {
-                    x: 1.14319611,
-                    y: -19.5258732
+                    x: 1.1431961,
+                    y: -19.525873
                 }
             }
         ]
     },
     23: {
-        index: 23,
-        hudText: "O2: Empty Garbage",
+        id: 23,
         taskType: TaskType.EmptyGarbage,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
 
         ]
     },
     24: {
-        index: 24,
-        hudText: "Dropship: Chart Course",
+        id: 24,
         taskType: TaskType.ChartCourse,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 2,
                 usableDistance: 1,
                 position: {
-                    x: 15.9748106,
-                    y: 0.0840201378
+                    x: 15.974811,
+                    y: 0.08402014
                 }
             }
         ]
     },
     25: {
-        index: 25,
-        hudText: "MedBay: Submit Scan",
+        id: 25,
         taskType: TaskType.SubmitScan,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 40.3270035,
-                    y: -7.08199978
+                    x: 40.327003,
+                    y: -7.082
                 }
             }
         ]
     },
     26: {
-        index: 26,
-        hudText: "Weapons: Clear Asteroids ({0}/20)",
+        id: 26,
         taskType: TaskType.ClearAsteroids,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 9.92907333,
-                    y: -22.3909931
+                    x: 9.929073,
+                    y: -22.390993
                 }
             }
         ]
     },
     27: {
-        index: 27,
-        hudText: "Node_CA: Fix Weather Node ({0}/2)",
-        taskType: TaskType.ActivateWeatherNodes,
-        length: TaskLength.Long,
+        id: 27,
+        taskType: TaskType.FixWeatherNode,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 23.0400009,
-                    y: -6.94000006
+                    x: 23.04,
+                    y: -6.94
                 }
             },            {
                 index: 1,
                 usableDistance: 1,
                 position: {
-                    x: 8.36999989,
+                    x: 8.37,
                     y: -15.46
                 }
             },            {
                 index: 2,
                 usableDistance: 1,
                 position: {
-                    x: 7.15999985,
-                    y: -25.3600006
+                    x: 7.16,
+                    y: -25.36
                 }
             },            {
                 index: 3,
                 usableDistance: 1,
                 position: {
                     x: 14.96,
-                    y: -25.4400005
+                    y: -25.44
                 }
             },            {
                 index: 4,
                 usableDistance: 1,
                 position: {
-                    x: 14.4799995,
-                    y: -12.1700001
+                    x: 14.48,
+                    y: -12.17
                 }
             },            {
                 index: 5,
                 usableDistance: 1,
                 position: {
-                    x: 30.8600006,
-                    y: -12.2299995
+                    x: 30.86,
+                    y: -12.23
                 }
             }
         ]
     },
     28: {
-        index: 28,
-        hudText: "Node_MLG: Fix Weather Node ({0}/2)",
-        taskType: TaskType.ActivateWeatherNodes,
-        length: TaskLength.Long,
+        id: 28,
+        taskType: TaskType.FixWeatherNode,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 23.0400009,
-                    y: -6.94000006
+                    x: 23.04,
+                    y: -6.94
                 }
             },            {
                 index: 1,
                 usableDistance: 1,
                 position: {
-                    x: 8.36999989,
+                    x: 8.37,
                     y: -15.46
                 }
             },            {
                 index: 2,
                 usableDistance: 1,
                 position: {
-                    x: 7.15999985,
-                    y: -25.3600006
+                    x: 7.16,
+                    y: -25.36
                 }
             },            {
                 index: 3,
                 usableDistance: 1,
                 position: {
                     x: 14.96,
-                    y: -25.4400005
+                    y: -25.44
                 }
             },            {
                 index: 4,
                 usableDistance: 1,
                 position: {
-                    x: 14.4799995,
-                    y: -12.1700001
+                    x: 14.48,
+                    y: -12.17
                 }
             },            {
                 index: 5,
                 usableDistance: 1,
                 position: {
-                    x: 30.8600006,
-                    y: -12.2299995
+                    x: 30.86,
+                    y: -12.23
                 }
             }
         ]
     },
     29: {
-        index: 29,
-        hudText: "Laboratory: Align Telescope",
+        id: 29,
         taskType: TaskType.AlignTelescope,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 33.8684273,
-                    y: -5.47126532
+                    x: 33.868427,
+                    y: -5.4712653
                 }
             }
         ]
     },
     30: {
-        index: 30,
-        hudText: "Laboratory: Repair Drill",
+        id: 30,
         taskType: TaskType.RepairDrill,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 27.4209499,
-                    y: -6.98227882
+                    x: 27.42095,
+                    y: -6.982279
                 }
             }
         ]
     },
     31: {
-        index: 31,
-        hudText: "Laboratory: Record Temperature",
+        id: 31,
         taskType: TaskType.RecordTemperature,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 31.3446407,
-                    y: -6.6714201
+                    x: 31.34464,
+                    y: -6.67142
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 30.9325504,
+                    x: 30.93255,
                     y: -15.324791
                 }
             }
         ]
     },
     32: {
-        index: 32,
-        hudText: "Outside: Record Temperature",
+        id: 32,
         taskType: TaskType.RecordTemperature,
-        length: TaskLength.Long,
+        length: TaskLength.Short,
         consoles: [
             {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 31.3446407,
-                    y: -6.6714201
+                    x: 31.34464,
+                    y: -6.67142
                 }
             },            {
                 index: 0,
                 usableDistance: 1,
                 position: {
-                    x: 30.9325504,
+                    x: 30.93255,
                     y: -15.324791
                 }
             }

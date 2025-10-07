@@ -10,8 +10,7 @@ export interface TaskConsoleInfo {
 }
 
 export interface TaskInfo {
-    index: number;
-    hudText: string;
+    id: number;
     taskType: TaskType;
     length: TaskLength;
     consoles: Record<number, TaskConsoleInfo>;
