@@ -2,6 +2,7 @@ import { BaseRpcMessage } from "@skeldjs/protocol";
 import { StatefulRoom } from "../StatefulRoom";
 import { HideNSeekDangerLevelLogicComponent, HideNSeekDeathPopupLevelLogicComponent, HideNSeekFlowLogicComponent, HideNSeekMinigameLogicComponent, HideNSeekMusicLogicComponent, HideNSeekOptionsLogicComponent, HideNSeekPingLogicComponent, HideNSeekRoleSelectionLogicComponent, HideNSeekUsablesLogicComponent } from "../logic";
 import { InnerGameManager } from "./InnerGameManager";
+import { PlayerControl } from "./PlayerControl";
 
 /**
  * Represents a class for managing various events for the Hide'N'Seek gamemode.
@@ -35,6 +36,10 @@ export class HideAndSeekManager<RoomType extends StatefulRoom> extends InnerGame
 
     async onGameStart(): Promise<void> {
         await this.roleSelection.assignRoles();
+    }
+
+    async onPlayerDeath(playerControl: PlayerControl<RoomType>, assignGhostRole: boolean): Promise<void> {
+        await this.roleSelection.onPlayerDeath(playerControl, assignGhostRole);
     }
 
     // TODO: implement (HideAndSeekManager.cs)

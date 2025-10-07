@@ -537,13 +537,13 @@ export class GameSettings {
         }
     }
 
-    static deserializeFromReaderFromReader(reader: HazelReader, readLength: boolean) {
+    static deserializeFromReader(reader: HazelReader, readLength: boolean) {
         const gameOptions = new GameSettings;
-        gameOptions.deserializeFromReaderFromReader(reader, readLength);
+        gameOptions.deserializeFromReader(reader, readLength);
         return gameOptions;
     }
 
-    deserializeFromReaderFromReader(reader: HazelReader, readLength: boolean) {
+    deserializeFromReader(reader: HazelReader, readLength: boolean) {
         const length = readLength ? reader.upacked() : null;
         const sreader = reader.bytes(length ?? reader.left);
         const version = sreader.uint8();

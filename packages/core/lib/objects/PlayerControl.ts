@@ -54,7 +54,8 @@ import {
     RoleType,
     GameState,
     RoleTeamType,
-    SpawnFlag
+    SpawnFlag,
+    MurderReasonFlags
 } from "@skeldjs/constant";
 
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -733,10 +734,11 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         ], undefined, [this.room.authorityId]);
     }
 
-    async kill(reason: string) {
+    async causeToDie(reason: string) {
         const playerInfo = this.getPlayerInfo();
 
         playerInfo?.setDead(true);
+        await this.room.gameManager?.onPlayerDeath(this, true);
 
         const ev = await this.emit(
             new PlayerDieEvent(
@@ -755,37 +757,58 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         const victim = this.room.getPlayerByNetId(rpc.victimNetId);
         const victimPlayerInfo = victim?.getPlayerInfo();
 
-        if (!victim)
+        if (!victim || !victim.characterControl)
             return;
 
-        await victim.characterControl?.kill("murder");
+        if (rpc.reasonFlags & MurderReasonFlags.FailedError) return;
 
-        await this.emit(
-            new PlayerMurderEvent(
-                this.room,
-                this.player,
-                rpc,
-                victim
-            )
-        );
+        if ((rpc.reasonFlags & MurderReasonFlags.FailedProtected) || (rpc.reasonFlags & MurderReasonFlags.DecisionByHost && victim.characterControl.protectedByGuardian)) {
+            victim.characterControl.removeProtection();
+            return;
+        }
 
-        this._checkMurderEndGame();
+        if ((rpc.reasonFlags & MurderReasonFlags.Succeeded) || (rpc.reasonFlags & MurderReasonFlags.DecisionByHost)) {
+            await victim.characterControl.causeToDie("murder");
 
-        if (victimPlayerInfo?.isDead && this.room.canManageObject(this)) {
-            // await this.room.shipStatus?.tryAssignGhostRole(victim); todo: fix
+            await this.emit(
+                new PlayerMurderEvent(
+                    this.room,
+                    this.player,
+                    rpc,
+                    victim
+                )
+            );
+
+            this._checkMurderEndGame();
         }
     }
 
-    private _rpcMurderPlayer(victim: Player<RoomType>) {
+    private _rpcMurderPlayer(victim: Player<RoomType>, reasonFlags: number) {
         if (!victim.characterControl)
             return;
 
         this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
-                new MurderPlayerMessage(victim.characterControl.netId)
+                new MurderPlayerMessage(victim.characterControl.netId, reasonFlags)
             )
         );
+    }
+
+    async killPlayer(victim: Player<RoomType>) {
+        await victim.characterControl?.causeToDie("murder");
+
+        await this.emit(
+            new PlayerMurderEvent(
+                this.room,
+                this.player,
+                undefined,
+                victim
+            )
+        );
+
+        this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.Succeeded);
+        this._checkMurderEndGame();
     }
 
     /**
@@ -801,37 +824,19 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      * @param victim The player to murder.
      * @returns
      */
-    async murderPlayer(victim: Player<RoomType>) {
-        const victimPlayerInfo = victim?.getPlayerInfo();
-
+    async tryMurderPlayer(victim: Player<RoomType>) {
         if (!this.room.canManageObject(this)) {
             await this._rpcCheckMurder(victim);
             return;
         }
 
         if (victim.characterControl?.protectedByGuardian) {
-            this._rpcMurderPlayer(victim);
+            this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedProtected);
             await victim.characterControl.removeProtection();
             return;
         }
 
-        await victim.characterControl?.kill("murder");
-
-        await this.emit(
-            new PlayerMurderEvent(
-                this.room,
-                this.player,
-                undefined,
-                victim
-            )
-        );
-
-        this._rpcMurderPlayer(victim);
-        this._checkMurderEndGame();
-
-        if (victimPlayerInfo?.isDead && this.room.canManageObject(this)) {
-            // await this.room.shipStatus?.tryAssignGhostRole(victim); todo: fix
-        }
+        await this.killPlayer(victim);
     }
 
     private _checkMurderEndGame(victim?: Player<RoomType>) {
@@ -1911,7 +1916,9 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (ev.alteredIsValid) {
-            ev.alteredPlayer.characterControl?.murderPlayer(ev.alteredVictim);
+            await ev.alteredPlayer.characterControl?.killPlayer(ev.alteredVictim);
+        } else {
+            this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedError);
         }
     }
 

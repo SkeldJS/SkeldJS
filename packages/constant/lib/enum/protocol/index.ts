@@ -3,6 +3,7 @@ export * from "./DisconnectReason";
 export * from "./GameDataMessageTag";
 export * from "./GetGameListTag";
 export * from "./Language";
+export * from "./MurderReasonFlags";
 export * from "./PlayerDataFlags";
 export * from "./RootMessageTag";
 export * from "./RpcMessageTag";

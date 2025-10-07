@@ -6,13 +6,15 @@ import { HazelWriter, HazelReader } from "@skeldjs/util";
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { Player } from "../../Player";
-import { BaseRole, CrewmateRole, ImpostorRole } from "../../roles";
+import { BaseRole, CrewmateGhostRole, CrewmateRole, GuardianAngelRole, ImpostorGhostRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
-import { RoleAssignmentData } from "../../objects";
+import { NormalGameManager, PlayerControl, RoleAssignmentData } from "../../objects";
 
 export type NormalRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalRoleSelectionLogicComponentEvents, RoomType> {
+    static specialCrewmateRoles = [ GuardianAngelRole ];
+
     async processFixedUpdate(deltaTime: number): Promise<void> {
         void deltaTime;
     }
@@ -91,7 +93,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
         const teamRoles = this.matchRoles(settings, roleCtr =>
             roleCtr.roleMetadata.roleTeam === roleTeam && !roleCtr.roleMetadata.isGhostRole);
 
-        return this.getRoleAssignmentsFromRoleList(playerPool, settings, teamRoles, maxAssignable, defaultRole, roleAssignments);
+        this.getRoleAssignmentsFromRoleList(playerPool, settings, teamRoles, maxAssignable, defaultRole, roleAssignments);
     }
 
     /**
@@ -144,7 +146,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
                 }
             } else if (roleAssignment.chance > 0) {
                 for (let i = 0; i < roleAssignment.count; i++) {
-                    if (Math.random() * 101 < roleAssignment.chance) {
+                    if (Math.random() * 100 <= roleAssignment.chance) {
                         lesserChanceRoles.push(roleAssignment.roleCtr);
                     }
                 }
@@ -163,7 +165,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
             this.getRoleAssignmentsForPlayers(playerPool, maxAssignable, defaultRoles, roleAssignments);
         }
 
-        return roleAssignments;
+        roleAssignments;
     }
 
     /**
@@ -210,6 +212,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
      */
     async assignRoles() {
         const allPlayers = [];
+        const manager = this.manager as NormalGameManager<RoomType>;
         for (const [, player] of this.manager.room.players) {
             const playerInfo = player.getPlayerInfo();
             if (playerInfo && !playerInfo?.isDisconnected && !playerInfo?.isDead) {
@@ -219,16 +222,9 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
 
         const roleAssignments: Map<Player<RoomType>, typeof BaseRole> = new Map;
 
-        const adjustedImpostors = allPlayers.length < 7 ? 1 : allPlayers.length < 9 ? 2 : 3;
-        const assignedImpostors = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(adjustedImpostors, this.manager.room.settings.numImpostors), ImpostorRole);
-        const assignedCrewmates = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, CrewmateRole);
-
-        for (const [player, roleCtr] of assignedImpostors) {
-            roleAssignments.set(player, roleCtr);
-        }
-        for (const [player, roleCtr] of assignedCrewmates) {
-            roleAssignments.set(player, roleCtr);
-        }
+        const numImpostors = manager.options.getAdjustedNumImpostors(allPlayers.length);
+        this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(numImpostors, this.manager.room.settings.numImpostors), ImpostorRole, roleAssignments);
+        this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, CrewmateRole, roleAssignments);
 
         const ev = await this.emit(
             new RoomAssignRolesEvent(
@@ -283,5 +279,35 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
             promises.push(player.characterControl?.setRole(roleCtr));
         }
         await Promise.all(promises);
+    }
+
+    async onPlayerDeath(playerControl: PlayerControl<RoomType>, assignGhostRole: boolean): Promise<void> {
+        if (assignGhostRole) {
+            const playerInfo = playerControl.getPlayerInfo();
+            if (!playerInfo) return;
+
+            const specialRoles = playerInfo.isImpostor ? [] : NormalRoleSelectionLogicComponent.specialCrewmateRoles;
+
+            for (const specialRole of specialRoles) {
+                const numOfType = [...this.manager.room.playerInfo.values()].filter(x => x.roleType === specialRole).length;
+                const chanceOptions = this.manager.room.settings.roleSettings.roleChances[specialRole.roleMetadata.roleType];
+                if (!chanceOptions) continue;
+
+                if (numOfType >= chanceOptions.maxPlayers) continue;
+                
+                if (Math.random() * 100 <= chanceOptions.chance) {
+                    await playerControl.setRole(specialRole);
+                    break;
+                }
+            }
+
+            if (!playerInfo.roleType.roleMetadata.isGhostRole) {
+                if (playerInfo.isImpostor) {
+                    await playerControl.setRole(ImpostorGhostRole);
+                } else {
+                    await playerControl.setRole(CrewmateGhostRole);
+                }
+            }
+        }
     }
 }

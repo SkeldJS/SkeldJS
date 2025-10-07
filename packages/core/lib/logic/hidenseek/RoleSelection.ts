@@ -2,11 +2,12 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { Player } from "../../Player";
-import { BaseRole, CrewmateRole, EngineerRole, ImpostorRole } from "../../roles";
+import { BaseRole, CrewmateGhostRole, CrewmateRole, EngineerRole, ImpostorGhostRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
 import { BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/util";
+import { HideAndSeekManager, PlayerControl } from "../../objects";
 
 export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
@@ -63,14 +64,38 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
         roleAssignments: Map<Player<RoomType>, typeof BaseRole> = new Map
     ) {
         if (roleTeam === RoleTeamType.Crewmate) {
-            return new Array(playerPool.length).fill(EngineerRole);
+            for (let i = 0; i < playerPool.length; i++) {
+                const player = playerPool[i];
+                roleAssignments.set(player, EngineerRole);
+                playerPool.splice(i, 1);
+            }
         } else {
+            if (this.manager.room.privacy === "private" && this.manager.room.settings.seekerPlayerId > -1) {
+                for (let i = 0; i < playerPool.length; i++) {
+                    const player = playerPool[i];
+                    if (player.getPlayerId() === this.manager.room.settings.seekerPlayerId) {
+                        roleAssignments.set(player, ImpostorRole);
+                        playerPool.splice(i, 1);
+                        return;
+                    }
+                }
+            }
+
+            var num = 0;
+            while (num < maxAssignable && playerPool.length > 0) {
+                const randomPlayerIdx = Math.floor(Math.random() * playerPool.length);
+                const randomPlayer = playerPool[randomPlayerIdx];
+                roleAssignments.set(randomPlayer, ImpostorRole);
+                playerPool.splice(randomPlayerIdx, 1);
+                num += 1;
+            }
             // todo: role assignments
             return [];
         }
     }
 
     async assignRoles() {
+        const manager = this.manager as HideAndSeekManager<RoomType>;
         const allPlayers = [];
         for (const [, player] of this.manager.room.players) {
             const playerInfo = player.getPlayerInfo();
@@ -81,16 +106,9 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
 
         const roleAssignments: Map<Player<RoomType>, typeof BaseRole> = new Map;
 
-        const adjustedImpostors = allPlayers.length < 7 ? 1 : allPlayers.length < 9 ? 2 : 3;
-        const assignedImpostors = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(adjustedImpostors, this.manager.room.settings.numImpostors), ImpostorRole);
-        const assignedCrewmates = this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, CrewmateRole);
-
-        for (const [player, roleCtr] of assignedImpostors) {
-            roleAssignments.set(player, roleCtr);
-        }
-        for (const [player, roleCtr] of assignedCrewmates) {
-            roleAssignments.set(player, roleCtr);
-        }
+        const numSeekers = manager.options.getAdjustedNumImpostors(allPlayers.length);
+        this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(numSeekers, this.manager.room.settings.numImpostors), ImpostorRole);
+        this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, CrewmateRole);
 
         const ev = await this.emit(
             new RoomAssignRolesEvent(
@@ -110,5 +128,18 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
             promises.push(player.characterControl?.setRole(roleCtr));
         }
         await Promise.all(promises);
+    }
+    
+    async onPlayerDeath(playerControl: PlayerControl<RoomType>, assignGhostRole: boolean): Promise<void> {
+        if (assignGhostRole) {
+            const playerInfo = playerControl.getPlayerInfo();
+            if (!playerInfo) return;
+
+            if (playerInfo.isImpostor) {
+                await playerControl.setRole(ImpostorGhostRole);
+            } else {
+                await playerControl.setRole(CrewmateGhostRole);
+            }
+        }
     }
 }

@@ -461,7 +461,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
 
         if (this.room.canManageObject(this)) {
             await sleep(5000);
-            await exiled?.characterControl?.kill("exiled");
+            await exiled?.characterControl?.causeToDie("exiled");
             this.close();
             await sleep(5000);
 

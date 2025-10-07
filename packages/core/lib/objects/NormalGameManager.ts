@@ -3,7 +3,7 @@ import { SpawnType } from "@skeldjs/constant";
 import { StatefulRoom } from "../StatefulRoom";
 import { NormalFlowLogicComponent, NormalMinigameLogicComponent, NormalOptionsLogicComponent, NormalRoleSelectionLogicComponent, NormalUsablesLogicComponent } from "../logic";
 import { InnerGameManager } from "./InnerGameManager";
-import { BaseRpcMessage } from "@skeldjs/protocol";
+import { PlayerControl } from "./PlayerControl";
 
 /**
  * Represents a class for managing various events for the original impostor/crewmate gamemode.
@@ -39,6 +39,10 @@ export class NormalGameManager<RoomType extends StatefulRoom> extends InnerGameM
         this.options = new NormalOptionsLogicComponent(this);
 
         this.logicComponents.push(this.flow, this.minigame, this.roleSelection, this.usables, this.options);
+    }
+    
+    async onPlayerDeath(playerControl: PlayerControl<RoomType>, assignGhostRole: boolean): Promise<void> {
+        await this.roleSelection.onPlayerDeath(playerControl, assignGhostRole);
     }
 
     // TODO: implement (NormalGameManager.cs)

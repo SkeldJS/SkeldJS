@@ -6,6 +6,7 @@ import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { GameLogicComponent } from "../logic";
 import { BaseRpcMessage } from "@skeldjs/protocol";
+import { PlayerControl } from "./PlayerControl";
 
 export type InnerGameManagerEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
@@ -69,5 +70,5 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
     abstract initComponents(): void;
     abstract onGameStart(): Promise<void>;
 
-    // TODO: Implement (GameManager.cs)
+    abstract onPlayerDeath(playerControl: PlayerControl<RoomType>, assignGhostRole: boolean): Promise<void>;
 }
