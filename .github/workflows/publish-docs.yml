@@ -1,0 +1,50 @@
+name: Publish Docs
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24.x]
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - run: yarn
+    - run: yarn typedoc packages/*/lib/index.ts
+
+    - name: Upload docs as an artifact
+      id: deployment
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: build_outputs_folder
+
+  
+  publish-docs:
+    needs: build-docs
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

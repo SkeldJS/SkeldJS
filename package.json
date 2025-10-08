@@ -28,5 +28,9 @@
     "packages/*"
   ],
   "version": "3.0.0",
-  "packageManager": "yarn@4.10.3"
+  "packageManager": "yarn@4.10.3",
+  "devDependencies": {
+    "typedoc": "^0.28.13",
+    "typedoc-plugin-external-module-map": "^2.2.0"
+  }
 }
