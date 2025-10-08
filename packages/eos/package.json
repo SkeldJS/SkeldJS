@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/eos",
-  "version": "2.16.0",
+  "version": "3.0.0",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"
@@ -12,12 +12,12 @@
   },
   "license": "GPL-3.0-only",
   "devDependencies": {
-    "@types/node": "^17.0.18",
-    "@types/node-fetch": "^2.6.2",
-    "typescript": "latest"
+    "@types/node": "^24.7.0",
+    "@types/node-fetch": "^2.6.13",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "node-fetch": "2"
+    "node-fetch": "^3.3.2"
   },
   "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [

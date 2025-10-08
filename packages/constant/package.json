@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/constant",
-  "version": "2.16.0",
+  "version": "3.0.0",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"
@@ -12,13 +12,9 @@
   },
   "license": "GPL-3.0-only",
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
-  "dependencies": {
-    "@skeldjs/util": "workspace:*"
-  },
   "devDependencies": {
-    "@types/node": "latest",
-    "ts-node": "latest",
-    "typescript": "latest"
+    "@types/node": "^24.7.0",
+    "typescript": "^5.9.3"
   },
   "files": [
     "dist"

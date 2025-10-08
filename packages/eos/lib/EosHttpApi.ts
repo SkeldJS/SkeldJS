@@ -23,7 +23,7 @@ export class EosHttpApi {
     if (!response.ok)
       throw new Error(`(${response.status}) ${response.statusText}: ${await response.text()}`);
 
-    return await response.json();
+    return await response.json() as { access_token: string; };
   }
 
   static async authRequestEosAccessToken<T extends "client_credentials" | "external_auth">(request: EosAccessTokenRequest<T>): Promise<EosAccessTokenJson<T>> {
@@ -58,7 +58,7 @@ export class EosHttpApi {
     if (!response.ok)
       throw new Error(`(${response.status}) ${response.statusText}: ${await response.text()}`);
 
-    return await response.json();
+    return await response.json() as EosAccessTokenJson<T>;
   }
 
   static async inventoryGetForUser(accessToken: string, deploymentId: string, puid: string) {

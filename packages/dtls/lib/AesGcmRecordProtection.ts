@@ -23,7 +23,7 @@ export function expandSecret(output: Buffer, key: Buffer, label: string, initial
     roundSeed.copy(input, 1);
 
     while (writer.byteLength > 0) {
-        hashA = crypto.createHmac("sha256", key).update(hashA).digest();
+        hashA = crypto.createHmac("sha256", key).update(hashA).digest() as Buffer<ArrayBuffer>;
         hashA.copy(input, 0, 0, hashA.byteLength);
 
         let roundOutput = crypto.createHmac("sha256", key).update(input).digest();

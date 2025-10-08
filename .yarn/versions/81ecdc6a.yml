@@ -1,0 +1,12 @@
+undecided:
+  - skeldjs
+  - "@skeldjs/constant"
+  - "@skeldjs/core"
+  - "@skeldjs/data"
+  - "@skeldjs/dtls"
+  - "@skeldjs/eos"
+  - "@skeldjs/events"
+  - "@skeldjs/lan"
+  - "@skeldjs/protocol"
+  - "@skeldjs/text"
+  - "@skeldjs/translations"

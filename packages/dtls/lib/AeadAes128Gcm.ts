@@ -8,7 +8,7 @@ export class Aes128Gcm {
 
     static TagSize = 16;
 
-    cipher: crypto.Cipher;
+    cipher: crypto.Cipheriv;
 
     hashSubKey: Buffer;
     blockJ: Buffer;
