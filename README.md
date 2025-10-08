@@ -1,4 +1,4 @@
-# Skeld JS
+# SkeldJS
 
 SkeldJS is a JavaScript implementation of the Among Us protocol and game, written in TypeScript.
 
