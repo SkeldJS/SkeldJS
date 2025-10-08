@@ -48,7 +48,7 @@ export class TranslationController {
      * @param language The language of the string.
      * @returns The formatted string.
      */
-    formatString(str: string | StringNames, elements: (undefined | number | QuickChatSimpleMessageData | QuickChatPlayerMessageData | Player)[], language: Language) {
+    formatString(str: string | StringNames, elements: (undefined | number | QuickChatSimpleMessageData | QuickChatPlayerMessageData | Player<StatefulRoom>)[], language: Language) {
         const translationString = typeof str === "string"
             ? str
             : this.getTranslation(str, language);

@@ -43,23 +43,6 @@ import { RoomAssignRolesEvent } from "../events";
 import { TaskInfo } from "@skeldjs/data";
 import { CustomNetworkTransform } from "./component";
 
-interface ConsoleDataModel {
-    index: number;
-    usableDistance: number;
-    position: {
-        x: number;
-        y: number;
-    };
-}
-
-interface TaskDataModel {
-    index: number;
-    hudText: string;
-    taskType: TaskType;
-    length: TaskLength;
-    consoles: Record<number, ConsoleDataModel>;
-}
-
 export interface RoleAssignmentData {
     roleCtr: typeof BaseRole;
     chance: number;
@@ -215,7 +198,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
                 i--;
             } else {
                 usedTaskTypes.add(task.taskType);
-                tasks.push(task.index);
+                tasks.push(task.id);
             }
 
             i++;
