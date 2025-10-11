@@ -6,7 +6,7 @@ import {
     PlayerOutfitType,
     RoleTeamType
 } from "@skeldjs/constant";
-import { BaseRpcMessage, SetTasksMessage } from "@skeldjs/protocol";
+import { BaseRpcMessage, RpcMessage, SetTasksMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
@@ -490,7 +490,10 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
     }
 
     private async _rpcSetTasks(taskIds: number[]) {
-
+        this.room.broadcastLazy(new RpcMessage(
+            this.netId,
+            new SetTasksMessage(taskIds),
+        ));
     }
 
     async setTasks(taskIds: number[]) {
