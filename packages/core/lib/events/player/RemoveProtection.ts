@@ -3,6 +3,7 @@ import { RevertableEvent } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { PlayerEvent } from "./PlayerEvent";
+import { ProtectionRemoveReason } from "../../objects";
 
 /**
  * Emitted when a player's protection by a guardian angel ends, either by running
@@ -18,10 +19,7 @@ export class PlayerRemoveProtectionEvent<RoomType extends StatefulRoom> extends 
     constructor(
         public readonly room: RoomType,
         public readonly player: Player<RoomType>,
-        /**
-         * Whether or not the player ran out of protection because of a murder attempt.
-         */
-        public readonly murderAttempt: boolean
+        public readonly reason: ProtectionRemoveReason
     ) {
         super();
     }

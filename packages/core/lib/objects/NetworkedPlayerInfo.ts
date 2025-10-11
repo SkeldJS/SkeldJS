@@ -472,8 +472,6 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         this.dirtyBit = 1;
     }
 
-    // TODO: task rpcs
-
     private async _handleSetTasks(rpc: SetTasksMessage) {
         // TODO: events
 

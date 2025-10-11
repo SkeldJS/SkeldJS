@@ -103,6 +103,11 @@ import { AmongUsEndGames, EndGameIntent, PlayersKillEndgameMetadata } from "../e
 import { BaseRole, GuardianAngelRole, UnknownRole } from "../roles";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 
+export enum ProtectionRemoveReason {
+    Timeout,
+    MurderAttempt,
+}
+
 export type PlayerControlEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<
         [
@@ -239,7 +244,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             this._protectedByGuardianTime -= delta;
             if (this._protectedByGuardianTime <= 0) {
                 this._protectedByGuardianTime = 0;
-                await this.removeProtection(true);
+                await this.removeProtection(ProtectionRemoveReason.Timeout);
             }
         }
     }
@@ -755,7 +760,6 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
     private async _handleMurderPlayer(rpc: MurderPlayerMessage) {
         const victim = this.room.getPlayerByNetId(rpc.victimNetId);
-        const victimPlayerInfo = victim?.getPlayerInfo();
 
         if (!victim || !victim.characterControl)
             return;
@@ -763,7 +767,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (rpc.reasonFlags & MurderReasonFlags.FailedError) return;
 
         if ((rpc.reasonFlags & MurderReasonFlags.FailedProtected) || (rpc.reasonFlags & MurderReasonFlags.DecisionByHost && victim.characterControl.protectedByGuardian)) {
-            victim.characterControl.removeProtection();
+            await victim.characterControl.removeProtection(ProtectionRemoveReason.MurderAttempt);
             return;
         }
 
@@ -795,8 +799,17 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
     }
 
-    async killPlayer(victim: Player<RoomType>) {
-        await victim.characterControl?.causeToDie("murder");
+    async murderPlayerHost(victim: Player<RoomType>) {
+        const characterControl = victim.characterControl;
+        if (!characterControl) return;
+
+        if (characterControl.protectedByGuardian) {
+            await characterControl.removeProtection(ProtectionRemoveReason.MurderAttempt);
+            this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedProtected);
+            return;
+        }
+
+        await characterControl.causeToDie("murder");
 
         await this.emit(
             new PlayerMurderEvent(
@@ -832,11 +845,11 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
         if (victim.characterControl?.protectedByGuardian) {
             this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedProtected);
-            await victim.characterControl.removeProtection();
+            await victim.characterControl.removeProtection(ProtectionRemoveReason.MurderAttempt);
             return;
         }
 
-        await this.killPlayer(victim);
+        await this.murderPlayerHost(victim);
     }
 
     private _checkMurderEndGame(victim?: Player<RoomType>) {
@@ -1916,7 +1929,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (ev.alteredIsValid) {
-            await ev.alteredPlayer.characterControl?.killPlayer(ev.alteredVictim);
+            await ev.alteredPlayer.characterControl?.murderPlayerHost(ev.alteredVictim);
         } else {
             this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedError);
         }
@@ -1944,7 +1957,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      *
      * @param timeout Whether or not this is because of a timeout.
      */
-    async removeProtection(timeout = false) {
+    async removeProtection(reason: ProtectionRemoveReason) {
         if (!this.protectedByGuardian)
             return;
 
@@ -1955,7 +1968,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             new PlayerRemoveProtectionEvent(
                 this.room,
                 this.player,
-                true
+                reason,
             )
         );
         if (ev.reverted) {
