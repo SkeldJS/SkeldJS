@@ -1,5 +1,5 @@
 import { RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { PlatformSpecificData } from "../../misc";
 
 import { MessageDirection } from "../../PacketDecoder";
@@ -9,7 +9,7 @@ export class JoinGameMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.JoinGame as const;
     messageTag = RootMessageTag.JoinGame as const;
 
-    readonly code!: number;
+    readonly gameId!: number;
     readonly crossPlay: boolean;
 
     readonly clientId!: number;
@@ -22,9 +22,9 @@ export class JoinGameMessage extends BaseRootMessage {
 
     readonly message!: string;
 
-    constructor(code: string | number, crossPlay: boolean);
+    constructor(gameId: number, crossPlay: boolean);
     constructor(
-        code: string | number,
+        gameId: number,
         clientId: number,
         hostId: number,
         playerName: string,
@@ -34,7 +34,7 @@ export class JoinGameMessage extends BaseRootMessage {
         friendCode: string
     );
     constructor(
-        code: string | number,
+        gameId: number,
         clientId?: number | string | boolean,
         hostId?: number,
         playerName?: string,
@@ -45,13 +45,8 @@ export class JoinGameMessage extends BaseRootMessage {
     ) {
         super();
 
-        if (typeof code === "number") {
-            this.code = code;
-            this.crossPlay = clientId as boolean;
-        } else {
-            this.code = GameCode.convertStringToInt(code);
-            this.crossPlay = clientId as boolean;
-        }
+        this.gameId = gameId;
+        this.crossPlay = clientId as boolean;
 
         if (typeof hostId === "number") {
             this.clientId = clientId as number;
@@ -87,7 +82,7 @@ export class JoinGameMessage extends BaseRootMessage {
 
     serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
-            writer.int32(this.code);
+            writer.int32(this.gameId);
             writer.int32(this.clientId);
             writer.int32(this.hostId);
             writer.string(this.playerName);
@@ -96,7 +91,7 @@ export class JoinGameMessage extends BaseRootMessage {
             writer.string(this.puid);
             writer.string(this.friendCode);
         } else {
-            writer.int32(this.code);
+            writer.int32(this.gameId);
             writer.bool(!this.crossPlay);
         }
     }
@@ -104,7 +99,7 @@ export class JoinGameMessage extends BaseRootMessage {
     clone() {
         if (this.hostId !== undefined) {
             return new JoinGameMessage(
-                this.code,
+                this.gameId,
                 this.clientId,
                 this.hostId,
                 this.playerName,
@@ -118,6 +113,6 @@ export class JoinGameMessage extends BaseRootMessage {
                 this.friendCode
             );
         }
-        return new JoinGameMessage(this.code, this.crossPlay);
+        return new JoinGameMessage(this.gameId, this.crossPlay);
     }
 }

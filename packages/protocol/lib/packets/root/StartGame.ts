@@ -1,5 +1,5 @@
 import { RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -7,16 +7,12 @@ export class StartGameMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.StartGame as const;
     messageTag = RootMessageTag.StartGame as const;
 
-    readonly code: number;
+    readonly gameId: number;
 
-    constructor(code: string | number) {
+    constructor(gameId: number) {
         super();
 
-        if (typeof code === "string") {
-            this.code = GameCode.convertStringToInt(code);
-        } else {
-            this.code = code;
-        }
+        this.gameId = gameId;
     }
 
     static deserializeFromReader(reader: HazelReader) {
@@ -26,10 +22,10 @@ export class StartGameMessage extends BaseRootMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.int32(this.code);
+        writer.int32(this.gameId);
     }
 
     clone() {
-        return new StartGameMessage(this.code);
+        return new StartGameMessage(this.gameId);
     }
 }

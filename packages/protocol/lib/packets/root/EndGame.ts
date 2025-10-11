@@ -1,5 +1,5 @@
 import { GameOverReason, RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -7,22 +7,18 @@ export class EndGameMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.EndGame as const;
     messageTag = RootMessageTag.EndGame as const;
 
-    readonly code: number;
+    readonly gameId: number;
     readonly reason: GameOverReason;
     readonly showAd: boolean;
 
     constructor(
-        code: string | number,
+        gameId: number,
         reason: GameOverReason,
         showAd: boolean
     ) {
         super();
 
-        if (typeof code === "string") {
-            this.code = GameCode.convertStringToInt(code);
-        } else {
-            this.code = code;
-        }
+        this.gameId = gameId;
 
         this.reason = reason;
         this.showAd = showAd;
@@ -37,12 +33,12 @@ export class EndGameMessage extends BaseRootMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.int32(this.code);
+        writer.int32(this.gameId);
         writer.uint8(this.reason);
         writer.bool(this.showAd);
     }
 
     clone() {
-        return new EndGameMessage(this.code, this.reason, this.showAd);
+        return new EndGameMessage(this.gameId, this.reason, this.showAd);
     }
 }

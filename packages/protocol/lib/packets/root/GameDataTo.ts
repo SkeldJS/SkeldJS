@@ -1,5 +1,5 @@
 import { RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { PacketDecoder } from "../../PacketDecoder";
 import { MessageDirection } from "../../PacketDecoder";
@@ -11,22 +11,18 @@ export class GameDataToMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.GameDataTo as const;
     messageTag = RootMessageTag.GameDataTo as const;
 
-    code: number;
+    gameId: number;
     recipientId: number;
     _children: BaseGameDataMessage[]; // Starts with _ to avoid children getting emitted.
 
     constructor(
-        code: string | number,
+        gameId: number,
         recipientId: number,
         children: BaseGameDataMessage[]
     ) {
         super();
 
-        if (typeof code === "string") {
-            this.code = GameCode.convertStringToInt(code);
-        } else {
-            this.code = code;
-        }
+        this.gameId = gameId;
 
         this.recipientId = recipientId;
         this._children = children;
@@ -65,7 +61,7 @@ export class GameDataToMessage extends BaseRootMessage {
         direction: MessageDirection,
         decoder: PacketDecoder
     ) {
-        writer.int32(this.code);
+        writer.int32(this.gameId);
         writer.packed(this.recipientId);
 
 
@@ -80,6 +76,6 @@ export class GameDataToMessage extends BaseRootMessage {
     }
 
     clone() {
-        return new GameDataToMessage(this.code, this.recipientId, this._children.map(child => child.clone()));
+        return new GameDataToMessage(this.gameId, this.recipientId, this._children.map(child => child.clone()));
     }
 }

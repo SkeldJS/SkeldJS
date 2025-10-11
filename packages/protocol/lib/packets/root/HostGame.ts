@@ -1,5 +1,5 @@
 import { RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { GameSettings } from "../../misc";
 import { MessageDirection } from "../../PacketDecoder";
@@ -9,22 +9,20 @@ export class HostGameMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.HostGame as const;
     messageTag = RootMessageTag.HostGame as const;
 
-    readonly code!: number;
+    readonly gameId!: number;
     readonly gameSettings!: GameSettings;
     readonly filters!: string[];
 
-    constructor(code: string | number);
+    constructor(gameId: number);
     constructor(gameSettings: GameSettings, filters: string[]);
     constructor(
-        gameSettingsOrCode: GameSettings | string | number,
+        gameSettingsOrCode: GameSettings | number,
         filters?: string[]
     ) {
         super();
 
-        if (typeof gameSettingsOrCode === "string") {
-            this.code = GameCode.convertStringToInt(gameSettingsOrCode);
-        } else if (typeof gameSettingsOrCode === "number") {
-            this.code = gameSettingsOrCode;
+        if (typeof gameSettingsOrCode === "number") {
+            this.gameId = gameSettingsOrCode;
         } else {
             this.gameSettings = gameSettingsOrCode;
             this.filters = filters!;
@@ -48,7 +46,7 @@ export class HostGameMessage extends BaseRootMessage {
 
     serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
-            writer.int32(this.code);
+            writer.int32(this.gameId);
         } else {
             writer.write(this.gameSettings, true, 10);
             writer.int32(2 ** 31 - 1);//2 ** 31 - 1); // cross play flags, max int for any crossplay
@@ -63,7 +61,7 @@ export class HostGameMessage extends BaseRootMessage {
         if (this.gameSettings) {
             return new HostGameMessage(this.gameSettings, [...this.filters]);
         } else {
-            return new HostGameMessage(this.code);
+            return new HostGameMessage(this.gameId);
         }
     }
 }

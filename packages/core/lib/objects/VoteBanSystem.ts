@@ -85,21 +85,21 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
     async handleRemoteCall(rpc: BaseRpcMessage) {
         switch (rpc.messageTag) {
             case RpcMessageTag.AddVote:
-                this._handleAddVote(rpc as AddVoteMessage);
+                await this._handleAddVote(rpc as AddVoteMessage);
                 break;
         }
     }
 
-    private _handleAddVote(rpc: AddVoteMessage) {
+    private async _handleAddVote(rpc: AddVoteMessage) {
         const voting = this.room.players.get(rpc.votingid);
         const target = this.room.players.get(rpc.targetid);
 
         if (voting && target) {
-            this._addVote(voting, target);
+            await this._addVote(voting, target);
         }
     }
 
-    private _addVote(voter: Player<RoomType>, target: Player<RoomType>) {
+    private async _addVote(voter: Player<RoomType>, target: Player<RoomType>) {
         const voted = this.voted.get(target.clientId);
         if (voted) {
             const next = voted.indexOf(undefined);
@@ -110,14 +110,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
             }
 
             if (this.room.canManageObject(this) && voted.every((v) => v !== null)) {
-                this.room.broadcastImmediate([], [
-                    new KickPlayerMessage(
-                        this.room.code,
-                        target.clientId,
-                        false,
-                        DisconnectReason.Error
-                    ),
-                ]);
+                await this.room.playerVoteKicked(target);
             }
         } else {
             this.voted.set(target.clientId, [voter, undefined, undefined]);
@@ -143,12 +136,12 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
      * room.votebansystem.addVote(client.me, player);
      * ```
      */
-    addVote(voter: PlayerResolvable, target: PlayerResolvable) {
+    async addVote(voter: PlayerResolvable, target: PlayerResolvable) {
         const _voter = this.room.resolvePlayer(voter);
         const _target = this.room.resolvePlayer(target);
 
         if (_voter && _target) {
-            this._addVote(_voter, _target);
+            await this._addVote(_voter, _target);
             this._rpcAddVote(_voter, _target);
         }
     }

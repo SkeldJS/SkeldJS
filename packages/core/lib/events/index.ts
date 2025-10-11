@@ -87,7 +87,6 @@ export * from "./room/EndGameIntent";
 export * from "./room/FixedUpdate";
 export * from "./room/GameEnd";
 export * from "./room/GameStart";
-export * from "./room/SetPrivacy";
 
 export * from "./electrical/SwitchFlip";
 

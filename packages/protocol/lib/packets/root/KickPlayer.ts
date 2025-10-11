@@ -1,5 +1,5 @@
 import { DisconnectReason, RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -7,24 +7,20 @@ export class KickPlayerMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.KickPlayer as const;
     messageTag = RootMessageTag.KickPlayer as const;
 
-    readonly code: number;
+    readonly gameId: number;
     readonly clientId: number;
     readonly banned: boolean;
     readonly reason: DisconnectReason;
 
     constructor(
-        code: string | number,
+        gameId: number,
         clientId: number,
         banned: boolean,
         reason?: DisconnectReason
     ) {
         super();
 
-        if (typeof code === "string") {
-            this.code = GameCode.convertStringToInt(code);
-        } else {
-            this.code = code;
-        }
+        this.gameId = gameId;
 
         this.clientId = clientId;
         this.banned = banned;
@@ -41,7 +37,7 @@ export class KickPlayerMessage extends BaseRootMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.int32(this.code);
+        writer.int32(this.gameId);
         writer.packed(this.clientId);
         writer.bool(this.banned);
 
@@ -51,6 +47,6 @@ export class KickPlayerMessage extends BaseRootMessage {
     }
 
     clone() {
-        return new KickPlayerMessage(this.code, this.clientId, this.banned, this.reason);
+        return new KickPlayerMessage(this.gameId, this.clientId, this.banned, this.reason);
     }
 }

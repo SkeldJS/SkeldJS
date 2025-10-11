@@ -1,5 +1,5 @@
 import { AlterGameTag, RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -7,18 +7,14 @@ export class AlterGameMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.AlterGame as const;
     messageTag = RootMessageTag.AlterGame as const;
 
-    readonly code: number;
+    readonly gameId: number;
     readonly alterTag: AlterGameTag;
     readonly value: number;
 
-    constructor(code: string | number, alterTag: AlterGameTag, value: number) {
+    constructor(gameId: number, alterTag: AlterGameTag, value: number) {
         super();
 
-        if (typeof code === "string") {
-            this.code = GameCode.convertStringToInt(code);
-        } else {
-            this.code = code;
-        }
+        this.gameId = gameId;
 
         this.alterTag = alterTag;
         this.value = value;
@@ -33,12 +29,12 @@ export class AlterGameMessage extends BaseRootMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.int32(this.code);
+        writer.int32(this.gameId);
         writer.uint8(this.alterTag);
         writer.uint8(this.value);
     }
 
     clone() {
-        return new AlterGameMessage(this.code, this.alterTag, this.value);
+        return new AlterGameMessage(this.gameId, this.alterTag, this.value);
     }
 }

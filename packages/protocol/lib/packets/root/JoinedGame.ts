@@ -1,5 +1,5 @@
 import { RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { PlayerJoinData } from "../../misc";
 
 import { BaseRootMessage } from "./BaseRootMessage";
@@ -8,24 +8,20 @@ export class JoinedGameMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.JoinedGame as const;
     messageTag = RootMessageTag.JoinedGame as const;
 
-    readonly code: number;
+    readonly gameId: number;
     readonly clientId: number;
     readonly hostId: number;
     readonly otherPlayers: PlayerJoinData[];
 
     constructor(
-        code: string | number,
+        gameId: number,
         clientId: number,
         hostId: number,
         otherPlayers: PlayerJoinData[]
     ) {
         super();
 
-        if (typeof code === "string") {
-            this.code = GameCode.convertStringToInt(code);
-        } else {
-            this.code = code;
-        }
+        this.gameId = gameId;
 
         this.clientId = clientId;
         this.hostId = hostId;
@@ -42,13 +38,13 @@ export class JoinedGameMessage extends BaseRootMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.int32(this.code);
+        writer.int32(this.gameId);
         writer.int32(this.clientId);
         writer.int32(this.hostId);
         writer.list(true, this.otherPlayers, player => writer.write(player));
     }
 
     clone() {
-        return new JoinedGameMessage(this.code, this.clientId, this.hostId, [...this.otherPlayers.map(player => player.clone())]);
+        return new JoinedGameMessage(this.gameId, this.clientId, this.hostId, [...this.otherPlayers.map(player => player.clone())]);
     }
 }

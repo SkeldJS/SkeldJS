@@ -1,5 +1,5 @@
 import { ReportOutcome, ReportReason, RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { MessageDirection } from "../../PacketDecoder";
 
 import { BaseRootMessage } from "./BaseRootMessage";
@@ -8,7 +8,7 @@ export class ReportPlayerMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.ReportPlayer as const;
     messageTag = RootMessageTag.ReportPlayer as const;
 
-    code!: number;
+    gameId!: number;
 
     outcome!: ReportOutcome;
     name!: string;
@@ -16,7 +16,7 @@ export class ReportPlayerMessage extends BaseRootMessage {
     clientId: number;
     reason: ReportReason;
 
-    constructor(code: string | number, clientId: number, reason: ReportReason);
+    constructor(code: number, clientId: number, reason: ReportReason);
     constructor(
         clientId: number,
         reason: ReportReason,
@@ -24,7 +24,7 @@ export class ReportPlayerMessage extends BaseRootMessage {
         name: string
     );
     constructor(
-        code: string | number,
+        gameId: number,
         clientId_reason: number,
         reason_outcome: number,
         name?: string
@@ -32,17 +32,12 @@ export class ReportPlayerMessage extends BaseRootMessage {
         super();
 
         if (typeof name === "string") {
-            this.clientId = code as number;
+            this.clientId = gameId as number;
             this.reason = clientId_reason;
             this.outcome = reason_outcome;
             this.name = name;
         } else {
-            if (typeof code === "string") {
-                this.code = GameCode.convertStringToInt(code);
-            } else {
-                this.code = code;
-            }
-
+            this.gameId = gameId;
             this.clientId = clientId_reason;
             this.reason = reason_outcome;
         }
@@ -72,15 +67,15 @@ export class ReportPlayerMessage extends BaseRootMessage {
             writer.uint8(this.outcome);
             writer.string(this.name);
         } else {
-            writer.int32(this.code);
+            writer.int32(this.gameId);
             writer.packed(this.clientId);
             writer.uint8(this.reason);
         }
     }
 
     clone() {
-        if (this.code) {
-            return new ReportPlayerMessage(this.code, this.clientId, this.reason);
+        if (this.gameId) {
+            return new ReportPlayerMessage(this.gameId, this.clientId, this.reason);
         }
 
         return new ReportPlayerMessage(this.clientId, this.reason, this.outcome, this.name);

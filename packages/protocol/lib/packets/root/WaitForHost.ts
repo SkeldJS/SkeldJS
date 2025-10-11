@@ -1,5 +1,5 @@
 import { RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { BaseRootMessage } from "./BaseRootMessage";
 
@@ -7,18 +7,13 @@ export class WaitForHostMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.WaitForHost as const;
     messageTag = RootMessageTag.WaitForHost as const;
 
-    readonly code: number;
+    readonly gameId: number;
     readonly clientId: number;
 
-    constructor(code: string | number, clientId: number) {
+    constructor(gameId: number, clientId: number) {
         super();
 
-        if (typeof code === "string") {
-            this.code = GameCode.convertStringToInt(code);
-        } else {
-            this.code = code;
-        }
-
+        this.gameId = gameId;
         this.clientId = clientId;
     }
 
@@ -30,11 +25,11 @@ export class WaitForHostMessage extends BaseRootMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.int32(this.code);
+        writer.int32(this.gameId);
         writer.int32(this.clientId);
     }
 
     clone() {
-        return new WaitForHostMessage(this.code, this.clientId);
+        return new WaitForHostMessage(this.gameId, this.clientId);
     }
 }

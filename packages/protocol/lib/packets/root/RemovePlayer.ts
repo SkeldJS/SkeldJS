@@ -1,5 +1,5 @@
 import { DisconnectReason, RootMessageTag } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
 import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootMessage } from "./BaseRootMessage";
@@ -8,24 +8,20 @@ export class RemovePlayerMessage extends BaseRootMessage {
     static messageTag = RootMessageTag.RemovePlayer as const;
     messageTag = RootMessageTag.RemovePlayer as const;
 
-    readonly code: number;
+    readonly gameId: number;
     readonly clientId: number;
     readonly hostId!: number;
     readonly reason: DisconnectReason;
 
     constructor(
-        code: string | number,
+        gameId: number,
         clientId: number,
         reason: DisconnectReason,
         hostId?: number
     ) {
         super();
 
-        if (typeof code === "string") {
-            this.code = GameCode.convertStringToInt(code);
-        } else {
-            this.code = code;
-        }
+        this.gameId = gameId;
 
         this.clientId = clientId;
         this.reason = reason;
@@ -52,18 +48,18 @@ export class RemovePlayerMessage extends BaseRootMessage {
 
     serializeToWriter(writer: HazelWriter, direction: MessageDirection) {
         if (direction === MessageDirection.Clientbound) {
-            writer.int32(this.code);
+            writer.int32(this.gameId);
             writer.int32(this.clientId);
             writer.int32(this.hostId);
             writer.uint8(this.reason);
         } else {
-            writer.int32(this.code);
+            writer.int32(this.gameId);
             writer.packed(this.clientId);
             writer.uint8(this.reason);
         }
     }
 
     clone() {
-        return new RemovePlayerMessage(this.code, this.clientId, this.reason, this.hostId);
+        return new RemovePlayerMessage(this.gameId, this.clientId, this.reason, this.hostId);
     }
 }

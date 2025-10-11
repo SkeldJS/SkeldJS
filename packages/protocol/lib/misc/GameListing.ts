@@ -1,12 +1,12 @@
 import { GameMap } from "@skeldjs/constant";
-import { GameCode, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { PlatformSpecificData } from "./PlatformSpecificData";
 
 export class GameListing {
-    readonly gameCode: number;
+    readonly gameId: number;
 
     constructor(
-        gameCode: string | number,
+        gameId: number,
         public readonly ip: string,
         public readonly port: number,
         public readonly hostName: string,
@@ -17,17 +17,13 @@ export class GameListing {
         public readonly maxPlayers: number,
         public readonly platform: PlatformSpecificData
     ) {
-        if (typeof gameCode === "string") {
-            this.gameCode = GameCode.convertStringToInt(gameCode);
-        } else {
-            this.gameCode = gameCode;
-        }
+        this.gameId = gameId;
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const ip = reader.bytes(4).buffer.join(".");
         const port = reader.uint16();
-        const code = reader.int32();
+        const gameId = reader.int32();
         const hostName = reader.string();
         const numPlayers = reader.uint8();
         const age = reader.upacked();
@@ -37,7 +33,7 @@ export class GameListing {
         const platform = reader.read(PlatformSpecificData);
 
         return new GameListing(
-            code,
+            gameId,
             ip,
             port,
             hostName,
@@ -56,7 +52,7 @@ export class GameListing {
             writer.uint8(parseInt(part));
         }
         writer.uint16(this.port);
-        writer.int32(this.gameCode);
+        writer.int32(this.gameId);
         writer.string(this.hostName);
         writer.uint8(this.numPlayers);
         writer.upacked(this.age);
@@ -69,7 +65,7 @@ export class GameListing {
 
     clone() {
         return new GameListing(
-            this.gameCode,
+            this.gameId,
             this.ip,
             this.port,
             this.hostName,

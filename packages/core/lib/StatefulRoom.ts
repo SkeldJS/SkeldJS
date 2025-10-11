@@ -4,25 +4,18 @@ import {
     BaseGameDataMessage,
     BaseRootMessage,
     DataMessage,
-    AlterGameMessage,
-    RemovePlayerMessage,
     DespawnMessage,
     ComponentSpawnData,
     AllGameSettings,
-    EndGameMessage,
     PlayerJoinData
 } from "@skeldjs/protocol";
 
 import {
-    GameCode,
-    HazelReader,
     HazelWriter,
     sleep
 } from "@skeldjs/util";
 
 import {
-    DisconnectReason,
-    AlterGameTag,
     GameOverReason,
     SpawnType,
     SpawnFlag,
@@ -74,8 +67,7 @@ import {
     RoomEndGameIntentEvent,
     RoomFixedUpdateEvent,
     RoomGameEndEvent,
-    RoomGameStartEvent,
-    RoomSetPrivacyEvent
+    RoomGameStartEvent
 } from "./events";
 
 import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
@@ -150,8 +142,7 @@ export type StatefulRoomEvents<RoomType extends StatefulRoom> = NetworkedObjectE
             RoomEndGameIntentEvent<RoomType>,
             RoomFixedUpdateEvent<RoomType>,
             RoomGameEndEvent<RoomType>,
-            RoomGameStartEvent<RoomType>,
-            RoomSetPrivacyEvent<RoomType>
+            RoomGameStartEvent<RoomType>
         ]
     >;
 
@@ -160,7 +151,7 @@ export type StatefulRoomEvents<RoomType extends StatefulRoom> = NetworkedObjectE
  *
  * See {@link StatefulRoomEvents} for events to listen to.
  */
-export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> extends EventEmitter<T> {
+export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> extends EventEmitter<T> {
 
     /**
      * Whether or not this room has been destroyed.
@@ -192,11 +183,6 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
      * The current message stream to be sent to the server on fixed update.
      */
     messageStream: BaseGameDataMessage[];
-
-    /**
-     * The code of the room.
-     */
-    code: number;
 
     /**
      * The state that the game is currently in.
@@ -310,7 +296,6 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         this.lastNetId = 0;
         this.destroyed = false;
 
-        this.code = 0;
         this.gameState = GameState.NotStarted;
         this.authorityId = -1;
         this.counter = -1;
@@ -535,60 +520,6 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         }
 
         return undefined;
-    }
-
-    /**
-     * Set the code of the room.
-     * @example
-     *```typescript
-     * room.setCode("ABCDEF");
-     * ```
-     */
-    setCode(code: RoomID): void {
-        if (typeof code === "string") {
-            return this.setCode(GameCode.convertStringToInt(code));
-        }
-
-        this.code = code;
-    }
-
-    protected _setPrivacy(privacy: PrivacyType) {
-        this.privacy = privacy;
-    }
-
-    /**
-     * Change the the privacy of the room.
-     * @param tag The tag to change.
-     * @param value The new value of the tag.
-     * @example
-     *```typescript
-     * room.setAlterGameTag(AlterGameTag.ChangePrivacy, 1); // 0 for private, 1 for public.
-     * ```
-     */
-    async setPrivacy(privacy: PrivacyType) {
-        const oldPrivacy = this.privacy;
-        this._setPrivacy(privacy);
-
-        const ev = await this.emit(
-            new RoomSetPrivacyEvent(
-                this,
-                undefined,
-                oldPrivacy,
-                privacy
-            )
-        );
-
-        this._setPrivacy(ev.alteredPrivacy);
-
-        if (ev.alteredPrivacy !== oldPrivacy) {
-            await this.broadcastImmediate([], [
-                new AlterGameMessage(
-                    this.code,
-                    AlterGameTag.ChangePrivacy,
-                    this.privacy === "public" ? 1 : 0
-                ),
-            ]);
-        }
     }
 
     /**
@@ -825,24 +756,15 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
         ]);
 
         const removes = [];
-        for (const [clientId, player] of this.players) {
+        for (const [, player] of this.players) {
             if (this.waitingForReady(player)) {
                 await this.handleLeave(player);
-                removes.push(clientId);
+                removes.push(player);
             }
         }
 
         if (removes.length) {
-            await this.broadcastImmediate(
-                [],
-                removes.map(clientId => {
-                    return new RemovePlayerMessage(
-                        this.code,
-                        clientId,
-                        DisconnectReason.Error
-                    );
-                })
-            );
+            await this.removeUnreadiedPlayers(removes);
         }
 
         await this.gameManager?.onGameStart();
@@ -875,16 +797,6 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
      */
     async handleEnd(reason: GameOverReason) {
         await this._handleEnd(reason);
-    }
-
-    async endGame(reason: GameOverReason) {
-        if (this.gameState !== GameState.Started)
-            return;
-
-        this.gameState = GameState.Ended;
-        await this.broadcastImmediate([], [
-            new EndGameMessage(this.code, reason, false)
-        ]);
     }
 
     /**
@@ -1234,15 +1146,14 @@ export class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> exte
     registerEndGameIntent(endGameIntent: EndGameIntent<any>) {
         this.endGameIntents.push(endGameIntent);
     }
+    
+    abstract endGame(reason: GameOverReason): Promise<void>;
 
+    abstract clearMyVote(meetingHud: MeetingHud<this>): Promise<void>;
+    abstract sendRepairSystem(systemType: SystemType, amount: number): Promise<void>;
 
-    clearMyVote(meetingHud: MeetingHud<this>): Promise<void> {
-        throw new Error("'clearMyVote' not implemented on StatefulRoom")
-    }
-
-    sendRepairSystem(systemType: SystemType, amount: number): Promise<void> {
-        throw new Error("'repairSystem' not implemented on StatefulRoom");
-    }
+    abstract playerVoteKicked(player: Player<this>): Promise<void>;
+    abstract removeUnreadiedPlayers(players: Player<this>[]): Promise<void>;
 
     /**
      * How often a processFixedUpdate should be called.
