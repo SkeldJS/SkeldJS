@@ -272,11 +272,14 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
     }
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        switch (rpcTag) {
+            case RpcMessageTag.SetTasks: return SetTasksMessage.deserializeFromReader(reader);
+        }
         return undefined;
     }
     
     async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
-        void rpc;
+        if (rpc instanceof SetTasksMessage) return await this._handleSetTasks(rpc);
     }
 
     async processFixedUpdate(delta: number): Promise<void> {
