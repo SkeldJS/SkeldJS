@@ -3,13 +3,12 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetRoleMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.SetRole as const;
-    messageTag = RpcMessageTag.SetRole as const;
+    static messageTag = RpcMessageTag.SetRole;
 
     constructor(
         public readonly roleType: RoleType
     ) {
-        super();
+        super(SetRoleMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
@@ -19,5 +18,9 @@ export class SetRoleMessage extends BaseRpcMessage {
 
     serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.roleType);
+    }
+
+    clone(): BaseRpcMessage {
+        return new SetRoleMessage(this.roleType);
     }
 }

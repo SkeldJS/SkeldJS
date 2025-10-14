@@ -13,7 +13,7 @@ import {
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "../NetworkedObject";
+import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
 import { PlayerVoteState, VoteStateSpecialId } from "../misc/PlayerVoteState";
 import { PlayerVoteArea } from "../misc/PlayerVoteArea";
@@ -147,21 +147,21 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         return true;
     }
 
-    async handleRemoteCall(rpc: BaseRpcMessage) {
-        switch (rpc.messageTag) {
-            case RpcMessageTag.Close:
-                await this._handleClose(rpc as CloseMessage);
-                break;
-            case RpcMessageTag.VotingComplete:
-                await this._handleVotingComplete(rpc as VotingCompleteMessage);
-                break;
-            case RpcMessageTag.CastVote:
-                await this._handleCastVote(rpc as CastVoteMessage);
-                break;
-            case RpcMessageTag.ClearVote:
-                await this._handleClearVote(rpc as ClearVoteMessage);
-                break;
+    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        switch (rpcTag) {
+            case RpcMessageTag.Close: return CloseMessage.deserializeFromReader();
+            case RpcMessageTag.VotingComplete: return VotingCompleteMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CastVote: return CastVoteMessage.deserializeFromReader(reader);
+            case RpcMessageTag.ClearVote: return ClearVoteMessage.deserializeFromReader();
         }
+        return undefined;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage) {
+        if (rpc instanceof CloseMessage) return await this._handleClose(rpc);
+        if (rpc instanceof VotingCompleteMessage) return await this._handleVotingComplete(rpc);
+        if (rpc instanceof CastVoteMessage) return await this._handleCastVote(rpc);
+        if (rpc instanceof ClearVoteMessage) return await this._handleClearVote(rpc);
     }
     
     async processFixedUpdate(delta: number): Promise<void> {
@@ -242,14 +242,14 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     }
 
     private async _handleCastVote(rpc: CastVoteMessage) {
-        const voter = this.voteStates.get(rpc.votingid);
-        const player = this.room.getPlayerByPlayerId(rpc.votingid);
+        const voter = this.voteStates.get(rpc.votingId);
+        const player = this.room.getPlayerByPlayerId(rpc.votingId);
         const suspect =
-            rpc.suspectid === VoteStateSpecialId.SkippedVote
+            rpc.suspectId === VoteStateSpecialId.SkippedVote
                 ? undefined
-                : this.room.getPlayerByPlayerId(rpc.suspectid);
+                : this.room.getPlayerByPlayerId(rpc.suspectId);
 
-        if (this.room.canManageObject(this) && player && voter && (suspect || rpc.suspectid === VoteStateSpecialId.SkippedVote)) {
+        if (this.room.canManageObject(this) && player && voter && (suspect || rpc.suspectId === VoteStateSpecialId.SkippedVote)) {
             this._castVote(voter, suspect);
 
             const ev = await this.emit(
@@ -420,9 +420,9 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
 
     private async _handleVotingComplete(rpc: VotingCompleteMessage) {
         const exiled =
-            rpc.exiledid === 0xff
+            rpc.exiledId === 0xff
                 ? undefined
-                : this.room.getPlayerByPlayerId(rpc.exiledid);
+                : this.room.getPlayerByPlayerId(rpc.exiledId);
 
         const playerStates = rpc.states.map((state, i) => {
             return new PlayerVoteState(this.room, state.playerId, state.votedForId);

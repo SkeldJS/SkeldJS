@@ -82,17 +82,20 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
         return true;
     }
 
-    async handleRemoteCall(rpc: BaseRpcMessage) {
-        switch (rpc.messageTag) {
-            case RpcMessageTag.AddVote:
-                await this._handleAddVote(rpc as AddVoteMessage);
-                break;
+    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        switch (rpcTag) {
+            case RpcMessageTag.AddVote: return AddVoteMessage.deserializeFromReader(reader);
         }
+        return undefined;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage) {
+        if (rpc instanceof AddVoteMessage) return await this._handleAddVote(rpc);
     }
 
     private async _handleAddVote(rpc: AddVoteMessage) {
-        const voting = this.room.players.get(rpc.votingid);
-        const target = this.room.players.get(rpc.targetid);
+        const voting = this.room.players.get(rpc.votingId);
+        const target = this.room.players.get(rpc.targetId);
 
         if (voting && target) {
             await this._addVote(voting, target);

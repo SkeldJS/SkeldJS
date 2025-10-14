@@ -4,23 +4,14 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootPacket } from "./BaseRootPacket";
 
 export class DisconnectPacket extends BaseRootPacket {
-    static messageTag = SendOption.Disconnect as const;
-    messageTag = SendOption.Disconnect as const;
-
-    readonly reason?: DisconnectReason;
-    readonly message?: string;
-    readonly showReason?: boolean;
+    static messageTag = SendOption.Disconnect;
 
     constructor(
-        reason?: DisconnectReason,
-        message?: string,
-        showReason?: boolean
+        public readonly reason?: DisconnectReason,
+        public readonly message?: string,
+        public readonly showReason?: boolean
     ) {
-        super();
-
-        this.reason = reason;
-        this.message = message;
-        this.showReason = showReason;
+        super(DisconnectPacket.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

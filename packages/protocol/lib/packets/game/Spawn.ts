@@ -5,35 +5,23 @@ import { ComponentSpawnData } from "../../misc";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class SpawnMessage extends BaseGameDataMessage {
-    static messageTag = GameDataMessageTag.Spawn as const;
-    messageTag = GameDataMessageTag.Spawn as const;
-
-    readonly spawnType: SpawnType;
-    readonly ownerId: number;
-    readonly flags: number;
-    readonly components: ComponentSpawnData[];
+    static messageTag = GameDataMessageTag.Spawn;
 
     constructor(
-        spawnType: SpawnType,
-        ownerId: number,
-        flags: number,
-        components: ComponentSpawnData[]
+        public readonly spawnType: SpawnType,
+        public readonly ownerId: number,
+        public readonly flags: number,
+        public readonly components: ComponentSpawnData[]
     ) {
-        super();
-
-        this.spawnType = spawnType;
-        this.ownerId = ownerId;
-        this.flags = flags;
-        this.components = components;
+        super(SpawnMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const spawnType = reader.upacked();
         const ownerId = reader.packed();
         const flags = reader.uint8();
-        const num_components = reader.upacked();
-        const components = reader.lread(num_components, ComponentSpawnData);
-
+        const num = reader.upacked();
+        const components = reader.lread(num, ComponentSpawnData);
         return new SpawnMessage(spawnType, ownerId, flags, components);
     }
 

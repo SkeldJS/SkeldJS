@@ -3,16 +3,14 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetTasksMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.SetTasks as const;
-    messageTag = RpcMessageTag.SetTasks as const;
+    static messageTag = RpcMessageTag.SetTasks;
 
     constructor(public readonly taskIds: number[]) {
-        super();
+        super(SetTasksMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const taskIds = reader.list((r) => r.uint8());
-
         return new SetTasksMessage(taskIds);
     }
 

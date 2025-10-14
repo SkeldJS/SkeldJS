@@ -4,15 +4,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootPacket } from "./BaseRootPacket";
 
 export class PingPacket extends BaseRootPacket {
-    static messageTag = SendOption.Ping as const;
-    messageTag = SendOption.Ping as const;
+    static messageTag = SendOption.Ping;
 
-    readonly nonce: number;
-
-    constructor(nonce: number) {
-        super();
-
-        this.nonce = nonce;
+    constructor(public readonly nonce: number) {
+        super(PingPacket.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

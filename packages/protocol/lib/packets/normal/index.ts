@@ -16,4 +16,5 @@ export * from "./SetActivePodType";
 export * from "./SetGameSession";
 export * from "./BaseRootMessage";
 export * from "./StartGame";
+export * from "./Unknown";
 export * from "./WaitForHost";

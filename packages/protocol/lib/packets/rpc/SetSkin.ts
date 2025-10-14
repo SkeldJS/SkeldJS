@@ -3,11 +3,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetSkinMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.SetSkin as const;
-    messageTag = RpcMessageTag.SetSkin as const;
+    static messageTag = RpcMessageTag.SetSkin;
 
     constructor(public readonly skinId: string, public readonly sequenceId: number) {
-        super();
+        super(SetSkinMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

@@ -1,77 +1,27 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-
-import { BaseRootMessage } from "../root/BaseRootMessage";
-import { PacketDecoder } from "../../PacketDecoder";
-import { MessageDirection } from "../../PacketDecoder";
 import { BaseRootPacket } from "./BaseRootPacket";
+import { UnknownRootMessage } from "../normal/Unknown";
+import { BaseRootMessage } from "../normal";
 
-export class UnknownRootMessage extends BaseRootMessage {
-    static messageTag = 255 as const;
-
-    constructor(
-        public readonly messageTag: number,
-        public readonly bytes: Buffer
-    ) {
-        super();
+export abstract class NormalPacket extends BaseRootPacket {
+    constructor(public readonly messageTag: number, public readonly children: BaseRootMessage[]) {
+        super(messageTag);
     }
 
-    serializeToWriter(writer: HazelWriter) {
-        writer.bytes(this.bytes);
-    }
-}
-
-export class NormalPacket extends BaseRootPacket {
-    readonly children: BaseRootMessage[];
-
-    constructor(children: BaseRootMessage[]) {
-        super();
-
-        this.children = children;
-    }
-
-    static deserializeFromReader(
-        reader: HazelReader,
-        direction: MessageDirection,
-        decoder: PacketDecoder
-    ) {
-        const children: BaseRootMessage[] = [];
-
+    static deserializeChildrenFromReader(reader: HazelReader) {
+        const children: UnknownRootMessage[] = [];
         while (reader.left) {
-            const [tag, mreader] = reader.message();
-            const rootMessageClass = decoder.types.get(`root:${tag}`);
-
-            if (!rootMessageClass) {
-                children.push(new UnknownRootMessage(tag, mreader.buffer));
-                continue;
-            }
-
-            const root = rootMessageClass.deserializeFromReader(
-                mreader,
-                direction,
-                decoder
-            );
-            children.push(root as BaseRootMessage);
+            const [ tag, dataReader ] = reader.message();
+            children.push(new UnknownRootMessage(tag, dataReader));
         }
-
-        return new NormalPacket(children);
+        return children;
     }
 
-    serializeToWriter(
-        writer: HazelWriter,
-        direction: MessageDirection,
-        decoder: PacketDecoder
-    ) {
-        for (const message of this.children) {
-            if (!decoder.config.writeUnknownRootMessages && !decoder.types.has(`root:${message.messageTag}`))
-                continue;
-
-            writer.begin(message.messageTag);
-            writer.write(message, direction, decoder);
+    serializeToWriter(writer: HazelWriter): void {
+        for (const child of this.children) {
+            writer.begin(child.messageTag);
+            writer.write(child);
             writer.end();
         }
-    }
-
-    clone() {
-        return new NormalPacket(this.children.map(child => child.clone()));
     }
 }

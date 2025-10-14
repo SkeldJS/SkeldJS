@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/util";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { SpawnType, SpawnFlag } from "@skeldjs/constant";
+import { SpawnType, SpawnFlag, RpcMessageTag } from "@skeldjs/constant";
 import { BaseRpcMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
@@ -130,6 +130,7 @@ export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends N
 
     abstract deserializeFromReader(reader: HazelReader, spawn: boolean): void;
     abstract serializeToWriter(writer: HazelWriter, spawn: boolean): boolean;
+    abstract parseRemoteCall(rpcTag: number, reader: HazelReader): BaseRpcMessage|undefined;
     abstract handleRemoteCall(rpc: BaseRpcMessage): Promise<void>;
     abstract processFixedUpdate(delta: number): Promise<void>;
     abstract processAwake(): Promise<void>;

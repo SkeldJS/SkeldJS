@@ -114,4 +114,8 @@ export class PolusShipStatus<RoomType extends StatefulRoom> extends InnerShipSta
     getTasks() {
         return Object.values(PolusTasks);
     }
+    
+    getStartWaitSeconds(): number {
+        return 10;
+    }
 }

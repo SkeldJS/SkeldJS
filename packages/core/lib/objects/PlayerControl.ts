@@ -90,7 +90,7 @@ import {
     PlayerSetLevelEvent
 } from "../events";
 
-import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "../NetworkedObject";
+import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom, SpecialOwnerId } from "../StatefulRoom";
 import { Player } from "../Player";
 
@@ -249,91 +249,75 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
-    async handleRemoteCall(rpc: BaseRpcMessage) {
-        switch (rpc.messageTag) {
-            case RpcMessageTag.CompleteTask:
-                await this._handleCompleteTask(rpc as CompleteTaskMessage);
-                break;
-            case RpcMessageTag.SyncSettings:
-                await this._handleSyncSettings(rpc as SyncSettingsMessage);
-                break;
-            case RpcMessageTag.CheckName:
-                if (this.room.canManageObject(this)) {
-                    await this._handleCheckName(rpc as CheckNameMessage);
-                }
-                break;
-            case RpcMessageTag.CheckColor:
-                if (this.room.canManageObject(this)) {
-                    await this._handleCheckColor(rpc as CheckColorMessage);
-                }
-                break;
-            case RpcMessageTag.SetName:
-                await this._handleSetName(rpc as SetNameMessage);
-                break;
-            case RpcMessageTag.SetColor:
-                await this._handleSetColor(rpc as SetColorMessage);
-                break;
-            case RpcMessageTag.ReportDeadBody:
-                if (this.room.canManageObject(this)) {
-                    await this._handleReportDeadBody(
-                        rpc as ReportDeadBodyMessage
-                    );
-                }
-                break;
-            case RpcMessageTag.MurderPlayer:
-                await this._handleMurderPlayer(rpc as MurderPlayerMessage);
-                break;
-            case RpcMessageTag.SendChat:
-                await this._handleSendChat(rpc as SendChatMessage);
-                break;
-            case RpcMessageTag.StartMeeting:
-                await this._handleStartMeeting(rpc as StartMeetingMessage);
-                break;
-            case RpcMessageTag.SetStartCounter:
-                await this._handleSetStartCounter(
-                    rpc as SetStartCounterMessage
-                );
-                break;
-            case RpcMessageTag.UsePlatform:
-                await this._handleUsePlatform(rpc as UsePlatformMessage);
-                break;
-            case RpcMessageTag.SendQuickChat:
-                await this._handleSendQuickChat(rpc as SendQuickChatMessage);
-                break;
-            case RpcMessageTag.SetLevel:
-                await this._handleSetLevel(rpc as SetLevelMessage);
-                break;
-            case RpcMessageTag.SetHat:
-                await this._handleSetHat(rpc as SetHatMessage);
-                break;
-            case RpcMessageTag.SetSkin:
-                await this._handleSetSkin(rpc as SetSkinMessage);
-                break;
-            case RpcMessageTag.SetPet:
-                await this._handleSetPet(rpc as SetPetMessage);
-                break;
-            case RpcMessageTag.SetVisor:
-                await this._handleSetVisor(rpc as SetVisorMessage);
-                break;
-            case RpcMessageTag.SetNameplate:
-                await this._handleSetNameplate(rpc as SetNameplateMessage);
-                break;
-            case RpcMessageTag.SetRole:
-                await this._handleSetRole(rpc as SetRoleMessage);
-                break;
-            case RpcMessageTag.ProtectPlayer:
-                await this._handleProtectPlayer(rpc as ProtectPlayerMessage);
-                break;
-            case RpcMessageTag.Shapeshift:
-                await this._handleShapeshift(rpc as ShapeshiftMessage);
-                break;
-            case RpcMessageTag.CheckMurder:
-                await this._handleCheckMurder(rpc as CheckMurderMessage);
-                break;
-            case RpcMessageTag.CheckProtect:
-                await this._handleCheckProtect(rpc as CheckProtectMessage);
-                break;
+    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        switch (rpcTag) {
+            case RpcMessageTag.CompleteTask: return CompleteTaskMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SyncSettings: return SyncSettingsMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CheckName: return CheckNameMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CheckColor: return CheckColorMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetName: return SetNameMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetColor: return SetColorMessage.deserializeFromReader(reader);
+            case RpcMessageTag.ReportDeadBody: return ReportDeadBodyMessage.deserializeFromReader(reader);
+            case RpcMessageTag.MurderPlayer: return MurderPlayerMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SendChat: return SendChatMessage.deserializeFromReader(reader);
+            case RpcMessageTag.StartMeeting: return StartMeetingMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetStartCounter: return SetStartCounterMessage.deserializeFromReader(reader);
+            case RpcMessageTag.UsePlatform: return UsePlatformMessage.deserializeFromReader();
+            case RpcMessageTag.SendQuickChat: return SendQuickChatMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetLevel: return SetLevelMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetHat: return SetHatMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetSkin: return SetSkinMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetPet: return SetPetMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetVisor: return SetVisorMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetNameplate: return SetNameplateMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetRole: return SetRoleMessage.deserializeFromReader(reader);
+            case RpcMessageTag.ProtectPlayer: return ProtectPlayerMessage.deserializeFromReader(reader);
+            case RpcMessageTag.Shapeshift: return ShapeshiftMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CheckMurder: return CheckMurderMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CheckProtect: return CheckProtectMessage.deserializeFromReader(reader);
         }
+        return undefined;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage) {
+        if (rpc instanceof CompleteTaskMessage) await this._handleCompleteTask(rpc as CompleteTaskMessage);
+        if (rpc instanceof SyncSettingsMessage) await this._handleSyncSettings(rpc as SyncSettingsMessage);
+        if (rpc instanceof CheckNameMessage) {
+            if (this.room.canManageObject(this)) {
+                await this._handleCheckName(rpc as CheckNameMessage);
+            }
+        }
+        if (rpc instanceof CheckColorMessage) {
+            if (this.room.canManageObject(this)) {
+                await this._handleCheckColor(rpc as CheckColorMessage);
+            }
+        }
+        if (rpc instanceof SetNameMessage) await this._handleSetName(rpc as SetNameMessage);
+        if (rpc instanceof SetColorMessage) await this._handleSetColor(rpc as SetColorMessage);
+        if (rpc instanceof ReportDeadBodyMessage) {
+            if (this.room.canManageObject(this)) {
+                await this._handleReportDeadBody(
+                    rpc as ReportDeadBodyMessage
+                );
+            }
+        }
+        if (rpc instanceof MurderPlayerMessage) await this._handleMurderPlayer(rpc as MurderPlayerMessage);
+        if (rpc instanceof SendChatMessage) await this._handleSendChat(rpc as SendChatMessage);
+        if (rpc instanceof StartMeetingMessage) await this._handleStartMeeting(rpc as StartMeetingMessage);
+        if (rpc instanceof SetStartCounterMessage) await this._handleSetStartCounter(rpc as SetStartCounterMessage);
+        if (rpc instanceof UsePlatformMessage) await this._handleUsePlatform(rpc as UsePlatformMessage);
+        if (rpc instanceof SendQuickChatMessage) await this._handleSendQuickChat(rpc as SendQuickChatMessage);
+        if (rpc instanceof SetLevelMessage) await this._handleSetLevel(rpc as SetLevelMessage);
+        if (rpc instanceof SetHatMessage) await this._handleSetHat(rpc as SetHatMessage);
+        if (rpc instanceof SetSkinMessage) await this._handleSetSkin(rpc as SetSkinMessage);
+        if (rpc instanceof SetPetMessage) await this._handleSetPet(rpc as SetPetMessage);
+        if (rpc instanceof SetVisorMessage) await this._handleSetVisor(rpc as SetVisorMessage);
+        if (rpc instanceof SetNameplateMessage) await this._handleSetNameplate(rpc as SetNameplateMessage);
+        if (rpc instanceof SetRoleMessage) await this._handleSetRole(rpc as SetRoleMessage);
+        if (rpc instanceof ProtectPlayerMessage) await this._handleProtectPlayer(rpc as ProtectPlayerMessage);
+        if (rpc instanceof ShapeshiftMessage) await this._handleShapeshift(rpc as ShapeshiftMessage);
+        if (rpc instanceof CheckMurderMessage) await this._handleCheckMurder(rpc as CheckMurderMessage);
+        if (rpc instanceof CheckProtectMessage) await this._handleCheckProtect(rpc as CheckProtectMessage);
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
@@ -701,9 +685,9 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _handleReportDeadBody(rpc: ReportDeadBodyMessage) {
-        const reportedBody = rpc.bodyid === 0xff
+        const reportedBody = rpc.bodyId === 0xff
             ? "emergency"
-            : this.room.getPlayerByPlayerId(rpc.bodyid);
+            : this.room.getPlayerByPlayerId(rpc.bodyId);
 
         if (!reportedBody)
             return;
@@ -941,9 +925,9 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _handleStartMeeting(rpc: StartMeetingMessage) {
-        const reportedBody = rpc.bodyid === 0xff
+        const reportedBody = rpc.bodyId === 0xff
             ? "emergency"
-            : this.room.getPlayerByPlayerId(rpc.bodyid) || "emergency";
+            : this.room.getPlayerByPlayerId(rpc.bodyId) || "emergency";
 
         await this.emit(
             new PlayerStartMeetingEvent(

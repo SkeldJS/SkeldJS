@@ -4,15 +4,10 @@ import { GameSettings } from "../../misc";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SyncSettingsMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.SyncSettings as const;
-    messageTag = RpcMessageTag.SyncSettings as const;
+    static messageTag = RpcMessageTag.SyncSettings;
 
-    settings: GameSettings;
-
-    constructor(options: GameSettings) {
-        super();
-
-        this.settings = options;
+    constructor(public readonly settings: GameSettings) {
+        super(SyncSettingsMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

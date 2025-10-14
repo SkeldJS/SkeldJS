@@ -3,11 +3,10 @@ import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class PetMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.Pet as const;
-    messageTag = RpcMessageTag.Pet as const;
+    static messageTag = RpcMessageTag.Pet;
 
     constructor(public readonly playerPos: Vector2, public readonly petPos: Vector2) {
-        super();
+        super(PetMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

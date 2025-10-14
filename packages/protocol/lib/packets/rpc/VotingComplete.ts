@@ -26,36 +26,27 @@ export class VoteState {
 }
 
 export class VotingCompleteMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.VotingComplete as const;
-    messageTag = RpcMessageTag.VotingComplete as const;
+    static messageTag = RpcMessageTag.VotingComplete;
 
-    states: VoteState[];
-    exiledid: number;
-    tie: boolean;
-
-    constructor(states: VoteState[], exiledid: number, tie: boolean) {
-        super();
-
-        this.states = states;
-        this.exiledid = exiledid;
-        this.tie = tie;
+    constructor(public readonly states: VoteState[], public readonly exiledId: number, public readonly tie: boolean) {
+        super(VotingCompleteMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const states = reader.lread(reader.packed(), VoteState);
-        const exiled = reader.uint8();
+        const exiledId = reader.uint8();
         const tie = reader.bool();
 
-        return new VotingCompleteMessage(states, exiled, tie);
+        return new VotingCompleteMessage(states, exiledId, tie);
     }
 
     serializeToWriter(writer: HazelWriter) {
         writer.lwrite(true, this.states);
-        writer.uint8(this.exiledid);
+        writer.uint8(this.exiledId);
         writer.bool(this.tie);
     }
 
     clone() {
-        return new VotingCompleteMessage(this.states.map(state => state.clone()), this.exiledid, this.tie);
+        return new VotingCompleteMessage(this.states.map(state => state.clone()), this.exiledId, this.tie);
     }
 }

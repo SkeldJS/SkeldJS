@@ -107,12 +107,15 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         return true;
     }
 
-    async handleRemoteCall(rpc: BaseRpcMessage) {
-        switch (rpc.messageTag) {
-            case RpcMessageTag.SnapTo:
-                await this._handleSnapTo(rpc as SnapToMessage);
-                break;
+    parseRemoteCall(callTag: RpcMessageTag, reader: HazelReader) {
+        switch (callTag) {
+            case RpcMessageTag.SnapTo: return SnapToMessage.deserializeFromReader(reader);
         }
+        return undefined;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage) {
+        if (rpc instanceof SnapToMessage) return await this._handleSnapTo(rpc);
     }
 
     /**

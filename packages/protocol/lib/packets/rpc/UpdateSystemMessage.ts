@@ -1,50 +1,34 @@
 import { RpcMessageTag } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { MessageDirection, PacketDecoder } from "../../PacketDecoder";
-import { BaseSystemMessage } from "../system";
+import { BaseSystemMessage, UnknownSystemMessage } from "../system";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class UpdateSystemMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.UpdateSystem as const;
-    messageTag = RpcMessageTag.UpdateSystem as const;
+    static messageTag = RpcMessageTag.UpdateSystem;
 
     constructor(
         public readonly playerNetid: number,
         public readonly data: BaseSystemMessage
     ) {
-        super();
+        super(UpdateSystemMessage.messageTag);
     }
 
     get children() {
         return [ this.data ];
     }
 
-    static deserializeFromReader(
-        reader: HazelReader,
-        direction: MessageDirection,
-        decoder: PacketDecoder
-    ) {
+    static deserializeFromReader(reader: HazelReader,) {
         const systemType = reader.uint8();
         const netId = reader.upacked();
-        const rpcMessageClass = decoder.types.get(`system:${systemType}`);
-        const mreader = reader.bytes(reader.left);
+        const dataReader = reader.bytes(reader.left);
 
-        if (!rpcMessageClass)
-            return new UpdateSystemMessage(netId, new BaseSystemMessage);
-
-        const rpc = rpcMessageClass.deserializeFromReader(mreader, direction, decoder);
-
-        return new UpdateSystemMessage(netId, rpc as BaseSystemMessage);
+        return new UpdateSystemMessage(netId, new UnknownSystemMessage(systemType, dataReader));
     }
 
-    serializeToWriter(
-        writer: HazelWriter,
-        direction: MessageDirection,
-        decoder: PacketDecoder
-    ) {
+    serializeToWriter(writer: HazelWriter) {
         writer.uint8(this.data.messageTag);
         writer.upacked(this.playerNetid);
-        writer.write(this.data, direction, decoder);
+        writer.write(this.data);
     }
 
     clone() {

@@ -3,19 +3,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class RepairSystemMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.RepairSystem as const;
-    messageTag = RpcMessageTag.RepairSystem as const;
+    static messageTag = RpcMessageTag.RepairSystem;
 
-    systemId: number;
-    netId: number;
-    amount: number;
-
-    constructor(systemId: number, netId: number, amount: number) {
-        super();
-
-        this.systemId = systemId;
-        this.netId = netId;
-        this.amount = amount;
+    constructor(public readonly systemId: number, public readonly netId: number, public readonly amount: number) {
+        super(RepairSystemMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

@@ -12,15 +12,14 @@ export enum VentilationState {
 }
 
 export class VentilationSystemMessage extends BaseSystemMessage {
-    static messageTag = SystemType.Ventilation as const;
-    messageTag = SystemType.Ventilation as const;
+    static messageTag = SystemType.Ventilation;
 
     constructor(
         public readonly sequenceId: number,
         public readonly state: VentilationState,
         public readonly ventId: number
     ) {
-        super();
+        super(VentilationSystemMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

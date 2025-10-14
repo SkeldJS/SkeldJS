@@ -85,25 +85,23 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
         return false;
     }
 
-    async handleRemoteCall(rpc: BaseRpcMessage) {
-        switch (rpc.messageTag) {
-            case RpcMessageTag.EnterVent:
-                await this._handleEnterVent(rpc as EnterVentMessage);
-                break;
-            case RpcMessageTag.ExitVent: {
-                await this._handleExitVent(rpc as ExitVentMessage);
-                break;
-            }
-            case RpcMessageTag.ClimbLadder:
-                await this._handleClimbLadder(rpc as ClimbLadderMessage);
-                break;
-            case RpcMessageTag.Pet:
-                await this._handlePet(rpc as PetMessage);
-                break;
-            case RpcMessageTag.CancelPet:
-                await this._handleCancelPet(rpc as CancelPetMessage);
-                break;
+    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        switch (rpcTag) {
+            case RpcMessageTag.EnterVent: return EnterVentMessage.deserializeFromReader(reader);
+            case RpcMessageTag.ExitVent: return ExitVentMessage.deserializeFromReader(reader);
+            case RpcMessageTag.ClimbLadder: return ClimbLadderMessage.deserializeFromReader(reader);
+            case RpcMessageTag.Pet: return PetMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CancelPet: return CancelPetMessage.deserializeFromReader();
         }
+        return undefined;
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage) {
+        if (rpc instanceof EnterVentMessage) return await this._handleEnterVent(rpc);
+        if (rpc instanceof ExitVentMessage) return await this._handleExitVent(rpc);
+        if (rpc instanceof ClimbLadderMessage) return await this._handleClimbLadder(rpc);
+        if (rpc instanceof PetMessage) return await this._handlePet(rpc);
+        if (rpc instanceof CancelPetMessage) return await this._handleCancelPet(rpc);
     }
 
     private async _handleEnterVent(rpc: EnterVentMessage) {
@@ -208,15 +206,15 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _handleClimbLadder(rpc: ClimbLadderMessage) {
-        if (sequenceIdGreaterThan(rpc.sequenceid, this.ladderClimbSeqId, SequenceIdType.Byte)) {
-            this.ladderClimbSeqId = rpc.sequenceid;
+        if (sequenceIdGreaterThan(rpc.sequenceId, this.ladderClimbSeqId, SequenceIdType.Byte)) {
+            this.ladderClimbSeqId = rpc.sequenceId;
 
             await this.emit(
                 new PlayerClimbLadderEvent(
                     this.room,
                     this.player,
                     rpc,
-                    rpc.ladderid
+                    rpc.ladderId
                 )
             );
         }

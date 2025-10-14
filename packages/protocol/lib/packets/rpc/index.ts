@@ -40,6 +40,7 @@ export * from "./Shapeshift";
 export * from "./SnapTo";
 export * from "./StartMeeting";
 export * from "./SyncSettings";
+export * from "./Unknown";
 export * from "./UpdateSystemMessage";
 export * from "./UsePlatform";
 export * from "./VotingComplete";

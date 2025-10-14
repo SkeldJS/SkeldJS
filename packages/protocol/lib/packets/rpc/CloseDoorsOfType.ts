@@ -3,21 +3,15 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class CloseDoorsOfTypeMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.CloseDoorsOfType as const;
-    messageTag = RpcMessageTag.CloseDoorsOfType as const;
+    static messageTag = RpcMessageTag.CloseDoorsOfType;
 
-    systemId: number;
-
-    constructor(systemid: number) {
-        super();
-
-        this.systemId = systemid;
+    constructor(public readonly systemId: number) {
+        super(CloseDoorsOfTypeMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
-        const systemid = reader.uint8();
-
-        return new CloseDoorsOfTypeMessage(systemid);
+        const systemId = reader.uint8();
+        return new CloseDoorsOfTypeMessage(systemId);
     }
 
     serializeToWriter(writer: HazelWriter) {

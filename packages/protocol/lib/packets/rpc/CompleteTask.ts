@@ -3,20 +3,14 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class CompleteTaskMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.CompleteTask as const;
-    messageTag = RpcMessageTag.CompleteTask as const;
+    static messageTag = RpcMessageTag.CompleteTask;
 
-    taskIdx: number;
-
-    constructor(taskIdx: number) {
-        super();
-
-        this.taskIdx = taskIdx;
+    constructor(public readonly taskIdx: number) {
+        super(CompleteTaskMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const taskIdx = reader.upacked();
-
         return new CompleteTaskMessage(taskIdx);
     }
 

@@ -1,10 +1,5 @@
-import { BaseMessage } from "../BaseMessage";
+import { TaggedCloneable } from "../TaggedCloneable";
 
-export class BaseRpcMessage extends BaseMessage {
-    static messageType = "rpc" as const;
-    messageType = "rpc" as const;
-
-    clone(): BaseRpcMessage {
-        return super.clone() as BaseRpcMessage;
-    }
+export abstract class BaseRpcMessage extends TaggedCloneable {
+    abstract clone(): BaseRpcMessage;
 }

@@ -3,28 +3,22 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class ReportDeadBodyMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.ReportDeadBody as const;
-    messageTag = RpcMessageTag.ReportDeadBody as const;
+    static messageTag = RpcMessageTag.ReportDeadBody;
 
-    bodyid: number;
-
-    constructor(bodyid: number) {
-        super();
-
-        this.bodyid = bodyid;
+    constructor(public readonly bodyId: number) {
+        super(ReportDeadBodyMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const bodyid = reader.uint8();
-
         return new ReportDeadBodyMessage(bodyid);
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.uint8(this.bodyid);
+        writer.uint8(this.bodyId);
     }
 
     clone() {
-        return new ReportDeadBodyMessage(this.bodyid);
+        return new ReportDeadBodyMessage(this.bodyId);
     }
 }

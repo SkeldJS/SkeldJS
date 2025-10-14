@@ -4,23 +4,15 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class WaitForHostMessage extends BaseRootMessage {
-    static messageTag = RootMessageTag.WaitForHost as const;
-    messageTag = RootMessageTag.WaitForHost as const;
+    static messageTag = RootMessageTag.WaitForHost;
 
-    readonly gameId: number;
-    readonly clientId: number;
-
-    constructor(gameId: number, clientId: number) {
-        super();
-
-        this.gameId = gameId;
-        this.clientId = clientId;
+    constructor(public readonly gameId: number, public readonly clientId: number) {
+        super(WaitForHostMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
         const clientId = reader.int32();
-
         return new WaitForHostMessage(code, clientId);
     }
 

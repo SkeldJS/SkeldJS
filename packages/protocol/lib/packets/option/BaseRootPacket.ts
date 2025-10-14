@@ -1,10 +1,5 @@
-import { BaseMessage } from "../BaseMessage";
+import { TaggedCloneable } from "../TaggedCloneable";
 
-export class BaseRootPacket extends BaseMessage {
-    static messageType = "option" as const;
-    messageType = "option" as const;
-
-    clone(): BaseRootPacket {
-        return super.clone() as BaseRootPacket;
-    }
+export abstract class BaseRootPacket extends TaggedCloneable {
+    abstract clone(): BaseRootPacket;
 }

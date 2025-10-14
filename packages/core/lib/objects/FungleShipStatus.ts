@@ -58,4 +58,8 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipSt
     getTasks() {
         return Object.values(TheFungleTasks);
     }
+    
+    getStartWaitSeconds(): number {
+        return 15;
+    }
 }

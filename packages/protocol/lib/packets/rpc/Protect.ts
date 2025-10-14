@@ -3,17 +3,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class ProtectPlayerMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.ProtectPlayer as const;
-    messageTag = RpcMessageTag.ProtectPlayer as const;
+    static messageTag = RpcMessageTag.ProtectPlayer;
 
-    targetNetId: number;
-    colorId: Color;
-
-    constructor(targetNetId: number, colorId: Color) {
-        super();
-
-        this.targetNetId = targetNetId;
-        this.colorId = colorId;
+    constructor(public readonly targetNetId: number, public readonly colorId: Color) {
+        super(ProtectPlayerMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

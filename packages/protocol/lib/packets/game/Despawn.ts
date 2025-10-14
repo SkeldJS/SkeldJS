@@ -3,20 +3,14 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class DespawnMessage extends BaseGameDataMessage {
-    static messageTag = GameDataMessageTag.Despawn as const;
-    messageTag = GameDataMessageTag.Despawn as const;
+    static messageTag = GameDataMessageTag.Despawn;
 
-    readonly netId: number;
-
-    constructor(netId: number) {
-        super();
-
-        this.netId = netId;
+    constructor(public readonly netId: number) {
+        super(DespawnMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const netId = reader.upacked();
-
         return new DespawnMessage(netId);
     }
 

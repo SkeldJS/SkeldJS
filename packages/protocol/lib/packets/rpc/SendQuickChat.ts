@@ -118,13 +118,10 @@ export type QuickChatMessageData =
     QuickChatComplexMessageData;
 
 export class SendQuickChatMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.SendQuickChat as const;
-    messageTag = RpcMessageTag.SendQuickChat as const;
+    static messageTag = RpcMessageTag.SendQuickChat;
 
-    constructor(
-        public readonly message: QuickChatMessageData
-    ) {
-        super();
+    constructor(public readonly message: QuickChatMessageData) {
+        super(SendQuickChatMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

@@ -4,15 +4,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class PlayAnimationMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.PlayAnimation as const;
-    messageTag = RpcMessageTag.PlayAnimation as const;
+    static messageTag = RpcMessageTag.PlayAnimation;
 
-    taskId: number;
-
-    constructor(taskId: number) {
-        super();
-
-        this.taskId = taskId;
+    constructor(public readonly taskId: number) {
+        super(PlayAnimationMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

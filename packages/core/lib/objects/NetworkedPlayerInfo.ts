@@ -4,8 +4,10 @@ import {
     Color,
     PlayerDataFlags,
     PlayerOutfitType,
-    RoleTeamType
+    RoleTeamType,
+    RpcMessageTag
 } from "@skeldjs/constant";
+
 import { BaseRpcMessage, RpcMessage, SetTasksMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -267,6 +269,10 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
 
     get currentOutfit() {
         return this.getOutfit(this.currentOutfitType);
+    }
+
+    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        return undefined;
     }
     
     async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {

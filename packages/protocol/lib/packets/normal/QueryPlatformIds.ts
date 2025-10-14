@@ -5,17 +5,10 @@ import { BaseRootMessage } from "./BaseRootMessage";
 import { PlatformSpecificData } from "../../misc";
 
 export class QueryPlatformIdsMessage extends BaseRootMessage {
-    static messageTag = RootMessageTag.QueryPlatformIds as const;
-    messageTag = RootMessageTag.QueryPlatformIds as const;
+    static messageTag = RootMessageTag.QueryPlatformIds;
 
-    readonly gameCode: number;
-    readonly roomPlayersPlatforms: PlatformSpecificData[];
-
-    constructor(gameCode: number, roomPlayersPlatforms: PlatformSpecificData[]) {
-        super();
-
-        this.gameCode = gameCode;
-        this.roomPlayersPlatforms = roomPlayersPlatforms;
+    constructor(public readonly gameCode: number, public readonly roomPlayersPlatforms: PlatformSpecificData[]) {
+        super(QueryPlatformIdsMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
@@ -35,5 +28,9 @@ export class QueryPlatformIdsMessage extends BaseRootMessage {
         for (const playerPlatform of this.roomPlayersPlatforms) {
             playerPlatform.serializeToWriter(writer);
         }
+    }
+    
+    clone(): BaseRootMessage {
+        return new QueryPlatformIdsMessage(this.gameCode, this.roomPlayersPlatforms.map(platform => platform.clone()));
     }
 }

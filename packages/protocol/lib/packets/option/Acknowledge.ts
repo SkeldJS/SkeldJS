@@ -6,17 +6,10 @@ import { BaseRootPacket } from "./BaseRootPacket";
 export type MissingPackets = number[];
 
 export class AcknowledgePacket extends BaseRootPacket {
-    static messageTag = SendOption.Acknowledge as const;
-    messageTag = SendOption.Acknowledge as const;
+    static messageTag = SendOption.Acknowledge;
 
-    readonly nonce: number;
-    readonly missingPackets: MissingPackets;
-
-    constructor(nonce: number, missingPackets: MissingPackets) {
-        super();
-
-        this.nonce = nonce;
-        this.missingPackets = missingPackets;
+    constructor(public readonly nonce: number, public readonly missingPackets: MissingPackets) {
+        super(AcknowledgePacket.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

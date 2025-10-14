@@ -6,20 +6,13 @@ export class SendChatNoteMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.SendChatNote as const;
     messageTag = RpcMessageTag.SendChatNote as const;
 
-    playerId: number;
-    notetype: ChatNoteType;
-
-    constructor(playerId: number, notetype: ChatNoteType) {
-        super();
-
-        this.playerId = playerId;
-        this.notetype = notetype;
+    constructor(public readonly playerId: number, public readonly notetype: ChatNoteType) {
+        super(SendChatNoteMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const playerId = reader.uint8();
         const notetype = reader.uint8();
-
         return new SendChatNoteMessage(playerId, notetype);
     }
 

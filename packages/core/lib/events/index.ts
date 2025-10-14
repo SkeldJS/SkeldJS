@@ -85,8 +85,8 @@ export * from "./reactor/ConsolesReset";
 export * from "./room/AssignRoles";
 export * from "./room/EndGameIntent";
 export * from "./room/FixedUpdate";
-export * from "./room/GameEnd";
-export * from "./room/GameStart";
+export * from "./room/GameEnded";
+export * from "./room/GameStarted";
 
 export * from "./electrical/SwitchFlip";
 

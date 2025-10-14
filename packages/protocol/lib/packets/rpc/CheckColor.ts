@@ -3,20 +3,14 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class CheckColorMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.CheckColor as const;
-    messageTag = RpcMessageTag.CheckColor as const;
+    static messageTag = RpcMessageTag.CheckColor;
 
-    color: Color;
-
-    constructor(color: Color) {
-        super();
-
-        this.color = color;
+    constructor(public readonly color: Color) {
+        super(CheckColorMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const color = reader.uint8();
-
         return new CheckColorMessage(color);
     }
 

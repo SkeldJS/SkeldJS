@@ -3,21 +3,15 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class CheckProtectMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.CheckProtect as const;
-    messageTag = RpcMessageTag.CheckProtect as const;
+    static messageTag = RpcMessageTag.CheckProtect;
 
-    targetNetId: number;
-
-    constructor(victimNetId: number) {
-        super();
-
-        this.targetNetId = victimNetId;
+    constructor(public readonly targetNetId: number) {
+        super(CheckProtectMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
-        const victimNetId = reader.upacked();
-
-        return new CheckProtectMessage(victimNetId);
+        const targetNetId = reader.upacked();
+        return new CheckProtectMessage(targetNetId);
     }
 
     serializeToWriter(writer: HazelWriter) {

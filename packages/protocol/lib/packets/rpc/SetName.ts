@@ -3,11 +3,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetNameMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.SetName as const;
-    messageTag = RpcMessageTag.SetName as const;
+    static messageTag = RpcMessageTag.SetName;
 
     constructor(public readonly netIdToName: number, public readonly name: string) {
-        super();
+        super(SetNameMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

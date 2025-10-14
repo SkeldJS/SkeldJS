@@ -1,6 +1,6 @@
 export enum GameDataMessageTag {
     Data = 1,
-    RPC,
+    Rpc,
     Spawn = 4,
     Despawn,
     SceneChange,

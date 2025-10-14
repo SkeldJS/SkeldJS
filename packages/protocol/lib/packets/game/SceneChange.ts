@@ -3,23 +3,15 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class SceneChangeMessage extends BaseGameDataMessage {
-    static messageTag = GameDataMessageTag.SceneChange as const;
-    messageTag = GameDataMessageTag.SceneChange as const;
+    static messageTag = GameDataMessageTag.SceneChange;
 
-    readonly clientId: number;
-    readonly scene: string;
-
-    constructor(clientId: number, scene: string) {
-        super();
-
-        this.clientId = clientId;
-        this.scene = scene;
+    constructor(public readonly clientId: number, public readonly scene: string) {
+        super(SceneChangeMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const clientId = reader.packed();
         const scene = reader.string();
-
         return new SceneChangeMessage(clientId, scene);
     }
 

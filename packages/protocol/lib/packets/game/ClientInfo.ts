@@ -3,23 +3,15 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 
 export class ClientInfoMessage extends BaseGameDataMessage {
-    static messageTag = GameDataMessageTag.ClientInfo as const;
-    messageTag = GameDataMessageTag.ClientInfo as const;
+    static messageTag = GameDataMessageTag.ClientInfo;
 
-    readonly clientId: number;
-    readonly platform: RuntimePlatform;
-
-    constructor(clientId: number, platform: RuntimePlatform) {
-        super();
-
-        this.clientId = clientId;
-        this.platform = platform;
+    constructor(public readonly clientId: number, public readonly platform: RuntimePlatform) {
+        super(ClientInfoMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const clientId = reader.packed();
         const platform = reader.upacked();
-
         return new ClientInfoMessage(clientId, platform);
     }
 

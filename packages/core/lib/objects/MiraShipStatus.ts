@@ -54,4 +54,8 @@ export class MiraShipStatus<RoomType extends StatefulRoom> extends InnerShipStat
     getTasks() {
         return Object.values(MiraHQTasks);
     }
+    
+    getStartWaitSeconds(): number {
+        return 10;
+    }
 }

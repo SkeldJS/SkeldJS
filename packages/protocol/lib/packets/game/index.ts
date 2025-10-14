@@ -7,3 +7,4 @@ export * from "./Ready";
 export * from "./Rpc";
 export * from "./SceneChange";
 export * from "./Spawn";
+export * from "./Unknown";

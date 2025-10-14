@@ -138,15 +138,17 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         return true;
     }
 
-    async handleRemoteCall(rpc: BaseRpcMessage) {
-        switch (rpc.messageTag) {
-            case RpcMessageTag.CloseDoorsOfType:
-                await this._handleCloseDoorsOfType(rpc as CloseDoorsOfTypeMessage);
-                break;
-            case RpcMessageTag.RepairSystem:
-                await this._handleRepairSystem(rpc as RepairSystemMessage);
-                break;
+    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        switch (rpcTag) {
+            case RpcMessageTag.CloseDoorsOfType: return CloseDoorsOfTypeMessage.deserializeFromReader(reader);
+            case RpcMessageTag.RepairSystem: return RepairSystemMessage.deserializeFromReader(reader);
         }
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage) {
+        if (rpc instanceof CloseDoorsOfTypeMessage) return await this._handleCloseDoorsOfType(rpc);
+        if (rpc instanceof RepairSystemMessage) return await this._handleRepairSystem(rpc);
+        return undefined;
     }
 
     protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
@@ -310,4 +312,6 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
      * @returns The door IDs that connect to the room.
      */
     abstract getDoorsInRoom(room: SystemType): number[];
+
+    abstract getStartWaitSeconds(): number;
 }

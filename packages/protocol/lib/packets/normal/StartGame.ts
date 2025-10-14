@@ -4,20 +4,14 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class StartGameMessage extends BaseRootMessage {
-    static messageTag = RootMessageTag.StartGame as const;
-    messageTag = RootMessageTag.StartGame as const;
+    static messageTag = RootMessageTag.StartGame;
 
-    readonly gameId: number;
-
-    constructor(gameId: number) {
-        super();
-
-        this.gameId = gameId;
+    constructor(public readonly gameId: number) {
+        super(StartGameMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
-
         return new StartGameMessage(code);
     }
 

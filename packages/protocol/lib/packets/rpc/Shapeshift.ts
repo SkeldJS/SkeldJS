@@ -3,17 +3,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class ShapeshiftMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.Shapeshift as const;
-    messageTag = RpcMessageTag.Shapeshift as const;
+    static messageTag = RpcMessageTag.Shapeshift;
 
-    targetNetId: number;
-    doAnimation: boolean;
-
-    constructor(targetNetId: number, doAnimation: boolean) {
-        super();
-
-        this.targetNetId = targetNetId;
-        this.doAnimation = doAnimation;
+    constructor(public readonly targetNetId: number, public readonly doAnimation: boolean) {
+        super(ShapeshiftMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

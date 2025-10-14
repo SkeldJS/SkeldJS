@@ -3,15 +3,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class ExitVentMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.ExitVent as const;
-    messageTag = RpcMessageTag.ExitVent as const;
+    static messageTag = RpcMessageTag.ExitVent;
 
-    ventId: number;
-
-    constructor(ventId: number) {
-        super();
-
-        this.ventId = ventId;
+    constructor(public readonly ventId: number) {
+        super(ExitVentMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

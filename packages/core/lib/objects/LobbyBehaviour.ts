@@ -1,9 +1,10 @@
 import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
+import { BaseRpcMessage } from "@skeldjs/protocol";
+import { RpcMessageTag } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
-import { BaseRpcMessage } from "@skeldjs/protocol";
 
 export type LobbyBehaviourEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
 
@@ -37,7 +38,11 @@ export class LobbyBehaviour<RoomType extends StatefulRoom> extends NetworkedObje
     serializeToWriter(writer: HazelWriter, spawn: boolean): boolean {
         return false;
     }
-    
+
+    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        return undefined;
+    }
+
     async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
         void rpc;
     }

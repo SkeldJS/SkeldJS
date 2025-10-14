@@ -1,30 +1,27 @@
 import { SendOption } from "@skeldjs/constant";
-import { HazelReader } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/util";
 
-import { BaseRootMessage } from "../root/BaseRootMessage";
-import { PacketDecoder } from "../../PacketDecoder";
-import { MessageDirection } from "../../PacketDecoder";
 import { NormalPacket } from "./Normal";
+import { TaggedCloneable } from "../TaggedCloneable";
+import { BaseRootMessage } from "../normal";
 
 export class UnreliablePacket extends NormalPacket {
-    static messageTag = SendOption.Unreliable as const;
-    messageTag = SendOption.Unreliable as const;
+    static messageTag = SendOption.Unreliable;
 
-    constructor(children: BaseRootMessage[]) {
-        super(children);
+    constructor(public readonly children: BaseRootMessage[]) {
+        super(UnreliablePacket.messageTag, children);
     }
 
-    static deserializeFromReader(
-        reader: HazelReader,
-        direction: MessageDirection,
-        decoder: PacketDecoder
-    ) {
-        const normal = super.deserializeFromReader(reader, direction, decoder);
-
-        return new UnreliablePacket(normal.children);
+    static deserializeFromReader(reader: HazelReader) {
+        const children = super.deserializeChildrenFromReader(reader);
+        return new UnreliablePacket(children);
     }
 
-    clone() {
+    serializeToWriter(writer: HazelWriter) {
+        super.serializeToWriter(writer);
+    }
+    
+    clone(): TaggedCloneable {
         return new UnreliablePacket(this.children.map(child => child.clone()));
     }
 }

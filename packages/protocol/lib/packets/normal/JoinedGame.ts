@@ -5,27 +5,15 @@ import { PlayerJoinData } from "../../misc";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class JoinedGameMessage extends BaseRootMessage {
-    static messageTag = RootMessageTag.JoinedGame as const;
-    messageTag = RootMessageTag.JoinedGame as const;
-
-    readonly gameId: number;
-    readonly clientId: number;
-    readonly hostId: number;
-    readonly otherPlayers: PlayerJoinData[];
+    static messageTag = RootMessageTag.JoinedGame;
 
     constructor(
-        gameId: number,
-        clientId: number,
-        hostId: number,
-        otherPlayers: PlayerJoinData[]
+        public readonly gameId: number,
+        public readonly clientId: number,
+        public readonly hostId: number,
+        public readonly otherPlayers: PlayerJoinData[]
     ) {
-        super();
-
-        this.gameId = gameId;
-
-        this.clientId = clientId;
-        this.hostId = hostId;
-        this.otherPlayers = otherPlayers;
+        super(JoinedGameMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

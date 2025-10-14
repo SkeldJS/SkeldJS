@@ -1,6 +1,6 @@
-import { Vector2 } from "@skeldjs/util";
+import { HazelReader, Vector2 } from "@skeldjs/util";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { AirshipTasks } from "@skeldjs/data";
 
 import { InnerShipStatus } from "./InnerShipStatus";
@@ -196,8 +196,15 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatu
         void 0;
     }
 
-    async handleRemoteCall(rpc: RepairSystemMessage) {
-        if (rpc.messageTag === RpcMessageTag.RepairSystem) {
+    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
+        switch (rpcTag) {
+            case RpcMessageTag.RepairSystem: return RepairSystemMessage.deserializeFromReader(reader);
+        }
+        return super.parseRemoteCall(rpcTag, reader);
+    }
+
+    async handleRemoteCall(rpc: BaseRpcMessage) {
+        if (rpc instanceof RepairSystemMessage) {
             if (rpc.systemId === SystemType.Doors) {
                 const player = this.room.getPlayerByNetId(rpc.netId);
                 const doorId = rpc.amount & 0x1f;
@@ -221,5 +228,9 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatu
 
     getTasks() {
         return Object.values(AirshipTasks);
+    }
+    
+    getStartWaitSeconds(): number {
+        return 15;
     }
 }

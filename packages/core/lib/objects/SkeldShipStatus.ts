@@ -77,4 +77,8 @@ export class SkeldShipStatus<RoomType extends StatefulRoom> extends InnerShipSta
     getTasks() {
         return Object.values(TheSkeldTasks);
     }
+    
+    getStartWaitSeconds(): number {
+        return 10;
+    }
 }

@@ -78,4 +78,8 @@ export class AprilShipStatus<RoomType extends StatefulRoom> extends InnerShipSta
     getTasks() {
         return Object.values(AprilFoolsTheSkeldTasks);
     }
+    
+    getStartWaitSeconds(): number {
+        return 10;
+    }
 }

@@ -66,8 +66,8 @@ import {
     PlayerSpawnEvent,
     RoomEndGameIntentEvent,
     RoomFixedUpdateEvent,
-    RoomGameEndEvent,
-    RoomGameStartEvent
+    RoomGameEndedEvent,
+    RoomGameStartedEvent
 } from "./events";
 
 import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
@@ -141,8 +141,8 @@ export type StatefulRoomEvents<RoomType extends StatefulRoom> = NetworkedObjectE
         [
             RoomEndGameIntentEvent<RoomType>,
             RoomFixedUpdateEvent<RoomType>,
-            RoomGameEndEvent<RoomType>,
-            RoomGameStartEvent<RoomType>
+            RoomGameEndedEvent<RoomType>,
+            RoomGameStartedEvent<RoomType>
         ]
     >;
 
@@ -285,7 +285,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
      * See {@link RoomEndGameIntentEvent} to cancel an end game intent, or see
      * {@link StatefulRoom.registerEndGameIntent} to register your own.
      *
-     * See {@link RoomGameEndEvent} to listen for a game actually ending.
+     * See {@link RoomGameEndedEvent} to listen for a game actually ending.
      */
     endGameIntents: EndGameIntent<any>[];
 
@@ -716,16 +716,13 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
     }
 
     waitingForReady(player: Player<this>): boolean {
-        return player.isReady;
+        return !player.isReady;
     }
 
     /**
      * Start the game. If the client's player is not the host, the server may ban the client.
      */
-    async startGame() {
-        if (this.gameState === GameState.Started)
-            return;
-
+    async handleStartGame() {
         this.gameState = GameState.Started;
 
         for (const [, playerInfo] of this.playerInfo) {
@@ -734,24 +731,25 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
         if (this.lobbyBehaviour) this.despawnComponent(this.lobbyBehaviour);
 
         const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
-        await this.spawnObjectOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global, SpawnFlag.None);
+        const shipPrefab = await this.spawnObjectOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global, SpawnFlag.None) as InnerShipStatus<this>;
+
+        const waitSeconds = shipPrefab.getStartWaitSeconds();
 
         await Promise.all([
             Promise.race([
                 Promise.all(
                     [...this.players.values()].map((player) => {
-                        if (this.waitingForReady(player)) {
+                        if (!this.waitingForReady(player)) {
                             return Promise.resolve();
                         }
 
                         return new Promise<void>((resolve) => {
-                            player.once("player.ready", () => {
-                                resolve();
-                            });
+                            player.once("player.ready", () => resolve());
+                            player.once("player.leave", () => resolve());
                         });
                     })
                 ),
-                sleep(3000),
+                sleep(waitSeconds * 1000),
             ])
         ]);
 
@@ -761,6 +759,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
                 await this.handleLeave(player);
                 removes.push(player);
             }
+            player.isReady = false;
         }
 
         if (removes.length) {
@@ -775,9 +774,15 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
                 await this.shipStatus.spawnPlayer(player, true, false);
             }
         }
+
+        await this.emit(new RoomGameStartedEvent(this));
     }
 
-    protected async _handleEnd(reason: GameOverReason) {
+    /**
+     * Handle when the game is ended.
+     * @param reason The reason for why the game ended.
+     */
+    async handleEndGame(reason: GameOverReason) {
         this.gameState = GameState.Ended;
         this.players.clear();
         for (const [objId] of this.players) {
@@ -788,15 +793,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
                 this.despawnComponent(component);
             }
         }
-        await this.emit(new RoomGameEndEvent(this, reason));
-    }
-
-    /**
-     * Handle when the game is ended.
-     * @param reason The reason for why the game ended.
-     */
-    async handleEnd(reason: GameOverReason) {
-        await this._handleEnd(reason);
+        await this.emit(new RoomGameEndedEvent(this, reason));
     }
 
     /**

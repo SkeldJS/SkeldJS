@@ -4,24 +4,14 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class EndGameMessage extends BaseRootMessage {
-    static messageTag = RootMessageTag.EndGame as const;
-    messageTag = RootMessageTag.EndGame as const;
-
-    readonly gameId: number;
-    readonly reason: GameOverReason;
-    readonly showAd: boolean;
+    static messageTag = RootMessageTag.EndGame;
 
     constructor(
-        gameId: number,
-        reason: GameOverReason,
-        showAd: boolean
+        public readonly gameId: number,
+        public readonly reason: GameOverReason,
+        public readonly showAd: boolean
     ) {
-        super();
-
-        this.gameId = gameId;
-
-        this.reason = reason;
-        this.showAd = showAd;
+        super(EndGameMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {

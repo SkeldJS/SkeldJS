@@ -4,34 +4,22 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRootMessage } from "./BaseRootMessage";
 
 export class KickPlayerMessage extends BaseRootMessage {
-    static messageTag = RootMessageTag.KickPlayer as const;
-    messageTag = RootMessageTag.KickPlayer as const;
-
-    readonly gameId: number;
-    readonly clientId: number;
-    readonly banned: boolean;
-    readonly reason: DisconnectReason;
+    static messageTag = RootMessageTag.KickPlayer;
 
     constructor(
-        gameId: number,
-        clientId: number,
-        banned: boolean,
-        reason?: DisconnectReason
+        public readonly gameId: number,
+        public readonly clientId: number,
+        public readonly banned: boolean,
+        public readonly reason?: DisconnectReason
     ) {
-        super();
-
-        this.gameId = gameId;
-
-        this.clientId = clientId;
-        this.banned = banned;
-        this.reason = reason || DisconnectReason.Error;
+        super(KickPlayerMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const code = reader.int32();
         const clientId = reader.packed();
         const banned = reader.bool();
-        const reason = reader.left ? reader.uint8() : DisconnectReason.Error;
+        const reason = reader.left ? reader.uint8() : undefined;
 
         return new KickPlayerMessage(code, clientId, banned, reason);
     }

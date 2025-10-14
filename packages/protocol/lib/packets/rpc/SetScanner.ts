@@ -3,32 +3,25 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SetScanner extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.SetScanner as const;
-    messageTag = RpcMessageTag.SetScanner as const;
+    static messageTag = RpcMessageTag.SetScanner;
 
-    scanning: boolean;
-    sequenceid: number;
-
-    constructor(scanning: boolean, sequenceid: number) {
-        super();
-
-        this.scanning = scanning;
-        this.sequenceid = sequenceid;
+    constructor(public readonly scanning: boolean, public readonly sequenceId: number) {
+        super(SetScanner.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
         const scanning = reader.bool();
-        const sequenceid = reader.uint8();
+        const sequenceId = reader.uint8();
 
-        return new SetScanner(scanning, sequenceid);
+        return new SetScanner(scanning, sequenceId);
     }
 
     serializeToWriter(writer: HazelWriter) {
         writer.bool(this.scanning);
-        writer.uint8(this.sequenceid);
+        writer.uint8(this.sequenceId);
     }
 
     clone() {
-        return new SetScanner(this.scanning, this.sequenceid);
+        return new SetScanner(this.scanning, this.sequenceId);
     }
 }

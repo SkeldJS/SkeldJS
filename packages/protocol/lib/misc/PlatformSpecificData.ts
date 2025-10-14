@@ -32,4 +32,12 @@ export class PlatformSpecificData {
         }
         writer.end();
     }
+
+    clone(): PlatformSpecificData {
+        return new PlatformSpecificData(
+            this.platformTag,
+            this.platformName,
+            this.platformId,
+        );
+    }
 }

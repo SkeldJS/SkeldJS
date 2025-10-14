@@ -3,15 +3,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class StartMeetingMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.StartMeeting as const;
-    messageTag = RpcMessageTag.StartMeeting as const;
+    static messageTag = RpcMessageTag.StartMeeting;
 
-    bodyid: number;
-
-    constructor(bodyid: number) {
-        super();
-
-        this.bodyid = bodyid;
+    constructor(public readonly bodyId: number) {
+        super(StartMeetingMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
@@ -21,10 +16,10 @@ export class StartMeetingMessage extends BaseRpcMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.uint8(this.bodyid);
+        writer.uint8(this.bodyId);
     }
 
     clone() {
-        return new StartMeetingMessage(this.bodyid);
+        return new StartMeetingMessage(this.bodyId);
     }
 }

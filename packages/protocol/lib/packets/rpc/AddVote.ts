@@ -3,32 +3,24 @@ import { HazelReader, HazelWriter } from "@skeldjs/util";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class AddVoteMessage extends BaseRpcMessage {
-    static messageTag = RpcMessageTag.AddVote as const;
-    messageTag = RpcMessageTag.AddVote as const;
+    static messageTag = RpcMessageTag.AddVote;
 
-    votingid: number;
-    targetid: number;
-
-    constructor(votingid: number, targetid: number) {
-        super();
-
-        this.votingid = votingid;
-        this.targetid = targetid;
+    constructor(public readonly votingId: number, public readonly targetId: number) {
+        super(AddVoteMessage.messageTag);
     }
 
     static deserializeFromReader(reader: HazelReader) {
-        const votingid = reader.uint32();
-        const targetid = reader.uint32();
-
-        return new AddVoteMessage(votingid, targetid);
+        const votingId = reader.uint32();
+        const targetId = reader.uint32();
+        return new AddVoteMessage(votingId, targetId);
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.uint32(this.votingid);
-        writer.uint32(this.targetid);
+        writer.uint32(this.votingId);
+        writer.uint32(this.targetId);
     }
 
     clone() {
-        return new AddVoteMessage(this.votingid, this.targetid);
+        return new AddVoteMessage(this.votingId, this.targetId);
     }
 }
