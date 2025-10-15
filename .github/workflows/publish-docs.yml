@@ -24,7 +24,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: yarn
-    - run: yarn typedoc packages/*/lib/index.ts
+    - run: yarn typedoc
 
     - name: Upload docs as an artifact
       id: deployment

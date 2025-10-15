@@ -1,3 +1,4 @@
+export * from "./http";
 export * from "./maps";
 export * from "./objects";
 export * from "./players";

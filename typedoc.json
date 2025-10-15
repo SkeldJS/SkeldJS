@@ -1,0 +1,21 @@
+{
+    "theme": "default",
+    "name": "SkeldJS",
+    "entryPoints": ["packages/*"],
+    "entryPointStrategy": "resolve",
+    "sort": [
+        "enum-value-ascending",
+        "static-first",
+        "kind",
+		"instance-first",
+		"alphabetical-ignoring-documents"
+    ],
+    "searchGroupBoosts": {
+        "Classes": 1.5
+    },
+    "categorizeByGroup": false,
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "excludeInternal": true,
+    "projectDocuments": []
+}

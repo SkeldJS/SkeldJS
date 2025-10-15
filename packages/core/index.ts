@@ -1,3 +1,7 @@
+/**
+ * @module @skeldjs/core
+ */
+
 export * from "./lib";
 
 export * from "@skeldjs/constant";

@@ -1,0 +1,18 @@
+export enum Filters {
+    Tags,
+    PlayerSpeed,
+    Roles,
+    KillCooldown,
+    VotingTime,
+    NumImposters,
+    VisualTasks,
+    AnonymousVotes,
+    ConfirmEjects,
+    DiscussionTime,
+    EmergencyCooldown,
+    NumEmergencyMeetings,
+    NumCommonTasks,
+    NumShortTasks,
+    NumLongTasks,
+    KillDistance,
+}
