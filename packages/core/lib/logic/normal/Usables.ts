@@ -2,7 +2,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { BaseRpcMessage } from "@skeldjs/protocol";
-import { HazelWriter, HazelReader } from "@skeldjs/util";
+import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 export type NormalUsablesLogicComponentEvents = ExtractEventTypes<[]>;
 

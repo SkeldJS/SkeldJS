@@ -1,5 +1,5 @@
 import { MurderReasonFlags, RpcMessageTag } from "@skeldjs/constant";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class MurderPlayerMessage extends BaseRpcMessage {

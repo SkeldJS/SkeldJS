@@ -1,5 +1,5 @@
 import { SpawnType, SystemType } from "@skeldjs/constant";
-import { HazelReader, Vector2 } from "@skeldjs/util";
+import { HazelReader, Vector2 } from "@skeldjs/hazel";
 import { PolusTasks } from "@skeldjs/data";
 
 import {
@@ -11,9 +11,9 @@ import {
     DoorsSystem,
     SecurityCameraSystem,
     HudOverrideSystem,
+    Door,
 } from "../systems";
 
-import { Door } from "../misc/Door";
 import { InnerShipStatus } from "./InnerShipStatus";
 import { StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";

@@ -1,5 +1,5 @@
 import { RepairSystemMessage } from "@skeldjs/protocol";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { Player } from "../Player";
 import { SystemStatus } from "./SystemStatus";
 import { StatefulRoom } from "../StatefulRoom";

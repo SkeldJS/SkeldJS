@@ -1,5 +1,5 @@
 import { GameMap } from "@skeldjs/constant";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { PlatformSpecificData } from "./PlatformSpecificData";
 
 export class GameListing {

@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { CipherSuite } from "./enums/CipherSuite";
 import { CompressionMethod } from "./enums/CompressionMethod";
 import { ProtocolVersion } from "./enums/ProtocolVersion";

@@ -9,14 +9,14 @@ import {
     RulesPreset,
 } from "@skeldjs/constant";
 
-import { DeepPartial, HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
-export interface RoleChanceSettings {
+export type RoleChanceSettings = {
     maxPlayers: number;
     chance: number;
 }
 
-export interface AllRoleSettings {
+export type AllRoleSettings = {
     roleChances: Partial<Record<RoleType, RoleChanceSettings>>;
     scientistCooldown: number;
     scientistBatteryCharge: number;
@@ -39,7 +39,7 @@ export interface AllRoleSettings {
     viperDissolveTime: number;
 }
 
-export interface AllGameSettings {
+export type AllGameSettings = {
     specialMode: SpecialGameModes;
     rulesPreset: RulesPreset;
     version: number;
@@ -148,7 +148,7 @@ export class RoleSettings implements AllRoleSettings {
 
     viperDissolveTime: number;
 
-    constructor(roleSettings: DeepPartial<AllRoleSettings>) {
+    constructor(roleSettings: Partial<AllRoleSettings>) {
         this.roleChances = {
             [RoleType.Scientist]: { maxPlayers: 0, chance: 0 },
             [RoleType.Engineer]: { maxPlayers: 0, chance: 0 },
@@ -164,11 +164,7 @@ export class RoleSettings implements AllRoleSettings {
         if (roleSettings.roleChances) {
             const roleChances = Object.entries(roleSettings.roleChances);
             for (const [roleType, roleChance] of roleChances) {
-                this.roleChances[roleType as unknown as RoleType] = {
-                    maxPlayers: 0,
-                    chance: 0,
-                    ...roleChance
-                };
+                this.roleChances[roleType as unknown as RoleType] = roleChance;
             }
         }
 
@@ -444,7 +440,7 @@ export class GameSettings {
 
     tag: number; // don't know what this does right now
 
-    constructor(settings: DeepPartial<AllGameSettings> = {}) {
+    constructor(settings: Partial<AllGameSettings> = {}) {
         this.gameMode = GameMode.Normal;
         this.specialMode = SpecialGameModes.None;
         this.rulesPreset = RulesPreset.Custom;

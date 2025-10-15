@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import {
     BaseRpcMessage,
@@ -1046,7 +1046,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _handleSetStartCounter(rpc: SetStartCounterMessage) {
-        const oldCounter = this.room.counter;
+        const oldCounter = this.room.startGameCounter;
         this._setStartCounter(rpc.counter);
 
         const ev = await this.emit(
@@ -1059,16 +1059,16 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             )
         );
 
-        this.room.counter = ev.alteredCounter;
+        this.room.startGameCounter = ev.alteredCounter;
 
-        if (this.room.counter !== rpc.counter) {
+        if (this.room.startGameCounter !== rpc.counter) {
             await this._rpcSetStartCounter(ev.alteredCounter);
         }
     }
 
     private _setStartCounter(counter: number) {
         this.lastStartCounter++;
-        this.room.counter = counter;
+        this.room.startGameCounter = counter;
     }
 
     private _rpcSetStartCounter(counter: number) {
@@ -1100,13 +1100,13 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 this.room,
                 this.player,
                 undefined,
-                this.room.counter,
+                this.room.startGameCounter,
                 counter
             )
         );
 
         if (ev.alteredCounter !== counter) {
-            this.room.counter = ev.alteredCounter;
+            this.room.startGameCounter = ev.alteredCounter;
         }
         this._rpcSetStartCounter(ev.alteredCounter);
     }

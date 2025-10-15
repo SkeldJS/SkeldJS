@@ -14,7 +14,7 @@
   "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "dependencies": {
     "@skeldjs/constant": "workspace:*",
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/hazel": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.7.0",

@@ -1,6 +1,6 @@
-import { HazelReader, HazelWriter, sleep } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
-import { ChatNoteType, GameOverReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
+import { ChatNoteType, GameOverReason, RpcMessageTag } from "@skeldjs/constant";
 
 import {
     BaseRpcMessage,
@@ -15,8 +15,6 @@ import { ExtractEventTypes } from "@skeldjs/events";
 
 import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
-import { PlayerVoteState, VoteStateSpecialId } from "../misc/PlayerVoteState";
-import { PlayerVoteArea } from "../misc/PlayerVoteArea";
 
 import {
     MeetingHudCloseEvent,
@@ -27,6 +25,160 @@ import {
 
 import { Player } from "../Player";
 import { AmongUsEndGames, EndGameIntent, PlayersVoteOutEndgameMetadata } from "../endgame";
+
+import { setTimeoutPromise } from "../utils/setTimeoutPromise";
+
+export class PlayerVoteArea<RoomType extends StatefulRoom> {
+    constructor(
+        public readonly meetinghud: MeetingHud<RoomType>,
+        public playerId: number,
+        public votedForId: number,
+        public didReport: boolean
+    ) { }
+
+    get dirty() {
+        return this.meetinghud.dirtyBit > 0;
+    }
+
+    set dirty(value: boolean) {
+        if (value) {
+            this.meetinghud.dirtyBit = 1;
+        }
+    }
+
+    /**
+     * The player that this vote state is for.
+     */
+    get player() {
+        return this.meetinghud.room.getPlayerByPlayerId(this.playerId);
+    }
+
+    /**
+     * Whether this player skipped voting.
+     */
+    get didSkip() {
+        return this.votedForId === VoteStateSpecialId.SkippedVote;
+    }
+
+    /**
+     * Whether this player has either voted for a player or voted to skip.
+     */
+    get hasVoted() {
+        return this.votedForId < VoteStateSpecialId.IsDead ||
+            this.votedForId === VoteStateSpecialId.SkippedVote;
+    }
+
+    /**
+     * The player that this player voted for, if any.
+     */
+    get votedFor() {
+        if (this.votedForId >= VoteStateSpecialId.IsDead)
+            return undefined;
+
+        return this.meetinghud.room.getPlayerByPlayerId(this.votedForId);
+    }
+
+    get canVote() {
+        const playerInfo = this.player?.getPlayerInfo();
+        return !playerInfo?.isDead && !playerInfo?.isDisconnected;
+    }
+
+    static deserializeFromReader<RoomType extends StatefulRoom>(reader: HazelReader, meetinghud: MeetingHud<RoomType>, playerId: number) {
+        const votedForId = reader.uint8();
+        const didReport = reader.bool();
+        return new PlayerVoteArea(meetinghud, playerId, votedForId, didReport);
+    }
+
+    serializeToWriter(writer: HazelWriter) {
+        writer.uint8(this.votedForId);
+        writer.bool(this.didReport);
+    }
+
+    clearVote() {
+        this.votedForId = VoteStateSpecialId.NotVoted;
+        this.dirty = true;
+    }
+
+    setSkipped() {
+        this.votedForId = VoteStateSpecialId.SkippedVote;
+        this.dirty = true;
+    }
+
+    setSuspect(playerId: number) {
+        if (playerId >= 252) {
+            throw new RangeError("Suspect player ID cannot be greater than 252.");
+        }
+
+        this.votedForId = playerId;
+        this.dirty = true;
+    }
+
+    setMissed() {
+        this.votedForId = VoteStateSpecialId.MissedVote;
+        this.dirty = true;
+    }
+}
+
+export enum VoteStateSpecialId {
+    IsDead = 252,
+    SkippedVote = 253,
+    MissedVote = 254,
+    NotVoted = 255
+}
+
+/**
+ * Represents a player's voting state.
+ */
+export class PlayerVoteState<RoomType extends StatefulRoom> {
+    constructor(
+        public readonly room: RoomType,
+        public playerId: number,
+        public votedForId: number
+    ) { }
+
+    /**
+     * The player that this vote state is for.
+     */
+    get player() {
+        return this.room.getPlayerByPlayerId(this.playerId);
+    }
+
+    /**
+     * Whether the player that this state represents is dead.
+     */
+    get isDead() {
+        return this.votedForId === VoteStateSpecialId.IsDead;
+    }
+
+    /**
+     * Whether this player didn't vote by the end of the meeting.
+     */
+    get didMissVote() {
+        return this.votedForId === VoteStateSpecialId.MissedVote;
+    }
+
+    /**
+     * Whether this player skipped voting.
+     */
+    get didSkip() {
+        return this.votedForId === VoteStateSpecialId.SkippedVote;
+    }
+
+    /**
+     * Whether this player has either voted for a player or voted to skip.
+     */
+    get hasVoted() {
+        return this.votedForId < VoteStateSpecialId.IsDead ||
+            this.votedForId === VoteStateSpecialId.SkippedVote;
+    }
+
+    /**
+     * The player that this player voted for, if any.
+     */
+    get votedFor() {
+        return this.room.getPlayerByPlayerId(this.votedForId);
+    }
+}
 
 export type MeetingHudEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
     ExtractEventTypes<
@@ -460,10 +612,10 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         this.exiled = exiled;
 
         if (this.room.canManageObject(this)) {
-            await sleep(5000);
+            await setTimeoutPromise(5000);
             await exiled?.characterControl?.causeToDie("exiled");
             this.close();
-            await sleep(5000);
+            await setTimeoutPromise(5000);
 
             if (exiled) {
                 let aliveCrewmates = 0;

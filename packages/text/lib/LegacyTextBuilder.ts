@@ -1,6 +1,6 @@
 const hex = (h: number) => h.toString(16).padStart(2, "0");
 
-export class TextBuilder {
+export class LegacyTextBuilder {
     private _str: string;
 
     constructor() {
@@ -20,7 +20,7 @@ export class TextBuilder {
         return this;
     }
 
-    append(text: TextBuilder | string) {
+    append(text: LegacyTextBuilder | string) {
         this._str += text.toString();
 
         return this;
@@ -38,9 +38,9 @@ export class TextBuilder {
     /**
      * Set the text color.
      */
-    color(hex: string): TextBuilder;
-    color(r: number, g: number, b: number, a: number): TextBuilder;
-    color(r: string | number, g?: number, b?: number, a?: number): TextBuilder {
+    color(hex: string): LegacyTextBuilder;
+    color(r: number, g: number, b: number, a: number): LegacyTextBuilder;
+    color(r: string | number, g?: number, b?: number, a?: number): LegacyTextBuilder {
         if (typeof r === "string") {
             if (!/^[a-fA-F0-9]+$/.test(r)) {
                 return this.color(r.replace(/[^a-fA-F0-9]/g, "0"));

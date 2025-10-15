@@ -2,7 +2,7 @@ import crypto from "crypto";
 import dgram from "dgram";
 
 import { Certificate as x509Certificate } from "@fidm/x509";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { AesGcmRecordProtection, expandSecret } from "./AesGcmRecordProtection";
 import { CipherSuite } from "./enums/CipherSuite";

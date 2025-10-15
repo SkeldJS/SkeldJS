@@ -1,11 +1,10 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemRepairEvent, SystemSabotageEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
-import { DoorEvents } from "../misc/Door";
 
 import { AutoDoorsSystem } from "./AutoDoorsSystem";
 import { DeconSystem } from "./DeconSystem";
-import { DoorsSystem } from "./DoorsSystem";
+import { DoorEvents, DoorsSystem } from "./DoorsSystem";
 import { HeliSabotageSystem } from "./HeliSabotageSystem";
 import { HqHudSystem } from "./HqHudSystem";
 import { HudOverrideSystem } from "./HudOverrideSystem";

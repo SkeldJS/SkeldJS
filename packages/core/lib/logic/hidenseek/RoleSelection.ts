@@ -6,7 +6,7 @@ import { BaseRole, CrewmateGhostRole, CrewmateRole, EngineerRole, ImpostorGhostR
 import { RoomAssignRolesEvent } from "../../events";
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
 import { BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
-import { HazelWriter, HazelReader } from "@skeldjs/util";
+import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 import { HideAndSeekManager, PlayerControl } from "../../objects";
 
 export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
@@ -70,10 +70,11 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
                 playerPool.splice(i, 1);
             }
         } else {
-            if (this.manager.room.privacy === "private" && this.manager.room.settings.seekerPlayerId > -1) {
+            const seekerPlayerId = this.manager.room.settings.seekerPlayerId;
+            if (seekerPlayerId > -1 && this.manager.room.getSelectedSeekerAllowed(seekerPlayerId)) {
                 for (let i = 0; i < playerPool.length; i++) {
                     const player = playerPool[i];
-                    if (player.getPlayerId() === this.manager.room.settings.seekerPlayerId) {
+                    if (player.getPlayerId() === seekerPlayerId) {
                         roleAssignments.set(player, ImpostorRole);
                         playerPool.splice(i, 1);
                         return;

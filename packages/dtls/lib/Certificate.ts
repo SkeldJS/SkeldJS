@@ -1,5 +1,5 @@
 import { Certificate as x509Certificate } from "@fidm/x509";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { uint24 } from "./types/uint24";
 
 export class Certificate {

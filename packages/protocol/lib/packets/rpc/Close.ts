@@ -1,6 +1,6 @@
 import { RpcMessageTag } from "@skeldjs/constant";
 import { BaseRpcMessage } from "./BaseRpcMessage";
-import { HazelWriter } from "@skeldjs/util";
+import { HazelWriter } from "@skeldjs/hazel";
 
 export class CloseMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.Close;

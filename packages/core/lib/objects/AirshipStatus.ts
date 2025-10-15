@@ -1,4 +1,4 @@
-import { HazelReader, Vector2 } from "@skeldjs/util";
+import { HazelReader, Vector2 } from "@skeldjs/hazel";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { AirshipTasks } from "@skeldjs/data";
@@ -19,10 +19,9 @@ import {
     MedScanSystem,
     DoorsSystem,
     HeliSabotageSystem,
+    Door,
+    AutoOpenDoor,
 } from "../systems";
-
-import { Door } from "../misc/Door";
-import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
 export enum ElectricalDoorsAirship {
     BottomRightNorth,

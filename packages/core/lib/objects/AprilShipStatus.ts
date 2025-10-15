@@ -1,4 +1,4 @@
-import { Vector2 } from "@skeldjs/util";
+import { Vector2 } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 import { AprilFoolsTheSkeldTasks, TheSkeldTasks } from "@skeldjs/data";
 
@@ -12,11 +12,11 @@ import {
     SabotageSystem,
     SwitchSystem,
     ReactorSystem,
-    HudOverrideSystem
+    HudOverrideSystem,
+    AutoOpenDoor
 } from "../systems";
 
 import { StatefulRoom } from "../StatefulRoom";
-import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
 /**
  * Represents a room object for the April Fools' version of the The Skeld map.

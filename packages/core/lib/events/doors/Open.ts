@@ -2,8 +2,7 @@ import { RevertableEvent } from "@skeldjs/events";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
-import { Door } from "../../misc/Door";
-import { AutoDoorsSystem, DoorsSystem, ElectricalDoorsSystem } from "../../systems";
+import { AutoDoorsSystem, Door, DoorsSystem, ElectricalDoorsSystem } from "../../systems";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { Player } from "../../Player";
 import { DoorsEvent } from "./DoorsEvent";

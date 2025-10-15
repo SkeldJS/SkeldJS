@@ -1,7 +1,6 @@
 export * from "./endgame";
 export * from "./events";
 export * from "./logic";
-export * from "./misc";
 export * from "./objects";
 export * from "./roles";
 export * from "./systems";

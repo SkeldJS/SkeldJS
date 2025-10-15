@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import {

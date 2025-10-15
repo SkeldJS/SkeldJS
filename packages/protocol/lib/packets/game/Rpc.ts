@@ -1,5 +1,5 @@
 import { GameDataMessageTag } from "@skeldjs/constant";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseRpcMessage } from "../rpc/BaseRpcMessage";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
 import { UnknownRpcMessage } from "../rpc";

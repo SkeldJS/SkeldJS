@@ -10,10 +10,7 @@ import {
     PlayerJoinData
 } from "@skeldjs/protocol";
 
-import {
-    HazelWriter,
-    sleep
-} from "@skeldjs/util";
+import { HazelWriter } from "@skeldjs/hazel";
 
 import {
     GameOverReason,
@@ -89,7 +86,7 @@ import {
     ViperRole,
 } from "./roles";
 
-import { StatefulRoomConfig } from "./misc";
+import { setTimeoutPromise } from "./utils/setTimeoutPromise";
 
 export type RoomID = string | number;
 
@@ -109,13 +106,12 @@ export type PlayerResolvable<RoomType extends StatefulRoom = StatefulRoom> =
     | PlayerPhysics<RoomType>
     | CustomNetworkTransform<RoomType>;
 
-export type PrivacyType = "public" | "private";
-
-export interface SpawnObject {
-    type: number;
-    ownerId: number;
-    flags: number;
-    components: NetworkedObject<any, any>[];
+export type StatefulRoomConfig = {
+    /**
+     * Whether or not to do a fixed update interval.
+     * @default false
+     */
+    doFixedUpdate?: boolean;
 }
 
 export type AnyNetworkedObject<RoomType extends StatefulRoom> =
@@ -202,12 +198,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
     /**
      * The current start counter for the room.
      */
-    counter: number;
-
-    /**
-     * The privacy state of the room.
-     */
-    privacy: PrivacyType;
+    startGameCounter: number;
 
     /**
      * An instance of the ship status in the room. Spawned when a game is started
@@ -298,8 +289,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
 
         this.gameState = GameState.NotStarted;
         this.authorityId = -1;
-        this.counter = -1;
-        this.privacy = "private";
+        this.startGameCounter = -1;
 
         this.settings = new GameSettings;
 
@@ -749,7 +739,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
                         });
                     })
                 ),
-                sleep(waitSeconds * 1000),
+                setTimeoutPromise(waitSeconds * 1000),
             ])
         ]);
 
@@ -1147,6 +1137,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
     abstract endGame(reason: GameOverReason): Promise<void>;
 
     abstract clearMyVote(meetingHud: MeetingHud<this>): Promise<void>;
+    abstract getSelectedSeekerAllowed(seekerPlayerId: number): boolean;
     abstract sendRepairSystem(systemType: SystemType, amount: number): Promise<void>;
 
     abstract playerVoteKicked(player: Player<this>): Promise<void>;

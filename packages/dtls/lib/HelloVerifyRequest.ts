@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { ProtocolVersion } from "./enums/ProtocolVersion";
 
 export class HelloVerifyRequest {

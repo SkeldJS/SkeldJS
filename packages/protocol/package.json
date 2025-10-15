@@ -13,7 +13,7 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "@skeldjs/constant": "workspace:*",
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/hazel": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.7.0",

@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 export abstract class TaggedCloneable {
     constructor(public readonly messageTag: number) { }

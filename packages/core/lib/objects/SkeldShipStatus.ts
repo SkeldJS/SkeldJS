@@ -1,4 +1,4 @@
-import { Vector2 } from "@skeldjs/util";
+import { Vector2 } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 import { TheSkeldTasks } from "@skeldjs/data";
 
@@ -14,10 +14,10 @@ import {
     ReactorSystem,
     HudOverrideSystem,
     DoorsSystem,
+    AutoOpenDoor,
 } from "../systems";
 
 import { StatefulRoom } from "../StatefulRoom";
-import { AutoOpenDoor } from "../misc/AutoOpenDoor";
 
 /**
  * Represents a room object for the The Skeld map.

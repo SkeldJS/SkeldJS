@@ -1,5 +1,5 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { StatefulRoom } from "../../StatefulRoom";
 import { InnerGameManager } from "../../objects";
 import { GameLogicComponent } from "../GameLogicComponent";

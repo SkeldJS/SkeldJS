@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 export class uint24 {
     static deserializeFromReader(reader: HazelReader, be = false) {

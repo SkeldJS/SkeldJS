@@ -14,8 +14,8 @@
     "@skeldjs/constant": "workspace:*",
     "@skeldjs/data": "workspace:*",
     "@skeldjs/events": "workspace:*",
-    "@skeldjs/protocol": "workspace:*",
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/hazel": "workspace:*",
+    "@skeldjs/protocol": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.7.0",

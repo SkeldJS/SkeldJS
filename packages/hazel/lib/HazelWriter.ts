@@ -1,5 +1,4 @@
-import { BOUNDS, SIZES } from "./bounds";
-import { HazelBuffer } from "./HazelBuffer";
+import { HazelBuffer, IntegerByteSizes, IntegerValueBounds } from "./HazelBuffer";
 import { Vector2 } from "./Vector";
 
 type ListWriter<T> = (item: T, i: number, writer: HazelWriter) => any;
@@ -24,7 +23,7 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     static alloc(bytes: number) {
-        HazelBuffer.checkInteger(bytes, BOUNDS.uint32);
+        HazelBuffer.checkInteger(bytes, IntegerValueBounds.uint32);
         const buffer = Buffer.alloc(bytes);
 
         return new HazelWriter(buffer);
@@ -129,11 +128,11 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     uint8(val: number) {
-        HazelBuffer.checkInteger(val, BOUNDS.uint8);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.uint8);
 
-        this.expand(SIZES.uint8);
+        this.expand(IntegerByteSizes.uint8);
         this.buffer.writeUInt8(val, this._cursor);
-        this._cursor += SIZES.uint8;
+        this._cursor += IntegerByteSizes.uint8;
 
         return this;
     }
@@ -151,11 +150,11 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     int8(val: number) {
-        HazelBuffer.checkInteger(val, BOUNDS.int8);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.int8);
 
-        this.expand(SIZES.uint8);
+        this.expand(IntegerByteSizes.uint8);
         this.buffer.writeInt8(val, this._cursor);
-        this._cursor += SIZES.uint8;
+        this._cursor += IntegerByteSizes.uint8;
 
         return this;
     }
@@ -285,15 +284,15 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     uint16(val: number, be = false) {
-        HazelBuffer.checkInteger(val, BOUNDS.uint16);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.uint16);
 
-        this.expand(SIZES.uint16);
+        this.expand(IntegerByteSizes.uint16);
         if (be) {
             this.buffer.writeUInt16BE(val, this._cursor);
         } else {
             this.buffer.writeUInt16LE(val, this._cursor);
         }
-        this._cursor += SIZES.uint16;
+        this._cursor += IntegerByteSizes.uint16;
 
         return this;
     }
@@ -311,15 +310,15 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     int16(val: number, be = false) {
-        HazelBuffer.checkInteger(val, BOUNDS.int16);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.int16);
 
-        this.expand(SIZES.int16);
+        this.expand(IntegerByteSizes.int16);
         if (be) {
             this.buffer.writeInt16BE(val, this._cursor);
         } else {
             this.buffer.writeInt16LE(val, this._cursor);
         }
-        this._cursor += SIZES.int16;
+        this._cursor += IntegerByteSizes.int16;
 
         return this;
     }
@@ -337,15 +336,15 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     uint32(val: number, be = false) {
-        HazelBuffer.checkInteger(val, BOUNDS.uint32);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.uint32);
 
-        this.expand(SIZES.uint32);
+        this.expand(IntegerByteSizes.uint32);
         if (be) {
             this.buffer.writeUInt32BE(val, this._cursor);
         } else {
             this.buffer.writeUInt32LE(val, this._cursor);
         }
-        this._cursor += SIZES.uint32;
+        this._cursor += IntegerByteSizes.uint32;
 
         return this;
     }
@@ -363,15 +362,15 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     int32(val: number, be = false) {
-        HazelBuffer.checkInteger(val, BOUNDS.int32);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.int32);
 
-        this.expand(SIZES.int32);
+        this.expand(IntegerByteSizes.int32);
         if (be) {
             this.buffer.writeInt32BE(val, this._cursor);
         } else {
             this.buffer.writeInt32LE(val, this._cursor);
         }
-        this._cursor += SIZES.int32;
+        this._cursor += IntegerByteSizes.int32;
 
         return this;
     }
@@ -388,15 +387,15 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     uint64(val: bigint, be = false) {
-        HazelBuffer.checkInteger(val, BOUNDS.uint32);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.uint32);
 
-        this.expand(SIZES.uint32);
+        this.expand(IntegerByteSizes.uint32);
         if (be) {
             this.buffer.writeBigUInt64BE(val, this._cursor);
         } else {
             this.buffer.writeBigUInt64LE(val, this._cursor);
         }
-        this._cursor += SIZES.uint64;
+        this._cursor += IntegerByteSizes.uint64;
 
         return this;
     }
@@ -413,15 +412,15 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     int64(val: bigint, be = false) {
-        HazelBuffer.checkInteger(val, BOUNDS.int64);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.int64);
 
-        this.expand(SIZES.int64);
+        this.expand(IntegerByteSizes.int64);
         if (be) {
             this.buffer.writeBigInt64BE(val, this._cursor);
         } else {
             this.buffer.writeBigInt64LE(val, this._cursor);
         }
-        this._cursor += SIZES.int64;
+        this._cursor += IntegerByteSizes.int64;
 
         return this;
     }
@@ -443,13 +442,13 @@ export class HazelWriter extends HazelBuffer {
             throw new TypeError("Expected a number, got " + typeof val + ".");
         }
 
-        this.expand(SIZES.float);
+        this.expand(IntegerByteSizes.float);
         if (be) {
             this.buffer.writeFloatBE(val, this._cursor);
         } else {
             this.buffer.writeFloatLE(val, this._cursor);
         }
-        this._cursor += SIZES.float;
+        this._cursor += IntegerByteSizes.float;
 
         return this;
     }
@@ -467,7 +466,7 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     packed(val: number) {
-        HazelBuffer.checkInteger(val, BOUNDS.int32);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.int32);
 
         return this.upacked(val >>> 0);
     }
@@ -485,7 +484,7 @@ export class HazelWriter extends HazelBuffer {
      * ```
      */
     upacked(val: number) {
-        HazelBuffer.checkInteger(val, BOUNDS.uint32);
+        HazelBuffer.checkInteger(val, IntegerValueBounds.uint32);
 
         do {
             let byte = val & 0xff;
@@ -580,7 +579,7 @@ export class HazelWriter extends HazelBuffer {
 
         const length = this._cursor - pos;
 
-        if (length > BOUNDS.uint16.max) {
+        if (length > IntegerValueBounds.uint16.max) {
             throw new Error("Message length of " + length + " was too long.");
         }
 

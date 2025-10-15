@@ -23,7 +23,7 @@ client.on("meeting.votingcomplete", ev => {
 ## Advanced Usage
 
 ```ts
-import { GameCode } from "@skeldjs/util";
+import { GameCode } from "@skeldjs/hazel";
 import { TranslationController } from "@skeldjs/translations";
 
 import * as skeldjs from "@skeldjs/client";

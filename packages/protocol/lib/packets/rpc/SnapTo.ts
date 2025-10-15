@@ -1,5 +1,5 @@
 import { RpcMessageTag } from "@skeldjs/constant";
-import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
+import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
 export class SnapToMessage extends BaseRpcMessage {

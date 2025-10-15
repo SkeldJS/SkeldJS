@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
+import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
 import { BaseRpcMessage } from "@skeldjs/protocol";
 import { RpcMessageTag } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";

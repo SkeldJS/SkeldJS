@@ -1,4 +1,4 @@
-import { Vector2 } from "@skeldjs/util";
+import { Vector2 } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 
 import { MiraHQTasks } from "@skeldjs/data";

@@ -1,16 +1,15 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
-import { Door, DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
+import { Door, DoorEvents } from "./DoorsSystem";
 
 export type ElectricalDoorsSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     DoorEvents<RoomType> &

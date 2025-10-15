@@ -4,7 +4,7 @@ import {
     RpcMessage
 } from "@skeldjs/protocol";
 
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 

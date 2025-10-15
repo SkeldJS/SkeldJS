@@ -1,4 +1,4 @@
-import { Vector2, HazelReader, HazelWriter } from "@skeldjs/util";
+import { Vector2, HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import {
     BaseRpcMessage,

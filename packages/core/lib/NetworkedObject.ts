@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { SpawnType, SpawnFlag, RpcMessageTag } from "@skeldjs/constant";
 import { BaseRpcMessage } from "@skeldjs/protocol";

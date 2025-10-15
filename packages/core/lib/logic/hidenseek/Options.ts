@@ -1,7 +1,7 @@
 import { RoleTeamType, TaskBarMode } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { BaseRpcMessage } from "@skeldjs/protocol";
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { HideAndSeekManager } from "../../objects";

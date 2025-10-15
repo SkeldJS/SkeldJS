@@ -5,7 +5,7 @@ import {
     RootMessageTag,
 } from "@skeldjs/constant";
 
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { GameSettings, GameListing } from "../../misc";
 import { BaseRootMessage } from "./BaseRootMessage";

@@ -1,4 +1,4 @@
-import { HazelWriter } from "@skeldjs/util";
+import { HazelWriter } from "@skeldjs/hazel";
 import crypto from "crypto";
 
 import { Aes128Gcm } from "./AeadAes128Gcm";

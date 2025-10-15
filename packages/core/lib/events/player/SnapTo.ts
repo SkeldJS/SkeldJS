@@ -1,6 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
 import { SnapToMessage } from "@skeldjs/protocol";
-import { Vector2 } from "@skeldjs/util";
+import { Vector2 } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

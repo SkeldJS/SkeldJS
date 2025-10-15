@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import crypto from "crypto";
 import { ECCurveType } from "./enums/ECCurveType";
 import { HashAlgorithm } from "./enums/HashAlgorithm";

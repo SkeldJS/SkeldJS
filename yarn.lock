@@ -80,6 +80,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@skeldjs/client@workspace:packages/client":
+  version: 0.0.0-use.local
+  resolution: "@skeldjs/client@workspace:packages/client"
+  dependencies:
+    "@skeldjs/hazel": "workspace:*"
+    "@types/node": "npm:^24.7.0"
+    typescript: "npm:^5.9.3"
+  languageName: unknown
+  linkType: soft
+
 "@skeldjs/constant@workspace:*, @skeldjs/constant@workspace:packages/constant":
   version: 0.0.0-use.local
   resolution: "@skeldjs/constant@workspace:packages/constant"
@@ -96,8 +106,8 @@ __metadata:
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/data": "workspace:*"
     "@skeldjs/events": "workspace:*"
+    "@skeldjs/hazel": "workspace:*"
     "@skeldjs/protocol": "workspace:*"
-    "@skeldjs/util": "workspace:*"
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
@@ -108,7 +118,7 @@ __metadata:
   resolution: "@skeldjs/data@workspace:packages/data"
   dependencies:
     "@skeldjs/constant": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/hazel": "workspace:*"
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
@@ -119,7 +129,7 @@ __metadata:
   resolution: "@skeldjs/dtls@workspace:packages/dtls"
   dependencies:
     "@fidm/x509": "npm:^1.2.1"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/hazel": "workspace:*"
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
@@ -145,6 +155,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@skeldjs/hazel@workspace:*, @skeldjs/hazel@workspace:packages/hazel":
+  version: 0.0.0-use.local
+  resolution: "@skeldjs/hazel@workspace:packages/hazel"
+  dependencies:
+    "@types/node": "npm:^24.7.0"
+    typescript: "npm:^5.9.3"
+  languageName: unknown
+  linkType: soft
+
 "@skeldjs/lan@workspace:packages/lan":
   version: 0.0.0-use.local
   resolution: "@skeldjs/lan@workspace:packages/lan"
@@ -160,7 +179,7 @@ __metadata:
   resolution: "@skeldjs/protocol@workspace:packages/protocol"
   dependencies:
     "@skeldjs/constant": "workspace:*"
-    "@skeldjs/util": "workspace:*"
+    "@skeldjs/hazel": "workspace:*"
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
@@ -182,15 +201,6 @@ __metadata:
     "@skeldjs/constant": "workspace:*"
     "@skeldjs/core": "workspace:*"
     "@skeldjs/protocol": "workspace:*"
-    "@types/node": "npm:^24.7.0"
-    typescript: "npm:^5.9.3"
-  languageName: unknown
-  linkType: soft
-
-"@skeldjs/util@workspace:*, @skeldjs/util@workspace:packages/util":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/util@workspace:packages/util"
-  dependencies:
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown

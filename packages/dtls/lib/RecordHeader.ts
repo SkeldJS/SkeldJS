@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { ContentType } from "./enums/ContentType";
 import { ProtocolVersion } from "./enums/ProtocolVersion";
 import { uint48 } from "./types/uint48";

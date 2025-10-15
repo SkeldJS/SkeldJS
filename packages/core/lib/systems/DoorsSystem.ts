@@ -1,16 +1,70 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { SystemType } from "@skeldjs/constant";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { RepairSystemMessage } from "@skeldjs/protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
-import { Door, DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
+
+export type DoorEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
+    [DoorsDoorOpenEvent<RoomType>, DoorsDoorCloseEvent<RoomType>]
+>;
+
+/**
+ * Represents a manual door for the {@link DoorsSystem} or {@link ElectricalDoorsSystem}.
+ *
+ * See {@link DoorEvents} for events to listen to.
+ */
+export class Door<RoomType extends StatefulRoom> extends EventEmitter<DoorEvents<RoomType>> {
+    isOpen: boolean;
+
+    constructor(
+        protected system: SystemStatus<RoomType>,
+        readonly doorId: number,
+        isOpen: boolean
+    ) {
+        super();
+
+        this.isOpen = isOpen;
+    }
+
+    async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
+        if (this.system) {
+            await this.system.emit(event);
+        }
+
+        return super.emit(event);
+    }
+
+    async emitSerial<Event extends BasicEvent>(event: Event): Promise<Event> {
+        if (this.system) {
+            await this.system.emitSerial(event);
+        }
+
+        return super.emitSerial(event);
+    }
+
+    emitSync<Event extends BasicEvent>(event: Event): Event {
+        if (this.system) {
+            this.system.emitSync(event);
+        }
+
+        return super.emitSync(event);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    deserializeFromReader(reader: HazelReader, spawn: boolean) {
+        this.isOpen = reader.bool(); // Use setter to emit events.
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    serializeToWriter(writer: HazelWriter, spawn: boolean) {
+        writer.bool(this.isOpen);
+    }
+}
 
 export type DoorsSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     DoorEvents<RoomType> &

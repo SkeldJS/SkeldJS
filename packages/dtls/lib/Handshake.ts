@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { HandshakeType } from "./enums/HandshakeType";
 import { uint24 } from "./types/uint24";
 

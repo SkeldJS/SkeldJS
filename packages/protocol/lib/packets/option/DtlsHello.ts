@@ -1,5 +1,5 @@
 import { Language, QuickChatMode, SendOption } from "@skeldjs/constant";
-import { HazelReader, HazelWriter, VersionInfo } from "@skeldjs/util";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { PlatformSpecificData } from "../../misc";
 
@@ -10,7 +10,7 @@ export class DtlsHelloPacket extends BaseRootPacket {
 
     constructor(
         public readonly nonce: number,
-        public readonly clientVer: VersionInfo,
+        public readonly encodedVersion: number,
         public readonly username: string,
         public readonly auth: string,
         public readonly language: Language,
@@ -21,23 +21,23 @@ export class DtlsHelloPacket extends BaseRootPacket {
         super(DtlsHelloPacket.messageTag);
     }
 
-    static deserializeFromReader(reader: HazelReader,) {
+    static deserializeFromReader(reader: HazelReader) {
         const nonce = reader.uint16(true);
         reader.jump(1); // Skip hazel version.
-        const clientVer = reader.read(VersionInfo);
+        const encodedVersion = reader.uint32();
         const username = reader.string();
         const auth = reader.string();
         const language = reader.uint32();
         const chatMode = reader.uint8();
         const platform = reader.read(PlatformSpecificData);
         const friendCode = reader.string();
-        return new DtlsHelloPacket(nonce, clientVer, username, auth, language, chatMode, platform, friendCode);
+        return new DtlsHelloPacket(nonce, encodedVersion, username, auth, language, chatMode, platform, friendCode);
     }
 
     serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.nonce, true);
         writer.uint8(0);
-        writer.write(this.clientVer);
+        writer.uint32(this.encodedVersion);
         writer.string(this.username);
         writer.string(this.auth);
         writer.uint32(this.language);
@@ -49,7 +49,7 @@ export class DtlsHelloPacket extends BaseRootPacket {
     clone() {
         return new DtlsHelloPacket(
             this.nonce,
-            this.clientVer,
+            this.encodedVersion,
             this.username,
             this.auth,
             this.language,

@@ -1,17 +1,43 @@
-import { HazelReader, HazelWriter } from "@skeldjs/util";
-import { SystemType } from "@skeldjs/constant";
+import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
-import { AutoOpenDoor } from "../misc/AutoOpenDoor";
-import { DoorEvents } from "../misc/Door";
 import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
+import { Door, DoorEvents } from "./DoorsSystem";
+
+/**
+ * Represents an auto opening door for the {@link AutoDoorsSystem}.
+ *
+ * See {@link DoorEvents} for events to listen to.
+ */
+export class AutoOpenDoor<RoomType extends StatefulRoom> extends Door<RoomType> {
+    timer: number;
+
+    constructor(
+        protected system: AutoDoorsSystem<RoomType>,
+        readonly doorId: number,
+        isOpen: boolean
+    ) {
+        super(system, doorId, isOpen);
+
+        this.timer = 0;
+    }
+
+    DoUpdate(delta: number) {
+        this.timer -= delta;
+
+        if (this.timer < 0) {
+            this.system.openDoorHost(this.doorId);
+            return true;
+        }
+        return false;
+    }
+}
 
 export type AutoDoorsSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     DoorEvents<RoomType> &

@@ -1,5 +1,5 @@
 /**
- * @module @skeldjs/util
+ * @module @skeldjs/hazel
  */
 
 export * from "./lib";

@@ -1,5 +1,4 @@
-import { SIZES } from "./bounds";
-import { HazelBuffer } from "./HazelBuffer";
+import { HazelBuffer, IntegerByteSizes } from "./HazelBuffer";
 import { Vector2 } from "./Vector";
 
 type ListReader<T> = (reader: HazelReader, i: number) => T;
@@ -87,7 +86,7 @@ export class HazelReader extends HazelBuffer {
      */
     uint8() {
         const val = this._buffer.readUInt8(this._cursor);
-        this._cursor += SIZES.uint8;
+        this._cursor += IntegerByteSizes.uint8;
         return val;
     }
 
@@ -103,7 +102,7 @@ export class HazelReader extends HazelBuffer {
      */
     int8() {
         const val = this._buffer.readInt8(this._cursor);
-        this._cursor += SIZES.int8;
+        this._cursor += IntegerByteSizes.int8;
         return val;
     }
 
@@ -205,7 +204,7 @@ export class HazelReader extends HazelBuffer {
         const val = be
             ? this._buffer.readUInt16BE(this._cursor)
             : this._buffer.readUInt16LE(this._cursor);
-        this._cursor += SIZES.uint16;
+        this._cursor += IntegerByteSizes.uint16;
         return val;
     }
 
@@ -223,7 +222,7 @@ export class HazelReader extends HazelBuffer {
         const val = be
             ? this._buffer.readInt16BE(this._cursor)
             : this._buffer.readInt16LE(this._cursor);
-        this._cursor += SIZES.int16;
+        this._cursor += IntegerByteSizes.int16;
         return val;
     }
 
@@ -241,7 +240,7 @@ export class HazelReader extends HazelBuffer {
         const val = be
             ? this._buffer.readUInt32BE(this._cursor)
             : this._buffer.readUInt32LE(this._cursor);
-        this._cursor += SIZES.uint32;
+        this._cursor += IntegerByteSizes.uint32;
         return val;
     }
 
@@ -259,7 +258,7 @@ export class HazelReader extends HazelBuffer {
         const val = be
             ? this._buffer.readInt32BE(this._cursor)
             : this._buffer.readInt32LE(this._cursor);
-        this._cursor += SIZES.int32;
+        this._cursor += IntegerByteSizes.int32;
         return val;
     }
 
@@ -275,7 +274,7 @@ export class HazelReader extends HazelBuffer {
         const val = be
             ? this._buffer.readBigUInt64BE(this._cursor)
             : this._buffer.readBigUInt64LE(this._cursor);
-        this._cursor += SIZES.uint64;
+        this._cursor += IntegerByteSizes.uint64;
         return val;
     }
 
@@ -291,7 +290,7 @@ export class HazelReader extends HazelBuffer {
         const val = be
             ? this._buffer.readBigInt64BE(this._cursor)
             : this._buffer.readBigInt64LE(this._cursor);
-        this._cursor += SIZES.int64;
+        this._cursor += IntegerByteSizes.int64;
         return val;
     }
 
@@ -309,7 +308,7 @@ export class HazelReader extends HazelBuffer {
         const val = be
             ? this._buffer.readFloatBE(this._cursor)
             : this._buffer.readFloatLE(this._cursor);
-        this._cursor += SIZES.float;
+        this._cursor += IntegerByteSizes.float;
         return val;
     }
 

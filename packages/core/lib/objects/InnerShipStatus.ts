@@ -1,4 +1,4 @@
-import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/util";
+import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import {
