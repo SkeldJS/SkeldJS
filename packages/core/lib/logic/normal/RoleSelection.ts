@@ -32,7 +32,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
     }
 
     async onGameStart(): Promise<void> {
-        void 0;
+        await this.assignRoles();
     }
 
     async onGameEnd(): Promise<void> {
@@ -87,8 +87,8 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
         settings: Partial<Record<RoleType, RoleChanceSettings>>,
         roleTeam: RoleTeamType,
         maxAssignable: number,
-        defaultRole?: typeof BaseRole,
-        roleAssignments: Map<Player<RoomType>, typeof BaseRole> = new Map
+        defaultRole: typeof BaseRole,
+        roleAssignments: Map<Player<RoomType>, typeof BaseRole>
     ) {
         const teamRoles = this.matchRoles(settings, roleCtr =>
             roleCtr.roleMetadata.roleTeam === roleTeam && !roleCtr.roleMetadata.isGhostRole);

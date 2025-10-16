@@ -29,7 +29,7 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
     }
 
     async onGameStart(): Promise<void> {
-        void 0;
+        await this.assignRoles();
     }
 
     async onGameEnd(): Promise<void> {
@@ -60,13 +60,13 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
         settings: Partial<Record<RoleType, RoleChanceSettings>>,
         roleTeam: RoleTeamType,
         maxAssignable: number,
-        defaultRole?: typeof BaseRole,
-        roleAssignments: Map<Player<RoomType>, typeof BaseRole> = new Map
+        defaultRole: typeof BaseRole,
+        roleAssignments: Map<Player<RoomType>, typeof BaseRole>
     ) {
         if (roleTeam === RoleTeamType.Crewmate) {
-            for (let i = 0; i < playerPool.length; i++) {
+            for (let i = playerPool.length - 1; i >= 0; i--) {
                 const player = playerPool[i];
-                roleAssignments.set(player, EngineerRole);
+                roleAssignments.set(player, defaultRole);
                 playerPool.splice(i, 1);
             }
         } else {
@@ -75,7 +75,7 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
                 for (let i = 0; i < playerPool.length; i++) {
                     const player = playerPool[i];
                     if (player.getPlayerId() === seekerPlayerId) {
-                        roleAssignments.set(player, ImpostorRole);
+                        roleAssignments.set(player, defaultRole);
                         playerPool.splice(i, 1);
                         return;
                     }
@@ -86,12 +86,10 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
             while (num < maxAssignable && playerPool.length > 0) {
                 const randomPlayerIdx = Math.floor(Math.random() * playerPool.length);
                 const randomPlayer = playerPool[randomPlayerIdx];
-                roleAssignments.set(randomPlayer, ImpostorRole);
+                roleAssignments.set(randomPlayer, defaultRole);
                 playerPool.splice(randomPlayerIdx, 1);
                 num += 1;
             }
-            // todo: role assignments
-            return [];
         }
     }
 
@@ -106,10 +104,14 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
         }
 
         const roleAssignments: Map<Player<RoomType>, typeof BaseRole> = new Map;
+        
+        console.log(allPlayers, roleAssignments);
 
         const numSeekers = manager.options.getAdjustedNumImpostors(allPlayers.length);
-        this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(numSeekers, this.manager.room.settings.numImpostors), ImpostorRole);
-        this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, CrewmateRole);
+        this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Impostor, Math.min(numSeekers, this.manager.room.settings.numImpostors), ImpostorRole, roleAssignments);
+        this.getRoleAssignmentsForTeam(allPlayers, this.manager.room.settings.roleSettings.roleChances, RoleTeamType.Crewmate, 2 ** 31 - 1, EngineerRole, roleAssignments);
+
+        console.log(allPlayers, roleAssignments);
 
         const ev = await this.emit(
             new RoomAssignRolesEvent(

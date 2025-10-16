@@ -70,9 +70,13 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
         }
         return didWrite;
     }
+    
+    async onGameStart(): Promise<void> {
+        for (const component of this.logicComponents) {
+            await component.onGameStart();
+        }
+    }
 
     abstract initComponents(): void;
-    abstract onGameStart(): Promise<void>;
-
     abstract onPlayerDeath(playerControl: PlayerControl<RoomType>, assignGhostRole: boolean): Promise<void>;
 }

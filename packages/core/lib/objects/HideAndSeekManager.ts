@@ -34,10 +34,6 @@ export class HideAndSeekManager<RoomType extends StatefulRoom> extends InnerGame
         this.logicComponents.push(this.music, this.minigame, this.flow, this.usables, this.roleSelection, this.options, this.dangerLevels, this.ping, this.deathPopup);
     }
 
-    async onGameStart(): Promise<void> {
-        await this.roleSelection.assignRoles();
-    }
-
     async onPlayerDeath(playerControl: PlayerControl<RoomType>, assignGhostRole: boolean): Promise<void> {
         await this.roleSelection.onPlayerDeath(playerControl, assignGhostRole);
     }
