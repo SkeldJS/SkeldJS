@@ -1,7 +1,5 @@
 import { RoleTeamType, TaskBarMode } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseRpcMessage } from "@skeldjs/protocol";
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { HideAndSeekManager } from "../../objects";
@@ -13,38 +11,6 @@ export type HideNSeekOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 export class HideNSeekOptionsLogicComponent<RoomType extends StatefulRoom> extends NormalOptionsLogicComponent<RoomType> {
     constructor(public readonly manager: HideAndSeekManager<RoomType>) {
         super(manager);
-    }
-    
-    async processFixedUpdate(deltaTime: number): Promise<void> {
-        void deltaTime;
-    }
-
-    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
-        void rpc;
-    }
-
-    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
-        void writer, initialState;
-    }
-
-    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
-        void reader, initialState;
-    }
-
-    async onGameStart(): Promise<void> {
-        void 0;
-    }
-
-    async onGameEnd(): Promise<void> {
-        void 0;
-    }
-
-    async onDestroy(): Promise<void> {
-        void 0;
-    }
-
-    async onPlayerDisconnect(): Promise<void> {
-        void 0;
     }
 
     getMapId() {
