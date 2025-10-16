@@ -23,7 +23,7 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
     }
 
     async processFixedUpdate(deltaTime: number): Promise<void> {
-        void deltaTime;
+        // TODO: process countdown
     }
 
     async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
@@ -45,7 +45,9 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
     }
 
     async onGameStart(): Promise<void> {
-        void 0;
+        this.currentHideTime = this.manager.room.settings.hidingTime;
+        this.currentFinalHideTime = this.manager.room.settings.finalHideTime;
+        this.isDirty = true;
     }
 
     async onGameEnd(): Promise<void> {
