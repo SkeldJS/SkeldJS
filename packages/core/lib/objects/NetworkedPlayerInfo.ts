@@ -8,10 +8,10 @@ import {
     RpcMessageTag
 } from "@skeldjs/constant";
 
-import { BaseRpcMessage, RpcMessage, SetTasksMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, BaseRpcMessage, NetworkedPlayerInfoDataMessage, OutfitDataMessage, RpcMessage, SetTasksMessage, TaskStateDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 
 
@@ -290,56 +290,63 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         void 0;
     }
 
-    deserializeFromReader(reader: HazelReader) {
-        this.playerId = reader.uint8();
-        this.clientId = reader.packed();
-        this.outfits = {};
-        const numOutfits = reader.uint8();
-        for (let i = 0; i < numOutfits; i++) {
-            const outfitType = reader.uint8() as PlayerOutfitType;
-            this.outfits[outfitType] = reader.read(PlayerOutfit, outfitType);
+    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update: return NetworkedPlayerInfoDataMessage.deserializeFromReader(reader);
         }
-        this.playerLevel = reader.upacked();
-        this.flags = reader.uint8();
-        const roleType = reader.uint16();
-        this.roleType = this.room.registeredRoles.get(roleType) || UnknownRole(roleType);
-        this.taskStates = [];
-        const numTasks = reader.uint8();
-        for (let i = 0; i < numTasks; i++) {
-            const taskIdx = reader.upacked();
+        return undefined;
+    }
 
-            if (this.taskStates[taskIdx]) {
-                this.taskStates[taskIdx].completed = reader.bool();
-            } else {
-                this.taskStates[taskIdx] = new TaskState(0, reader.bool());
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof NetworkedPlayerInfoDataMessage) {
+            this.playerId = data.playerId;
+            this.clientId = data.clientId;
+            this.outfits = {};
+            for (const outfit of data.outfits) {
+                this.outfits[outfit.outfitType] = new PlayerOutfit(
+                    outfit.outfitType,
+                    outfit.name,
+                    outfit.color,
+                    outfit.hatId,
+                    outfit.petId,
+                    outfit.skinId,
+                    outfit.visorId,
+                    outfit.nameplateId,
+                );
             }
+            this.playerLevel = data.playerLevel;
+            this.flags = data.flags;
+            this.roleType = this.room.registeredRoles.get(data.roleType) || UnknownRole(data.roleType);
+            if (data.roleTypeWhenAlive) {
+                this.roleTypeWhenAlive = this.room.registeredRoles.get(data.roleTypeWhenAlive) || UnknownRole(data.roleTypeWhenAlive);
+            } else {
+                this.roleTypeWhenAlive = null;
+            }
+            this.taskStates = data.taskStates.map(taskState => new TaskState(taskState.taskIdx, taskState.completed));
+            this.friendCode = data.friendCode;
+            this.puid = data.puid;
         }
     }
 
-    serializeToWriter(writer: HazelWriter) {
-        writer.uint8(this.playerId);
-        writer.packed(this.clientId);
-        const outfitVals = Object.values(this.outfits);
-        writer.uint8(outfitVals.length);
-        for (const outfit of outfitVals) {
-            writer.uint8(outfit.outfitType);
-            writer.write(outfit);
+    createData(state: DataState): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update: return new NetworkedPlayerInfoDataMessage(
+            this.playerId,
+            this.clientId,
+            Object.values(this.outfits).map(x =>
+                new OutfitDataMessage(x.outfitType, x.name, x.color, x.hatId, x.petId, x.skinId, x.visorId, x.nameplateId)),
+            this.playerLevel,
+            this.flags,
+            this.roleType.roleMetadata.roleType || 0,
+            this.roleTypeWhenAlive === null ? null : this.roleTypeWhenAlive.roleMetadata.roleType,
+            this.taskStates.map(x => new TaskStateDataMessage(x.taskType, x.completed)),
+            this.friendCode,
+            this.puid,
+        );
         }
-        writer.upacked(this.playerLevel);
-        writer.uint8(this.flags);
-        writer.uint16(this.roleType?.roleMetadata.roleType ? this.roleType.roleMetadata.roleType : 0);
-        writer.bool(this.roleTypeWhenAlive !== null);
-        if (this.roleTypeWhenAlive !== null) {
-            writer.uint16(this.roleTypeWhenAlive.roleMetadata.roleType);
-        }
-        writer.uint8(this.taskStates.length);
-        for (let i = 0; i < this.taskStates.length; i++) {
-            writer.upacked(i);
-            writer.bool(this.taskStates[i].completed);
-        }
-        writer.string(this.friendCode);
-        writer.string(this.puid);
-        return true;
+        return undefined;
     }
 
     /**
@@ -381,7 +388,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
      */
     setOutfit(outfit: PlayerOutfit) {
         this.outfits[outfit.outfitType] = outfit;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
 
         // todo outfit update events
     }
@@ -418,54 +425,54 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         if (this.currentOutfitType === outfitType) {
             this.currentOutfitType = PlayerOutfitType.Default;
         }
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);;
     }
 
     setName(outfitType: PlayerOutfitType, name: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.name = name;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     setColor(outfitType: PlayerOutfitType, color: Color) {
         const outfit = this.getOutfit(outfitType);
         outfit.color = color;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     setHat(outfitType: PlayerOutfitType, hatId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.hatId = hatId;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     setPet(outfitType: PlayerOutfitType, petId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.petId = petId;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     setSkin(outfitType: PlayerOutfitType, skinId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.skinId = skinId;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     setVisor(outfitType: PlayerOutfitType, visorId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.visorId = visorId;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     setNameplate(outfitType: PlayerOutfitType, nameplateId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.nameplateId = nameplateId;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     setLevel(level: number) {
         this.playerLevel = level;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     /**
@@ -473,12 +480,12 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
      */
     setFlags(flags: number) {
         this.flags = flags;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     setRoleType(roleCtr: typeof BaseRole) {
         this.roleType = roleCtr;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     private async _handleSetTasks(rpc: SetTasksMessage) {
@@ -493,7 +500,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
             const taskId = taskIds[i];
             this.taskStates.push(new TaskState(taskId, false));
         }
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 
     private async _rpcSetTasks(taskIds: number[]) {
@@ -515,6 +522,6 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         if (!taskState) return;
 
         taskState.completed = true;
-        this.dirtyBit = 1;
+        this.requestDataState(DataState.Update);
     }
 }

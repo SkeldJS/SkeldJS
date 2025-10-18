@@ -15,6 +15,6 @@ export class UnknownGameDataMessage extends BaseGameDataMessage {
     }
 
     clone() {
-        return new UnknownGameDataMessage(this.messageTag, this.dataReader);
+        return new UnknownGameDataMessage(this.messageTag, HazelReader.from(this.dataReader));
     }
 }

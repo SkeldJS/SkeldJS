@@ -1,6 +1,6 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseRpcMessage } from "@skeldjs/protocol";
-import { HazelWriter, HazelReader } from "@skeldjs/hazel";
+import { BaseDataMessage } from "@skeldjs/protocol";
+import { HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
@@ -9,21 +9,21 @@ export type HideNSeekPingLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class HideNSeekPingLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekPingLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicPingsHnS.cs)
+
+    parseData(reader: HazelReader): BaseDataMessage | undefined {
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        void data;
+    }
+
+    createData(): BaseDataMessage | undefined {
+        return undefined;
+    }
     
     async processFixedUpdate(deltaTime: number): Promise<void> {
         void deltaTime;
-    }
-
-    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
-        void rpc;
-    }
-
-    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
-        void writer, initialState;
-    }
-
-    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
-        void reader, initialState;
     }
 
     async onGameStart(): Promise<void> {

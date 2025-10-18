@@ -1,15 +1,19 @@
 import { Vector2, HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import {
+    BaseDataMessage,
     BaseRpcMessage,
+    CustomNetworkTransformSpawnDataMessage,
     DataMessage,
     RpcMessage,
     SnapToMessage,
+    CustomNetworkTransformDataMessage,
 } from "@skeldjs/protocol";
+
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { NetworkedObject, NetworkedObjectEvents } from "../../NetworkedObject";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../../NetworkedObject";
 import { Player } from "../../Player";
 import { StatefulRoom } from "../../StatefulRoom";
 
@@ -17,6 +21,7 @@ import {
     PlayerMoveEvent,
     PlayerSnapToEvent
 } from "../../events";
+
 import { sequenceIdGreaterThan, SequenceIdType } from "../../utils/sequenceIds";
 
 export type CustomNetworkTransformEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
@@ -69,42 +74,39 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         void 0;
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
-        if (spawn) {
-            const newSeqId = reader.uint16();
-            this.deserializePosition(newSeqId, reader);
-        } else {
-            const baseSeqId = reader.uint16();
-            const numPositions = reader.packed();
-            for (let i = 0; i < numPositions; i++) {
-                const newSeqId = baseSeqId + i;
-                this.deserializePosition(newSeqId, reader);
+    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (state) {
+            case DataState.Spawn: return CustomNetworkTransformSpawnDataMessage.deserializeFromReader(reader);
+            case DataState.Update: return CustomNetworkTransformDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof CustomNetworkTransformSpawnDataMessage) {
+            const oldPosition = this.position;
+            this.seqId = data.sequenceId;
+            this.position = data.position;
+            await this.emit(new PlayerMoveEvent(this.room, this.player, oldPosition, this.position));
+        } else if (data instanceof CustomNetworkTransformDataMessage) {
+            const oldPosition = this.position;
+            for (let i = 0; i < data.positions.length; i++) {
+                const position = data.positions[i];
+                const sequenceId = data.sequenceId + i;
+                if (!sequenceIdGreaterThan(sequenceId, this.seqId, SequenceIdType.Integer)) continue;
+                this.position = position;
+                this.seqId = sequenceId;
             }
+            await this.emit(new PlayerMoveEvent(this.room, this.player, oldPosition, this.position));
         }
     }
 
-    private deserializePosition(sequenceId: number, reader: HazelReader) {
-        const newPosition = reader.vector();
-        if (!sequenceIdGreaterThan(sequenceId, this.seqId, SequenceIdType.Integer)) return;
-        const oldPosition = this.position;
-        this.position = newPosition;
-        this.seqId = sequenceId;
-        this.emitSync(new PlayerMoveEvent(this.room, this.player, oldPosition, newPosition));
-    }
-
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
-        if (spawn) {
-            writer.uint16(this.seqId);
-            writer.vector(this.position);
-        } else {
-            // TODO: position queue
-            writer.uint16(this.seqId);
-            writer.packed(1);
-            writer.vector(this.position);
+    createData(state: DataState): BaseDataMessage | undefined {
+        switch (state) {
+            case DataState.Spawn: return new CustomNetworkTransformSpawnDataMessage(this.seqId, this.position);
+            case DataState.Update: return new CustomNetworkTransformDataMessage(this.seqId, [ this.position ]);
         }
-        return true;
+        return undefined;
     }
 
     parseRemoteCall(callTag: RpcMessageTag, reader: HazelReader) {
@@ -139,12 +141,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         const oldPosition = new Vector2(this.position);
         this.position = new Vector2(position);
 
-        this.dirtyBit = 1;
-        const writer = HazelWriter.alloc(10);
-        this.serializeToWriter(writer, false);
-        this.dirtyBit = 0;
-
-        await this.room.broadcastImmediate([new DataMessage(this.netId, writer.buffer)], undefined, undefined, undefined, false);
+        this.requestDataState(DataState.Update);
 
         await this.emit(
             new PlayerMoveEvent(
@@ -230,7 +227,8 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
             this.seqId = 1;
         }
 
-        this.dirtyBit = 0;
+        // SnapTo can be considered an update for movement data for the clients
+        this.cancelDataState(DataState.Update);
 
         const oldPosition = this.position;
 

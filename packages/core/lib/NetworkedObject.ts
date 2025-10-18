@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { SpawnType, SpawnFlag, RpcMessageTag } from "@skeldjs/constant";
-import { BaseRpcMessage } from "@skeldjs/protocol";
+import { SpawnType, SpawnFlag } from "@skeldjs/constant";
+import { BaseDataMessage, BaseRpcMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { StatefulRoom, SpecialOwnerId } from "./StatefulRoom";
@@ -19,6 +19,12 @@ export type NetworkedObjectConstructor<T> = {
     ): T;
 };
 
+export enum DataState {
+    Dormant,
+    Spawn,
+    Update,
+}
+
 export type NetworkedObjectEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
     [ComponentSpawnEvent<RoomType>, ComponentDespawnEvent<RoomType>]
 >;
@@ -29,35 +35,7 @@ export type NetworkedObjectEvents<RoomType extends StatefulRoom> = ExtractEventT
  * See {@link NetworkedObjectEvents} for events to listen to.
  */
 export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends NetworkedObjectEvents<RoomType> = NetworkedObjectEvents<RoomType>> extends EventEmitter<T> {
-    /**
-     * The room that this component belongs to.
-     */
-    room: RoomType;
-
-    /**
-     * The type of object that this component belongs to.
-     */
-    spawnType: SpawnType;
-
-    /**
-     * The net ID of this component.
-     */
-    netId: number;
-
-    /**
-     * The ID of the owner of this component.
-     */
-    ownerId: number;
-
-    /**
-     * Flags for this object, see {@link SpawnFlag}.
-     */
-    flags: number;
-
-    /**
-     * The dirty state of this component.
-     */
-    dirtyBit: number = 0;
+    pendingDataState: DataState;
 
     /**
      * The player that this component belongs to.
@@ -75,19 +53,15 @@ export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends N
     }
 
     constructor(
-        room: RoomType,
-        spawnType: SpawnType,
-        netId: number,
-        ownerId: number,
-        flags: number,
+        public readonly room: RoomType,
+        public readonly spawnType: SpawnType,
+        public readonly netId: number,
+        public readonly ownerId: number,
+        public readonly flags: number,
     ) {
         super();
 
-        this.room = room;
-        this.spawnType = spawnType;
-        this.netId = netId;
-        this.ownerId = ownerId;
-        this.flags = flags;
+        this.pendingDataState = DataState.Dormant;
 
         if (this.ownerId >= 0) {
             this.player = this.owner as Player<RoomType>;
@@ -128,13 +102,25 @@ export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends N
         return super.emitSync(event);
     }
 
-    abstract deserializeFromReader(reader: HazelReader, spawn: boolean): void;
-    abstract serializeToWriter(writer: HazelWriter, spawn: boolean): boolean;
+    abstract parseData(state: DataState, reader: HazelReader): BaseDataMessage|undefined;
+    abstract handleData(data: BaseDataMessage): Promise<void>;
+    abstract createData(state: DataState): BaseDataMessage|undefined;
+
     abstract parseRemoteCall(rpcTag: number, reader: HazelReader): BaseRpcMessage|undefined;
     abstract handleRemoteCall(rpc: BaseRpcMessage): Promise<void>;
+
     abstract processFixedUpdate(delta: number): Promise<void>;
     abstract processAwake(): Promise<void>;
-    Destroy() { }
+
+    requestDataState(state: DataState): void {
+        this.pendingDataState = state;
+    }
+
+    cancelDataState(state: DataState): void {
+        if (this.pendingDataState === state) {
+            this.pendingDataState = DataState.Dormant;
+        }
+    }
 
     /**
      * Get a certain component from the object.

@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { EventEmitter, BasicEvent } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -8,6 +8,7 @@ import { Player } from "../Player";
 
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 export abstract class SystemStatus<RoomType extends StatefulRoom, T extends SystemStatusEvents<RoomType> = SystemStatusEvents<RoomType>> extends EventEmitter<T> {
     private _dirty: boolean;
@@ -30,7 +31,7 @@ export abstract class SystemStatus<RoomType extends StatefulRoom, T extends Syst
 
     set dirty(isDirty: boolean) {
         this._dirty = isDirty;
-        this.ship.dirtyBit = 1;
+        this.ship.requestDataState(DataState.Update);
     }
 
     /**
@@ -71,8 +72,9 @@ export abstract class SystemStatus<RoomType extends StatefulRoom, T extends Syst
         return super.emitSync(event);
     }
 
-    abstract deserializeFromReader(reader: HazelReader, spawn: boolean): void;
-    abstract serializeToWriter(writer: HazelWriter, spawn: boolean): void;
+    abstract parseData(reader: HazelReader): BaseDataMessage|undefined;
+    abstract handleData(data: BaseDataMessage): Promise<void>;
+    abstract createData(): BaseDataMessage|undefined;
 
     abstract handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void>;
     abstract handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void>;

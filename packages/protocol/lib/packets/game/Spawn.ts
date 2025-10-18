@@ -1,8 +1,30 @@
 import { GameDataMessageTag, SpawnType } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
-import { ComponentSpawnData } from "../../misc";
 import { BaseGameDataMessage } from "./BaseGameDataMessage";
+import { BaseDataMessage, UnknownDataMessage } from "../data";
+
+export class ComponentSpawnData {
+    constructor(public readonly netId: number, public readonly data: BaseDataMessage) {}
+
+    static deserializeFromReader(reader: HazelReader) {
+        const netId = reader.upacked();
+        const [, dataReader] = reader.message();
+
+        return new ComponentSpawnData(netId, UnknownDataMessage.deserializeFromReader(dataReader));
+    }
+
+    serializeToWriter(writer: HazelWriter) {
+        writer.upacked(this.netId);
+        writer.begin(1);
+        writer.write(this.data);
+        writer.end();
+    }
+
+    clone() {
+        return new ComponentSpawnData(this.netId, this.data.clone());
+    }
+}
 
 export class SpawnMessage extends BaseGameDataMessage {
     static messageTag = GameDataMessageTag.Spawn;

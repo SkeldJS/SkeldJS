@@ -2,6 +2,7 @@ import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import {
+    BaseDataMessage,
     BaseRpcMessage,
     CancelPetMessage,
     ClimbLadderMessage,
@@ -13,7 +14,7 @@ import {
 
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { NetworkedObject, NetworkedObjectEvents } from "../../NetworkedObject";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../../NetworkedObject";
 import { Player } from "../../Player";
 import { StatefulRoom } from "../../StatefulRoom";
 
@@ -76,13 +77,17 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
     async processAwake(): Promise<void> {
         void 0;
     }
-    
-    deserializeFromReader(reader: HazelReader, spawn: boolean): void {
-        void reader, spawn;
+
+    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        return undefined;
     }
 
-    serializeToWriter(writer: HazelWriter, spawn: boolean): boolean {
-        return false;
+    async handleData(data: BaseDataMessage): Promise<void> {
+        void data;
+    }
+
+    createData(state: DataState): BaseDataMessage | undefined {
+        return undefined;
     }
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {

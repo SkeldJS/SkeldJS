@@ -15,6 +15,6 @@ export class UnknownRpcMessage extends BaseRpcMessage {
     }
 
     clone() {
-        return new UnknownRpcMessage(this.messageTag, this.dataReader);
+        return new UnknownRpcMessage(this.messageTag, HazelReader.from(this.dataReader));
     }
 }

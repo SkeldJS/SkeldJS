@@ -10,9 +10,13 @@ import {
 } from "@skeldjs/constant";
 
 import {
+    BaseDataMessage,
     BaseRpcMessage,
     CloseDoorsOfTypeMessage,
-    RepairSystemMessage
+    RepairSystemMessage,
+    ShipStatusDataMessage,
+    SystemStatusDataMessage,
+    UnknownDataMessage
 } from "@skeldjs/protocol";
 
 import {
@@ -34,7 +38,7 @@ import {
     AutoDoorsSystem,
 } from "../systems";
 
-import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";
 import { SystemStatusEvents } from "../systems/events";
@@ -107,35 +111,49 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
     }
 
     abstract setupSystems(): void;
-
-    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
-        if (!this.systems) {
-            this.systems = new Map;
-            this.setupSystems();
+    
+    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update: return ShipStatusDataMessage.deserializeFromReader(reader);
         }
+        return undefined;
+    }
 
-        while (reader.left) {
-            const [tag, mreader] = reader.message();
-            const system = this.systems.get(tag) as SystemStatus<RoomType>;
-
-            if (system) {
-                system.deserializeFromReader(mreader, spawn);
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof ShipStatusDataMessage) {
+            for (const systemData of data.systems) {
+                const system = this.systems.get(systemData.systemType);
+                if (!system) continue;
+                if (systemData.data instanceof UnknownDataMessage) {
+                    const parsedData = system.parseData(systemData.data.dataReader);
+                    if (parsedData) {
+                        await system.handleData(parsedData);
+                    }
+                } else {
+                    await system.handleData(systemData.data);
+                }
             }
         }
     }
 
-    /* eslint-disable-next-line */
-    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
-        for (const [, system] of this.systems) {
-            if (system.dirty || spawn) {
-                writer.begin(system.systemType);
-                system.serializeToWriter(writer, spawn);
-                writer.end();
-                system.dirty = false;
+    createData(state: DataState): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update:
+            const systemsData = [];
+            for (const [ systemType, system ] of this.systems) {
+                if (state === DataState.Spawn || system.dirty) {
+                    const systemData = system.createData();
+                    if (systemData) {
+                        systemsData.push(new SystemStatusDataMessage(systemType, systemData));
+                    }
+                    system.dirty = false;
+                }
             }
+            if (systemsData.length > 0) return new ShipStatusDataMessage(systemsData);
         }
-        this.dirtyBit = 0;
-        return true;
+        return undefined;
     }
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {

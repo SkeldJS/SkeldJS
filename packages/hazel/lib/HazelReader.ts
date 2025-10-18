@@ -30,7 +30,7 @@ export class HazelReader extends HazelBuffer {
      * const reader = HazelReader.from(buffer);
      * ```
      */
-    static from(buffer: Buffer): HazelReader;
+    static from(buffer: Buffer|HazelReader): HazelReader;
 
     /**
      * Create a hazel reader from a string.
@@ -54,9 +54,13 @@ export class HazelReader extends HazelBuffer {
      */
     static from(bytes: number[], encoding: BufferEncoding): HazelReader;
     static from(
-        bytes: string | number[] | Buffer,
+        bytes: string | number[] | Buffer | HazelReader,
         encoding: BufferEncoding = "utf8"
     ) {
+        if (bytes instanceof HazelReader) {
+            return new HazelReader(bytes.buffer);
+        }
+
         if (typeof bytes === "string") {
             const buffer = Buffer.from(bytes, encoding);
             return new HazelReader(buffer);

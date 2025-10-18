@@ -15,6 +15,6 @@ export class UnknownSystemMessage extends BaseSystemMessage {
     }
 
     clone() {
-        return new UnknownSystemMessage(this.messageTag, this.dataReader);
+        return new UnknownSystemMessage(this.messageTag, HazelReader.from(this.dataReader));
     }
 }

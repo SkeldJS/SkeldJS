@@ -3,13 +3,16 @@ import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import {
     AddVoteMessage,
+    BanVotesDataMessage,
+    BaseDataMessage,
     BaseRpcMessage,
     KickPlayerMessage,
     RpcMessage,
+    VoteBanSystemDataMessage,
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";
 
@@ -50,36 +53,38 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
         void 0;
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
-        const num_players = reader.upacked();
+    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update: return VoteBanSystemDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
 
-        for (let i = 0; i < num_players; i++) {
-            const clientId = reader.uint32();
-
-            if (this.voted.get(clientId)) {
-                this.voted.set(clientId, [undefined, undefined, undefined]);
-            }
-
-            this.voted.set(clientId, [undefined, undefined, undefined]);
-            for (let i = 0; i < 3; i++) {
-                reader.upacked();
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof VoteBanSystemDataMessage) {
+            for (const banVotes of data.banVotes) {
+                this.voted.set(banVotes.targetClientId, [
+                    this.room.players.get(banVotes.voterClientIds[0]),
+                    this.room.players.get(banVotes.voterClientIds[1]),
+                    this.room.players.get(banVotes.voterClientIds[2]),
+                ]);
             }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
-        writer.upacked(this.voted.size);
-
-        for (const [clientId, voters] of this.voted) {
-            writer.uint32(clientId);
-
-            for (let i = 0; i < 3; i++) {
-                if (voters[i]) writer.upacked(voters[i]!.clientId);
+    createData(state: DataState): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update:
+            const banVotes = [];
+            for (const [ clientId, voters ] of this.voted) {
+                banVotes.push(new BanVotesDataMessage(clientId,
+                    [ voters[0]?.clientId || 0, voters[1]?.clientId || 0, voters[2]?.clientId || 0 ]));
             }
+            return new VoteBanSystemDataMessage(banVotes);
         }
-        return true;
+        return undefined;
     }
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
@@ -109,7 +114,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
 
             if (~next) {
                 voted[next] = voter;
-                this.dirtyBit = 1;
+                this.requestDataState(DataState.Update);
             }
 
             if (this.room.canManageObject(this) && voted.every((v) => v !== null)) {
@@ -117,7 +122,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
             }
         } else {
             this.voted.set(target.clientId, [voter, undefined, undefined]);
-            this.dirtyBit = 1;
+            this.requestDataState(DataState.Update);
         }
     }
 

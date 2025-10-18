@@ -1,6 +1,6 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
-import { BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
+import { BaseDataMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
@@ -15,20 +15,20 @@ export type NormalRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalRoleSelectionLogicComponentEvents, RoomType> {
     static specialCrewmateRoles = [ GuardianAngelRole ];
 
+    parseData(reader: HazelReader): BaseDataMessage | undefined {
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        void data;
+    }
+
+    createData(): BaseDataMessage | undefined {
+        return undefined;
+    }
+    
     async processFixedUpdate(deltaTime: number): Promise<void> {
         void deltaTime;
-    }
-
-    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
-        void rpc;
-    }
-
-    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
-        void writer, initialState;
-    }
-
-    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
-        void reader, initialState;
     }
 
     async onGameStart(): Promise<void> {

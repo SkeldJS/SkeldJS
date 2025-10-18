@@ -4,25 +4,25 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseRpcMessage, GameSettings } from "@skeldjs/protocol";
+import { BaseDataMessage, BaseRpcMessage, GameSettings } from "@skeldjs/protocol";
 
 export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class NormalOptionsLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
+    parseData(reader: HazelReader): BaseDataMessage | undefined {
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        void data;
+    }
+
+    createData(): BaseDataMessage | undefined {
+        return undefined;
+    }
+    
     async processFixedUpdate(deltaTime: number): Promise<void> {
         void deltaTime;
-    }
-
-    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
-        void rpc;
-    }
-
-    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
-        this.manager.room.settings = reader.read(GameSettings, true);
-    }
-
-    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
-        writer.write(this.manager.room.settings, true, 10);
     }
 
     async onGameStart(): Promise<void> {

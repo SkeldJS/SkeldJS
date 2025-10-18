@@ -26,7 +26,7 @@ import {
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor } from "./NetworkedObject";
+import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor, DataState } from "./NetworkedObject";
 
 import {
     AirshipStatus,
@@ -413,13 +413,19 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
         for (const [, component] of this.networkedObjects) {
             if (this.canManageObject(component)) {
                 await component.processFixedUpdate(delta / 1000);
-                if (component.dirtyBit) {
-                    const writer = HazelWriter.alloc(0);
-                    if (component.serializeToWriter(writer, false)) {
-                        this.broadcastLazy(new DataMessage(component.netId, writer.buffer));
-                    }
-                    component.dirtyBit = 0;
+                switch (component.pendingDataState) {
+                    case DataState.Dormant: continue;
+                    case DataState.Spawn:
+                        this.broadcastLazy(this.createObjectSpawnMessage(component));
+                        break;
+                    case DataState.Update:
+                        const data = component.createData(DataState.Update);
+                        if (data) {
+                            this.broadcastLazy(new DataMessage(component.netId, data));
+                        }
+                        break;
                 }
+                component.requestDataState(DataState.Dormant);
             }
         }
 
@@ -716,7 +722,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
         this.gameState = GameState.Started;
 
         for (const [, playerInfo] of this.playerInfo) {
-            playerInfo.dirtyBit = 1;
+            playerInfo.requestDataState(DataState.Update);
         }
         if (this.lobbyBehaviour) this.despawnComponent(this.lobbyBehaviour);
 
@@ -879,8 +885,6 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
             this.gameManager = undefined;
         }
 
-        component.Destroy();
-
         const objectIdx = this.objectList.indexOf(component);
 
         if (objectIdx > -1) {
@@ -933,13 +937,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
             object.spawnType,
             object.ownerId,
             object.flags,
-            object.components.map(component => {
-                const writer = HazelWriter.alloc(512);
-                writer.write(component, true);
-                writer.realloc(writer.cursor);
-
-                return new ComponentSpawnData(component.netId, writer.buffer);
-            })
+            object.components.map(component => new ComponentSpawnData(component.netId, component.createData(DataState.Spawn)!)), // TODO: this assertion sucks!
         );
     }
 
@@ -1041,7 +1039,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
     async spawnObjectOfType(spawnType: number, ownerId: number, flags: number): Promise<NetworkedObject<this>> {
         const object = await this.createObjectOfType(spawnType, ownerId, flags);
         for (const component of object.components) await component.processAwake();
-        this.broadcastLazy(this.createObjectSpawnMessage(object));
+        object.requestDataState(DataState.Spawn);
         return object;
     }
 

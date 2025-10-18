@@ -1,6 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import {
+    BaseDataMessage,
     BaseRpcMessage,
     CheckColorMessage,
     CheckMurderMessage,
@@ -10,6 +11,8 @@ import {
     ComponentSpawnData,
     GameSettings,
     MurderPlayerMessage,
+    PlayerControlDataMessage,
+    PlayerControlSpawnDataMessage,
     ProtectPlayerMessage,
     QuickChatComplexMessageData,
     QuickChatMessageData,
@@ -90,7 +93,7 @@ import {
     PlayerSetLevelEvent
 } from "../events";
 
-import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom, SpecialOwnerId } from "../StatefulRoom";
 import { Player } from "../Player";
 
@@ -221,24 +224,6 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         return this.room.playerInfo.get(this.playerId);
     }
 
-    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
-        if (spawn) {
-            this.isNew = reader.bool();
-        }
-
-        this.playerId = reader.uint8();
-    }
-
-    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
-        if (spawn) {
-            writer.bool(this.isNew);
-            this.isNew = false;
-        }
-
-        writer.uint8(this.playerId);
-        return true;
-    }
-
     async processFixedUpdate(delta: number) {
         if (this.protectedByGuardian) {
             this._protectedByGuardianTime -= delta;
@@ -247,6 +232,37 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 await this.removeProtection(ProtectionRemoveReason.Timeout);
             }
         }
+    }
+
+    parseData(state: DataState, reader: HazelReader): BaseDataMessage|undefined {
+        switch (state) {
+            case DataState.Spawn: return PlayerControlSpawnDataMessage.deserializeFromReader(reader);
+            case DataState.Update: return PlayerControlDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
+
+    async handleData(message: BaseDataMessage) {
+        if (message instanceof PlayerControlSpawnDataMessage) {
+            this.isNew = message.isNew;
+            this.playerId = message.playerId;
+        }
+
+        if (message instanceof PlayerControlDataMessage) {
+            this.playerId = message.playerId;
+        }
+    }
+
+    createData(state: DataState): BaseDataMessage|undefined {
+        switch (state) {
+            case DataState.Spawn: {
+                const spawn = new PlayerControlSpawnDataMessage(this.isNew, this.playerId);
+                this.isNew = false;
+                return spawn;
+            };
+            case DataState.Update: return new PlayerControlDataMessage(this.playerId);
+        }
+        return undefined;
     }
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
@@ -980,22 +996,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             }
         }
 
-        this.room.broadcastLazy(
-            new SpawnMessage(
-                SpawnType.MeetingHud,
-                SpecialOwnerId.Global,
-                0,
-                spawnMeetingHud.components.map((component) => {
-                    const writer = HazelWriter.alloc(0);
-                    writer.write(component, true);
-
-                    return new ComponentSpawnData(
-                        component.netId,
-                        writer.buffer
-                    );
-                })
-            )
-        );
+        spawnMeetingHud.requestDataState(DataState.Spawn);
     }
 
     private _rpcStartMeeting(player: Player<RoomType> | "emergency"): void {

@@ -5,27 +5,27 @@ import { Player } from "../../Player";
 import { BaseRole, CrewmateGhostRole, CrewmateRole, EngineerRole, ImpostorGhostRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
-import { BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
+import { BaseDataMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 import { HideAndSeekManager, PlayerControl } from "../../objects";
 
 export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
+    parseData(reader: HazelReader): BaseDataMessage | undefined {
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        void data;
+    }
+
+    createData(): BaseDataMessage | undefined {
+        return undefined;
+    }
+    
     async processFixedUpdate(deltaTime: number): Promise<void> {
         void deltaTime;
-    }
-
-    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
-        void rpc;
-    }
-
-    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
-        void writer, initialState;
-    }
-
-    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
-        void reader, initialState;
     }
 
     async onGameStart(): Promise<void> {

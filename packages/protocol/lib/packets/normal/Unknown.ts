@@ -15,6 +15,6 @@ export class UnknownRootMessage extends BaseRootMessage {
     }
 
     clone() {
-        return new UnknownRootMessage(this.messageTag, this.dataReader);
+        return new UnknownRootMessage(this.messageTag, HazelReader.from(this.dataReader));
     }
 }

@@ -1,9 +1,10 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
+import { BaseRpcMessage } from "@skeldjs/protocol";
+
 import { StatefulRoom } from "../../StatefulRoom";
 import { InnerGameManager } from "../../objects";
 import { GameLogicComponent } from "../GameLogicComponent";
-import { BaseRpcMessage } from "@skeldjs/protocol";
 
 export type HideNSeekFlowLogicComponentEvents = ExtractEventTypes<[]>;
 
@@ -24,10 +25,6 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
 
     async processFixedUpdate(deltaTime: number): Promise<void> {
         // TODO: process countdown
-    }
-
-    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
-        void rpc;
     }
 
     deserializeFromReader(reader: HazelReader, initialState: boolean) {

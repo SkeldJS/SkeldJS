@@ -3,17 +3,20 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { ChatNoteType, GameOverReason, RpcMessageTag } from "@skeldjs/constant";
 
 import {
+    BaseDataMessage,
     BaseRpcMessage,
     CastVoteMessage,
     ClearVoteMessage,
     CloseMessage,
+    MeetingHudDataMessage,
     RpcMessage,
+    VoteAreaDataMessage,
     VoteState,
     VotingCompleteMessage,
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
 
 import {
@@ -81,17 +84,6 @@ export class PlayerVoteArea<RoomType extends StatefulRoom> {
     get canVote() {
         const playerInfo = this.player?.getPlayerInfo();
         return !playerInfo?.isDead && !playerInfo?.isDisconnected;
-    }
-
-    static deserializeFromReader<RoomType extends StatefulRoom>(reader: HazelReader, meetinghud: MeetingHud<RoomType>, playerId: number) {
-        const votedForId = reader.uint8();
-        const didReport = reader.bool();
-        return new PlayerVoteArea(meetinghud, playerId, votedForId, didReport);
-    }
-
-    serializeToWriter(writer: HazelWriter) {
-        writer.uint8(this.votedForId);
-        writer.bool(this.didReport);
     }
 
     clearVote() {
@@ -246,57 +238,60 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         return super.owner as RoomType;
     }
 
-    deserializeFromReader(reader: HazelReader, spawn: boolean = false) {
-        if (spawn) {
-            this.dirtyBit = 0;
-            this.voteStates = new Map;
+    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (state) {
+            case DataState.Spawn:
+            case DataState.Update: return MeetingHudDataMessage.deserializeFromReader(reader);
         }
+        return undefined;
+    }
 
-        const numVotes = reader.packed();
-        for (let i = 0; i < numVotes; i++) {
-            const [playerId, mreader] = reader.message();
-            const player = this.room.getPlayerByPlayerId(playerId);
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof MeetingHudDataMessage) {
+            for (const voteArea of data.voteStates) {
+                const player = this.room.getPlayerByPlayerId(voteArea.playerId);
 
-            if (!player)
-                continue;
+                if (!player)
+                    continue;
 
-            const oldState = this.voteStates.get(playerId);
-            const newState = PlayerVoteArea.deserializeFromReader(mreader, this, playerId);
+                const oldState = this.voteStates.get(voteArea.playerId);
+                const newState = new PlayerVoteArea(this, voteArea.playerId, voteArea.votedForId, voteArea.didReport);
 
-            this.voteStates.set(playerId, newState);
+                this.voteStates.set(voteArea.playerId, newState);
 
-            if (!oldState?.hasVoted && newState.hasVoted) {
-                this.emitSync(
-                    new MeetingHudVoteCastEvent(
-                        this.room,
-                        this,
-                        undefined,
-                        player,
-                        newState.votedFor
-                    )
-                );
-            } else if (oldState?.votedFor && !newState.hasVoted) {
-                this.emitSync(
-                    new MeetingHudClearVoteEvent(
-                        this.room,
-                        this,
-                        undefined,
-                        player
-                    )
-                );
+                if (!oldState?.hasVoted && newState.hasVoted) {
+                    await this.emit(
+                        new MeetingHudVoteCastEvent(
+                            this.room,
+                            this,
+                            undefined,
+                            player,
+                            newState.votedFor
+                        )
+                    );
+                } else if (oldState?.votedFor && !newState.hasVoted) {
+                    await this.emit(
+                        new MeetingHudClearVoteEvent(
+                            this.room,
+                            this,
+                            undefined,
+                            player
+                        )
+                    );
+                }
             }
         }
     }
 
-    serializeToWriter(writer: HazelWriter, spawn: boolean = false) {
-        writer.upacked(this.voteStates.size);
-        for (const [, state] of this.voteStates) {
-            writer.begin(state.playerId);
-            state.serializeToWriter(writer);
-            writer.end();
+    createData(state: DataState): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update: return new MeetingHudDataMessage(
+                [...this.voteStates.values()] 
+                    .map(voteState => new VoteAreaDataMessage(voteState.playerId, voteState.votedForId, voteState.didReport))
+            );
         }
-        this.dirtyBit = 0;
-        return true;
+        return undefined;
     }
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {

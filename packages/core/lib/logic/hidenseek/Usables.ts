@@ -1,5 +1,5 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, BaseRpcMessage } from "@skeldjs/protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
@@ -10,20 +10,20 @@ export type HideNSeekUsablesLogicComponentEvents = ExtractEventTypes<[]>;
 export class HideNSeekUsablesLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekUsablesLogicComponentEvents, RoomType> {
     // TODO: Implement (LogicUsablesHnS.cs)
     
+    parseData(reader: HazelReader): BaseDataMessage | undefined {
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        void data;
+    }
+
+    createData(): BaseDataMessage | undefined {
+        return undefined;
+    }
+    
     async processFixedUpdate(deltaTime: number): Promise<void> {
         void deltaTime;
-    }
-
-    async handleRemoteCall(rpc: BaseRpcMessage): Promise<void> {
-        void rpc;
-    }
-
-    serializeToWriter(writer: HazelWriter, initialState: boolean): void {
-        void writer, initialState;
-    }
-
-    deserializeFromReader(reader: HazelReader, initialState: boolean): void {
-        void reader, initialState;
     }
 
     async onGameStart(): Promise<void> {

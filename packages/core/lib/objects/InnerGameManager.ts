@@ -1,9 +1,9 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
-import { BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, BaseRpcMessage, GameManagerDataMessage, LogicDataMessage, UnknownDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { GameLogicComponent } from "../logic";
 import { PlayerControl } from "./PlayerControl";
@@ -45,30 +45,48 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
         void 0;
     }
 
-    deserializeFromReader(reader: HazelReader, spawn = false): void {
-        if (this.logicComponents === undefined || this.logicComponents.length === 0) this.initComponents();
+    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update: return GameManagerDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
 
-        while (reader.left > 0) {
-            const [tag, mreader] = reader.message();
-            if (tag >= this.logicComponents.length) continue;
-
-            this.logicComponents[tag].deserializeFromReader(mreader, spawn);
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof GameManagerDataMessage) {
+            for (const componentData of data.components) {
+                const component = this.logicComponents[componentData.index];
+                if (componentData.data instanceof UnknownDataMessage) {
+                    const parsedData = component.parseData(componentData.data.dataReader);
+                    if (parsedData) {
+                        await component.handleData(parsedData);
+                    }
+                } else {
+                    await component.handleData(componentData.data);
+                }
+            }
         }
     }
 
-    serializeToWriter(writer: HazelWriter, spawn = false): boolean {
-        let didWrite = false;
-        for (let i = 0; i < this.logicComponents.length; i++) {
-            const logicComponent = this.logicComponents[i];
-            if (spawn || logicComponent.isDirty) {
-                didWrite = true;
-                writer.begin(i);
-                logicComponent.serializeToWriter(writer, spawn);
-                writer.end();
-                logicComponent.isDirty = false;
+    createData(state: DataState): BaseDataMessage | undefined {
+        switch (state) {
+        case DataState.Spawn:
+        case DataState.Update:
+            const componentsData = [];
+            for (let i = 0; i < this.logicComponents.length; i++) {
+                const logicComponent = this.logicComponents[i];
+                if (state === DataState.Spawn || logicComponent.isDirty) {
+                    const logicData = logicComponent.createData();
+                    if (logicData) {
+                        componentsData.push(new LogicDataMessage(i, logicData));
+                    }
+                    logicComponent.isDirty = false;
+                }
             }
+            if (componentsData.length > 0) return new GameManagerDataMessage(componentsData);
         }
-        return didWrite;
+        return undefined;
     }
     
     async onGameStart(): Promise<void> {
