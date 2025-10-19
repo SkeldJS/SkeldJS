@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 export abstract class BaseDataMessage {
-    static deserializeFromReader(reader: HazelReader) {
+    static deserializeFromReader(reader: HazelReader): BaseDataMessage {
         throw new Error("No deserialize method implemented");
     }
 

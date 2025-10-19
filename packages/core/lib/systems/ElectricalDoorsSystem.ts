@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, ElectricalDoorsSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -10,6 +10,7 @@ import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
 import { Door, DoorEvents } from "./DoorsSystem";
+import { DataState } from "../NetworkedObject";
 
 export type ElectricalDoorsSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     DoorEvents<RoomType> &
@@ -26,27 +27,40 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
      */
     doors: Door<RoomType>[] = [];
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const bitfield = reader.uint32();
-        for (let i = 0; i < this.doors.length; i++) {
-            const isOpen = (bitfield & (1 << i)) > 0;
-            if (isOpen) {
-                this._openDoor(i, undefined, undefined);
-            } else {
-                this._closeDoor(i, undefined, undefined);
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return ElectricalDoorsSystemDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof ElectricalDoorsSystemDataMessage) {
+            const openDoorsSet: Set<number> = new Set(data.openDoors);
+            for (const door of this.doors) {
+                if (openDoorsSet.has(door.doorId)) {
+                    await this._openDoor(door.doorId, undefined, undefined);
+                } else {
+                    await this._closeDoor(door.doorId, undefined, undefined);
+                }
             }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        let bitfield = 0;
-        for (let i = 0; i < this.doors.length; i++) {
-            bitfield |= ((this.doors[i].isOpen as unknown) as number) << i;
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            const message = new ElectricalDoorsSystemDataMessage([]);
+            for (const door of this.doors) {
+                if (door.isOpen) {
+                    message.openDoors.push(door.doorId);
+                }
+            }
+            return message;
         }
-        writer.uint32(bitfield);
-        this.dirty = spawn;
+        return undefined;
     }
 
     private async _openDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
@@ -56,7 +70,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
             return;
 
         door.isOpen = true;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await door.emit(
             new DoorsDoorOpenEvent(
@@ -98,7 +112,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
             return;
 
         door.isOpen = false;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await door.emit(
             new DoorsDoorCloseEvent(

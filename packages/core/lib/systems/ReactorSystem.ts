@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { GameOverReason, SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, CompletedConsoleDataMessage, ReactorSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -17,6 +17,7 @@ import {
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 import { AmongUsEndGames, EndGameIntent } from "../endgame";
+import { DataState } from "../NetworkedObject";
 
 export type ReactorSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
@@ -56,30 +57,36 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
         return this.timer < 10000;
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        this.timer = reader.float();
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return ReactorSystemDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
 
-        const num_consoles = reader.upacked();
-        this.completed.clear();
-        for (let i = 0; i < num_consoles; i++) {
-            this.completed.add(reader.upacked());
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof ReactorSystemDataMessage) {
+            this.timer = data.timer;
+            this.completed.clear();
+            for (const completedConsole of data.completedConsoles) {
+                this.completed.add(completedConsole.consoleId);
+            }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.float(this.timer);
-        const completed = [...this.completed];
-        writer.upacked(completed.length);
-        for (let i = 0; i < completed.length; i++) {
-            writer.upacked(completed[i]);
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            return new ReactorSystemDataMessage(this.timer, [...this.completed].map(consoleId => new CompletedConsoleDataMessage(consoleId)));
         }
+        return undefined;
     }
 
     private async _addConsole(player: Player<RoomType> | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
         this.completed.add(consoleId);
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new ReactorConsoleAddEvent(
@@ -121,7 +128,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
 
     private async _removeConsole(player: Player<RoomType> | undefined, consoleId: number, rpc: RepairSystemMessage | undefined) {
         this.completed.delete(consoleId);
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new ReactorConsoleRemoveEvent(
@@ -158,7 +165,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
 
     async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         this.timer = this.maxTimer;
-        this.dirty = true;
+        this.pushDataUpdate();
         this.completed = new Set;
 
         await this.emit(
@@ -176,7 +183,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
         const oldCompleted = this.completed;
         this.timer = 10000;
         this.completed = new Set;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new ReactorConsolesResetEvent(
@@ -217,7 +224,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
             await this._repair(player, rpc);
         }
 
-        this.dirty = true;
+        this.pushDataUpdate();
     }
 
     async processFixedUpdate(delta: number) {
@@ -229,7 +236,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
 
         if (this._lastUpdate > 2) {
             this._lastUpdate = 0;
-            this.dirty = true;
+        this.pushDataUpdate();
         }
 
         if (this.timer <= 0) {

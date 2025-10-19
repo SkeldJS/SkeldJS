@@ -1,7 +1,9 @@
 import {
     RepairSystemMessage,
     UsePlatformMessage,
-    RpcMessage
+    RpcMessage,
+    BaseDataMessage,
+    MovingPlatformSystemDataMessage
 } from "@skeldjs/protocol";
 
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
@@ -16,6 +18,7 @@ import { StatefulRoom, PlayerResolvable } from "../StatefulRoom";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { MovingPlatformPlayerUpdateEvent } from "../events";
 import { SystemStatusEvents } from "./events";
+import { DataState } from "../NetworkedObject";
 
 export enum MovingPlatformSide {
     Right,
@@ -43,45 +46,46 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
             ? MovingPlatformSide.Right
             : MovingPlatformSide.Left;
     }
+    
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            return MovingPlatformSystemDataMessage.deserializeFromReaderState(reader, dataState === DataState.Spawn);
+        }
+        return undefined;
+    }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        if (spawn) {
-            this.useId = reader.uint8();
-            const targetId = reader.uint32();
-            this._setTarget(
-                targetId === 255
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof MovingPlatformSystemDataMessage) {
+            if (data.isSpawn) {
+                this.useId = data.sequenceId;
+            } else {
+                if (!sequenceIdGreaterThan(data.sequenceId, this.useId, SequenceIdType.Byte)) return;
+            }
+
+            await this._setTarget(
+                data.targetId === null
                     ? undefined
-                    : this.ship.room.getPlayerByNetId(targetId),
-                reader.uint8(),
+                    : this.ship.room.getPlayerByNetId(data.targetId),
+                data.side,
                 undefined
             );
-        } else {
-            const newSid = reader.uint8();
-            if (sequenceIdGreaterThan(newSid, this.useId, SequenceIdType.Byte)) {
-                this.useId = newSid;
-                const targetId = reader.uint32();
-                this._setTarget(
-                    targetId === 255
-                        ? undefined
-                        : this.ship.room.getPlayerByNetId(targetId),
-                    reader.uint8(),
-                    undefined
-                );
-            }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        this.useId++;
-        if (this.useId > 255)
-            this.useId = 0;
-
-        writer.uint8(this.useId);
-        writer.uint32(this.target?.characterControl?.netId ?? 255);
-        writer.uint8(this.side);
-        this.dirty = spawn;
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            return new MovingPlatformSystemDataMessage(
+                dataState === DataState.Spawn,
+                this.useId,
+                this.target?.getPlayerId() ?? null,
+                this.side
+            );
+        }
+        return undefined;
     }
 
     private async _setTarget(player: Player<RoomType> | undefined, side: MovingPlatformSide, rpc: RepairSystemMessage | undefined) {
@@ -89,7 +93,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
         const oldSide = this.side;
         this.target = player;
         this.side = side;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new MovingPlatformPlayerUpdateEvent(
@@ -104,13 +108,13 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
         if (ev.reverted) {
             this.target = oldTarget;
             this.side = oldSide;
-            this.dirty = true;
+            this.pushDataUpdate();
             return;
         }
 
         this.target = ev.alteredPlayer;
         this.side = ev.alteredSide;
-        this.dirty = true;
+        this.pushDataUpdate();
     }
 
     /**
@@ -154,7 +158,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
             return;
 
         this.side = side;
-        this.dirty = true;
+        this.pushDataUpdate();
     }
     
     async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {

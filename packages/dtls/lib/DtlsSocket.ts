@@ -238,7 +238,7 @@ export class DtlsSocket extends EventEmitter {
                 outgoingRecord
             );
             packet.bytes(output);
-            this.socket?.send(packet.buffer);
+            this.socket?.send(packet.nodeBuffer);
         }
         this.queuedApplicationData = [];
     }
@@ -265,12 +265,12 @@ export class DtlsSocket extends EventEmitter {
         packet.bytes(bytes);
 
         const output = this.currentEpoch.recordProtection!.encryptClientPlaintext(
-            packet.buffer.slice(RecordHeader.size, RecordHeader.size + bytes.byteLength),
+            packet.nodeBuffer.slice(RecordHeader.size, RecordHeader.size + bytes.byteLength),
             outgoingRecord
         );
 
-        output.copy(packet.buffer, RecordHeader.size);
-        return packet.buffer;
+        output.copy(packet.nodeBuffer, RecordHeader.size);
+        return packet.nodeBuffer;
     }
 
     send(bytes: Buffer, cb?: (err: Error|null, bytesWritten: number) => void) {
@@ -305,7 +305,7 @@ export class DtlsSocket extends EventEmitter {
                 }
             }
 
-            const decryptedPayload = this.currentEpoch.recordProtection.decryptCiphertextFromServer(payloadReader.buffer, record);
+            const decryptedPayload = this.currentEpoch.recordProtection.decryptCiphertextFromServer(payloadReader.nodeBuffer, record);
 
             if (!decryptedPayload) {
                 return;
@@ -354,7 +354,7 @@ export class DtlsSocket extends EventEmitter {
                 this.handleHandshake(record, reader);
                 break;
             case ContentType.ApplicationData:
-                this.emit("message", reader.buffer);
+                this.emit("message", reader.nodeBuffer);
                 break;
         }
     }
@@ -410,7 +410,7 @@ export class DtlsSocket extends EventEmitter {
                     this.nextEpoch.certificateFragments = [];
                     this.nextEpoch.certificatePayload = Buffer.alloc(0);
 
-                    this.nextEpoch.verificationStream.push(reader.buffer.slice(startOfHandshake, startOfHandshake + 12 + handshake.length));
+                    this.nextEpoch.verificationStream.push(reader.nodeBuffer.slice(startOfHandshake, startOfHandshake + 12 + handshake.length));
                     break;
                 case HandshakeType.Certificate:
                     if (this.nextEpoch.state !== HandshakeState.ExpectingCertificate) {
@@ -424,7 +424,7 @@ export class DtlsSocket extends EventEmitter {
                             this.nextEpoch.certificatePayload = Buffer.alloc(handshake.length);
                             this.nextEpoch.certificateFragments = [];
                         }
-                        payloadReader.buffer.copy(this.nextEpoch.certificatePayload, handshake.fragmentOffset, 0, handshake.fragmentLength);
+                        payloadReader.nodeBuffer.copy(this.nextEpoch.certificatePayload, handshake.fragmentOffset, 0, handshake.fragmentLength);
                         this.nextEpoch.certificateFragments.push({
                             offset: handshake.fragmentOffset,
                             length: handshake.fragmentLength
@@ -469,8 +469,8 @@ export class DtlsSocket extends EventEmitter {
 
                     const serializedCertificateHandshake = HazelWriter.alloc(12);
                     serializedCertificateHandshake.write(fullCertificateHandshake);
-                    this.nextEpoch.verificationStream.push(serializedCertificateHandshake.buffer);
-                    this.nextEpoch.verificationStream.push(payloadReader.buffer);
+                    this.nextEpoch.verificationStream.push(serializedCertificateHandshake.nodeBuffer);
+                    this.nextEpoch.verificationStream.push(payloadReader.nodeBuffer);
 
                     this.nextEpoch.serverPublicKey = certificate.publicKey.keyRaw;
                     this.nextEpoch.state = HandshakeState.ExpectingServerKeyExchange;
@@ -486,7 +486,7 @@ export class DtlsSocket extends EventEmitter {
                         continue;
                     }
 
-                    const sharedSecret = this.nextEpoch.handshake.verifyServerMessageAndGenerateSharedKey(payloadReader.buffer.slice(payloadReader.cursor), this.nextEpoch.serverPublicKey);
+                    const sharedSecret = this.nextEpoch.handshake.verifyServerMessageAndGenerateSharedKey(payloadReader.nodeBuffer.slice(payloadReader.cursor), this.nextEpoch.serverPublicKey);
                     if (!sharedSecret) {
                         continue;
                     }
@@ -512,7 +512,7 @@ export class DtlsSocket extends EventEmitter {
                     this.nextEpoch.state = HandshakeState.ExpectingServerHelloDone;
                     this.nextEpoch.masterSecret = masterSecret;
 
-                    this.nextEpoch.verificationStream.push(reader.buffer.slice(startOfHandshake, startOfHandshake + 12 + handshake.length));
+                    this.nextEpoch.verificationStream.push(reader.nodeBuffer.slice(startOfHandshake, startOfHandshake + 12 + handshake.length));
                     break;
                 case HandshakeType.ServerHelloDone:
                     if (this.nextEpoch.state !== HandshakeState.ExpectingServerHelloDone) {
@@ -522,7 +522,7 @@ export class DtlsSocket extends EventEmitter {
                     }
 
                     this.nextEpoch.state = HandshakeState.ExpectingChangeCipherSpec;
-                    this.nextEpoch.verificationStream.push(reader.buffer.slice(startOfHandshake, startOfHandshake + 12 + handshake.length));
+                    this.nextEpoch.verificationStream.push(reader.nodeBuffer.slice(startOfHandshake, startOfHandshake + 12 + handshake.length));
 
                     this.sendClientKeyExchangeFlight(false);
                     break;
@@ -533,7 +533,7 @@ export class DtlsSocket extends EventEmitter {
                         continue;
                     }
 
-                    if (Buffer.compare(reader.buffer, this.nextEpoch.serverVerification) !== 1) {
+                    if (Buffer.compare(reader.nodeBuffer, this.nextEpoch.serverVerification) !== 1) {
                         continue;
                     }
 
@@ -584,20 +584,20 @@ export class DtlsSocket extends EventEmitter {
         const packet = HazelWriter.alloc(RecordHeader.size + outgoingRecord.length);
         packet.write(outgoingRecord);
         packet.write(handshake);
-        packet.bytes(clientHelloWriter.buffer);
+        packet.bytes(clientHelloWriter.nodeBuffer);
 
-        this.nextEpoch.verificationStream.push(packet.buffer.slice(RecordHeader.size, RecordHeader.size + 12 + handshake.length));
+        this.nextEpoch.verificationStream.push(packet.nodeBuffer.slice(RecordHeader.size, RecordHeader.size + 12 + handshake.length));
 
         const output = this.currentEpoch.recordProtection!.encryptClientPlaintext(
-            packet.buffer.slice(RecordHeader.size, RecordHeader.size + plaintextLen),
+            packet.nodeBuffer.slice(RecordHeader.size, RecordHeader.size + plaintextLen),
             outgoingRecord
         );
-        output.copy(packet.buffer, RecordHeader.size);
+        output.copy(packet.nodeBuffer, RecordHeader.size);
 
         this.nextEpoch.state = HandshakeState.ExpectingServerHello;
         this.nextEpoch.nextPacketResendTime = Date.now() + this.handshakeResendTimeout;
 
-        this.socket?.send(packet.buffer);
+        this.socket?.send(packet.nodeBuffer);
     }
 
     sendClientKeyExchangeFlight(isRetrasmit: boolean) {
@@ -665,7 +665,7 @@ export class DtlsSocket extends EventEmitter {
 
         if (!isRetrasmit) {
             this.nextEpoch.verificationStream.push(
-                writer.buffer.slice(RecordHeader.size, RecordHeader.size + 12 + keyExchangeHandshake.length)
+                writer.nodeBuffer.slice(RecordHeader.size, RecordHeader.size + 12 + keyExchangeHandshake.length)
             );
         }
 
@@ -676,25 +676,25 @@ export class DtlsSocket extends EventEmitter {
         writer.bytes(expandKeyOutput);
 
         const keyExchangeEncrypt = this.currentEpoch.recordProtection.encryptClientPlaintext(
-            writer.buffer.slice(RecordHeader.size, RecordHeader.size + keyExchangeHandshake.length),
+            writer.nodeBuffer.slice(RecordHeader.size, RecordHeader.size + keyExchangeHandshake.length),
             keyExchangeRecord
         );
-        keyExchangeEncrypt.copy(writer.buffer, RecordHeader.size, 0, keyExchangeEncrypt.byteLength);
+        keyExchangeEncrypt.copy(writer.nodeBuffer, RecordHeader.size, 0, keyExchangeEncrypt.byteLength);
 
         const changeCipherSpecEncrypt = this.currentEpoch.recordProtection!.encryptClientPlaintext(
-            writer.buffer.slice(startOfChangeCipherSpecRecord + RecordHeader.size, startOfChangeCipherSpecRecord + RecordHeader.size + 1),
+            writer.nodeBuffer.slice(startOfChangeCipherSpecRecord + RecordHeader.size, startOfChangeCipherSpecRecord + RecordHeader.size + 1),
             changeCipherSpecRecord
         );
-        changeCipherSpecEncrypt.copy(writer.buffer, startOfChangeCipherSpecRecord + RecordHeader.size);
+        changeCipherSpecEncrypt.copy(writer.nodeBuffer, startOfChangeCipherSpecRecord + RecordHeader.size);
 
         const finishedEncrypt = this.nextEpoch.recordProtection!.encryptClientPlaintext(
-            writer.buffer.slice(startOfFinishedRecord + RecordHeader.size, startOfFinishedRecord + RecordHeader.size + 12 + finishedHandshake.length),
+            writer.nodeBuffer.slice(startOfFinishedRecord + RecordHeader.size, startOfFinishedRecord + RecordHeader.size + 12 + finishedHandshake.length),
             finishedRecord
         );
-        finishedEncrypt.copy(writer.buffer, startOfFinishedRecord + RecordHeader.size);
+        finishedEncrypt.copy(writer.nodeBuffer, startOfFinishedRecord + RecordHeader.size);
 
         this.nextEpoch.state = HandshakeState.ExpectingChangeCipherSpec;
         this.nextEpoch.nextPacketResendTime = Date.now() + this.handshakeResendTimeout;
-        this.socket?.send(writer.buffer);
+        this.socket?.send(writer.nodeBuffer);
     }
 }

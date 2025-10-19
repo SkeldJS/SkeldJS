@@ -20,7 +20,7 @@ type GetDeserializeArgs<T extends Deserializable> = T extends Deserializable<
 export class HazelReader extends HazelBuffer {
     /**
      * Create a hazel reader from a buffer.
-     * @param buffer The buffer to read from.
+     * @param bytes The buffer to read from.
      * @returns The created reader.
      * @example
      * ```typescript
@@ -30,48 +30,17 @@ export class HazelReader extends HazelBuffer {
      * const reader = HazelReader.from(buffer);
      * ```
      */
-    static from(buffer: Buffer|HazelReader): HazelReader;
-
-    /**
-     * Create a hazel reader from a string.
-     * @param str The string to read from.
-     * @returns The created reader.
-     * @example
-     * ```typescript
-     * const reader = HazelReader.from("weakeyes", "utf8");
-     * ```
-     */
-    static from(str: string, encoding: BufferEncoding): HazelReader;
-
-    /**
-     * Create a hazel reader from a number array.
-     * @param bytes The byte array to read from.
-     * @returns The created reader.
-     * @example
-     * ```typescript
-     * const reader = HazelReader.from([5, 6, 7, 8]);
-     * ```
-     */
-    static from(bytes: number[], encoding: BufferEncoding): HazelReader;
-    static from(
-        bytes: string | number[] | Buffer | HazelReader,
-        encoding: BufferEncoding = "utf8"
-    ) {
+    static from(bytes: Buffer|HazelReader|Uint8Array): HazelReader {
         if (bytes instanceof HazelReader) {
-            return new HazelReader(bytes.buffer);
+            const slice = Uint8Array.prototype.slice.call(bytes.nodeBuffer, bytes.cursor);
+            return HazelReader.from(slice);
         }
 
-        if (typeof bytes === "string") {
-            const buffer = Buffer.from(bytes, encoding);
-            return new HazelReader(buffer);
+        if (Buffer.isBuffer(bytes)) {
+            return new HazelReader(bytes);
         }
-
-        if (Array.isArray(bytes)) {
-            const buffer = Buffer.from(bytes);
-            return new HazelReader(buffer);
-        }
-
-        return new HazelReader(bytes);
+    
+        return HazelReader.from(Buffer.from(bytes));
     }
 
     private constructor(_buffer: Buffer) {
@@ -375,7 +344,7 @@ export class HazelReader extends HazelBuffer {
      */
     string(): string {
         const length = this.upacked();
-        const str = this.buffer
+        const str = this.nodeBuffer
             .slice(this._cursor, this._cursor + length)
             .toString("utf8");
 
@@ -415,7 +384,7 @@ export class HazelReader extends HazelBuffer {
      * ```
      */
     bytes(bytes: number) {
-        const buffer = this.buffer.slice(this._cursor, this._cursor + bytes);
+        const buffer = this.nodeBuffer.slice(this._cursor, this._cursor + bytes);
         this._cursor += bytes;
         return HazelReader.from(buffer);
     }

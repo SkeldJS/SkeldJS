@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, DoorCooldownDataMessage, DoorsSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -8,6 +8,7 @@ import { Player } from "../Player";
 import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 export type DoorEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
     [DoorsDoorOpenEvent<RoomType>, DoorsDoorCloseEvent<RoomType>]
@@ -88,39 +89,42 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
 
     private lastUpdate: number = 0;
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const numCooldown = reader.upacked();
-
-        for (let i = 0; i < numCooldown; i++) {
-            const systemType = reader.uint8();
-            const cooldown = reader.float();
-
-            this.cooldowns.set(systemType, cooldown);
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return DoorsSystemDataMessage.deserializeFromReader(reader);
         }
+        return undefined;
+    }
 
-        for (const door of this.doors) {
-            door.deserializeFromReader(reader, false);
-            if (door.isOpen) {
-                this._openDoor(door.doorId, undefined, undefined);
-            } else {
-                this._closeDoor(door.doorId, undefined, undefined);
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof DoorsSystemDataMessage) {
+            for (const systemCooldown of data.cooldowns) {
+                this.cooldowns.set(systemCooldown.systemType, systemCooldown.cooldown);
+            }
+            for (let i = 0; i < data.doorStates.length; i++) {
+                const doorState = data.doorStates[i];
+                if (doorState) {
+                    await this._openDoor(i, undefined, undefined);
+                } else {
+                    await this._closeDoor(i, undefined, undefined);
+                }
             }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.upacked(this.cooldowns.size);
-
-        for (const [systemType, cooldown] of this.cooldowns) {
-            writer.uint8(systemType);
-            writer.float(cooldown);
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            const message = new DoorsSystemDataMessage([], []);
+            for (const [ systemType, cooldown ] of this.cooldowns) {
+                message.cooldowns.push(new DoorCooldownDataMessage(systemType, cooldown));
+            }
+            message.doorStates.push(...this.doors.map(door => door.isOpen));
+            return message;
         }
-
-        for (const door of this.doors) {
-            writer.bool(door.isOpen);
-        }
+        return undefined;
     }
 
     private async _openDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
@@ -130,7 +134,7 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
             return;
 
         door.isOpen = true;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await door.emit(
             new DoorsDoorOpenEvent(
@@ -176,7 +180,7 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
             return;
 
         door.isOpen = false;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await door.emit(
             new DoorsDoorCloseEvent(
@@ -240,14 +244,14 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
             if (newTime < 0) {
                 this.cooldowns.delete(systemType);
                 this.lastUpdate = 0;
-                this.dirty = true;
+                this.pushDataUpdate();
                 continue;
             }
 
             this.cooldowns.set(systemType, newTime);
 
             if (this.lastUpdate > 1) {
-                this.dirty = true;
+                this.pushDataUpdate();
                 this.lastUpdate = 0;
             }
         }

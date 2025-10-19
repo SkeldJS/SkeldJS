@@ -1,9 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ActiveConsoleDataMessage, BaseDataMessage, CompletedConsoleDataMessage, HqHudSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
@@ -17,6 +15,7 @@ import {
 } from "../events";
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 export type UserConsolePair = {
     playerId: number;
@@ -68,6 +67,77 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         return this.activeConsoles.findIndex(
             (pair) => pair.consoleId === consoleId && pair.playerId === playerId
         );
+    }
+
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return HqHudSystemDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof HqHudSystemDataMessage) {
+            const beforeActive = this.activeConsoles;
+            this.activeConsoles = [];
+            for (const activeConsole of data.activeConsoles) {
+                this.activeConsoles.push({ playerId: activeConsole.playerId, consoleId: activeConsole.consoleId });
+                const player = this.room.getPlayerByPlayerId(activeConsole.playerId);
+                if (player) {
+                    await this._openConsole(activeConsole.consoleId, player, undefined);
+                }
+            }
+
+            for (const consolePair of beforeActive) {
+                const isActiveNow = this.activeConsoles.find(activeConsole =>
+                    activeConsole.playerId === consolePair.playerId && activeConsole.consoleId === consolePair.consoleId);
+
+                if (isActiveNow) continue;
+
+                const player = this.ship.room.getPlayerByPlayerId(consolePair.playerId);
+                if (player) {
+                    await this._closeConsole(consolePair.consoleId, player, undefined);
+                }
+            }
+
+            const numCompletedBefore = this.completedConsoles.size;
+            for (const completedConsole of data.completedConsoles) {
+                await this._completeConsole(completedConsole.consoleId, undefined, undefined);
+            }
+
+            if (numCompletedBefore === 2 && this.completedConsoles.size === 0) {
+                await this.emit(
+                    new SystemSabotageEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        undefined
+                    )
+                );
+            } else if (numCompletedBefore < 2 && this.completedConsoles.size === 2) {
+                await this.emit(
+                    new SystemRepairEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        undefined
+                    )
+                );
+            }
+        }
+    }
+
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            return new HqHudSystemDataMessage(
+                this.activeConsoles.map(x => new ActiveConsoleDataMessage(x.playerId, x.consoleId)),
+                [...this.completedConsoles].map(consoleId => new CompletedConsoleDataMessage(consoleId))
+            );
+        }
+        return undefined;
     }
 
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -145,7 +215,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         this.timer = -1;
         this.activeConsoles = [];
         this.completedConsoles = new Set;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         await this.emit(
             new SystemSabotageEvent(
@@ -160,7 +230,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
     private async _resetConsoles() {
         const oldCompleted = this.completedConsoles;
         this.completedConsoles = new Set;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new HqHudConsolesResetEvent(
@@ -183,7 +253,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         if (idx === -1) {
             const consoleEntry = { consoleId, playerId: playerId };
             this.activeConsoles.push(consoleEntry);
-            this.dirty = true;
+        this.pushDataUpdate();
             const ev = await this.emit(
                 new HqHudConsoleOpenEvent(
                     this.room,
@@ -225,7 +295,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         if (idx > -1) {
             const consoleEntry = this.activeConsoles[idx];
             this.activeConsoles.splice(idx, 1);
-            this.dirty = true;
+        this.pushDataUpdate();
             const ev = await this.emit(
                 new HqHudConsoleCloseEvent(
                     this.room,
@@ -256,7 +326,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
     private async _completeConsole(consoleId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         if (!this.completedConsoles.has(consoleId)) {
             this.completedConsoles.add(consoleId);
-            this.dirty = true;
+            this.pushDataUpdate();
             const ev = await this.emit(
                 new HqHudConsoleCompleteEvent(
                     this.room,
@@ -289,7 +359,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         const timerBefore = this.timer;
         this.completedConsoles = new Set([0, 1]);
         this.timer = -1;
-        this.dirty = true;
+        this.pushDataUpdate();
         const ev = await this.emit(
             new SystemRepairEvent(
                 this.room,
@@ -350,7 +420,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         this.timer -= delta;
         if (this.timer < 0) {
             this.timer = 10;
-            this.dirty = true;
+            this.pushDataUpdate();
             this._resetConsoles();
         }
     }

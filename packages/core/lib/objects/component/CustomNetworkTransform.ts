@@ -141,7 +141,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         const oldPosition = new Vector2(this.position);
         this.position = new Vector2(position);
 
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
 
         await this.emit(
             new PlayerMoveEvent(

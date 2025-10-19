@@ -5,6 +5,7 @@ export * from "./players";
 export * from "./protocol";
 
 export * from "./AlterGameTag";
+export * from "./DeconState";
 export * from "./GameKeyword";
 export * from "./GameMap";
 export * from "./GameMode";

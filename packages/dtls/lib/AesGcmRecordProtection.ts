@@ -110,7 +110,7 @@ export class AesGcmRecordProtection extends RecordProtection {
         associatedData.write(plaintextRecord);
 
         const output = Buffer.alloc(this.getEncryptedSize(input.byteLength));
-        cipher.seal(output, nonce.buffer, input, associatedData.buffer);
+        cipher.seal(output, nonce.nodeBuffer, input, associatedData.nodeBuffer);
         return output;
     }
 
@@ -133,7 +133,7 @@ export class AesGcmRecordProtection extends RecordProtection {
         associatedData.write(record);
 
         const output = Buffer.alloc(this.getDecryptedSize(input.byteLength));
-        cipher.open(output, nonce.buffer, input, associatedData.buffer);
+        cipher.open(output, nonce.nodeBuffer, input, associatedData.nodeBuffer);
 
         return output;
     }

@@ -399,14 +399,6 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
         this.messageStream.push(gameDataMessage);
     }
 
-    async broadcastImmediate(
-        gamedata: BaseGameDataMessage[],
-        payloads: BaseRootMessage[] = [],
-        include?: (Player<this> | number)[],
-        exclude?: (Player<this> | number)[],
-        reliable = true
-    ) { }
-
     async processFixedUpdate() {
         const delta = Date.now() - this.lastFixedUpdateTimestamp;
         this.lastFixedUpdateTimestamp = Date.now();
@@ -425,7 +417,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
                         }
                         break;
                 }
-                component.requestDataState(DataState.Dormant);
+                component.resetDataState();
             }
         }
 
@@ -449,7 +441,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
                 }
 
                 if (endGameIntents[0]) {
-                    this.endGame(endGameIntents[0].reason);
+                    await this.endGame(endGameIntents[0].reason);
                 }
             }
         }
@@ -462,12 +454,16 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
             )
         );
 
-        if (this.messageStream.length) {
+        if (!ev.canceled) {
+            await this.flushMessages();
+        }
+    }
+    
+    async flushMessages() {
+        if (this.messageStream.length > 0) {
             const stream = this.messageStream;
             this.messageStream = [];
-
-            if (!ev.canceled)
-                await this.broadcastImmediate(stream);
+            await this.broadcastImmediate(stream);
         }
     }
 
@@ -722,7 +718,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
         this.gameState = GameState.Started;
 
         for (const [, playerInfo] of this.playerInfo) {
-            playerInfo.requestDataState(DataState.Update);
+            playerInfo.pushDataState(DataState.Update);
         }
         if (this.lobbyBehaviour) this.despawnComponent(this.lobbyBehaviour);
 
@@ -937,7 +933,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
             object.spawnType,
             object.ownerId,
             object.flags,
-            object.components.map(component => new ComponentSpawnData(component.netId, component.createData(DataState.Spawn)!)), // TODO: this assertion sucks!
+            object.components.map(component => new ComponentSpawnData(component.netId, component.createData(DataState.Spawn) || null)),
         );
     }
 
@@ -1039,7 +1035,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
     async spawnObjectOfType(spawnType: number, ownerId: number, flags: number): Promise<NetworkedObject<this>> {
         const object = await this.createObjectOfType(spawnType, ownerId, flags);
         for (const component of object.components) await component.processAwake();
-        object.requestDataState(DataState.Spawn);
+        object.pushDataState(DataState.Spawn);
         return object;
     }
 
@@ -1131,6 +1127,14 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
     registerEndGameIntent(endGameIntent: EndGameIntent<any>) {
         this.endGameIntents.push(endGameIntent);
     }
+
+    abstract broadcastImmediate(
+        gamedata: BaseGameDataMessage[],
+        payloads?: BaseRootMessage[],
+        include?: (Player<this> | number)[],
+        exclude?: (Player<this> | number)[],
+        reliable?: boolean,
+    ): Promise<void>;
     
     abstract endGame(reason: GameOverReason): Promise<void>;
 

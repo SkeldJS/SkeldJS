@@ -114,7 +114,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
 
             if (~next) {
                 voted[next] = voter;
-                this.requestDataState(DataState.Update);
+                this.pushDataState(DataState.Update);
             }
 
             if (this.room.canManageObject(this) && voted.every((v) => v !== null)) {
@@ -122,7 +122,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
             }
         } else {
             this.voted.set(target.clientId, [voter, undefined, undefined]);
-            this.requestDataState(DataState.Update);
+            this.pushDataState(DataState.Update);
         }
     }
 

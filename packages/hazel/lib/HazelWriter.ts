@@ -55,7 +55,7 @@ export class HazelWriter extends HazelBuffer {
      */
     clone() {
         const writer = HazelWriter.alloc(this.size);
-        this.buffer.copy(writer.buffer);
+        this.nodeBuffer.copy(writer.nodeBuffer);
         writer.goto(this._cursor);
 
         return writer;
@@ -131,7 +131,7 @@ export class HazelWriter extends HazelBuffer {
         HazelBuffer.checkInteger(val, IntegerValueBounds.uint8);
 
         this.expand(IntegerByteSizes.uint8);
-        this.buffer.writeUInt8(val, this._cursor);
+        this.nodeBuffer.writeUInt8(val, this._cursor);
         this._cursor += IntegerByteSizes.uint8;
 
         return this;
@@ -153,7 +153,7 @@ export class HazelWriter extends HazelBuffer {
         HazelBuffer.checkInteger(val, IntegerValueBounds.int8);
 
         this.expand(IntegerByteSizes.uint8);
-        this.buffer.writeInt8(val, this._cursor);
+        this.nodeBuffer.writeInt8(val, this._cursor);
         this._cursor += IntegerByteSizes.uint8;
 
         return this;
@@ -288,9 +288,9 @@ export class HazelWriter extends HazelBuffer {
 
         this.expand(IntegerByteSizes.uint16);
         if (be) {
-            this.buffer.writeUInt16BE(val, this._cursor);
+            this.nodeBuffer.writeUInt16BE(val, this._cursor);
         } else {
-            this.buffer.writeUInt16LE(val, this._cursor);
+            this.nodeBuffer.writeUInt16LE(val, this._cursor);
         }
         this._cursor += IntegerByteSizes.uint16;
 
@@ -314,9 +314,9 @@ export class HazelWriter extends HazelBuffer {
 
         this.expand(IntegerByteSizes.int16);
         if (be) {
-            this.buffer.writeInt16BE(val, this._cursor);
+            this.nodeBuffer.writeInt16BE(val, this._cursor);
         } else {
-            this.buffer.writeInt16LE(val, this._cursor);
+            this.nodeBuffer.writeInt16LE(val, this._cursor);
         }
         this._cursor += IntegerByteSizes.int16;
 
@@ -340,9 +340,9 @@ export class HazelWriter extends HazelBuffer {
 
         this.expand(IntegerByteSizes.uint32);
         if (be) {
-            this.buffer.writeUInt32BE(val, this._cursor);
+            this.nodeBuffer.writeUInt32BE(val, this._cursor);
         } else {
-            this.buffer.writeUInt32LE(val, this._cursor);
+            this.nodeBuffer.writeUInt32LE(val, this._cursor);
         }
         this._cursor += IntegerByteSizes.uint32;
 
@@ -366,9 +366,9 @@ export class HazelWriter extends HazelBuffer {
 
         this.expand(IntegerByteSizes.int32);
         if (be) {
-            this.buffer.writeInt32BE(val, this._cursor);
+            this.nodeBuffer.writeInt32BE(val, this._cursor);
         } else {
-            this.buffer.writeInt32LE(val, this._cursor);
+            this.nodeBuffer.writeInt32LE(val, this._cursor);
         }
         this._cursor += IntegerByteSizes.int32;
 
@@ -391,9 +391,9 @@ export class HazelWriter extends HazelBuffer {
 
         this.expand(IntegerByteSizes.uint32);
         if (be) {
-            this.buffer.writeBigUInt64BE(val, this._cursor);
+            this.nodeBuffer.writeBigUInt64BE(val, this._cursor);
         } else {
-            this.buffer.writeBigUInt64LE(val, this._cursor);
+            this.nodeBuffer.writeBigUInt64LE(val, this._cursor);
         }
         this._cursor += IntegerByteSizes.uint64;
 
@@ -416,9 +416,9 @@ export class HazelWriter extends HazelBuffer {
 
         this.expand(IntegerByteSizes.int64);
         if (be) {
-            this.buffer.writeBigInt64BE(val, this._cursor);
+            this.nodeBuffer.writeBigInt64BE(val, this._cursor);
         } else {
-            this.buffer.writeBigInt64LE(val, this._cursor);
+            this.nodeBuffer.writeBigInt64LE(val, this._cursor);
         }
         this._cursor += IntegerByteSizes.int64;
 
@@ -444,9 +444,9 @@ export class HazelWriter extends HazelBuffer {
 
         this.expand(IntegerByteSizes.float);
         if (be) {
-            this.buffer.writeFloatBE(val, this._cursor);
+            this.nodeBuffer.writeFloatBE(val, this._cursor);
         } else {
-            this.buffer.writeFloatLE(val, this._cursor);
+            this.nodeBuffer.writeFloatLE(val, this._cursor);
         }
         this._cursor += IntegerByteSizes.float;
 
@@ -529,7 +529,7 @@ export class HazelWriter extends HazelBuffer {
     bytes(bytes: string | number[] | Buffer | HazelBuffer): this {
         if (Buffer.isBuffer(bytes)) {
             this.expand(bytes.byteLength);
-            bytes.copy(this.buffer, this._cursor);
+            bytes.copy(this.nodeBuffer, this._cursor);
             this._cursor += bytes.byteLength;
             return this;
         }
@@ -539,7 +539,7 @@ export class HazelWriter extends HazelBuffer {
             return this.bytes(buffer);
         }
 
-        return this.bytes(bytes.buffer);
+        return this.bytes(bytes.nodeBuffer);
     }
 
     /**

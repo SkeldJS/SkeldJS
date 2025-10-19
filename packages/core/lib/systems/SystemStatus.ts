@@ -11,7 +11,7 @@ import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 
 export abstract class SystemStatus<RoomType extends StatefulRoom, T extends SystemStatusEvents<RoomType> = SystemStatusEvents<RoomType>> extends EventEmitter<T> {
-    private _dirty: boolean;
+    private _isDirty: boolean;
 
     systemType: SystemType;
 
@@ -22,16 +22,16 @@ export abstract class SystemStatus<RoomType extends StatefulRoom, T extends Syst
         super();
 
         this.systemType = systemType;
-        this._dirty = false;
+        this._isDirty = false;
     }
 
-    get dirty() {
-        return this._dirty;
+    get isDirty() {
+        return this._isDirty;
     }
 
-    set dirty(isDirty: boolean) {
-        this._dirty = isDirty;
-        this.ship.requestDataState(DataState.Update);
+    private set isDirty(isDirty: boolean) {
+        this._isDirty = isDirty;
+        this.ship.pushDataState(DataState.Update);
     }
 
     /**
@@ -72,9 +72,18 @@ export abstract class SystemStatus<RoomType extends StatefulRoom, T extends Syst
         return super.emitSync(event);
     }
 
-    abstract parseData(reader: HazelReader): BaseDataMessage|undefined;
+    pushDataUpdate() {
+        this.isDirty = true;
+        this.ship.pushDataState(DataState.Update);
+    }
+
+    cancelDataUpdate() {
+        this.isDirty = false;
+    }
+
+    abstract parseData(dataState: DataState, reader: HazelReader): BaseDataMessage|undefined;
     abstract handleData(data: BaseDataMessage): Promise<void>;
-    abstract createData(): BaseDataMessage|undefined;
+    abstract createData(dataState: DataState): BaseDataMessage|undefined;
 
     abstract handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void>;
     abstract handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void>;

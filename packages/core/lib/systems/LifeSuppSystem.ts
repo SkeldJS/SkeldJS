@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { GameOverReason, SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, CompletedConsoleDataMessage, LifeSuppSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -17,6 +17,7 @@ import {
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 import { AmongUsEndGames, EndGameIntent } from "../endgame";
+import { DataState } from "../NetworkedObject";
 
 export type LifeSuppSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
@@ -40,56 +41,63 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
     /**
      * The completed consoles.
      */
-    completed: Set<number> = new Set;
+    completedConsoles: Set<number> = new Set;
 
     get sabotaged() {
         return this.timer < 10000;
     }
-
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const timer = this.timer;
-        this.timer = reader.float();
-
-        const num_consoles = reader.upacked();
-        if (this.completed.size > 0 && num_consoles === 0) {
-            this._clearConsoles(undefined, undefined);
-        } else {
-            for (let i = 0; i < num_consoles; i++) {
-                const consoleId = reader.upacked();
-                this._completeConsole(consoleId, undefined, undefined);
-            }
+    
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return LifeSuppSystemDataMessage.deserializeFromReader(reader);
         }
+        return undefined;
+    }
 
-        if (timer === 10000 && this.timer < 10000) {
-            this.emitSync(
-                new SystemSabotageEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
-        } else if (timer < 10000 && this.timer === 10000) {
-            this.emitSync(
-                new SystemRepairEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof LifeSuppSystemDataMessage) {
+            const previousTimer = this.timer;
+            this.timer = data.timer;
+
+            if (this.completedConsoles.size > 0 && data.completedConsoles.length === 0) {
+                await this._clearConsoles(undefined, undefined);
+            } else {
+                for (const completedConsole of data.completedConsoles) {
+                    if (this.completedConsoles.has(completedConsole.consoleId)) continue;
+                    await this._completeConsole(completedConsole.consoleId, undefined, undefined);
+                }
+            }
+
+            if (previousTimer === 10000 && this.timer < 10000) {
+                await this.emit(
+                    new SystemSabotageEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        undefined
+                    )
+                );
+            } else if (previousTimer < 10000 && this.timer === 10000) {
+                await this.emit(
+                    new SystemRepairEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        undefined
+                    )
+                );
+            }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.float(this.timer);
-
-        writer.upacked(this.completed.size);
-        for (const console of this.completed) {
-            writer.upacked(console);
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return new LifeSuppSystemDataMessage(this.timer,
+            [...this.completedConsoles].map(consoleId => new CompletedConsoleDataMessage(consoleId)));
         }
+        return undefined;
     }
 
     async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
@@ -107,9 +115,9 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
     }
 
     private async _clearConsoles(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        const completedBefore = new Set(this.completed);
-        this.completed = new Set;
-        this.dirty = true;
+        const completedBefore = new Set(this.completedConsoles);
+        this.completedConsoles = new Set;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new O2ConsolesClearEvent(
@@ -121,7 +129,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
         );
 
         if (ev.reverted) {
-            this.completed = completedBefore;
+            this.completedConsoles = completedBefore;
         }
     }
 
@@ -133,8 +141,8 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
     }
 
     private async _completeConsole(consoleId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
-        this.completed.add(consoleId);
-        this.dirty = true;
+        this.completedConsoles.add(consoleId);
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new O2ConsolesCompleteEvent(
@@ -147,16 +155,16 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
         );
 
         if (ev.reverted) {
-            this.completed.delete(ev.consoleId);
+            this.completedConsoles.delete(ev.consoleId);
             return;
         }
 
         if (ev.alteredConsoleId !== consoleId) {
-            this.completed.delete(consoleId);
-            this.completed.add(ev.alteredConsoleId);
+            this.completedConsoles.delete(consoleId);
+            this.completedConsoles.add(ev.alteredConsoleId);
         }
 
-        if (this.completed.size >= 2) {
+        if (this.completedConsoles.size >= 2) {
             await this._repair(player, rpc);
         }
     }
@@ -175,10 +183,10 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
 
     private async _repair(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         const oldTimer = this.timer;
-        const oldCompleted = this.completed;
+        const oldCompleted = this.completedConsoles;
         this.timer = 10000;
-        this.completed = new Set;
-        this.dirty = true;
+        this.completedConsoles = new Set;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new O2ConsolesClearEvent(
@@ -191,7 +199,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
 
         if (ev.reverted) {
             this.timer = oldTimer;
-            this.completed = oldCompleted;
+            this.completedConsoles = oldCompleted;
         }
     }
 
@@ -225,7 +233,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
 
         if (this.lastUpdate > 2) {
             this.lastUpdate = 0;
-            this.dirty = true;
+            this.pushDataUpdate();
         }
 
         if (this.timer <= 0) {

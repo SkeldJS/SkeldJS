@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 export class uint24 {
     static deserializeFromReader(reader: HazelReader, be = false) {
-        const bytes = reader.bytes(3).buffer;
+        const bytes = reader.bytes(3).nodeBuffer;
         if (be) {
             return (bytes[0] << 16) | (bytes[1] << 8) | bytes[2];
         } else {

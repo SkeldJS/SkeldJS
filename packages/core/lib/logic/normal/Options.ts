@@ -3,22 +3,24 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { GameLogicComponent } from "../GameLogicComponent";
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseDataMessage, BaseRpcMessage, GameSettings } from "@skeldjs/protocol";
+import { HazelReader } from "@skeldjs/hazel";
+import { BaseDataMessage, OptionsLogicComponentDataMessage } from "@skeldjs/protocol";
 
 export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class NormalOptionsLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
     parseData(reader: HazelReader): BaseDataMessage | undefined {
-        return undefined;
+        return OptionsLogicComponentDataMessage.deserializeFromReader(reader);
     }
 
     async handleData(data: BaseDataMessage): Promise<void> {
-        void data;
+        if (data instanceof OptionsLogicComponentDataMessage) {
+            this.manager.room.settings = data.settings;
+        }
     }
 
     createData(): BaseDataMessage | undefined {
-        return undefined;
+        return new OptionsLogicComponentDataMessage(this.manager.room.settings);
     }
     
     async processFixedUpdate(deltaTime: number): Promise<void> {

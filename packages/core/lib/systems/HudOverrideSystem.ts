@@ -1,15 +1,14 @@
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { HazelReader } from "@skeldjs/hazel";
+import { BaseDataMessage, HudOverrideSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
 import { SystemRepairEvent, SystemSabotageEvent } from "../events";
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 
 export type HudOverrideSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
@@ -21,48 +20,33 @@ export type HudOverrideSystemEvents<RoomType extends StatefulRoom> = SystemStatu
  * See {@link HudOverrideSystemEvents} for events to listen to.
  */
 export class HudOverrideSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, HudOverrideSystemEvents<RoomType>> {
-    private _sabotaged: boolean = false;
+    private isSabotaged: boolean = false;
 
-    /**
-     * Whether or not communications is sabotaged.
-     */
-    get sabotaged() {
-        return this._sabotaged;
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return HudOverrideSystemDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const before = this.sabotaged;
-        this._sabotaged = reader.bool();
-
-        if (!before && this._sabotaged)
-            this.emitSync(
-                new SystemSabotageEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
-        if (before && !this._sabotaged)
-            this.emitSync(
-                new SystemRepairEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof HudOverrideSystemDataMessage) {
+            this.isSabotaged = data.isSabotaged;
+        }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.bool(this.sabotaged);
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return new HudOverrideSystemDataMessage(this.isSabotaged);
+        }
+        return undefined;
     }
 
     async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        this._sabotaged = true;
-        this.dirty = true;
+        this.isSabotaged = true;
+        this.pushDataUpdate();
 
         await this.emit(
             new SystemSabotageEvent(
@@ -75,8 +59,8 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends SystemStat
     }
 
     private async _repair(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        this._sabotaged = false;
-        this.dirty = true;
+        this.isSabotaged = false;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new SystemRepairEvent(
@@ -88,7 +72,7 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends SystemStat
         );
 
         if (ev.reverted) {
-            this._sabotaged = true;
+            this.isSabotaged = true;
         }
     }
 

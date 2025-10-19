@@ -5,24 +5,27 @@ import { BaseGameDataMessage } from "./BaseGameDataMessage";
 import { BaseDataMessage, UnknownDataMessage } from "../data";
 
 export class ComponentSpawnData {
-    constructor(public readonly netId: number, public readonly data: BaseDataMessage) {}
+    constructor(public readonly netId: number, public readonly data: BaseDataMessage|null) {}
 
     static deserializeFromReader(reader: HazelReader) {
         const netId = reader.upacked();
         const [, dataReader] = reader.message();
 
-        return new ComponentSpawnData(netId, UnknownDataMessage.deserializeFromReader(dataReader));
+        if (dataReader.left === 0) return new ComponentSpawnData(netId, null);
+        return new ComponentSpawnData(netId, new UnknownDataMessage(HazelReader.from(dataReader)));
     }
 
     serializeToWriter(writer: HazelWriter) {
         writer.upacked(this.netId);
         writer.begin(1);
-        writer.write(this.data);
+        if (this.data) {
+            writer.write(this.data);
+        }
         writer.end();
     }
 
     clone() {
-        return new ComponentSpawnData(this.netId, this.data.clone());
+        return new ComponentSpawnData(this.netId, this.data ? this.data.clone() : null);
     }
 }
 

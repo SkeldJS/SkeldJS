@@ -11,7 +11,7 @@ export class RedirectMessage extends BaseRootMessage {
     }
 
     static deserializeFromReader(reader: HazelReader) {
-        const ip = reader.bytes(4).buffer.join(".");
+        const ip = reader.bytes(4).nodeBuffer.join(".");
         const port = reader.uint16();
 
         return new RedirectMessage(ip, port);

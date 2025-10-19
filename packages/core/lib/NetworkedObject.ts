@@ -112,14 +112,20 @@ export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends N
     abstract processFixedUpdate(delta: number): Promise<void>;
     abstract processAwake(): Promise<void>;
 
-    requestDataState(state: DataState): void {
-        this.pendingDataState = state;
+    pushDataState(state: DataState): void {
+        if (state > this.pendingDataState) {
+            this.pendingDataState = state;
+        }
     }
 
     cancelDataState(state: DataState): void {
         if (this.pendingDataState === state) {
             this.pendingDataState = DataState.Dormant;
         }
+    }
+
+    resetDataState(): void {
+        this.cancelDataState(this.pendingDataState);
     }
 
     /**

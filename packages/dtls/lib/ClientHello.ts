@@ -96,8 +96,8 @@ export class ClientHello {
         }
 
         return new ClientHello(
-            randomBytes.buffer,
-            cookieBytes.buffer,
+            randomBytes.nodeBuffer,
+            cookieBytes.nodeBuffer,
             cipherSuites,
             extensions
         );

@@ -15,7 +15,7 @@ export class HelloVerifyRequest {
         const cookieLen = reader.uint8();
         const cookie = reader.bytes(cookieLen);
 
-        return new HelloVerifyRequest(cookie.buffer);
+        return new HelloVerifyRequest(cookie.nodeBuffer);
     }
 
     serializeToWriter(writer: HazelWriter) {

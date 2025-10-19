@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, RepairSystemMessage, SwitchSystemDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -15,6 +15,7 @@ import {
 
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
@@ -22,6 +23,49 @@ export type SwitchSystemEvents<RoomType extends StatefulRoom> = SystemStatusEven
     ExtractEventTypes<[
         ElectricalSwitchFlipEvent<RoomType>
     ]>;
+
+
+/**
+ * Read the value of each switch from a byte.
+ * @param byte The byte to read from.
+ * @returns An array of the value of each switch.
+ * @example
+ *```typescript
+    * console.log(readSwitches(0x5));
+    * // [ true, false, true, false, false ]
+    * ```
+    */
+function parseSwitchBitfield(byte: number) {
+    const vals: SwitchSetup = [false, false, false, false, false];
+
+    vals[0] = !!(byte & 0x1);
+    vals[1] = !!(byte & 0x2);
+    vals[2] = !!(byte & 0x4);
+    vals[3] = !!(byte & 0x8);
+    vals[4] = !!(byte & 0x10);
+
+    return vals;
+}
+
+/**
+ * Write the value of each switch to a byte.
+ * @param switches An array of the value of each switch.
+ * @returns The byte representation of the switches.
+ * @example
+ *```typescript
+    * console.log(writeSwitches([ false, true, false, false, true ]));
+    * // 0x12 (18)
+    * ```
+    */
+function createSwitchBitfield(switches: SwitchSetup) {
+    return (
+        ~~switches[0] |
+        (~~switches[1] << 1) |
+        (~~switches[2] << 2) |
+        (~~switches[3] << 3) |
+        (~~switches[4] << 4)
+    );
+}
 
 /**
  * Represents a system responsible for handling switches in Electrical.
@@ -54,37 +98,54 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<Ro
             || this.actual[4] !== this.expected[4];
     }
 
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const before = this.sabotaged;
-        this.expected = SwitchSystem.readSwitches(reader.byte());
-        this.actual = SwitchSystem.readSwitches(reader.byte());
-        if (!before && this.sabotaged) {
-            this.emitSync(
-                new SystemSabotageEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return SwitchSystemDataMessage.deserializeFromReader(reader);
         }
-        if (before && !this.sabotaged) {
-            this.emitSync(
-                new SystemRepairEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
-        }
-        this.brightness = reader.uint8();
+        return undefined;
     }
 
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.byte(SwitchSystem.writeSwitches(this.expected));
-        writer.byte(SwitchSystem.writeSwitches(this.actual));
-        writer.uint8(this.brightness);
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof SwitchSystemDataMessage) {
+            const before = this.sabotaged;
+            this.expected = parseSwitchBitfield(data.expectedBitfield);
+            this.actual = parseSwitchBitfield(data.actualBitfield);
+            if (!before && this.sabotaged) {
+                this.emitSync(
+                    new SystemSabotageEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        undefined
+                    )
+                );
+            }
+            if (before && !this.sabotaged) {
+                this.emitSync(
+                    new SystemRepairEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        undefined
+                    )
+                );
+            }
+            this.brightness = data.brightness;
+        }
+    }
+
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            return new SwitchSystemDataMessage(
+                createSwitchBitfield(this.expected),
+                createSwitchBitfield(this.actual),
+                this.brightness,
+            );
+        }
+        return undefined;
     }
 
     async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
@@ -98,7 +159,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<Ro
             this.expected = new Array(5).fill(false).map(() => Math.random() > 0.5) as SwitchSetup;
         }
 
-        this.dirty = true;
+        this.pushDataUpdate();
 
         await this.emit(
             new SystemSabotageEvent(
@@ -116,7 +177,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<Ro
 
         const beforeFlipped = this.actual[num];
         this.actual[num] = value;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new ElectricalSwitchFlipEvent(
@@ -239,58 +300,16 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<Ro
                     this.brightness -= 3;
                     if (this.brightness < 0)
                         this.brightness = 0;
-                    this.dirty = true;
+                    this.pushDataUpdate();
                 }
             } else {
                 if (this.brightness < 255) {
                     this.brightness += 3;
                     if (this.brightness > 255)
                         this.brightness = 255;
-                    this.dirty = true;
+                    this.pushDataUpdate();
                 }
             }
         }
-    }
-
-    /**
-     * Read the value of each switch from a byte.
-     * @param byte The byte to read from.
-     * @returns An array of the value of each switch.
-     * @example
-     *```typescript
-     * console.log(readSwitches(0x5));
-     * // [ true, false, true, false, false ]
-     * ```
-     */
-    static readSwitches(byte: number) {
-        const vals: SwitchSetup = [false, false, false, false, false];
-
-        vals[0] = !!(byte & 0x1);
-        vals[1] = !!(byte & 0x2);
-        vals[2] = !!(byte & 0x4);
-        vals[3] = !!(byte & 0x8);
-        vals[4] = !!(byte & 0x10);
-
-        return vals;
-    }
-
-    /**
-     * Write the value of each switch to a byte.
-     * @param switches An array of the value of each switch.
-     * @returns The byte representation of the switches.
-     * @example
-     *```typescript
-     * console.log(writeSwitches([ false, true, false, false, true ]));
-     * // 0x12 (18)
-     * ```
-     */
-    static writeSwitches(switches: SwitchSetup) {
-        return (
-            ~~switches[0] |
-            (~~switches[1] << 1) |
-            (~~switches[2] << 2) |
-            (~~switches[3] << 3) |
-            (~~switches[4] << 4)
-        );
     }
 }

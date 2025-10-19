@@ -115,7 +115,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
     parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
         switch (state) {
         case DataState.Spawn:
-        case DataState.Update: return ShipStatusDataMessage.deserializeFromReader(reader);
+        case DataState.Update: return ShipStatusDataMessage.deserializeFromReaderState(reader, state === DataState.Spawn);
         }
         return undefined;
     }
@@ -126,7 +126,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
                 const system = this.systems.get(systemData.systemType);
                 if (!system) continue;
                 if (systemData.data instanceof UnknownDataMessage) {
-                    const parsedData = system.parseData(systemData.data.dataReader);
+                    const parsedData = system.parseData(data.isSpawn ? DataState.Spawn : DataState.Update, systemData.data.dataReader);
                     if (parsedData) {
                         await system.handleData(parsedData);
                     }
@@ -143,15 +143,15 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         case DataState.Update:
             const systemsData = [];
             for (const [ systemType, system ] of this.systems) {
-                if (state === DataState.Spawn || system.dirty) {
-                    const systemData = system.createData();
+                if (state === DataState.Spawn || system.isDirty) {
+                    const systemData = system.createData(state);
                     if (systemData) {
                         systemsData.push(new SystemStatusDataMessage(systemType, systemData));
                     }
-                    system.dirty = false;
+                    system.cancelDataUpdate();
                 }
             }
-            if (systemsData.length > 0) return new ShipStatusDataMessage(systemsData);
+            if (systemsData.length > 0) return new ShipStatusDataMessage(state === DataState.Spawn, systemsData);
         }
         return undefined;
     }

@@ -92,7 +92,7 @@ export class HazelBuffer {
      * console.log(writer; // => <HazelBuffer [00] 00 00 00 00 00>
      * ```
      */
-    get buffer() {
+    get nodeBuffer() {
         return this._buffer;
     }
 
@@ -138,13 +138,13 @@ export class HazelBuffer {
     }
 
     *[Symbol.iterator]() {
-        for (let i = 0; i < this.buffer.byteLength; i++) {
-            yield this.buffer[i];
+        for (let i = 0; i < this.nodeBuffer.byteLength; i++) {
+            yield this.nodeBuffer[i];
         }
     }
 
     toString(encoding: BufferEncoding = "hex") {
-        return this.buffer.toString(encoding);
+        return this.nodeBuffer.toString(encoding);
     }
 
     [Symbol.for("nodejs.util.inspect.custom")]() {
@@ -153,24 +153,24 @@ export class HazelBuffer {
         let min = this.cursor - Math.floor(width / 2);
         let max = this.cursor + Math.ceil(width / 2);
 
-        if (max >= this.buffer.byteLength) {
-            min = Math.max(0, this.buffer.byteLength - width);
-            max = this.buffer.byteLength;
+        if (max >= this.nodeBuffer.byteLength) {
+            min = Math.max(0, this.nodeBuffer.byteLength - width);
+            max = this.nodeBuffer.byteLength;
         }
         if (min < 0) {
-            max = Math.min(this.buffer.byteLength - 1, max + (0 - min));
+            max = Math.min(this.nodeBuffer.byteLength - 1, max + (0 - min));
             min = 0;
         }
 
-        const view = [...this.buffer]
+        const view = [...this.nodeBuffer]
             .slice(min, max)
             .map((_) => _.toString(16).padStart(2, "0"));
         const cur_view = this.cursor - min;
         if (min > 0) {
             view.unshift(".." + min + " byte" + (min === 1 ? "" : "s") + "..");
         }
-        if (max < this.buffer.byteLength) {
-            const num = this.buffer.byteLength - max;
+        if (max < this.nodeBuffer.byteLength) {
+            const num = this.nodeBuffer.byteLength - max;
             view.push(".." + num + " byte" + (num === 1 ? "" : "s") + "..");
         }
         if (cur_view < 0) {
@@ -255,12 +255,12 @@ export class HazelBuffer {
      * ```
      */
     compare(other: HazelBuffer) {
-        if (this.buffer.byteLength !== other.buffer.byteLength) {
+        if (this.nodeBuffer.byteLength !== other.nodeBuffer.byteLength) {
             return false;
         }
 
-        for (let i = 0; i < this.buffer.byteLength; i++) {
-            if (this.buffer[i] !== other.buffer[i]) {
+        for (let i = 0; i < this.nodeBuffer.byteLength; i++) {
+            if (this.nodeBuffer[i] !== other.nodeBuffer[i]) {
                 return false;
             }
         }

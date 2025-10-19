@@ -28,7 +28,7 @@ export class ServerHello {
         }
 
         return new ServerHello(
-            randomBytes.buffer,
+            randomBytes.nodeBuffer,
             [ cipherSuite ]
         );
     }

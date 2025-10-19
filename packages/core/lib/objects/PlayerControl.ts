@@ -996,7 +996,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             }
         }
 
-        spawnMeetingHud.requestDataState(DataState.Spawn);
+        spawnMeetingHud.pushDataState(DataState.Spawn);
     }
 
     private _rpcStartMeeting(player: Player<RoomType> | "emergency"): void {

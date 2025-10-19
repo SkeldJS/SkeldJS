@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { AutoDoorsSystemDataMessage, AutoDoorsSystemSpawnDataMessage, BaseDataMessage, DoorStateDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -9,6 +9,7 @@ import { SystemStatusEvents } from "./events";
 import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
 import { Door, DoorEvents } from "./DoorsSystem";
+import { DataState } from "../NetworkedObject";
 
 /**
  * Represents an auto opening door for the {@link AutoDoorsSystem}.
@@ -17,6 +18,7 @@ import { Door, DoorEvents } from "./DoorsSystem";
  */
 export class AutoOpenDoor<RoomType extends StatefulRoom> extends Door<RoomType> {
     timer: number;
+    dirty: boolean;
 
     constructor(
         protected system: AutoDoorsSystem<RoomType>,
@@ -26,13 +28,18 @@ export class AutoOpenDoor<RoomType extends StatefulRoom> extends Door<RoomType> 
         super(system, doorId, isOpen);
 
         this.timer = 0;
+        this.dirty = false;
     }
 
-    DoUpdate(delta: number) {
+    pushDataUpdate() {
+        this.system.pushDataUpdate();
+    }
+
+    async processFixedUpdate(delta: number) {
         this.timer -= delta;
 
         if (this.timer < 0) {
-            this.system.openDoorHost(this.doorId);
+            await this.system.openDoorHost(this.doorId);
             return true;
         }
         return false;
@@ -62,47 +69,42 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
     handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
+
     handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
         throw new Error("Method not implemented.");
     }
 
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        if (spawn) {
-            for (let i = 0; i < this.doors.length; i++) {
-                const open = reader.bool();
-                this.doors[i] = new AutoOpenDoor(this, i, open);
-            }
-        } else {
-            const mask = reader.upacked();
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn: return AutoDoorsSystemSpawnDataMessage.deserializeFromReader(reader);
+        case DataState.Update: return AutoDoorsSystemDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
 
-            for (let i = 0; i < this.doors.length; i++) {
-                if (mask & (1 << i)) {
-                    const isOpen = reader.bool();
-                    if (isOpen) {
-                        this._openDoor(i, undefined, undefined);
-                    } else {
-                        this._closeDoor(i, undefined, undefined);
-                    }
-                }
+    async handleData(data: BaseDataMessage): Promise<void> {
+        // the parsing is different, but both are handled the same
+        if (data instanceof AutoDoorsSystemSpawnDataMessage || data instanceof AutoDoorsSystemDataMessage) {
+            for (const doorState of data.doorStates) {
+                this.doors[doorState.index] = new AutoOpenDoor(this, doorState.index, doorState.isOpen);
             }
         }
     }
 
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        if (spawn) {
-            for (let i = 0; i < this.doors.length; i++) {
-                this.doors[i].serializeToWriter(writer, spawn);
-            }
-        } else {
-            writer.upacked(this.dirtyBit);
-
-            for (let i = 0; i < this.doors.length; i++) {
-                if (this.dirtyBit & (1 << i)) {
-                    this.doors[i].serializeToWriter(writer, spawn);
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn: return new AutoDoorsSystemSpawnDataMessage(
+            this.doors.map(x => new DoorStateDataMessage(x.doorId, x.isOpen)));
+        case DataState.Update:
+            const message = new AutoDoorsSystemDataMessage([]);
+            for (const door of this.doors) {
+                if (door.dirty) {
+                    message.doorStates.push(new DoorStateDataMessage(door.doorId, door.isOpen));
                 }
             }
+            return message;
         }
-        this.dirtyBit = 0;
+        return undefined;
     }
 
     private async _openDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
@@ -112,8 +114,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
             return;
 
         door.isOpen = true;
-        this.dirtyBit |= 1 << doorId;
-        this.dirty = true;
+        door.pushDataUpdate();
 
         const ev = await door.emit(
             new DoorsDoorOpenEvent(
@@ -156,8 +157,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
 
         door.isOpen = false;
         door.timer = 10;
-        this.dirtyBit |= 1 << doorId;
-        this.dirty = true;
+        door.pushDataUpdate();
 
         const ev = await door.emit(
             new DoorsDoorCloseEvent(
@@ -206,8 +206,8 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
 
     async processFixedUpdate(delta: number) {
         for (const door of this.doors) {
-            if (!door.isOpen && door.DoUpdate(delta)) {
-                this.dirty = true;
+            if (!door.isOpen) {
+                await door.processFixedUpdate(delta);
             }
         }
     }

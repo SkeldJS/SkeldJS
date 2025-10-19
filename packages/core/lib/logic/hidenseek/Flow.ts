@@ -1,6 +1,6 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, BaseRpcMessage, FlowLogicComponentDataMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { InnerGameManager } from "../../objects";
@@ -23,22 +23,24 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
         return this.currentHideTime <= 0;
     }
 
-    async processFixedUpdate(deltaTime: number): Promise<void> {
-        // TODO: process countdown
+    parseData(reader: HazelReader): BaseDataMessage | undefined {
+        return FlowLogicComponentDataMessage.deserializeFromReader(reader);
     }
 
-    deserializeFromReader(reader: HazelReader, initialState: boolean) {
-        const nextCurrentHideTime = reader.float();
-        this.currentFinalHideTime = reader.float();
-        if (nextCurrentHideTime <= 0 && this.currentFinalHideTime >= 0) {
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof FlowLogicComponentDataMessage) {
+            this.currentHideTime = data.hideTime;
+            this.currentFinalHideTime = data.finalHideTime;
             // TODO: emit event that final hide time has started
         }
-        this.currentHideTime = nextCurrentHideTime;
     }
 
-    serializeToWriter(writer: HazelWriter, initialState: boolean) {
-        writer.float(this.currentHideTime);
-        writer.float(this.currentFinalHideTime);
+    createData(): BaseDataMessage | undefined {
+        return new FlowLogicComponentDataMessage(this.currentHideTime, this.currentFinalHideTime);
+    }
+
+    async processFixedUpdate(deltaTime: number): Promise<void> {
+        // TODO: process countdown
     }
 
     async onGameStart(): Promise<void> {

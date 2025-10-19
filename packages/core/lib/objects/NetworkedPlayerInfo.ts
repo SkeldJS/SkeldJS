@@ -336,7 +336,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
             this.playerId,
             this.clientId,
             Object.values(this.outfits).map(x =>
-                new OutfitDataMessage(x.outfitType, x.name, x.color, x.hatId, x.petId, x.skinId, x.visorId, x.nameplateId)),
+                new OutfitDataMessage(x.outfitType, x.name, x.color, x.hatId, x.petId, x.skinId, x.visorId, x.nameplateId, x.hatSequenceId, x.petSequenceId, x.skinSequenceId, x.visorSequenceId, x.nameplateSequenceId)),
             this.playerLevel,
             this.flags,
             this.roleType.roleMetadata.roleType || 0,
@@ -388,7 +388,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
      */
     setOutfit(outfit: PlayerOutfit) {
         this.outfits[outfit.outfitType] = outfit;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
 
         // todo outfit update events
     }
@@ -425,54 +425,54 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         if (this.currentOutfitType === outfitType) {
             this.currentOutfitType = PlayerOutfitType.Default;
         }
-        this.requestDataState(DataState.Update);;
+        this.pushDataState(DataState.Update);;
     }
 
     setName(outfitType: PlayerOutfitType, name: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.name = name;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     setColor(outfitType: PlayerOutfitType, color: Color) {
         const outfit = this.getOutfit(outfitType);
         outfit.color = color;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     setHat(outfitType: PlayerOutfitType, hatId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.hatId = hatId;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     setPet(outfitType: PlayerOutfitType, petId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.petId = petId;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     setSkin(outfitType: PlayerOutfitType, skinId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.skinId = skinId;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     setVisor(outfitType: PlayerOutfitType, visorId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.visorId = visorId;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     setNameplate(outfitType: PlayerOutfitType, nameplateId: string) {
         const outfit = this.getOutfit(outfitType);
         outfit.nameplateId = nameplateId;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     setLevel(level: number) {
         this.playerLevel = level;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     /**
@@ -480,12 +480,12 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
      */
     setFlags(flags: number) {
         this.flags = flags;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     setRoleType(roleCtr: typeof BaseRole) {
         this.roleType = roleCtr;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     private async _handleSetTasks(rpc: SetTasksMessage) {
@@ -500,7 +500,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
             const taskId = taskIds[i];
             this.taskStates.push(new TaskState(taskId, false));
         }
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 
     private async _rpcSetTasks(taskIds: number[]) {
@@ -522,6 +522,6 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         if (!taskState) return;
 
         taskState.completed = true;
-        this.requestDataState(DataState.Update);
+        this.pushDataState(DataState.Update);
     }
 }

@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, MedScanSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -10,6 +10,7 @@ import { Player } from "../Player";
 import { SystemStatusEvents } from "./events";
 import { MedScanJoinQueueEvent, MedScanLeaveQueueEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 export type MedScanSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
@@ -24,29 +25,42 @@ export type MedScanSystemEvents<RoomType extends StatefulRoom> = SystemStatusEve
  */
 export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, MedScanSystemEvents<RoomType>> {
     /**
-     * The current queue to access the medbay scan.s
+     * The current queue to access the medbay scan.
      */
     queue: Player<RoomType>[] = [];
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const numPlayers = reader.upacked();
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return MedScanSystemDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
+    }
 
-        this.queue = [];
-        for (let i = 0; i < numPlayers; i++) {
-            const player = this.ship.room.getPlayerByPlayerId(reader.uint8());
-            if (player) this.queue.push(player);
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof MedScanSystemDataMessage) {
+            this.queue = [];
+            for (const playerId of data.playerIdQueue) {
+                const player = this.ship.room.getPlayerByPlayerId(playerId);
+                if (player) this.queue.push(player);
+            }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.upacked(this.queue.length);
-
-        for (let i = 0; i < this.queue.length; i++) {
-            if (this.queue[i].getPlayerId())
-                writer.uint8(this.queue[i].getPlayerId()!);
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            const message = new MedScanSystemDataMessage([]);
+            for (const player of this.queue) {
+                const playerId = player.getPlayerId();
+                if (playerId !== undefined) {
+                    message.playerIdQueue.push(playerId);
+                }
+            }
+            return message;
         }
+        return undefined;
     }
 
     private _removeFromQueue(player: Player<RoomType>) {
@@ -62,7 +76,7 @@ export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<R
 
         this._removeFromQueue(player);
         this.queue.push(player);
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new MedScanJoinQueueEvent(
@@ -100,7 +114,7 @@ export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<R
             return;
 
         this._removeFromQueue(player);
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new MedScanLeaveQueueEvent(

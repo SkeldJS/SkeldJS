@@ -12,6 +12,11 @@ export class OutfitDataMessage extends BaseDataMessage {
         public readonly skinId: string,
         public readonly visorId: string,
         public readonly nameplateId: string,
+        public readonly hatSequenceId: number,
+        public readonly petSequenceId: number,
+        public readonly skinSequenceId: number,
+        public readonly visorSequenceId: number,
+        public readonly nameplateSequenceId: number,
     ) {
         super();
     }
@@ -25,7 +30,12 @@ export class OutfitDataMessage extends BaseDataMessage {
         const skinId = reader.string();
         const visorId = reader.string();
         const nameplateId = reader.string();
-        return new OutfitDataMessage(outfitType, name, color, hatId, petId, skinId, visorId, nameplateId);
+        const hatSequenceId = reader.uint8();
+        const petSequenceId = reader.uint8();
+        const skinSequenceId = reader.uint8();
+        const visorSequenceId = reader.uint8();
+        const nameplateSequenceId = reader.uint8();
+        return new OutfitDataMessage(outfitType, name, color, hatId, petId, skinId, visorId, nameplateId, hatSequenceId, petSequenceId, skinSequenceId, visorSequenceId, nameplateSequenceId);
     }
 
     serializeToWriter(writer: HazelWriter): void {
@@ -37,6 +47,11 @@ export class OutfitDataMessage extends BaseDataMessage {
         writer.string(this.skinId);
         writer.string(this.visorId);
         writer.string(this.nameplateId);
+        writer.uint8(this.hatSequenceId);
+        writer.uint8(this.petSequenceId);
+        writer.uint8(this.skinSequenceId);
+        writer.uint8(this.visorSequenceId);
+        writer.uint8(this.nameplateSequenceId);
     }
 
     clone(): OutfitDataMessage {
@@ -49,6 +64,11 @@ export class OutfitDataMessage extends BaseDataMessage {
             this.skinId,
             this.visorId,
             this.nameplateId,
+            this.hatSequenceId,
+            this.petSequenceId,
+            this.skinSequenceId,
+            this.visorSequenceId,
+            this.nameplateSequenceId,
         );
     }
 }

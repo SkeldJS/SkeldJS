@@ -1,9 +1,8 @@
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { HazelReader } from "@skeldjs/hazel";
+import { DeconState } from "@skeldjs/constant";
+import { BaseDataMessage, DeconSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
@@ -17,13 +16,7 @@ import {
     DeconExitEvent
 } from "../events";
 
-export const DeconState = {
-    Idle: 0x0,
-    Enter: 0x1,
-    Closed: 0x2,
-    Exit: 0x4,
-    HeadingUp: 0x8,
-};
+import { DataState } from "../NetworkedObject";
 
 export type DeconSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[
     DeconDoorsCloseEvent<RoomType>,
@@ -47,31 +40,41 @@ export class DeconSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
      */
     state: number = DeconState.Idle;
 
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const previousState = this.state;
-        this.timer = reader.byte();
-        this.state = reader.byte();
-
-        if ((previousState & DeconState.Closed) && !(this.state & DeconState.Closed)) {
-            if (this.state & DeconState.Enter) {
-                this.emitSync(new DeconEnterEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
-            } else if (this.state & DeconState.Exit) {
-                this.emitSync(new DeconExitEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
-            }
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return DeconSystemDataMessage.deserializeFromReader(reader);
         }
-
-        if (!(previousState & DeconState.Closed) && (this.state & DeconState.Closed)) {
-            this.emitSync(new DeconDoorsCloseEvent(this.room, this, undefined));
-        } else if ((previousState & DeconState.Closed) && !(this.state & DeconState.Closed)) {
-            this.emitSync(new DeconDoorsOpenEvent(this.room, this, undefined));
-        }
-
-        this.dirty = spawn;
+        return undefined;
     }
 
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.byte(Math.ceil(this.timer));
-        writer.byte(this.state);
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof DeconSystemDataMessage) {
+            const previousState = this.state;
+            this.timer = data.timer;
+            this.state = data.state;
+            if ((previousState & DeconState.Closed) && !(this.state & DeconState.Closed)) {
+                if (this.state & DeconState.Enter) {
+                    await this.emit(new DeconEnterEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
+                } else if (this.state & DeconState.Exit) {
+                    await this.emit(new DeconExitEvent(this.room, this, undefined, undefined, (this.state & DeconState.HeadingUp) > 0));
+                }
+            }
+
+            if (!(previousState & DeconState.Closed) && (this.state & DeconState.Closed)) {
+                await this.emit(new DeconDoorsCloseEvent(this.room, this, undefined));
+            } else if ((previousState & DeconState.Closed) && !(this.state & DeconState.Closed)) {
+                await this.emit(new DeconDoorsOpenEvent(this.room, this, undefined));
+            }
+        }
+    }
+
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return new DeconSystemDataMessage(this.timer, this.state);
+        }
+        return undefined;
     }
 
     private async _enterDecon(headingUp: boolean, player: Player<RoomType> | undefined, message: RepairSystemMessage | undefined) {
@@ -84,7 +87,7 @@ export class DeconSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         if (headingUp) {
             this.state |= DeconState.HeadingUp;
         }
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new DeconEnterEvent(
@@ -134,7 +137,7 @@ export class DeconSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         if (headingUp) {
             this.state |= DeconState.HeadingUp;
         }
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new DeconExitEvent(
@@ -197,7 +200,7 @@ export class DeconSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
                 break;
         }
         this.timer = 3;
-        this.dirty = true;
+        this.pushDataUpdate();
     }
     
     async fullyRepairHost(): Promise<void> {

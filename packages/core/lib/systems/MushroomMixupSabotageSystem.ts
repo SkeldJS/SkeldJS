@@ -1,16 +1,21 @@
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { Player } from "../Player";
 import { SystemStatus } from "./SystemStatus";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 export class MushroomMixupSabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType> {
-    deserializeFromReader(reader: HazelReader, spawn: boolean): void {
-        void reader, spawn;
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        throw new Error("Method not implemented.");
     }
 
-    serializeToWriter(writer: HazelWriter, spawn: boolean): void {
-        void writer, spawn;
+    handleData(data: BaseDataMessage): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
+
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        throw new Error("Method not implemented.");
     }
 
     async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {

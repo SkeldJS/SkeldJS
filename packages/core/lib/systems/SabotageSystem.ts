@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, RepairSystemMessage, SabotageSystemDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -9,6 +9,7 @@ import { Player } from "../Player";
 
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 export type SabotageSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
 
@@ -32,14 +33,26 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
         );
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        this.cooldown = reader.float();
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return SabotageSystemDataMessage.deserializeFromReader(reader);
+        }
+        return undefined;
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.float(this.cooldown);
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof SabotageSystemDataMessage) {
+            this.cooldown = data.cooldown;
+        }
+    }
+
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return new SabotageSystemDataMessage(this.cooldown);
+        }
+        return undefined;
     }
 
     async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
@@ -49,7 +62,7 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
             await system.handleSabotageByPlayer(player, rpc);
 
             this.cooldown = 30;
-            this.dirty = true;
+            this.pushDataUpdate();
         }
     }
     
@@ -73,7 +86,7 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
         if (this.cooldown > 0 && !this.anySabotaged) {
             this.cooldown -= delta;
             if (this.cooldown <= 0) {
-                this.dirty = true;
+                this.pushDataUpdate();
             }
         }
     }

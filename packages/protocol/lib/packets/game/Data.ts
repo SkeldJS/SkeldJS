@@ -12,7 +12,7 @@ export class DataMessage extends BaseGameDataMessage {
 
     static deserializeFromReader(reader: HazelReader) {
         const netId = reader.upacked();
-        const data = UnknownDataMessage.deserializeFromReader(reader);
+        const data = new UnknownDataMessage(HazelReader.from(reader));
         return new DataMessage(netId, data);
     }
 

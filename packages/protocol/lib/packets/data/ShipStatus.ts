@@ -14,12 +14,12 @@ export class SystemStatusDataMessage extends TaggedDataMessage {
 }
 
 export class ShipStatusDataMessage extends BaseDataMessage {
-    constructor(public readonly systems: SystemStatusDataMessage[]) {
+    constructor(public readonly isSpawn: boolean, public readonly systems: SystemStatusDataMessage[]) {
         super();
     }
 
-    static deserializeFromReader(reader: HazelReader): ShipStatusDataMessage {
-        const message = new ShipStatusDataMessage([]);
+    static deserializeFromReaderState(reader: HazelReader, isSpawn: boolean): ShipStatusDataMessage {
+        const message = new ShipStatusDataMessage(isSpawn, []);
         while (reader.left) {
             const [ tag, dataReader ] = reader.message();
             message.systems.push(new SystemStatusDataMessage(tag, new UnknownDataMessage(dataReader)));
@@ -36,6 +36,6 @@ export class ShipStatusDataMessage extends BaseDataMessage {
     }
 
     clone(): ShipStatusDataMessage {
-        return new ShipStatusDataMessage(this.systems.map(c => c.clone()));
+        return new ShipStatusDataMessage(this.isSpawn, this.systems.map(c => c.clone()));
     }
 }

@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { ActiveConsoleDataMessage, BaseDataMessage, CompletedConsoleDataMessage, HeliSabotageSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -18,6 +18,7 @@ import {
 
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 export type HeliSabotageSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[
@@ -54,71 +55,78 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
         return this.completedConsoles.size < 2;
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        this.countdown = reader.float();
-        this.resetTimer = reader.float();
-        const numActive = reader.packed();
-        const beforeActive = this.activeConsoles;
-        this.activeConsoles = new Map;
-        for (let i = 0; i < numActive; i++) {
-            const playerId = reader.uint8();
-            const consoleId = reader.uint8();
-            const player = this.room.getPlayerByPlayerId(playerId);
-            if (player) {
-                this._openConsole(consoleId, player, undefined);
-            }
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return HeliSabotageSystemDataMessage.deserializeFromReader(reader);
         }
+        return undefined;
+    }
 
-        for (const [playerId, consoleId] of beforeActive) {
-            const player = this.ship.room.getPlayerByPlayerId(playerId);
-            if (player) {
-                this._closeConsole(consoleId, player, undefined);
-            }
-        }
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof HeliSabotageSystemDataMessage) {
+            this.countdown = data.countdown;
+            this.resetTimer = data.resetTimer;
 
-        const numCompleted = reader.packed();
-        const beforeCompleted = this.completedConsoles;
-        this.completedConsoles = new Set;
-        for (let i = 0; i < numCompleted; i++) {
-            const consoleId = reader.uint8();
-            this._completeConsole(consoleId, undefined, undefined);
-        }
-        if (beforeCompleted.size === 2 && numCompleted === 0) {
-            this.emitSync(
-                new SystemSabotageEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
-        }
-        if (beforeCompleted.size < 2 && numCompleted === 2) {
-            this.emitSync(
-                new SystemRepairEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
+            const beforeActive = this.activeConsoles;
+            this.activeConsoles = new Map;
+            for (const activeConsole of data.activeConsoles) {
+                this.activeConsoles.set(activeConsole.playerId, activeConsole.consoleId);
+                beforeActive.delete(activeConsole.playerId);
+                const player = this.room.getPlayerByPlayerId(activeConsole.playerId);
+                if (player) {
+                    await this._openConsole(activeConsole.consoleId, player, undefined);
+                }
+            }
+
+            for (const [playerId, consoleId] of beforeActive) {
+                const player = this.ship.room.getPlayerByPlayerId(playerId);
+                if (player) {
+                    await this._closeConsole(consoleId, player, undefined);
+                }
+            }
+
+            const numCompletedBefore = this.completedConsoles.size;
+            for (const completedConsole of data.completedConsoles) {
+                await this._completeConsole(completedConsole.consoleId, undefined, undefined);
+            }
+
+            if (numCompletedBefore === 2 && this.completedConsoles.size === 0) {
+                await this.emit(
+                    new SystemSabotageEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        undefined
+                    )
+                );
+            } else if (numCompletedBefore < 2 && this.completedConsoles.size === 2) {
+                await this.emit(
+                    new SystemRepairEvent(
+                        this.room,
+                        this,
+                        undefined,
+                        undefined
+                    )
+                );
+            }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.float(this.countdown);
-        writer.float(this.resetTimer);
-        writer.packed(this.activeConsoles.size);
-        for (const [playerId, consoleId] of this.activeConsoles) {
-            writer.uint8(playerId);
-            writer.uint8(consoleId);
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            const message = new HeliSabotageSystemDataMessage(this.countdown, this.resetTimer, [], []);
+            for (const [ playerId, consoleId ] of this.activeConsoles) {
+                message.activeConsoles.push(new ActiveConsoleDataMessage(playerId, consoleId));
+            }
+            for (const consoleId of this.completedConsoles) {
+                message.completedConsoles.push(new CompletedConsoleDataMessage(consoleId));
+            }
+            return message;
         }
-        writer.packed(this.completedConsoles.size);
-        for (const consoleId of this.completedConsoles) {
-            writer.uint8(consoleId);
-        }
+        return undefined;
     }
 
     async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
@@ -126,7 +134,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
         this.resetTimer = -1;
         this.activeConsoles = new Map;
         this.completedConsoles = new Set;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         await this.emit(
             new SystemSabotageEvent(
@@ -141,7 +149,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
     private async _resetConsoles() {
         const oldCompleted = this.completedConsoles;
         this.completedConsoles = new Set;
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new HeliSabotageConsolesResetEvent(
@@ -163,7 +171,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
             return;
 
         this.activeConsoles.set(playerId, consoleId);
-        this.dirty = true;
+        this.pushDataUpdate();
         const ev = await this.emit(
             new HeliSabotageConsoleOpenEvent(
                 this.room,
@@ -201,7 +209,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
         if (!this.activeConsoles.delete(playerId))
             return;
 
-        this.dirty = true;
+        this.pushDataUpdate();
         const ev = await this.emit(
             new HeliSabotageConsoleCloseEvent(
                 this.room,
@@ -231,7 +239,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
     private async _completeConsole(consoleId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
         if (!this.completedConsoles.has(consoleId)) {
             this.completedConsoles.add(consoleId);
-            this.dirty = true;
+            this.pushDataUpdate();
             const ev = await this.emit(
                 new HeliSabotageConsoleCompleteEvent(
                     this.room,
@@ -266,7 +274,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
         this.completedConsoles = new Set([0, 1]);
         this.resetTimer = -1;
         this.countdown = 10000;
-        this.dirty = true;
+        this.pushDataUpdate();
         const ev = await this.emit(
             new SystemRepairEvent(
                 this.room,
@@ -336,7 +344,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
         this._syncTimer -= delta;
         if (this._syncTimer <= 0) {
             this._syncTimer = 1;
-            this.dirty = true;
+            this.pushDataUpdate();
         }
     }
 }

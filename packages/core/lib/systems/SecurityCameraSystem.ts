@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseDataMessage, RepairSystemMessage, SecurityCameraSystemDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -10,6 +10,7 @@ import { Player } from "../Player";
 import { SecurityCameraJoinEvent, SecurityCameraLeaveEvent } from "../events";
 import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
+import { DataState } from "../NetworkedObject";
 
 export type SecurityCameraSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     ExtractEventTypes<[SecurityCameraJoinEvent<RoomType>, SecurityCameraLeaveEvent<RoomType>]>;
@@ -25,37 +26,51 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom> extends SystemS
      */
     players: Set<Player<RoomType>> = new Set;
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const num_players = reader.upacked();
-
-        const before = new Set([...this.players]);
-        this.players.clear();
-        for (let i = 0; i < num_players; i++) {
-            const player = this.ship.room.getPlayerByPlayerId(reader.uint8());
-            if (player && !before.has(player)) {
-                this._addPlayer(player, undefined);
-            }
+    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update: return SecurityCameraSystemDataMessage.deserializeFromReader(reader);
         }
-        for (const player of before) {
-            if (!this.players.has(player)) {
-                this._removePlayer(player, undefined);
+        return undefined;
+    }
+
+    async handleData(data: BaseDataMessage): Promise<void> {
+        if (data instanceof SecurityCameraSystemDataMessage) {
+            const before = new Set(this.players);
+            this.players.clear();
+            for (const playerId of data.playerIds) {
+                const player = this.ship.room.getPlayerByPlayerId(playerId);
+                if (player && !before.has(player)) {
+                    this._addPlayer(player, undefined);
+                }
+            }
+            for (const player of before) {
+                if (!this.players.has(player)) {
+                    this._removePlayer(player, undefined);
+                }
             }
         }
     }
 
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        const players = [...this.players];
-        writer.upacked(players.length);
-        for (let i = 0; i < players.length; i++) {
-            if (players[i].getPlayerId()) writer.uint8(players[i].getPlayerId()!);
+    createData(dataState: DataState): BaseDataMessage | undefined {
+        switch (dataState) {
+        case DataState.Spawn:
+        case DataState.Update:
+            const message = new SecurityCameraSystemDataMessage([]);
+            for (const player of this.players) {
+                const playerId = player.getPlayerId();
+                if (playerId !== undefined) {
+                    message.playerIds.push(playerId);
+                }
+            }
+            return message;
         }
+        return undefined;
     }
 
     private async _addPlayer(player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
         this.players.add(player);
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new SecurityCameraJoinEvent(
@@ -89,7 +104,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom> extends SystemS
 
     private async _removePlayer(player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
         this.players.delete(player);
-        this.dirty = true;
+        this.pushDataUpdate();
 
         const ev = await this.emit(
             new SecurityCameraLeaveEvent(
