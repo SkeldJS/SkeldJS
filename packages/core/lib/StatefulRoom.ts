@@ -147,7 +147,7 @@ export type StatefulRoomEvents<RoomType extends StatefulRoom> = NetworkedObjectE
  *
  * See {@link StatefulRoomEvents} for events to listen to.
  */
-export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = any> extends EventEmitter<T> {
+export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<any, {}>, T = {}> extends EventEmitter<StatefulRoomEvents<RoomType> & T> {
 
     /**
      * Whether or not this room has been destroyed.

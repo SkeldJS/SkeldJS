@@ -172,15 +172,14 @@ export class PlayerVoteState<RoomType extends StatefulRoom> {
     }
 }
 
-export type MeetingHudEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
-    ExtractEventTypes<
-        [
-            MeetingHudVoteCastEvent<RoomType>,
-            MeetingHudClearVoteEvent<RoomType>,
-            MeetingHudVotingCompleteEvent<RoomType>,
-            MeetingHudCloseEvent<RoomType>
-        ]
-    >;
+export type MeetingHudEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
+    [
+        MeetingHudVoteCastEvent<RoomType>,
+        MeetingHudClearVoteEvent<RoomType>,
+        MeetingHudVotingCompleteEvent<RoomType>,
+        MeetingHudCloseEvent<RoomType>
+    ]
+>;
 
 export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, MeetingHudEvents<RoomType>> {
     /**

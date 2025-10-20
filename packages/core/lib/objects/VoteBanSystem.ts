@@ -16,7 +16,7 @@ import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedO
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";
 
-export type VoteBanSystemEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
+export type VoteBanSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for handling vote kicks.

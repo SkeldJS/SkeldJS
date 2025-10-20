@@ -1,17 +1,13 @@
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
-import { BaseDataMessage, RepairSystemMessage, SabotageSystemDataMessage } from "@skeldjs/protocol";
+import { HazelReader } from "@skeldjs/hazel";
+import { BaseDataMessage, SabotageSystemDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
-import { Player } from "../Player";
 
-import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 
-export type SabotageSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> & ExtractEventTypes<[]>;
+export type SabotageSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 /**
  * Represents a system responsible for handling system sabotages.
@@ -54,41 +50,4 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
         }
         return undefined;
     }
-
-    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
-        const system = this.ship.systems.get(amount);
-
-        if (system) {
-            await system.handleSabotageByPlayer(player, rpc);
-
-            this.cooldown = 30;
-            this.pushDataUpdate();
-        }
-    }
-    
-    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
-        void player, rpc;
-    }
-
-    async fullyRepairHost(): Promise<void> {
-        void 0;
-    }
-
-    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
-        void player;
-    }
-
-    async sendFullRepair(player: Player<RoomType>): Promise<void> {
-        void player;
-    }
-
-    async processFixedUpdate(delta: number) {
-        if (this.cooldown > 0 && !this.anySabotaged) {
-            this.cooldown -= delta;
-            if (this.cooldown <= 0) {
-                this.pushDataUpdate();
-            }
-        }
-    }
-    
 }

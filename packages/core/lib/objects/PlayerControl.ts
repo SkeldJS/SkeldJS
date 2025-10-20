@@ -111,38 +111,35 @@ export enum ProtectionRemoveReason {
     MurderAttempt,
 }
 
-export type PlayerControlEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
-    ExtractEventTypes<
-        [
-            PlayerCheckColorEvent<RoomType>,
-            PlayerCheckMurderEvent<RoomType>,
-            PlayerCheckNameEvent<RoomType>,
-            PlayerCheckProtectEvent<RoomType>,
-            PlayerCompleteTaskEvent<RoomType>,
-            PlayerDieEvent<RoomType>,
-            PlayerUseMovingPlatformEvent<RoomType>,
-            PlayerMurderEvent<RoomType>,
-            PlayerProtectEvent<RoomType>,
-            PlayerRemoveProtectionEvent<RoomType>,
-            PlayerReportDeadBodyEvent<RoomType>,
-            PlayerRevertShapeshiftEvent<RoomType>,
-            PlayerSendChatEvent<RoomType>,
-            PlayerSendQuickChatEvent<RoomType>,
-            PlayerSetColorEvent<RoomType>,
-            PlayerSetHatEvent<RoomType>,
-            PlayerSetLevelEvent<RoomType>,
-            PlayerSetNameEvent<RoomType>,
-            PlayerSetNameplateEvent<RoomType>,
-            PlayerSetPetEvent<RoomType>,
-            PlayerSetRoleEvent<RoomType>,
-            PlayerSetSkinEvent<RoomType>,
-            PlayerSetStartCounterEvent<RoomType>,
-            PlayerSetVisorEvent<RoomType>,
-            PlayerShapeshiftEvent<RoomType>,
-            PlayerStartMeetingEvent<RoomType>,
-            PlayerSyncSettingsEvent<RoomType>
-        ]
-    >;
+export type PlayerControlEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+    PlayerCheckColorEvent<RoomType>,
+    PlayerCheckMurderEvent<RoomType>,
+    PlayerCheckNameEvent<RoomType>,
+    PlayerCheckProtectEvent<RoomType>,
+    PlayerCompleteTaskEvent<RoomType>,
+    PlayerDieEvent<RoomType>,
+    PlayerUseMovingPlatformEvent<RoomType>,
+    PlayerMurderEvent<RoomType>,
+    PlayerProtectEvent<RoomType>,
+    PlayerRemoveProtectionEvent<RoomType>,
+    PlayerReportDeadBodyEvent<RoomType>,
+    PlayerRevertShapeshiftEvent<RoomType>,
+    PlayerSendChatEvent<RoomType>,
+    PlayerSendQuickChatEvent<RoomType>,
+    PlayerSetColorEvent<RoomType>,
+    PlayerSetHatEvent<RoomType>,
+    PlayerSetLevelEvent<RoomType>,
+    PlayerSetNameEvent<RoomType>,
+    PlayerSetNameplateEvent<RoomType>,
+    PlayerSetPetEvent<RoomType>,
+    PlayerSetRoleEvent<RoomType>,
+    PlayerSetSkinEvent<RoomType>,
+    PlayerSetStartCounterEvent<RoomType>,
+    PlayerSetVisorEvent<RoomType>,
+    PlayerShapeshiftEvent<RoomType>,
+    PlayerStartMeetingEvent<RoomType>,
+    PlayerSyncSettingsEvent<RoomType>
+]>;
 
 /**
  * Represents a player object for interacting with the game and other players.
@@ -980,13 +977,15 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
         this.room.broadcastLazy(this.room.createObjectSpawnMessage(spawnMeetingHud));
 
-        this.room.shipStatus?.systems.get(SystemType.Laboratory)?.fullyRepairHost();
-        this.room.shipStatus?.systems.get(SystemType.Reactor)?.fullyRepairHost();
-        this.room.shipStatus?.systems.get(SystemType.O2)?.fullyRepairHost();
+        // TODO
+        // this.room.shipStatus?.systems.get(SystemType.Laboratory)?.fullyRepairHost();
+        // this.room.shipStatus?.systems.get(SystemType.Reactor)?.fullyRepairHost();
+        // this.room.shipStatus?.systems.get(SystemType.O2)?.fullyRepairHost();
 
         const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
         if (movingPlatform instanceof MovingPlatformSystem) {
-            movingPlatform.setSide(MovingPlatformSide.Left);
+            // TODO
+            // movingPlatform.setSide(MovingPlatformSide.Left);
         }
 
         for (const [, player] of this.room.players) {
@@ -1141,11 +1140,8 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         const movingPlatform = airship.systems.get(SystemType.GapRoom);
 
         if (movingPlatform instanceof MovingPlatformSystem) {
-            movingPlatform.setTarget(
-                this.player,
-                movingPlatform.oppositeSide,
-                rpc
-            );
+            // TODO
+            // movingPlatform.setTarget(this.player, movingPlatform.oppositeSide, rpc);
         }
     }
 

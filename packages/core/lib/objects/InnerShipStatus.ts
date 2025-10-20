@@ -13,7 +13,6 @@ import {
     BaseDataMessage,
     BaseRpcMessage,
     CloseDoorsOfTypeMessage,
-    RepairSystemMessage,
     ShipStatusDataMessage,
     SystemStatusDataMessage,
     UnknownDataMessage
@@ -36,12 +35,12 @@ import {
     SwitchSystemEvents,
     SystemStatus,
     AutoDoorsSystem,
+    SystemStatusEvents,
 } from "../systems";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";
-import { SystemStatusEvents } from "../systems/events";
 import { BaseRole } from "../roles";
 import { RoomAssignRolesEvent } from "../events";
 import { TaskInfo } from "@skeldjs/data";
@@ -64,9 +63,8 @@ function shuffleArray(array: any[]) {
 
 type AllSystems<RoomType extends StatefulRoom> = Map<SystemType, SystemStatus<RoomType, any>>;
 
-export type ShipStatusEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
+export type ShipStatusEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
     DoorsSystemEvents<RoomType> &
-    SystemStatusEvents<RoomType> &
     AutoDoorsSystemEvents<RoomType> &
     DeconSystemEvents<RoomType> &
     ElectricalDoorsSystemEvents<RoomType> &
@@ -79,7 +77,7 @@ export type ShipStatusEvents<RoomType extends StatefulRoom> = NetworkedObjectEve
     SabotageSystemEvents<RoomType> &
     SecurityCameraSystemEvents<RoomType> &
     SwitchSystemEvents<RoomType> &
-    ExtractEventTypes<[RoomAssignRolesEvent<RoomType>]>;
+    ExtractEventTypes<[]>;
 
 export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, ShipStatusEvents<RoomType>> {
     static roomDoors: Partial<Record<SystemType, number[]>>;
@@ -159,13 +157,11 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
         switch (rpcTag) {
             case RpcMessageTag.CloseDoorsOfType: return CloseDoorsOfTypeMessage.deserializeFromReader(reader);
-            case RpcMessageTag.RepairSystem: return RepairSystemMessage.deserializeFromReader(reader);
         }
     }
 
     async handleRemoteCall(rpc: BaseRpcMessage) {
         if (rpc instanceof CloseDoorsOfTypeMessage) return await this._handleCloseDoorsOfType(rpc);
-        if (rpc instanceof RepairSystemMessage) return await this._handleRepairSystem(rpc);
         return undefined;
     }
 
@@ -177,22 +173,13 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
             doors.cooldowns.set(rpc.systemId, 30);
         }
         for (const doorId of doorsInRoom) {
-            doors.closeDoorHost(doorId);
+            // TODO: close door as host
         }
     }
 
     async processFixedUpdate(delta: number) {
         for (const [, system] of this.systems) {
-            await system.processFixedUpdate(delta);
-        }
-    }
-
-    protected async _handleRepairSystem(rpc: RepairSystemMessage) {
-        const system = this.systems.get(rpc.systemId) as SystemStatus<RoomType>;
-        const player = this.room.getPlayerByNetId(rpc.netId);
-
-        if (system && player) {
-            await system.handleRepairByPlayer(player, rpc.amount, rpc);
+            // TODO: system fixed update
         }
     }
 

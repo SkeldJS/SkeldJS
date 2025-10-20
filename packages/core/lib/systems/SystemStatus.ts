@@ -1,16 +1,18 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 import { BaseDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
-import { EventEmitter, BasicEvent } from "@skeldjs/events";
+import { EventEmitter, BasicEvent, ExtractEventTypes, EventData } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
 import { Player } from "../Player";
 
-import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 
-export abstract class SystemStatus<RoomType extends StatefulRoom, T extends SystemStatusEvents<RoomType> = SystemStatusEvents<RoomType>> extends EventEmitter<T> {
+
+export type SystemStatusEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+
+export abstract class SystemStatus<RoomType extends StatefulRoom, T extends EventData = {}> extends EventEmitter<SystemStatusEvents<RoomType> & T> {
     private _isDirty: boolean;
 
     systemType: SystemType;
@@ -84,30 +86,4 @@ export abstract class SystemStatus<RoomType extends StatefulRoom, T extends Syst
     abstract parseData(dataState: DataState, reader: HazelReader): BaseDataMessage|undefined;
     abstract handleData(data: BaseDataMessage): Promise<void>;
     abstract createData(dataState: DataState): BaseDataMessage|undefined;
-
-    abstract handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void>;
-    abstract handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void>;
-
-    abstract processFixedUpdate(delta: number): Promise<void>;
-
-    abstract fullyRepairHost(): Promise<void>;
-    abstract fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void>;
-    abstract sendFullRepair(player: Player<RoomType>): Promise<void>;
-
-    /**
-     * Sabotage this system.
-     */
-    async sabotagePlayer(sabotagedByPlayer: Player<RoomType>) {
-        await this.ship.systems.get(SystemType.Sabotage)
-            ?.handleRepairByPlayer(sabotagedByPlayer, this.systemType, undefined);
-    }
-
-    async sabotage() {
-        await this.ship.systems.get(SystemType.Sabotage)
-            ?._sendRepair(this.systemType);
-    }
-
-    protected async _sendRepair(amount: number) {
-        await this.room.sendRepairSystem(this.systemType, amount);
-    }
 }

@@ -6,7 +6,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 
-export type LobbyBehaviourEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
+export type LobbyBehaviourEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 /**
  * Represents a room object for the Lobby map.

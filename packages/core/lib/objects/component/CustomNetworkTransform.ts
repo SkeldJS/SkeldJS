@@ -24,11 +24,10 @@ import {
 
 import { sequenceIdGreaterThan, SequenceIdType } from "../../utils/sequenceIds";
 
-export type CustomNetworkTransformEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
-    ExtractEventTypes<[
-        PlayerMoveEvent<RoomType>,
-        PlayerSnapToEvent<RoomType>
-    ]>;
+export type CustomNetworkTransformEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+    PlayerMoveEvent<RoomType>,
+    PlayerSnapToEvent<RoomType>
+]>;
 
 /**
  * Represents player component for networking movement.

@@ -151,7 +151,7 @@ export class PlayerOutfit {
 
 export type PlayerOutfits = Partial<Record<PlayerOutfitType, PlayerOutfit>>;
 
-export type NetworkedPlayerInfoEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
+export type NetworkedPlayerInfoEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, NetworkedPlayerInfoEvents<RoomType>> {
     currentOutfitType: PlayerOutfitType;

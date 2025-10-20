@@ -174,7 +174,7 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatu
                 continue;
 
             if (hashSet.size !== hashSet.add(doorSet).size) {
-                electricalDoors.openDoorHost(door.doorId);
+                // electricalDoors.openDoorHost(door.doorId);
             }
             if (Math.random() >= 0.5) {
                 hashSet.add(room);
@@ -183,11 +183,11 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatu
         }
         const exitFlag = Math.random() >= 0.5;
         if (exitFlag) {
-            electricalDoors.openDoorHost(ElectricalDoorsAirship.TopLeftWest);
-            electricalDoors.closeDoorHost(ElectricalDoorsAirship.CenterLeftWest);
+            // electricalDoors.openDoorHost(ElectricalDoorsAirship.TopLeftWest);
+            // electricalDoors.closeDoorHost(ElectricalDoorsAirship.CenterLeftWest);
         } else {
-            electricalDoors.closeDoorHost(ElectricalDoorsAirship.TopLeftWest);
-            electricalDoors.openDoorHost(ElectricalDoorsAirship.CenterLeftWest);
+            // electricalDoors.closeDoorHost(ElectricalDoorsAirship.TopLeftWest);
+            // electricalDoors.openDoorHost(ElectricalDoorsAirship.CenterLeftWest);
         }
     }
     
@@ -210,8 +210,7 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatu
 
                 if (doorId >= 15 && doorId <= 18) { // toilet doors go to auto doors system
                     if (player) {
-                        this.systems.get(SystemType.Decontamination2)
-                            ?.handleRepairByPlayer(player, rpc.amount, rpc);
+                        // TODO: repair doors
                     }
                     return;
                 }

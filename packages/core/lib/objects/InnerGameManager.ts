@@ -8,7 +8,7 @@ import { StatefulRoom } from "../StatefulRoom";
 import { GameLogicComponent } from "../logic";
 import { PlayerControl } from "./PlayerControl";
 
-export type InnerGameManagerEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> & ExtractEventTypes<[]>;
+export type InnerGameManagerEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 export abstract class InnerGameManager<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, InnerGameManagerEvents<RoomType>> {
     logicComponents: GameLogicComponent<any, RoomType>[] = [];

@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { SpawnType, SpawnFlag } from "@skeldjs/constant";
 import { BaseDataMessage, BaseRpcMessage } from "@skeldjs/protocol";
-import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { BasicEvent, EventData, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { StatefulRoom, SpecialOwnerId } from "./StatefulRoom";
 
@@ -34,7 +34,7 @@ export type NetworkedObjectEvents<RoomType extends StatefulRoom> = ExtractEventT
  *
  * See {@link NetworkedObjectEvents} for events to listen to.
  */
-export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends NetworkedObjectEvents<RoomType> = NetworkedObjectEvents<RoomType>> extends EventEmitter<T> {
+export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends EventData = {}> extends EventEmitter<NetworkedObjectEvents<RoomType> & T> {
     pendingDataState: DataState;
 
     /**

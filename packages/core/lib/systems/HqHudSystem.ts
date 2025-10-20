@@ -1,19 +1,9 @@
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
+import { HazelReader } from "@skeldjs/hazel";
 import { ActiveConsoleDataMessage, BaseDataMessage, CompletedConsoleDataMessage, HqHudSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
-import { Player } from "../Player";
 
-import {
-    HqHudConsoleOpenEvent,
-    HqHudConsoleCloseEvent,
-    HqHudConsoleCompleteEvent,
-    HqHudConsolesResetEvent,
-    SystemSabotageEvent,
-    SystemRepairEvent,
-} from "../events";
-import { SystemStatusEvents } from "./events";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 
@@ -22,15 +12,7 @@ export type UserConsolePair = {
     consoleId: number;
 };
 
-export type HqHudSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
-    ExtractEventTypes<
-        [
-            HqHudConsolesResetEvent<RoomType>,
-            HqHudConsoleOpenEvent<RoomType>,
-            HqHudConsoleCloseEvent<RoomType>,
-            HqHudConsoleCompleteEvent<RoomType>
-        ]
-    >;
+export type HqHudSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 export const HqHudSystemRepairTag = {
     CompleteConsole: 0x10,
@@ -83,47 +65,23 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
             this.activeConsoles = [];
             for (const activeConsole of data.activeConsoles) {
                 this.activeConsoles.push({ playerId: activeConsole.playerId, consoleId: activeConsole.consoleId });
-                const player = this.room.getPlayerByPlayerId(activeConsole.playerId);
-                if (player) {
-                    await this._openConsole(activeConsole.consoleId, player, undefined);
-                }
             }
 
             for (const consolePair of beforeActive) {
-                const isActiveNow = this.activeConsoles.find(activeConsole =>
+                const activeIdx = this.activeConsoles.findIndex(activeConsole =>
                     activeConsole.playerId === consolePair.playerId && activeConsole.consoleId === consolePair.consoleId);
 
-                if (isActiveNow) continue;
+                if (activeIdx) continue;
 
                 const player = this.ship.room.getPlayerByPlayerId(consolePair.playerId);
                 if (player) {
-                    await this._closeConsole(consolePair.consoleId, player, undefined);
+                    this.activeConsoles.splice(activeIdx, 1);
                 }
             }
 
             const numCompletedBefore = this.completedConsoles.size;
             for (const completedConsole of data.completedConsoles) {
-                await this._completeConsole(completedConsole.consoleId, undefined, undefined);
-            }
-
-            if (numCompletedBefore === 2 && this.completedConsoles.size === 0) {
-                await this.emit(
-                    new SystemSabotageEvent(
-                        this.room,
-                        this,
-                        undefined,
-                        undefined
-                    )
-                );
-            } else if (numCompletedBefore < 2 && this.completedConsoles.size === 2) {
-                await this.emit(
-                    new SystemRepairEvent(
-                        this.room,
-                        this,
-                        undefined,
-                        undefined
-                    )
-                );
+                this.completedConsoles.add(completedConsole.consoleId);
             }
         }
     }
@@ -138,290 +96,5 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
             );
         }
         return undefined;
-    }
-
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    deserializeFromReader(reader: HazelReader, spawn: boolean) {
-        const numActive = reader.upacked();
-
-        const beforeActive = this.activeConsoles;
-        this.activeConsoles = [];
-        for (let i = 0; i < numActive; i++) {
-            const playerId = reader.uint8();
-            const consoleId = reader.uint8();
-
-            const player = this.ship.room.getPlayerByPlayerId(playerId);
-            if (player) {
-                this._openConsole(consoleId, player, undefined);
-            }
-        }
-
-        for (let i = 0; i < beforeActive.length; i++) {
-            const console = beforeActive[i];
-            const idx = this._getIdx(console.consoleId, console.playerId);
-            const player = this.ship.room.getPlayerByPlayerId(console.playerId);
-            if (player && idx === -1) {
-                this._closeConsole(console.consoleId, player, undefined);
-            }
-        }
-
-        const beforeCompleted = this.completedConsoles.size;
-        const numCompleted = reader.upacked();
-        for (let i = 0; i < numCompleted; i++) {
-            this._completeConsole(reader.uint8(), undefined, undefined);
-        }
-        if (beforeCompleted === 2 && numCompleted === 0) {
-            this.emitSync(
-                new SystemSabotageEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
-        }
-        if (beforeCompleted < 2 && numCompleted === 2) {
-            this.emitSync(
-                new SystemRepairEvent(
-                    this.room,
-                    this,
-                    undefined,
-                    undefined
-                )
-            );
-        }
-    }
-
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    serializeToWriter(writer: HazelWriter, spawn: boolean) {
-        writer.upacked(this.activeConsoles.length);
-
-        for (let i = 0; i < this.activeConsoles.length; i++) {
-            const active = this.activeConsoles[i];
-
-            writer.uint8(active.playerId);
-            writer.uint8(active.consoleId);
-        }
-
-        const completed = [...this.completedConsoles];
-        writer.upacked(completed.length);
-
-        for (let i = 0; i < completed.length; i++) {
-            writer.uint8(completed[i]);
-        }
-    }
-
-    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        this.timer = -1;
-        this.activeConsoles = [];
-        this.completedConsoles = new Set;
-        this.pushDataUpdate();
-
-        await this.emit(
-            new SystemSabotageEvent(
-                this.room,
-                this,
-                rpc,
-                player
-            )
-        );
-    }
-
-    private async _resetConsoles() {
-        const oldCompleted = this.completedConsoles;
-        this.completedConsoles = new Set;
-        this.pushDataUpdate();
-
-        const ev = await this.emit(
-            new HqHudConsolesResetEvent(
-                this.room,
-                this
-            )
-        );
-
-        if (ev.reverted) {
-            this.completedConsoles = oldCompleted;
-        }
-    }
-
-    private async _openConsole(consoleId: number, player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
-        const playerId = player.getPlayerId();
-        if (playerId === undefined) return;
-
-        const idx = this._getIdx(consoleId, playerId);
-
-        if (idx === -1) {
-            const consoleEntry = { consoleId, playerId: playerId };
-            this.activeConsoles.push(consoleEntry);
-        this.pushDataUpdate();
-            const ev = await this.emit(
-                new HqHudConsoleOpenEvent(
-                    this.room,
-                    this,
-                    rpc,
-                    player,
-                    consoleId
-                )
-            );
-            if (ev.reverted) {
-                const newIdx = this.activeConsoles.indexOf(consoleEntry);
-                if (newIdx > -1) this.activeConsoles.splice(newIdx, 1);
-                return;
-            }
-            if (ev.alteredConsoleId !== consoleId) {
-                consoleEntry.consoleId = ev.alteredConsoleId;
-            }
-        }
-    }
-
-    /**
-     * Mark the console as being used by your player.
-     * @param consoleId The ID of the console to mark as being used.
-     */
-    async openConsolePlayer(consoleId: number, openedByPlayer: Player<RoomType>) {
-        await this._openConsole(consoleId, openedByPlayer, undefined);
-    }
-
-    async openConsole(consoleId: number) {
-        this._sendRepair(0x40 | consoleId);
-    }
-
-    private async _closeConsole(consoleId: number, player: Player<RoomType>, rpc: RepairSystemMessage | undefined) {
-        const playerId = player.getPlayerId();
-        if (playerId === undefined) return;
-
-        const idx = this._getIdx(consoleId, playerId);
-
-        if (idx > -1) {
-            const consoleEntry = this.activeConsoles[idx];
-            this.activeConsoles.splice(idx, 1);
-        this.pushDataUpdate();
-            const ev = await this.emit(
-                new HqHudConsoleCloseEvent(
-                    this.room,
-                    this,
-                    rpc,
-                    player,
-                    consoleId
-                )
-            );
-            if (ev.reverted) {
-                this.activeConsoles.splice(idx, 0, consoleEntry);
-            }
-        }
-    }
-
-    async closeConsolePlayer(consoleId: number, closedByPlayer: Player<RoomType>) {
-        await this._closeConsole(consoleId, closedByPlayer, undefined);
-    }
-
-    /**
-     * Mark the console as no longer being used by your player.
-     * @param consoleId The ID of the console to mark as not being used.
-     */
-    async closeConsole(consoleId: number) {
-        await this._sendRepair(0x20 | consoleId);
-    }
-
-    private async _completeConsole(consoleId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        if (!this.completedConsoles.has(consoleId)) {
-            this.completedConsoles.add(consoleId);
-            this.pushDataUpdate();
-            const ev = await this.emit(
-                new HqHudConsoleCompleteEvent(
-                    this.room,
-                    this,
-                    rpc,
-                    player,
-                    consoleId
-                )
-            );
-            if (ev.reverted) {
-                this.completedConsoles.delete(consoleId);
-            }
-        }
-    }
-
-    /**
-     * Mark a console as completed.
-     * @param consoleId The ID of the console to mark as completed.
-     */
-    async completeConsolePlayer(consoleId: number, completedByPlayer: Player<RoomType>) {
-        await this._completeConsole(consoleId, completedByPlayer, undefined);
-    }
-
-    async completeConsole(consoleId: number) {
-        await this._sendRepair(0x10 | consoleId);
-    }
-
-    private async _repair(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        const completedBefore = this.completedConsoles;
-        const timerBefore = this.timer;
-        this.completedConsoles = new Set([0, 1]);
-        this.timer = -1;
-        this.pushDataUpdate();
-        const ev = await this.emit(
-            new SystemRepairEvent(
-                this.room,
-                this,
-                rpc,
-                player
-            )
-        );
-        if (ev.reverted) {
-            this.timer = timerBefore;
-            this.completedConsoles = completedBefore;
-        }
-    }
-
-    async fullyRepairHost(): Promise<void> {
-        await this._repair(undefined, undefined);
-    }
-
-    async fullyRepairPlayer(player: Player<RoomType>) {
-        await this._repair(player, undefined);
-    }
-
-    async sendFullRepair() {
-        await this.completeConsole(0);
-        await this.completeConsole(1);
-    }
-
-    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
-        const consoleId = amount & 0xf;
-        const repairOperation = amount & 0xf0;
-
-        switch (repairOperation) {
-            case HqHudSystemRepairTag.CompleteConsole:
-                await this._completeConsole(consoleId, player, rpc);
-                if (this.completedConsoles.size >= 2) {
-                    await this._repair(player, rpc);
-                }
-                break;
-            case HqHudSystemRepairTag.CloseConsole:
-                if (!player)
-                    return;
-
-                await this._closeConsole(consoleId, player, rpc);
-                break;
-            case HqHudSystemRepairTag.OpenConsole:
-                if (!player)
-                    return;
-
-                await this._openConsole(consoleId, player, rpc);
-                break;
-        }
-    }
-
-    async processFixedUpdate(delta: number) {
-        if (!this.sabotaged)
-            return;
-
-        this.timer -= delta;
-        if (this.timer < 0) {
-            this.timer = 10;
-            this.pushDataUpdate();
-            this._resetConsoles();
-        }
     }
 }

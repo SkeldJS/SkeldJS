@@ -6,18 +6,14 @@ import {
     MovingPlatformSystemDataMessage
 } from "@skeldjs/protocol";
 
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
+import { HazelReader } from "@skeldjs/hazel";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
 import { StatefulRoom, PlayerResolvable } from "../StatefulRoom";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
-import { MovingPlatformPlayerUpdateEvent } from "../events";
-import { SystemStatusEvents } from "./events";
 import { DataState } from "../NetworkedObject";
 
 export enum MovingPlatformSide {
@@ -25,8 +21,7 @@ export enum MovingPlatformSide {
     Left,
 }
 
-export type MovingPlatformSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
-    ExtractEventTypes<[MovingPlatformPlayerUpdateEvent<RoomType>]>;
+export type MovingPlatformSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 /**
  * Represents a system for doors that must be manually opened.
@@ -64,13 +59,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
                 if (!sequenceIdGreaterThan(data.sequenceId, this.useId, SequenceIdType.Byte)) return;
             }
 
-            await this._setTarget(
-                data.targetId === null
-                    ? undefined
-                    : this.ship.room.getPlayerByNetId(data.targetId),
-                data.side,
-                undefined
-            );
+            this.target = data.targetId === null ? undefined : this.ship.room.getPlayerByPlayerId(data.targetId);
         }
     }
 
@@ -86,102 +75,5 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
             );
         }
         return undefined;
-    }
-
-    private async _setTarget(player: Player<RoomType> | undefined, side: MovingPlatformSide, rpc: RepairSystemMessage | undefined) {
-        const oldTarget = player;
-        const oldSide = this.side;
-        this.target = player;
-        this.side = side;
-        this.pushDataUpdate();
-
-        const ev = await this.emit(
-            new MovingPlatformPlayerUpdateEvent(
-                this.room,
-                this,
-                rpc,
-                player,
-                side
-            )
-        );
-
-        if (ev.reverted) {
-            this.target = oldTarget;
-            this.side = oldSide;
-            this.pushDataUpdate();
-            return;
-        }
-
-        this.target = ev.alteredPlayer;
-        this.side = ev.alteredSide;
-        this.pushDataUpdate();
-    }
-
-    /**
-     * Update the target of the moving platform.
-     * @param player The player to set.
-     * @param side The direction to move the moving platform in.
-     */
-    async setTarget(player: PlayerResolvable, side: MovingPlatformSide, sendRpc: boolean) {
-        const resolved = this.ship.room.resolvePlayer(player);
-
-        if (!resolved)
-            return;
-
-        if (this.side === side)
-            return;
-
-        const oldSide = this.side;
-        await this._setTarget(resolved, side, undefined);
-
-        if (sendRpc && this.side !== oldSide) {
-            if (this.target?.characterControl) {
-                this.ship.room.broadcastLazy(
-                    new RpcMessage(
-                        this.target.characterControl.netId,
-                        new UsePlatformMessage
-                    )
-                );
-            }
-        }
-    }
-
-    /**
-     * Get on the moving platform as the client's player.
-     */
-    async movePlatform(player: Player<RoomType>) {
-        await this.setTarget(player, this.oppositeSide, true);
-    }
-
-    setSide(side: MovingPlatformSide) {
-        if (this.side === side)
-            return;
-
-        this.side = side;
-        this.pushDataUpdate();
-    }
-    
-    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined): Promise<void> {
-        void player, amount, rpc;
-    }
-
-    async processFixedUpdate(delta: number): Promise<void> {
-        void delta;
-    }
-
-    async handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
-        void player, rpc;
-    }
-
-    async fullyRepairHost(): Promise<void> {
-        void 0;
-    }
-
-    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
-        void player;
-    }
-
-    async sendFullRepair(player: Player<RoomType>): Promise<void> {
-        void player;
     }
 }

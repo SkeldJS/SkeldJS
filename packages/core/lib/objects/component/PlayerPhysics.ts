@@ -28,10 +28,11 @@ import {
     PlayerPetPetEvent,
 } from "../../events";
 
-export type PlayerPhysicsEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<RoomType> &
-    ExtractEventTypes<
-        [PlayerEnterVentEvent<RoomType>, PlayerExitVentEvent<RoomType>, PlayerClimbLadderEvent<RoomType>]
-    >;
+export type PlayerPhysicsEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+    PlayerEnterVentEvent<RoomType>,
+    PlayerExitVentEvent<RoomType>,
+    PlayerClimbLadderEvent<RoomType>
+]>;
 
 /**
  * Represents a player object for handling vent entering and exiting.

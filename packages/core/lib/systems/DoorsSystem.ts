@@ -5,14 +5,10 @@ import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
-import { SystemStatusEvents } from "./events";
-import { DoorsDoorCloseEvent, DoorsDoorOpenEvent } from "../events";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 
-export type DoorEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
-    [DoorsDoorOpenEvent<RoomType>, DoorsDoorCloseEvent<RoomType>]
->;
+export type DoorEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 /**
  * Represents a manual door for the {@link DoorsSystem} or {@link ElectricalDoorsSystem}.
@@ -67,9 +63,7 @@ export class Door<RoomType extends StatefulRoom> extends EventEmitter<DoorEvents
     }
 }
 
-export type DoorsSystemEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
-    DoorEvents<RoomType> &
-    ExtractEventTypes<[]>;
+export type DoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<RoomType> & ExtractEventTypes<[]>;
 
 /**
  * Represents a system for doors that must be manually opened.
@@ -105,9 +99,9 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
             for (let i = 0; i < data.doorStates.length; i++) {
                 const doorState = data.doorStates[i];
                 if (doorState) {
-                    await this._openDoor(i, undefined, undefined);
+                    this.doors[i].isOpen = true;
                 } else {
-                    await this._closeDoor(i, undefined, undefined);
+                    this.doors[i].isOpen = false;
                 }
             }
         }
@@ -125,135 +119,5 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
             return message;
         }
         return undefined;
-    }
-
-    private async _openDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        const door = this.doors[doorId];
-
-        if (!door)
-            return;
-
-        door.isOpen = true;
-        this.pushDataUpdate();
-
-        const ev = await door.emit(
-            new DoorsDoorOpenEvent(
-                this.room,
-                this,
-                rpc,
-                player,
-                door
-            )
-        );
-
-        if (ev.reverted) {
-            door.isOpen = false;
-            return;
-        }
-
-        if (ev.alteredDoor !== door) {
-            door.isOpen = false;
-            ev.alteredDoor.isOpen = true;
-        }
-    }
-
-    /**
-     * Open a door by its ID.
-     * @param doorId The ID of the door to opne.
-     */
-    async openDoorPlayer(doorId: number, openedByPlayer: Player<RoomType>) {
-        await this._openDoor(doorId, openedByPlayer, undefined);
-    }
-
-    async openDoorHost(doorId: number) {
-        await this._openDoor(doorId, undefined, undefined);
-    }
-
-    async openDoor(doorId: number) {
-        await this._sendRepair(doorId);
-    }
-
-    private async _closeDoor(doorId: number, player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined) {
-        const door = this.doors[doorId];
-
-        if (!door)
-            return;
-
-        door.isOpen = false;
-        this.pushDataUpdate();
-
-        const ev = await door.emit(
-            new DoorsDoorCloseEvent(
-                this.room,
-                this,
-                rpc,
-                player,
-                door
-            )
-        );
-
-        if (ev.reverted) {
-            door.isOpen = true;
-            return;
-        }
-
-        if (ev.alteredDoor !== door) {
-            door.isOpen = true;
-            ev.alteredDoor.isOpen = false;
-        }
-    }
-
-    /**
-     * Close a door by its ID.
-     * @param doorId The ID of the door to close.
-     */
-    async closeDoorPlayer(doorId: number, closedByPlayer: Player<RoomType>) {
-        this._closeDoor(doorId, closedByPlayer, undefined);
-    }
-
-    async closeDoorHost(doorId: number) {
-        await this._closeDoor(doorId, undefined, undefined);
-    }
-    
-    handleSabotageByPlayer(player: Player<RoomType> | undefined, rpc: RepairSystemMessage | undefined): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-
-    async handleRepairByPlayer(player: Player<RoomType> | undefined, amount: number, rpc: RepairSystemMessage | undefined) {
-        const doorId = amount & 0x1f;
-
-        await this._openDoor(doorId, player, rpc);
-    }
-    
-    async fullyRepairHost(): Promise<void> {
-        void 0;
-    }
-
-    async fullyRepairPlayer(player: Player<RoomType> | undefined): Promise<void> {
-        void player;
-    }
-
-    async sendFullRepair(player: Player<RoomType>): Promise<void> {
-        void player;
-    }
-
-    async processFixedUpdate(delta: number) {
-        this.lastUpdate += delta;
-        for (const [systemType, prevTime] of this.cooldowns) {
-            const newTime = prevTime - delta;
-            if (newTime < 0) {
-                this.cooldowns.delete(systemType);
-                this.lastUpdate = 0;
-                this.pushDataUpdate();
-                continue;
-            }
-
-            this.cooldowns.set(systemType, newTime);
-
-            if (this.lastUpdate > 1) {
-                this.pushDataUpdate();
-                this.lastUpdate = 0;
-            }
-        }
     }
 }
