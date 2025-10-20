@@ -3,7 +3,7 @@ import { StatefulRoom } from "../StatefulRoom";
 
 export interface PlayersKillEndgameMetadata<RoomType extends StatefulRoom> {
     killer: Player<RoomType>;
-    victim?: Player<RoomType>;
+    victim: Player<RoomType>|undefined;
     aliveCrewmates: number;
     aliveImpostors: number;
 }

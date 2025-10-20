@@ -273,7 +273,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
         switch (rpcTag) {
-            case RpcMessageTag.SetTasks: return SetTasksMessage.deserializeFromReader(reader);
+            case RpcMessageTag.SetTasks: return SetTasksMessage.deserializeFromReader(reader);  
         }
         return undefined;
     }

@@ -1,11 +1,11 @@
 {
   "name": "@skeldjs/hazel",
   "version": "3.0.0",
+  "license": "GPL-3.0-only",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"
   },
-  "license": "GPL-3.0-only",
   "scripts": {
     "build": "tsc -p ./",
     "watch": "tsc -w -p ./",
@@ -15,7 +15,6 @@
     "@types/node": "^24.7.0",
     "typescript": "^5.9.3"
   },
-  "gitHead": "5be9208d6277279ac3200a2047eeb7af5ecd22e7",
   "files": [
     "dist"
   ]

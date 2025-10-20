@@ -1,5 +1,5 @@
 import { HazelWriter } from "@skeldjs/hazel";
-import crypto from "crypto";
+import * as crypto from "crypto";
 
 import { Aes128Gcm } from "./AeadAes128Gcm";
 

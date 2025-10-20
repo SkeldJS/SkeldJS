@@ -201,7 +201,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     /**
      * The player that was exiled, if any.
      */
-    exiled?: Player<RoomType>;
+    exiled: Player<RoomType>|undefined;
 
     ranOutOfTimeTimeout?: NodeJS.Timeout;
 

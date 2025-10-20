@@ -74,7 +74,7 @@ export class Player<RoomType extends StatefulRoom> extends EventEmitter<PlayerEv
      * The actual instance of this player's role manager, see {@link PlayerInfo.roleType}
      * to know which role this is.
      */
-    role?: BaseRole<RoomType>;
+    role: BaseRole<RoomType>|undefined;
 
     constructor(
         room: RoomType,

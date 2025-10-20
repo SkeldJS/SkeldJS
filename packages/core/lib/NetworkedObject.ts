@@ -40,7 +40,7 @@ export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends N
     /**
      * The player that this component belongs to.
      */
-    player?: Player<RoomType>;
+    player: Player<RoomType>|undefined;
 
     components: NetworkedObject<RoomType, any>[];
 

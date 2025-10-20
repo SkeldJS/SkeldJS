@@ -176,12 +176,12 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      * The player (i.e. a guardian angel) who has protected this player, if the
      * player is being protected..
      */
-    guardianProtector?: Player<RoomType>;
+    guardianProtector: Player<RoomType>|undefined;
 
     /**
      * The player that this player has shapeshifted as, if any.
      */
-    shapeshiftTarget?: Player<RoomType>;
+    shapeshiftTarget: Player<RoomType>|undefined;
 
     private _protectedByGuardianTime: number;
 

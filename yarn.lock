@@ -84,7 +84,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@skeldjs/client@workspace:packages/client"
   dependencies:
-    "@skeldjs/hazel": "workspace:*"
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown

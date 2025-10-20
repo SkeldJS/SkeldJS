@@ -1,6 +1,7 @@
 {
   "name": "@skeldjs/eos",
   "version": "3.0.0",
+  "license": "GPL-3.0-only",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"
@@ -10,7 +11,6 @@
     "watch": "tsc -w -p ./",
     "prepack": "yarn build"
   },
-  "license": "GPL-3.0-only",
   "devDependencies": {
     "@types/node": "^24.7.0",
     "@types/node-fetch": "^2.6.13",
@@ -19,7 +19,6 @@
   "dependencies": {
     "node-fetch": "^3.3.2"
   },
-  "gitHead": "bd1e345157716ff1af70479b45bd23bd977bea32",
   "files": [
     "dist"
   ]

@@ -156,7 +156,7 @@ export abstract class StatefulRoom<T extends StatefulRoomEvents<StatefulRoom> = 
 
     lastFixedUpdateTimestamp: number;
 
-    fixedUpdateInterval?: NodeJS.Timeout;
+    fixedUpdateInterval: NodeJS.Timeout|undefined;
 
     lastNetId: number;
 

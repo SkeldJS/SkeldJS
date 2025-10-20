@@ -1,4 +1,4 @@
-import dgram from "dgram";
+import * as dgram from "dgram";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 import { DiscoveryFoundGameEvent } from "./events";

@@ -1,6 +1,7 @@
 {
   "name": "@skeldjs/text",
   "version": "3.0.0",
+  "license": "GPL-3.0-only",
   "main": "./dist/index.js",
   "publishConfig": {
     "types": "./dist/index.d.ts"
@@ -14,8 +15,6 @@
     "@types/node": "^24.7.0",
     "typescript": "^5.9.3"
   },
-  "license": "GPL-3.0-only",
-  "gitHead": "a08b2fe1f52693c6379029a1c5cb37d092a892ff",
   "files": [
     "dist"
   ]

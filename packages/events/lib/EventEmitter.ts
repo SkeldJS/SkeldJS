@@ -1,4 +1,4 @@
-import { BasicEvent } from "./BasicEvent";
+import { BasicEvent } from "./BasicEvent.js";
 
 export type Eventable = {
     eventName: string;

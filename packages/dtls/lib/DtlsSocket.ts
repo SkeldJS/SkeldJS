@@ -1,5 +1,5 @@
-import crypto from "crypto";
-import dgram from "dgram";
+import * as crypto from "crypto";
+import * as dgram from "dgram";
 
 import { Certificate as x509Certificate } from "@fidm/x509";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
@@ -104,10 +104,8 @@ export class DtlsSocket extends EventEmitter {
             nextPacketResendTime: 0,
             selectedCipherSuite: CipherSuite.TLS_NULL_WITH_NULL_NULL,
             recordProtection: new NullRecordProtection,
-            handshake: undefined,
             cookie: Buffer.alloc(0),
             verificationStream: [],
-            serverPublicKey: undefined,
             clientRandom: Buffer.alloc(32),
             serverRandom: Buffer.alloc(32),
             masterSecret: Buffer.alloc(32),
@@ -178,10 +176,8 @@ export class DtlsSocket extends EventEmitter {
             nextPacketResendTime: 0,
             selectedCipherSuite: CipherSuite.TLS_NULL_WITH_NULL_NULL,
             recordProtection: new NullRecordProtection,
-            handshake: undefined,
             cookie: Buffer.alloc(0),
             verificationStream: [],
-            serverPublicKey: undefined,
             clientRandom: Buffer.alloc(32),
             serverRandom: Buffer.alloc(32),
             masterSecret: Buffer.alloc(32),
@@ -339,10 +335,8 @@ export class DtlsSocket extends EventEmitter {
                 this.nextEpoch.state = HandshakeState.ExpectingFinished;
                 this.nextEpoch.selectedCipherSuite = CipherSuite.TLS_NULL_WITH_NULL_NULL;
                 this.nextEpoch.recordProtection = new NullRecordProtection;
-                this.nextEpoch.handshake = undefined;
                 this.nextEpoch.cookie = Buffer.alloc(0);
                 this.nextEpoch.verificationStream = [];
-                this.nextEpoch.serverPublicKey = undefined;
                 this.nextEpoch.serverRandom = Buffer.alloc(32);
                 this.nextEpoch.clientRandom = Buffer.alloc(32);
                 this.nextEpoch.masterSecret = Buffer.alloc(48);

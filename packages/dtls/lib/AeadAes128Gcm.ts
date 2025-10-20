@@ -1,5 +1,5 @@
 import { assert } from "console";
-import crypto from "crypto";
+import * as crypto from "crypto";
 
 export class Aes128Gcm {
     static KeySize = 16;
