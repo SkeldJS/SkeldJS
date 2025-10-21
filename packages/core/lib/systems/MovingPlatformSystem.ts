@@ -2,7 +2,7 @@ import {
     RepairSystemMessage,
     UsePlatformMessage,
     RpcMessage,
-    BaseDataMessage,
+    BaseSystemMessage,
     MovingPlatformSystemDataMessage
 } from "@skeldjs/protocol";
 
@@ -42,7 +42,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
             : MovingPlatformSide.Left;
     }
     
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:
@@ -51,7 +51,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof MovingPlatformSystemDataMessage) {
             if (data.isSpawn) {
                 this.useId = data.sequenceId;
@@ -59,11 +59,11 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
                 if (!sequenceIdGreaterThan(data.sequenceId, this.useId, SequenceIdType.Byte)) return;
             }
 
-            this.target = data.targetId === null ? undefined : this.ship.room.getPlayerByPlayerId(data.targetId);
+            this.target = data.targetId === null ? undefined : this.shipStatus.room.getPlayerByPlayerId(data.targetId);
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:

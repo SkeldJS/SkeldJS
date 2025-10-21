@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 
 import {
-    BaseDataMessage,
+    BaseSystemMessage,
     BaseRpcMessage,
     CancelPetMessage,
     ClimbLadderMessage,
@@ -79,15 +79,15 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
         void 0;
     }
 
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         void data;
     }
 
-    createData(state: DataState): BaseDataMessage | undefined {
+    createData(state: DataState): BaseSystemMessage | undefined {
         return undefined;
     }
 

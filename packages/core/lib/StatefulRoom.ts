@@ -7,7 +7,8 @@ import {
     DespawnMessage,
     ComponentSpawnData,
     AllGameSettings,
-    PlayerJoinData
+    PlayerJoinData,
+    BaseSystemMessage
 } from "@skeldjs/protocol";
 
 import { HazelWriter } from "@skeldjs/hazel";
@@ -371,30 +372,6 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         return this.lastNetId;
     }
 
-    /**
-     * The host of the room.
-     */
-    get playerAuthority() {
-        return this.players.get(this.authorityId);
-    }
-
-    /**
-     * Whether or not the current client is the host of the room.
-     */
-    get isAuthoritative() {
-        return false;
-    }
-
-    /**
-     * Whether or not this client/room is able to manage an object, i.e. perform
-     * host actions on it.
-     * @param object The object to manage.
-     * @returns Whether or not the object can be managed by this client/room.
-     */
-    canManageObject(object: NetworkedObject<this>) {
-        return this.isAuthoritative;
-    }
-
     broadcastLazy(gameDataMessage: BaseGameDataMessage) {
         this.messageStream.push(gameDataMessage);
     }
@@ -441,7 +418,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                 }
 
                 if (endGameIntents[0]) {
-                    await this.endGame(endGameIntents[0].reason);
+                    await this.endGameImpl(endGameIntents[0].reason);
                 }
             }
         }
@@ -755,7 +732,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         }
 
         if (removes.length) {
-            await this.removeUnreadiedPlayers(removes);
+            await this.removeUnreadiedPlayersImpl(removes);
         }
 
         await this.gameManager?.onGameStart();
@@ -1135,15 +1112,20 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         exclude?: (Player<this> | number)[],
         reliable?: boolean,
     ): Promise<void>;
+
+    abstract get playerAuthority(): Player<this>|undefined;
+    abstract get isAuthoritative(): boolean;
+
+    abstract canManageObject(object: NetworkedObject<this>): boolean;
     
-    abstract endGame(reason: GameOverReason): Promise<void>;
+    abstract endGameImpl(reason: GameOverReason): Promise<void>;
 
-    abstract clearMyVote(meetingHud: MeetingHud<this>): Promise<void>;
-    abstract getSelectedSeekerAllowed(seekerPlayerId: number): boolean;
-    abstract sendRepairSystem(systemType: SystemType, amount: number): Promise<void>;
+    abstract clearMyVoteImpl(meetingHud: MeetingHud<this>): Promise<void>;
+    abstract getSelectedSeekerAllowedImpl(seekerPlayerId: number): boolean;
+    abstract sendUpdateSystemImpl(systemType: SystemType, message: BaseSystemMessage): Promise<void>;
 
-    abstract playerVoteKicked(player: Player<this>): Promise<void>;
-    abstract removeUnreadiedPlayers(players: Player<this>[]): Promise<void>;
+    abstract playerVoteKickedImpl(player: Player<this>): Promise<void>;
+    abstract removeUnreadiedPlayersImpl(players: Player<this>[]): Promise<void>;
 
     /**
      * How often a processFixedUpdate should be called.

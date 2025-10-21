@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import {
-    BaseDataMessage,
+    BaseSystemMessage,
     BaseRpcMessage,
     CheckColorMessage,
     CheckMurderMessage,
@@ -231,7 +231,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage|undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage|undefined {
         switch (state) {
             case DataState.Spawn: return PlayerControlSpawnDataMessage.deserializeFromReader(reader);
             case DataState.Update: return PlayerControlDataMessage.deserializeFromReader(reader);
@@ -239,7 +239,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         return undefined;
     }
 
-    async handleData(message: BaseDataMessage) {
+    async handleData(message: BaseSystemMessage) {
         if (message instanceof PlayerControlSpawnDataMessage) {
             this.isNew = message.isNew;
             this.playerId = message.playerId;
@@ -250,7 +250,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
-    createData(state: DataState): BaseDataMessage|undefined {
+    createData(state: DataState): BaseSystemMessage|undefined {
         switch (state) {
             case DataState.Spawn: {
                 const spawn = new PlayerControlSpawnDataMessage(this.isNew, this.playerId);

@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { AutoDoorsSystemDataMessage, AutoDoorsSystemSpawnDataMessage, BaseDataMessage, DoorStateDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { AutoDoorsSystemDataMessage, AutoDoorsSystemSpawnDataMessage, BaseSystemMessage, DoorStateDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -61,7 +61,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
      */
     doors: AutoOpenDoor<RoomType>[] = [];
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn: return AutoDoorsSystemSpawnDataMessage.deserializeFromReader(reader);
         case DataState.Update: return AutoDoorsSystemDataMessage.deserializeFromReader(reader);
@@ -69,7 +69,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         // the parsing is different, but both are handled the same
         if (data instanceof AutoDoorsSystemSpawnDataMessage || data instanceof AutoDoorsSystemDataMessage) {
             for (const doorState of data.doorStates) {
@@ -78,7 +78,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn: return new AutoDoorsSystemSpawnDataMessage(
             this.doors.map(x => new DoorStateDataMessage(x.doorId, x.isOpen)));

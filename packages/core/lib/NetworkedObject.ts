@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { SpawnType, SpawnFlag } from "@skeldjs/constant";
-import { BaseDataMessage, BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventData, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { StatefulRoom, SpecialOwnerId } from "./StatefulRoom";
@@ -102,9 +102,9 @@ export abstract class NetworkedObject<RoomType extends StatefulRoom, T extends E
         return super.emitSync(event);
     }
 
-    abstract parseData(state: DataState, reader: HazelReader): BaseDataMessage|undefined;
-    abstract handleData(data: BaseDataMessage): Promise<void>;
-    abstract createData(state: DataState): BaseDataMessage|undefined;
+    abstract parseData(state: DataState, reader: HazelReader): BaseSystemMessage|undefined;
+    abstract handleData(data: BaseSystemMessage): Promise<void>;
+    abstract createData(state: DataState): BaseSystemMessage|undefined;
 
     abstract parseRemoteCall(rpcTag: number, reader: HazelReader): BaseRpcMessage|undefined;
     abstract handleRemoteCall(rpc: BaseRpcMessage): Promise<void>;

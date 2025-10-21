@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseDataMessage, ElectricalDoorsSystemDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, ElectricalDoorsSystemDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -21,7 +21,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
      */
     doors: Door<RoomType>[] = [];
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return ElectricalDoorsSystemDataMessage.deserializeFromReader(reader);
@@ -29,7 +29,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof ElectricalDoorsSystemDataMessage) {
             const openDoorsSet: Set<number> = new Set(data.openDoors);
             for (const door of this.doors) {
@@ -42,7 +42,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:

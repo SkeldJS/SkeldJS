@@ -1,6 +1,6 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseDataMessage, BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
@@ -10,15 +10,15 @@ export type HideNSeekMinigameLogicComponentEvents = ExtractEventTypes<[]>;
 export class HideNSeekMinigameLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekMinigameLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicMinigameHnS.cs)
     
-    parseData(reader: HazelReader): BaseDataMessage | undefined {
+    parseData(reader: HazelReader): BaseSystemMessage | undefined {
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         void data;
     }
 
-    createData(): BaseDataMessage | undefined {
+    createData(): BaseSystemMessage | undefined {
         return undefined;
     }
     

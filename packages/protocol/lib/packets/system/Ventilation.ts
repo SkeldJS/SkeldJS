@@ -1,4 +1,3 @@
-import { SystemType } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage } from "./BaseSystemMessage";
 
@@ -12,14 +11,12 @@ export enum VentilationState {
 }
 
 export class VentilationSystemMessage extends BaseSystemMessage {
-    static messageTag = SystemType.Ventilation;
-
     constructor(
         public readonly sequenceId: number,
         public readonly state: VentilationState,
         public readonly ventId: number
     ) {
-        super(VentilationSystemMessage.messageTag);
+        super();
     }
 
     static deserializeFromReader(reader: HazelReader) {

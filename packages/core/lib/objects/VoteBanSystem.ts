@@ -4,7 +4,7 @@ import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
 import {
     AddVoteMessage,
     BanVotesDataMessage,
-    BaseDataMessage,
+    BaseSystemMessage,
     BaseRpcMessage,
     KickPlayerMessage,
     RpcMessage,
@@ -53,7 +53,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
         void 0;
     }
 
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update: return VoteBanSystemDataMessage.deserializeFromReader(reader);
@@ -61,7 +61,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof VoteBanSystemDataMessage) {
             for (const banVotes of data.banVotes) {
                 this.voted.set(banVotes.targetClientId, [
@@ -73,7 +73,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
-    createData(state: DataState): BaseDataMessage | undefined {
+    createData(state: DataState): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update:
@@ -118,7 +118,7 @@ export class VoteBanSystem<RoomType extends StatefulRoom> extends NetworkedObjec
             }
 
             if (this.room.canManageObject(this) && voted.every((v) => v !== null)) {
-                await this.room.playerVoteKicked(target);
+                await this.room.playerVoteKickedImpl(target);
             }
         } else {
             this.voted.set(target.clientId, [voter, undefined, undefined]);

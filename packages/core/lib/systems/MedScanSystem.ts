@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseDataMessage, MedScanSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, MedScanSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -21,7 +21,7 @@ export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<R
      */
     queue: Player<RoomType>[] = [];
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return MedScanSystemDataMessage.deserializeFromReader(reader);
@@ -29,17 +29,17 @@ export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<R
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof MedScanSystemDataMessage) {
             this.queue = [];
             for (const playerId of data.playerIdQueue) {
-                const player = this.ship.room.getPlayerByPlayerId(playerId);
+                const player = this.shipStatus.room.getPlayerByPlayerId(playerId);
                 if (player) this.queue.push(player);
             }
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:

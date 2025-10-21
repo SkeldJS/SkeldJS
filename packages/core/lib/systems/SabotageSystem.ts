@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseDataMessage, SabotageSystemDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, SabotageSystemDataMessage, SabotageSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -24,12 +24,12 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
      * Check whether any systems are currently sabotaged.
      */
     get anySabotaged() {
-        return Object.values(this.ship.systems).some(
+        return Object.values(this.shipStatus.systems).some(
             system => system?.sabotaged
         );
     }
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return SabotageSystemDataMessage.deserializeFromReader(reader);
@@ -37,17 +37,37 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof SabotageSystemDataMessage) {
             this.cooldown = data.cooldown;
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return new SabotageSystemDataMessage(this.cooldown);
         }
         return undefined;
+    }
+
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return SabotageSystemMessage.deserializeFromReader(reader);
+    }
+
+    async handleUpdate(message: BaseSystemMessage): Promise<void> {
+        if (message instanceof SabotageSystemMessage) {
+            const system = this.shipStatus.systems.get(message.systemType);
+            if (system && system.canBeSabotaged()) {
+                await system.sabotageWithAuth();
+            }
+        }
+    }
+
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        if (this.cooldown > 0 && !this.shipStatus.anySystemsSabotaged()) {
+            this.cooldown -= deltaSeconds;
+            this.pushDataUpdate();
+        }
     }
 }

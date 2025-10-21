@@ -1,7 +1,7 @@
 import { Vector2, HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import {
-    BaseDataMessage,
+    BaseSystemMessage,
     BaseRpcMessage,
     CustomNetworkTransformSpawnDataMessage,
     DataMessage,
@@ -73,7 +73,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         void 0;
     }
 
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (state) {
             case DataState.Spawn: return CustomNetworkTransformSpawnDataMessage.deserializeFromReader(reader);
             case DataState.Update: return CustomNetworkTransformDataMessage.deserializeFromReader(reader);
@@ -81,7 +81,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof CustomNetworkTransformSpawnDataMessage) {
             const oldPosition = this.position;
             this.seqId = data.sequenceId;
@@ -100,7 +100,7 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         }
     }
 
-    createData(state: DataState): BaseDataMessage | undefined {
+    createData(state: DataState): BaseSystemMessage | undefined {
         switch (state) {
             case DataState.Spawn: return new CustomNetworkTransformSpawnDataMessage(this.seqId, this.position);
             case DataState.Update: return new CustomNetworkTransformDataMessage(this.seqId, [ this.position ]);

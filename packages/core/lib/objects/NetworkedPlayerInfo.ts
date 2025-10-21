@@ -8,7 +8,7 @@ import {
     RpcMessageTag
 } from "@skeldjs/constant";
 
-import { BaseDataMessage, BaseRpcMessage, NetworkedPlayerInfoDataMessage, OutfitDataMessage, RpcMessage, SetTasksMessage, TaskStateDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage, NetworkedPlayerInfoDataMessage, OutfitDataMessage, RpcMessage, SetTasksMessage, TaskStateDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
@@ -290,7 +290,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         void 0;
     }
 
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update: return NetworkedPlayerInfoDataMessage.deserializeFromReader(reader);
@@ -298,7 +298,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof NetworkedPlayerInfoDataMessage) {
             this.playerId = data.playerId;
             this.clientId = data.clientId;
@@ -329,7 +329,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         }
     }
 
-    createData(state: DataState): BaseDataMessage | undefined {
+    createData(state: DataState): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update: return new NetworkedPlayerInfoDataMessage(

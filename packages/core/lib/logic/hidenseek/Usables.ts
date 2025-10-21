@@ -1,5 +1,5 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseDataMessage, BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
@@ -10,15 +10,15 @@ export type HideNSeekUsablesLogicComponentEvents = ExtractEventTypes<[]>;
 export class HideNSeekUsablesLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekUsablesLogicComponentEvents, RoomType> {
     // TODO: Implement (LogicUsablesHnS.cs)
     
-    parseData(reader: HazelReader): BaseDataMessage | undefined {
+    parseData(reader: HazelReader): BaseSystemMessage | undefined {
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         void data;
     }
 
-    createData(): BaseDataMessage | undefined {
+    createData(): BaseSystemMessage | undefined {
         return undefined;
     }
     

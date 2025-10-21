@@ -4,22 +4,22 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseDataMessage, OptionsLogicComponentDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, OptionsLogicComponentDataMessage } from "@skeldjs/protocol";
 
 export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class NormalOptionsLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
-    parseData(reader: HazelReader): BaseDataMessage | undefined {
+    parseData(reader: HazelReader): BaseSystemMessage | undefined {
         return OptionsLogicComponentDataMessage.deserializeFromReader(reader);
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof OptionsLogicComponentDataMessage) {
             this.manager.room.settings = data.settings;
         }
     }
 
-    createData(): BaseDataMessage | undefined {
+    createData(): BaseSystemMessage | undefined {
         return new OptionsLogicComponentDataMessage(this.manager.room.settings);
     }
     

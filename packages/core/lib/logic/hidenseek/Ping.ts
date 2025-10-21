@@ -1,5 +1,5 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage } from "@skeldjs/protocol";
 import { HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
@@ -10,15 +10,15 @@ export type HideNSeekPingLogicComponentEvents = ExtractEventTypes<[]>;
 export class HideNSeekPingLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekPingLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicPingsHnS.cs)
 
-    parseData(reader: HazelReader): BaseDataMessage | undefined {
+    parseData(reader: HazelReader): BaseSystemMessage | undefined {
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         void data;
     }
 
-    createData(): BaseDataMessage | undefined {
+    createData(): BaseSystemMessage | undefined {
         return undefined;
     }
     

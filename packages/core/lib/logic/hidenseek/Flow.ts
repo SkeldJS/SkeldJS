@@ -1,6 +1,6 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseDataMessage, BaseRpcMessage, FlowLogicComponentDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage, FlowLogicComponentDataMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { InnerGameManager } from "../../objects";
@@ -23,11 +23,11 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
         return this.currentHideTime <= 0;
     }
 
-    parseData(reader: HazelReader): BaseDataMessage | undefined {
+    parseData(reader: HazelReader): BaseSystemMessage | undefined {
         return FlowLogicComponentDataMessage.deserializeFromReader(reader);
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof FlowLogicComponentDataMessage) {
             this.currentHideTime = data.hideTime;
             this.currentFinalHideTime = data.finalHideTime;
@@ -35,7 +35,7 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
         }
     }
 
-    createData(): BaseDataMessage | undefined {
+    createData(): BaseSystemMessage | undefined {
         return new FlowLogicComponentDataMessage(this.currentHideTime, this.currentFinalHideTime);
     }
 

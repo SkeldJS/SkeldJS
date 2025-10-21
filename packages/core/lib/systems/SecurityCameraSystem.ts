@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseDataMessage, RepairSystemMessage, SecurityCameraSystemDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, RepairSystemMessage, SecurityCameraSystemDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -21,7 +21,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom> extends SystemS
      */
     players: Set<Player<RoomType>> = new Set;
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return SecurityCameraSystemDataMessage.deserializeFromReader(reader);
@@ -29,12 +29,12 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom> extends SystemS
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof SecurityCameraSystemDataMessage) {
             const before = new Set(this.players);
             this.players.clear();
             for (const playerId of data.playerIds) {
-                const player = this.ship.room.getPlayerByPlayerId(playerId);
+                const player = this.shipStatus.room.getPlayerByPlayerId(playerId);
                 if (player && !before.has(player)) {
                     this.players.add(player);
                 }
@@ -47,7 +47,7 @@ export class SecurityCameraSystem<RoomType extends StatefulRoom> extends SystemS
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:

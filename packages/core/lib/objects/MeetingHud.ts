@@ -3,7 +3,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { ChatNoteType, GameOverReason, RpcMessageTag } from "@skeldjs/constant";
 
 import {
-    BaseDataMessage,
+    BaseSystemMessage,
     BaseRpcMessage,
     CastVoteMessage,
     ClearVoteMessage,
@@ -237,7 +237,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         return super.owner as RoomType;
     }
 
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (state) {
             case DataState.Spawn:
             case DataState.Update: return MeetingHudDataMessage.deserializeFromReader(reader);
@@ -245,7 +245,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof MeetingHudDataMessage) {
             for (const voteArea of data.voteStates) {
                 const player = this.room.getPlayerByPlayerId(voteArea.playerId);
@@ -282,7 +282,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         }
     }
 
-    createData(state: DataState): BaseDataMessage | undefined {
+    createData(state: DataState): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update: return new MeetingHudDataMessage(
@@ -509,7 +509,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     private async _handleClearVote(rpc: ClearVoteMessage) {
         void rpc;
 
-        await this.room.clearMyVote(this);
+        await this.room.clearMyVoteImpl(this);
 
 
     }

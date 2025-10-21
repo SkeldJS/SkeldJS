@@ -2,8 +2,8 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage } from "./BaseSystemMessage";
 
 export class UnknownSystemMessage extends BaseSystemMessage {
-    constructor(public readonly messageTag: number, public readonly dataReader: HazelReader) {
-        super(messageTag);
+    constructor(public readonly dataReader: HazelReader) {
+        super();
     }
 
     static deserializeFromReader(reader: HazelReader): UnknownSystemMessage {
@@ -15,6 +15,6 @@ export class UnknownSystemMessage extends BaseSystemMessage {
     }
 
     clone() {
-        return new UnknownSystemMessage(this.messageTag, HazelReader.from(this.dataReader));
+        return new UnknownSystemMessage(HazelReader.from(this.dataReader));
     }
 }

@@ -1,4 +1,4 @@
-import { RpcMessageTag } from "@skeldjs/constant";
+import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage, UnknownSystemMessage } from "../system";
 import { BaseRpcMessage } from "./BaseRpcMessage";
@@ -7,7 +7,8 @@ export class UpdateSystemMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.UpdateSystem;
 
     constructor(
-        public readonly playerNetid: number,
+        public readonly systemType: SystemType,
+        public readonly playerControlNetId: number,
         public readonly data: BaseSystemMessage
     ) {
         super(UpdateSystemMessage.messageTag);
@@ -22,16 +23,16 @@ export class UpdateSystemMessage extends BaseRpcMessage {
         const netId = reader.upacked();
         const dataReader = reader.bytes(reader.left);
 
-        return new UpdateSystemMessage(netId, new UnknownSystemMessage(systemType, dataReader));
+        return new UpdateSystemMessage(systemType, netId, new UnknownSystemMessage(dataReader));
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.uint8(this.data.messageTag);
-        writer.upacked(this.playerNetid);
+        writer.uint8(this.systemType);
+        writer.upacked(this.playerControlNetId);
         writer.write(this.data);
     }
 
     clone() {
-        return new UpdateSystemMessage(this.playerNetid, this.data.clone());
+        return new UpdateSystemMessage(this.systemType, this.playerControlNetId, this.data.clone());
     }
 }

@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseDataMessage, CompletedConsoleDataMessage, LifeSuppSystemDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, CompletedConsoleDataMessage, LifeSuppSystemDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -31,7 +31,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
         return this.timer < 10000;
     }
     
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return LifeSuppSystemDataMessage.deserializeFromReader(reader);
@@ -39,7 +39,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof LifeSuppSystemDataMessage) {
             const previousTimer = this.timer;
             this.timer = data.timer;
@@ -52,7 +52,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return new LifeSuppSystemDataMessage(this.timer,

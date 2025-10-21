@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { GameOverReason, SystemType } from "@skeldjs/constant";
-import { BaseDataMessage, CompletedConsoleDataMessage, ReactorSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, CompletedConsoleDataMessage, ReactorSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -44,7 +44,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
         return this.timer < 10000;
     }
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return ReactorSystemDataMessage.deserializeFromReader(reader);
@@ -52,7 +52,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof ReactorSystemDataMessage) {
             this.timer = data.timer;
             this.completed.clear();
@@ -62,7 +62,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:

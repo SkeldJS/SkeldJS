@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { ActiveConsoleDataMessage, BaseDataMessage, CompletedConsoleDataMessage, HeliSabotageSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, HeliSabotageSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
@@ -39,7 +39,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
         return this.completedConsoles.size < 2;
     }
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return HeliSabotageSystemDataMessage.deserializeFromReader(reader);
@@ -47,7 +47,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof HeliSabotageSystemDataMessage) {
             this.countdown = data.countdown;
             this.resetTimer = data.resetTimer;
@@ -65,7 +65,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
             }
 
             for (const [playerId, consoleId] of beforeActive) {
-                const player = this.ship.room.getPlayerByPlayerId(playerId);
+                const player = this.shipStatus.room.getPlayerByPlayerId(playerId);
                 if (player) {
                     this.activeConsoles.delete(playerId);
                 }
@@ -78,7 +78,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends SystemSta
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:

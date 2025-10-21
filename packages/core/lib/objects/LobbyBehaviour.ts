@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
-import { BaseDataMessage, BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/protocol";
 import { RpcMessageTag } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -31,15 +31,15 @@ export class LobbyBehaviour<RoomType extends StatefulRoom> extends NetworkedObje
         return super.owner as RoomType;
     }
 
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         void data;
     }
 
-    createData(state: DataState): BaseDataMessage | undefined {
+    createData(state: DataState): BaseSystemMessage | undefined {
         return undefined;
     }
 

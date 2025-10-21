@@ -1,5 +1,5 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseDataMessage, BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
@@ -10,15 +10,15 @@ export type HideNSeekDangerLevelLogicComponentEvents = ExtractEventTypes<[]>;
 export class HideNSeekDangerLevelLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekDangerLevelLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicHnSDangerLevel.cs)
 
-    parseData(reader: HazelReader): BaseDataMessage | undefined {
+    parseData(reader: HazelReader): BaseSystemMessage | undefined {
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         void data;
     }
 
-    createData(): BaseDataMessage | undefined {
+    createData(): BaseSystemMessage | undefined {
         return undefined;
     }
 

@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseDataMessage, DoorCooldownDataMessage, DoorsSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, DoorCooldownDataMessage, DoorsSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -83,7 +83,7 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
 
     private lastUpdate: number = 0;
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return DoorsSystemDataMessage.deserializeFromReader(reader);
@@ -91,7 +91,7 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof DoorsSystemDataMessage) {
             for (const systemCooldown of data.cooldowns) {
                 this.cooldowns.set(systemCooldown.systemType, systemCooldown.cooldown);
@@ -107,7 +107,7 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:

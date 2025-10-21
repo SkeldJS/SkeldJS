@@ -10,12 +10,14 @@ import {
 } from "@skeldjs/constant";
 
 import {
-    BaseDataMessage,
+    BaseSystemMessage,
     BaseRpcMessage,
     CloseDoorsOfTypeMessage,
     ShipStatusDataMessage,
     SystemStatusDataMessage,
-    UnknownDataMessage
+    UnknownDataMessage,
+    UpdateSystemMessage,
+    UnknownSystemMessage
 } from "@skeldjs/protocol";
 
 import {
@@ -110,7 +112,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
 
     abstract setupSystems(): void;
     
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update: return ShipStatusDataMessage.deserializeFromReaderState(reader, state === DataState.Spawn);
@@ -118,7 +120,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof ShipStatusDataMessage) {
             for (const systemData of data.systems) {
                 const system = this.systems.get(systemData.systemType);
@@ -135,7 +137,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         }
     }
 
-    createData(state: DataState): BaseDataMessage | undefined {
+    createData(state: DataState): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update:
@@ -157,12 +159,13 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
         switch (rpcTag) {
             case RpcMessageTag.CloseDoorsOfType: return CloseDoorsOfTypeMessage.deserializeFromReader(reader);
+            case RpcMessageTag.UpdateSystem: return UpdateSystemMessage.deserializeFromReader(reader);
         }
     }
 
     async handleRemoteCall(rpc: BaseRpcMessage) {
         if (rpc instanceof CloseDoorsOfTypeMessage) return await this._handleCloseDoorsOfType(rpc);
-        return undefined;
+        if (rpc instanceof UpdateSystemMessage) return await this._handleUpdateSystem(rpc);
     }
 
     protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
@@ -177,9 +180,22 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         }
     }
 
-    async processFixedUpdate(delta: number) {
+    protected async _handleUpdateSystem(rpc: UpdateSystemMessage) {
+        const system = this.systems.get(rpc.systemType);
+        if (system) {
+            if (rpc.data instanceof UnknownSystemMessage) {
+                const parsedUpdate = system.parseUpdate(rpc.data.dataReader);
+                if (!parsedUpdate) return;
+                await system.handleUpdate(parsedUpdate);
+            } else {
+                await system.handleUpdate(rpc.data);
+            }
+        }
+    }
+
+    async processFixedUpdate(deltaSeconds: number) {
         for (const [, system] of this.systems) {
-            // TODO: system fixed update
+            await system.processFixedUpdate(deltaSeconds);
         }
     }
 
@@ -303,6 +319,14 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         const spawnPosition = this.getSpawnPosition(player, initialSpawn);
         const playerTransform = player.characterControl?.getComponentSafe(2, CustomNetworkTransform);
         await playerTransform?.snapTo(spawnPosition, broadcast);
+    }
+
+    anySystemsSabotaged(): boolean {
+        // TODO: this is probably slow af!
+        for (const [ , system ] of this.systems) {
+            if (system.canBeSabotaged() && system.isSabotaged()) return true;
+        }
+        return false;
     }
 
     /**

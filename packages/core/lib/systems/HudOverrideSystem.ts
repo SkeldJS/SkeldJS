@@ -1,8 +1,8 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseDataMessage, HudOverrideSystemDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, HudOverrideSystemDataMessage, HudOverrideSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { SabotagableSystem } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
@@ -15,10 +15,10 @@ export type HudOverrideSystemEvents<RoomType extends StatefulRoom> = ExtractEven
  *
  * See {@link HudOverrideSystemEvents} for events to listen to.
  */
-export class HudOverrideSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, HudOverrideSystemEvents<RoomType>> {
-    private isSabotaged: boolean = false;
+export class HudOverrideSystem<RoomType extends StatefulRoom> extends SabotagableSystem<RoomType, HudOverrideSystemEvents<RoomType>> {
+    private hudOverriden: boolean = false;
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return HudOverrideSystemDataMessage.deserializeFromReader(reader);
@@ -26,17 +26,41 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends SystemStat
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof HudOverrideSystemDataMessage) {
-            this.isSabotaged = data.isSabotaged;
+            this.hudOverriden = data.isSabotaged;
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
-        case DataState.Update: return new HudOverrideSystemDataMessage(this.isSabotaged);
+        case DataState.Update: return new HudOverrideSystemDataMessage(this.hudOverriden);
         }
         return undefined;
+    }
+
+    isSabotaged(): boolean {
+        return this.hudOverriden;
+    }
+    
+    async sabotageWithAuth(): Promise<void> {
+        this.hudOverriden = true;
+        this.pushDataUpdate();
+    }
+
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return HudOverrideSystemMessage.deserializeFromReader(reader);
+    }
+
+    async handleUpdate(message: BaseSystemMessage): Promise<void> {
+        if (message instanceof HudOverrideSystemMessage) {
+            this.hudOverriden = message.hudOverridden;
+            this.pushDataUpdate();
+        }
+    }
+
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        void deltaSeconds;
     }
 }

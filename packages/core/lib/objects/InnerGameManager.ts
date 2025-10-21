@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
-import { BaseDataMessage, BaseRpcMessage, GameManagerDataMessage, LogicDataMessage, UnknownDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage, GameManagerDataMessage, LogicDataMessage, UnknownDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
@@ -45,7 +45,7 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
         void 0;
     }
 
-    parseData(state: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update: return GameManagerDataMessage.deserializeFromReader(reader);
@@ -53,7 +53,7 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof GameManagerDataMessage) {
             for (const componentData of data.components) {
                 const component = this.logicComponents[componentData.index];
@@ -69,7 +69,7 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
         }
     }
 
-    createData(state: DataState): BaseDataMessage | undefined {
+    createData(state: DataState): BaseSystemMessage | undefined {
         switch (state) {
         case DataState.Spawn:
         case DataState.Update:

@@ -1,5 +1,5 @@
 import { BasicEvent, EventData, EventEmitter } from "@skeldjs/events";
-import { BaseDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage } from "@skeldjs/protocol";
 import { HazelReader } from "@skeldjs/hazel";
 import { StatefulRoom } from "../StatefulRoom";
 import { InnerGameManager } from "../objects";
@@ -37,9 +37,9 @@ export abstract class GameLogicComponent<Events extends EventData, RoomType exte
         return super.emitSync(event);
     }
 
-    abstract parseData(reader: HazelReader): BaseDataMessage|undefined;
-    abstract handleData(data: BaseDataMessage): Promise<void>;
-    abstract createData(): BaseDataMessage|undefined;
+    abstract parseData(reader: HazelReader): BaseSystemMessage|undefined;
+    abstract handleData(data: BaseSystemMessage): Promise<void>;
+    abstract createData(): BaseSystemMessage|undefined;
     
     abstract processFixedUpdate(deltaTime: number): Promise<void>;
 

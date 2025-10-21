@@ -5,22 +5,22 @@ import { Player } from "../../Player";
 import { BaseRole, CrewmateGhostRole, CrewmateRole, EngineerRole, ImpostorGhostRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
 import { RoleTeamType, RoleType } from "@skeldjs/constant";
-import { BaseDataMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 import { HideAndSeekManager, PlayerControl } from "../../objects";
 
 export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 
 export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
-    parseData(reader: HazelReader): BaseDataMessage | undefined {
+    parseData(reader: HazelReader): BaseSystemMessage | undefined {
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         void data;
     }
 
-    createData(): BaseDataMessage | undefined {
+    createData(): BaseSystemMessage | undefined {
         return undefined;
     }
     
@@ -71,7 +71,7 @@ export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom>
             }
         } else {
             const seekerPlayerId = this.manager.room.settings.seekerPlayerId;
-            if (seekerPlayerId > -1 && this.manager.room.getSelectedSeekerAllowed(seekerPlayerId)) {
+            if (seekerPlayerId > -1 && this.manager.room.getSelectedSeekerAllowedImpl(seekerPlayerId)) {
                 for (let i = 0; i < playerPool.length; i++) {
                     const player = playerPool[i];
                     if (player.getPlayerId() === seekerPlayerId) {

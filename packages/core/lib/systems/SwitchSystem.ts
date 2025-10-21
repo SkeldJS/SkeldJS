@@ -1,8 +1,8 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseDataMessage, SwitchSystemDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, SwitchSystemDataMessage, SwitchSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { SabotagableSystem } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
@@ -59,7 +59,17 @@ function createSwitchBitfield(switches: SwitchSetup) {
  *
  * See {@link SwitchSystemEvents} for events to listen to.
  */
-export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, SwitchSystemEvents<RoomType>> {
+export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSystem<RoomType, SwitchSystemEvents<RoomType>> {
+    // Corresponds to SwitchSystem.DetoriorationTime
+    static updateCooldownDuration = 0.03;
+
+    static minBrightness = 0;
+    static maxBrightness = 255;
+    static brightnessChangePerTick = 3;
+
+    static flipChance = 0.5;
+    static alwaysFlipSwitch = 2;
+
     /**
      * The switch states that are expected.
      */
@@ -73,19 +83,11 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<Ro
     /**
      * The brightness of lights.
      */
-    brightness: number = 255;
+    brightness: number = SwitchSystem.alwaysFlipSwitch;
+    
+    protected updateCooldown: number = 0;
 
-    private timer: number = 0;
-
-    get sabotaged() {
-        return this.actual[0] !== this.expected[0]
-            || this.actual[1] !== this.expected[1]
-            || this.actual[2] !== this.expected[2]
-            || this.actual[3] !== this.expected[3]
-            || this.actual[4] !== this.expected[4];
-    }
-
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return SwitchSystemDataMessage.deserializeFromReader(reader);
@@ -93,16 +95,15 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<Ro
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof SwitchSystemDataMessage) {
-            const before = this.sabotaged;
             this.expected = parseSwitchBitfield(data.expectedBitfield);
             this.actual = parseSwitchBitfield(data.actualBitfield);
             this.brightness = data.brightness;
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:
@@ -113,5 +114,55 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SystemStatus<Ro
             );
         }
         return undefined;
+    }
+    
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return SwitchSystemMessage.deserializeFromReader(reader);
+    }
+
+    async handleUpdate(message: BaseSystemMessage): Promise<void> {
+        if (message instanceof SwitchSystemMessage) {
+            if (message.isBitfield) {
+                this.actual = parseSwitchBitfield(message.flipSwitches);
+            } else {
+                this.actual[message.flipSwitches] = !this.actual[message.flipSwitches];
+            }
+            this.pushDataUpdate();
+        }
+    }
+
+    isSabotaged() {
+        return this.actual[0] !== this.expected[0]
+            || this.actual[1] !== this.expected[1]
+            || this.actual[2] !== this.expected[2]
+            || this.actual[3] !== this.expected[3]
+            || this.actual[4] !== this.expected[4];
+    }
+
+    async sabotageWithAuth(): Promise<void> {
+        for (let i = 0; i < this.actual.length; i++) {
+            if (Math.random() > SwitchSystem.flipChance || i == SwitchSystem.alwaysFlipSwitch) {
+                this.actual[i] = !this.actual[i];
+            }
+        }
+        this.pushDataUpdate();
+    }
+
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        this.updateCooldown += deltaSeconds;
+        if (this.updateCooldown > SwitchSystem.updateCooldownDuration) {
+            this.updateCooldown = 0;
+            if (this.isSabotaged()) {
+                if (this.brightness > SwitchSystem.minBrightness) {
+                    this.brightness = Math.max(this.brightness - SwitchSystem.brightnessChangePerTick, 0);
+                    this.pushDataUpdate();
+                }
+            } else {
+                if (this.brightness < SwitchSystem.maxBrightness) {
+                    this.brightness = Math.max(this.brightness - SwitchSystem.brightnessChangePerTick, 0);
+                    this.pushDataUpdate();
+                }
+            }
+        }
     }
 }

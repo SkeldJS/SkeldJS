@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { ActiveConsoleDataMessage, BaseDataMessage, CompletedConsoleDataMessage, HqHudSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, HqHudSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -51,7 +51,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         );
     }
 
-    parseData(dataState: DataState, reader: HazelReader): BaseDataMessage | undefined {
+    parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update: return HqHudSystemDataMessage.deserializeFromReader(reader);
@@ -59,7 +59,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         return undefined;
     }
 
-    async handleData(data: BaseDataMessage): Promise<void> {
+    async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof HqHudSystemDataMessage) {
             const beforeActive = this.activeConsoles;
             this.activeConsoles = [];
@@ -73,7 +73,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
 
                 if (activeIdx) continue;
 
-                const player = this.ship.room.getPlayerByPlayerId(consolePair.playerId);
+                const player = this.shipStatus.room.getPlayerByPlayerId(consolePair.playerId);
                 if (player) {
                     this.activeConsoles.splice(activeIdx, 1);
                 }
@@ -86,7 +86,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         }
     }
 
-    createData(dataState: DataState): BaseDataMessage | undefined {
+    createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:
