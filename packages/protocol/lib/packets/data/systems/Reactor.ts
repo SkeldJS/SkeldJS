@@ -1,11 +1,11 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseDataMessage } from "../BaseDataMessage";
-import { CompletedConsoleDataMessage } from "./Consoles";
+import { ActiveConsoleDataMessage } from "./Consoles";
 
 export class ReactorSystemDataMessage extends BaseDataMessage {
     constructor(
         public readonly timer: number,
-        public readonly completedConsoles: CompletedConsoleDataMessage[],
+        public readonly userConsolePairs: ActiveConsoleDataMessage[],
     ) {
         super();
     }
@@ -13,23 +13,23 @@ export class ReactorSystemDataMessage extends BaseDataMessage {
     static deserializeFromReader(reader: HazelReader): ReactorSystemDataMessage {
         const timer = reader.float();
         const message = new ReactorSystemDataMessage(timer, []);
-        const numCompleted = reader.upacked();
-        for (let i = 0; i < numCompleted; i++) {
-            message.completedConsoles.push(CompletedConsoleDataMessage.deserializeFromReader(reader));
+        const numPairs = reader.upacked();
+        for (let i = 0; i < numPairs; i++) {
+            message.userConsolePairs.push(ActiveConsoleDataMessage.deserializeFromReader(reader));
         }
         return message;
     }
 
     serializeToWriter(writer: HazelWriter): void {
         writer.float(this.timer);
-        writer.upacked(this.completedConsoles.length);
-        for (const completedConsole of this.completedConsoles) writer.write(completedConsole);
+        writer.upacked(this.userConsolePairs.length);
+        for (const userConsolePair of this.userConsolePairs) writer.write(userConsolePair);
     }
 
     clone(): ReactorSystemDataMessage {
         return new ReactorSystemDataMessage(
             this.timer,
-            this.completedConsoles.map(x => x.clone()),
+            this.userConsolePairs.map(x => x.clone()),
         );
     }
 }

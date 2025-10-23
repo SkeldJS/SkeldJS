@@ -3,11 +3,12 @@ import { SystemType } from "@skeldjs/constant";
 import { BaseSystemMessage, SabotageSystemMessage } from "@skeldjs/protocol";
 import { EventEmitter, BasicEvent, ExtractEventTypes, EventData } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
+import { InnerShipStatus, PlayerControl } from "../objects";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { SabotageSystem } from "./SabotageSystem";
+import { Player } from "../Player";
 
 
 export type SystemStatusEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
@@ -81,7 +82,7 @@ export abstract class SystemStatus<RoomType extends StatefulRoom, T extends Even
     abstract createData(dataState: DataState): BaseSystemMessage|undefined;
 
     abstract parseUpdate(reader: HazelReader): BaseSystemMessage|undefined;
-    abstract handleUpdate(message: BaseSystemMessage): Promise<void>;
+    abstract handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void>;
 
     abstract processFixedUpdate(deltaSeconds: number): Promise<void>;
 

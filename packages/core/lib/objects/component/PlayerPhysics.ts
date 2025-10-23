@@ -10,6 +10,7 @@ import {
     ExitVentMessage,
     PetMessage,
     RpcMessage,
+    BootFromVentMessage,
 } from "@skeldjs/protocol";
 
 import { ExtractEventTypes } from "@skeldjs/events";
@@ -96,6 +97,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
             case RpcMessageTag.EnterVent: return EnterVentMessage.deserializeFromReader(reader);
             case RpcMessageTag.ExitVent: return ExitVentMessage.deserializeFromReader(reader);
             case RpcMessageTag.ClimbLadder: return ClimbLadderMessage.deserializeFromReader(reader);
+            case RpcMessageTag.BootFromVent: return BootFromVentMessage.deserializeFromReader(reader);
             case RpcMessageTag.Pet: return PetMessage.deserializeFromReader(reader);
             case RpcMessageTag.CancelPet: return CancelPetMessage.deserializeFromReader();
         }
@@ -106,6 +108,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
         if (rpc instanceof EnterVentMessage) return await this._handleEnterVent(rpc);
         if (rpc instanceof ExitVentMessage) return await this._handleExitVent(rpc);
         if (rpc instanceof ClimbLadderMessage) return await this._handleClimbLadder(rpc);
+        if (rpc instanceof BootFromVentMessage) return await this._handleBootFromVent(rpc);
         if (rpc instanceof PetMessage) return await this._handlePet(rpc);
         if (rpc instanceof CancelPetMessage) return await this._handleCancelPet(rpc);
     }
@@ -256,6 +259,23 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
                 ladderid
             )
         );
+    }
+
+    private async _handleBootFromVent(rpc: BootFromVentMessage) {
+        // TODO: emit event
+    }
+
+    private _rpcBootFromVent(ventId: number) {
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new BootFromVentMessage(ventId)
+            )
+        );
+    }
+
+    async bootFromVent(ventId: number) {
+        this._rpcBootFromVent(ventId);
     }
 
     private async _handlePet(rpc: PetMessage) {

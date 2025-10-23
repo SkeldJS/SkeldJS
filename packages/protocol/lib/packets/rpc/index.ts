@@ -1,5 +1,6 @@
 export * from "./AddVote";
 export * from "./BaseRpcMessage";
+export * from "./BootFromVent";
 export * from "./CancelPet";
 export * from "./CastVote";
 export * from "./CheckColor";

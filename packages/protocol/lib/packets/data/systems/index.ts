@@ -13,3 +13,4 @@ export * from "./Reactor";
 export * from "./Sabotage";
 export * from "./SecurityCamera";
 export * from "./Switch";
+export * from "./Ventilation";

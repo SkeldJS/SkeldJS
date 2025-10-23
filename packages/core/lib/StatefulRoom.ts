@@ -418,7 +418,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                 }
 
                 if (endGameIntents[0]) {
-                    await this.endGameImpl(endGameIntents[0].reason);
+                    await this.endGame(endGameIntents[0].reason);
                 }
             }
         }
@@ -1066,8 +1066,8 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
     }
 
     /**
-     * Get a player by one of their components' netIds.
-     * @param netId The net ID of the component of the player to search.
+     * Get a player by their player control network ID.
+     * @param netId The net ID of the component owned by the player to search.
      * @returns The player that was found, or null if they do not exist.
      * @example
      * ```typescript
@@ -1079,9 +1079,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             if (!player.characterControl)
                 continue;
 
-            if (player.characterControl.components.find(component => component.netId === netId)) {
-                return player;
-            }
+            if (player.characterControl.netId === netId) return player;
         }
 
         return undefined;
@@ -1117,8 +1115,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
     abstract get isAuthoritative(): boolean;
 
     abstract canManageObject(object: NetworkedObject<this>): boolean;
-    
-    abstract endGameImpl(reason: GameOverReason): Promise<void>;
+    abstract endGame(reason: GameOverReason): Promise<void>;
 
     abstract clearMyVoteImpl(meetingHud: MeetingHud<this>): Promise<void>;
     abstract getSelectedSeekerAllowedImpl(seekerPlayerId: number): boolean;

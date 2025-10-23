@@ -38,7 +38,7 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipSt
 
         const reactorSystem = new ReactorSystem(this, SystemType.Reactor, 60);
         this.systems.set(SystemType.Reactor, reactorSystem);
-        reactorSystem.completed = new Set([0, 1]);
+        reactorSystem.userConsolePairs = new Set([0, 1]);
 
         const doorsSystem = new DoorsSystem(this, SystemType.Doors);
         this.systems.set(SystemType.Doors, doorsSystem);

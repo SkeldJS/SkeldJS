@@ -6,6 +6,7 @@ import { SystemStatus } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
+import { Player } from "../Player";
 
 export type SabotageSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
@@ -55,7 +56,7 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
         return SabotageSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(message: BaseSystemMessage): Promise<void> {
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof SabotageSystemMessage) {
             const system = this.shipStatus.systems.get(message.systemType);
             if (system && system.canBeSabotaged()) {

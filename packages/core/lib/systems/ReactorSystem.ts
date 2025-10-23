@@ -1,17 +1,21 @@
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { GameOverReason, SystemType } from "@skeldjs/constant";
-import { BaseSystemMessage, CompletedConsoleDataMessage, ReactorSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { HazelReader } from "@skeldjs/hazel";
+import { SystemType } from "@skeldjs/constant";
+import { ActiveConsoleDataMessage, BaseSystemMessage, ReactorConsoleUpdate, ReactorSystemDataMessage, ReactorSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { InnerShipStatus } from "../objects";
-import { SystemStatus } from "./SystemStatus";
-import { Player } from "../Player";
+import { SabotagableSystem } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
-import { AmongUsEndGames, EndGameIntent } from "../endgame";
 import { DataState } from "../NetworkedObject";
+import { Player } from "../Player";
 
 export type ReactorSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+
+export type ReactorUserConsolePair<RoomType extends StatefulRoom> = {
+    player: Player<RoomType>;
+    consoleId: number;
+};
 
 /**
  * Represents a system responsible for handling reactor consoles.
@@ -19,18 +23,29 @@ export type ReactorSystemEvents<RoomType extends StatefulRoom> = ExtractEventTyp
  * See {@link ReactorSystemEvents} for events to listen to.
  */
 
-export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, ReactorSystemEvents<RoomType>> {
-    private _lastUpdate = 0;
+function findPairIndex<RoomType extends StatefulRoom>(list: ReactorUserConsolePair<RoomType>[], player: Player<RoomType>, consoleId: number): number {
+    return list.findIndex(pair => pair.player === player && pair.consoleId === consoleId);
+}
+
+export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSystem<RoomType, ReactorSystemEvents<RoomType>> {
+    static sabotageDuration = 30;
+    static unsabotagedTimer = 10000;
+
+    static numConsoles = 2;
+
+    static updateCooldownDuration = 2;
+
+    protected updateCooldown: number = 0;
 
     /**
      * The timer before the reactor explodes.
      */
-    timer: number = 10000;
+    countdown: number = ReactorSystem.unsabotagedTimer;
 
     /**
      * The completed consoles.
      */
-    completed: Set<number> = new Set;
+    userConsolePairs: ReactorUserConsolePair<RoomType>[] = [];
     
     constructor(
         ship: InnerShipStatus<RoomType>,
@@ -38,10 +53,6 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
         public readonly maxTimer: number,
     ) {
         super(ship, systemType);
-    }
-
-    get sabotaged() {
-        return this.timer < 10000;
     }
 
     parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
@@ -54,10 +65,22 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
 
     async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof ReactorSystemDataMessage) {
-            this.timer = data.timer;
-            this.completed.clear();
-            for (const completedConsole of data.completedConsoles) {
-                this.completed.add(completedConsole.consoleId);
+            this.countdown = data.timer;
+            const before = [...this.userConsolePairs];
+            this.userConsolePairs = [];
+            for (const userConsolePair of data.userConsolePairs) {
+                const player = this.room.getPlayerByPlayerId(userConsolePair.playerId);
+                if (player) {
+                    this.userConsolePairs.push({ player, consoleId: userConsolePair.playerId });
+                    if (findPairIndex(before, player, userConsolePair.consoleId) === -1) {
+                        // TODO: event: console completed!
+                    }
+                }
+            }
+            for (const { player, consoleId } of before) {
+                if (findPairIndex(this.userConsolePairs, player, consoleId) !== -1) continue;
+
+                // TODO: event: console no longer completed
             }
         }
     }
@@ -66,8 +89,72 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SystemStatus<R
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:
-            return new ReactorSystemDataMessage(this.timer, [...this.completed].map(consoleId => new CompletedConsoleDataMessage(consoleId)));
+            const message = new ReactorSystemDataMessage(this.countdown, []);
+            for (const { player, consoleId } of this.userConsolePairs) {
+                const playerId = player.getPlayerId();
+                if (playerId !== undefined) {
+                    message.userConsolePairs.push(new ActiveConsoleDataMessage(playerId, consoleId));
+                }
+            }
+            return message;
         }
         return undefined;
+    }
+    
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return ReactorSystemMessage.deserializeFromReader(reader);
+    }
+
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+        if (message instanceof ReactorSystemMessage) {
+            switch (message.consoleAction) {
+            case ReactorConsoleUpdate.StartCountdown:
+                this.countdown = ReactorSystem.sabotageDuration;
+                break;
+            case ReactorConsoleUpdate.EndCountdown:
+                this.countdown = ReactorSystem.unsabotagedTimer;
+                break;
+            case ReactorConsoleUpdate.AddPlayer:
+                if (findPairIndex(this.userConsolePairs, player, message.consoleId!)) return;
+                this.userConsolePairs.push({ player, consoleId: message.consoleId! });
+                if (this.isConsoleComplete(0) && this.isConsoleComplete(1)) {
+
+                }
+                // TODO: event: console completed
+                break;
+            case ReactorConsoleUpdate.RemovePlayer:
+                const idx = findPairIndex(this.userConsolePairs, player, message.consoleId!);
+                if (idx === -1) return;
+                this.userConsolePairs.splice(idx, 1);
+                // TODO: event: console no longer completed
+                break;
+            }
+            this.pushDataUpdate();
+        }
+    }
+
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        if (this.isSabotaged()) {
+            this.countdown -= deltaSeconds;
+            this.updateCooldown -= deltaSeconds;
+            if (this.updateCooldown <= 0) {
+                this.updateCooldown = ReactorSystem.updateCooldownDuration;
+                this.pushDataUpdate();
+            }
+        }
+    }
+    
+    isSabotaged(): boolean {
+        return this.countdown < 10000;
+    }
+
+    async sabotageWithAuth(): Promise<void> {
+        this.countdown = ReactorSystem.sabotageDuration;
+        this.userConsolePairs = [];
+        this.pushDataUpdate();
+    }
+
+    isConsoleComplete(consoleId: number): boolean {
+        return this.userConsolePairs.some(pair => pair.consoleId === consoleId);
     }
 }

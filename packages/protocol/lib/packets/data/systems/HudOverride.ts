@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseDataMessage } from "../BaseDataMessage";
 
 export class HudOverrideSystemDataMessage extends BaseDataMessage {
-    constructor(public readonly isSabotaged: boolean) {
+    constructor(public readonly hudOverridden: boolean) {
         super();
     }
 
@@ -12,10 +12,10 @@ export class HudOverrideSystemDataMessage extends BaseDataMessage {
     }
 
     serializeToWriter(writer: HazelWriter): void {
-        writer.bool(this.isSabotaged);
+        writer.bool(this.hudOverridden);
     }
 
     clone(): HudOverrideSystemDataMessage {
-        return new HudOverrideSystemDataMessage(this.isSabotaged);
+        return new HudOverrideSystemDataMessage(this.hudOverridden);
     }
 }

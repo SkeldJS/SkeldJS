@@ -6,6 +6,8 @@ import { SabotagableSystem } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
+import { PlayerControl } from "../objects";
+import { Player } from "../Player";
 
 
 export type HudOverrideSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
@@ -16,7 +18,7 @@ export type HudOverrideSystemEvents<RoomType extends StatefulRoom> = ExtractEven
  * See {@link HudOverrideSystemEvents} for events to listen to.
  */
 export class HudOverrideSystem<RoomType extends StatefulRoom> extends SabotagableSystem<RoomType, HudOverrideSystemEvents<RoomType>> {
-    private hudOverriden: boolean = false;
+    private hudOverridden: boolean = false;
 
     parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
@@ -28,24 +30,32 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
 
     async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof HudOverrideSystemDataMessage) {
-            this.hudOverriden = data.isSabotaged;
+            const beforeSabotaged = this.hudOverridden;
+            this.hudOverridden = data.hudOverridden;
+            if (beforeSabotaged !== this.hudOverridden) {
+                if (this.hudOverridden) {
+                    // TODO: event: sabotaged
+                } else {
+                    // TODO: event: not sabotaged
+                }
+            }
         }
     }
 
     createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
-        case DataState.Update: return new HudOverrideSystemDataMessage(this.hudOverriden);
+        case DataState.Update: return new HudOverrideSystemDataMessage(this.hudOverridden);
         }
         return undefined;
     }
 
     isSabotaged(): boolean {
-        return this.hudOverriden;
+        return this.hudOverridden;
     }
     
     async sabotageWithAuth(): Promise<void> {
-        this.hudOverriden = true;
+        this.hudOverridden = true;
         this.pushDataUpdate();
     }
 
@@ -53,10 +63,18 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
         return HudOverrideSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(message: BaseSystemMessage): Promise<void> {
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof HudOverrideSystemMessage) {
-            this.hudOverriden = message.hudOverridden;
-            this.pushDataUpdate();
+            const beforeSabotaged = this.hudOverridden;
+            this.hudOverridden = message.hudOverridden;
+            if (beforeSabotaged !== this.hudOverridden) {
+                if (this.hudOverridden) {
+                    // TODO: event: sabotaged
+                } else {
+                    // TODO: event: not sabotaged
+                }
+                this.pushDataUpdate();
+            }
         }
     }
 

@@ -8,6 +8,8 @@ import { SystemStatus } from "./SystemStatus";
 import { StatefulRoom } from "../StatefulRoom";
 
 import { DataState } from "../NetworkedObject";
+import { PlayerControl } from "../objects";
+import { Player } from "../Player";
 
 export type DeconSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
@@ -43,6 +45,9 @@ export class DeconSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
             const previousState = this.state;
             this.timer = data.timer;
             this.state = data.state;
+            if (previousState !== this.state) {
+                // TODO: event: decon state updated
+            }
         }
     }
 
@@ -58,8 +63,9 @@ export class DeconSystem<RoomType extends StatefulRoom> extends SystemStatus<Roo
         return DeconSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(message: BaseSystemMessage): Promise<void> {
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof DeconSystemMessage) {
+            // TODO: event: decon state updated
             this.state = message.state;
             this.timer = DeconSystem.doorOpenDuration;
             this.pushDataUpdate();

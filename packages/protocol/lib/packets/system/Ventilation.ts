@@ -1,19 +1,19 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage } from "./BaseSystemMessage";
 
-export enum VentilationState {
-    CrewmateOpen,
-    CrewmateClose,
-    ImpostorEnter,
-    ImpostorExit,
-    ImpostorMove,
-    CrewmateKick
+export enum VentilationOperation {
+    StartCleaning,
+    StopCleaning,
+    Enter,
+    Exit,
+    Move,
+    BootImpostors,
 }
 
 export class VentilationSystemMessage extends BaseSystemMessage {
     constructor(
         public readonly sequenceId: number,
-        public readonly state: VentilationState,
+        public readonly operation: VentilationOperation,
         public readonly ventId: number
     ) {
         super();
@@ -29,11 +29,11 @@ export class VentilationSystemMessage extends BaseSystemMessage {
 
     serializeToWriter(writer: HazelWriter) {
         writer.uint16(this.sequenceId);
-        writer.uint8(this.state);
+        writer.uint8(this.operation);
         writer.packed(this.ventId);
     }
 
     clone() {
-        return new VentilationSystemMessage(this.sequenceId, this.state, this.ventId);
+        return new VentilationSystemMessage(this.sequenceId, this.operation, this.ventId);
     }
 }

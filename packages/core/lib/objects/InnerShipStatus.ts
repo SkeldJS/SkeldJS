@@ -47,6 +47,7 @@ import { BaseRole } from "../roles";
 import { RoomAssignRolesEvent } from "../events";
 import { TaskInfo } from "@skeldjs/data";
 import { CustomNetworkTransform } from "./component";
+import { PlayerControl } from "./PlayerControl";
 
 export interface RoleAssignmentData {
     roleCtr: typeof BaseRole;
@@ -181,14 +182,17 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
     }
 
     protected async _handleUpdateSystem(rpc: UpdateSystemMessage) {
-        const system = this.systems.get(rpc.systemType);
-        if (system) {
-            if (rpc.data instanceof UnknownSystemMessage) {
-                const parsedUpdate = system.parseUpdate(rpc.data.dataReader);
-                if (!parsedUpdate) return;
-                await system.handleUpdate(parsedUpdate);
-            } else {
-                await system.handleUpdate(rpc.data);
+        const player = this.room.getPlayerByNetId(rpc.playerControlNetId);
+        if (player && player instanceof Player) {
+            const system = this.systems.get(rpc.systemType);
+            if (system) {
+                if (rpc.data instanceof UnknownSystemMessage) {
+                    const parsedUpdate = system.parseUpdate(rpc.data.dataReader);
+                    if (!parsedUpdate) return;
+                    await system.handleUpdate(player, parsedUpdate);
+                } else {
+                    await system.handleUpdate(player, rpc.data);
+                }
             }
         }
     }

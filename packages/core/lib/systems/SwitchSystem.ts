@@ -6,6 +6,7 @@ import { SabotagableSystem } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
+import { Player } from "../Player";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
@@ -120,7 +121,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
         return SwitchSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(message: BaseSystemMessage): Promise<void> {
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof SwitchSystemMessage) {
             if (message.isBitfield) {
                 this.actual = parseSwitchBitfield(message.flipSwitches);

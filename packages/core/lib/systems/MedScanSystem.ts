@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseSystemMessage, MedScanSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, DtlsHelloPacket, MedScanSystemDataMessage, MedScanSystemMessage, MedScanUpdate, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SystemStatus } from "./SystemStatus";
@@ -36,6 +36,7 @@ export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<R
                 const player = this.shipStatus.room.getPlayerByPlayerId(playerId);
                 if (player) this.queue.push(player);
             }
+            // TODO: check queue for updates, and event: update queue
         }
     }
 
@@ -53,5 +54,33 @@ export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<R
             return message;
         }
         return undefined;
+    }
+    
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return MedScanSystemMessage.deserializeFromReader(reader);
+    }
+
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+        if (message instanceof MedScanSystemMessage) {
+            switch (message.action) {
+            case MedScanUpdate.AddPlayer:
+                if (this.queue.indexOf(player) === -1) {
+                    this.queue.push(player);
+                    // TODO: event: update queue
+                }
+                break;
+            case MedScanUpdate.RemovePlayer:
+                const idx = this.queue.indexOf(player);
+                if (idx !== -1) {
+                    this.queue.splice(idx, 1);
+                    // TODO: event: update queue
+                }
+                break;
+            }
+        }
+    }
+
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        void deltaSeconds;
     }
 }
