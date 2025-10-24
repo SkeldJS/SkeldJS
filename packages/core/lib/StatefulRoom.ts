@@ -957,6 +957,10 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         }
         
         const ownerPlayer = this.players.get(ownerId);
+        
+        for (const component of object.components) {
+            await component.processAwake();
+        }
 
         if ((flags & SpawnFlag.IsClientCharacter) > 0 && ownerPlayer) {
             if (!ownerPlayer.characterControl) {
@@ -1011,7 +1015,6 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
 
     async spawnObjectOfType(spawnType: number, ownerId: number, flags: number): Promise<NetworkedObject<this>> {
         const object = await this.createObjectOfType(spawnType, ownerId, flags);
-        for (const component of object.components) await component.processAwake();
         object.pushDataState(DataState.Spawn);
         return object;
     }

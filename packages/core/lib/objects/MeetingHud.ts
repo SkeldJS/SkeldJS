@@ -205,31 +205,33 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     ranOutOfTimeTimeout?: NodeJS.Timeout;
 
     async processAwake() {
-        this.voteStates = new Map(
-            [...this.room.playerInfo]
-                .filter(([, player]) => player.playerId !== undefined)
-                .map(([, player]) => {
-                    return [
-                        player.playerId,
-                        new PlayerVoteArea(
-                            this,
+        if (this.room.canManageObject(this)) {
+            this.voteStates = new Map(
+                [...this.room.playerInfo]
+                    .filter(([, player]) => player.playerId !== undefined)
+                    .map(([, player]) => {
+                        return [
                             player.playerId,
-                            VoteStateSpecialId.NotVoted,
-                            false
-                        ),
-                    ];
-                }));
+                            new PlayerVoteArea(
+                                this,
+                                player.playerId,
+                                VoteStateSpecialId.NotVoted,
+                                false
+                            ),
+                        ];
+                    }));
 
-        if (this.room.settings.votingTime > 0) {
-            this.ranOutOfTimeTimeout = setTimeout(() => {
-                for (const [, voteState] of this.voteStates) {
-                    if (voteState.votedForId === 255) {
-                        voteState.setMissed();
+            if (this.room.settings.votingTime > 0) {
+                this.ranOutOfTimeTimeout = setTimeout(() => {
+                    for (const [, voteState] of this.voteStates) {
+                        if (voteState.votedForId === 255) {
+                            voteState.setMissed();
+                        }
                     }
-                }
 
-                this.checkForVoteComplete(true);
-            }, 8000 + this.room.settings.discussionTime * 1000 + this.room.settings.votingTime * 1000);
+                    this.checkForVoteComplete(true);
+                }, 8000 + this.room.settings.discussionTime * 1000 + this.room.settings.votingTime * 1000);
+            }
         }
     }
 

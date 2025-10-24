@@ -5,7 +5,7 @@ import { BaseRpcMessage } from "./BaseRpcMessage";
 export class CloseDoorsOfTypeMessage extends BaseRpcMessage {
     static messageTag = RpcMessageTag.CloseDoorsOfType;
 
-    constructor(public readonly systemId: number) {
+    constructor(public readonly systemType: number) {
         super(CloseDoorsOfTypeMessage.messageTag);
     }
 
@@ -15,10 +15,10 @@ export class CloseDoorsOfTypeMessage extends BaseRpcMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.uint8(this.systemId);
+        writer.uint8(this.systemType);
     }
 
     clone() {
-        return new CloseDoorsOfTypeMessage(this.systemId);
+        return new CloseDoorsOfTypeMessage(this.systemType);
     }
 }

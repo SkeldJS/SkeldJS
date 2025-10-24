@@ -201,18 +201,20 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     async processAwake() {
-        this.playerId ??= this.room.getAvailablePlayerID();
+        if (this.room.canManageObject(this)) {
+            this.playerId ??= this.room.getAvailablePlayerID();
 
-        if (this.isNew) {
-            if (this.room.lobbyBehaviour) {
-                const spawnPosition = LobbyBehaviour.spawnPositions[this.playerId % LobbyBehaviour.spawnPositions.length];
-                const offsetted = spawnPosition
-                    .add(spawnPosition.negate().normalize().div(4));
+            if (this.isNew) {
+                if (this.room.lobbyBehaviour) {
+                    const spawnPosition = LobbyBehaviour.spawnPositions[this.playerId % LobbyBehaviour.spawnPositions.length];
+                    const offsetted = spawnPosition
+                        .add(spawnPosition.negate().normalize().div(4));
 
-                await this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(offsetted, false);
-            } else if (this.room.shipStatus) {
-                const spawnPosition = this.room.shipStatus.getSpawnPosition(this.playerId, true);
-                await this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(spawnPosition, false);
+                    await this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(offsetted, false);
+                } else if (this.room.shipStatus) {
+                    const spawnPosition = this.room.shipStatus.getSpawnPosition(this.playerId, true);
+                    await this.getComponentSafe(2, CustomNetworkTransform)!.snapTo(spawnPosition, false);
+                }
             }
         }
     }
@@ -669,7 +671,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      * Update this player's color. This is a host operation on official servers.
      * Use {@link PlayerControl.checkColor} if you are calling this as not the host.
      *
-     * Emits a {@link PlayerCheckNameEvent | `player.checkname`} event.
+     * Emits a {@link PlayerSetColorEvent | `player.setcolor`} event.
      *
      * @param color The color to set this player's name to.
      */

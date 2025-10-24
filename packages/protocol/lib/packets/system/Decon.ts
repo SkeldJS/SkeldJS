@@ -47,8 +47,10 @@ export class DeconSystemMessage extends BaseSystemMessage {
             case DeconState.Exit:
                 writer.uint8(DeconNextState.Exit);
                 break;
+            default:
+                writer.uint8(0); // idk what to do in this case
+                break;
         }
-        writer.uint8(0); // idk what to do in this case
     }
 
     clone() {

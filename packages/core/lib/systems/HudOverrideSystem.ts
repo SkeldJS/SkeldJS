@@ -50,6 +50,25 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
         return undefined;
     }
 
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return HudOverrideSystemMessage.deserializeFromReader(reader);
+    }
+
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+        if (message instanceof HudOverrideSystemMessage) {
+            if (message.hudOverridden) {
+                await this.sabotageWithAuth();
+            } else {
+                await this.fullyRepairWithAuth();
+            }
+            this.pushDataUpdate();
+        }
+    }
+
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        void deltaSeconds;
+    }
+
     isSabotaged(): boolean {
         return this.hudOverridden;
     }
@@ -59,26 +78,12 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
         this.pushDataUpdate();
     }
 
-    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
-        return HudOverrideSystemMessage.deserializeFromReader(reader);
+    async fullyRepairWithAuth(): Promise<void> {
+        this.hudOverridden = false;
+        this.pushDataUpdate();
     }
 
-    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
-        if (message instanceof HudOverrideSystemMessage) {
-            const beforeSabotaged = this.hudOverridden;
-            this.hudOverridden = message.hudOverridden;
-            if (beforeSabotaged !== this.hudOverridden) {
-                if (this.hudOverridden) {
-                    // TODO: event: sabotaged
-                } else {
-                    // TODO: event: not sabotaged
-                }
-                this.pushDataUpdate();
-            }
-        }
-    }
-
-    async processFixedUpdate(deltaSeconds: number): Promise<void> {
-        void deltaSeconds;
+    async fullyRepairRequest(): Promise<void> {
+        // TODO: implement
     }
 }

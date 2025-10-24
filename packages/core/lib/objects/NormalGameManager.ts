@@ -29,7 +29,7 @@ export class NormalGameManager<RoomType extends StatefulRoom> extends InnerGameM
         await this.roleSelection.assignRoles();
     }
 
-    initComponents(): void {
+    async initComponents(): Promise<void> {
         this.logicComponents = [];
 
         this.flow = new NormalFlowLogicComponent(this);

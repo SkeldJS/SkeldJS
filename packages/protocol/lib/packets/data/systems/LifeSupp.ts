@@ -4,7 +4,7 @@ import { CompletedConsoleDataMessage } from "./Consoles";
 
 export class LifeSuppSystemDataMessage extends BaseDataMessage {
     constructor(
-        public readonly timer: number,
+        public readonly countdown: number,
         public readonly completedConsoles: CompletedConsoleDataMessage[],
     ) {
         super();
@@ -21,14 +21,14 @@ export class LifeSuppSystemDataMessage extends BaseDataMessage {
     }
 
     serializeToWriter(writer: HazelWriter): void {
-        writer.float(this.timer);
+        writer.float(this.countdown);
         writer.upacked(this.completedConsoles.length);
         for (const completedConsole of this.completedConsoles) writer.write(completedConsole);
     }
 
     clone(): LifeSuppSystemDataMessage {
         return new LifeSuppSystemDataMessage(
-            this.timer,
+            this.countdown,
             this.completedConsoles.map(x => x.clone()),
         );
     }

@@ -17,7 +17,8 @@ import {
     SystemStatusDataMessage,
     UnknownDataMessage,
     UpdateSystemMessage,
-    UnknownSystemMessage
+    UnknownSystemMessage,
+    RpcMessage
 } from "@skeldjs/protocol";
 
 import {
@@ -100,7 +101,6 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         super(room, spawnType, netId, ownerId, flags);
 
         this.systems = new Map;
-        this.setupSystems();
 
         this.spawnRadius = 1.55;
         this.initialSpawnCenter = Vector2.null;
@@ -111,7 +111,9 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         return super.owner as RoomType;
     }
 
-    abstract setupSystems(): void;
+    async processAwake(): Promise<void> {
+        await this.setupSystems();
+    }
     
     parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (state) {
@@ -169,15 +171,34 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         if (rpc instanceof UpdateSystemMessage) return await this._handleUpdateSystem(rpc);
     }
 
-    protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        const doors = this.systems.get(SystemType.Doors)! as DoorsSystem<RoomType> | AutoDoorsSystem<RoomType>;
-        const doorsInRoom = this.getDoorsInRoom(rpc.systemId);
+    async closeDoorsOfTypeWithAuth(systemType: SystemType) {
+        const doorSystem = this.systems.get(SystemType.Doors) as DoorsSystem<RoomType> | AutoDoorsSystem<RoomType>;
+        if (!doorSystem) return; // TODO: throw exception
+        await doorSystem.closeDoorsWithAuth(systemType);
+    }
 
-        if ("cooldowns" in doors) {
-            doors.cooldowns.set(rpc.systemId, 30);
-        }
-        for (const doorId of doorsInRoom) {
-            // TODO: close door as host
+    protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
+        await this.closeDoorsOfTypeWithAuth(rpc.systemType);
+    }
+
+    async closeDoorsOfTypeRequest(systemType: SystemType) {
+        await this.room.broadcastImmediate(
+            [
+                new RpcMessage(
+                    this.netId,
+                    new CloseDoorsOfTypeMessage(systemType)
+                ),
+            ],
+            undefined,
+            [this.room.authorityId]
+        );
+    }
+
+    async closeDoorsOfType(systemType: SystemType) {
+        if (this.room.canManageObject(this)) {
+            await this.closeDoorsOfTypeWithAuth(systemType);
+        } else {
+            await this.closeDoorsOfTypeRequest(systemType);
         }
     }
 
@@ -338,13 +359,6 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
      * @returns A list of tasks for this map.
      */
     abstract getTasks(): TaskInfo[];
-
-    /**
-     * Get the door IDs used to connect to a room.
-     * @param room The room to get the door IDs for.
-     * @returns The door IDs that connect to the room.
-     */
-    abstract getDoorsInRoom(room: SystemType): number[];
-
+    abstract setupSystems(): Promise<void>;
     abstract getStartWaitSeconds(): number;
 }

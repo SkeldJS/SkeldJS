@@ -28,13 +28,12 @@ export class MiraShipStatus<RoomType extends StatefulRoom> extends InnerShipStat
     get owner() {
         return super.owner as RoomType;
     }
-    
-    async processAwake(): Promise<void> {
-        void 0;
-    }
 
-    setupSystems() {
-        this.systems.set(SystemType.Reactor, new ReactorSystem(this, SystemType.Reactor, 60));
+    async setupSystems() {
+        const reactorSystem = new ReactorSystem(this, SystemType.Reactor);
+        this.systems.set(SystemType.Reactor, reactorSystem);
+        reactorSystem.sabotageDuration = 60;
+
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
         this.systems.set(SystemType.O2, new LifeSuppSystem(this, SystemType.O2));
         this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay));
@@ -45,10 +44,6 @@ export class MiraShipStatus<RoomType extends StatefulRoom> extends InnerShipStat
 
         this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));
         this.systems.set(SystemType.Decontamination, new DeconSystem(this, SystemType.Decontamination));
-    }
-
-    getDoorsInRoom(room: SystemType) {
-        return [];
     }
 
     getTasks() {

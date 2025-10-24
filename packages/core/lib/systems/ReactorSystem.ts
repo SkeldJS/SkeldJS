@@ -28,9 +28,7 @@ function findPairIndex<RoomType extends StatefulRoom>(list: ReactorUserConsolePa
 }
 
 export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSystem<RoomType, ReactorSystemEvents<RoomType>> {
-    static sabotageDuration = 30;
     static unsabotagedTimer = 10000;
-
     static numConsoles = 2;
 
     static updateCooldownDuration = 2;
@@ -42,17 +40,18 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
      */
     countdown: number = ReactorSystem.unsabotagedTimer;
 
+    sabotageDuration: number = 45;
+
     /**
      * The completed consoles.
      */
     userConsolePairs: ReactorUserConsolePair<RoomType>[] = [];
     
     constructor(
-        ship: InnerShipStatus<RoomType>,
-        systemType: SystemType,
-        public readonly maxTimer: number,
+        public readonly shipStatus: InnerShipStatus<RoomType>,
+        public readonly systemType: SystemType,
     ) {
-        super(ship, systemType);
+        super(shipStatus, systemType);
     }
 
     parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
@@ -109,16 +108,16 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
         if (message instanceof ReactorSystemMessage) {
             switch (message.consoleAction) {
             case ReactorConsoleUpdate.StartCountdown:
-                this.countdown = ReactorSystem.sabotageDuration;
+                await this.sabotageWithAuth();
                 break;
             case ReactorConsoleUpdate.EndCountdown:
-                this.countdown = ReactorSystem.unsabotagedTimer;
+                await this.fullyRepairWithAuth();
                 break;
             case ReactorConsoleUpdate.AddPlayer:
-                if (findPairIndex(this.userConsolePairs, player, message.consoleId!)) return;
+                if (findPairIndex(this.userConsolePairs, player, message.consoleId!) !== -1) return;
                 this.userConsolePairs.push({ player, consoleId: message.consoleId! });
                 if (this.isConsoleComplete(0) && this.isConsoleComplete(1)) {
-
+                    await this.fullyRepairWithAuth();
                 }
                 // TODO: event: console completed
                 break;
@@ -149,9 +148,18 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
     }
 
     async sabotageWithAuth(): Promise<void> {
-        this.countdown = ReactorSystem.sabotageDuration;
+        this.countdown = this.sabotageDuration;
         this.userConsolePairs = [];
         this.pushDataUpdate();
+    }
+
+    async fullyRepairWithAuth(): Promise<void> {
+        this.countdown = ReactorSystem.unsabotagedTimer;
+        this.pushDataUpdate();
+    }
+
+    async fullyRepairRequest(): Promise<void> {
+        // TODO: implement
     }
 
     isConsoleComplete(consoleId: number): boolean {

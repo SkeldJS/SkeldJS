@@ -29,30 +29,20 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipSt
         [SystemType.Medical]: [19, 20]
     };
 
-    setupSystems() {
+    async setupSystems() {
         this.systems.set(SystemType.Ventilation, new VentilationSystem(this, SystemType.Ventilation));
 
-        const hqHudSystem = new HqHudSystem(this, SystemType.Communications);
-        this.systems.set(SystemType.Communications, hqHudSystem);
-        hqHudSystem.completedConsoles = new Set([0, 1]);
+        this.systems.set(SystemType.Communications, new HqHudSystem(this, SystemType.Communications));
 
-        const reactorSystem = new ReactorSystem(this, SystemType.Reactor, 60);
+        const reactorSystem = new ReactorSystem(this, SystemType.Reactor);
         this.systems.set(SystemType.Reactor, reactorSystem);
-        reactorSystem.userConsolePairs = new Set([0, 1]);
+        reactorSystem.sabotageDuration = 60;
 
         const doorsSystem = new DoorsSystem(this, SystemType.Doors);
         this.systems.set(SystemType.Doors, doorsSystem);
         // todo: register fungle doors
 
         this.systems.set(SystemType.MushroomMixupSabotage, new MushroomMixupSabotageSystem(this, SystemType.MushroomMixupSabotage));
-    }
-    
-    async processAwake(): Promise<void> {
-        void 0;
-    }
-
-    getDoorsInRoom(room: SystemType) {
-        return FungleShipStatus.roomDoors[room] || [];
     }
 
     getTasks() {

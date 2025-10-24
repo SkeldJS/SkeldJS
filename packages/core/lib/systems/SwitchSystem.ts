@@ -84,7 +84,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
     /**
      * The brightness of lights.
      */
-    brightness: number = SwitchSystem.alwaysFlipSwitch;
+    brightness: number = SwitchSystem.maxBrightness;
     
     protected updateCooldown: number = 0;
 
@@ -131,6 +131,24 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
             this.pushDataUpdate();
         }
     }
+    
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        this.updateCooldown -= deltaSeconds;
+        if (this.updateCooldown <= 0) {
+            this.updateCooldown = SwitchSystem.updateCooldownDuration;
+            if (this.isSabotaged()) {
+                if (this.brightness > SwitchSystem.minBrightness) {
+                    this.brightness = Math.max(this.brightness - SwitchSystem.brightnessChangePerTick, 0);
+                    this.pushDataUpdate();
+                }
+            } else {
+                if (this.brightness < SwitchSystem.maxBrightness) {
+                    this.brightness = Math.max(this.brightness + SwitchSystem.brightnessChangePerTick, 0);
+                    this.pushDataUpdate();
+                }
+            }
+        }
+    }
 
     isSabotaged() {
         return this.actual[0] !== this.expected[0]
@@ -148,22 +166,14 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
         }
         this.pushDataUpdate();
     }
+    
+    
+    async fullyRepairWithAuth(): Promise<void> {
+        this.actual = [...this.expected];
+        this.pushDataUpdate();
+    }
 
-    async processFixedUpdate(deltaSeconds: number): Promise<void> {
-        this.updateCooldown += deltaSeconds;
-        if (this.updateCooldown > SwitchSystem.updateCooldownDuration) {
-            this.updateCooldown = 0;
-            if (this.isSabotaged()) {
-                if (this.brightness > SwitchSystem.minBrightness) {
-                    this.brightness = Math.max(this.brightness - SwitchSystem.brightnessChangePerTick, 0);
-                    this.pushDataUpdate();
-                }
-            } else {
-                if (this.brightness < SwitchSystem.maxBrightness) {
-                    this.brightness = Math.max(this.brightness - SwitchSystem.brightnessChangePerTick, 0);
-                    this.pushDataUpdate();
-                }
-            }
-        }
+    async fullyRepairRequest(): Promise<void> {
+        // TODO: implement
     }
 }

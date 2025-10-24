@@ -15,7 +15,7 @@ export class DeconSystemDataMessage extends BaseDataMessage {
     }
 
     serializeToWriter(writer: HazelWriter): void {
-        writer.uint8(this.timer);
+        writer.uint8(Math.ceil(this.timer));
         writer.uint8(this.state);
     }
 

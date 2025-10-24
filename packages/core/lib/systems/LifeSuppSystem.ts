@@ -1,36 +1,38 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseSystemMessage, CompletedConsoleDataMessage, LifeSuppSystemDataMessage } from "@skeldjs/protocol";
+import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, LifeSuppConsoleUpdate, LifeSuppSystemDataMessage, LifeSuppSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { SabotagableSystem, SystemStatus } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
+import { Player } from "../Player";
 
 export type LifeSuppSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 /**
- * Represents a system responsible for handling oxygen consoles.
+ * Represents a system responsible for handling communication consoles on Mira HQ.
  *
  * See {@link LifeSuppSystemEvents} for events to listen to.
  */
-export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, LifeSuppSystemEvents<RoomType>> {
-    private lastUpdate = 0;
+export class LifeSuppSystem<RoomType extends StatefulRoom> extends SabotagableSystem<RoomType, LifeSuppSystemEvents<RoomType>> {
+    static unsabotagedCountdown = 10000;
+    static sabotageDuration = 90;
 
-    /**
-     * The timer until oxygen runs out.
-     */
-    timer: number = 10000;
+    static maxResetTimer = 10;
+    static consoleIds = [0, 1];
+    
+    static updateCooldownDuration = 1;
+    
+    protected updateCooldown: number = 0;
+
+    countdown: number = 10000;
 
     /**
      * The completed consoles.
      */
-    completedConsoles: Set<number> = new Set;
+    completedConsoles: Set<number> = new Set(LifeSuppSystem.consoleIds);
 
-    get sabotaged() {
-        return this.timer < 10000;
-    }
-    
     parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
@@ -41,23 +43,89 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SystemStatus<
 
     async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof LifeSuppSystemDataMessage) {
-            const previousTimer = this.timer;
-            this.timer = data.timer;
+            this.countdown = data.countdown;
 
+            const beforeCompleted = new Set(this.completedConsoles);
             this.completedConsoles = new Set;
             for (const completedConsole of data.completedConsoles) {
-                if (this.completedConsoles.has(completedConsole.consoleId)) continue;
                 this.completedConsoles.add(completedConsole.consoleId);
+                if (!beforeCompleted.has(completedConsole.consoleId)) {
+                    // TODO: event: console completed!
+                }
             }
+
+            // console's can't be un-completed in traditional among us. this isn't our job!
         }
     }
 
     createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
-        case DataState.Update: return new LifeSuppSystemDataMessage(this.timer,
-            [...this.completedConsoles].map(consoleId => new CompletedConsoleDataMessage(consoleId)));
+        case DataState.Update:
+            const message = new LifeSuppSystemDataMessage(this.countdown, []);
+            for (const completedConsoleId of this.completedConsoles) {
+                message.completedConsoles.push(new CompletedConsoleDataMessage(completedConsoleId));
+            }
+            return message;
         }
         return undefined;
+    }
+
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return LifeSuppSystemMessage.deserializeFromReader(reader);
+    }
+
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+        if (message instanceof LifeSuppSystemMessage) {
+            switch (message.consoleAction) {
+            case LifeSuppConsoleUpdate.StartCountdown:
+                await this.sabotageWithAuth();
+                break;
+            case LifeSuppConsoleUpdate.EndCountdown:
+                await this.fullyRepairWithAuth();
+                break;
+            case LifeSuppConsoleUpdate.CompleteConsole:
+                this.completedConsoles.add(message.consoleId!);
+                // TODO: event: console completed
+                break;
+            }
+            this.pushDataUpdate();
+        }
+    }
+
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        if (this.isSabotaged()) {
+            this.countdown -= deltaSeconds;
+
+            this.updateCooldown -= deltaSeconds;
+            if (this.updateCooldown < 0) {
+                this.updateCooldown = LifeSuppSystem.updateCooldownDuration;
+                this.pushDataUpdate();
+            }
+        }
+    }
+
+    isSabotaged(): boolean {
+        return this.completedConsoles.size < LifeSuppSystem.consoleIds.length;
+    }
+
+    async sabotageWithAuth(): Promise<void> {
+        this.countdown = LifeSuppSystem.sabotageDuration;
+        this.completedConsoles.clear();
+        this.pushDataUpdate();
+    }
+
+    async fullyRepairWithAuth(): Promise<void> {
+        this.countdown = LifeSuppSystem.unsabotagedCountdown;
+        this.completedConsoles = new Set(LifeSuppSystem.consoleIds);
+        this.pushDataUpdate();
+    }
+
+    async fullyRepairRequest(): Promise<void> {
+        // TODO: implement
+    }
+
+    isConsoleComplete(consoleId: number): boolean {
+        return this.completedConsoles.has(consoleId);
     }
 }

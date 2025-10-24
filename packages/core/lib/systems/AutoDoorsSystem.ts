@@ -7,6 +7,8 @@ import { SystemStatus } from "./SystemStatus";
 import { StatefulRoom } from "../StatefulRoom";
 import { Door, DoorEvents } from "./DoorsSystem";
 import { DataState } from "../NetworkedObject";
+import { Player } from "../Player";
+import { SystemType } from "@skeldjs/constant";
 
 /**
  * Represents an auto opening door for the {@link AutoDoorsSystem}.
@@ -14,32 +16,29 @@ import { DataState } from "../NetworkedObject";
  * See {@link DoorEvents} for events to listen to.
  */
 export class AutoOpenDoor<RoomType extends StatefulRoom> extends Door<RoomType> {
-    timer: number;
-    dirty: boolean;
-
-    constructor(
-        protected system: AutoDoorsSystem<RoomType>,
-        readonly doorId: number,
-        isOpen: boolean
-    ) {
-        super(system, doorId, isOpen);
-
-        this.timer = 0;
-        this.dirty = false;
-    }
+    cooldownTimer: number = 0;
+    closedDuration: number = 0;
+    isDirty: boolean = false;
 
     pushDataUpdate() {
-        this.system.pushDataUpdate();
+        this.isDirty = true;
+        this.doorSystem.pushDataUpdate();
     }
 
-    async processFixedUpdate(delta: number) {
-        this.timer -= delta;
+    async closeWithAuth(): Promise<void> {
+        this.cooldownTimer = AutoDoorsSystem.doorTimer;
+        this.closedDuration = AutoDoorsSystem.closedDuration;
+        await super.closeWithAuth();
+    }
 
-        if (this.timer < 0) {
-            // TODO: open door as host
-            return true;
+    async processFixedUpdate(deltaSeconds: number) {
+        if (!this.isOpen) {
+            this.closedDuration -= deltaSeconds;
+
+            if (this.closedDuration < 0) {
+                await this.openWithAuth();
+            }
         }
-        return false;
     }
 }
 
@@ -51,10 +50,8 @@ export type AutoDoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<Ro
  * See {@link AutoDoorsSystemEvents} for events to listen to.
  */
 export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, AutoDoorsSystemEvents<RoomType>> {
-    /**
-     * The dirty doors to be updated on the next fixed update.
-     */
-    dirtyBit: number = 0;
+    static doorTimer = 30;
+    static closedDuration = 10;
 
     /**
      * The doors in the map.
@@ -73,7 +70,9 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
         // the parsing is different, but both are handled the same
         if (data instanceof AutoDoorsSystemSpawnDataMessage || data instanceof AutoDoorsSystemDataMessage) {
             for (const doorState of data.doorStates) {
-                this.doors[doorState.index] = new AutoOpenDoor(this, doorState.index, doorState.isOpen);
+                if (this.doors[doorState.index]) {
+                    this.doors[doorState.index].isOpen = doorState.isOpen;
+                }
             }
         }
     }
@@ -85,10 +84,12 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
         case DataState.Update:
             const message = new AutoDoorsSystemDataMessage([]);
             for (const door of this.doors) {
-                if (door.dirty) {
+                if (door.isDirty) {
                     message.doorStates.push(new DoorStateDataMessage(door.doorId, door.isOpen));
+                    door.isDirty = false;
                 }
             }
+            console.log(message);
             return message;
         }
         return undefined;
@@ -98,6 +99,22 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus
         for (const door of this.doors) {
             if (!door.isOpen) {
                 await door.processFixedUpdate(delta);
+            }
+        }
+    }
+    
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return undefined;
+    }
+
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+        void player, message;
+    }
+    
+    async closeDoorsWithAuth(systemType: SystemType) {
+        for (const door of this.doors) {
+            if (door.associatedZone === systemType) {
+                await door.closeWithAuth();
             }
         }
     }

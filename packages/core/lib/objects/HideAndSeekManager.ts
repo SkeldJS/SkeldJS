@@ -18,7 +18,7 @@ export class HideAndSeekManager<RoomType extends StatefulRoom> extends InnerGame
     ping!: HideNSeekPingLogicComponent<RoomType>;
     deathPopup!: HideNSeekDeathPopupLevelLogicComponent<RoomType>;
 
-    initComponents(): void {
+    async initComponents(): Promise<void> {
         this.logicComponents = [];
 
         this.music = new HideNSeekMusicLogicComponent(this);

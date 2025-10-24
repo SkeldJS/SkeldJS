@@ -76,4 +76,16 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
         }
         return undefined;
     }
+
+    parseUpdate(reader: HazelReader): BaseSystemMessage | undefined {
+        return undefined;
+    }
+
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+        void player, message;
+    }
+
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        void deltaSeconds;
+    }
 }

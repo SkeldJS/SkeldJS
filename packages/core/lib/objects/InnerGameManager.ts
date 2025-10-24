@@ -13,22 +13,6 @@ export type InnerGameManagerEvents<RoomType extends StatefulRoom> = ExtractEvent
 export abstract class InnerGameManager<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, InnerGameManagerEvents<RoomType>> {
     logicComponents: GameLogicComponent<any, RoomType>[] = [];
 
-    constructor(
-        room: RoomType,
-        spawnType: SpawnType,
-        netId: number,
-        ownerId: number,
-        flags: number,
-    ) {
-        super(room, spawnType, netId, ownerId, flags);
-
-        this.initComponents();
-    }
-
-    get owner() {
-        return super.owner as RoomType;
-    }
-
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
         return undefined;
     }
@@ -42,7 +26,7 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
     }
 
     async processAwake(): Promise<void> {
-        void 0;
+        await this.initComponents();
     }
 
     parseData(state: DataState, reader: HazelReader): BaseSystemMessage | undefined {
@@ -95,6 +79,6 @@ export abstract class InnerGameManager<RoomType extends StatefulRoom> extends Ne
         }
     }
 
-    abstract initComponents(): void;
+    abstract initComponents(): Promise<void>;
     abstract onPlayerDeath(playerControl: PlayerControl<RoomType>, assignGhostRole: boolean): Promise<void>;
 }

@@ -7,34 +7,19 @@ import { InnerShipStatus, PlayerControl } from "../objects";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
-import { SabotageSystem } from "./SabotageSystem";
 import { Player } from "../Player";
 
 
 export type SystemStatusEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 export abstract class SystemStatus<RoomType extends StatefulRoom, T extends EventData = {}> extends EventEmitter<SystemStatusEvents<RoomType> & T> {
-    private _isDirty: boolean;
-
-    systemType: SystemType;
+    isDirty: boolean = false;
 
     constructor(
-        protected shipStatus: InnerShipStatus<RoomType>,
-        systemType: SystemType,
+        public readonly shipStatus: InnerShipStatus<RoomType>,
+        public readonly systemType: SystemType,
     ) {
         super();
-
-        this.systemType = systemType;
-        this._isDirty = false;
-    }
-
-    get isDirty() {
-        return this._isDirty;
-    }
-
-    private set isDirty(isDirty: boolean) {
-        this._isDirty = isDirty;
-        this.shipStatus.pushDataState(DataState.Update);
     }
 
     /**
@@ -113,7 +98,7 @@ export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends
      */
     async sabotageRequest(): Promise<void> {
         const sabotageSystem = this.shipStatus.systems.get(SystemType.Sabotage);
-        if (sabotageSystem && sabotageSystem instanceof SabotageSystem) {
+        if (sabotageSystem) {
             await sabotageSystem.sendUpdateSystem(new SabotageSystemMessage(this.systemType));
         }
     }
@@ -123,10 +108,21 @@ export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends
      * from the room authority. Calls {@link sabotageWithAuth} or {@link sabotageRequest}.
      */
     async sabotage(): Promise<void> {
-        if (this.room.isAuthoritative) {
+        if (this.room.canManageObject(this.shipStatus)) {
             await this.sabotageWithAuth();
         } else {
             await this.sabotageRequest();
+        }
+    }
+
+    abstract fullyRepairWithAuth(): Promise<void>;
+    abstract fullyRepairRequest(): Promise<void>;
+
+    async fullyRepair(): Promise<void> {
+        if (this.room.canManageObject(this.shipStatus)) {
+            await this.fullyRepairWithAuth();
+        } else {
+            await this.fullyRepairRequest();
         }
     }
 }
