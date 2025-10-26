@@ -16,19 +16,18 @@ export type SabotageSystemEvents<RoomType extends StatefulRoom> = ExtractEventTy
  * See {@link SabotageSystemEvents} for events to listen to.
  */
 export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, SabotageSystemEvents<RoomType>> {
+    static initialCooldown = 10;
+    static activateDuration = 30;
+
+    /**
+     * Only available to the room authority.
+     */
+    initialCooldown: number = SabotageSystem.initialCooldown;
+
     /**
      * The cooldown before another sabotage can happen.
      */
     cooldown: number = 0;
-
-    /**
-     * Check whether any systems are currently sabotaged.
-     */
-    get anySabotaged() {
-        return Object.values(this.shipStatus.systems).some(
-            system => system?.sabotaged
-        );
-    }
 
     parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
@@ -47,7 +46,8 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
     createData(dataState: DataState): BaseSystemMessage | undefined {
         switch (dataState) {
         case DataState.Spawn:
-        case DataState.Update: return new SabotageSystemDataMessage(this.cooldown);
+        case DataState.Update:
+            return new SabotageSystemDataMessage(this.getCooldown());
         }
         return undefined;
     }
@@ -61,14 +61,34 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<
             const system = this.shipStatus.systems.get(message.systemType);
             if (system && system.canBeSabotaged()) {
                 await system.sabotageWithAuth();
+                this.cooldown = SabotageSystem.activateDuration;
+                this.pushDataUpdate();
             }
         }
     }
 
     async processFixedUpdate(deltaSeconds: number): Promise<void> {
-        if (this.cooldown > 0 && !this.shipStatus.anySystemsSabotaged()) {
-            this.cooldown -= deltaSeconds;
+        if (this.shipStatus.anySystemsSabotaged()) return;
+
+        if (this.initialCooldown > 0) {
+            this.initialCooldown = Math.max(this.initialCooldown - deltaSeconds, 0);
+            this.pushDataUpdate();
+        } else if (this.cooldown > 0) {
+            this.cooldown = Math.max(this.cooldown - deltaSeconds, 0);
             this.pushDataUpdate();
         }
+    }
+
+    getCooldown() {
+        if (this.room.canManageObject(this.shipStatus)) {
+            if (this.initialCooldown > 0) {
+                return this.initialCooldown;
+            }
+        }
+        return this.cooldown;
+    }
+
+    isSabotageAvailable() {
+        return this.getCooldown() <= 0;
     }
 }

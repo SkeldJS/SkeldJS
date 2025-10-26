@@ -8,7 +8,13 @@ import { GameLogicComponent } from "../GameLogicComponent";
 import { Player } from "../../Player";
 import { BaseRole, CrewmateGhostRole, CrewmateRole, GuardianAngelRole, ImpostorGhostRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
-import { NormalGameManager, PlayerControl, RoleAssignmentData } from "../../objects";
+import { NormalGameManager, PlayerControl } from "../../objects";
+
+export type RoleAssignmentData = {
+    roleCtr: typeof BaseRole;
+    chance: number;
+    count: number;
+}
 
 export type NormalRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
 

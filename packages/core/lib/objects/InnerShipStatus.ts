@@ -21,6 +21,8 @@ import {
     RpcMessage
 } from "@skeldjs/protocol";
 
+import { TaskInfo } from "@skeldjs/data";
+
 import {
     AutoDoorsSystemEvents,
     DeconSystemEvents,
@@ -43,18 +45,8 @@ import {
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
-import { Player } from "../Player";
-import { BaseRole } from "../roles";
-import { RoomAssignRolesEvent } from "../events";
-import { TaskInfo } from "@skeldjs/data";
+import { Player } from "../Player";;
 import { CustomNetworkTransform } from "./component";
-import { PlayerControl } from "./PlayerControl";
-
-export interface RoleAssignmentData {
-    roleCtr: typeof BaseRole;
-    chance: number;
-    count: number;
-}
 
 function shuffleArray(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -64,6 +56,13 @@ function shuffleArray(array: any[]) {
         array[j] = temp;
     }
 }
+
+export type SystemStatusConstructor<T> = {
+    new(
+        shipStatus: InnerShipStatus<StatefulRoom>,
+        systemType: SystemType,
+    ): T;
+};
 
 type AllSystems<RoomType extends StatefulRoom> = Map<SystemType, SystemStatus<RoomType, any>>;
 
@@ -352,6 +351,12 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
             if (system.canBeSabotaged() && system.isSabotaged()) return true;
         }
         return false;
+    }
+
+    getSystemSafe<T>(systemType: SystemType, SystemClass: SystemStatusConstructor<T>): T|undefined {
+        const system = this.systems.get(systemType);
+        if (system instanceof SystemClass) return system;
+        return undefined;
     }
 
     /**

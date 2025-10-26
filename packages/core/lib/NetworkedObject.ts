@@ -21,8 +21,8 @@ export type NetworkedObjectConstructor<T> = {
 
 export enum DataState {
     Dormant,
-    Spawn,
     Update,
+    Spawn,
 }
 
 export type NetworkedObjectEvents<RoomType extends StatefulRoom> = ExtractEventTypes<

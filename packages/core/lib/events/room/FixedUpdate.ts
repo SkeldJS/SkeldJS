@@ -18,10 +18,6 @@ export class RoomFixedUpdateEvent<RoomType extends StatefulRoom> extends Cancela
     constructor(
         public readonly room: RoomType,
         /**
-         * The game data stream that the room will broadcast.
-         */
-        public readonly stream: BaseGameDataMessage[],
-        /**
          * The time that has passed since the last fixed update call, in seconds.
          */
         public readonly delta: number

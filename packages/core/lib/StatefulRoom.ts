@@ -88,6 +88,7 @@ import {
 } from "./roles";
 
 import { setTimeoutPromise } from "./utils/setTimeoutPromise";
+import { SabotageSystem } from "./systems";
 
 export type RoomID = string | number;
 
@@ -149,57 +150,59 @@ export type StatefulRoomEvents<RoomType extends StatefulRoom> = NetworkedObjectE
  * See {@link StatefulRoomEvents} for events to listen to.
  */
 export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<any, {}>, T = {}> extends EventEmitter<StatefulRoomEvents<RoomType> & T> {
+    static objectUpdateCooldownDuration = 0.1;
+
 
     /**
      * Whether or not this room has been destroyed.
      */
-    destroyed: boolean;
+    destroyed: boolean = false;
 
     lastFixedUpdateTimestamp: number;
+    fixedUpdateInterval: NodeJS.Timeout|undefined = undefined;
+    objectUpdateCooldown: number = StatefulRoom.objectUpdateCooldownDuration;
 
-    fixedUpdateInterval: NodeJS.Timeout|undefined;
-
-    lastNetId: number;
+    lastNetId: number = 0;
 
     /**
      * A list of all objects in the room.
      */
-    objectList: NetworkedObject<this>[];
+    objectList: NetworkedObject<this>[] = [];
 
     /**
      * The players in the room.
      */
-    players: Map<number, Player<this>>;
+    players: Map<number, Player<this>> = new Map;
 
     /**
      * The networked components in the room.
      */
-    networkedObjects: Map<number, NetworkedObject<this>>;
+    networkedObjects: Map<number, NetworkedObject<this>> = new Map;
 
     /**
      * The current message stream to be sent to the server on fixed update.
      */
-    messageStream: BaseGameDataMessage[];
+    messageStream: BaseGameDataMessage[] = [];
 
     /**
      * The state that the game is currently in.
      */
-    gameState: GameState;
+    gameState: GameState = GameState.NotStarted;
 
     /**
      * The ID of the host of the room.
      */
-    authorityId: number;
+    authorityId: number = -1;
 
     /**
      * The settings of the room.
      */
-    settings: GameSettings;
+    settings: GameSettings = new GameSettings;
 
     /**
      * The current start counter for the room.
      */
-    startGameCounter: number;
+    startGameCounter: number = -1;
 
     /**
      * An instance of the ship status in the room. Spawned when a game is started
@@ -211,7 +214,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      * See {@link StatefulRoom.objectList} if you're looking to find all ship status
      * objects that have been spawned.
      */
-    shipStatus: InnerShipStatus<this> | undefined;
+    shipStatus: InnerShipStatus<this> | undefined = undefined;
 
     /**
      * An instance of the meeting hud in the room. Spawned when a meeting is
@@ -223,7 +226,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      * See {@link StatefulRoom.objectList} if you're looking to find all meeting hud
      * objects that have been spawned.
      */
-    meetingHud: MeetingHud<this> | undefined;
+    meetingHud: MeetingHud<this> | undefined = undefined;
 
     /**
      * An instance of the lobby behaviour in the room. Spawned when the room is
@@ -235,9 +238,9 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      * See {@link StatefulRoom.objectList} if you're looking to find all lobby behaviour
      * objects that have been spawned.
      */
-    lobbyBehaviour: LobbyBehaviour<this> | undefined;
+    lobbyBehaviour: LobbyBehaviour<this> | undefined = undefined;
 
-    gameManager: InnerGameManager<this> | undefined;
+    gameManager: InnerGameManager<this> | undefined = undefined;
 
     /**
      * An instance of the voting ban system in the room. Used as a utility object
@@ -249,23 +252,23 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      * See {@link StatefulRoom.objectList} if you're looking to find all vote ban system
      * objects that have been spawned.
      */
-    voteBanSystem: VoteBanSystem<this> | undefined;
+    voteBanSystem: VoteBanSystem<this> | undefined = undefined;
 
-    playerInfo: Map<number, NetworkedPlayerInfo<this>>;
+    playerInfo: Map<number, NetworkedPlayerInfo<this>> = new Map;
 
     /**
      * A map of spawn type -> objects used in the protocol. Useful to register
      * custom INO (inner net objects) such as replicating behaviour from a client
      * mod, see {@link StatefulRoom.registerPrefab}.
      */
-    registeredPrefabs: Map<number, NetworkedObjectConstructor<any>[]>;
+    registeredPrefabs: Map<number, NetworkedObjectConstructor<any>[]> = new Map;
 
-    shipPrefabIds: Map<number, number>;
+    shipPrefabIds: Map<number, number> = new Map;
 
     /**
      * All roles that can be assigned to players. See {@link StatefulRoom.registerRole}.
      */
-    registeredRoles: Map<number, typeof BaseRole>;
+    registeredRoles: Map<number, typeof BaseRole> = new Map;
 
     /**
      * Every end game intent that should happen in a queue to be or not to be
@@ -279,33 +282,12 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      *
      * See {@link RoomGameEndedEvent} to listen for a game actually ending.
      */
-    endGameIntents: EndGameIntent<any>[];
+    endGameIntents: EndGameIntent<any>[] = [];
 
     constructor(public config: StatefulRoomConfig = {}) {
         super();
 
-        this.lastFixedUpdateTimestamp = Date.now();
-        this.lastNetId = 0;
-        this.destroyed = false;
-
-        this.gameState = GameState.NotStarted;
-        this.authorityId = -1;
-        this.startGameCounter = -1;
-
-        this.settings = new GameSettings;
-
-        this.objectList = [];
-        this.players = new Map;
-        this.networkedObjects = new Map;
-        this.messageStream = [];
-
-        this.shipStatus = undefined;
-        this.meetingHud = undefined;
-        this.lobbyBehaviour = undefined;
-        this.gameManager = undefined;
-        this.voteBanSystem = undefined;
-
-        this.playerInfo = new Map;
+        this.lastFixedUpdateTimestamp = performance.now();
 
         this.registeredPrefabs = new Map([
             [SpawnType.SkeldShipStatus, [SkeldShipStatus]],
@@ -348,8 +330,6 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             [RoleType.Viper, ViperRole],
         ]);
 
-        this.endGameIntents = [];
-
         if (config.doFixedUpdate) {
             this.fixedUpdateInterval = setInterval(
                 () => this.processFixedUpdate(),
@@ -376,29 +356,33 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         this.messageStream.push(gameDataMessage);
     }
 
-    async processFixedUpdate() {
-        const delta = Date.now() - this.lastFixedUpdateTimestamp;
-        this.lastFixedUpdateTimestamp = Date.now();
+    async processObjectsFixedUpdate(deltaSeconds: number, sendUpdates: boolean) {
         for (const [, component] of this.networkedObjects) {
             if (this.canManageObject(component)) {
-                await component.processFixedUpdate(delta / 1000);
+                await component.processFixedUpdate(deltaSeconds);
+
                 switch (component.pendingDataState) {
                     case DataState.Dormant: continue;
                     case DataState.Spawn:
                         this.broadcastLazy(this.createObjectSpawnMessage(component));
+                        component.resetDataState();
                         break;
                     case DataState.Update:
-                        const data = component.createData(DataState.Update);
-                        if (data) {
-                            this.broadcastLazy(new DataMessage(component.netId, data));
+                        if (sendUpdates) {
+                            const data = component.createData(DataState.Update);
+                            if (data) {
+                                this.broadcastLazy(new DataMessage(component.netId, data));
+                            }
+                            component.resetDataState();
                         }
                         break;
                 }
-                component.resetDataState();
             }
         }
+    }
 
-        if (this.endGameIntents.length) {
+    async flushEndGameIntents() {
+        if (this.endGameIntents.length > 0) {
             const endGameIntents = this.endGameIntents;
             this.endGameIntents = [];
             if (this.isAuthoritative) {
@@ -422,18 +406,34 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                 }
             }
         }
+    }
 
+    async processFixedUpdate() {
+        const deltaMilliseconds = performance.now() - this.lastFixedUpdateTimestamp;
+        this.lastFixedUpdateTimestamp = performance.now();
+
+        const deltaSeconds = deltaMilliseconds / 1000;
+
+        this.objectUpdateCooldown -= deltaSeconds;
+        const sendUpdates = this.objectUpdateCooldown < 0;
+
+        if (this.objectUpdateCooldown < 0) {
+            this.objectUpdateCooldown = StatefulRoom.objectUpdateCooldownDuration;
+        }
+    
         const ev = await this.emit(
             new RoomFixedUpdateEvent(
                 this,
-                this.messageStream,
-                delta / 1000
+                deltaSeconds
             )
         );
 
         if (!ev.canceled) {
-            await this.flushMessages();
+            await this.processObjectsFixedUpdate(deltaSeconds, sendUpdates);
+            await this.flushEndGameIntents();
         }
+
+        await this.flushMessages();
     }
     
     async flushMessages() {
@@ -1104,6 +1104,14 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      */
     registerEndGameIntent(endGameIntent: EndGameIntent<any>) {
         this.endGameIntents.push(endGameIntent);
+    }
+    
+    isSabotageAvailable() {
+        if (this.meetingHud) return false;
+        if (!this.shipStatus) return false;
+        const sabotageSystem = this.shipStatus.getSystemSafe(SystemType.Sabotage, SabotageSystem);
+        if (!sabotageSystem) return false;
+        return sabotageSystem.isSabotageAvailable();
     }
 
     abstract broadcastImmediate(
