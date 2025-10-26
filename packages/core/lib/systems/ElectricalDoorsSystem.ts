@@ -67,6 +67,6 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
     }
 
     async processFixedUpdate(deltaSeconds: number): Promise<void> {
-        throw new Error("Method not implemented.");
+        void deltaSeconds;
     }
 }
