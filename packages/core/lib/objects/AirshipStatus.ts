@@ -151,33 +151,7 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatu
         this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));
 
         this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security));
-
-        const hashSet: Set<ElectricalDoorsAirship[]> = new Set;
-        let room = AirshipStatus.electricalRooms[0];
-        let count = 0;
-        while (hashSet.size < AirshipStatus.electricalRooms.length && count++ < 10000) {
-            const door = electricalDoors.doors[room[Math.floor(Math.random() * room.length)]];
-            const doorSet = AirshipStatus.electricalRooms.find(r => r !== room && r.includes(door.doorId));
-
-            if (!doorSet)
-                continue;
-
-            if (hashSet.size !== hashSet.add(doorSet).size) {
-                // electricalDoors.openDoorHost(door.doorId);
-            }
-            if (Math.random() >= 0.5) {
-                hashSet.add(room);
-                room = doorSet;
-            }
-        }
-        const exitFlag = Math.random() >= 0.5;
-        if (exitFlag) {
-            await electricalDoors.doors[ElectricalDoorsAirship.TopLeftWest].openWithAuth();
-            await electricalDoors.doors[ElectricalDoorsAirship.CenterLeftWest].closeWithAuth();
-        } else {
-            await electricalDoors.doors[ElectricalDoorsAirship.TopLeftWest].closeWithAuth();
-            await electricalDoors.doors[ElectricalDoorsAirship.CenterLeftWest].openWithAuth();
-        }
+        await electricalDoors.randomizeDoorMaze(AirshipStatus.electricalRooms, [ ElectricalDoorsAirship.TopLeftWest, ElectricalDoorsAirship.CenterLeftWest ]);
     }
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {

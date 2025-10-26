@@ -5,7 +5,7 @@ export class MovingPlatformSystemDataMessage extends BaseDataMessage {
     constructor(
         public readonly isSpawn: boolean,
         public readonly sequenceId: number,
-        public readonly targetId: number|null,
+        public readonly targetNetId: number|null,
         public readonly side: number,
     ) {
         super();
@@ -20,11 +20,11 @@ export class MovingPlatformSystemDataMessage extends BaseDataMessage {
 
     serializeToWriter(writer: HazelWriter): void {
         writer.uint8(this.sequenceId);
-        writer.uint32(this.targetId ?? 255);
+        writer.uint32(this.targetNetId ?? 255);
         writer.uint8(this.side);
     }
 
     clone(): MovingPlatformSystemDataMessage {
-        return new MovingPlatformSystemDataMessage(this.isSpawn, this.sequenceId, this.targetId, this.side);
+        return new MovingPlatformSystemDataMessage(this.isSpawn, this.sequenceId, this.targetNetId, this.side);
     }
 }

@@ -12,7 +12,7 @@ import { ExtractEventTypes } from "@skeldjs/events";
 import { SystemStatus } from "./SystemStatus";
 import { Player } from "../Player";
 
-import { StatefulRoom, PlayerResolvable } from "../StatefulRoom";
+import { StatefulRoom } from "../StatefulRoom";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { DataState } from "../NetworkedObject";
 
@@ -37,9 +37,10 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
      * The opposite side of the moving platform to move in.
      */
     get oppositeSide() {
-        return this.side === MovingPlatformSide.Left
-            ? MovingPlatformSide.Right
-            : MovingPlatformSide.Left;
+        switch (this.side) {
+        case MovingPlatformSide.Right: return MovingPlatformSide.Left;
+        case MovingPlatformSide.Left: return MovingPlatformSide.Right;
+        }
     }
     
     parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
@@ -59,7 +60,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
                 if (!sequenceIdGreaterThan(data.sequenceId, this.useId, SequenceIdType.Byte)) return;
             }
 
-            this.target = data.targetId === null ? undefined : this.shipStatus.room.getPlayerByPlayerId(data.targetId);
+            this.target = data.targetNetId === null ? undefined : this.shipStatus.room.getPlayerByNetId(data.targetNetId);
         }
     }
 
@@ -70,7 +71,7 @@ export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemS
             return new MovingPlatformSystemDataMessage(
                 dataState === DataState.Spawn,
                 this.useId,
-                this.target?.getPlayerId() ?? null,
+                this.target?.characterControl?.netId ?? null,
                 this.side
             );
         }

@@ -976,7 +976,9 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
         if (movingPlatform instanceof MovingPlatformSystem) {
             // TODO: moving platform api
+            movingPlatform.useId++;
             movingPlatform.side = MovingPlatformSide.Left;
+            movingPlatform.target = this.player;
             movingPlatform.pushDataUpdate();
         }
 
@@ -1132,8 +1134,11 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         const movingPlatform = airship.systems.get(SystemType.GapRoom);
 
         if (movingPlatform instanceof MovingPlatformSystem) {
-            // TODO
-            // movingPlatform.setTarget(this.player, movingPlatform.oppositeSide, rpc);
+            // TODO: use moving platform API
+            movingPlatform.useId++;
+            movingPlatform.target = this.player;
+            movingPlatform.side = movingPlatform.oppositeSide;
+            movingPlatform.pushDataUpdate();
         }
     }
 
