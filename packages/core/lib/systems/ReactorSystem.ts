@@ -147,6 +147,10 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
             }
         }
     }
+
+    isCritical(): boolean {
+        return true;
+    }
     
     isSabotaged(): boolean {
         return this.timer < 10000;

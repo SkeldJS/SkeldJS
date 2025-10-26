@@ -143,6 +143,10 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SabotagableSyste
         }
     }
 
+    isCritical(): boolean {
+        return false;
+    }
+
     isSabotaged(): boolean {
         return this.completedConsoles.size < HqHudSystem.consoleIds.length;
     }

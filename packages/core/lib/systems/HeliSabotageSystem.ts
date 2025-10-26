@@ -167,6 +167,10 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends Sabotagab
         }
     }
 
+    isCritical(): boolean {
+        return true;
+    }
+
     isSabotaged(): boolean {
         return this.completedConsoles.size < HeliSabotageSystem.consoleIds.length;
     }

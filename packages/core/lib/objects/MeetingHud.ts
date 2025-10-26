@@ -321,7 +321,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         this.room["_despawnComponent"](this);
         if (this.room.shipStatus) {
             for (const [, player] of this.room.players) {
-                await this.room.shipStatus.spawnPlayer(player, true, true);
+                await this.room.shipStatus.positionPlayerAtSpawn(player, true, true);
             }
         }
     }
@@ -343,10 +343,6 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
 
     async checkForVoteComplete(isTimeout: boolean) {
         const states = [...this.voteStates];
-
-        for (const [, state ] of states) {
-            console.log("vote state, player id: {}, has voted: {}, can vote: {}", state.playerId, state.hasVoted(), state.canVote());
-        }
 
         if (states.every(([, state]) => state.hasVoted() || !state.canVote()) || isTimeout) {
             let tie = false;
@@ -376,8 +372,6 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                     }
                 }
             }
-
-            console.log({ tie, exiled, exiledVotes, numSkips });
 
             if (numSkips >= exiledVotes)
                 exiled = undefined;
@@ -600,12 +594,9 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         this.closeTimer = -1;
 
         if (this.room.canManageObject(this)) {
-            console.log("waiting 5 seconds..");
             await setTimeoutPromise(5000);
             await exiled?.characterControl?.causeToDie("exiled");
-            console.log("exiled dead! closing..");
             await this.close();
-            console.log("waiting 5 seconds again..");
             await setTimeoutPromise(5000);
 
             if (exiled) {
@@ -614,7 +605,6 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                 if (counts) {
                     const { aliveCrewmates, aliveImpostors } = counts;
 
-                    console.log(exiled.getPlayerInfo()?.isImpostor)
                     if (exiled.getPlayerInfo()?.isImpostor) {
                         if (aliveImpostors <= 0) {
                             this.room.registerEndGameIntent(new CrewmatesByVoteEndGameIntent(exiled));
@@ -663,7 +653,6 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         }
 
         this._rpcVotingComplete(voteStates, tie, _exiled);
-        console.log("voting complete %s %s", tie, exiled);
         await this._votingComplete(_exiled);
 
         await this.emit(

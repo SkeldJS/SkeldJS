@@ -85,6 +85,7 @@ export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends
         return true;
     }
 
+    abstract isCritical(): boolean;
     abstract isSabotaged(): boolean;
 
     /**

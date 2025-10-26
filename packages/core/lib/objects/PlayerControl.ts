@@ -101,7 +101,7 @@ import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
-import { MovingPlatformSystem } from "../systems";
+import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
 import { BaseRole, GuardianAngelRole, UnknownRole } from "../roles";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { CrewmatesByTaskEndGameIntent, ImpostorByKillEndGameIntent } from "../EndGameIntent";
@@ -957,6 +957,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (callerPlayerId === undefined)
             return;
 
+
         const spawnMeetingHud = await this.room.createObjectOfType(
             SpawnType.MeetingHud,
             SpecialOwnerId.Global,
@@ -972,15 +973,11 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
         this.room.broadcastLazy(this.room.createObjectSpawnMessage(spawnMeetingHud));
 
-        // TODO
-        // this.room.shipStatus?.systems.get(SystemType.Laboratory)?.fullyRepairHost();
-        // this.room.shipStatus?.systems.get(SystemType.Reactor)?.fullyRepairHost();
-        // this.room.shipStatus?.systems.get(SystemType.O2)?.fullyRepairHost();
-
         const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
         if (movingPlatform instanceof MovingPlatformSystem) {
-            // TODO
-            // movingPlatform.setSide(MovingPlatformSide.Left);
+            // TODO: moving platform api
+            movingPlatform.side = MovingPlatformSide.Left;
+            movingPlatform.pushDataUpdate();
         }
 
         for (const [, player] of this.room.players) {

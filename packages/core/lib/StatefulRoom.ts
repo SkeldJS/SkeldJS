@@ -766,7 +766,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
 
         if (this.shipStatus) {
             for (const [, player] of this.players) {
-                await this.shipStatus.spawnPlayer(player, true, false);
+                await this.shipStatus.positionPlayerAtSpawn(player, true, false);
             }
         }
 

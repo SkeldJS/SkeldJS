@@ -112,6 +112,10 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SabotagableSy
         }
     }
 
+    isCritical(): boolean {
+        return true;
+    }
+
     isSabotaged(): boolean {
         return this.completedConsoles.size < LifeSuppSystem.consoleIds.length;
     }

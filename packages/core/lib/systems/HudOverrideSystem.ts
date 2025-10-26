@@ -69,6 +69,10 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
         void deltaSeconds;
     }
 
+    isCritical(): boolean {
+        return false;
+    }
+
     isSabotaged(): boolean {
         return this.hudOverridden;
     }

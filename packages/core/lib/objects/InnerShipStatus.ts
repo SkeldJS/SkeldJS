@@ -170,14 +170,20 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         if (rpc instanceof UpdateSystemMessage) return await this._handleUpdateSystem(rpc);
     }
 
-    async closeDoorsOfTypeWithAuth(systemType: SystemType) {
-        const doorSystem = this.systems.get(SystemType.Doors) as DoorsSystem<RoomType> | AutoDoorsSystem<RoomType>;
-        if (!doorSystem) return; // TODO: throw exception
-        await doorSystem.closeDoorsWithAuth(systemType);
+    async processFixedUpdate(deltaSeconds: number) {
+        for (const [, system] of this.systems) {
+            await system.processFixedUpdate(deltaSeconds);
+        }
     }
 
     protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
         await this.closeDoorsOfTypeWithAuth(rpc.systemType);
+    }
+
+    async closeDoorsOfTypeWithAuth(systemType: SystemType) {
+        const doorSystem = this.systems.get(SystemType.Doors) as DoorsSystem<RoomType> | AutoDoorsSystem<RoomType>;
+        if (!doorSystem) return; // TODO: throw exception
+        await doorSystem.closeDoorsWithAuth(systemType);
     }
 
     async closeDoorsOfTypeRequest(systemType: SystemType) {
@@ -214,12 +220,6 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
                     await system.handleUpdate(player, rpc.data);
                 }
             }
-        }
-    }
-
-    async processFixedUpdate(deltaSeconds: number) {
-        for (const [, system] of this.systems) {
-            await system.processFixedUpdate(deltaSeconds);
         }
     }
 
@@ -336,7 +336,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
      * @param initialSpawn Whether or not this is a spawn after starting the game.
      * @param broadcast Whether or not to broadcast the updates.
      */
-    async spawnPlayer(player: Player<RoomType>, initialSpawn: boolean, broadcast: boolean) {
+    async positionPlayerAtSpawn(player: Player<RoomType>, initialSpawn: boolean, broadcast: boolean) {
         if (player.getPlayerId() === undefined)
             return;
 
@@ -357,6 +357,22 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         const system = this.systems.get(systemType);
         if (system instanceof SystemClass) return system;
         return undefined;
+    }
+
+    async repairCriticalSystemsWithAuth(): Promise<void> {
+        for (const [ , system ] of this.systems) {
+            if (system.canBeSabotaged() && system.isCritical()) {
+                await system.fullyRepairWithAuth();
+            }
+        }
+    }
+
+    async repairAllSystemsWithAuth(): Promise<void> {
+        for (const [ , system ] of this.systems) {
+            if (system.canBeSabotaged()) {
+                await system.fullyRepairWithAuth();
+            }
+        }
     }
 
     /**

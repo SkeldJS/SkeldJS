@@ -150,6 +150,10 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
         }
     }
 
+    isCritical(): boolean {
+        return false;
+    }
+
     isSabotaged() {
         return this.actual[0] !== this.expected[0]
             || this.actual[1] !== this.expected[1]
