@@ -32,6 +32,8 @@ import { setTimeoutPromise } from "../utils/setTimeoutPromise";
 import { CrewmatesByVoteEndGameIntent, ImpostorByVoteEndGameIntent } from "../EndGameIntent";
 
 export class PlayerVoteArea<RoomType extends StatefulRoom> {
+    isDirty: boolean = false;
+
     constructor(
         public readonly meetinghud: MeetingHud<RoomType>,
         public playerId: number,
@@ -39,34 +41,29 @@ export class PlayerVoteArea<RoomType extends StatefulRoom> {
         public didReport: boolean
     ) { }
 
-    get dirty() {
-        return this.meetinghud.dirtyBit > 0;
-    }
-
-    set dirty(value: boolean) {
-        if (value) {
-            this.meetinghud.dirtyBit = 1;
-        }
+    pushDataUpdate() {
+        this.isDirty = true;
+        this.meetinghud.pushDataState(DataState.Update);
     }
 
     /**
      * The player that this vote state is for.
      */
-    get player() {
+    getPlayer() {
         return this.meetinghud.room.getPlayerByPlayerId(this.playerId);
     }
 
     /**
      * Whether this player skipped voting.
      */
-    get didSkip() {
+    didSkip() {
         return this.votedForId === VoteStateSpecialId.SkippedVote;
     }
 
     /**
      * Whether this player has either voted for a player or voted to skip.
      */
-    get hasVoted() {
+    hasVoted() {
         return this.votedForId < VoteStateSpecialId.IsDead ||
             this.votedForId === VoteStateSpecialId.SkippedVote;
     }
@@ -74,40 +71,43 @@ export class PlayerVoteArea<RoomType extends StatefulRoom> {
     /**
      * The player that this player voted for, if any.
      */
-    get votedFor() {
+    getSuspect() {
         if (this.votedForId >= VoteStateSpecialId.IsDead)
             return undefined;
 
         return this.meetinghud.room.getPlayerByPlayerId(this.votedForId);
     }
 
-    get canVote() {
-        const playerInfo = this.player?.getPlayerInfo();
-        return !playerInfo?.isDead && !playerInfo?.isDisconnected;
+    canVote() {
+        const player = this.getPlayer();
+        if (!player) return false;
+        const playerInfo = player.getPlayerInfo();
+        if (!playerInfo) return false;
+        return !playerInfo.isDead && !playerInfo.isDisconnected;
     }
 
-    clearVote() {
+    clearVoteWithAuth() {
         this.votedForId = VoteStateSpecialId.NotVoted;
-        this.dirty = true;
+        this.pushDataUpdate();
     }
 
-    setSkipped() {
+    setSkippedWithAuth() {
         this.votedForId = VoteStateSpecialId.SkippedVote;
-        this.dirty = true;
+        this.pushDataUpdate();
     }
 
-    setSuspect(playerId: number) {
+    setSuspectWithAuth(playerId: number) {
         if (playerId >= 252) {
             throw new RangeError("Suspect player ID cannot be greater than 252.");
         }
 
         this.votedForId = playerId;
-        this.dirty = true;
+        this.pushDataUpdate();
     }
 
-    setMissed() {
+    setMissedWithAuth() {
         this.votedForId = VoteStateSpecialId.MissedVote;
-        this.dirty = true;
+        this.pushDataUpdate();
     }
 }
 
@@ -131,35 +131,35 @@ export class PlayerVoteState<RoomType extends StatefulRoom> {
     /**
      * The player that this vote state is for.
      */
-    get player() {
+    getPlayer() {
         return this.room.getPlayerByPlayerId(this.playerId);
     }
 
     /**
      * Whether the player that this state represents is dead.
      */
-    get isDead() {
+    isDead() {
         return this.votedForId === VoteStateSpecialId.IsDead;
     }
 
     /**
      * Whether this player didn't vote by the end of the meeting.
      */
-    get didMissVote() {
+    didMissVote() {
         return this.votedForId === VoteStateSpecialId.MissedVote;
     }
 
     /**
      * Whether this player skipped voting.
      */
-    get didSkip() {
+    didSkip() {
         return this.votedForId === VoteStateSpecialId.SkippedVote;
     }
 
     /**
      * Whether this player has either voted for a player or voted to skip.
      */
-    get hasVoted() {
+    hasVoted() {
         return this.votedForId < VoteStateSpecialId.IsDead ||
             this.votedForId === VoteStateSpecialId.SkippedVote;
     }
@@ -167,7 +167,7 @@ export class PlayerVoteState<RoomType extends StatefulRoom> {
     /**
      * The player that this player voted for, if any.
      */
-    get votedFor() {
+    getPlayerVotedFor() {
         return this.room.getPlayerByPlayerId(this.votedForId);
     }
 }
@@ -182,6 +182,9 @@ export type MeetingHudEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
 >;
 
 export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, MeetingHudEvents<RoomType>> {
+    static animationDuration = 8;
+    static proceedingDuration = 5;
+
     /**
      * The dirty vote states to be updated on the next fixed update.
      */
@@ -192,17 +195,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
      */
     voteStates: Map<number, PlayerVoteArea<RoomType>> = new Map;
 
-    /**
-     * Whether the vote resulted in a tie.
-     */
-    tie?: boolean;
-
-    /**
-     * The player that was exiled, if any.
-     */
-    exiled: Player<RoomType>|undefined;
-
-    ranOutOfTimeTimeout?: NodeJS.Timeout;
+    closeTimer: number = 0;
 
     async processAwake() {
         if (this.room.canManageObject(this)) {
@@ -222,15 +215,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                     }));
 
             if (this.room.settings.votingTime > 0) {
-                this.ranOutOfTimeTimeout = setTimeout(() => {
-                    for (const [, voteState] of this.voteStates) {
-                        if (voteState.votedForId === 255) {
-                            voteState.setMissed();
-                        }
-                    }
-
-                    this.checkForVoteComplete(true);
-                }, 8000 + this.room.settings.discussionTime * 1000 + this.room.settings.votingTime * 1000);
+                this.closeTimer = MeetingHud.animationDuration + this.room.settings.discussionTime + MeetingHud.proceedingDuration + this.room.settings.votingTime;
             }
         }
     }
@@ -260,17 +245,17 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
 
                 this.voteStates.set(voteArea.playerId, newState);
 
-                if (!oldState?.hasVoted && newState.hasVoted) {
+                if (!oldState?.hasVoted() && newState.hasVoted()) {
                     await this.emit(
                         new MeetingHudVoteCastEvent(
                             this.room,
                             this,
                             undefined,
                             player,
-                            newState.votedFor
+                            newState.getSuspect()
                         )
                     );
-                } else if (oldState?.votedFor && !newState.hasVoted) {
+                } else if (oldState?.getSuspect() && !newState.hasVoted()) {
                     await this.emit(
                         new MeetingHudClearVoteEvent(
                             this.room,
@@ -289,6 +274,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         case DataState.Spawn:
         case DataState.Update: return new MeetingHudDataMessage(
                 [...this.voteStates.values()] 
+                    .filter(voteState => state === DataState.Spawn || voteState.isDirty)
                     .map(voteState => new VoteAreaDataMessage(voteState.playerId, voteState.votedForId, voteState.didReport))
             );
         }
@@ -312,8 +298,13 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         if (rpc instanceof ClearVoteMessage) return await this._handleClearVote(rpc);
     }
     
-    async processFixedUpdate(delta: number): Promise<void> {
-        void delta;
+    async processFixedUpdate(deltaSeconds: number): Promise<void> {
+        if (this.closeTimer > 0) {
+            this.closeTimer -= deltaSeconds;
+            if (this.closeTimer <= 0 && this.room.canManageObject(this)) {
+                await this.checkForVoteComplete(true);
+            }
+        }
     }
 
     private async _handleClose(rpc: CloseMessage) {
@@ -350,16 +341,20 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         this._rpcClose();
     }
 
-    checkForVoteComplete(isTimeout: boolean) {
+    async checkForVoteComplete(isTimeout: boolean) {
         const states = [...this.voteStates];
 
-        if (states.every(([, state]) => state.hasVoted || !state.canVote) || isTimeout) {
+        for (const [, state ] of states) {
+            console.log("vote state, player id: {}, has voted: {}, can vote: {}", state.playerId, state.hasVoted(), state.canVote());
+        }
+
+        if (states.every(([, state]) => state.hasVoted() || !state.canVote()) || isTimeout) {
             let tie = false;
             let exiled: Player<RoomType> | undefined;
             let exiledVotes = 0;
             let numSkips = 0;
             for (const [, state2] of states) {
-                if (state2.votedForId === VoteStateSpecialId.SkippedVote) {
+                if (state2.didSkip()) {
                     numSkips++;
                 }
             }
@@ -373,7 +368,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                 if (num) {
                     if (num > exiledVotes) {
                         tie = false;
-                        exiled = state.player;
+                        exiled = state.getPlayer();
                         exiledVotes = num;
                     } else if (num === exiledVotes) {
                         tie = true;
@@ -382,10 +377,12 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                 }
             }
 
+            console.log({ tie, exiled, exiledVotes, numSkips });
+
             if (numSkips >= exiledVotes)
                 exiled = undefined;
 
-            this.votingComplete(tie, exiled);
+            this.votingComplete(tie, exiled); // don't `await` this, as it waits 10 seconds for the meeting hud to close
         }
     }
 
@@ -412,7 +409,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
 
             if (ev.reverted) {
                 if (player) {
-                    await this.clearVoteBroadcast(player);
+                    await this.clearVoteWithAuth(player);
                 }
             } else {
                 this.room.playerAuthority?.characterControl?.sendChatNote(
@@ -428,9 +425,9 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     private _castVote(voterState: PlayerVoteArea<RoomType>, suspect?: Player<RoomType>) {
         if (voterState) {
             if (suspect) {
-                voterState.setSuspect(suspect.getPlayerId()!);
+                voterState.setSuspectWithAuth(suspect.getPlayerId()!);
             } else {
-                voterState.setSkipped();
+                voterState.setSkippedWithAuth();
             }
         }
     }
@@ -517,9 +514,8 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
     }
 
     private _clearVote(voter: PlayerVoteArea<RoomType>) {
-        if (voter.hasVoted) {
-            voter.clearVote();
-            voter.dirty = true;
+        if (voter.hasVoted()) {
+            voter.clearVoteWithAuth();
         }
     }
 
@@ -546,7 +542,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                     this.room,
                     this,
                     undefined,
-                    _voter.player!
+                    player,
                 )
             );
         }
@@ -557,7 +553,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
      * This is a host-only operation on official servers.
      * @param resolvable The player to remove the vote of.
      */
-    async clearVoteBroadcast(voter: PlayerResolvable) {
+    async clearVoteWithAuth(voter: PlayerResolvable) {
         const player = this.room.resolvePlayer(voter);
 
         if (player && player.getPlayerId() !== undefined) {
@@ -577,7 +573,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         });
 
         this._populateStates(playerStates);
-        await this._votingComplete(rpc.tie, exiled);
+        await this._votingComplete(exiled);
 
         await this.emit(
             new MeetingHudVotingCompleteEvent(
@@ -600,46 +596,37 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         }
     }
 
-    protected async _votingComplete(
-        tie: boolean,
-        exiled?: Player<RoomType>
-    ) {
-        this.tie = tie;
-        this.exiled = exiled;
+    protected async _votingComplete(exiled: Player<RoomType>|undefined) {
+        this.closeTimer = -1;
 
         if (this.room.canManageObject(this)) {
+            console.log("waiting 5 seconds..");
             await setTimeoutPromise(5000);
             await exiled?.characterControl?.causeToDie("exiled");
-            this.close();
+            console.log("exiled dead! closing..");
+            await this.close();
+            console.log("waiting 5 seconds again..");
             await setTimeoutPromise(5000);
 
             if (exiled) {
-                let aliveCrewmates = 0;
-                let aliveImpostors = 0;
-                for (const [, playerInfo] of this.room.playerInfo) {
-                    if (!playerInfo.isDisconnected && !playerInfo.isDead) {
-                        if (playerInfo.isImpostor) {
-                            aliveImpostors++;
-                        } else {
-                            aliveCrewmates++;
-                        }
-                    }
-                }
+                const counts = this.room.countPlayersRemaining();
+                
+                if (counts) {
+                    const { aliveCrewmates, aliveImpostors } = counts;
 
-                if (exiled.getPlayerInfo()?.isImpostor) {
-                    if (aliveImpostors <= 0) {
-                        this.room.registerEndGameIntent(new CrewmatesByVoteEndGameIntent(exiled));
-                    }
-                } else {
-                    if (aliveCrewmates <= aliveImpostors) {
-                        this.room.registerEndGameIntent(new ImpostorByVoteEndGameIntent(exiled));
+                    console.log(exiled.getPlayerInfo()?.isImpostor)
+                    if (exiled.getPlayerInfo()?.isImpostor) {
+                        if (aliveImpostors <= 0) {
+                            this.room.registerEndGameIntent(new CrewmatesByVoteEndGameIntent(exiled));
+                        }
+                    } else {
+                        if (aliveCrewmates <= aliveImpostors) {
+                            this.room.registerEndGameIntent(new ImpostorByVoteEndGameIntent(exiled));
+                        }
                     }
                 }
             }
         }
-
-        if (this.ranOutOfTimeTimeout)
-            clearInterval(this.ranOutOfTimeTimeout);
     }
 
     protected _rpcVotingComplete(
@@ -651,7 +638,10 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
             new RpcMessage(
                 this.netId,
                 new VotingCompleteMessage(
-                    states.map(state => new VoteState(state.playerId, state.votedForId)), exiled ? exiled.getPlayerId() ?? 0xff : 0xff, tie)
+                    states.map(state => new VoteState(state.playerId, state.votedForId)),
+                    exiled ? exiled.getPlayerId() ?? 0xff : 0xff,
+                    tie
+                )
             )
         );
     }
@@ -672,11 +662,11 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
             i++;
         }
 
-        this._populateStates(voteStates);
         this._rpcVotingComplete(voteStates, tie, _exiled);
-        await this._votingComplete(tie, _exiled);
+        console.log("voting complete %s %s", tie, exiled);
+        await this._votingComplete(_exiled);
 
-        this.emitSync(
+        await this.emit(
             new MeetingHudVotingCompleteEvent(
                 this.room,
                 this,

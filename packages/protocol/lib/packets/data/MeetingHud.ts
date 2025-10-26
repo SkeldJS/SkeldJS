@@ -35,18 +35,18 @@ export class MeetingHudDataMessage extends BaseDataMessage {
     }
 
     static deserializeFromReader(reader: HazelReader): MeetingHudDataMessage {
+        const numStates = reader.packed();
         const message = new MeetingHudDataMessage([]);
-        while (reader.left) {
+        for (let i = 0; i < numStates; i++) {
             message.voteStates.push(VoteAreaDataMessage.deserializeFromReader(reader));
         }
         return message;
     }
     
     serializeToWriter(writer: HazelWriter): void {
+        writer.packed(this.voteStates.length);
         for (const voteState of this.voteStates) {
-            writer.begin(voteState.playerId);
             voteState.serializeToWriter(writer);
-            writer.end();
         }
     }
 

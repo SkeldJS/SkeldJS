@@ -676,9 +676,12 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
 
             if (this.isAuthoritative && this.meetingHud) {
                 for (const [, voteState] of this.meetingHud.voteStates) {
-                    const voteStatePlayer = voteState.player;
+                    const voteStatePlayer = voteState.getPlayer();
                     if (voteStatePlayer && voteState.votedForId === playerId) {
-                        this.meetingHud.clearVoteBroadcast(voteStatePlayer);
+                        await this.meetingHud.clearVoteWithAuth(voteStatePlayer);
+                    }
+                    if (voteStatePlayer === player) {
+                        voteState.clearVoteWithAuth();
                     }
                 }
             }
@@ -784,6 +787,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             for (const [, component] of this.networkedObjects) {
                 this.despawnComponent(component);
             }
+            this.playerInfo.clear();
         }
         await this.emit(new RoomGameEndedEvent(this, reason));
     }
