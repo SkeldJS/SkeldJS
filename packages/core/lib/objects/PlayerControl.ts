@@ -93,7 +93,7 @@ import {
     PlayerSetLevelEvent
 } from "../events";
 
-import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject } from "../NetworkedObject";
 import { StatefulRoom, SpecialOwnerId } from "../StatefulRoom";
 import { Player } from "../Player";
 
@@ -101,10 +101,10 @@ import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
-import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
-import { AmongUsEndGames, EndGameIntent, PlayersKillEndgameMetadata } from "../endgame";
+import { MovingPlatformSystem } from "../systems";
 import { BaseRole, GuardianAngelRole, UnknownRole } from "../roles";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
+import { CrewmatesByTaskEndGameIntent, ImpostorByKillEndGameIntent } from "../EndGameIntent";
 
 export enum ProtectionRemoveReason {
     Timeout,
@@ -354,6 +354,10 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
     private _completeTask(taskIdx: number) {
         this.getPlayerInfo()?.completeTask(taskIdx);
+        const { totalTasks, completedTasks } = this.room.countTasksRemaining();
+        if (completedTasks >= totalTasks) {
+            this.room.registerEndGameIntent(new CrewmatesByTaskEndGameIntent(this.player, taskIdx));
+        }
     }
 
     private async _rpcCompleteTask(taskIdx: number) {
@@ -782,7 +786,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 )
             );
 
-            this._checkMurderEndGame();
+            this._checkMurderEndGame(victim);
         }
     }
 
@@ -820,7 +824,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.Succeeded);
-        this._checkMurderEndGame();
+        this._checkMurderEndGame(victim);
     }
 
     /**
@@ -851,7 +855,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         await this.murderPlayerHost(victim);
     }
 
-    private _checkMurderEndGame(victim?: Player<RoomType>) {
+    private _checkMurderEndGame(victim: Player<RoomType>) {
         let aliveCrewmates = 0;
         let aliveImpostors = 0;
         for (const [, playerInfo] of this.room.playerInfo) {
@@ -865,18 +869,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
 
         if (aliveCrewmates <= aliveImpostors) {
-            this.room.registerEndGameIntent(
-                new EndGameIntent<PlayersKillEndgameMetadata<RoomType>>(
-                    AmongUsEndGames.PlayersKill,
-                    GameOverReason.ImpostorByKill,
-                    {
-                        killer: this.player,
-                        victim,
-                        aliveCrewmates,
-                        aliveImpostors
-                    }
-                )
-            );
+            this.room.registerEndGameIntent(new ImpostorByKillEndGameIntent(this.player, victim));
         }
     }
 

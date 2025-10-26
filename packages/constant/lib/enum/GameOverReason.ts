@@ -1,10 +1,11 @@
 export enum GameOverReason {
-    HumansByVote,
-    HumansByTask,
+    CrewmatesByVote,
+    CrewmatesByTask,
     ImpostorByVote,
     ImpostorByKill,
     ImpostorBySabotage,
     ImpostorDisconnect,
-    HumansDisconnect,
-    None
+    CrewmateDisconnect,
+    HideAndSeekCrewmatesByTimer,
+    HideAndSeekImpostorsByKills,
 }

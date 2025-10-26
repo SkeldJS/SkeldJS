@@ -2,11 +2,12 @@ import { HazelReader } from "@skeldjs/hazel";
 import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, HeliSabotageConsoleUpdate, HeliSabotageSystemDataMessage, HeliSabotageSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SabotagableSystem, SystemStatus } from "./SystemStatus";
+import { SabotagableSystem } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
+import { ImpostorBySabotageEndGameIntent } from "../EndGameIntent";
 
 export type HeliUserConsolePair<RoomType extends StatefulRoom> = {
     player: Player<RoomType>;
@@ -35,7 +36,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends Sabotagab
     
     protected updateCooldown: number = 0;
 
-    countdown: number = 10000;
+    timer: number = 10000;
 
     /**
      * The timer until the consoles are reset.
@@ -62,7 +63,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends Sabotagab
 
     async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof HeliSabotageSystemDataMessage) {
-            this.countdown = data.countdown;
+            this.timer = data.countdown;
             this.resetTimer = data.resetTimer;
             const beforeActive = [...this.activeConsoleUserPairs];
             this.activeConsoleUserPairs = [];
@@ -97,7 +98,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends Sabotagab
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:
-            const message = new HeliSabotageSystemDataMessage(this.countdown, this.resetTimer, [], []);
+            const message = new HeliSabotageSystemDataMessage(this.timer, this.resetTimer, [], []);
             for (const { player, consoleId } of this.activeConsoleUserPairs) {
                 const playerId = player.getPlayerId();
                 if (playerId !== undefined) {
@@ -145,7 +146,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends Sabotagab
 
     async processFixedUpdate(deltaSeconds: number): Promise<void> {
         if (this.isSabotaged()) {
-            this.countdown -= deltaSeconds;
+            this.timer -= deltaSeconds;
             this.resetTimer -= deltaSeconds;
             if (this.resetTimer < 0) {
                 this.resetTimer = HeliSabotageSystem.maxResetTimer;
@@ -158,6 +159,11 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends Sabotagab
                 this.updateCooldown = HeliSabotageSystem.updateCooldownDuration;
                 this.pushDataUpdate();
             }
+
+            if (this.timer < 0) {
+                this.room.registerEndGameIntent(new ImpostorBySabotageEndGameIntent(this));
+                await this.fullyRepairWithAuth();
+            }
         }
     }
 
@@ -166,14 +172,14 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends Sabotagab
     }
 
     async sabotageWithAuth(): Promise<void> {
-        this.countdown = HeliSabotageSystem.sabotageDuration;
+        this.timer = HeliSabotageSystem.sabotageDuration;
         this.resetTimer = HeliSabotageSystem.maxResetTimer;
         this.completedConsoles.clear();
         this.pushDataUpdate();
     }
 
     async fullyRepairWithAuth(): Promise<void> {
-        this.countdown = HeliSabotageSystem.unsabotagedCountdown;
+        this.timer = HeliSabotageSystem.unsabotagedCountdown;
         this.resetTimer = 10000;
         this.completedConsoles = new Set(HeliSabotageSystem.consoleIds);
         this.pushDataUpdate();

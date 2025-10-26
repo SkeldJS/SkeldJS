@@ -68,7 +68,7 @@ import {
     RoomGameStartedEvent
 } from "./events";
 
-import { AmongUsEndGames, EndGameIntent, PlayersDisconnectEndgameMetadata } from "./endgame";
+import { CrewmateDisconnectEndGameIntent, EndGameIntent, ImpostorDisconnectEndGameIntent } from "./EndGameIntent";
 
 import {
     BaseRole,
@@ -282,7 +282,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      *
      * See {@link RoomGameEndedEvent} to listen for a game actually ending.
      */
-    endGameIntents: EndGameIntent<any>[] = [];
+    endGameIntents: EndGameIntent[] = [];
 
     constructor(public config: StatefulRoomConfig = {}) {
         super();
@@ -355,6 +355,18 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
     broadcastLazy(gameDataMessage: BaseGameDataMessage) {
         this.messageStream.push(gameDataMessage);
     }
+    
+    async createPlayerInfo(player: Player<this>) {
+        const playerInfo = await this.createObjectOfType(SpawnType.PlayerInfo, SpecialOwnerId.Server, SpawnFlag.None) as NetworkedPlayerInfo<this>;
+        playerInfo.playerId = this.getAvailablePlayerID();
+        playerInfo.clientId = player.clientId;
+        playerInfo.friendCode = player.friendCode;
+        playerInfo.puid = player.puid;
+        await playerInfo.processAwake();
+        this.broadcastLazy(this.createObjectSpawnMessage(playerInfo));
+        this.playerInfo.set(playerInfo.playerId, playerInfo);
+        return playerInfo;
+    }
 
     async processObjectsFixedUpdate(deltaSeconds: number, sendUpdates: boolean) {
         for (const [, component] of this.networkedObjects) {
@@ -390,9 +402,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                     const intent = endGameIntents[i];
                     const ev = await this.emit(new RoomEndGameIntentEvent(
                         this,
-                        intent.name,
-                        intent.reason,
-                        intent.metadata
+                        intent,
                     ));
 
                     if (ev.canceled) {
@@ -402,7 +412,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                 }
 
                 if (endGameIntents[0]) {
-                    await this.endGame(endGameIntents[0].reason);
+                    await this.endGame(endGameIntents[0].reason, endGameIntents[0]);
                 }
             }
         }
@@ -583,7 +593,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         return player;
     }
 
-    checkPlayersRemaining() {
+    countPlayersRemaining() {
         if (!this.shipStatus)
             return;
 
@@ -612,25 +622,23 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             }
         }
 
-        const reason = totalImpostors === 0
-            ? GameOverReason.ImpostorDisconnect
-            : aliveCrewmates <= aliveImpostors
-                ? GameOverReason.HumansDisconnect
-                : -1;
+        return { aliveCrewmates, aliveImpostors, totalImpostors };
+    }
 
-        if (reason !== -1) {
-            this.registerEndGameIntent(
-                new EndGameIntent<PlayersDisconnectEndgameMetadata>(
-                    AmongUsEndGames.PlayersDisconnect,
-                    reason,
-                    {
-                        aliveImpostors,
-                        totalImpostors,
-                        aliveCrewmates
-                    }
-                )
-            );
+    countTasksRemaining() {
+        let totalTasks = 0;
+        let completedTasks = 0;
+
+        for (const [ , playerInfo ] of this.playerInfo) {
+            if (playerInfo.isDisconnected) continue;
+            // if (!this.settings.ghostDoTasks && playerInfo.isDead) continue; // TODO: "ghosts do tasks" appears to be a reserved option, always true for now.
+            if (!playerInfo.roleType || !playerInfo.roleType.roleMetadata.tasksCountTowardsProgress) continue;
+
+            totalTasks += playerInfo.taskStates.length;
+            completedTasks += playerInfo.taskStates.filter(state => state.completed).length;
         }
+
+        return { totalTasks, completedTasks };
     }
 
     /**
@@ -652,7 +660,16 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                     gamedataEntry.setDisconnected(true);
                 }
 
-                this.checkPlayersRemaining();
+                const counts = this.countPlayersRemaining();
+                if (counts) {
+                    const { aliveCrewmates, aliveImpostors, totalImpostors } = counts;
+                    
+                    if (aliveImpostors === 0) {
+                        this.registerEndGameIntent(new ImpostorDisconnectEndGameIntent(player));
+                    } else if (aliveCrewmates <= aliveImpostors) {
+                        this.registerEndGameIntent(new CrewmateDisconnectEndGameIntent(player));
+                    }
+                }
             } else {
                 this.playerInfo.delete(playerId);
             }
@@ -677,9 +694,15 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             }
         }
 
+        const playerInfo = player.getPlayerInfo();
+        if (playerInfo) {
+            this.despawnComponent(playerInfo);
+            this.playerInfo.delete(playerInfo.playerId);
+        }
+
         this.players.delete(player.clientId);
 
-        this.emitSync(new PlayerLeaveEvent(this, player));
+        await this.emit(new PlayerLeaveEvent(this, player));
 
         return player;
     }
@@ -1102,7 +1125,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      * Register an intent to end the game.
      * @param endGameIntent The intention to end the game.
      */
-    registerEndGameIntent(endGameIntent: EndGameIntent<any>) {
+    registerEndGameIntent(endGameIntent: EndGameIntent) {
         this.endGameIntents.push(endGameIntent);
     }
     
@@ -1126,7 +1149,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
     abstract get isAuthoritative(): boolean;
 
     abstract canManageObject(object: NetworkedObject<this>): boolean;
-    abstract endGame(reason: GameOverReason): Promise<void>;
+    abstract endGame(reason: GameOverReason, intent: EndGameIntent): Promise<void>;
 
     abstract clearMyVoteImpl(meetingHud: MeetingHud<this>): Promise<void>;
     abstract getSelectedSeekerAllowedImpl(seekerPlayerId: number): boolean;

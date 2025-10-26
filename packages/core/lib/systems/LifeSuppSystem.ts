@@ -1,12 +1,14 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, LifeSuppConsoleUpdate, LifeSuppSystemDataMessage, LifeSuppSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, CompletedConsoleDataMessage, LifeSuppConsoleUpdate, LifeSuppSystemDataMessage, LifeSuppSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
+import { GameOverReason } from "@skeldjs/constant";
 
-import { SabotagableSystem, SystemStatus } from "./SystemStatus";
+import { SabotagableSystem } from "./SystemStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
+import { ImpostorBySabotageEndGameIntent } from "../EndGameIntent";
 
 export type LifeSuppSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
@@ -26,7 +28,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SabotagableSy
     
     protected updateCooldown: number = 0;
 
-    countdown: number = 10000;
+    timer: number = 10000;
 
     /**
      * The completed consoles.
@@ -43,7 +45,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SabotagableSy
 
     async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof LifeSuppSystemDataMessage) {
-            this.countdown = data.countdown;
+            this.timer = data.countdown;
 
             const beforeCompleted = new Set(this.completedConsoles);
             this.completedConsoles = new Set;
@@ -62,7 +64,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SabotagableSy
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:
-            const message = new LifeSuppSystemDataMessage(this.countdown, []);
+            const message = new LifeSuppSystemDataMessage(this.timer, []);
             for (const completedConsoleId of this.completedConsoles) {
                 message.completedConsoles.push(new CompletedConsoleDataMessage(completedConsoleId));
             }
@@ -95,12 +97,17 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SabotagableSy
 
     async processFixedUpdate(deltaSeconds: number): Promise<void> {
         if (this.isSabotaged()) {
-            this.countdown -= deltaSeconds;
+            this.timer -= deltaSeconds;
 
             this.updateCooldown -= deltaSeconds;
             if (this.updateCooldown < 0) {
                 this.updateCooldown = LifeSuppSystem.updateCooldownDuration;
                 this.pushDataUpdate();
+            }
+            
+            if (this.timer < 0) {
+                this.room.registerEndGameIntent(new ImpostorBySabotageEndGameIntent(this));
+                await this.fullyRepairWithAuth();
             }
         }
     }
@@ -110,13 +117,13 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SabotagableSy
     }
 
     async sabotageWithAuth(): Promise<void> {
-        this.countdown = LifeSuppSystem.sabotageDuration;
+        this.timer = LifeSuppSystem.sabotageDuration;
         this.completedConsoles.clear();
         this.pushDataUpdate();
     }
 
     async fullyRepairWithAuth(): Promise<void> {
-        this.countdown = LifeSuppSystem.unsabotagedCountdown;
+        this.timer = LifeSuppSystem.unsabotagedCountdown;
         this.completedConsoles = new Set(LifeSuppSystem.consoleIds);
         this.pushDataUpdate();
     }

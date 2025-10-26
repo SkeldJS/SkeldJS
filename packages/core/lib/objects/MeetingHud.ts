@@ -1,6 +1,6 @@
-import { HazelReader, HazelWriter } from "@skeldjs/hazel";
+import { HazelReader } from "@skeldjs/hazel";
 
-import { ChatNoteType, GameOverReason, RpcMessageTag } from "@skeldjs/constant";
+import { ChatNoteType, RpcMessageTag } from "@skeldjs/constant";
 
 import {
     BaseSystemMessage,
@@ -16,7 +16,7 @@ import {
 } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject } from "../NetworkedObject";
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
 
 import {
@@ -27,9 +27,9 @@ import {
 } from "../events";
 
 import { Player } from "../Player";
-import { AmongUsEndGames, EndGameIntent, PlayersVoteOutEndgameMetadata } from "../endgame";
 
 import { setTimeoutPromise } from "../utils/setTimeoutPromise";
+import { CrewmatesByVoteEndGameIntent, ImpostorByVoteEndGameIntent } from "../EndGameIntent";
 
 export class PlayerVoteArea<RoomType extends StatefulRoom> {
     constructor(
@@ -628,31 +628,11 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
 
                 if (exiled.getPlayerInfo()?.isImpostor) {
                     if (aliveImpostors <= 0) {
-                        this.room.registerEndGameIntent(
-                            new EndGameIntent<PlayersVoteOutEndgameMetadata<RoomType>>(
-                                AmongUsEndGames.PlayersVoteOut,
-                                GameOverReason.HumansByVote,
-                                {
-                                    exiled,
-                                    aliveCrewmates,
-                                    aliveImpostors
-                                }
-                            )
-                        );
+                        this.room.registerEndGameIntent(new CrewmatesByVoteEndGameIntent(exiled));
                     }
                 } else {
                     if (aliveCrewmates <= aliveImpostors) {
-                        this.room.registerEndGameIntent(
-                            new EndGameIntent<PlayersVoteOutEndgameMetadata<RoomType>>(
-                                AmongUsEndGames.PlayersVoteOut,
-                                GameOverReason.ImpostorByVote,
-                                {
-                                    exiled,
-                                    aliveCrewmates,
-                                    aliveImpostors
-                                }
-                            )
-                        );
+                        this.room.registerEndGameIntent(new ImpostorByVoteEndGameIntent(exiled));
                     }
                 }
             }

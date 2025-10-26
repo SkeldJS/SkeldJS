@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
+import { GameOverReason, SystemType } from "@skeldjs/constant";
 import { ActiveConsoleDataMessage, BaseSystemMessage, ReactorConsoleUpdate, ReactorSystemDataMessage, ReactorSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
@@ -9,6 +9,7 @@ import { SabotagableSystem } from "./SystemStatus";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
+import { ImpostorBySabotageEndGameIntent } from "../EndGameIntent";
 
 export type ReactorSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
@@ -38,7 +39,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
     /**
      * The timer before the reactor explodes.
      */
-    countdown: number = ReactorSystem.unsabotagedTimer;
+    timer: number = ReactorSystem.unsabotagedTimer;
 
     sabotageDuration: number = 45;
 
@@ -64,7 +65,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
 
     async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof ReactorSystemDataMessage) {
-            this.countdown = data.timer;
+            this.timer = data.timer;
             const before = [...this.userConsolePairs];
             this.userConsolePairs = [];
             for (const userConsolePair of data.userConsolePairs) {
@@ -88,7 +89,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
         switch (dataState) {
         case DataState.Spawn:
         case DataState.Update:
-            const message = new ReactorSystemDataMessage(this.countdown, []);
+            const message = new ReactorSystemDataMessage(this.timer, []);
             for (const { player, consoleId } of this.userConsolePairs) {
                 const playerId = player.getPlayerId();
                 if (playerId !== undefined) {
@@ -134,27 +135,31 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
 
     async processFixedUpdate(deltaSeconds: number): Promise<void> {
         if (this.isSabotaged()) {
-            this.countdown -= deltaSeconds;
+            this.timer -= deltaSeconds;
             this.updateCooldown -= deltaSeconds;
             if (this.updateCooldown <= 0) {
                 this.updateCooldown = ReactorSystem.updateCooldownDuration;
                 this.pushDataUpdate();
             }
+            if (this.timer < 0) {
+                this.room.registerEndGameIntent(new ImpostorBySabotageEndGameIntent(this));
+                await this.fullyRepairWithAuth();
+            }
         }
     }
     
     isSabotaged(): boolean {
-        return this.countdown < 10000;
+        return this.timer < 10000;
     }
 
     async sabotageWithAuth(): Promise<void> {
-        this.countdown = this.sabotageDuration;
+        this.timer = this.sabotageDuration;
         this.userConsolePairs = [];
         this.pushDataUpdate();
     }
 
     async fullyRepairWithAuth(): Promise<void> {
-        this.countdown = ReactorSystem.unsabotagedTimer;
+        this.timer = ReactorSystem.unsabotagedTimer;
         this.pushDataUpdate();
     }
 

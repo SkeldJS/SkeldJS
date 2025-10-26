@@ -2,6 +2,7 @@ import { CancelableEvent } from "@skeldjs/events";
 import { GameOverReason } from "@skeldjs/constant";
 import { StatefulRoom } from "../../StatefulRoom";
 import { RoomEvent } from "../RoomEvent";
+import { EndGameIntent } from "../../EndGameIntent";
 
 /**
  * Emitted when a game end intent critera is fulfilled, and the game is planned
@@ -17,9 +18,7 @@ export class RoomEndGameIntentEvent<RoomType extends StatefulRoom> extends Cance
 
     constructor(
         public readonly room: RoomType,
-        public readonly intentName: string,
-        public readonly reason: GameOverReason,
-        public readonly metadata: any
+        public readonly intent: EndGameIntent,
     ) {
         super();
     }

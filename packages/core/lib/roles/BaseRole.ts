@@ -1,11 +1,12 @@
-import { RoleTeamType } from "@skeldjs/constant";
+import { RoleTeamType, RoleType } from "@skeldjs/constant";
 import { StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";
 
 export interface RoleMetadata {
-    roleType: number;
+    roleType: RoleType;
     roleTeam: RoleTeamType;
     isGhostRole: boolean;
+    tasksCountTowardsProgress: boolean;
 }
 
 export class BaseRole<RoomType extends StatefulRoom> {
