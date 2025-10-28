@@ -8,7 +8,7 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player (i.e. a guardian angel) is attempting to protect another
  * player, and is requesting the host to verify the attempt and actually protect
- * the player. Only admitted if the client is the host.
+ * the player. Only emitted if the client is the host.
  *
  * This event is useful if you want to prevent a protect from actually happening,
  * before it happens. Therefore this event doesn't guarantee that the target is

@@ -39,7 +39,9 @@ import {
     SyncSettingsMessage,
     UsePlatformMessage,
     CheckShapeshiftMessage,
-    RejectShapeshiftMessage
+    RejectShapeshiftMessage,
+    UseZiplineMessage,
+    CheckZiplineMessage
 } from "@skeldjs/protocol";
 
 import {
@@ -93,7 +95,8 @@ import {
     PlayerShapeshiftEvent,
     PlayerRevertShapeshiftEvent,
     PlayerSetLevelEvent,
-    PlayerCheckShapeshiftEvent
+    PlayerCheckShapeshiftEvent,
+    PlayerCheckZiplineEvent
 } from "../events";
 
 import { DataState, NetworkedObject } from "../NetworkedObject";
@@ -108,6 +111,7 @@ import { MovingPlatformSide, MovingPlatformSystem, MushroomMixupSabotageSystem, 
 import { BaseRole, GuardianAngelRole, ShapeshifterRole, UnknownRole } from "../roles";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { CrewmatesByTaskEndGameIntent, ImpostorByKillEndGameIntent } from "../EndGameIntent";
+import { PlayerUseZiplineEvent } from "../events/player/UseZipline";
 
 export enum ProtectionRemoveReason {
     Timeout,
@@ -295,37 +299,41 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             case RpcMessageTag.CheckProtect: return CheckProtectMessage.deserializeFromReader(reader);
             case RpcMessageTag.CheckShapeshift: return CheckShapeshiftMessage.deserializeFromReader(reader);
             case RpcMessageTag.RejectShapeshift: return RejectShapeshiftMessage.deserializeFromReader();
+            case RpcMessageTag.CheckZipline: return CheckZiplineMessage.deserializeFromReader(reader);
+            case RpcMessageTag.UseZipline: return UseZiplineMessage.deserializeFromReader(reader);
         }
         return undefined;
     }
 
     async handleRemoteCall(rpc: BaseRpcMessage) {
-        if (rpc instanceof CompleteTaskMessage) await this._handleCompleteTask(rpc as CompleteTaskMessage);
-        if (rpc instanceof SyncSettingsMessage) await this._handleSyncSettings(rpc as SyncSettingsMessage);
-        if (rpc instanceof CheckNameMessage) await this._handleCheckName(rpc as CheckNameMessage);
-        if (rpc instanceof CheckColorMessage) await this._handleCheckColor(rpc as CheckColorMessage);
-        if (rpc instanceof SetNameMessage) await this._handleSetName(rpc as SetNameMessage);
-        if (rpc instanceof SetColorMessage) await this._handleSetColor(rpc as SetColorMessage);
-        if (rpc instanceof ReportDeadBodyMessage) await this._handleReportDeadBody(rpc as ReportDeadBodyMessage);
-        if (rpc instanceof MurderPlayerMessage) await this._handleMurderPlayer(rpc as MurderPlayerMessage);
-        if (rpc instanceof SendChatMessage) await this._handleSendChat(rpc as SendChatMessage);
-        if (rpc instanceof StartMeetingMessage) await this._handleStartMeeting(rpc as StartMeetingMessage);
-        if (rpc instanceof SetStartCounterMessage) await this._handleSetStartCounter(rpc as SetStartCounterMessage);
-        if (rpc instanceof UsePlatformMessage) await this._handleUsePlatform(rpc as UsePlatformMessage);
-        if (rpc instanceof SendQuickChatMessage) await this._handleSendQuickChat(rpc as SendQuickChatMessage);
-        if (rpc instanceof SetLevelMessage) await this._handleSetLevel(rpc as SetLevelMessage);
-        if (rpc instanceof SetHatMessage) await this._handleSetHat(rpc as SetHatMessage);
-        if (rpc instanceof SetSkinMessage) await this._handleSetSkin(rpc as SetSkinMessage);
-        if (rpc instanceof SetPetMessage) await this._handleSetPet(rpc as SetPetMessage);
-        if (rpc instanceof SetVisorMessage) await this._handleSetVisor(rpc as SetVisorMessage);
-        if (rpc instanceof SetNameplateMessage) await this._handleSetNameplate(rpc as SetNameplateMessage);
-        if (rpc instanceof SetRoleMessage) await this._handleSetRole(rpc as SetRoleMessage);
-        if (rpc instanceof ProtectPlayerMessage) await this._handleProtectPlayer(rpc as ProtectPlayerMessage);
-        if (rpc instanceof ShapeshiftMessage) await this._handleShapeshift(rpc as ShapeshiftMessage);
-        if (rpc instanceof CheckMurderMessage) await this._handleCheckMurder(rpc as CheckMurderMessage);
-        if (rpc instanceof CheckProtectMessage) await this._handleCheckProtect(rpc as CheckProtectMessage);
-        if (rpc instanceof CheckShapeshiftMessage) await this._handleCheckShapeshift(rpc as CheckShapeshiftMessage);
-        if (rpc instanceof RejectShapeshiftMessage) await this._handleRejectShapeshift(rpc as CheckShapeshiftMessage);
+        if (rpc instanceof CompleteTaskMessage) await this._handleCompleteTask(rpc);
+        if (rpc instanceof SyncSettingsMessage) await this._handleSyncSettings(rpc);
+        if (rpc instanceof CheckNameMessage) await this._handleCheckName(rpc);
+        if (rpc instanceof CheckColorMessage) await this._handleCheckColor(rpc);
+        if (rpc instanceof SetNameMessage) await this._handleSetName(rpc);
+        if (rpc instanceof SetColorMessage) await this._handleSetColor(rpc);
+        if (rpc instanceof ReportDeadBodyMessage) await this._handleReportDeadBody(rpc);
+        if (rpc instanceof MurderPlayerMessage) await this._handleMurderPlayer(rpc);
+        if (rpc instanceof SendChatMessage) await this._handleSendChat(rpc);
+        if (rpc instanceof StartMeetingMessage) await this._handleStartMeeting(rpc);
+        if (rpc instanceof SetStartCounterMessage) await this._handleSetStartCounter(rpc);
+        if (rpc instanceof UsePlatformMessage) await this._handleUsePlatform(rpc);
+        if (rpc instanceof SendQuickChatMessage) await this._handleSendQuickChat(rpc);
+        if (rpc instanceof SetLevelMessage) await this._handleSetLevel(rpc);
+        if (rpc instanceof SetHatMessage) await this._handleSetHat(rpc);
+        if (rpc instanceof SetSkinMessage) await this._handleSetSkin(rpc);
+        if (rpc instanceof SetPetMessage) await this._handleSetPet(rpc);
+        if (rpc instanceof SetVisorMessage) await this._handleSetVisor(rpc);
+        if (rpc instanceof SetNameplateMessage) await this._handleSetNameplate(rpc);
+        if (rpc instanceof SetRoleMessage) await this._handleSetRole(rpc);
+        if (rpc instanceof ProtectPlayerMessage) await this._handleProtectPlayer(rpc);
+        if (rpc instanceof ShapeshiftMessage) await this._handleShapeshift(rpc);
+        if (rpc instanceof CheckMurderMessage) await this._handleCheckMurder(rpc);
+        if (rpc instanceof CheckProtectMessage) await this._handleCheckProtect(rpc);
+        if (rpc instanceof CheckShapeshiftMessage) await this._handleCheckShapeshift(rpc);
+        if (rpc instanceof RejectShapeshiftMessage) await this._handleRejectShapeshift(rpc);
+        if (rpc instanceof CheckZiplineMessage) await this._handleCheckZipline(rpc);
+        if (rpc instanceof UseZiplineMessage) await this._handleUseZipline(rpc);
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
@@ -795,13 +803,13 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
     }
 
-    async murderPlayerHost(victim: Player<RoomType>) {
+    async murderPlayerWithAuth(victim: Player<RoomType>) {
         const characterControl = victim.characterControl;
         if (!characterControl) return;
 
         if (characterControl.protectedByGuardian) {
-            await characterControl.removeProtection(ProtectionRemoveReason.MurderAttempt);
             this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedProtected);
+            await characterControl.removeProtection(ProtectionRemoveReason.MurderAttempt);
             return;
         }
 
@@ -833,19 +841,17 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      * @param victim The player to murder.
      * @returns
      */
-    async tryMurderPlayer(victim: Player<RoomType>) {
+    async murderPlayerRequest(victim: Player<RoomType>) {
+        await this._rpcCheckMurder(victim);
+    }
+
+    async murderPlayer(victim: Player<RoomType>) {
         if (!this.room.canManageObject(this)) {
-            await this._rpcCheckMurder(victim);
+            await this.murderPlayerRequest(victim);
             return;
         }
 
-        if (victim.characterControl?.protectedByGuardian) {
-            this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedProtected);
-            await victim.characterControl.removeProtection(ProtectionRemoveReason.MurderAttempt);
-            return;
-        }
-
-        await this.murderPlayerHost(victim);
+        await this.murderPlayerWithAuth(victim);
     }
 
     private _checkMurderEndGame(victim: Player<RoomType>) {
@@ -1899,7 +1905,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (ev.alteredIsValid) {
-            await ev.alteredPlayer.characterControl?.murderPlayerHost(ev.alteredVictim);
+            await ev.alteredPlayer.characterControl?.murderPlayerWithAuth(ev.alteredVictim);
         } else {
             this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedError);
         }
@@ -2064,5 +2070,68 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
     private async _handleRejectShapeshift(rpc: RejectShapeshiftMessage) {
         // TODO: event: shapeshift rejected
+    }
+
+    protected _ziplineIsValid(fromTop: boolean): boolean {
+        const thisPlayerInfo = this.getPlayerInfo();
+        // TODO: check if in moving platform
+        if (!thisPlayerInfo || thisPlayerInfo.isDead) {
+            return false;
+        }
+        if (this.room.meetingHud !== undefined) return false;
+
+        // TODO: check distance
+        return true;
+    }
+
+    private async _handleCheckZipline(rpc: CheckZiplineMessage) {
+        const ev = await this.emit(
+            new PlayerCheckZiplineEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.fromTop,
+                this._ziplineIsValid(rpc.fromTop)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            await ev.alteredPlayer.characterControl?.useZipline(ev.alteredFromTop);
+        }
+    }
+
+    private async _rpcCheckZipline(target: Player<StatefulRoom>, fromTop: boolean) {
+        if (!target.characterControl)
+            return;
+
+        await this.room.broadcastImmediate([
+            new RpcMessage(
+                this.netId,
+                new CheckZiplineMessage(fromTop,)
+            )
+        ]);
+    }
+
+    private async _handleUseZipline(rpc: UseZiplineMessage) {
+        await this.emit(
+            new PlayerUseZiplineEvent(this.room, this.player, rpc, rpc.fromTop)
+        );
+    }
+
+    private async _rpcUseZipline(fromTop: boolean) {
+        this.room.broadcastImmediate([
+            new RpcMessage(
+                this.netId,
+                new UseZiplineMessage(fromTop)
+            )
+        ]);
+    }
+
+    async useZipline(fromTop: boolean) {
+        await this.emit(
+            new PlayerUseZiplineEvent(this.room, this.player, undefined, fromTop)
+        );
+
+        await this._rpcUseZipline(fromTop);
     }
 }

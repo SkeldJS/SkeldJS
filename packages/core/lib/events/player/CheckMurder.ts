@@ -7,7 +7,7 @@ import { PlayerEvent } from "./PlayerEvent";
 
 /**
  * Emitted when a player is attempting to murder another player, and is requesting
- * the host to verify the attempt and actually murder the player. Only admitted
+ * the host to verify the attempt and actually murder the player. Only emitted
  * if the client is the host.
  *
  * This event is useful if you want to prevent a murder from actually happening,

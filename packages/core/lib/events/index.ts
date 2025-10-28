@@ -14,6 +14,7 @@ export * from "./player/CheckMurder";
 export * from "./player/CheckName";
 export * from "./player/CheckProtect";
 export * from "./player/CheckShapeshift";
+export * from "./player/CheckZipline";
 export * from "./player/ClimbLadder";
 export * from "./player/CompleteTask";
 export * from "./player/Die";

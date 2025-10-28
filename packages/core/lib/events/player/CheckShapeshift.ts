@@ -8,7 +8,7 @@ import { PlayerEvent } from "./PlayerEvent";
 /**
  * Emitted when a player (i.e. a shapeshifter) is attempting to shapeshift into another
  * player, and is requesting the host to verify the attempt and actually shapeshift
- * into that player. Only admitted if the client is the host.
+ * into that player. Only emitted if the client is the host.
  *
  * This event is useful if you want to prevent a shapeshift from actually happening,
  * before it happens. Therefore this event doesn't guarantee that the shapeshift actually
