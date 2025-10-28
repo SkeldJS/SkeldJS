@@ -595,9 +595,9 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
 
         if (this.room.canManageObject(this)) {
             await setTimeoutPromise(5000);
-            await exiled?.characterControl?.causeToDie("exiled");
             await this.close();
             await setTimeoutPromise(5000);
+            await exiled?.characterControl?.causeToDie("exiled");
 
             if (exiled) {
                 const counts = this.room.countPlayersRemaining();
