@@ -183,7 +183,6 @@ export type MeetingHudEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
 
 export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, MeetingHudEvents<RoomType>> {
     static animationDuration = 8;
-    static proceedingDuration = 5;
 
     /**
      * The dirty vote states to be updated on the next fixed update.
@@ -215,7 +214,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                     }));
 
             if (this.room.settings.votingTime > 0) {
-                this.closeTimer = MeetingHud.animationDuration + this.room.settings.discussionTime + MeetingHud.proceedingDuration + this.room.settings.votingTime;
+                this.closeTimer = MeetingHud.animationDuration + this.room.settings.discussionTime + this.room.settings.votingTime;
             }
         }
     }

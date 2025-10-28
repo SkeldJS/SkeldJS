@@ -425,7 +425,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         if (this.currentOutfitType === outfitType) {
             this.currentOutfitType = PlayerOutfitType.Default;
         }
-        this.pushDataState(DataState.Update);;
+        this.pushDataState(DataState.Update);
     }
 
     setName(outfitType: PlayerOutfitType, name: string) {
