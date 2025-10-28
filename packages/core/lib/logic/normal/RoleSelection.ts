@@ -159,8 +159,8 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
             }
         }
 
-        this.getRoleAssignmentsForPlayers(playerPool, maxAssignable, fullChanceRoles, roleAssignments);
-        this.getRoleAssignmentsForPlayers(playerPool, maxAssignable, lesserChanceRoles, roleAssignments);
+        maxAssignable -= this.getRoleAssignmentsForPlayers(playerPool, maxAssignable, fullChanceRoles, roleAssignments);
+        maxAssignable -= this.getRoleAssignmentsForPlayers(playerPool, maxAssignable, lesserChanceRoles, roleAssignments);
 
         if (defaultRole) {
             const defaultRoles: typeof BaseRole[] = [];
@@ -208,7 +208,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
             roleAssignments.set(player, roleCtr);
             numAssigned++;
         }
-        return roleAssignments;
+        return numAssigned;
     }
 
     /**
@@ -260,7 +260,7 @@ export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> ex
             if (roleChance.chance >= 100)
                 return true;
 
-            if (Math.random() * 101 < roleChance.chance)
+            if (Math.random() * 100 <= roleChance.chance)
                 return true;
 
             return false;
