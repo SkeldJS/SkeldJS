@@ -41,7 +41,9 @@ import {
     CheckShapeshiftMessage,
     RejectShapeshiftMessage,
     UseZiplineMessage,
-    CheckZiplineMessage
+    CheckZiplineMessage,
+    TriggerSporesMessage,
+    CheckSporeTriggerMessage
 } from "@skeldjs/protocol";
 
 import {
@@ -96,7 +98,10 @@ import {
     PlayerRevertShapeshiftEvent,
     PlayerSetLevelEvent,
     PlayerCheckShapeshiftEvent,
-    PlayerCheckZiplineEvent
+    PlayerCheckZiplineEvent,
+    PlayerUseZiplineEvent,
+    PlayerCheckSporeTriggerEvent,
+    PlayerTriggerSporesEvent,
 } from "../events";
 
 import { DataState, NetworkedObject } from "../NetworkedObject";
@@ -107,11 +112,10 @@ import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
-import { MovingPlatformSide, MovingPlatformSystem, MushroomMixupSabotageSystem, SystemStatus } from "../systems";
+import { MovingPlatformSide, MovingPlatformSystem, MushroomMixupSabotageSystem } from "../systems";
 import { BaseRole, GuardianAngelRole, ShapeshifterRole, UnknownRole } from "../roles";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { CrewmatesByTaskEndGameIntent, ImpostorByKillEndGameIntent } from "../EndGameIntent";
-import { PlayerUseZiplineEvent } from "../events/player/UseZipline";
 
 export enum ProtectionRemoveReason {
     Timeout,
@@ -301,6 +305,8 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             case RpcMessageTag.RejectShapeshift: return RejectShapeshiftMessage.deserializeFromReader();
             case RpcMessageTag.CheckZipline: return CheckZiplineMessage.deserializeFromReader(reader);
             case RpcMessageTag.UseZipline: return UseZiplineMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CheckSporeTrigger: return CheckSporeTriggerMessage.deserializeFromReader(reader);
+            case RpcMessageTag.TriggerSpores: return TriggerSporesMessage.deserializeFromReader(reader);
         }
         return undefined;
     }
@@ -334,6 +340,8 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (rpc instanceof RejectShapeshiftMessage) await this._handleRejectShapeshift(rpc);
         if (rpc instanceof CheckZiplineMessage) await this._handleCheckZipline(rpc);
         if (rpc instanceof UseZiplineMessage) await this._handleUseZipline(rpc);
+        if (rpc instanceof CheckSporeTriggerMessage) await this._handleCheckSporeTrigger(rpc);
+        if (rpc instanceof TriggerSporesMessage) await this._handleTriggerSpores(rpc);
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
@@ -1811,7 +1819,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
     }
 
-    async shapeshift(target: Player<RoomType>, doAnimation = true) {
+    async shapeshiftWithAuth(target: Player<RoomType>, doAnimation = true) {
         const oldTarget = this.shapeshiftTarget;
 
         if (target === this.player) {
@@ -1864,8 +1872,8 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
-    async revertShapeshift() {
-        await this.shapeshift(this.player);
+    async revertShapeshiftWithAuth() {
+        await this.shapeshiftWithAuth(this.player);
     }
     
     canMurder(victim: PlayerControl<RoomType>) {
@@ -1991,7 +1999,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
-    private async _rpcCheckProtect(target: Player<StatefulRoom>) {
+    private async _rpcCheckProtect(target: Player<RoomType>) {
         if (!target.characterControl)
             return;
 
@@ -2049,15 +2057,17 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (ev.alteredIsValid) {
-            await ev.alteredPlayer.characterControl?.shapeshift(ev.alteredTarget);
+            await ev.alteredPlayer.characterControl?.shapeshiftWithAuth(ev.alteredTarget);
+        } else {
+            await ev.alteredPlayer.characterControl?.rejectShapeshiftWithAuth();
         }
     }
 
-    private async _rpcCheckShapeshift(target: Player<StatefulRoom>, doAnimation: boolean) {
+    private async _rpcCheckShapeshift(target: Player<RoomType>, doAnimation: boolean) {
         if (!target.characterControl)
             return;
 
-        await this.room.broadcastImmediate([
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new ShapeshiftMessage(
@@ -2065,11 +2075,48 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                     doAnimation,
                 )
             )
-        ]);
+        );
+    }
+
+    async shapeshiftRequest(target: Player<RoomType>, doAnimation: boolean) {
+        if (!target.characterControl)
+            return;
+
+        await this.room.broadcastImmediate([
+            new RpcMessage(
+                this.netId,
+                new CheckShapeshiftMessage(
+                    target.characterControl.netId,
+                    doAnimation,
+                )
+            )
+        ], undefined, [ this.room.authorityId ]);
+    }
+
+    async shapeshift(target: Player<RoomType>, doAnimation: boolean) {
+        if (this.room.canManageObject(this)) {
+            await this.shapeshiftWithAuth(target, doAnimation);
+        } else {
+            await this.shapeshiftRequest(target, doAnimation);
+        }
     }
 
     private async _handleRejectShapeshift(rpc: RejectShapeshiftMessage) {
         // TODO: event: shapeshift rejected
+    }
+
+    private async _rpcRejectShapeshift() {
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new RejectShapeshiftMessage()
+            )
+        );
+    }
+
+    async rejectShapeshiftWithAuth() {
+        // TODO: event: shapeshift rejected
+        await this._rpcRejectShapeshift();
     }
 
     protected _ziplineIsValid(fromTop: boolean): boolean {
@@ -2100,16 +2147,13 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
-    private async _rpcCheckZipline(target: Player<StatefulRoom>, fromTop: boolean) {
-        if (!target.characterControl)
-            return;
-
-        await this.room.broadcastImmediate([
+    private async _rpcCheckZipline(fromTop: boolean) {
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new CheckZiplineMessage(fromTop,)
             )
-        ]);
+        );
     }
 
     private async _handleUseZipline(rpc: UseZiplineMessage) {
@@ -2119,12 +2163,12 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     }
 
     private async _rpcUseZipline(fromTop: boolean) {
-        this.room.broadcastImmediate([
+        this.room.broadcastLazy(
             new RpcMessage(
                 this.netId,
                 new UseZiplineMessage(fromTop)
             )
-        ]);
+        );
     }
 
     async useZipline(fromTop: boolean) {
@@ -2133,5 +2177,65 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         await this._rpcUseZipline(fromTop);
+    }
+
+    protected _sporeTriggerIsValid(mushroomId: number): boolean {
+        const thisPlayerInfo = this.getPlayerInfo();
+        // TODO: check if in moving platform
+        if (!thisPlayerInfo || thisPlayerInfo.isDead) {
+            return false;
+        }
+        if (this.room.meetingHud !== undefined) return false;
+
+        // TODO: check distance
+        return true;
+    }
+
+    private async _handleCheckSporeTrigger(rpc: CheckSporeTriggerMessage) {
+        const ev = await this.emit(
+            new PlayerCheckSporeTriggerEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.mushroomId,
+                this._sporeTriggerIsValid(rpc.mushroomId)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            await ev.alteredPlayer.characterControl?.triggerSpores(ev.alteredMushroomId);
+        }
+    }
+
+    private async _rpcCheckSporeTrigger(mushroomId: number) {
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new CheckSporeTriggerMessage(mushroomId)
+            )
+        );
+    }
+
+    private async _handleTriggerSpores(rpc: TriggerSporesMessage) {
+        await this.emit(
+            new PlayerTriggerSporesEvent(this.room, this.player, rpc, rpc.mushroomId)
+        );
+    }
+
+    private async _rpcTriggerSpores(mushroomId: number) {
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new TriggerSporesMessage(mushroomId)
+            )
+        );
+    }
+
+    async triggerSpores(mushroomId: number) {
+        await this.emit(
+            new PlayerTriggerSporesEvent(this.room, this.player, undefined, mushroomId)
+        );
+
+        await this._rpcTriggerSpores(mushroomId);
     }
 }

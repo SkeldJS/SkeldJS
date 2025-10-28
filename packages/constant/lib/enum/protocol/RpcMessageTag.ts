@@ -47,7 +47,7 @@ export enum RpcMessageTag {
     CheckZipline,
     UseZipline,
     TriggerSpores,
-    CheckSpore,
+    CheckSporeTrigger,
     CheckShapeshift,
     RejectShapeshift,
     LobbyTimeExpiring = 60,

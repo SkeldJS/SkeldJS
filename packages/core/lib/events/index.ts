@@ -14,6 +14,7 @@ export * from "./player/CheckMurder";
 export * from "./player/CheckName";
 export * from "./player/CheckProtect";
 export * from "./player/CheckShapeshift";
+export * from "./player/CheckSporeTrigger";
 export * from "./player/CheckZipline";
 export * from "./player/ClimbLadder";
 export * from "./player/CompleteTask";
@@ -50,6 +51,8 @@ export * from "./player/Shapeshift";
 export * from "./player/SnapTo";
 export * from "./player/Spawn";
 export * from "./player/SyncSettings";
+export * from "./player/TriggerSpores";
+export * from "./player/UseZipline";
 
 export * from "./room/AssignRoles";
 export * from "./room/EndGameIntent";
