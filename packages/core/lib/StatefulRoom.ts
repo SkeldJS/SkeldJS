@@ -427,7 +427,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         this.objectUpdateCooldown -= deltaSeconds;
         const sendUpdates = this.objectUpdateCooldown < 0;
 
-        if (this.objectUpdateCooldown < 0) {
+        if (this.objectUpdateCooldown <= 0) {
             this.objectUpdateCooldown = StatefulRoom.objectUpdateCooldownDuration;
         }
     

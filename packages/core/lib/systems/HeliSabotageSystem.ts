@@ -155,7 +155,7 @@ export class HeliSabotageSystem<RoomType extends StatefulRoom> extends Sabotagab
             }
 
             this.updateCooldown -= deltaSeconds;
-            if (this.updateCooldown < 0) {
+            if (this.updateCooldown <= 0) {
                 this.updateCooldown = HeliSabotageSystem.updateCooldownDuration;
                 this.pushDataUpdate();
             }

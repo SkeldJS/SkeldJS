@@ -5,6 +5,7 @@ export * from "./HqHud";
 export * from "./HudOverride";
 export * from "./LifeSupp";
 export * from "./MedScan";
+export * from "./MushroomMixup";
 export * from "./Reactor";
 export * from "./Sabotage";
 export * from "./SecurityCamera";

@@ -1,4 +1,6 @@
 export enum PlayerOutfitType {
     Default,
-    Shapeshifter
+    Shapeshifter,
+    HorseWrangler,
+    MushroomMixup,
 }

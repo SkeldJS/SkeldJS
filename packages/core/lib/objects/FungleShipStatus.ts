@@ -11,6 +11,8 @@ import {
     HqHudSystem,
     ReactorSystem,
     MushroomMixupSabotageSystem,
+    Door,
+    SabotageSystem,
 } from "../systems";
 
 /**
@@ -19,16 +21,6 @@ import {
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
-    static roomDoors: Partial<Record<SystemType, number[]>> = {
-        [SystemType.Communications]: [0, 1, 2, 3],
-        [SystemType.Brig]: [4, 5, 6],
-        [SystemType.Kitchen]: [7, 8, 9],
-        [SystemType.MainHall]: [10, 11],
-        [SystemType.Records]: [12, 13, 14],
-        [SystemType.Lounge]: [15, 16, 17, 18],
-        [SystemType.Medical]: [19, 20]
-    };
-
     async setupSystems() {
         this.systems.set(SystemType.Ventilation, new VentilationSystem(this, SystemType.Ventilation));
 
@@ -40,9 +32,28 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipSt
 
         const doorsSystem = new DoorsSystem(this, SystemType.Doors);
         this.systems.set(SystemType.Doors, doorsSystem);
-        // todo: register fungle doors
+        doorsSystem.doors = [
+            new Door(doorsSystem, SystemType.Communications, 0),
+            new Door(doorsSystem, SystemType.Communications, 1),
+            new Door(doorsSystem, SystemType.Kitchen, 2),
+            new Door(doorsSystem, SystemType.Laboratory, 3),
+            new Door(doorsSystem, SystemType.Lookout, 4),
+            new Door(doorsSystem, SystemType.MiningPit, 5),
+            new Door(doorsSystem, SystemType.Reactor, 6),
+            new Door(doorsSystem, SystemType.Storage, 7),
+        ];
+        
+        this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));
 
-        this.systems.set(SystemType.MushroomMixupSabotage, new MushroomMixupSabotageSystem(this, SystemType.MushroomMixupSabotage));
+        const mushroomMixupSabotageSystem = new MushroomMixupSabotageSystem(this, SystemType.MushroomMixupSabotage);
+        this.systems.set(SystemType.MushroomMixupSabotage, mushroomMixupSabotageSystem);
+        
+        const availableSkinIdsSet: Set<string> = new Set();
+        for (const [ , playerInfo ] of this.room.playerInfo) {
+            availableSkinIdsSet.add(playerInfo.defaultOutfit.skinId);
+        }
+
+        mushroomMixupSabotageSystem.availableSkinIds = [...availableSkinIdsSet];
     }
 
     getTasks() {

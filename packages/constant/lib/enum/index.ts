@@ -14,6 +14,7 @@ export * from "./GameOverReason";
 export * from "./GameState";
 export * from "./KillDistance";
 export * from "./LimboState";
+export * from "./MushroomMixupState";
 export * from "./Platform";
 export * from "./QuickChatMode";
 export * from "./RoleTeamType";

@@ -100,7 +100,7 @@ export class LifeSuppSystem<RoomType extends StatefulRoom> extends SabotagableSy
             this.timer -= deltaSeconds;
 
             this.updateCooldown -= deltaSeconds;
-            if (this.updateCooldown < 0) {
+            if (this.updateCooldown <= 0) {
                 this.updateCooldown = LifeSuppSystem.updateCooldownDuration;
                 this.pushDataUpdate();
             }
