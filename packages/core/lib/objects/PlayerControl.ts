@@ -37,7 +37,9 @@ import {
     SpawnMessage,
     StartMeetingMessage,
     SyncSettingsMessage,
-    UsePlatformMessage
+    UsePlatformMessage,
+    CheckShapeshiftMessage,
+    RejectShapeshiftMessage
 } from "@skeldjs/protocol";
 
 import {
@@ -90,7 +92,8 @@ import {
     PlayerCheckProtectEvent,
     PlayerShapeshiftEvent,
     PlayerRevertShapeshiftEvent,
-    PlayerSetLevelEvent
+    PlayerSetLevelEvent,
+    PlayerCheckShapeshiftEvent
 } from "../events";
 
 import { DataState, NetworkedObject } from "../NetworkedObject";
@@ -101,8 +104,8 @@ import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
 
 import { CustomNetworkTransform, PlayerPhysics } from "./component";
-import { MovingPlatformSide, MovingPlatformSystem } from "../systems";
-import { BaseRole, GuardianAngelRole, UnknownRole } from "../roles";
+import { MovingPlatformSide, MovingPlatformSystem, MushroomMixupSabotageSystem, SystemStatus } from "../systems";
+import { BaseRole, GuardianAngelRole, ShapeshifterRole, UnknownRole } from "../roles";
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { CrewmatesByTaskEndGameIntent, ImpostorByKillEndGameIntent } from "../EndGameIntent";
 
@@ -290,6 +293,8 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             case RpcMessageTag.Shapeshift: return ShapeshiftMessage.deserializeFromReader(reader);
             case RpcMessageTag.CheckMurder: return CheckMurderMessage.deserializeFromReader(reader);
             case RpcMessageTag.CheckProtect: return CheckProtectMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CheckShapeshift: return CheckShapeshiftMessage.deserializeFromReader(reader);
+            case RpcMessageTag.RejectShapeshift: return RejectShapeshiftMessage.deserializeFromReader();
         }
         return undefined;
     }
@@ -297,25 +302,11 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
     async handleRemoteCall(rpc: BaseRpcMessage) {
         if (rpc instanceof CompleteTaskMessage) await this._handleCompleteTask(rpc as CompleteTaskMessage);
         if (rpc instanceof SyncSettingsMessage) await this._handleSyncSettings(rpc as SyncSettingsMessage);
-        if (rpc instanceof CheckNameMessage) {
-            if (this.room.canManageObject(this)) {
-                await this._handleCheckName(rpc as CheckNameMessage);
-            }
-        }
-        if (rpc instanceof CheckColorMessage) {
-            if (this.room.canManageObject(this)) {
-                await this._handleCheckColor(rpc as CheckColorMessage);
-            }
-        }
+        if (rpc instanceof CheckNameMessage) await this._handleCheckName(rpc as CheckNameMessage);
+        if (rpc instanceof CheckColorMessage) await this._handleCheckColor(rpc as CheckColorMessage);
         if (rpc instanceof SetNameMessage) await this._handleSetName(rpc as SetNameMessage);
         if (rpc instanceof SetColorMessage) await this._handleSetColor(rpc as SetColorMessage);
-        if (rpc instanceof ReportDeadBodyMessage) {
-            if (this.room.canManageObject(this)) {
-                await this._handleReportDeadBody(
-                    rpc as ReportDeadBodyMessage
-                );
-            }
-        }
+        if (rpc instanceof ReportDeadBodyMessage) await this._handleReportDeadBody(rpc as ReportDeadBodyMessage);
         if (rpc instanceof MurderPlayerMessage) await this._handleMurderPlayer(rpc as MurderPlayerMessage);
         if (rpc instanceof SendChatMessage) await this._handleSendChat(rpc as SendChatMessage);
         if (rpc instanceof StartMeetingMessage) await this._handleStartMeeting(rpc as StartMeetingMessage);
@@ -333,6 +324,8 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (rpc instanceof ShapeshiftMessage) await this._handleShapeshift(rpc as ShapeshiftMessage);
         if (rpc instanceof CheckMurderMessage) await this._handleCheckMurder(rpc as CheckMurderMessage);
         if (rpc instanceof CheckProtectMessage) await this._handleCheckProtect(rpc as CheckProtectMessage);
+        if (rpc instanceof CheckShapeshiftMessage) await this._handleCheckShapeshift(rpc as CheckShapeshiftMessage);
+        if (rpc instanceof RejectShapeshiftMessage) await this._handleRejectShapeshift(rpc as CheckShapeshiftMessage);
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
@@ -1789,7 +1782,6 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (!thisPlayerInfo || !targetPlayerInfo || !this.getPlayerInfo())
             return;
 
-
         if (target === this.player) {
             thisPlayerInfo.deleteOutfit(PlayerOutfitType.Shapeshifter);
         } else {
@@ -2008,5 +2000,69 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 )
             )
         ]);
+    }
+
+    private _shapeshiftIsValid(target: Player<RoomType>, shouldAnimate: boolean) {
+        if (this.room.gameState !== GameState.Started)
+            return false;
+
+        const thisPlayerInfo = this.getPlayerInfo();
+        const targetPlayerInfo = target.getPlayerInfo();
+
+        if (!thisPlayerInfo || !targetPlayerInfo || thisPlayerInfo.roleType !== ShapeshifterRole || thisPlayerInfo.isDisconnected || targetPlayerInfo.isDead)
+            return false;
+        
+        if (!targetPlayerInfo || !targetPlayerInfo) return false;
+
+        const mushroomMixup = this.room.shipStatus?.systems.get(SystemType.MushroomMixupSabotage);
+        if (mushroomMixup instanceof MushroomMixupSabotageSystem) {
+            if ((mushroomMixup.isSabotaged() || targetPlayerInfo.currentOutfitType === PlayerOutfitType.MushroomMixup) && shouldAnimate) {
+                return false;
+            }
+        }
+
+        if (this.room.meetingHud !== undefined && shouldAnimate) return false;
+
+        return true;
+    }
+
+    private async _handleCheckShapeshift(rpc: CheckShapeshiftMessage) {
+        const target = this.room.getPlayerByNetId(rpc.targetNetId);
+
+        if (!target || !this.room.canManageObject(this))
+            return;
+
+        const ev = await this.emit(
+            new PlayerCheckShapeshiftEvent(
+                this.room,
+                this.player,
+                rpc,
+                target,
+                this._shapeshiftIsValid(target, rpc.doAnimation)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            await ev.alteredPlayer.characterControl?.shapeshift(ev.alteredTarget);
+        }
+    }
+
+    private async _rpcCheckShapeshift(target: Player<StatefulRoom>, doAnimation: boolean) {
+        if (!target.characterControl)
+            return;
+
+        await this.room.broadcastImmediate([
+            new RpcMessage(
+                this.netId,
+                new ShapeshiftMessage(
+                    target.characterControl.netId,
+                    doAnimation,
+                )
+            )
+        ]);
+    }
+
+    private async _handleRejectShapeshift(rpc: RejectShapeshiftMessage) {
+        // TODO: event: shapeshift rejected
     }
 }

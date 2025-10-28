@@ -45,6 +45,7 @@ export enum RpcMessageTag {
     Pet,
     CancelPet,
     CheckZipline,
+    UseZipline,
     TriggerSpores,
     CheckSpore,
     CheckShapeshift,

@@ -80,7 +80,7 @@ export class PlayerCheckMurderEvent<RoomType extends StatefulRoom> extends Basic
     }
 
     /**
-     * Change whether this murder should be consider valid. If valid, ths player
+     * Change whether this murder should be consider valid. If valid, this player
      * will indeed be murdered.
      * @param isValid Whether or not this murder should be considered valid.
      */

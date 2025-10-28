@@ -12,7 +12,7 @@ import { PlayerEvent } from "./PlayerEvent";
  *
  * This event is useful if you want to prevent a protect from actually happening,
  * before it happens. Therefore this event doesn't guarantee that the target is
- * actually dead, see {@link PlayerProtectEvent} to listen for that.
+ * actually protected, see {@link PlayerProtectEvent} to listen for that.
  */
 export class PlayerCheckProtectEvent<RoomType extends StatefulRoom> extends BasicEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.checkprotect" as const;
@@ -80,7 +80,7 @@ export class PlayerCheckProtectEvent<RoomType extends StatefulRoom> extends Basi
     }
 
     /**
-     * Change whether this protect should be consider valid. If valid, ths player
+     * Change whether this protect should be consider valid. If valid, this player
      * will indeed be protected.
      * @param isValid Whether or not this protect should be considered valid.
      */
