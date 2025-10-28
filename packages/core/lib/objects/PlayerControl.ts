@@ -239,7 +239,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             this._protectedByGuardianTime -= delta;
             if (this._protectedByGuardianTime <= 0) {
                 this._protectedByGuardianTime = 0;
-                await this.removeProtection(ProtectionRemoveReason.Timeout);
+                await this._removeProtection(ProtectionRemoveReason.Timeout);
             }
         }
     }
@@ -504,7 +504,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (!ev.canceled)
-            await this.setName(ev.alteredName);
+            await this.setNameWithAuth(ev.alteredName);
     }
 
     private async _rpcCheckName(name: string) {
@@ -518,15 +518,6 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             undefined,
             [this.room.authorityId]
         );
-    }
-
-    /**
-     * Request for the host to check a name for this player and append numbers if
-     * it's taken.
-     * @param name The name to request.
-     */
-    async checkName(name: string) {
-        await this._rpcCheckName(name);
     }
 
     private async _handleSetName(rpc: SetNameMessage) {
@@ -569,7 +560,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      *
      * @param name The name to set this player's name to.
      */
-    async setName(name: string) {
+    async setNameWithAuth(name: string) {
         const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldName = defaultOutfit?.name;
@@ -590,6 +581,18 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
         if (ev.alteredName !== oldName)
             this._rpcSetName(ev.alteredName);
+    }
+
+    async setNameRequest(name: string) {
+        await this._rpcCheckName(name);
+    }
+
+    async setName(name: string) {
+        if (this.room.canManageObject(this)) {
+            await this.setNameWithAuth(name);
+        } else {
+            await this.setNameRequest(name);
+        }
     }
 
     private async _handleCheckColor(rpc: CheckColorMessage) {
@@ -622,7 +625,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (!ev.canceled)
-            this.setColor(ev.alteredColor);
+            this.setColorWithAuth(ev.alteredColor);
     }
 
     private async _rpcCheckColor(color: Color) {
@@ -636,16 +639,6 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             undefined,
             [this.room.authorityId]
         );
-    }
-
-    /**
-     * Request for the host to check a color for this player and change it if it's
-     * taken.
-     *
-     * @param color The color to request.
-     */
-    async checkColor(color: Color) {
-        await this._rpcCheckColor(color);
     }
 
     private async _handleSetColor(rpc: SetColorMessage) {
@@ -688,7 +681,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      *
      * @param color The color to set this player's name to.
      */
-    async setColor(color: Color) {
+    async setColorWithAuth(color: Color) {
         const playerInfo = this.getPlayerInfo();
         const defaultOutfit = playerInfo?.defaultOutfit;
         const oldColor = defaultOutfit?.color;
@@ -712,6 +705,18 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
+    async setColorRequest(color: Color) {
+        await this._rpcCheckColor(color);
+    }
+
+    async setColor(color: Color) {
+        if (this.room.canManageObject(this)) {
+            await this.setColorWithAuth(color);
+        } else {
+            await this.setColorRequest(color);
+        }
+    }
+
     private async _handleReportDeadBody(rpc: ReportDeadBodyMessage) {
         const reportedBody = rpc.bodyId === 0xff
             ? "emergency"
@@ -730,7 +735,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (!ev.canceled) {
-            this.startMeeting(ev.alteredBody, this.player);
+            this.startMeetingWithAuth(ev.alteredBody, this.player);
         }
     }
 
@@ -749,6 +754,120 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 )
             )
         ], undefined, [this.room.authorityId]);
+    }
+    
+
+    private async _handleStartMeeting(rpc: StartMeetingMessage) {
+        const reportedBody = rpc.bodyId === 0xff
+            ? "emergency"
+            : this.room.getPlayerByPlayerId(rpc.bodyId) || "emergency";
+
+        await this.emit(
+            new PlayerStartMeetingEvent(
+                this.room,
+                this.player,
+                rpc,
+                this.player,
+                reportedBody
+            )
+        );
+
+        if (this.room.canManageObject(this)) {
+            await this._startMeeting(this.player);
+        }
+    }
+
+    private async _startMeeting(caller: Player<RoomType>) {
+        const callerPlayerId = caller.getPlayerId();
+        if (callerPlayerId === undefined)
+            return;
+
+
+        const spawnMeetingHud = await this.room.createObjectOfType(
+            SpawnType.MeetingHud,
+            SpecialOwnerId.Global,
+            SpawnFlag.None
+        ) as MeetingHud<RoomType>;
+
+        await spawnMeetingHud.processAwake();
+
+        const callerState = spawnMeetingHud.voteStates.get(callerPlayerId);
+        if (callerState) {
+            callerState.didReport = true;
+        }
+
+        this.room.broadcastLazy(this.room.createObjectSpawnMessage(spawnMeetingHud));
+
+        const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
+        if (movingPlatform instanceof MovingPlatformSystem) {
+            // TODO: moving platform api
+            movingPlatform.useId++;
+            movingPlatform.side = MovingPlatformSide.Left;
+            movingPlatform.target = this.player;
+            movingPlatform.pushDataUpdate();
+        }
+
+        for (const [, player] of this.room.players) {
+            const playerPhysics = player.characterControl?.getComponentSafe(1, PlayerPhysics);
+            if (playerPhysics && playerPhysics.ventId !== -1) {
+                playerPhysics.exitVent(playerPhysics.ventId)
+            }
+        }
+
+        spawnMeetingHud.pushDataState(DataState.Spawn);
+    }
+
+    private _rpcStartMeeting(player: Player<RoomType> | "emergency"): void {
+        if (player !== "emergency" && player.getPlayerId() === undefined) {
+            return this._rpcStartMeeting("emergency");
+        }
+
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new StartMeetingMessage(
+                    player === "emergency"
+                        ? 0xff
+                        : player.getPlayerId()!
+                )
+            )
+        );
+    }
+
+    /**
+     * If you're the host, this will immediately begin a meeting
+     * Start a meeting and begin the meeting
+     *
+     * Emits a {@link PlayerStartMeetingEvent | `player.startmeeting`} event.
+     *
+     * @param body The body that was reported, or "emergency" if it is an emergency meeting.
+     * @param caller The player that called this meeting.
+     */
+    async startMeetingWithAuth(body: Player<RoomType> | "emergency", caller: Player<RoomType>) {
+        this._rpcStartMeeting(body);
+        await this._startMeeting(caller);
+
+        await this.emit(
+            new PlayerStartMeetingEvent(
+                this.room,
+                this.player,
+                undefined,
+                caller,
+                body
+            )
+        );
+    }
+
+    async startMeetingRequest(body: Player<RoomType> | "emergency") {
+        await this._rpcReportDeadBody(body);
+    }
+
+    async startMeeting(body: Player<RoomType>) {
+        if (this.room.canManageObject(this)) {
+            await this.startMeetingWithAuth(body, this.player);
+        } else {
+            await this.startMeetingRequest(body);
+        }
     }
 
     async causeToDie(reason: string) {
@@ -779,7 +898,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (rpc.reasonFlags & MurderReasonFlags.FailedError) return;
 
         if ((rpc.reasonFlags & MurderReasonFlags.FailedProtected) || (rpc.reasonFlags & MurderReasonFlags.DecisionByHost && victim.characterControl.protectedByGuardian)) {
-            await victim.characterControl.removeProtection(ProtectionRemoveReason.MurderAttempt);
+            await victim.characterControl._removeProtection(ProtectionRemoveReason.MurderAttempt);
             return;
         }
 
@@ -817,7 +936,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
 
         if (characterControl.protectedByGuardian) {
             this._rpcMurderPlayer(victim, MurderReasonFlags.DecisionByHost | MurderReasonFlags.FailedProtected);
-            await characterControl.removeProtection(ProtectionRemoveReason.MurderAttempt);
+            await characterControl._removeProtection(ProtectionRemoveReason.MurderAttempt);
             return;
         }
 
@@ -937,113 +1056,6 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      */
     sendChatNote(player: Player<RoomType>, type: ChatNoteType) {
         this._rpcSendChatNote(player, type);
-    }
-
-    private async _handleStartMeeting(rpc: StartMeetingMessage) {
-        const reportedBody = rpc.bodyId === 0xff
-            ? "emergency"
-            : this.room.getPlayerByPlayerId(rpc.bodyId) || "emergency";
-
-        await this.emit(
-            new PlayerStartMeetingEvent(
-                this.room,
-                this.player,
-                rpc,
-                this.player,
-                reportedBody
-            )
-        );
-
-        if (this.room.canManageObject(this)) {
-            await this._startMeeting(this.player);
-        }
-    }
-
-    private async _startMeeting(caller: Player<RoomType>) {
-        const callerPlayerId = caller.getPlayerId();
-        if (callerPlayerId === undefined)
-            return;
-
-
-        const spawnMeetingHud = await this.room.createObjectOfType(
-            SpawnType.MeetingHud,
-            SpecialOwnerId.Global,
-            SpawnFlag.None
-        ) as MeetingHud<RoomType>;
-
-        await spawnMeetingHud.processAwake();
-
-        const callerState = spawnMeetingHud.voteStates.get(callerPlayerId);
-        if (callerState) {
-            callerState.didReport = true;
-        }
-
-        this.room.broadcastLazy(this.room.createObjectSpawnMessage(spawnMeetingHud));
-
-        const movingPlatform = this.room.shipStatus?.systems.get(SystemType.GapRoom);
-        if (movingPlatform instanceof MovingPlatformSystem) {
-            // TODO: moving platform api
-            movingPlatform.useId++;
-            movingPlatform.side = MovingPlatformSide.Left;
-            movingPlatform.target = this.player;
-            movingPlatform.pushDataUpdate();
-        }
-
-        for (const [, player] of this.room.players) {
-            const playerPhysics = player.characterControl?.getComponentSafe(1, PlayerPhysics);
-            if (playerPhysics && playerPhysics.ventId !== -1) {
-                playerPhysics.exitVent(playerPhysics.ventId)
-            }
-        }
-
-        spawnMeetingHud.pushDataState(DataState.Spawn);
-    }
-
-    private _rpcStartMeeting(player: Player<RoomType> | "emergency"): void {
-        if (player !== "emergency" && player.getPlayerId() === undefined) {
-            return this._rpcStartMeeting("emergency");
-        }
-
-        this.room.broadcastLazy(
-            new RpcMessage(
-                this.netId,
-                new StartMeetingMessage(
-                    player === "emergency"
-                        ? 0xff
-                        : player.getPlayerId()!
-                )
-            )
-        );
-    }
-
-    /**
-     * If you're the host, this will immediately begin a meeting
-     * Start a meeting and begin the meeting
-     *
-     * Emits a {@link PlayerStartMeetingEvent | `player.startmeeting`} event.
-     *
-     * @param body The body that was reported, or "emergency" if it is an emergency meeting.
-     * @param caller The player that called this meeting.
-     */
-    async startMeeting(body: Player<RoomType> | "emergency", caller?: Player<RoomType>) {
-        if (!this.room.canManageObject(this)) {
-            await this._rpcReportDeadBody(body);
-            return;
-        }
-
-        const actualCaller = caller || this.room.playerAuthority || this.player;
-        this._rpcStartMeeting(body);
-        await this._startMeeting(actualCaller);
-
-        await this.emit(
-            new PlayerStartMeetingEvent(
-                this.room,
-                this.player,
-                undefined,
-                actualCaller,
-                body
-            )
-        );
     }
 
     private async _handleSetStartCounter(rpc: SetStartCounterMessage) {
@@ -1670,6 +1682,36 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         await this.player.role.onInitialize();
     }
 
+    private _addProtection(guardianProtector: Player<RoomType>) {
+        this.protectedByGuardian = true;
+        this.guardianProtector = guardianProtector;
+        this._protectedByGuardianTime = this.room.settings.roleSettings.guardianAngelPotectionDuration;
+    }
+
+    private async _removeProtection(reason: ProtectionRemoveReason) {
+        if (!this.protectedByGuardian)
+            return;
+
+        const oldGuardian = this.guardianProtector;
+        this.protectedByGuardian = false;
+        this.guardianProtector = undefined;
+        const ev = await this.emit(
+            new PlayerRemoveProtectionEvent(
+                this.room,
+                this.player,
+                reason,
+            )
+        );
+        if (ev.reverted) {
+            this.protectedByGuardian = true;
+            this.guardianProtector = oldGuardian;
+            // In case this event was emitted when the timer ran out & it was reverted,
+            // we can ensure that it would never be called again for timer running out
+            // by setting the timer to Infinity.
+            this._protectedByGuardianTime = Infinity;
+        }
+    }
+
     private async _handleProtectPlayer(rpc: ProtectPlayerMessage) {
         const target = this.room.getPlayerByNetId(rpc.targetNetId);
 
@@ -1689,12 +1731,6 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
     }
 
-    private _addProtection(guardianProtector: Player<RoomType>) {
-        this.protectedByGuardian = true;
-        this.guardianProtector = guardianProtector;
-        this._protectedByGuardianTime = this.room.settings.roleSettings.guardianAngelPotectionDuration;
-    }
-
     private _rpcProtectPlayer(target: Player<RoomType>, angelColor: Color) {
         if (!target.characterControl)
             return;
@@ -1710,7 +1746,58 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
     }
 
-    async protectPlayer(target: Player<RoomType>, angelColor = this.getPlayerInfo()?.defaultOutfit.color || Color.Red) {
+    private _protectIsValid(target: Player<RoomType>) {
+        if (this.room.gameState !== GameState.Started)
+            return false;
+
+        const thisPlayerInfo = this.getPlayerInfo();
+        const targetPlayerInfo = target.getPlayerInfo();
+
+        if (!thisPlayerInfo || !targetPlayerInfo || thisPlayerInfo.roleType !== GuardianAngelRole || thisPlayerInfo.isImpostor || thisPlayerInfo.isDisconnected || targetPlayerInfo.isDead)
+            return false;
+
+        return true;
+    }
+
+    private async _handleCheckProtect(rpc: CheckProtectMessage) {
+        const target = this.room.getPlayerByNetId(rpc.targetNetId);
+
+        if (!target || !this.room.canManageObject(this))
+            return;
+
+        const ev = await this.emit(
+            new PlayerCheckProtectEvent(
+                this.room,
+                this.player,
+                rpc,
+                target,
+                this._protectIsValid(target)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            await ev.alteredPlayer.characterControl?.protectPlayerWithAuth(ev.alteredTarget);
+        }
+    }
+
+    private async _rpcCheckProtect(target: Player<RoomType>) {
+        if (!target.characterControl)
+            return;
+
+        const targetPlayerInfo = target.getPlayerInfo();
+
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new ProtectPlayerMessage(
+                    target.characterControl.netId,
+                    targetPlayerInfo?.defaultOutfit.color || Color.Red
+                )
+            )
+        );
+    }
+    
+    async protectPlayerWithAuth(target: Player<RoomType>, angelColor = this.getPlayerInfo()?.defaultOutfit.color || Color.Red) {
         if (!this.room.canManageObject(this)) {
             await this._rpcCheckProtect(target);
             return;
@@ -1728,6 +1815,18 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 this.room.settings.roleSettings.guardianAngelPotectionDuration,
             )
         );
+    }
+
+    async protectPlayerRequest(target: Player<RoomType>) {
+        await this._rpcCheckProtect(target);
+    }
+
+    async protectPlayer(target: Player<RoomType>) {
+        if (this.room.canManageObject(this)) {
+            await this.protectPlayerWithAuth(target);
+        } else {
+            await this.protectPlayerRequest(target);
+        }
     }
 
     private async _handleShapeshift(rpc: ShapeshiftMessage) {
@@ -1819,7 +1918,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
     }
 
-    async shapeshiftWithAuth(target: Player<RoomType>, doAnimation = true) {
+    async shapeshiftWithAuth(target: Player<RoomType>, doAnimation: boolean) {
         const oldTarget = this.shapeshiftTarget;
 
         if (target === this.player) {
@@ -1872,8 +1971,123 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         }
     }
 
-    async revertShapeshiftWithAuth() {
-        await this.shapeshiftWithAuth(this.player);
+    private _shapeshiftIsValid(target: Player<RoomType>, shouldAnimate: boolean) {
+        if (this.room.gameState !== GameState.Started)
+            return false;
+
+        const thisPlayerInfo = this.getPlayerInfo();
+        const targetPlayerInfo = target.getPlayerInfo();
+
+        if (!thisPlayerInfo || !targetPlayerInfo || thisPlayerInfo.roleType !== ShapeshifterRole || thisPlayerInfo.isDisconnected || targetPlayerInfo.isDead)
+            return false;
+        
+        if (!targetPlayerInfo || !targetPlayerInfo) return false;
+
+        const mushroomMixup = this.room.shipStatus?.systems.get(SystemType.MushroomMixupSabotage);
+        if (mushroomMixup instanceof MushroomMixupSabotageSystem) {
+            if ((mushroomMixup.isSabotaged() || targetPlayerInfo.currentOutfitType === PlayerOutfitType.MushroomMixup) && shouldAnimate) {
+                return false;
+            }
+        }
+
+        if (this.room.meetingHud !== undefined && shouldAnimate) return false;
+
+        return true;
+    }
+
+    private async _handleCheckShapeshift(rpc: CheckShapeshiftMessage) {
+        const target = this.room.getPlayerByNetId(rpc.targetNetId);
+
+        if (!target || !this.room.canManageObject(this))
+            return;
+
+        const ev = await this.emit(
+            new PlayerCheckShapeshiftEvent(
+                this.room,
+                this.player,
+                rpc,
+                target,
+                this._shapeshiftIsValid(target, rpc.doAnimation)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            await ev.alteredPlayer.characterControl?.shapeshiftWithAuth(ev.alteredTarget, rpc.doAnimation);
+        } else {
+            await ev.alteredPlayer.characterControl?.rejectShapeshiftWithAuth();
+        }
+    }
+
+    private async _rpcCheckShapeshift(target: Player<RoomType>, doAnimation: boolean) {
+        if (!target.characterControl)
+            return;
+
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new ShapeshiftMessage(
+                    target.characterControl.netId,
+                    doAnimation,
+                )
+            )
+        );
+    }
+
+    async shapeshiftRequest(target: Player<RoomType>, doAnimation: boolean) {
+        if (!target.characterControl)
+            return;
+
+        await this.room.broadcastImmediate([
+            new RpcMessage(
+                this.netId,
+                new CheckShapeshiftMessage(
+                    target.characterControl.netId,
+                    doAnimation,
+                )
+            )
+        ], undefined, [ this.room.authorityId ]);
+    }
+
+    async shapeshift(target: Player<RoomType>, doAnimation: boolean) {
+        if (this.room.canManageObject(this)) {
+            await this.shapeshiftWithAuth(target, doAnimation);
+        } else {
+            await this.shapeshiftRequest(target, doAnimation);
+        }
+    }
+
+    async revertShapeshiftWithAuth(doAnimation: boolean) {
+        await this.shapeshiftWithAuth(this.player, doAnimation);
+    }
+
+    async revertShapeshiftRequest(doAnimation: boolean) {
+        await this.shapeshiftRequest(this.player, doAnimation);
+    }
+
+    async revertShapeshift(doAnimation: boolean) {
+        if (this.room.canManageObject(this)) {
+            await this.revertShapeshiftWithAuth(doAnimation);
+        } else {
+            await this.revertShapeshiftRequest(doAnimation);
+        }
+    }
+
+    private async _handleRejectShapeshift(rpc: RejectShapeshiftMessage) {
+        // TODO: event: shapeshift rejected
+    }
+
+    private async _rpcRejectShapeshift() {
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new RejectShapeshiftMessage()
+            )
+        );
+    }
+
+    async rejectShapeshiftWithAuth() {
+        // TODO: event: shapeshift rejected
+        await this._rpcRejectShapeshift();
     }
     
     canMurder(victim: PlayerControl<RoomType>) {
@@ -1933,192 +2147,6 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         ]);
     }
 
-    /**
-     * Remove this player's protection from a guardian angel, if they have one.
-     *
-     * Emits a {@link PlayerRemoveProtectionEvent | `player.removeprotection`} event.
-     * This is not networked, so other players will not see this update.
-     *
-     * @param timeout Whether or not this is because of a timeout.
-     */
-    async removeProtection(reason: ProtectionRemoveReason) {
-        if (!this.protectedByGuardian)
-            return;
-
-        const oldGuardian = this.guardianProtector;
-        this.protectedByGuardian = false;
-        this.guardianProtector = undefined;
-        const ev = await this.emit(
-            new PlayerRemoveProtectionEvent(
-                this.room,
-                this.player,
-                reason,
-            )
-        );
-        if (ev.reverted) {
-            this.protectedByGuardian = true;
-            this.guardianProtector = oldGuardian;
-            // In case this event was emitted when the timer ran out & it was reverted,
-            // we can ensure that it would never be called again for timer running out
-            // by setting the timer to Infinity.
-            this._protectedByGuardianTime = Infinity;
-        }
-    }
-
-    private _protectIsValid(target: Player<RoomType>) {
-        if (this.room.gameState !== GameState.Started)
-            return false;
-
-        const thisPlayerInfo = this.getPlayerInfo();
-        const targetPlayerInfo = target.getPlayerInfo();
-
-        if (!thisPlayerInfo || !targetPlayerInfo || thisPlayerInfo.roleType !== GuardianAngelRole || thisPlayerInfo.isImpostor || thisPlayerInfo.isDisconnected || targetPlayerInfo.isDead)
-            return false;
-
-        return true;
-    }
-
-    private async _handleCheckProtect(rpc: CheckProtectMessage) {
-        const target = this.room.getPlayerByNetId(rpc.targetNetId);
-
-        if (!target || !this.room.canManageObject(this))
-            return;
-
-        const ev = await this.emit(
-            new PlayerCheckProtectEvent(
-                this.room,
-                this.player,
-                rpc,
-                target,
-                this._protectIsValid(target)
-            )
-        );
-
-        if (ev.alteredIsValid) {
-            await ev.alteredPlayer.characterControl?.protectPlayer(ev.alteredTarget);
-        }
-    }
-
-    private async _rpcCheckProtect(target: Player<RoomType>) {
-        if (!target.characterControl)
-            return;
-
-        const targetPlayerInfo = target.getPlayerInfo();
-
-        await this.room.broadcastImmediate([
-            new RpcMessage(
-                this.netId,
-                new ProtectPlayerMessage(
-                    target.characterControl.netId,
-                    targetPlayerInfo?.defaultOutfit.color || Color.Red
-                )
-            )
-        ]);
-    }
-
-    private _shapeshiftIsValid(target: Player<RoomType>, shouldAnimate: boolean) {
-        if (this.room.gameState !== GameState.Started)
-            return false;
-
-        const thisPlayerInfo = this.getPlayerInfo();
-        const targetPlayerInfo = target.getPlayerInfo();
-
-        if (!thisPlayerInfo || !targetPlayerInfo || thisPlayerInfo.roleType !== ShapeshifterRole || thisPlayerInfo.isDisconnected || targetPlayerInfo.isDead)
-            return false;
-        
-        if (!targetPlayerInfo || !targetPlayerInfo) return false;
-
-        const mushroomMixup = this.room.shipStatus?.systems.get(SystemType.MushroomMixupSabotage);
-        if (mushroomMixup instanceof MushroomMixupSabotageSystem) {
-            if ((mushroomMixup.isSabotaged() || targetPlayerInfo.currentOutfitType === PlayerOutfitType.MushroomMixup) && shouldAnimate) {
-                return false;
-            }
-        }
-
-        if (this.room.meetingHud !== undefined && shouldAnimate) return false;
-
-        return true;
-    }
-
-    private async _handleCheckShapeshift(rpc: CheckShapeshiftMessage) {
-        const target = this.room.getPlayerByNetId(rpc.targetNetId);
-
-        if (!target || !this.room.canManageObject(this))
-            return;
-
-        const ev = await this.emit(
-            new PlayerCheckShapeshiftEvent(
-                this.room,
-                this.player,
-                rpc,
-                target,
-                this._shapeshiftIsValid(target, rpc.doAnimation)
-            )
-        );
-
-        if (ev.alteredIsValid) {
-            await ev.alteredPlayer.characterControl?.shapeshiftWithAuth(ev.alteredTarget);
-        } else {
-            await ev.alteredPlayer.characterControl?.rejectShapeshiftWithAuth();
-        }
-    }
-
-    private async _rpcCheckShapeshift(target: Player<RoomType>, doAnimation: boolean) {
-        if (!target.characterControl)
-            return;
-
-        this.room.broadcastLazy(
-            new RpcMessage(
-                this.netId,
-                new ShapeshiftMessage(
-                    target.characterControl.netId,
-                    doAnimation,
-                )
-            )
-        );
-    }
-
-    async shapeshiftRequest(target: Player<RoomType>, doAnimation: boolean) {
-        if (!target.characterControl)
-            return;
-
-        await this.room.broadcastImmediate([
-            new RpcMessage(
-                this.netId,
-                new CheckShapeshiftMessage(
-                    target.characterControl.netId,
-                    doAnimation,
-                )
-            )
-        ], undefined, [ this.room.authorityId ]);
-    }
-
-    async shapeshift(target: Player<RoomType>, doAnimation: boolean) {
-        if (this.room.canManageObject(this)) {
-            await this.shapeshiftWithAuth(target, doAnimation);
-        } else {
-            await this.shapeshiftRequest(target, doAnimation);
-        }
-    }
-
-    private async _handleRejectShapeshift(rpc: RejectShapeshiftMessage) {
-        // TODO: event: shapeshift rejected
-    }
-
-    private async _rpcRejectShapeshift() {
-        this.room.broadcastLazy(
-            new RpcMessage(
-                this.netId,
-                new RejectShapeshiftMessage()
-            )
-        );
-    }
-
-    async rejectShapeshiftWithAuth() {
-        // TODO: event: shapeshift rejected
-        await this._rpcRejectShapeshift();
-    }
-
     protected _ziplineIsValid(fromTop: boolean): boolean {
         const thisPlayerInfo = this.getPlayerInfo();
         // TODO: check if in moving platform
@@ -2143,17 +2171,17 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (ev.alteredIsValid) {
-            await ev.alteredPlayer.characterControl?.useZipline(ev.alteredFromTop);
+            await ev.alteredPlayer.characterControl?.useZiplineWithAuth(ev.alteredFromTop);
         }
     }
 
     private async _rpcCheckZipline(fromTop: boolean) {
-        this.room.broadcastLazy(
+        await this.room.broadcastImmediate([
             new RpcMessage(
                 this.netId,
                 new CheckZiplineMessage(fromTop,)
             )
-        );
+        ]);
     }
 
     private async _handleUseZipline(rpc: UseZiplineMessage) {
@@ -2171,12 +2199,24 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
     }
 
-    async useZipline(fromTop: boolean) {
+    async useZiplineWithAuth(fromTop: boolean) {
         await this.emit(
             new PlayerUseZiplineEvent(this.room, this.player, undefined, fromTop)
         );
 
         await this._rpcUseZipline(fromTop);
+    }
+
+    async useZiplineRequest(fromTop: boolean) {
+        await this._rpcCheckZipline(fromTop);
+    }
+
+    async useZipline(fromTop: boolean) {
+        if (this.room.canManageObject(this)) {
+            await this.useZiplineWithAuth(fromTop);
+        } else {
+            await this.useZiplineRequest(fromTop);
+        }
     }
 
     protected _sporeTriggerIsValid(mushroomId: number): boolean {
@@ -2203,17 +2243,17 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
 
         if (ev.alteredIsValid) {
-            await ev.alteredPlayer.characterControl?.triggerSpores(ev.alteredMushroomId);
+            await ev.alteredPlayer.characterControl?.triggerSporesWithAuth(ev.alteredMushroomId);
         }
     }
 
     private async _rpcCheckSporeTrigger(mushroomId: number) {
-        this.room.broadcastLazy(
+        await this.room.broadcastImmediate([
             new RpcMessage(
                 this.netId,
                 new CheckSporeTriggerMessage(mushroomId)
             )
-        );
+        ]);
     }
 
     private async _handleTriggerSpores(rpc: TriggerSporesMessage) {
@@ -2231,11 +2271,23 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         );
     }
 
-    async triggerSpores(mushroomId: number) {
+    async triggerSporesWithAuth(mushroomId: number) {
         await this.emit(
             new PlayerTriggerSporesEvent(this.room, this.player, undefined, mushroomId)
         );
 
         await this._rpcTriggerSpores(mushroomId);
+    }
+
+    async triggerSporesRequest(mushroomId: number) {
+        await this._rpcCheckSporeTrigger(mushroomId);
+    }
+
+    async triggerSpores(mushroomId: number) {
+        if (this.room.canManageObject(this)) {
+            await this.triggerSporesWithAuth(mushroomId);
+        } else {
+            await this.triggerSporesRequest(mushroomId);
+        }
     }
 }
