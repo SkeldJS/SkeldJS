@@ -12,7 +12,7 @@ import { PlayerEvent } from "./PlayerEvent";
  * Due to technical limitations, the actual pet that is being petted is not
  * available.
  */
-export class PlayerPetPetEvent<RoomType extends StatefulRoom> extends CancelableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
+export class PlayerPetEvent<RoomType extends StatefulRoom> extends CancelableEvent implements PlayerEvent<RoomType>, ProtocolEvent {
     static eventName = "player.pet" as const;
     eventName = "player.pet" as const;
 

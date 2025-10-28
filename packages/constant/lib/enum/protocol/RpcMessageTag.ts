@@ -53,7 +53,7 @@ export enum RpcMessageTag {
     LobbyTimeExpiring = 60,
     ExtendLobbyTimer,
     CheckVanish,
-    StartVanish,
+    Vanish,
     CheckAppear,
-    StartAppear,
+    Appear,
 }

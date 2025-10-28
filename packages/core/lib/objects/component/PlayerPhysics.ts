@@ -26,7 +26,7 @@ import {
     PlayerClimbLadderEvent,
     PlayerEnterVentEvent,
     PlayerExitVentEvent,
-    PlayerPetPetEvent,
+    PlayerPetEvent,
 } from "../../events";
 
 export type PlayerPhysicsEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
@@ -280,7 +280,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
 
     private async _handlePet(rpc: PetMessage) {
         const ev = await this.emit(
-            new PlayerPetPetEvent(
+            new PlayerPetEvent(
                 this.room,
                 this.player,
                 undefined,
@@ -319,7 +319,7 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
      */
     async petPet(playerPos: Vector2, petPos: Vector2) {
         const ev = await this.emit(
-            new PlayerPetPetEvent(
+            new PlayerPetEvent(
                 this.room,
                 this.player,
                 undefined,

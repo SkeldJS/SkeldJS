@@ -11,7 +11,6 @@ export class TriggerSporesMessage extends BaseRpcMessage {
 
     static deserializeFromReader(reader: HazelReader) {
         const mushroomId = reader.int32();
-
         return new TriggerSporesMessage(mushroomId);
     }
 

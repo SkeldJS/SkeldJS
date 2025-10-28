@@ -43,7 +43,11 @@ import {
     UseZiplineMessage,
     CheckZiplineMessage,
     TriggerSporesMessage,
-    CheckSporeTriggerMessage
+    CheckSporeTriggerMessage,
+    VanishMessage,
+    CheckVanishMessage,
+    CheckAppearMessage,
+    AppearMessage
 } from "@skeldjs/protocol";
 
 import {
@@ -102,6 +106,10 @@ import {
     PlayerUseZiplineEvent,
     PlayerCheckSporeTriggerEvent,
     PlayerTriggerSporesEvent,
+    PlayerVanishEvent,
+    PlayerCheckVanishEvent,
+    PlayerCheckAppearEvent,
+    PlayerAppearEvent,
 } from "../events";
 
 import { DataState, NetworkedObject } from "../NetworkedObject";
@@ -307,6 +315,10 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             case RpcMessageTag.UseZipline: return UseZiplineMessage.deserializeFromReader(reader);
             case RpcMessageTag.CheckSporeTrigger: return CheckSporeTriggerMessage.deserializeFromReader(reader);
             case RpcMessageTag.TriggerSpores: return TriggerSporesMessage.deserializeFromReader(reader);
+            case RpcMessageTag.CheckVanish: return CheckVanishMessage.deserializeFromReader(reader);
+            case RpcMessageTag.Vanish: return VanishMessage.deserializeFromReader();
+            case RpcMessageTag.CheckAppear: return CheckAppearMessage.deserializeFromReader(reader);
+            case RpcMessageTag.Appear: return AppearMessage.deserializeFromReader(reader);
         }
         return undefined;
     }
@@ -342,6 +354,10 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
         if (rpc instanceof UseZiplineMessage) await this._handleUseZipline(rpc);
         if (rpc instanceof CheckSporeTriggerMessage) await this._handleCheckSporeTrigger(rpc);
         if (rpc instanceof TriggerSporesMessage) await this._handleTriggerSpores(rpc);
+        if (rpc instanceof CheckVanishMessage) await this._handleCheckVanish(rpc);
+        if (rpc instanceof VanishMessage) await this._handleVanish(rpc);
+        if (rpc instanceof CheckAppearMessage) await this._handleCheckAppear(rpc);
+        if (rpc instanceof AppearMessage) await this._handleAppear(rpc);
     }
 
     private async _handleCompleteTask(rpc: CompleteTaskMessage) {
@@ -2288,6 +2304,134 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             await this.triggerSporesWithAuth(mushroomId);
         } else {
             await this.triggerSporesRequest(mushroomId);
+        }
+    }
+
+    protected _vanishIsValid(maxDuration: number): boolean {
+        return true;
+    }
+
+    private async _handleCheckVanish(rpc: CheckVanishMessage) {
+        const ev = await this.emit(
+            new PlayerCheckVanishEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.maxDuration,
+                this._vanishIsValid(rpc.maxDuration)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            await ev.alteredPlayer.characterControl?.vanishWithAuth();
+        }
+    }
+
+    private async _rpcCheckVanish(maxDuration: number) {
+        await this.room.broadcastImmediate([
+            new RpcMessage(
+                this.netId,
+                new CheckVanishMessage(maxDuration)
+            )
+        ], undefined, [ this.room.authorityId ]);
+    }
+
+    private async _handleVanish(rpc: VanishMessage) {
+        await this.emit(
+            new PlayerVanishEvent(this.room, this.player, rpc)
+        );
+    }
+
+    private async _rpcVanish() {
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new VanishMessage()
+            )
+        );
+    }
+
+    async vanishWithAuth() {
+        await this.emit(
+            new PlayerVanishEvent(this.room, this.player, undefined)
+        );
+
+        await this._rpcVanish();
+    }
+
+    async vanishRequest(maxDuration: number) {
+        await this._rpcCheckVanish(maxDuration);
+    }
+
+    async vanish() {
+        if (this.room.canManageObject(this)) {
+            await this.vanishWithAuth();
+        } else {
+            await this.vanishRequest(this.room.settings.roleSettings.phantomDuration);
+        }
+    }
+
+    protected _appearIsValid(doAnimation: boolean): boolean {
+        return true;
+    }
+
+    private async _handleCheckAppear(rpc: CheckAppearMessage) {
+        const ev = await this.emit(
+            new PlayerCheckAppearEvent(
+                this.room,
+                this.player,
+                rpc,
+                rpc.doAnimation,
+                this._appearIsValid(rpc.doAnimation)
+            )
+        );
+
+        if (ev.alteredIsValid) {
+            await ev.alteredPlayer.characterControl?.appearWithAuth(rpc.doAnimation);
+        }
+    }
+
+    private async _rpcCheckAppear(doAnimation: boolean) {
+        await this.room.broadcastImmediate([
+            new RpcMessage(
+                this.netId,
+                new CheckAppearMessage(doAnimation)
+            )
+        ], undefined, [ this.room.authorityId ]);
+    }
+
+    private async _handleAppear(rpc: AppearMessage) {
+        await this.emit(
+            new PlayerAppearEvent(this.room, this.player, rpc)
+        );
+    }
+
+    private async _rpcAppear(doAnimation: boolean) {
+        this.room.broadcastLazy(
+            new RpcMessage(
+                this.netId,
+                new AppearMessage(doAnimation)
+            )
+        );
+    }
+
+    async appearWithAuth(doAnimation: boolean) {
+        await this.emit(
+            new PlayerAppearEvent(this.room, this.player, undefined)
+        );
+
+        await this._rpcAppear(doAnimation);
+    }
+
+    async appearRequest(doAnimation: boolean) {
+        await this._rpcCheckAppear(doAnimation);
+    }
+
+    async appear(doAnimation: boolean) {
+        if (this.room.canManageObject(this)) {
+            await this.appearWithAuth(doAnimation);
+        } else {
+            await this.appearRequest(doAnimation);
         }
     }
 }

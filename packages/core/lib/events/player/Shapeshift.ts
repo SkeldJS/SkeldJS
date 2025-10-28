@@ -57,14 +57,8 @@ export class PlayerShapeshiftEvent<RoomType extends StatefulRoom> extends Revert
      * Change the player that the player will shapeshift into.
      * @param target The player to shapeshift into instead.
      */
-    setTarget(target: Player<RoomType>) {
+    setTarget(target: Player<RoomType>, doAnimation: boolean) {
         this._alteredTarget = target;
-    }
-    /**
-     * Change whether or not an animation will show the player shapeshifting.
-     * @param doAnimation Whether or not to do show an animation of the player shape shifting.
-     */
-    setDoAnimation(doAnimation: boolean) {
         this._alteredDoAnimation = doAnimation;
     }
 }
