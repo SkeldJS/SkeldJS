@@ -21,6 +21,8 @@ export * from "./CompleteTask";
 export * from "./EnterVent";
 export * from "./Exiled";
 export * from "./ExitVent";
+export * from "./ExtendLobbyTimer";
+export * from "./LobbyTimeExpiring";
 export * from "./MurderPlayer";
 export * from "./Pet";
 export * from "./PlayAnimation";

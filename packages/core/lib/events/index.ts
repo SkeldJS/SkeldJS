@@ -64,10 +64,12 @@ export * from "./room/EndGameIntent";
 export * from "./room/FixedUpdate";
 export * from "./room/GameEnded";
 export * from "./room/GameStarted";
+export * from "./room/LobbyTimeExpiring";
 
 export * from "./playerinfo/PlayerInfoEvent";
 export * from "./meetinghud/MeetingHudEvent";
 export * from "./networkedobject/NetworkedObjectEvent";
 export * from "./player/PlayerEvent";
+
 export * from "./ProtocolEvent";
 export * from "./RoomEvent";
