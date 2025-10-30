@@ -2,7 +2,7 @@ import { Vector2 } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 import { TheSkeldTasks } from "@skeldjs/data";
 
-import { InnerShipStatus } from "./InnerShipStatus";
+import { ShipStatus } from "./ShipStatus";
 
 import {
     LifeSuppSystem,
@@ -24,7 +24,7 @@ import { StatefulRoom } from "../StatefulRoom";
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class SkeldShipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
+export class SkeldShipStatus<RoomType extends StatefulRoom> extends ShipStatus<RoomType> {
     static roomDoors: Partial<Record<SystemType, number[]>> = {
         [SystemType.Storage]: [1, 7, 12],
         [SystemType.Cafeteria]: [0, 3, 8],

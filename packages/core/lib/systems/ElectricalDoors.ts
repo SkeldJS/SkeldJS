@@ -2,10 +2,10 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage, ElectricalDoorsSystemDataMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
-import { Door, DoorEvents } from "./DoorsSystem";
+import { Door, DoorEvents } from "./Doors";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 
@@ -16,7 +16,7 @@ export type ElectricalDoorsSystemEvents<RoomType extends StatefulRoom> = DoorEve
  *
  * See {@link ElectricalDoorsSystemEvents} for events to listen to.
  */
-export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, ElectricalDoorsSystemEvents<RoomType>> {
+export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System<RoomType, ElectricalDoorsSystemEvents<RoomType>> {
     /**
      * The doors in the map.
      */

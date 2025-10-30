@@ -2,7 +2,7 @@ import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, HudOverrideSystemDataMessage, HudOverrideSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SabotagableSystem } from "./SystemStatus";
+import { SabotagableSystem } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
@@ -28,7 +28,7 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
         return undefined;
     }
 
-    async handleData(data: BaseSystemMessage): Promise<void> {
+    async _handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof HudOverrideSystemDataMessage) {
             const beforeSabotaged = this.hudOverridden;
             this.hudOverridden = data.hudOverridden;
@@ -54,12 +54,12 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
         return HudOverrideSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+    async _handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof HudOverrideSystemMessage) {
             if (message.hudOverridden) {
-                await this.sabotageWithAuth();
+                await this._sabotageWithAuth();
             } else {
-                await this.fullyRepairWithAuth();
+                await this._fullyRepairWithAuth();
             }
             this.pushDataUpdate();
         }
@@ -77,12 +77,12 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
         return this.hudOverridden;
     }
     
-    async sabotageWithAuth(): Promise<void> {
+    async _sabotageWithAuth(): Promise<void> {
         this.hudOverridden = true;
         this.pushDataUpdate();
     }
 
-    async fullyRepairWithAuth(): Promise<void> {
+    async _fullyRepairWithAuth(): Promise<void> {
         this.hudOverridden = false;
         this.pushDataUpdate();
     }

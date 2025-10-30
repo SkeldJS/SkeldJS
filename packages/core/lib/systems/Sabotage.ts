@@ -2,7 +2,7 @@ import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, SabotageSystemDataMessage, SabotageSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
@@ -15,7 +15,7 @@ export type SabotageSystemEvents<RoomType extends StatefulRoom> = ExtractEventTy
  *
  * See {@link SabotageSystemEvents} for events to listen to.
  */
-export class SabotageSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, SabotageSystemEvents<RoomType>> {
+export class SabotageSystem<RoomType extends StatefulRoom> extends System<RoomType, SabotageSystemEvents<RoomType>> {
     static initialCooldown = 10;
     static activateDuration = 30;
 

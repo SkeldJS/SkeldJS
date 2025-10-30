@@ -2,12 +2,12 @@ import { BasicEvent, EventData, EventEmitter } from "@skeldjs/events";
 import { BaseSystemMessage } from "@skeldjs/protocol";
 import { HazelReader } from "@skeldjs/hazel";
 import { StatefulRoom } from "../StatefulRoom";
-import { InnerGameManager } from "../objects";
+import { GameManager } from "../objects";
 
 export abstract class GameLogicComponent<Events extends EventData, RoomType extends StatefulRoom> extends EventEmitter<Events> {
     isDirty: boolean;
 
-    constructor(public readonly manager: InnerGameManager<RoomType>) {
+    constructor(public readonly manager: GameManager<RoomType>) {
         super();
 
         this.isDirty = false;

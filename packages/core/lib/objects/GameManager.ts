@@ -10,7 +10,7 @@ import { PlayerControl } from "./PlayerControl";
 
 export type InnerGameManagerEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
-export abstract class InnerGameManager<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, InnerGameManagerEvents<RoomType>> {
+export abstract class GameManager<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, InnerGameManagerEvents<RoomType>> {
     logicComponents: GameLogicComponent<any, RoomType>[] = [];
 
     parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {

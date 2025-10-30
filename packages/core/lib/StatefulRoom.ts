@@ -11,8 +11,6 @@ import {
     BaseSystemMessage
 } from "@skeldjs/protocol";
 
-import { HazelWriter } from "@skeldjs/hazel";
-
 import {
     GameOverReason,
     SpawnType,
@@ -46,10 +44,10 @@ import {
     ShipStatusEvents,
     VoteBanSystem,
     VoteBanSystemEvents,
-    InnerShipStatus,
+    ShipStatus,
     HideAndSeekManager,
     NormalGameManager,
-    InnerGameManager,
+    GameManager,
     NetworkedPlayerInfo,
 } from "./objects";
 
@@ -214,7 +212,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      * See {@link StatefulRoom.objectList} if you're looking to find all ship status
      * objects that have been spawned.
      */
-    shipStatus: InnerShipStatus<this> | undefined = undefined;
+    shipStatus: ShipStatus<this> | undefined = undefined;
 
     /**
      * An instance of the meeting hud in the room. Spawned when a meeting is
@@ -240,7 +238,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      */
     lobbyBehaviour: LobbyBehaviour<this> | undefined = undefined;
 
-    gameManager: InnerGameManager<this> | undefined = undefined;
+    gameManager: GameManager<this> | undefined = undefined;
 
     /**
      * An instance of the voting ban system in the room. Used as a utility object
@@ -362,7 +360,6 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         playerInfo.clientId = player.clientId;
         playerInfo.friendCode = player.friendCode;
         playerInfo.puid = player.puid;
-        await playerInfo.processAwake();
         this.broadcastLazy(this.createObjectSpawnMessage(playerInfo));
         this.playerInfo.set(playerInfo.playerId, playerInfo);
         return playerInfo;
@@ -726,7 +723,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         if (this.lobbyBehaviour) this.despawnComponent(this.lobbyBehaviour);
 
         const shipPrefabId = this.shipPrefabIds.get(this.settings.map);
-        const shipPrefab = await this.spawnObjectOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global, SpawnFlag.None) as InnerShipStatus<this>;
+        const shipPrefab = await this.spawnObjectOfType(shipPrefabId || SpawnType.SkeldShipStatus, SpecialOwnerId.Global, SpawnFlag.None) as ShipStatus<this>;
 
         const waitSeconds = shipPrefab.getStartWaitSeconds();
 
@@ -756,14 +753,15 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             }
             player.isReady = false;
         }
+        
 
         if (removes.length) {
             await this.removeUnreadiedPlayersImpl(removes);
         }
-
+        
         await this.gameManager?.onGameStart();
         await this.shipStatus?.assignTasks();
-
+        
         if (this.shipStatus) {
             for (const [, player] of this.players) {
                 await this.shipStatus.positionPlayerAtSpawn(player, true, false);
@@ -833,7 +831,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             }
         }
 
-        if (component instanceof InnerShipStatus && !this.shipStatus) {
+        if (component instanceof ShipStatus && !this.shipStatus) {
             if (!this.shipStatus) {
                 this.shipStatus = component;
             }
@@ -847,7 +845,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             this.meetingHud = component;
         }
 
-        if (component instanceof InnerGameManager && !this.gameManager) {
+        if (component instanceof GameManager && !this.gameManager) {
             this.gameManager = component;
         }
 

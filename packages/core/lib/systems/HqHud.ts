@@ -2,7 +2,7 @@ import { HazelReader } from "@skeldjs/hazel";
 import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, HqHudConsoleUpdate, HqHudSystemDataMessage, HqHudSystemMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SabotagableSystem, SystemStatus } from "./SystemStatus";
+import { SabotagableSystem, System } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
@@ -51,7 +51,7 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SabotagableSyste
         return undefined;
     }
 
-    async handleData(data: BaseSystemMessage): Promise<void> {
+    async _handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof HqHudSystemDataMessage) {
             const beforeActive = [...this.activeConsoleUserPairs];
             this.activeConsoleUserPairs = [];
@@ -105,11 +105,11 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SabotagableSyste
         return HqHudSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+    async _handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof HqHudSystemMessage) {
             switch (message.consoleAction) {
             case HqHudConsoleUpdate.StartCountdown:
-                await this.sabotageWithAuth();
+                await this._sabotageWithAuth();
                 break;
             case HqHudConsoleUpdate.CompleteConsole:
                 this.resetTimer = HqHudSystem.maxResetTimer;
@@ -151,13 +151,13 @@ export class HqHudSystem<RoomType extends StatefulRoom> extends SabotagableSyste
         return this.completedConsoles.size < HqHudSystem.consoleIds.length;
     }
 
-    async sabotageWithAuth(): Promise<void> {
+    async _sabotageWithAuth(): Promise<void> {
         this.resetTimer = HqHudSystem.maxResetTimer;
         this.completedConsoles.clear();
         this.pushDataUpdate();
     }
 
-    async fullyRepairWithAuth(): Promise<void> {
+    async _fullyRepairWithAuth(): Promise<void> {
         this.completedConsoles = new Set(HqHudSystem.consoleIds);
         this.pushDataUpdate();
     }

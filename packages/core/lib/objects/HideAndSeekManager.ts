@@ -1,13 +1,13 @@
 import { BaseRpcMessage } from "@skeldjs/protocol";
 import { StatefulRoom } from "../StatefulRoom";
 import { HideNSeekDangerLevelLogicComponent, HideNSeekDeathPopupLevelLogicComponent, HideNSeekFlowLogicComponent, HideNSeekMinigameLogicComponent, HideNSeekMusicLogicComponent, HideNSeekOptionsLogicComponent, HideNSeekPingLogicComponent, HideNSeekRoleSelectionLogicComponent, HideNSeekUsablesLogicComponent } from "../logic";
-import { InnerGameManager } from "./InnerGameManager";
+import { GameManager } from "./GameManager";
 import { PlayerControl } from "./PlayerControl";
 
 /**
  * Represents a class for managing various events for the Hide'N'Seek gamemode.
  */
-export class HideAndSeekManager<RoomType extends StatefulRoom> extends InnerGameManager<RoomType> {
+export class HideAndSeekManager<RoomType extends StatefulRoom> extends GameManager<RoomType> {
     music!: HideNSeekMusicLogicComponent<RoomType>;
     minigame!: HideNSeekMinigameLogicComponent<RoomType>;
     flow!: HideNSeekFlowLogicComponent<RoomType>;

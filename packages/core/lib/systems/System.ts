@@ -3,19 +3,20 @@ import { SystemType } from "@skeldjs/constant";
 import { BaseSystemMessage, SabotageSystemMessage } from "@skeldjs/protocol";
 import { EventEmitter, BasicEvent, ExtractEventTypes, EventData } from "@skeldjs/events";
 
-import { InnerShipStatus, PlayerControl } from "../objects";
+import { ShipStatus, PlayerControl } from "../objects";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
+import { SystemRepairEvent, SystemSabotageEvent } from "../events/systems";
 
-export type SystemStatusEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type SystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
-export abstract class SystemStatus<RoomType extends StatefulRoom, T extends EventData = {}> extends EventEmitter<SystemStatusEvents<RoomType> & T> {
+export abstract class System<RoomType extends StatefulRoom, T extends EventData = {}> extends EventEmitter<SystemEvents<RoomType> & T> {
     isDirty: boolean = false;
 
     constructor(
-        public readonly shipStatus: InnerShipStatus<RoomType>,
+        public readonly shipStatus: ShipStatus<RoomType>,
         public readonly systemType: SystemType,
     ) {
         super();
@@ -79,7 +80,12 @@ export abstract class SystemStatus<RoomType extends StatefulRoom, T extends Even
     }
 }
 
-export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends EventData = {}> extends SystemStatus<RoomType, T> {
+export type SabotagableSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+    SystemSabotageEvent<RoomType>,
+    SystemRepairEvent<RoomType>,
+]>;
+
+export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends EventData = {}> extends System<RoomType, T> {
     canBeSabotaged(): this is SabotagableSystem<RoomType, T> {
         return true;
     }
@@ -87,11 +93,56 @@ export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends
     abstract isCritical(): boolean;
     abstract isSabotaged(): boolean;
 
+    abstract _handleData(data: BaseSystemMessage): Promise<void>;
+    abstract _handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void>;
+
+    private async emitSabotageEvents(fn: () => Promise<void>): Promise<void> {
+        const beforeSabotaged = this.isSabotaged();
+        await fn();
+        if (!beforeSabotaged && this.isSabotaged()) {
+            const ev = await this.emit(
+                new SystemSabotageEvent(
+                    this.room,
+                    this.shipStatus,
+                    this,
+                )
+            );
+
+            if (ev.reverted) {
+                await this.fullyRepair();
+            }
+        } else if (beforeSabotaged && !this.isSabotaged()) {
+            const ev = await this.emit(
+                new SystemRepairEvent(
+                    this.room,
+                    this.shipStatus,
+                    this,
+                )
+            );
+
+            if (ev.reverted) {
+                await this.sabotage();
+            }
+        }
+    }
+    
+    async handleData(data: BaseSystemMessage): Promise<void> {
+        await this.emitSabotageEvents(async () => await this._handleData(data));
+    }
+
+    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+        await this.emitSabotageEvents(async () => await this._handleUpdate(player, message));
+    }
+
     /**
      * Sabotage this system. This is an authoritative operation and can result in
      * a client being banned for hacking if called improperly.
      */
-    abstract sabotageWithAuth(): Promise<void>;
+    protected abstract _sabotageWithAuth(): Promise<void>;
+
+    async sabotageWithAuth(): Promise<void> {
+        await this.emitSabotageEvents(async () => await this._sabotageWithAuth());
+    }
 
     /**
      * Ask the authority of the room to sabotage this system.
@@ -105,22 +156,26 @@ export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends
 
     /**
      * Sabotage this system, either as the room authority or by requesting a sabotage
-     * from the room authority. Calls {@link sabotageWithAuth} or {@link sabotageRequest}.
+     * from the room authority. Calls {@link _sabotageWithAuth} or {@link sabotageRequest}.
      */
     async sabotage(): Promise<void> {
         if (this.room.canManageObject(this.shipStatus)) {
-            await this.sabotageWithAuth();
+            await this._sabotageWithAuth();
         } else {
             await this.sabotageRequest();
         }
     }
 
-    abstract fullyRepairWithAuth(): Promise<void>;
+    protected abstract _fullyRepairWithAuth(): Promise<void>;
     abstract fullyRepairRequest(): Promise<void>;
+    
+    async fullyRepairWithAuth(): Promise<void> {
+        await this.emitSabotageEvents(async () => await this._fullyRepairWithAuth());
+    }
 
     async fullyRepair(): Promise<void> {
         if (this.room.canManageObject(this.shipStatus)) {
-            await this.fullyRepairWithAuth();
+            await this._fullyRepairWithAuth();
         } else {
             await this.fullyRepairRequest();
         }

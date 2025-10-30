@@ -14,7 +14,7 @@ import {
     Door,
 } from "../systems";
 
-import { InnerShipStatus } from "./InnerShipStatus";
+import { ShipStatus } from "./ShipStatus";
 import { StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";
 
@@ -23,7 +23,7 @@ import { Player } from "../Player";
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class PolusShipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
+export class PolusShipStatus<RoomType extends StatefulRoom> extends ShipStatus<RoomType> {
     initialSpawnCenter = new Vector2(16.64, -2.46);
     meetingSpawnCenter = new Vector2(17.4, -16.286);
     meetingSpawnCenter2 = new Vector2(17.4, -17.515);

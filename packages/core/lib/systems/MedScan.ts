@@ -2,7 +2,7 @@ import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, DtlsHelloPacket, MedScanSystemDataMessage, MedScanSystemMessage, MedScanUpdate, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 import { Player } from "../Player";
 
 import { StatefulRoom } from "../StatefulRoom";
@@ -15,7 +15,7 @@ export type MedScanSystemEvents<RoomType extends StatefulRoom> = ExtractEventTyp
  *
  * See {@link MedScanSystemEvents} for events to listen to.
  */
-export class MedScanSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, MedScanSystemEvents<RoomType>> {
+export class MedScanSystem<RoomType extends StatefulRoom> extends System<RoomType, MedScanSystemEvents<RoomType>> {
     /**
      * The current queue to access the medbay scan.
      */

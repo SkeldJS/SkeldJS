@@ -3,7 +3,7 @@ import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { AirshipTasks } from "@skeldjs/data";
 
-import { InnerShipStatus } from "./InnerShipStatus";
+import { ShipStatus } from "./ShipStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 
@@ -43,7 +43,7 @@ export enum ElectricalDoorsAirship {
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class AirshipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
+export class AirshipStatus<RoomType extends StatefulRoom> extends ShipStatus<RoomType> {
     static electricalRooms = [
         [
             ElectricalDoorsAirship.TopLeftEast,

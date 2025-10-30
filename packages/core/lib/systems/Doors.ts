@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage, DoorCooldownDataMessage, DoorsSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 import { Player } from "../Player";
 
 import { StatefulRoom } from "../StatefulRoom";
@@ -20,7 +20,7 @@ export class Door<RoomType extends StatefulRoom> extends EventEmitter<DoorEvents
     isOpen: boolean = true;
 
     constructor(
-        public readonly doorSystem: SystemStatus<RoomType>,
+        public readonly doorSystem: System<RoomType>,
         public readonly associatedZone: SystemType,
         public readonly doorId: number,
     ) {
@@ -75,7 +75,7 @@ export type DoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<RoomTy
  *
  * See {@link DoorsSystemEvents} for events to listen to.
  */
-export class DoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, DoorsSystemEvents<RoomType>> {
+export class DoorsSystem<RoomType extends StatefulRoom> extends System<RoomType, DoorsSystemEvents<RoomType>> {
     static maxZoneCooldown = 30;
     static initialCooldown = 10;
 

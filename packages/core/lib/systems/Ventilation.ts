@@ -1,6 +1,6 @@
 import { BaseSystemMessage, PlayerVentDataMessage, VentilationOperation, VentilationSystemDataMessage, VentilationSystemMessage } from "@skeldjs/protocol";
 import { HazelReader } from "@skeldjs/hazel";
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { PlayerPhysics } from "../objects";
@@ -9,7 +9,7 @@ import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 
 export type VentId = number;
 
-export class VentilationSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType> {
+export class VentilationSystem<RoomType extends StatefulRoom> extends System<RoomType> {
     playersCleaningVents: Map<Player<RoomType>, VentId> = new Map;
     playersInsideVents: Map<Player<RoomType>, VentId> = new Map;
 

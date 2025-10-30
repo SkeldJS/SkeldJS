@@ -3,7 +3,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage, BaseRpcMessage, FlowLogicComponentDataMessage } from "@skeldjs/protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
-import { InnerGameManager } from "../../objects";
+import { GameManager } from "../../objects";
 import { GameLogicComponent } from "../GameLogicComponent";
 
 export type HideNSeekFlowLogicComponentEvents = ExtractEventTypes<[]>;
@@ -12,7 +12,7 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
     currentHideTime: number;
     currentFinalHideTime: number;
 
-    constructor(manager: InnerGameManager<RoomType>) {
+    constructor(manager: GameManager<RoomType>) {
         super(manager);
 
         this.currentHideTime = 10000;

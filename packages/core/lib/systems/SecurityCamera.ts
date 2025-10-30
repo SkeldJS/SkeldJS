@@ -2,7 +2,7 @@ import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, RepairSystemMessage, SecurityCameraSystemDataMessage, SecurityCameraSystemMessage, SecurityCameraUpdate } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 import { Player } from "../Player";
 
 import { StatefulRoom } from "../StatefulRoom";
@@ -16,7 +16,7 @@ export type SecurityCameraSystemEvents<RoomType extends StatefulRoom> = ExtractE
  *
  * See {@link SecurityCameraSystemEvents} for events to listen to.
  */
-export class SecurityCameraSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, SecurityCameraSystemEvents<RoomType>> {
+export class SecurityCameraSystem<RoomType extends StatefulRoom> extends System<RoomType, SecurityCameraSystemEvents<RoomType>> {
     /**
      * The players currently looking at cameras.
      */

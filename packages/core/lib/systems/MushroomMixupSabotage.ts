@@ -1,6 +1,6 @@
 import { BaseSystemMessage, MushroomMixupOperation, MushroomMixupSystemDataMessage, MushroomMixupSystemMessage, PlayerMixupDataMessage } from "@skeldjs/protocol";
 import { HazelReader } from "@skeldjs/hazel";
-import { SabotagableSystem } from "./SystemStatus";
+import { SabotagableSystem } from "./System";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
@@ -50,7 +50,7 @@ export class MushroomMixupSabotageSystem<RoomType extends StatefulRoom> extends 
         return undefined;
     }
 
-    async handleData(data: BaseSystemMessage): Promise<void> {
+    async _handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof MushroomMixupSystemDataMessage) {
             const oldState = this.state;
 
@@ -105,12 +105,12 @@ export class MushroomMixupSabotageSystem<RoomType extends StatefulRoom> extends 
         return MushroomMixupSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+    async _handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof MushroomMixupSystemMessage) {
             switch (message.operation) {
             case MushroomMixupOperation.Nothing: return;
             case MushroomMixupOperation.Sabotage:
-                await this.sabotageWithAuth();
+                await this._sabotageWithAuth();
                 break;
             }
             this.pushDataUpdate();
@@ -127,7 +127,7 @@ export class MushroomMixupSabotageSystem<RoomType extends StatefulRoom> extends 
             }
 
             if (this.secondsUntilHeal <= 0) {
-                await this.fullyRepairWithAuth();
+                await this._fullyRepairWithAuth();
             }
         }
     }
@@ -149,7 +149,7 @@ export class MushroomMixupSabotageSystem<RoomType extends StatefulRoom> extends 
         }
     }
 
-    async sabotageWithAuth(): Promise<void> {
+    async _sabotageWithAuth(): Promise<void> {
         this.state = MushroomMixupState.JustTriggered;
         this.secondsUntilHeal = MushroomMixupSabotageSystem.autoHealDuration;
         const playerIdsPool = [...this.room.playerInfo.keys()];
@@ -184,7 +184,7 @@ export class MushroomMixupSabotageSystem<RoomType extends StatefulRoom> extends 
         }
     }
 
-    async fullyRepairWithAuth(): Promise<void> {
+    async _fullyRepairWithAuth(): Promise<void> {
         this.state = MushroomMixupState.Inactive;
         this.secondsUntilHeal = 0;
         this.removeMixupOutfits();

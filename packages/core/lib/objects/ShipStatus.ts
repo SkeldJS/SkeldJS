@@ -14,7 +14,7 @@ import {
     BaseRpcMessage,
     CloseDoorsOfTypeMessage,
     ShipStatusDataMessage,
-    SystemStatusDataMessage,
+    SystemDataMessage,
     UnknownDataMessage,
     UpdateSystemMessage,
     UnknownSystemMessage,
@@ -38,15 +38,16 @@ import {
     SabotageSystemEvents,
     SecurityCameraSystemEvents,
     SwitchSystemEvents,
-    SystemStatus,
+    System,
     AutoDoorsSystem,
-    SystemStatusEvents,
+    SystemEvents,
+    SabotagableSystemEvents,
 } from "../systems";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";;
-import { CustomNetworkTransform } from "./component";
+import { CustomNetworkTransform } from "./CustomNetworkTransform";
 
 function shuffleArray(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -57,16 +58,17 @@ function shuffleArray(array: any[]) {
     }
 }
 
-export type SystemStatusConstructor<T> = {
+export type SystemConstructor<T> = {
     new(
-        shipStatus: InnerShipStatus<StatefulRoom>,
+        shipStatus: ShipStatus<StatefulRoom>,
         systemType: SystemType,
     ): T;
 };
 
-type AllSystems<RoomType extends StatefulRoom> = Map<SystemType, SystemStatus<RoomType, any>>;
+type AllSystems<RoomType extends StatefulRoom> = Map<SystemType, System<RoomType, any>>;
 
-export type ShipStatusEvents<RoomType extends StatefulRoom> = SystemStatusEvents<RoomType> &
+export type ShipStatusEvents<RoomType extends StatefulRoom> = SystemEvents<RoomType> &
+    SabotagableSystemEvents<RoomType> &
     DoorsSystemEvents<RoomType> &
     AutoDoorsSystemEvents<RoomType> &
     DeconSystemEvents<RoomType> &
@@ -82,29 +84,13 @@ export type ShipStatusEvents<RoomType extends StatefulRoom> = SystemStatusEvents
     SwitchSystemEvents<RoomType> &
     ExtractEventTypes<[]>;
 
-export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, ShipStatusEvents<RoomType>> {
+export abstract class ShipStatus<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, ShipStatusEvents<RoomType>> {
     static roomDoors: Partial<Record<SystemType, number[]>>;
 
-    systems!: AllSystems<RoomType>;
-    spawnRadius: number;
-    initialSpawnCenter: Vector2;
-    meetingSpawnCenter: Vector2;
-
-    constructor(
-        room: RoomType,
-        spawnType: SpawnType,
-        netId: number,
-        ownerId: number,
-        flags: number,
-    ) {
-        super(room, spawnType, netId, ownerId, flags);
-
-        this.systems = new Map;
-
-        this.spawnRadius = 1.55;
-        this.initialSpawnCenter = Vector2.null;
-        this.meetingSpawnCenter = Vector2.null;
-    }
+    systems: AllSystems<RoomType> = new Map;
+    spawnRadius: number = 1.55;
+    initialSpawnCenter: Vector2 = Vector2.null;
+    meetingSpawnCenter: Vector2 = Vector2.null;
 
     get owner() {
         return super.owner as RoomType;
@@ -148,7 +134,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
                 if (state === DataState.Spawn || system.isDirty) {
                     const systemData = system.createData(state);
                     if (systemData) {
-                        systemsData.push(new SystemStatusDataMessage(systemType, systemData));
+                        systemsData.push(new SystemDataMessage(systemType, systemData));
                     }
                     system.cancelDataUpdate();
                 }
@@ -331,7 +317,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
 
     /**
      * Teleport a player to their spawn position, calculated using
-     * {@link InnerShipStatus.getSpawnPosition}.
+     * {@link ShipStatus.getSpawnPosition}.
      * @param player The player to determine the position of.
      * @param initialSpawn Whether or not this is a spawn after starting the game.
      * @param broadcast Whether or not to broadcast the updates.
@@ -353,7 +339,7 @@ export abstract class InnerShipStatus<RoomType extends StatefulRoom> extends Net
         return false;
     }
 
-    getSystemSafe<T>(systemType: SystemType, SystemClass: SystemStatusConstructor<T>): T|undefined {
+    getSystemSafe<T>(systemType: SystemType, SystemClass: SystemConstructor<T>): T|undefined {
         const system = this.systems.get(systemType);
         if (system instanceof SystemClass) return system;
         return undefined;

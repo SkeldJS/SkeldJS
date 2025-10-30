@@ -3,8 +3,8 @@ import { GameOverReason, SystemType } from "@skeldjs/constant";
 import { ActiveConsoleDataMessage, BaseSystemMessage, ReactorConsoleUpdate, ReactorSystemDataMessage, ReactorSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { InnerShipStatus } from "../objects";
-import { SabotagableSystem } from "./SystemStatus";
+import { ShipStatus } from "../objects";
+import { SabotagableSystem } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
@@ -49,7 +49,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
     userConsolePairs: ReactorUserConsolePair<RoomType>[] = [];
     
     constructor(
-        public readonly shipStatus: InnerShipStatus<RoomType>,
+        public readonly shipStatus: ShipStatus<RoomType>,
         public readonly systemType: SystemType,
     ) {
         super(shipStatus, systemType);
@@ -63,7 +63,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
         return undefined;
     }
 
-    async handleData(data: BaseSystemMessage): Promise<void> {
+    async _handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof ReactorSystemDataMessage) {
             this.timer = data.timer;
             const before = [...this.userConsolePairs];
@@ -105,20 +105,20 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
         return ReactorSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+    async _handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof ReactorSystemMessage) {
             switch (message.consoleAction) {
             case ReactorConsoleUpdate.StartCountdown:
-                await this.sabotageWithAuth();
+                await this._sabotageWithAuth();
                 break;
             case ReactorConsoleUpdate.EndCountdown:
-                await this.fullyRepairWithAuth();
+                await this._fullyRepairWithAuth();
                 break;
             case ReactorConsoleUpdate.AddPlayer:
                 if (findPairIndex(this.userConsolePairs, player, message.consoleId!) !== -1) return;
                 this.userConsolePairs.push({ player, consoleId: message.consoleId! });
                 if (this.isConsoleComplete(0) && this.isConsoleComplete(1)) {
-                    await this.fullyRepairWithAuth();
+                    await this._fullyRepairWithAuth();
                 }
                 // TODO: event: console completed
                 break;
@@ -143,7 +143,7 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
             }
             if (this.timer < 0) {
                 this.room.registerEndGameIntent(new ImpostorBySabotageEndGameIntent(this));
-                await this.fullyRepairWithAuth();
+                await this._fullyRepairWithAuth();
             }
         }
     }
@@ -156,13 +156,13 @@ export class ReactorSystem<RoomType extends StatefulRoom> extends SabotagableSys
         return this.timer < 10000;
     }
 
-    async sabotageWithAuth(): Promise<void> {
+    async _sabotageWithAuth(): Promise<void> {
         this.timer = this.sabotageDuration;
         this.userConsolePairs = [];
         this.pushDataUpdate();
     }
 
-    async fullyRepairWithAuth(): Promise<void> {
+    async _fullyRepairWithAuth(): Promise<void> {
         this.timer = ReactorSystem.unsabotagedTimer;
         this.pushDataUpdate();
     }

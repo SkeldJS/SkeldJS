@@ -2,10 +2,10 @@ import { HazelReader } from "@skeldjs/hazel";
 import { AutoDoorsSystemDataMessage, AutoDoorsSystemSpawnDataMessage, BaseSystemMessage, DoorStateDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
-import { Door, DoorEvents } from "./DoorsSystem";
+import { Door, DoorEvents } from "./Doors";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 import { SystemType } from "@skeldjs/constant";
@@ -49,7 +49,7 @@ export type AutoDoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<Ro
  *
  * See {@link AutoDoorsSystemEvents} for events to listen to.
  */
-export class AutoDoorsSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, AutoDoorsSystemEvents<RoomType>> {
+export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomType, AutoDoorsSystemEvents<RoomType>> {
     static doorTimer = 30;
     static closedDuration = 10;
 

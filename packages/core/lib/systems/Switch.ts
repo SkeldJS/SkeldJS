@@ -2,7 +2,7 @@ import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, SwitchSystemDataMessage, SwitchSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SabotagableSystem } from "./SystemStatus";
+import { SabotagableSystem } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
@@ -96,7 +96,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
         return undefined;
     }
 
-    async handleData(data: BaseSystemMessage): Promise<void> {
+    async _handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof SwitchSystemDataMessage) {
             this.expected = parseSwitchBitfield(data.expectedBitfield);
             this.actual = parseSwitchBitfield(data.actualBitfield);
@@ -121,7 +121,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
         return SwitchSystemMessage.deserializeFromReader(reader);
     }
 
-    async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
+    async _handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof SwitchSystemMessage) {
             if (message.isBitfield) {
                 this.actual = parseSwitchBitfield(message.flipSwitches);
@@ -162,7 +162,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
             || this.actual[4] !== this.expected[4];
     }
 
-    async sabotageWithAuth(): Promise<void> {
+    async _sabotageWithAuth(): Promise<void> {
         for (let i = 0; i < this.actual.length; i++) {
             if (Math.random() > SwitchSystem.flipChance || i == SwitchSystem.alwaysFlipSwitch) {
                 this.actual[i] = !this.actual[i];
@@ -172,7 +172,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
     }
     
     
-    async fullyRepairWithAuth(): Promise<void> {
+    async _fullyRepairWithAuth(): Promise<void> {
         this.actual = [...this.expected];
         this.pushDataUpdate();
     }

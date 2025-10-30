@@ -9,7 +9,7 @@ import {
 import { HazelReader } from "@skeldjs/hazel";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 import { Player } from "../Player";
 
 import { StatefulRoom } from "../StatefulRoom";
@@ -28,7 +28,7 @@ export type MovingPlatformSystemEvents<RoomType extends StatefulRoom> = ExtractE
  *
  * See {@link MovingPlatformSystemEvents} for events to listen to.
  */
-export class MovingPlatformSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, MovingPlatformSystemEvents<RoomType>> {
+export class MovingPlatformSystem<RoomType extends StatefulRoom> extends System<RoomType, MovingPlatformSystemEvents<RoomType>> {
     useId: number = 0;
     target: Player<RoomType> | undefined = undefined;
     side: MovingPlatformSide = MovingPlatformSide.Right;

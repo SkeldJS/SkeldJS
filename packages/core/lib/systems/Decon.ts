@@ -3,7 +3,7 @@ import { DeconState } from "@skeldjs/constant";
 import { BaseSystemMessage, DeconSystemDataMessage, DeconSystemMessage, RepairSystemMessage } from "@skeldjs/protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { SystemStatus } from "./SystemStatus";
+import { System } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
 
@@ -18,7 +18,7 @@ export type DeconSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes
  *
  * See {@link DeconSystemEvents} for events to listen to.
  */
-export class DeconSystem<RoomType extends StatefulRoom> extends SystemStatus<RoomType, DeconSystemEvents<RoomType>> {
+export class DeconSystem<RoomType extends StatefulRoom> extends System<RoomType, DeconSystemEvents<RoomType>> {
     static deconDuration = 3;
     static doorOpenDuration = 3;
 

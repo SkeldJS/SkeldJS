@@ -1,7 +1,7 @@
 import { SpawnType, SystemType } from "@skeldjs/constant";
 import { AirshipTasks, TheFungleTasks } from "@skeldjs/data";
 
-import { InnerShipStatus } from "./InnerShipStatus";
+import { ShipStatus } from "./ShipStatus";
 
 import { StatefulRoom } from "../StatefulRoom";
 
@@ -20,7 +20,7 @@ import {
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class FungleShipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
+export class FungleShipStatus<RoomType extends StatefulRoom> extends ShipStatus<RoomType> {
     async setupSystems() {
         this.systems.set(SystemType.Ventilation, new VentilationSystem(this, SystemType.Ventilation));
 

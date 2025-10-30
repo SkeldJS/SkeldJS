@@ -13,7 +13,7 @@ import {
     SwitchSystem,
 } from "../systems";
 
-import { InnerShipStatus } from "./InnerShipStatus";
+import { ShipStatus } from "./ShipStatus";
 import { StatefulRoom } from "../StatefulRoom";
 
 /**
@@ -21,7 +21,7 @@ import { StatefulRoom } from "../StatefulRoom";
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class MiraShipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
+export class MiraShipStatus<RoomType extends StatefulRoom> extends ShipStatus<RoomType> {
     initialSpawnCenter = new Vector2(-4.4, 2.2);
     meetingSpawnCenter = new Vector2(24.043, 1.72);
 

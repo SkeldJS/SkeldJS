@@ -2,7 +2,7 @@ import { Vector2 } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 import { AprilFoolsTheSkeldTasks, TheSkeldTasks } from "@skeldjs/data";
 
-import { InnerShipStatus } from "./InnerShipStatus";
+import { ShipStatus } from "./ShipStatus";
 
 import {
     LifeSuppSystem,
@@ -23,7 +23,7 @@ import { StatefulRoom } from "../StatefulRoom";
  *
  * See {@link ShipStatusEvents} for events to listen to.
  */
-export class AprilShipStatus<RoomType extends StatefulRoom> extends InnerShipStatus<RoomType> {
+export class AprilShipStatus<RoomType extends StatefulRoom> extends ShipStatus<RoomType> {
     initialSpawnCenter = new Vector2(0.72, 0.62);
     meetingSpawnCenter = new Vector2(0.72, 0.62);
 

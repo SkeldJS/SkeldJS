@@ -3,18 +3,18 @@ import { BaseDataMessage } from "./BaseDataMessage";
 import { UnknownDataMessage } from "./Unknown";
 import { TaggedDataMessage } from "./TaggedDataMessage";
 
-export class SystemStatusDataMessage extends TaggedDataMessage {
+export class SystemDataMessage extends TaggedDataMessage {
     constructor(public readonly systemType: number, data: BaseDataMessage) {
         super(systemType, data);
     }
 
-    clone(): SystemStatusDataMessage {
-        return new SystemStatusDataMessage(this.systemType, this.data.clone());
+    clone(): SystemDataMessage {
+        return new SystemDataMessage(this.systemType, this.data.clone());
     }
 }
 
 export class ShipStatusDataMessage extends BaseDataMessage {
-    constructor(public readonly isSpawn: boolean, public readonly systems: SystemStatusDataMessage[]) {
+    constructor(public readonly isSpawn: boolean, public readonly systems: SystemDataMessage[]) {
         super();
     }
 
@@ -22,7 +22,7 @@ export class ShipStatusDataMessage extends BaseDataMessage {
         const message = new ShipStatusDataMessage(isSpawn, []);
         while (reader.left) {
             const [ tag, dataReader ] = reader.message();
-            message.systems.push(new SystemStatusDataMessage(tag, new UnknownDataMessage(dataReader)));
+            message.systems.push(new SystemDataMessage(tag, new UnknownDataMessage(dataReader)));
         }
         return message;
     }
