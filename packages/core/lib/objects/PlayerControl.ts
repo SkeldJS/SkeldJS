@@ -110,20 +110,24 @@ import {
     PlayerCheckVanishEvent,
     PlayerCheckAppearEvent,
     PlayerAppearEvent,
+    PlayerCancelPetEvent,
+    PlayerPetEvent,
 } from "../events";
 
 import { DataState, NetworkedObject } from "../NetworkedObject";
 import { StatefulRoom, SpecialOwnerId } from "../StatefulRoom";
 import { Player } from "../Player";
 
+import { CustomNetworkTransform } from "./CustomNetworkTransform";
 import { LobbyBehaviour } from "./LobbyBehaviour";
 import { MeetingHud } from "./MeetingHud";
+import { PlayerPhysics } from "./PlayerPhysics";
 
-import { CustomNetworkTransform, PlayerPhysics } from "./component";
 import { MovingPlatformSide, MovingPlatformSystem, MushroomMixupSabotageSystem } from "../systems";
 import { BaseRole, GuardianAngelRole, ShapeshifterRole, UnknownRole } from "../roles";
-import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 import { CrewmatesByTaskEndGameIntent, ImpostorByKillEndGameIntent } from "../EndGameIntent";
+
+import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 
 export enum ProtectionRemoveReason {
     Timeout,
@@ -131,14 +135,21 @@ export enum ProtectionRemoveReason {
 }
 
 export type PlayerControlEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+    PlayerAppearEvent<RoomType>,
+    PlayerCancelPetEvent<RoomType>,
+    PlayerCheckAppearEvent<RoomType>,
     PlayerCheckColorEvent<RoomType>,
     PlayerCheckMurderEvent<RoomType>,
     PlayerCheckNameEvent<RoomType>,
     PlayerCheckProtectEvent<RoomType>,
+    PlayerCheckShapeshiftEvent<RoomType>,
+    PlayerCheckSporeTriggerEvent<RoomType>,
+    PlayerCheckVanishEvent<RoomType>,
+    PlayerCheckZiplineEvent<RoomType>,
     PlayerCompleteTaskEvent<RoomType>,
     PlayerDieEvent<RoomType>,
-    PlayerUseMovingPlatformEvent<RoomType>,
     PlayerMurderEvent<RoomType>,
+    PlayerPetEvent<RoomType>,
     PlayerProtectEvent<RoomType>,
     PlayerRemoveProtectionEvent<RoomType>,
     PlayerReportDeadBodyEvent<RoomType>,
@@ -157,7 +168,11 @@ export type PlayerControlEvents<RoomType extends StatefulRoom> = ExtractEventTyp
     PlayerSetVisorEvent<RoomType>,
     PlayerShapeshiftEvent<RoomType>,
     PlayerStartMeetingEvent<RoomType>,
-    PlayerSyncSettingsEvent<RoomType>
+    PlayerSyncSettingsEvent<RoomType>,
+    PlayerTriggerSporesEvent<RoomType>,
+    PlayerUseMovingPlatformEvent<RoomType>,
+    PlayerUseZiplineEvent<RoomType>,
+    PlayerVanishEvent<RoomType>,
 ]>;
 
 /**

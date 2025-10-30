@@ -13,16 +13,16 @@ import {
 import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { DataState, NetworkedObject, NetworkedObjectEvents } from "../../NetworkedObject";
-import { Player } from "../../Player";
-import { StatefulRoom } from "../../StatefulRoom";
+import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { Player } from "../Player";
+import { StatefulRoom } from "../StatefulRoom";
 
 import {
     PlayerMoveEvent,
     PlayerSnapToEvent
-} from "../../events";
+} from "../events";
 
-import { sequenceIdGreaterThan, SequenceIdType } from "../../utils/sequenceIds";
+import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 
 export type CustomNetworkTransformEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
     PlayerMoveEvent<RoomType>,
@@ -38,12 +38,12 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
     /**
      * The current sequence ID.
      */
-    seqId: number;
+    seqId: number = 0;
 
     /**
      * The current position of the player.
      */
-    position: Vector2;
+    position: Vector2 = Vector2.null;
 
     /**
      * The player that this component belongs to.
@@ -58,9 +58,6 @@ export class CustomNetworkTransform<RoomType extends StatefulRoom> extends Netwo
         flags: number,
     ) {
         super(room, spawnType, netId, ownerId, flags);
-
-        this.seqId = 0;
-        this.position = Vector2.null;
 
         this.player = this.owner as Player<RoomType>;
     }

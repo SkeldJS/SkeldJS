@@ -15,11 +15,11 @@ import {
 
 import { ExtractEventTypes } from "@skeldjs/events";
 
-import { DataState, NetworkedObject, NetworkedObjectEvents } from "../../NetworkedObject";
-import { Player } from "../../Player";
-import { StatefulRoom } from "../../StatefulRoom";
+import { DataState, NetworkedObject } from "../NetworkedObject";
+import { Player } from "../Player";
+import { StatefulRoom } from "../StatefulRoom";
 
-import { sequenceIdGreaterThan, SequenceIdType } from "../../utils/sequenceIds";
+import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 
 import {
     PlayerCancelPetEvent,
@@ -27,12 +27,12 @@ import {
     PlayerEnterVentEvent,
     PlayerExitVentEvent,
     PlayerPetEvent,
-} from "../../events";
+} from "../events";
 
 export type PlayerPhysicsEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
     PlayerEnterVentEvent<RoomType>,
     PlayerExitVentEvent<RoomType>,
-    PlayerClimbLadderEvent<RoomType>
+    PlayerClimbLadderEvent<RoomType>,
 ]>;
 
 /**
@@ -44,14 +44,14 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
     /**
      * The ID of the vent that the player is currently in.
      */
-    ventId: number;
+    ventId: number = -1;
 
     /**
      * The player that this component belongs to.
      */
     player: Player<RoomType>;
 
-    private ladderClimbSeqId: number;
+    private ladderClimbSeqId: number = 0;
 
     constructor(
         room: RoomType,
@@ -61,9 +61,6 @@ export class PlayerPhysics<RoomType extends StatefulRoom> extends NetworkedObjec
         flags: number,
     ) {
         super(room, spawnType, netId, ownerId, flags);
-
-        this.ventId = -1;
-        this.ladderClimbSeqId = 0;
 
         this.player = this.owner as Player<RoomType>;
     }

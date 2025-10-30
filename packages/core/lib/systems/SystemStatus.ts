@@ -9,7 +9,6 @@ import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 
-
 export type SystemStatusEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 
 export abstract class SystemStatus<RoomType extends StatefulRoom, T extends EventData = {}> extends EventEmitter<SystemStatusEvents<RoomType> & T> {
