@@ -3,7 +3,7 @@ import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
-import { SendChatMessage } from "@skeldjs/protocol";
+import { SendChatMessage } from "@skeldjs/au-protocol";
 
 /**
  * Emitted when a player sends a free chat message. See {@link PlayerSendQuickChatEvent}

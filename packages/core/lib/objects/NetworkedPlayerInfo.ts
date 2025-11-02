@@ -6,9 +6,9 @@ import {
     PlayerOutfitType,
     RoleTeamType,
     RpcMessageTag
-} from "@skeldjs/constant";
+} from "@skeldjs/au-constants";
 
-import { BaseSystemMessage, BaseRpcMessage, NetworkedPlayerInfoDataMessage, OutfitDataMessage, RpcMessage, SetTasksMessage, TaskStateDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage, NetworkedPlayerInfoDataMessage, OutfitDataMessage, RpcMessage, SetTasksMessage, TaskStateDataMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";

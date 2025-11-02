@@ -1,6 +1,6 @@
-import { BaseGameDataMessage, PlatformSpecificData, ReadyMessage } from "@skeldjs/protocol";
+import { BaseGameDataMessage, PlatformSpecificData, ReadyMessage } from "@skeldjs/au-protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
-import { Platform } from "@skeldjs/constant";
+import { Platform } from "@skeldjs/au-constants";
 
 import {
     CustomNetworkTransformEvents,

@@ -1,4 +1,4 @@
-import { ChatNoteType, RpcMessageTag } from "@skeldjs/constant";
+import { ChatNoteType, RpcMessageTag } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 

@@ -1,4 +1,4 @@
-import { DeconState } from "@skeldjs/constant";
+import { DeconState } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { BaseDataMessage } from "../BaseDataMessage";

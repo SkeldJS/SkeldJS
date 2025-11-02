@@ -1,7 +1,7 @@
 import { BasicEvent, CancelableEvent } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { RoomEvent } from "../RoomEvent";
-import { LobbyExtension } from "@skeldjs/protocol";
+import { LobbyExtension } from "@skeldjs/au-protocol";
 
 /**
  * Emitted when the server notifies the client that the lobby is about to close. This is

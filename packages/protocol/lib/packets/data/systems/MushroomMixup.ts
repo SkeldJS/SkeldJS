@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseDataMessage } from "../BaseDataMessage";
-import { MushroomMixupState } from "@skeldjs/constant";
+import { MushroomMixupState } from "@skeldjs/au-constants";
 
 export class PlayerMixupDataMessage extends BaseDataMessage {
     constructor(

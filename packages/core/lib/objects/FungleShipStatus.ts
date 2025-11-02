@@ -1,4 +1,4 @@
-import { GameMap, mapTasksData, SystemType } from "@skeldjs/constant";
+import { GameMap, mapTasksData, SystemType } from "@skeldjs/au-constants";
 
 import { ShipStatus } from "./ShipStatus";
 

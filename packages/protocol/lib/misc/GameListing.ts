@@ -1,4 +1,4 @@
-import { GameMap } from "@skeldjs/constant";
+import { GameMap } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { PlatformSpecificData } from "./PlatformSpecificData";
 

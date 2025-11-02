@@ -1,6 +1,6 @@
-## @skeldjs/lan
+## @skeldjs/au-lan
 
-This package contains a way to search for games hosted locally for the SkeldJS client, meant to be installed separately with `npm install --save @skeldjs/lan` or `yarn add @skeldjs/lan`. It is also one package of a bigger project, [skeldjs](https://github.com/skeldjs/SkeldJS).
+This package contains a way to search for games hosted locally for the SkeldJS client, meant to be installed separately with `npm install --save @skeldjs/au-lan` or `yarn add @skeldjs/au-lan`. It is also one package of a bigger project, [skeldjs](https://github.com/skeldjs/SkeldJS).
 
 You can view auto-updating documentation for this package hosted at github pages at https://skeld.js.org/modules/lan.html
 
@@ -29,7 +29,7 @@ const foundGame = await lanDiscovery.wait("discovery.foundgame");
 lanDiscovery.end(); // make sure to end the lan discovery when you've finished with it
 ```
 
-A good integration with `@skeldjs/client`, for example, would look something along the lines of:
+A good integration with `@skeldjs/au-client`, for example, would look something along the lines of:
 ```ts
 (async () => {
     const lanDiscovery = new LanDiscovery;

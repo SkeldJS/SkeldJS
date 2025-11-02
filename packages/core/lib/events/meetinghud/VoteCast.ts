@@ -1,5 +1,5 @@
 import { RevertableEvent } from "@skeldjs/events";
-import { CastVoteMessage } from "@skeldjs/protocol";
+import { CastVoteMessage } from "@skeldjs/au-protocol";
 
 import { MeetingHud } from "../../objects";
 import { StatefulRoom } from "../../StatefulRoom";

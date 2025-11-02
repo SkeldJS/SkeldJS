@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { SetNameMessage } from "@skeldjs/protocol";
+import { SetNameMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { StatefulRoom } from "../../StatefulRoom";

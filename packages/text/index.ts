@@ -1,5 +1,5 @@
 /**
- * @module @skeldjs/text
+ * @module @skeldjs/au-text
  */
 
 export * from "./lib";

@@ -1,6 +1,6 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { RoleTeamType, RoleType } from "@skeldjs/constant";
-import { BaseSystemMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
+import { RoleTeamType, RoleType } from "@skeldjs/au-constants";
+import { BaseSystemMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/au-protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";

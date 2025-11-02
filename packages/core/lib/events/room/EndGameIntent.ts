@@ -1,5 +1,5 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { GameOverReason } from "@skeldjs/constant";
+import { GameOverReason } from "@skeldjs/au-constants";
 import { StatefulRoom } from "../../StatefulRoom";
 import { RoomEvent } from "../RoomEvent";
 import { EndGameIntent } from "../../EndGameIntent";

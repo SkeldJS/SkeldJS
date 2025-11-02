@@ -80,44 +80,62 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@skeldjs/client@workspace:packages/client":
+"@skeldjs/au-client@workspace:packages/client":
   version: 0.0.0-use.local
-  resolution: "@skeldjs/client@workspace:packages/client"
+  resolution: "@skeldjs/au-client@workspace:packages/client"
   dependencies:
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
 
-"@skeldjs/constant@workspace:*, @skeldjs/constant@workspace:packages/constant":
+"@skeldjs/au-constants@workspace:*, @skeldjs/au-constants@workspace:packages/constant":
   version: 0.0.0-use.local
-  resolution: "@skeldjs/constant@workspace:packages/constant"
+  resolution: "@skeldjs/au-constants@workspace:packages/constant"
   dependencies:
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
 
-"@skeldjs/core@workspace:*, @skeldjs/core@workspace:packages/core":
+"@skeldjs/au-core@workspace:*, @skeldjs/au-core@workspace:packages/core":
   version: 0.0.0-use.local
-  resolution: "@skeldjs/core@workspace:packages/core"
+  resolution: "@skeldjs/au-core@workspace:packages/core"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/data": "workspace:*"
+    "@skeldjs/au-constants": "workspace:*"
+    "@skeldjs/au-protocol": "workspace:*"
     "@skeldjs/events": "workspace:*"
     "@skeldjs/hazel": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
 
-"@skeldjs/data@workspace:*, @skeldjs/data@workspace:packages/data":
+"@skeldjs/au-lan@workspace:packages/lan":
   version: 0.0.0-use.local
-  resolution: "@skeldjs/data@workspace:packages/data"
+  resolution: "@skeldjs/au-lan@workspace:packages/lan"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
+    "@skeldjs/events": "workspace:*"
+    "@types/node": "npm:^24.7.0"
+    typescript: "npm:^5.9.3"
+  languageName: unknown
+  linkType: soft
+
+"@skeldjs/au-protocol@workspace:*, @skeldjs/au-protocol@workspace:packages/protocol":
+  version: 0.0.0-use.local
+  resolution: "@skeldjs/au-protocol@workspace:packages/protocol"
+  dependencies:
+    "@skeldjs/au-constants": "workspace:*"
     "@skeldjs/hazel": "workspace:*"
+    "@types/node": "npm:^24.7.0"
+    typescript: "npm:^5.9.3"
+  languageName: unknown
+  linkType: soft
+
+"@skeldjs/au-text@workspace:packages/text":
+  version: 0.0.0-use.local
+  resolution: "@skeldjs/au-text@workspace:packages/text"
+  dependencies:
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown
@@ -163,43 +181,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@skeldjs/lan@workspace:packages/lan":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/lan@workspace:packages/lan"
-  dependencies:
-    "@skeldjs/events": "workspace:*"
-    "@types/node": "npm:^24.7.0"
-    typescript: "npm:^5.9.3"
-  languageName: unknown
-  linkType: soft
-
-"@skeldjs/protocol@workspace:*, @skeldjs/protocol@workspace:packages/protocol":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/protocol@workspace:packages/protocol"
-  dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/hazel": "workspace:*"
-    "@types/node": "npm:^24.7.0"
-    typescript: "npm:^5.9.3"
-  languageName: unknown
-  linkType: soft
-
-"@skeldjs/text@workspace:packages/text":
-  version: 0.0.0-use.local
-  resolution: "@skeldjs/text@workspace:packages/text"
-  dependencies:
-    "@types/node": "npm:^24.7.0"
-    typescript: "npm:^5.9.3"
-  languageName: unknown
-  linkType: soft
-
 "@skeldjs/translations@workspace:packages/translations":
   version: 0.0.0-use.local
   resolution: "@skeldjs/translations@workspace:packages/translations"
   dependencies:
-    "@skeldjs/constant": "workspace:*"
-    "@skeldjs/core": "workspace:*"
-    "@skeldjs/protocol": "workspace:*"
+    "@skeldjs/au-constants": "workspace:*"
+    "@skeldjs/au-core": "workspace:*"
+    "@skeldjs/au-protocol": "workspace:*"
     "@types/node": "npm:^24.7.0"
     typescript: "npm:^5.9.3"
   languageName: unknown

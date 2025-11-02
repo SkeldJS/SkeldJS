@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { SetSkinMessage } from "@skeldjs/protocol";
+import { SetSkinMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

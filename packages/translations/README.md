@@ -26,8 +26,8 @@ client.on("meeting.votingcomplete", ev => {
 import { GameCode } from "@skeldjs/hazel";
 import { TranslationController } from "@skeldjs/translations";
 
-import * as skeldjs from "@skeldjs/client";
-import { Language } from "@skeldjs/client";
+import * as skeldjs from "@skeldjs/au-client";
+import { Language } from "@skeldjs/au-client";
 
 (async () => {
     const client = new skeldjs.SkeldjsClient("2021.6.30s");

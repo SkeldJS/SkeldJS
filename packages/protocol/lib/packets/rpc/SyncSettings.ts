@@ -1,4 +1,4 @@
-import { RpcMessageTag } from "@skeldjs/constant";
+import { RpcMessageTag } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { GameSettings } from "../../misc";
 import { BaseRpcMessage } from "./BaseRpcMessage";

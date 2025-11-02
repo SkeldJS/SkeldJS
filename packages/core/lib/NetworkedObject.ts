@@ -1,7 +1,7 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { SpawnType, SpawnFlag } from "@skeldjs/constant";
-import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/protocol";
+import { SpawnType, SpawnFlag } from "@skeldjs/au-constants";
+import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/au-protocol";
 import { BasicEvent, EventData, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { StatefulRoom, SpecialOwnerId } from "./StatefulRoom";

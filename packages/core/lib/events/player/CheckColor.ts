@@ -1,6 +1,6 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { CheckColorMessage } from "@skeldjs/protocol";
-import { Color } from "@skeldjs/constant";
+import { CheckColorMessage } from "@skeldjs/au-protocol";
+import { Color } from "@skeldjs/au-constants";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

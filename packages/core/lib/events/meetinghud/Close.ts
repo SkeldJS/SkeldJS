@@ -1,5 +1,5 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { CloseMessage } from "@skeldjs/protocol";
+import { CloseMessage } from "@skeldjs/au-protocol";
 import { MeetingHud } from "../../objects";
 import { StatefulRoom } from "../../StatefulRoom";
 import { ProtocolEvent } from "../ProtocolEvent";

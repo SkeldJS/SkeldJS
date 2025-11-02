@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseSystemMessage, DtlsHelloPacket, MedScanSystemDataMessage, MedScanSystemMessage, MedScanUpdate, RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, DtlsHelloPacket, MedScanSystemDataMessage, MedScanSystemMessage, MedScanUpdate, RepairSystemMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { System } from "./System";

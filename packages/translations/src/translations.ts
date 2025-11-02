@@ -1,4 +1,4 @@
-import { Language, StringName } from "@skeldjs/constant";
+import { Language, StringName } from "@skeldjs/au-constants";
 
 export const allTranslations: Record<Language, Partial<Record<StringName|string, string|Record<string, string>>>> = {
     [Language.English]: {

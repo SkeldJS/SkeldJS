@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { VotingCompleteMessage } from "@skeldjs/protocol";
+import { VotingCompleteMessage } from "@skeldjs/au-protocol";
 import { MeetingHud, PlayerVoteState } from "../../objects";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

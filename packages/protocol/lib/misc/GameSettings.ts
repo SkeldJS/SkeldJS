@@ -7,7 +7,7 @@ import {
     GameMode,
     SpecialGameModes,
     RulesPreset,
-} from "@skeldjs/constant";
+} from "@skeldjs/au-constants";
 
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 

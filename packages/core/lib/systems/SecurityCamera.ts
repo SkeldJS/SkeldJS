@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseSystemMessage, RepairSystemMessage, SecurityCameraSystemDataMessage, SecurityCameraSystemMessage, SecurityCameraUpdate } from "@skeldjs/protocol";
+import { BaseSystemMessage, RepairSystemMessage, SecurityCameraSystemDataMessage, SecurityCameraSystemMessage, SecurityCameraUpdate } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { System } from "./System";

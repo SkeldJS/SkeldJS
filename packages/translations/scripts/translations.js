@@ -1,4 +1,4 @@
-const { Language, StringName } = require("@skeldjs/constant");
+const { Language, StringName } = require("@skeldjs/au-constants");
 const fs = require("fs");
 const path = require("path");
 
@@ -18,7 +18,7 @@ const translationsJson = JSON.parse(fs.readFileSync(translationsPath, "utf8"));
 
 const processedTranslations = {};
 
-let outputText = `import { Language, StringName } from "@skeldjs/constant";
+let outputText = `import { Language, StringName } from "@skeldjs/au-constants";
 
 export const allTranslations: Record<Language, Partial<Record<StringName|string, string|Record<string, string>>>> = {
 `;

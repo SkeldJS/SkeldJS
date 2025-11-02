@@ -1,4 +1,4 @@
-import { RoleTeamType, RoleType } from "@skeldjs/constant";
+import { RoleTeamType, RoleType } from "@skeldjs/au-constants";
 import { StatefulRoom } from "../StatefulRoom";
 import { BaseRole, RoleMetadata } from "./BaseRole";
 

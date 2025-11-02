@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { ProtectPlayerMessage } from "@skeldjs/protocol";
+import { ProtectPlayerMessage } from "@skeldjs/au-protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

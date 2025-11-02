@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseSystemMessage, DoorCooldownDataMessage, DoorsSystemDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, DoorCooldownDataMessage, DoorsSystemDataMessage, RepairSystemMessage } from "@skeldjs/au-protocol";
 import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 
 import { System } from "./System";
@@ -7,7 +7,7 @@ import { Player } from "../Player";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
-import { SystemType } from "@skeldjs/constant";
+import { SystemType } from "@skeldjs/au-constants";
 
 export type DoorEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
 

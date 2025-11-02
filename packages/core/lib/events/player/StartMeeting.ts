@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { StartMeetingMessage } from "@skeldjs/protocol";
+import { StartMeetingMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

@@ -1,5 +1,5 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { CheckNameMessage } from "@skeldjs/protocol";
+import { CheckNameMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { AutoDoorsSystemDataMessage, AutoDoorsSystemSpawnDataMessage, BaseSystemMessage, DoorStateDataMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { AutoDoorsSystemDataMessage, AutoDoorsSystemSpawnDataMessage, BaseSystemMessage, DoorStateDataMessage, RepairSystemMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { System } from "./System";
@@ -8,7 +8,7 @@ import { StatefulRoom } from "../StatefulRoom";
 import { Door, DoorEvents } from "./Doors";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
-import { SystemType } from "@skeldjs/constant";
+import { SystemType } from "@skeldjs/au-constants";
 
 /**
  * Represents an auto opening door for the {@link AutoDoorsSystem}.

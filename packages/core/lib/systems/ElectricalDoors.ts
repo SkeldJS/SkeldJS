@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseSystemMessage, ElectricalDoorsSystemDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, ElectricalDoorsSystemDataMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { System } from "./System";

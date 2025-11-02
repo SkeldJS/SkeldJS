@@ -3,7 +3,7 @@ import {
     GetGameListTag,
     QuickChatMode,
     RootMessageTag,
-} from "@skeldjs/constant";
+} from "@skeldjs/au-constants";
 
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 

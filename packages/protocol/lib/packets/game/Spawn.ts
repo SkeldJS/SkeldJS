@@ -1,4 +1,4 @@
-import { GameDataMessageTag, SpawnType } from "@skeldjs/constant";
+import { GameDataMessageTag, SpawnType } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { BaseGameDataMessage } from "./BaseGameDataMessage";

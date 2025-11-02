@@ -1,5 +1,5 @@
 import { ExtractEventTypes } from "@skeldjs/events";
-import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/au-protocol";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";

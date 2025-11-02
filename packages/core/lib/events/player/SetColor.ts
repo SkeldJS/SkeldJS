@@ -1,6 +1,6 @@
 import { BasicEvent } from "@skeldjs/events";
-import { Color } from "@skeldjs/constant";
-import { SetColorMessage } from "@skeldjs/protocol";
+import { Color } from "@skeldjs/au-constants";
+import { SetColorMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { StatefulRoom } from "../../StatefulRoom";

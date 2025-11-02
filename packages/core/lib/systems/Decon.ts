@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { DeconState } from "@skeldjs/constant";
-import { BaseSystemMessage, DeconSystemDataMessage, DeconSystemMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { DeconState } from "@skeldjs/au-constants";
+import { BaseSystemMessage, DeconSystemDataMessage, DeconSystemMessage, RepairSystemMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { System } from "./System";

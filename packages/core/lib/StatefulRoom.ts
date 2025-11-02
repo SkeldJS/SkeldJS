@@ -9,7 +9,7 @@ import {
     AllGameSettings,
     PlayerJoinData,
     BaseSystemMessage
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 
 import {
     GameOverReason,
@@ -21,7 +21,7 @@ import {
     GameMode,
     GameMap,
     SystemType
-} from "@skeldjs/constant";
+} from "@skeldjs/au-constants";
 
 import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
 

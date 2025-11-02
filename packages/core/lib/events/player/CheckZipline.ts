@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { CheckZiplineMessage } from "@skeldjs/protocol";
+import { CheckZiplineMessage } from "@skeldjs/au-protocol";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";

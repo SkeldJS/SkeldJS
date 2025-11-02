@@ -1,10 +1,10 @@
-import { BaseSystemMessage, MushroomMixupOperation, MushroomMixupSystemDataMessage, MushroomMixupSystemMessage, PlayerMixupDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, MushroomMixupOperation, MushroomMixupSystemDataMessage, MushroomMixupSystemMessage, PlayerMixupDataMessage } from "@skeldjs/au-protocol";
 import { HazelReader } from "@skeldjs/hazel";
 import { SabotagableSystem } from "./System";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
-import { Color, Hat, mushroomMixupHats, mushroomMixupPets, MushroomMixupState, mushroomMixupVisors, PlayerOutfitType, Skin } from "@skeldjs/constant";
+import { Color, Hat, mushroomMixupHats, mushroomMixupPets, MushroomMixupState, mushroomMixupVisors, PlayerOutfitType, Skin } from "@skeldjs/au-constants";
 import { NetworkedPlayerInfo, PlayerOutfit } from "../objects";
 
 export type MixUpData = {

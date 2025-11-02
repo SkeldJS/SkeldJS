@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage } from "./BaseSystemMessage";
-import { DeconState } from "@skeldjs/constant";
+import { DeconState } from "@skeldjs/au-constants";
 
 // TODO: bad implementation? should system be responsible for 'understanding'
 // these new states?

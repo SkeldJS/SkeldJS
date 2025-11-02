@@ -1,4 +1,4 @@
-import { Language, QuickChatMode, SendOption } from "@skeldjs/constant";
+import { Language, QuickChatMode, SendOption } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { PlatformSpecificData } from "../../misc";

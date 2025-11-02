@@ -1,4 +1,4 @@
-import { GameOverReason, RootMessageTag } from "@skeldjs/constant";
+import { GameOverReason, RootMessageTag } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { BaseRootMessage } from "./BaseRootMessage";

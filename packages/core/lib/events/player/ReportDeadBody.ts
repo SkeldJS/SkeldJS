@@ -1,5 +1,5 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { ReportDeadBodyMessage } from "@skeldjs/protocol";
+import { ReportDeadBodyMessage } from "@skeldjs/au-protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

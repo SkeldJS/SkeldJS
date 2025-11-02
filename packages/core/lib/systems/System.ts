@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
-import { BaseSystemMessage, SabotageSystemMessage } from "@skeldjs/protocol";
+import { SystemType } from "@skeldjs/au-constants";
+import { BaseSystemMessage, SabotageSystemMessage } from "@skeldjs/au-protocol";
 import { EventEmitter, BasicEvent, ExtractEventTypes, EventData } from "@skeldjs/events";
 
 import { ShipStatus, PlayerControl } from "../objects";

@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
-import { BaseSystemMessage, BaseRpcMessage, LobbyTimeExpiringMessage, RpcMessage, ExtendLobbyTimerMessage, LobbyExtension } from "@skeldjs/protocol";
-import { RpcMessageTag } from "@skeldjs/constant";
+import { BaseSystemMessage, BaseRpcMessage, LobbyTimeExpiringMessage, RpcMessage, ExtendLobbyTimerMessage, LobbyExtension } from "@skeldjs/au-protocol";
+import { RpcMessageTag } from "@skeldjs/au-constants";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";

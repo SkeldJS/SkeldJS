@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
-import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
+import { RpcMessageTag, SpawnType } from "@skeldjs/au-constants";
 
 import {
     BaseSystemMessage,
@@ -11,7 +11,7 @@ import {
     PetMessage,
     RpcMessage,
     BootFromVentMessage,
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 
 import { ExtractEventTypes } from "@skeldjs/events";
 

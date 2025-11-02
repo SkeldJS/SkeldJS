@@ -1,4 +1,4 @@
-import { BaseSystemMessage, PlayerVentDataMessage, VentilationOperation, VentilationSystemDataMessage, VentilationSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, PlayerVentDataMessage, VentilationOperation, VentilationSystemDataMessage, VentilationSystemMessage } from "@skeldjs/au-protocol";
 import { HazelReader } from "@skeldjs/hazel";
 import { System } from "./System";
 import { StatefulRoom } from "../StatefulRoom";

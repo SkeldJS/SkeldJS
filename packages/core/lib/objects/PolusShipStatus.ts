@@ -1,4 +1,4 @@
-import { GameMap, mapTasksData, SpawnType, SystemType } from "@skeldjs/constant";
+import { GameMap, mapTasksData, SpawnType, SystemType } from "@skeldjs/au-constants";
 import { HazelReader, Vector2 } from "@skeldjs/hazel";
 
 import {

@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { ClimbLadderMessage } from "@skeldjs/protocol";
+import { ClimbLadderMessage } from "@skeldjs/au-protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

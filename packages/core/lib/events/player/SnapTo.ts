@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { SnapToMessage } from "@skeldjs/protocol";
+import { SnapToMessage } from "@skeldjs/au-protocol";
 import { Vector2 } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";

@@ -1,4 +1,4 @@
-import { RoleTeamType, TaskBarMode } from "@skeldjs/constant";
+import { RoleTeamType, TaskBarMode } from "@skeldjs/au-constants";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { StatefulRoom } from "../../StatefulRoom";

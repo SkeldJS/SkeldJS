@@ -1,5 +1,5 @@
 {
-  "name": "@skeldjs/protocol",
+  "name": "@skeldjs/au-protocol",
   "version": "3.0.0",
   "license": "GPL-3.0-only",
   "main": "./dist/index.js",
@@ -12,7 +12,7 @@
     "prepack": "yarn build"
   },
   "dependencies": {
-    "@skeldjs/constant": "workspace:*",
+    "@skeldjs/au-constants": "workspace:*",
     "@skeldjs/hazel": "workspace:*"
   },
   "devDependencies": {

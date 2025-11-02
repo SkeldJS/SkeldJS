@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
-import { BaseSystemMessage, BaseRpcMessage, GameManagerDataMessage, LogicDataMessage, UnknownDataMessage } from "@skeldjs/protocol";
+import { RpcMessageTag, SpawnType } from "@skeldjs/au-constants";
+import { BaseSystemMessage, BaseRpcMessage, GameManagerDataMessage, LogicDataMessage, UnknownDataMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";

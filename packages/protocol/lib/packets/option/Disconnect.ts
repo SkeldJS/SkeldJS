@@ -1,4 +1,4 @@
-import { DisconnectReason, SendOption } from "@skeldjs/constant";
+import { DisconnectReason, SendOption } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { BaseRootPacket } from "./BaseRootPacket";

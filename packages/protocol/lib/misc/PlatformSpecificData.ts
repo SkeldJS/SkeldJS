@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { Platform } from "@skeldjs/constant";
+import { Platform } from "@skeldjs/au-constants";
 
 export class PlatformSpecificData {
     constructor(

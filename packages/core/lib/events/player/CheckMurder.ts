@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { CheckMurderMessage } from "@skeldjs/protocol";
+import { CheckMurderMessage } from "@skeldjs/au-protocol";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";

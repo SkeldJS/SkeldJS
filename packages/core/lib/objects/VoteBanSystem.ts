@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/constant";
+import { DisconnectReason, RpcMessageTag, SpawnType } from "@skeldjs/au-constants";
 
 import {
     AddVoteMessage,
@@ -9,7 +9,7 @@ import {
     KickPlayerMessage,
     RpcMessage,
     VoteBanSystemDataMessage,
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";

@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { UseZiplineMessage } from "@skeldjs/protocol";
+import { UseZiplineMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

@@ -1,5 +1,5 @@
 import { BasicEvent, EventData, EventEmitter } from "@skeldjs/events";
-import { BaseSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage } from "@skeldjs/au-protocol";
 import { HazelReader } from "@skeldjs/hazel";
 import { StatefulRoom } from "../StatefulRoom";
 import { GameManager } from "../objects";

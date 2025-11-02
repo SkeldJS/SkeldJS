@@ -1,5 +1,5 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { PetMessage, VanishMessage } from "@skeldjs/protocol";
+import { PetMessage, VanishMessage } from "@skeldjs/au-protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

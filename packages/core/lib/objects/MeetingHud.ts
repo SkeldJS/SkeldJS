@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 
-import { ChatNoteType, RpcMessageTag } from "@skeldjs/constant";
+import { ChatNoteType, RpcMessageTag } from "@skeldjs/au-constants";
 
 import {
     BaseSystemMessage,
@@ -13,7 +13,7 @@ import {
     VoteAreaDataMessage,
     VoteState,
     VotingCompleteMessage,
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { DataState, NetworkedObject } from "../NetworkedObject";

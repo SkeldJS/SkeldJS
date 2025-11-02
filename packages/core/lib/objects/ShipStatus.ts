@@ -7,7 +7,7 @@ import {
     SystemType,
     TaskData,
     TaskType
-} from "@skeldjs/constant";
+} from "@skeldjs/au-constants";
 
 import {
     BaseSystemMessage,
@@ -19,7 +19,7 @@ import {
     UpdateSystemMessage,
     UnknownSystemMessage,
     RpcMessage
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 
 import {
     AutoDoorsSystemEvents,
@@ -246,7 +246,7 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
     }
 
     /**
-     * Randomly assign tasks to all players, using data from @skeldjs/constant.
+     * Randomly assign tasks to all players, using data from @skeldjs/au-constants.
      */
     async assignTasks() {
         const allTasks = this.getTasks();

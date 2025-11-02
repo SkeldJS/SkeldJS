@@ -1,4 +1,4 @@
-import { TaggedCloneable } from "@skeldjs/protocol";
+import { TaggedCloneable } from "@skeldjs/au-protocol";
 
 export interface ProtocolEvent {
     /**

@@ -1,4 +1,4 @@
-import { SpawnType } from "@skeldjs/constant";
+import { SpawnType } from "@skeldjs/au-constants";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { NormalFlowLogicComponent, NormalMinigameLogicComponent, NormalOptionsLogicComponent, NormalRoleSelectionLogicComponent, NormalUsablesLogicComponent } from "../logic";

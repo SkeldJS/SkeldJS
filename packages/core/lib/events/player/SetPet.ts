@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { SetPetMessage } from "@skeldjs/protocol";
+import { SetPetMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

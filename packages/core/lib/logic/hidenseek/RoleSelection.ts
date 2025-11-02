@@ -4,8 +4,8 @@ import { GameLogicComponent } from "../GameLogicComponent";
 import { Player } from "../../Player";
 import { BaseRole, CrewmateGhostRole, CrewmateRole, EngineerRole, ImpostorGhostRole, ImpostorRole } from "../../roles";
 import { RoomAssignRolesEvent } from "../../events";
-import { RoleTeamType, RoleType } from "@skeldjs/constant";
-import { BaseSystemMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/protocol";
+import { RoleTeamType, RoleType } from "@skeldjs/au-constants";
+import { BaseSystemMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/au-protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 import { HideAndSeekManager, PlayerControl } from "../../objects";
 

@@ -1,4 +1,4 @@
-import { SystemType } from "@skeldjs/constant";
+import { SystemType } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage } from "./BaseSystemMessage";
 

@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseDataMessage } from "./BaseDataMessage";
-import { Color, PlayerOutfitType } from "@skeldjs/constant";
+import { Color, PlayerOutfitType } from "@skeldjs/au-constants";
 
 export class OutfitDataMessage extends BaseDataMessage {
     constructor(

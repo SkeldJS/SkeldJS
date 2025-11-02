@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { QuickChatMessageData, SendQuickChatMessage } from "@skeldjs/protocol";
+import { QuickChatMessageData, SendQuickChatMessage } from "@skeldjs/au-protocol";
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";
 import { StatefulRoom } from "../../StatefulRoom";

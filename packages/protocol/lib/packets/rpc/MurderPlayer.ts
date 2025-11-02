@@ -1,4 +1,4 @@
-import { MurderReasonFlags, RpcMessageTag } from "@skeldjs/constant";
+import { MurderReasonFlags, RpcMessageTag } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 

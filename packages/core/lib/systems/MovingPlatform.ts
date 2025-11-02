@@ -4,7 +4,7 @@ import {
     RpcMessage,
     BaseSystemMessage,
     MovingPlatformSystemDataMessage
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 
 import { HazelReader } from "@skeldjs/hazel";
 import { ExtractEventTypes } from "@skeldjs/events";

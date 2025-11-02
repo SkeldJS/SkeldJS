@@ -1,5 +1,5 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { UsePlatformMessage } from "@skeldjs/protocol";
+import { UsePlatformMessage } from "@skeldjs/au-protocol";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { ProtocolEvent } from "../ProtocolEvent";

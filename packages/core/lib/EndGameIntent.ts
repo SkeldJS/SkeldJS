@@ -1,4 +1,4 @@
-import { GameOverReason } from "@skeldjs/constant";
+import { GameOverReason } from "@skeldjs/au-constants";
 import { StatefulRoom } from "./StatefulRoom";
 import { Player } from "./Player";
 import { SabotagableSystem } from "./systems";

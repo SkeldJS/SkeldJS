@@ -12,9 +12,9 @@
     "prepack": "yarn build"
   },
   "dependencies": {
-    "@skeldjs/constant": "workspace:*",
-    "@skeldjs/core": "workspace:*",
-    "@skeldjs/protocol": "workspace:*"
+    "@skeldjs/au-constants": "workspace:*",
+    "@skeldjs/au-core": "workspace:*",
+    "@skeldjs/au-protocol": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.7.0",

@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { CompleteTaskMessage } from "@skeldjs/protocol";
+import { CompleteTaskMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

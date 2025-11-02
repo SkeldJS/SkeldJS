@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { SetStartCounterMessage } from "@skeldjs/protocol";
+import { SetStartCounterMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

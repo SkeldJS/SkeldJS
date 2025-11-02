@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { EnterVentMessage } from "@skeldjs/protocol";
+import { EnterVentMessage } from "@skeldjs/au-protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

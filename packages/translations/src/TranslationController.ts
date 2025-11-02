@@ -3,14 +3,14 @@ import {
     Language,
     Player,
     StringName
-} from "@skeldjs/core";
+} from "@skeldjs/au-core";
 
 import {
     QuickChatComplexMessageData,
     QuickChatMessageData,
     QuickChatPlayerMessageData,
     QuickChatSimpleMessageData
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 
 import { allTranslations } from "./translations";
 

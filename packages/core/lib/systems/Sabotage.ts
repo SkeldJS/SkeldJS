@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseSystemMessage, SabotageSystemDataMessage, SabotageSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, SabotageSystemDataMessage, SabotageSystemMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { System } from "./System";

@@ -1,5 +1,5 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, HeliSabotageConsoleUpdate, HeliSabotageSystemDataMessage, HeliSabotageSystemMessage } from "@skeldjs/protocol";
+import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, HeliSabotageConsoleUpdate, HeliSabotageSystemDataMessage, HeliSabotageSystemMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { SabotagableSystem } from "./System";

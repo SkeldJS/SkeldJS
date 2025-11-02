@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { GameOverReason, SystemType } from "@skeldjs/constant";
-import { ActiveConsoleDataMessage, BaseSystemMessage, ReactorConsoleUpdate, ReactorSystemDataMessage, ReactorSystemMessage } from "@skeldjs/protocol";
+import { GameOverReason, SystemType } from "@skeldjs/au-constants";
+import { ActiveConsoleDataMessage, BaseSystemMessage, ReactorConsoleUpdate, ReactorSystemDataMessage, ReactorSystemMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { ShipStatus } from "../objects";

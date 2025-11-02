@@ -1,5 +1,5 @@
 import { BasicEvent } from "@skeldjs/events";
-import { AllGameSettings, GameSettings, SyncSettingsMessage } from "@skeldjs/protocol";
+import { AllGameSettings, GameSettings, SyncSettingsMessage } from "@skeldjs/au-protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

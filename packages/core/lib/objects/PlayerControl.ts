@@ -48,7 +48,7 @@ import {
     CheckVanishMessage,
     CheckAppearMessage,
     AppearMessage
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 
 import {
     SpawnType,
@@ -69,7 +69,7 @@ import {
     RoleTeamType,
     SpawnFlag,
     MurderReasonFlags
-} from "@skeldjs/constant";
+} from "@skeldjs/au-constants";
 
 import { ExtractEventTypes } from "@skeldjs/events";
 

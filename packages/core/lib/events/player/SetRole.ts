@@ -1,5 +1,5 @@
 import { CancelableEvent } from "@skeldjs/events";
-import { SetRoleMessage } from "@skeldjs/protocol";
+import { SetRoleMessage } from "@skeldjs/au-protocol";
 
 import { ProtocolEvent } from "../ProtocolEvent";
 import { PlayerEvent } from "./PlayerEvent";

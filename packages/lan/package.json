@@ -1,5 +1,5 @@
 {
-  "name": "@skeldjs/lan",
+  "name": "@skeldjs/au-lan",
   "version": "3.0.0",
   "license": "GPL-3.0-only",
   "main": "./dist/index.js",

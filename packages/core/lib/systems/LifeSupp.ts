@@ -1,7 +1,7 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseSystemMessage, CompletedConsoleDataMessage, LifeSuppConsoleUpdate, LifeSuppSystemDataMessage, LifeSuppSystemMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, CompletedConsoleDataMessage, LifeSuppConsoleUpdate, LifeSuppSystemDataMessage, LifeSuppSystemMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
-import { GameOverReason } from "@skeldjs/constant";
+import { GameOverReason } from "@skeldjs/au-constants";
 
 import { SabotagableSystem } from "./System";
 

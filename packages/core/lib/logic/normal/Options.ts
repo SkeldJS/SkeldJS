@@ -4,8 +4,8 @@ import { HazelReader } from "@skeldjs/hazel";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { GameLogicComponent } from "../GameLogicComponent";
-import { BaseSystemMessage, OptionsLogicComponentDataMessage } from "@skeldjs/protocol";
-import { KillDistance } from "@skeldjs/constant";
+import { BaseSystemMessage, OptionsLogicComponentDataMessage } from "@skeldjs/au-protocol";
+import { KillDistance } from "@skeldjs/au-constants";
 
 export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 

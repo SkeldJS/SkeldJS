@@ -1,6 +1,6 @@
 import { ExtractEventTypes } from "@skeldjs/events";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
-import { BaseSystemMessage, BaseRpcMessage, FlowLogicComponentDataMessage } from "@skeldjs/protocol";
+import { BaseSystemMessage, BaseRpcMessage, FlowLogicComponentDataMessage } from "@skeldjs/au-protocol";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameManager } from "../../objects";

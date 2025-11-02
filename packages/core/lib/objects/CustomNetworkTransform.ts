@@ -8,9 +8,9 @@ import {
     RpcMessage,
     SnapToMessage,
     CustomNetworkTransformDataMessage,
-} from "@skeldjs/protocol";
+} from "@skeldjs/au-protocol";
 
-import { RpcMessageTag, SpawnType } from "@skeldjs/constant";
+import { RpcMessageTag, SpawnType } from "@skeldjs/au-constants";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";

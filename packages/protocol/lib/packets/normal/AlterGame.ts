@@ -1,4 +1,4 @@
-import { AlterGameTag, RootMessageTag } from "@skeldjs/constant";
+import { AlterGameTag, RootMessageTag } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { BaseRootMessage } from "./BaseRootMessage";

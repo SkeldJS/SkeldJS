@@ -1,4 +1,4 @@
-import { SendOption } from "@skeldjs/constant";
+import { SendOption } from "@skeldjs/au-constants";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { NormalPacket } from "./Normal";

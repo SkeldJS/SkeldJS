@@ -1,4 +1,4 @@
-import { BaseRpcMessage } from "@skeldjs/protocol";
+import { BaseRpcMessage } from "@skeldjs/au-protocol";
 import { StatefulRoom } from "../StatefulRoom";
 import { HideNSeekDangerLevelLogicComponent, HideNSeekDeathPopupLevelLogicComponent, HideNSeekFlowLogicComponent, HideNSeekMinigameLogicComponent, HideNSeekMusicLogicComponent, HideNSeekOptionsLogicComponent, HideNSeekPingLogicComponent, HideNSeekRoleSelectionLogicComponent, HideNSeekUsablesLogicComponent } from "../logic";
 import { GameManager } from "./GameManager";

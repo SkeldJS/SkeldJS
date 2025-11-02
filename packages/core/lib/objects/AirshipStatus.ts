@@ -1,6 +1,6 @@
 import { HazelReader, Vector2 } from "@skeldjs/hazel";
-import { GameMap, mapTasksData, RpcMessageTag, SystemType } from "@skeldjs/constant";
-import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
+import { GameMap, mapTasksData, RpcMessageTag, SystemType } from "@skeldjs/au-constants";
+import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/au-protocol";
 
 import { ShipStatus } from "./ShipStatus";
 

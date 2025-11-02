@@ -1,5 +1,5 @@
 /**
- * @module @skeldjs/constant
+ * @module @skeldjs/au-constants
  */
 
 export * from "./lib";

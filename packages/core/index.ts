@@ -1,8 +1,8 @@
 /**
- * @module @skeldjs/core
+ * @module @skeldjs/au-core
  */
 
 export * from "./lib";
 
-export * from "@skeldjs/constant";
-export * from "@skeldjs/constant";
+export * from "@skeldjs/au-constants";
+export * from "@skeldjs/au-constants";
