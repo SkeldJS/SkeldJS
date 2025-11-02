@@ -27,7 +27,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "version": "3.0.1",
+  "version": "3.0.2",
   "packageManager": "yarn@4.10.3",
   "devDependencies": {
     "typedoc": "^0.28.13",
