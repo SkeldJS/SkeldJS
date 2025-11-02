@@ -5,7 +5,7 @@ import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 import { Color, Hat, MushroomMixupState, PlayerOutfitType, Skin } from "@skeldjs/constant";
-import { mushroomMixupHatIds, mushroomMixupPetIds, mushroomMixupVisorIds } from "@skeldjs/data";
+import { mushroomMixupHatIds, mushroomMixupPetIds, mushroomMixupVisorIds } from "@skeldjs/constant";
 import { NetworkedPlayerInfo, PlayerOutfit } from "../objects";
 
 export type MixUpData = {

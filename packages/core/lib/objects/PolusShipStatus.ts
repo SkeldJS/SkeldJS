@@ -1,6 +1,6 @@
 import { SpawnType, SystemType } from "@skeldjs/constant";
 import { HazelReader, Vector2 } from "@skeldjs/hazel";
-import { PolusTasks } from "@skeldjs/data";
+import { PolusTasks } from "@skeldjs/constant";
 
 import {
     DeconSystem,

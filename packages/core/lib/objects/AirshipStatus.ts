@@ -1,7 +1,7 @@
 import { HazelReader, Vector2 } from "@skeldjs/hazel";
 import { RpcMessageTag, SystemType } from "@skeldjs/constant";
 import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
-import { AirshipTasks } from "@skeldjs/data";
+import { AirshipTasks } from "@skeldjs/constant";
 
 import { ShipStatus } from "./ShipStatus";
 

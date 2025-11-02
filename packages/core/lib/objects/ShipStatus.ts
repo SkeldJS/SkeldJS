@@ -21,7 +21,7 @@ import {
     RpcMessage
 } from "@skeldjs/protocol";
 
-import { TaskInfo } from "@skeldjs/data";
+import { TaskInfo } from "@skeldjs/constant";
 
 import {
     AutoDoorsSystemEvents,
@@ -241,7 +241,7 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
     }
 
     /**
-     * Randomly assign tasks to all players, using data from @skeldjs/data.
+     * Randomly assign tasks to all players, using data from @skeldjs/constant.
      */
     async assignTasks() {
         const allTasks = this.getTasks();

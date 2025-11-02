@@ -1,4 +1,4 @@
-import { KillDistances } from "@skeldjs/data";
+import { KillDistances } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";

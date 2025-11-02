@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@skeldjs/constant": "workspace:*",
-    "@skeldjs/data": "workspace:*",
+    "@skeldjs/constant": "workspace:*",
     "@skeldjs/events": "workspace:*",
     "@skeldjs/hazel": "workspace:*",
     "@skeldjs/protocol": "workspace:*"

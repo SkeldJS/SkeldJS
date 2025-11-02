@@ -1,5 +1,5 @@
 import { SpawnType, SystemType } from "@skeldjs/constant";
-import { AirshipTasks, TheFungleTasks } from "@skeldjs/data";
+import { AirshipTasks, TheFungleTasks } from "@skeldjs/constant";
 
 import { ShipStatus } from "./ShipStatus";
 

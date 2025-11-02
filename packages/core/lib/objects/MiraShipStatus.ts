@@ -1,7 +1,7 @@
 import { Vector2 } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
 
-import { MiraHQTasks } from "@skeldjs/data";
+import { MiraHQTasks } from "@skeldjs/constant";
 
 import {
     DeconSystem,

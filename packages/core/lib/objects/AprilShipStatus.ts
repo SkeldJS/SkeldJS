@@ -1,6 +1,6 @@
 import { Vector2 } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/constant";
-import { AprilFoolsTheSkeldTasks, TheSkeldTasks } from "@skeldjs/data";
+import { AprilFoolsTheSkeldTasks, TheSkeldTasks } from "@skeldjs/constant";
 
 import { ShipStatus } from "./ShipStatus";
 
