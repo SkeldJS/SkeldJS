@@ -1,7 +1,5 @@
 import { Vector2 } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
-
-import { MiraHQTasks } from "@skeldjs/constant";
+import { GameMap, mapTasksData, SystemType } from "@skeldjs/constant";
 
 import {
     DeconSystem,
@@ -35,11 +33,11 @@ export class MiraShipStatus<RoomType extends StatefulRoom> extends ShipStatus<Ro
         reactorSystem.sabotageDuration = 60;
 
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
-        this.systems.set(SystemType.O2, new LifeSuppSystem(this, SystemType.O2));
+        this.systems.set(SystemType.LifeSupp, new LifeSuppSystem(this, SystemType.LifeSupp));
         this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay));
         
-        const hqHudSystem = new HqHudSystem(this, SystemType.Communications);
-        this.systems.set(SystemType.Communications, hqHudSystem);
+        const hqHudSystem = new HqHudSystem(this, SystemType.Comms);
+        this.systems.set(SystemType.Comms, hqHudSystem);
         hqHudSystem.completedConsoles = new Set([0, 1]);
 
         this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));
@@ -47,7 +45,7 @@ export class MiraShipStatus<RoomType extends StatefulRoom> extends ShipStatus<Ro
     }
 
     getTasks() {
-        return Object.values(MiraHQTasks);
+        return mapTasksData[GameMap.MiraHQ];
     }
     
     getStartWaitSeconds(): number {

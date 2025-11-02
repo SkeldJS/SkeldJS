@@ -5,7 +5,7 @@ import {
     RpcMessageTag,
     SpawnType,
     SystemType,
-    TaskLength,
+    TaskData,
     TaskType
 } from "@skeldjs/constant";
 
@@ -20,8 +20,6 @@ import {
     UnknownSystemMessage,
     RpcMessage
 } from "@skeldjs/protocol";
-
-import { TaskInfo } from "@skeldjs/constant";
 
 import {
     AutoDoorsSystemEvents,
@@ -209,7 +207,13 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
         }
     }
 
-    protected addTasksFromList(start: number, count: number, tasks: number[], usedTaskTypes: Set<TaskType>, unusedTasks: TaskInfo[]) {
+    protected addTasksFromList(
+        start: number,
+        count: number,
+        tasks: number[],
+        usedTaskTypes: Set<TaskType>,
+        unusedTasks: TaskData[]
+    ) {
         if (unusedTasks.length === 0) {
             return start;
         }
@@ -220,18 +224,19 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
             if (start >= unusedTasks.length) {
                 start = 0;
                 shuffleArray(unusedTasks);
-                if (unusedTasks.every(taskData => usedTaskTypes.has(taskData.taskType))) {
+                if (unusedTasks.every(taskData => usedTaskTypes.has(taskData.type))) {
                     usedTaskTypes.clear();
                 }
             }
 
-            const task = unusedTasks[start++];
+            const id = start++;
+            const task = unusedTasks[id];
 
-            if (usedTaskTypes.has(task.taskType)) {
+            if (usedTaskTypes.has(task.type)) {
                 i--;
             } else {
-                usedTaskTypes.add(task.taskType);
-                tasks.push(task.id);
+                usedTaskTypes.add(task.type);
+                tasks.push(id);
             }
 
             i++;
@@ -255,13 +260,13 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
 
         for (let i = 0; i < allTasks.length; i++) {
             switch (allTasks[i].length) {
-                case TaskLength.Common:
+                case "Common":
                     allCommon.push(allTasks[i]);
                     break;
-                case TaskLength.Long:
+                case "Long":
                     allLong.push(allTasks[i]);
                     break;
-                case TaskLength.Short:
+                case "Short":
                     allShort.push(allTasks[i]);
                     break;
             }
@@ -365,7 +370,7 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
      * Get all tasks for this map.
      * @returns A list of tasks for this map.
      */
-    abstract getTasks(): TaskInfo[];
+    abstract getTasks(): TaskData[];
     abstract setupSystems(): Promise<void>;
     abstract getStartWaitSeconds(): number;
 }

@@ -1,3 +1,3 @@
-export * from "./MapDoorsData";
-export * from "./MapTasksData";
-export * from "./MapVentData";
+export * from "./mapDoorsData";
+export * from "./mapTasksData";
+export * from "./mapVentData";

@@ -4,8 +4,7 @@ import { SabotagableSystem } from "./System";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
-import { Color, Hat, MushroomMixupState, PlayerOutfitType, Skin } from "@skeldjs/constant";
-import { mushroomMixupHatIds, mushroomMixupPetIds, mushroomMixupVisorIds } from "@skeldjs/constant";
+import { Color, Hat, mushroomMixupHats, mushroomMixupPets, MushroomMixupState, mushroomMixupVisors, PlayerOutfitType, Skin } from "@skeldjs/constant";
 import { NetworkedPlayerInfo, PlayerOutfit } from "../objects";
 
 export type MixUpData = {
@@ -34,10 +33,10 @@ export class MushroomMixupSabotageSystem<RoomType extends StatefulRoom> extends 
             PlayerOutfitType.MushroomMixup,
             playerInfo.defaultOutfit.name,
             this.room.playerInfo.get(data.colorOfPlayerId)?.defaultOutfit.color || Color.Red,
-            mushroomMixupHatIds[data.hatIdx],
-            mushroomMixupPetIds[data.petIdx],
+            mushroomMixupHats[data.hatIdx],
+            mushroomMixupPets[data.petIdx],
             this.availableSkinIds[data.skinIdx],
-            mushroomMixupVisorIds[data.visorIdx],
+            mushroomMixupVisors[data.visorIdx],
             playerInfo.defaultOutfit.nameplateId,
         );
     }
@@ -163,9 +162,9 @@ export class MushroomMixupSabotageSystem<RoomType extends StatefulRoom> extends 
 
             this.playersMixedUp.set(playerInfo.playerId, {
                 colorOfPlayerId: colorOfPlayerId,
-                hatIdx: Math.floor(Math.random() * mushroomMixupHatIds.length),
-                visorIdx: Math.floor(Math.random() * mushroomMixupVisorIds.length),
-                petIdx: Math.floor(Math.random() * mushroomMixupPetIds.length),
+                hatIdx: Math.floor(Math.random() * mushroomMixupHats.length),
+                petIdx: Math.floor(Math.random() * mushroomMixupPets.length),
+                visorIdx: Math.floor(Math.random() * mushroomMixupVisors.length),
                 skinIdx: Math.floor(Math.random() * this.availableSkinIds.length),
             });
         }

@@ -1,6 +1,5 @@
-import { SpawnType, SystemType } from "@skeldjs/constant";
+import { GameMap, mapTasksData, SpawnType, SystemType } from "@skeldjs/constant";
 import { HazelReader, Vector2 } from "@skeldjs/hazel";
-import { PolusTasks } from "@skeldjs/constant";
 
 import {
     DeconSystem,
@@ -32,7 +31,7 @@ export class PolusShipStatus<RoomType extends StatefulRoom> extends ShipStatus<R
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
         this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay));
         this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security));
-        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications));
+        this.systems.set(SystemType.Comms, new HudOverrideSystem(this, SystemType.Comms));
         
         const doorsSystem = new DoorsSystem(this, SystemType.Doors);
         this.systems.set(SystemType.Doors, doorsSystem);
@@ -40,10 +39,10 @@ export class PolusShipStatus<RoomType extends StatefulRoom> extends ShipStatus<R
             new Door(doorsSystem, SystemType.Electrical, 0),
             new Door(doorsSystem, SystemType.Electrical, 1),
             new Door(doorsSystem, SystemType.Electrical, 2),
-            new Door(doorsSystem, SystemType.O2, 3),
-            new Door(doorsSystem, SystemType.O2, 4),
+            new Door(doorsSystem, SystemType.LifeSupp, 3),
+            new Door(doorsSystem, SystemType.LifeSupp, 4),
             new Door(doorsSystem, SystemType.Weapons, 5),
-            new Door(doorsSystem, SystemType.Communications, 6),
+            new Door(doorsSystem, SystemType.Comms, 6),
             new Door(doorsSystem, SystemType.Office, 7),
             new Door(doorsSystem, SystemType.Office, 8),
             new Door(doorsSystem, SystemType.Laboratory, 9),
@@ -86,7 +85,7 @@ export class PolusShipStatus<RoomType extends StatefulRoom> extends ShipStatus<R
     }
 
     getTasks() {
-        return Object.values(PolusTasks);
+        return mapTasksData[GameMap.Polus];
     }
     
     getStartWaitSeconds(): number {

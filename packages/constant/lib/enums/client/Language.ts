@@ -1,7 +1,7 @@
 export enum Language {
     English,
-    SpanishAmericas,
-    PortugueseBrazil,
+    Latam,
+    Brazilian,
     Portuguese,
     Korean,
     Russian,
@@ -12,7 +12,7 @@ export enum Language {
     Italian,
     Japanese,
     Spanish,
-    ChineseTraditional,
-    ChineseSimplified,
+    SChinese,
+    TChinese,
     Irish
 }

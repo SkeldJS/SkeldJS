@@ -1,10 +1,11 @@
-import { KillDistances } from "@skeldjs/constant";
 import { ExtractEventTypes } from "@skeldjs/events";
+import { HazelReader } from "@skeldjs/hazel";
+
 import { StatefulRoom } from "../../StatefulRoom";
 import { Player } from "../../Player";
 import { GameLogicComponent } from "../GameLogicComponent";
-import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, OptionsLogicComponentDataMessage } from "@skeldjs/protocol";
+import { KillDistance } from "@skeldjs/constant";
 
 export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
 
@@ -59,8 +60,12 @@ export class NormalOptionsLogicComponent<RoomType extends StatefulRoom> extends 
         return numPlayers < 7 ? 1 : numPlayers < 9 ? 2 : 3;
     }
 
-    getKillDistance() {
-        return KillDistances[this.manager.room.settings.killDistance];
+    getKillDistance(): number {
+        switch (this.manager.room.settings.killDistance) {
+        case KillDistance.Short: return 1.0;
+        case KillDistance.Medium: return 1.8;
+        case KillDistance.Long: return 2.5;
+        }
     }
 
     getKillCooldown() {

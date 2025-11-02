@@ -1,6 +1,5 @@
 export * from "./cosmetics";
 export * from "./maps";
-export * from "./types";
 
 export * from "./ColorData";
 export * from "./MushroomMixupCosmetics";

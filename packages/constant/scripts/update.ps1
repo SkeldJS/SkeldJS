@@ -13,5 +13,6 @@ node cosmetics (Join-Path $base "cosmetics.json")
 Copy-Item cosmetics/* ../lib/generated/cosmetics
 
 node maps (Join-Path $base "maps")
+Copy-Item maps/* ../lib/generated/maps
 
 node mixup (Join-Path $base "maps\Fungle\mixup.json") > ../lib/generated/mushroomMixupCosmetics.ts

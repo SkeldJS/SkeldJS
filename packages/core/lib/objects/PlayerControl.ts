@@ -59,7 +59,7 @@ import {
     ChatNoteType,
     Pet,
     SystemType,
-    StringNames,
+    StringName,
     GameOverReason,
     PlayerOutfitType,
     Visor,
@@ -1239,7 +1239,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
      *
      * Emits a {@link PlayerSendChatEvent | `player.quickchat`} event.
      */
-    sendQuickChat(message: Player<RoomType> | StringNames, format?: (Player<RoomType> | StringNames)[]) {
+    sendQuickChat(message: Player<RoomType> | StringName, format?: (Player<RoomType> | StringName)[]) {
         const quickChatMessage = typeof message === "number"
             ? format
                 ? new QuickChatComplexMessageData(message, format.map(format => {

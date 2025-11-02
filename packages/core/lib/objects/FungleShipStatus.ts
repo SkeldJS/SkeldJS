@@ -1,5 +1,4 @@
-import { SpawnType, SystemType } from "@skeldjs/constant";
-import { AirshipTasks, TheFungleTasks } from "@skeldjs/constant";
+import { GameMap, mapTasksData, SystemType } from "@skeldjs/constant";
 
 import { ShipStatus } from "./ShipStatus";
 
@@ -24,7 +23,7 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends ShipStatus<
     async setupSystems() {
         this.systems.set(SystemType.Ventilation, new VentilationSystem(this, SystemType.Ventilation));
 
-        this.systems.set(SystemType.Communications, new HqHudSystem(this, SystemType.Communications));
+        this.systems.set(SystemType.Comms, new HqHudSystem(this, SystemType.Comms));
 
         const reactorSystem = new ReactorSystem(this, SystemType.Reactor);
         this.systems.set(SystemType.Reactor, reactorSystem);
@@ -33,8 +32,8 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends ShipStatus<
         const doorsSystem = new DoorsSystem(this, SystemType.Doors);
         this.systems.set(SystemType.Doors, doorsSystem);
         doorsSystem.doors = [
-            new Door(doorsSystem, SystemType.Communications, 0),
-            new Door(doorsSystem, SystemType.Communications, 1),
+            new Door(doorsSystem, SystemType.Comms, 0),
+            new Door(doorsSystem, SystemType.Comms, 1),
             new Door(doorsSystem, SystemType.Kitchen, 2),
             new Door(doorsSystem, SystemType.Laboratory, 3),
             new Door(doorsSystem, SystemType.Lookout, 4),
@@ -57,7 +56,7 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends ShipStatus<
     }
 
     getTasks() {
-        return Object.values(TheFungleTasks);
+        return mapTasksData[GameMap.Fungle];
     }
     
     getStartWaitSeconds(): number {

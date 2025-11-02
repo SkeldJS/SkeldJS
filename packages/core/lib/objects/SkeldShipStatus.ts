@@ -1,6 +1,5 @@
 import { Vector2 } from "@skeldjs/hazel";
-import { SystemType } from "@skeldjs/constant";
-import { TheSkeldTasks } from "@skeldjs/constant";
+import { GameMap, mapTasksData, SystemType } from "@skeldjs/constant";
 
 import { ShipStatus } from "./ShipStatus";
 
@@ -44,10 +43,10 @@ export class SkeldShipStatus<RoomType extends StatefulRoom> extends ShipStatus<R
         reactorSystem.sabotageDuration = 60;
 
         this.systems.set(SystemType.Electrical, new SwitchSystem(this, SystemType.Electrical));
-        this.systems.set(SystemType.O2, new LifeSuppSystem(this, SystemType.O2));
+        this.systems.set(SystemType.LifeSupp, new LifeSuppSystem(this, SystemType.LifeSupp));
         this.systems.set(SystemType.MedBay, new MedScanSystem(this, SystemType.MedBay));
         this.systems.set(SystemType.Security, new SecurityCameraSystem(this, SystemType.Security));
-        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications));
+        this.systems.set(SystemType.Comms, new HudOverrideSystem(this, SystemType.Comms));
         
         const autoDoorsSystem = new AutoDoorsSystem(this, SystemType.Doors);
         this.systems.set(SystemType.Doors, autoDoorsSystem);
@@ -71,7 +70,7 @@ export class SkeldShipStatus<RoomType extends StatefulRoom> extends ShipStatus<R
     }
 
     getTasks() {
-        return Object.values(TheSkeldTasks);
+        return mapTasksData[GameMap.TheSkeld];
     }
     
     getStartWaitSeconds(): number {

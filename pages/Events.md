@@ -30,7 +30,7 @@ Events can be cancelled to prevent something from happening.
 For example, you might want to prevent a system from being sabotaged.
 ```ts
 client.on("system.sabotage", ev => {
-    if (system.systemType === SystemType.O2) {
+    if (system.systemType === SystemType.LifeSupp) {
         ev.cancel();
     }
 })

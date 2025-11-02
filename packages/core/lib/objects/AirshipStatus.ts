@@ -1,7 +1,6 @@
 import { HazelReader, Vector2 } from "@skeldjs/hazel";
-import { RpcMessageTag, SystemType } from "@skeldjs/constant";
+import { GameMap, mapTasksData, RpcMessageTag, SystemType } from "@skeldjs/constant";
 import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/protocol";
-import { AirshipTasks } from "@skeldjs/constant";
 
 import { ShipStatus } from "./ShipStatus";
 
@@ -93,10 +92,10 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends ShipStatus<Roo
         this.systems.set(SystemType.Doors, doorsSystem);
         // TODO: figure out actual door systems
         doorsSystem.doors = [
-            new Door(doorsSystem, SystemType.Communications, 0),
-            new Door(doorsSystem, SystemType.Communications, 1),
-            new Door(doorsSystem, SystemType.Communications, 2),
-            new Door(doorsSystem, SystemType.Communications, 3),
+            new Door(doorsSystem, SystemType.Comms, 0),
+            new Door(doorsSystem, SystemType.Comms, 1),
+            new Door(doorsSystem, SystemType.Comms, 2),
+            new Door(doorsSystem, SystemType.Comms, 3),
             new Door(doorsSystem, SystemType.Brig, 4),
             new Door(doorsSystem, SystemType.Brig, 5),
             new Door(doorsSystem, SystemType.Brig, 6),
@@ -112,7 +111,7 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends ShipStatus<Roo
             new Door(doorsSystem, SystemType.Medical, 20),
         ];
 
-        this.systems.set(SystemType.Communications, new HudOverrideSystem(this, SystemType.Communications));
+        this.systems.set(SystemType.Comms, new HudOverrideSystem(this, SystemType.Comms));
 
         const movingPlatformSystem = new MovingPlatformSystem(this, SystemType.GapRoom);
         this.systems.set(SystemType.GapRoom, movingPlatformSystem);
@@ -162,7 +161,7 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends ShipStatus<Roo
     }
 
     getTasks() {
-        return Object.values(AirshipTasks);
+        return mapTasksData[GameMap.Airship];
     }
     
     getStartWaitSeconds(): number {

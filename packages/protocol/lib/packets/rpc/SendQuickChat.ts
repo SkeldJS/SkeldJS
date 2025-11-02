@@ -1,4 +1,4 @@
-import { RpcMessageTag, StringNames } from "@skeldjs/constant";
+import { RpcMessageTag, StringName } from "@skeldjs/constant";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseRpcMessage } from "./BaseRpcMessage";
 
@@ -135,7 +135,7 @@ export class SendQuickChatMessage extends BaseRpcMessage {
         case QuickChatContentType.Complex:
             return new SendQuickChatMessage(QuickChatComplexMessageData.deserializeFromReader(reader));
         default:
-            return new SendQuickChatMessage(new QuickChatSimpleMessageData(StringNames.ANY));
+            return new SendQuickChatMessage(new QuickChatSimpleMessageData(StringName.ANY));
         }
     }
 

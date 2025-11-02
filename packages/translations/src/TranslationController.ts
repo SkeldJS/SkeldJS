@@ -2,7 +2,7 @@ import {
     StatefulRoom,
     Language,
     Player,
-    StringNames
+    StringName
 } from "@skeldjs/core";
 
 import {
@@ -12,7 +12,7 @@ import {
     QuickChatSimpleMessageData
 } from "@skeldjs/protocol";
 
-import { AllTranslations } from "./translations";
+import { allTranslations } from "./translations";
 
 /**
  * Represents a controller for a room to handle translations.
@@ -29,8 +29,8 @@ export class TranslationController {
         return this.room?.getPlayerByPlayerId(playerId)?.getPlayerInfo()?.defaultOutfit.name || "";
     }
 
-    private getQuickchatTranslation(stringName: StringNames, language: Language) {
-        const translation = AllTranslations[language][stringName] || AllTranslations[Language.English][stringName];
+    private getQuickchatTranslation(stringName: StringName, language: Language) {
+        const translation = allTranslations[language][stringName] || allTranslations[Language.English][stringName];
 
         if (typeof translation === "undefined") {
             return "";
@@ -48,7 +48,7 @@ export class TranslationController {
      * @param language The language of the string.
      * @returns The formatted string.
      */
-    formatString(str: string | StringNames, elements: (undefined | number | QuickChatSimpleMessageData | QuickChatPlayerMessageData | Player<StatefulRoom>)[], language: Language) {
+    formatString(str: string | StringName, elements: (undefined | number | QuickChatSimpleMessageData | QuickChatPlayerMessageData | Player<StatefulRoom>)[], language: Language) {
         const translationString = typeof str === "string"
             ? str
             : this.getTranslation(str, language);
@@ -66,7 +66,7 @@ export class TranslationController {
             }
 
             if (typeof element === "number") {
-                return this.getTranslation(element as StringNames, language);
+                return this.getTranslation(element as StringName, language);
             }
 
             if (element instanceof Player) {
@@ -84,8 +84,8 @@ export class TranslationController {
      * @returns The translated string, or an empty string if an invalid string
      * name was passed.
      */
-    getTranslation(stringName: StringNames, language: Language): string {
-        const translation = AllTranslations[language][stringName] || AllTranslations[Language.English][stringName];
+    getTranslation(stringName: StringName, language: Language): string {
+        const translation = allTranslations[language][stringName] || allTranslations[Language.English][stringName];
 
         if (typeof translation === "undefined") {
             return "";
@@ -109,7 +109,7 @@ export class TranslationController {
         if (quickChatMessage instanceof QuickChatPlayerMessageData) {
             return this.getPlayerName(quickChatMessage.playerId);
         } else if (quickChatMessage instanceof QuickChatSimpleMessageData) {
-            return this.getTranslation(quickChatMessage.formatString as StringNames, language);
+            return this.getTranslation(quickChatMessage.formatString as StringName, language);
         } else if (quickChatMessage instanceof QuickChatComplexMessageData) {
             const formatTranslation = this.getQuickchatTranslation(quickChatMessage.formatString, language);
 
@@ -120,9 +120,9 @@ export class TranslationController {
             const elementTypes = [];
             for (const element of quickChatMessage.elements) {
                 if (element instanceof QuickChatSimpleMessageData) {
-                    if (element.formatString === StringNames.QCCrewNoOne) {
+                    if (element.formatString === StringName.QCCrewNoOne) {
                         elementTypes.push("QCCrewNoOne");
-                    } else if (element.formatString === StringNames.QCCrewMe || element.formatString === StringNames.QCCrewI) {
+                    } else if (element.formatString === StringName.QCCrewMe || element.formatString === StringName.QCCrewI) {
                         elementTypes.push("QCCrewMe");
                     } else {
                         elementTypes.push("ANY");
@@ -152,7 +152,7 @@ export class TranslationController {
      * @returns The cosmetic name as translated into the given language.
      */
     getCosmeticName(cosmeticId: string, language: Language) {
-        const cosmeticTranslations = AllTranslations[language]["Cosmetic"] as Record<string, string>;
+        const cosmeticTranslations = allTranslations[language]["Cosmetic"] as Record<string, string>;
         return cosmeticTranslations[cosmeticId];
     }
 }
