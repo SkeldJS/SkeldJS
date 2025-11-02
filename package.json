@@ -20,14 +20,14 @@
   "private": true,
   "scripts": {
     "build-all": "yarn workspaces foreach -Aptv run build",
-    "update:patch": "yarn workspaces foreach -v version patch",
-    "update:minor": "yarn workspaces foreach -v version minor",
-    "update:major": "yarn workspaces foreach -v test version major"
+    "update:patch": "yarn workspaces foreach -Av version patch",
+    "update:minor": "yarn workspaces foreach -Av version minor",
+    "update:major": "yarn workspaces foreach -Av version major"
   },
   "workspaces": [
     "packages/*"
   ],
-  "version": "3.0.0",
+  "version": "3.0.1",
   "packageManager": "yarn@4.10.3",
   "devDependencies": {
     "typedoc": "^0.28.13",

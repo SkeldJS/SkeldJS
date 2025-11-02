@@ -1,6 +1,6 @@
 {
   "name": "@skeldjs/events",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "GPL-3.0-only",
   "main": "./dist/index.js",
   "publishConfig": {
