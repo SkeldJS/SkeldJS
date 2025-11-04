@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { DeconState } from "@skeldjs/au-constants";
-import { BaseSystemMessage, DeconSystemDataMessage, DeconSystemMessage, RepairSystemMessage } from "@skeldjs/au-protocol";
+import { BaseSystemMessage, DeconSystemDataMessage, DeconSystemMessage } from "@skeldjs/au-protocol";
 import { ExtractEventTypes } from "@skeldjs/events";
 
 import { System } from "./System";
@@ -8,10 +8,13 @@ import { System } from "./System";
 import { StatefulRoom } from "../StatefulRoom";
 
 import { DataState } from "../NetworkedObject";
-import { PlayerControl } from "../objects";
 import { Player } from "../Player";
+import { DeconSystemResetTimerEvent, DeconSystemUpdateStateEvent } from "../events";
 
-export type DeconSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type DeconSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+    DeconSystemResetTimerEvent<RoomType>,
+    DeconSystemUpdateStateEvent<RoomType>,
+]>;
 
 /**
  * Represents a system responsible for the decontamination doors.
@@ -42,12 +45,8 @@ export class DeconSystem<RoomType extends StatefulRoom> extends System<RoomType,
 
     async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof DeconSystemDataMessage) {
-            const previousState = this.state;
-            this.timer = data.timer;
-            this.state = data.state;
-            if (previousState !== this.state) {
-                // TODO: event: decon state updated
-            }
+            await this._setTimerWithAuth(data.timer, data);
+            await this._setStateWithAuth(data.state, data);
         }
     }
 
@@ -65,9 +64,8 @@ export class DeconSystem<RoomType extends StatefulRoom> extends System<RoomType,
 
     async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         if (message instanceof DeconSystemMessage) {
-            // TODO: event: decon state updated
-            this.state = message.state;
-            this.timer = DeconSystem.doorOpenDuration;
+            await this._setTimerWithAuth(DeconSystem.doorOpenDuration, message);
+            await this._setStateWithAuth(message.state, message);
             this.pushDataUpdate();
         }
     }
@@ -77,18 +75,77 @@ export class DeconSystem<RoomType extends StatefulRoom> extends System<RoomType,
             this.timer = Math.max(this.timer - deltaSeconds, 0);
             if (this.timer === 0) {
                 if (this.state & DeconState.Enter) {
-                    this.state &= ~DeconState.Enter;
-                    this.state |= DeconState.Closed;
-                    this.timer = DeconSystem.deconDuration;
+                    await this._setStateWithAuth((this.state & (~DeconState.Enter)) | DeconState.Closed, null);
+                    await this._setTimerWithAuth(DeconSystem.deconDuration, null);
                 } else if (this.state & DeconState.Closed) {
-                    this.state &= ~DeconState.Closed;
-                    this.state |= DeconState.Exit;
-                    this.timer = DeconSystem.doorOpenDuration;
+                    await this._setStateWithAuth((this.state & (~DeconState.Closed)) | DeconState.Exit, null);
+                    await this._setTimerWithAuth(DeconSystem.doorOpenDuration, null);
                 } else if (this.state & DeconState.Exit) {
-                    this.state = DeconState.Idle;
+                    await this._setStateWithAuth(DeconState.Idle, null);
                 }
             }
             this.pushDataUpdate();
         }
+    }
+
+    protected async _setStateWithAuth(state: number, originMessage: DeconSystemDataMessage|DeconSystemMessage|null) {
+        if (state === this.state) return;
+
+        const previousState = this.state;
+        this.state = state;
+        const ev = await this.emit(
+            new DeconSystemUpdateStateEvent(
+                this,
+                originMessage,
+                previousState,
+                this.state,
+            )
+        );
+        if (ev.alteredState !== this.state) {
+            if (originMessage === null) {
+                this.state = ev.alteredState;
+            } else {
+                await this.setState(ev.alteredState);
+            }
+        } else {
+            this.pushDataUpdate();
+        }
+    }
+
+    async setStateWithAuth(state: number): Promise<void> {
+        await this._setStateWithAuth(state, null);
+    }
+
+    async setStateRequest(state: number): Promise<void> {
+        await this.sendUpdateSystem(new DeconSystemMessage(state));
+    }
+
+    async setState(state: number): Promise<void> {
+        if (this.room.canManageObject(this.shipStatus)) {
+            await this.setStateWithAuth(state);
+        } else {
+            await this.setStateRequest(state);
+        }
+    }
+
+    protected async _setTimerWithAuth(timer: number, originMessage: DeconSystemDataMessage|DeconSystemMessage|null) {
+        const previousTimer = this.timer;
+        this.timer = timer;
+        if (this.timer > previousTimer) {
+            const ev = await this.emit(new DeconSystemResetTimerEvent(this, originMessage, this.timer));
+            if (ev.reverted) {
+                if (originMessage === null) {
+                    this.timer = previousTimer;
+                } else {
+                    await this.setTimerWithAuth(previousTimer);
+                }
+            } else {
+                this.pushDataUpdate();
+            }
+        }
+    }
+
+    async setTimerWithAuth(timer: number): Promise<void> {
+        await this._setTimerWithAuth(timer, null);
     }
 }

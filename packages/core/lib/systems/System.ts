@@ -31,7 +31,7 @@ export abstract class System<RoomType extends StatefulRoom, T extends EventData 
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
         if (this.shipStatus) {
-            this.shipStatus.emit(event as any);
+            await this.shipStatus.emit(event as any);
         }
 
         return super.emit(event);
@@ -39,7 +39,7 @@ export abstract class System<RoomType extends StatefulRoom, T extends EventData 
 
     async emitSerial<Event extends BasicEvent>(event: Event): Promise<Event> {
         if (this.shipStatus) {
-            this.shipStatus.emitSerial(event as any);
+            await this.shipStatus.emitSerial(event as any);
         }
 
         return super.emitSerial(event);
@@ -108,9 +108,7 @@ export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends
                 )
             );
 
-            if (ev.reverted) {
-                await this.fullyRepair();
-            }
+            if (ev.reverted) await this.fullyRepair();
         } else if (beforeSabotaged && !this.isSabotaged()) {
             const ev = await this.emit(
                 new SystemRepairEvent(
@@ -120,9 +118,7 @@ export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends
                 )
             );
 
-            if (ev.reverted) {
-                await this.sabotage();
-            }
+            if (ev.reverted) await this.sabotage();
         }
     }
     

@@ -3,6 +3,7 @@ export * from "./networkedobject";
 export * from "./player";
 export * from "./playerinfo";
 export * from "./room";
+export * from "./systems";
 
 export * from "./ProtocolEvent";
 export * from "./RoomEvent";

@@ -115,7 +115,7 @@ export class Player<RoomType extends StatefulRoom> extends EventEmitter<PlayerEv
     }
 
     async emit<Event extends BasicEvent>(event: Event): Promise<Event> {
-        this.room.emit(event);
+        await this.room.emit(event);
 
         return super.emit(event);
     }
