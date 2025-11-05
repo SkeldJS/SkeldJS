@@ -13,7 +13,7 @@ import {
     BootFromVentMessage,
 } from "@skeldjs/au-protocol";
 
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { DataState, NetworkedObject } from "../NetworkedObject";
 import { Player } from "../Player";
@@ -29,7 +29,7 @@ import {
     PlayerPetEvent,
 } from "../events";
 
-export type PlayerPhysicsEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+export type PlayerPhysicsEvents<RoomType extends StatefulRoom> = EventMapFromList<[
     PlayerEnterVentEvent<RoomType>,
     PlayerExitVentEvent<RoomType>,
     PlayerClimbLadderEvent<RoomType>,

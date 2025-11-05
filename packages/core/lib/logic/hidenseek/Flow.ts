@@ -1,4 +1,4 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage, BaseRpcMessage, FlowLogicComponentDataMessage } from "@skeldjs/au-protocol";
 
@@ -6,7 +6,7 @@ import { StatefulRoom } from "../../StatefulRoom";
 import { GameManager } from "../../objects";
 import { GameLogicComponent } from "../GameLogicComponent";
 
-export type HideNSeekFlowLogicComponentEvents = ExtractEventTypes<[]>;
+export type HideNSeekFlowLogicComponentEvents = EventMapFromList<[]>;
 
 export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekFlowLogicComponentEvents, RoomType> {
     currentHideTime: number;

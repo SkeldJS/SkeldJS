@@ -1,12 +1,12 @@
 import { RoleTeamType, TaskBarMode } from "@skeldjs/au-constants";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { HideAndSeekManager } from "../../objects";
 import { Player } from "../../Player";
 import { NormalOptionsLogicComponent } from "../normal";
 
-export type HideNSeekOptionsLogicComponentEvents = ExtractEventTypes<[]>;
+export type HideNSeekOptionsLogicComponentEvents = EventMapFromList<[]>;
 
 export class HideNSeekOptionsLogicComponent<RoomType extends StatefulRoom> extends NormalOptionsLogicComponent<RoomType> {
     constructor(public readonly manager: HideAndSeekManager<RoomType>) {

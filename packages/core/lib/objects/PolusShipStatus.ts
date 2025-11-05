@@ -11,6 +11,7 @@ import {
     SecurityCameraSystem,
     HudOverrideSystem,
     Door,
+    ManualDoor,
 } from "../systems";
 
 import { ShipStatus } from "./ShipStatus";
@@ -36,18 +37,18 @@ export class PolusShipStatus<RoomType extends StatefulRoom> extends ShipStatus<R
         const doorsSystem = new DoorsSystem(this, SystemType.Doors);
         this.systems.set(SystemType.Doors, doorsSystem);
         doorsSystem.doors = [
-            new Door(doorsSystem, SystemType.Electrical, 0),
-            new Door(doorsSystem, SystemType.Electrical, 1),
-            new Door(doorsSystem, SystemType.Electrical, 2),
-            new Door(doorsSystem, SystemType.LifeSupp, 3),
-            new Door(doorsSystem, SystemType.LifeSupp, 4),
-            new Door(doorsSystem, SystemType.Weapons, 5),
-            new Door(doorsSystem, SystemType.Comms, 6),
-            new Door(doorsSystem, SystemType.Office, 7),
-            new Door(doorsSystem, SystemType.Office, 8),
-            new Door(doorsSystem, SystemType.Laboratory, 9),
-            new Door(doorsSystem, SystemType.Storage, 10),
-            new Door(doorsSystem, SystemType.Decontamination, 11),
+            new ManualDoor(doorsSystem, SystemType.Electrical, 0),
+            new ManualDoor(doorsSystem, SystemType.Electrical, 1),
+            new ManualDoor(doorsSystem, SystemType.Electrical, 2),
+            new ManualDoor(doorsSystem, SystemType.LifeSupp, 3),
+            new ManualDoor(doorsSystem, SystemType.LifeSupp, 4),
+            new ManualDoor(doorsSystem, SystemType.Weapons, 5),
+            new ManualDoor(doorsSystem, SystemType.Comms, 6),
+            new ManualDoor(doorsSystem, SystemType.Office, 7),
+            new ManualDoor(doorsSystem, SystemType.Office, 8),
+            new ManualDoor(doorsSystem, SystemType.Laboratory, 9),
+            new ManualDoor(doorsSystem, SystemType.Storage, 10),
+            new ManualDoor(doorsSystem, SystemType.Decontamination, 11),
         ];
 
         this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));

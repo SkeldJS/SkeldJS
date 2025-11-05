@@ -7,7 +7,7 @@ import {
 } from "@skeldjs/au-protocol";
 
 import { HazelReader } from "@skeldjs/hazel";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { System } from "./System";
 import { Player } from "../Player";
@@ -21,7 +21,7 @@ export enum MovingPlatformSide {
     Left,
 }
 
-export type MovingPlatformSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type MovingPlatformSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 /**
  * Represents a system for doors that must be manually opened.

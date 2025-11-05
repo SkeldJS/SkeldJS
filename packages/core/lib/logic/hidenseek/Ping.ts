@@ -1,11 +1,11 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { BaseSystemMessage } from "@skeldjs/au-protocol";
 import { HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 
-export type HideNSeekPingLogicComponentEvents = ExtractEventTypes<[]>;
+export type HideNSeekPingLogicComponentEvents = EventMapFromList<[]>;
 
 export class HideNSeekPingLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekPingLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicPingsHnS.cs)

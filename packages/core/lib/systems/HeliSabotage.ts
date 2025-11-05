@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, HeliSabotageConsoleUpdate, HeliSabotageSystemDataMessage, HeliSabotageSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { SabotagableSystem } from "./System";
 
@@ -14,7 +14,7 @@ export type HeliUserConsolePair<RoomType extends StatefulRoom> = {
     consoleId: number;
 };
 
-export type HeliSabotageSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type HeliSabotageSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 function findPairIndex<RoomType extends StatefulRoom>(list: HeliUserConsolePair<RoomType>[], player: Player<RoomType>, consoleId: number): number {
     return list.findIndex(pair => pair.player === player && pair.consoleId === consoleId);

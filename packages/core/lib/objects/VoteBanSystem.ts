@@ -10,13 +10,13 @@ import {
     RpcMessage,
     VoteBanSystemDataMessage,
 } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";
 
-export type VoteBanSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type VoteBanSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 /**
  * Represents a room object for handling vote kicks.

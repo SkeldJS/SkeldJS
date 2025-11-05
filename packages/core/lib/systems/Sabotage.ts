@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, SabotageSystemDataMessage, SabotageSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { System } from "./System";
 
@@ -8,7 +8,7 @@ import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 
-export type SabotageSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type SabotageSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 /**
  * Represents a system responsible for handling system sabotages.

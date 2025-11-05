@@ -1,4 +1,4 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { Player } from "../../Player";
@@ -9,7 +9,7 @@ import { BaseSystemMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 import { HideAndSeekManager, PlayerControl } from "../../objects";
 
-export type HideNSeekRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
+export type HideNSeekRoleSelectionLogicComponentEvents = EventMapFromList<[]>;
 
 export class HideNSeekRoleSelectionLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekRoleSelectionLogicComponentEvents, RoomType> {
     parseData(reader: HazelReader): BaseSystemMessage | undefined {

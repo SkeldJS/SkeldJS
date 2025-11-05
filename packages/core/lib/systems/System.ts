@@ -1,7 +1,7 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { SystemType } from "@skeldjs/au-constants";
 import { BaseSystemMessage, SabotageSystemMessage } from "@skeldjs/au-protocol";
-import { EventEmitter, BasicEvent, ExtractEventTypes, EventData } from "@skeldjs/events";
+import { EventEmitter, BasicEvent, EventMapFromList, EventMap } from "@skeldjs/events";
 
 import { ShipStatus, PlayerControl } from "../objects";
 
@@ -10,9 +10,9 @@ import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 import { SystemRepairEvent, SystemSabotageEvent } from "../events/systems";
 
-export type SystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type SystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
-export abstract class System<RoomType extends StatefulRoom, T extends EventData = {}> extends EventEmitter<SystemEvents<RoomType> & T> {
+export abstract class System<RoomType extends StatefulRoom, T extends EventMap = {}> extends EventEmitter<SystemEvents<RoomType> & T> {
     isDirty: boolean = false;
 
     constructor(
@@ -80,12 +80,12 @@ export abstract class System<RoomType extends StatefulRoom, T extends EventData 
     }
 }
 
-export type SabotagableSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+export type SabotagableSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[
     SystemSabotageEvent<RoomType>,
     SystemRepairEvent<RoomType>,
 ]>;
 
-export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends EventData = {}> extends System<RoomType, T> {
+export abstract class SabotagableSystem<RoomType extends StatefulRoom, T extends EventMap = {}> extends System<RoomType, T> {
     canBeSabotaged(): this is SabotagableSystem<RoomType, T> {
         return true;
     }

@@ -1,11 +1,11 @@
 import * as dgram from "dgram";
 
-import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { EventEmitter, EventMapFromList } from "@skeldjs/events";
 import { DiscoveryFoundGameEvent } from "./events";
 
 const sleep = (n: number) => new Promise(res => setTimeout(res, n));
 
-export type LanDiscoveryEvents = ExtractEventTypes<[
+export type LanDiscoveryEvents = EventMapFromList<[
     DiscoveryFoundGameEvent
 ]>;
 

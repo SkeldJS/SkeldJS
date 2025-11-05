@@ -1,11 +1,11 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/au-protocol";
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 
-export type HideNSeekDeathPopupLevelLogicComponentEvents = ExtractEventTypes<[]>;
+export type HideNSeekDeathPopupLevelLogicComponentEvents = EventMapFromList<[]>;
 
 export class HideNSeekDeathPopupLevelLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekDeathPopupLevelLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicHnSDeathPopup.cs)

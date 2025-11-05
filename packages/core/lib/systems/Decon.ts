@@ -1,7 +1,7 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { DeconState } from "@skeldjs/au-constants";
 import { BaseSystemMessage, DeconSystemDataMessage, DeconSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { System } from "./System";
 
@@ -11,7 +11,7 @@ import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 import { DeconSystemResetTimerEvent, DeconSystemUpdateStateEvent } from "../events";
 
-export type DeconSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+export type DeconSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[
     DeconSystemResetTimerEvent<RoomType>,
     DeconSystemUpdateStateEvent<RoomType>,
 ]>;

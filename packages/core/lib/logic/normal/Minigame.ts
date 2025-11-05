@@ -1,11 +1,11 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/au-protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 
-export type NormalMinigameLogicComponentEvents = ExtractEventTypes<[]>;
+export type NormalMinigameLogicComponentEvents = EventMapFromList<[]>;
 
 export class NormalMinigameLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalMinigameLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicMinigame.cs, no file for normal gamemode logic)

@@ -1,4 +1,4 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { RoleTeamType, RoleType } from "@skeldjs/au-constants";
 import { BaseSystemMessage, BaseRpcMessage, RoleChanceSettings } from "@skeldjs/au-protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
@@ -16,7 +16,7 @@ export type RoleAssignmentData = {
     count: number;
 }
 
-export type NormalRoleSelectionLogicComponentEvents = ExtractEventTypes<[]>;
+export type NormalRoleSelectionLogicComponentEvents = EventMapFromList<[]>;
 
 export class NormalRoleSelectionLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalRoleSelectionLogicComponentEvents, RoomType> {
     static specialCrewmateRoles = [ GuardianAngelRole ];

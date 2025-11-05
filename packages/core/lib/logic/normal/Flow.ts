@@ -1,11 +1,11 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/au-protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 
-export type NormalFlowLogicComponentEvents = ExtractEventTypes<[]>;
+export type NormalFlowLogicComponentEvents = EventMapFromList<[]>;
 
 export class NormalFlowLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalFlowLogicComponentEvents, RoomType> {
     // game ending is done inline for performance reasons

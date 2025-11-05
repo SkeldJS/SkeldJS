@@ -1,6 +1,6 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseSystemMessage, ElectricalDoorsSystemDataMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { System } from "./System";
 
@@ -8,8 +8,19 @@ import { StatefulRoom } from "../StatefulRoom";
 import { Door, DoorEvents } from "./Doors";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
+import { ElectricalDoorsSystemUpdateConfigurationEvent } from "../events/systems/electrical";
 
-export type ElectricalDoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<RoomType> & ExtractEventTypes<[]>;
+export type ElectricalDoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<RoomType> & EventMapFromList<[
+    ElectricalDoorsSystemUpdateConfigurationEvent<RoomType>,
+]>;
+
+export class ElectricalDoor<RoomType extends StatefulRoom> extends Door<RoomType> {
+    declare doorSystem: ElectricalDoorsSystem<RoomType>
+
+    async closeDoorWithAuth() {
+        await this.doorSystem.closeDoorWithAuth(this);
+    }
+}
 
 /**
  * Represents a system for doors that must be manually opened.
@@ -20,7 +31,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
     /**
      * The doors in the map.
      */
-    doors: Door<RoomType>[] = [];
+    doors: ElectricalDoor<RoomType>[] = [];
 
     parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
@@ -35,11 +46,12 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
             const openDoorsSet: Set<number> = new Set(data.openDoors);
             for (const door of this.doors) {
                 if (openDoorsSet.has(door.doorId)) {
-                    this.doors[door.doorId].isOpen = true;
+                    await this.openDoorWithAuth(door);
                 } else {
-                    this.doors[door.doorId].isOpen = false;
+                    await this.closeDoorWithAuth(door);
                 }
             }
+            await this.emit(new ElectricalDoorsSystemUpdateConfigurationEvent(this, data));
         }
     }
 
@@ -70,6 +82,14 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
         void deltaSeconds;
     }
 
+    async closeDoorWithAuth(door: ElectricalDoor<RoomType>) {
+        door.isOpen = false;
+    }
+
+    async openDoorWithAuth(door: ElectricalDoor<RoomType>) {
+        door.isOpen = true;
+    }
+
     async randomizeDoorMaze(roomsDoors: number[][], exitDoorIds: number[]): Promise<void> {
         // Generate a maze-like structure for players to pass through or optionally open doors.
         for (const door of this.doors) door.isOpen = false;
@@ -89,7 +109,7 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
 
             // If we haven't visited this adjacent room yet, let's make sure we have
             // a door open to it.
-            if (!hasVisitedAdjacentRoom) await randomDoor.openWithAuth();
+            if (!hasVisitedAdjacentRoom) await this.openDoorWithAuth(randomDoor);
 
             // At some point, let's move onto the next room
             if (Math.random() >= 0.5) {
@@ -100,11 +120,14 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
 
         const openDoorId = Math.floor(Math.random() * exitDoorIds.length);
         for (const doorId of exitDoorIds) {
+            const door = this.doors[doorId];
             if (openDoorId === doorId) {
-                await this.doors[doorId].openWithAuth();
+                await this.openDoorWithAuth(door);
             } else {
-                await this.doors[doorId].closeWithAuth();
+                await this.closeDoorWithAuth(door);
             }
         }
+
+        await this.emit(new ElectricalDoorsSystemUpdateConfigurationEvent(this, null));
     }
 }

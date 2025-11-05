@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, SwitchSystemDataMessage, SwitchSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { SabotagableSystem } from "./System";
 
@@ -10,7 +10,7 @@ import { Player } from "../Player";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
-export type SwitchSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type SwitchSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 
 /**

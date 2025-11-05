@@ -14,7 +14,7 @@ import {
     VoteState,
     VotingCompleteMessage,
 } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { DataState, NetworkedObject } from "../NetworkedObject";
 import { PlayerResolvable, StatefulRoom } from "../StatefulRoom";
@@ -172,7 +172,7 @@ export class PlayerVoteState<RoomType extends StatefulRoom> {
     }
 }
 
-export type MeetingHudEvents<RoomType extends StatefulRoom> = ExtractEventTypes<
+export type MeetingHudEvents<RoomType extends StatefulRoom> = EventMapFromList<
     [
         MeetingHudVoteCastEvent<RoomType>,
         MeetingHudClearVoteEvent<RoomType>,

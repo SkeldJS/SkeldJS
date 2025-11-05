@@ -2,7 +2,7 @@ import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { BaseDataMessage } from "../BaseDataMessage";
 
 export class DoorStateDataMessage extends BaseDataMessage {
-    constructor(public readonly index: number, public readonly isOpen: boolean) {
+    constructor(public readonly doorId: number, public readonly isOpen: boolean) {
         super();
     }
 
@@ -15,7 +15,7 @@ export class DoorStateDataMessage extends BaseDataMessage {
     }
 
     clone(): DoorStateDataMessage {
-        return new DoorStateDataMessage(this.index, this.isOpen);
+        return new DoorStateDataMessage(this.doorId, this.isOpen);
     }
 }
 
@@ -64,7 +64,7 @@ export class AutoDoorsSystemDataMessage extends BaseDataMessage {
     serializeToWriter(writer: HazelWriter): void {
         var mask: number = 0;
         for (const doorState of this.doorStates) {
-            mask |= (1 << doorState.index);
+            mask |= (1 << doorState.doorId);
         }
         writer.upacked(mask);
         for (const doorState of this.doorStates) writer.write(doorState);

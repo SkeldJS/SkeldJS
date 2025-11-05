@@ -1,13 +1,13 @@
 import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
 import { BaseSystemMessage, BaseRpcMessage, LobbyTimeExpiringMessage, RpcMessage, ExtendLobbyTimerMessage, LobbyExtension } from "@skeldjs/au-protocol";
 import { RpcMessageTag } from "@skeldjs/au-constants";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { RoomLobbyTimeExpiringEvent } from "../events";
 
-export type LobbyBehaviourEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type LobbyBehaviourEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 /**
  * Represents a room object for the Lobby map.

@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { ActiveConsoleDataMessage, BaseSystemMessage, CompletedConsoleDataMessage, HqHudConsoleUpdate, HqHudSystemDataMessage, HqHudSystemMessage, RepairSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { SabotagableSystem, System } from "./System";
 
@@ -13,7 +13,7 @@ export type HqHudUserConsolePair<RoomType extends StatefulRoom> = {
     consoleId: number;
 };
 
-export type HqHudSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type HqHudSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 function findPairIndex<RoomType extends StatefulRoom>(list: HqHudUserConsolePair<RoomType>[], player: Player<RoomType>, consoleId: number): number {
     return list.findIndex(pair => pair.player === player && pair.consoleId === consoleId);

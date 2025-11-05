@@ -1,14 +1,14 @@
 import { HazelReader, HazelWriter } from "@skeldjs/hazel";
 import { RpcMessageTag, SpawnType } from "@skeldjs/au-constants";
 import { BaseSystemMessage, BaseRpcMessage, GameManagerDataMessage, LogicDataMessage, UnknownDataMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { GameLogicComponent } from "../logic";
 import { PlayerControl } from "./PlayerControl";
 
-export type InnerGameManagerEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type InnerGameManagerEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 export abstract class GameManager<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, InnerGameManagerEvents<RoomType>> {
     logicComponents: GameLogicComponent<any, RoomType>[] = [];

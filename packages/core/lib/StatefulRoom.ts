@@ -23,7 +23,7 @@ import {
     SystemType
 } from "@skeldjs/au-constants";
 
-import { EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { EventEmitter, EventMapFromList } from "@skeldjs/events";
 
 import { NetworkedObject, NetworkedObjectEvents, NetworkedObjectConstructor, DataState } from "./NetworkedObject";
 
@@ -133,7 +133,7 @@ export type StatefulRoomEvents<RoomType extends StatefulRoom> = NetworkedObjectE
     MeetingHudEvents<RoomType> &
     ShipStatusEvents<RoomType> &
     VoteBanSystemEvents<RoomType> &
-    ExtractEventTypes<
+    EventMapFromList<
         [
             RoomEndGameIntentEvent<RoomType>,
             RoomFixedUpdateEvent<RoomType>,

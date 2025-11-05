@@ -71,7 +71,7 @@ import {
     MurderReasonFlags
 } from "@skeldjs/au-constants";
 
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import {
     PlayerCheckColorEvent,
@@ -134,7 +134,7 @@ export enum ProtectionRemoveReason {
     MurderAttempt,
 }
 
-export type PlayerControlEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+export type PlayerControlEvents<RoomType extends StatefulRoom> = EventMapFromList<[
     PlayerAppearEvent<RoomType>,
     PlayerCancelPetEvent<RoomType>,
     PlayerCheckAppearEvent<RoomType>,

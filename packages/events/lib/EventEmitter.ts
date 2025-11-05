@@ -1,29 +1,24 @@
 import { BasicEvent } from "./BasicEvent.js";
 
-export type Eventable = {
+export type IdentifiableEvent = {
     eventName: string;
 };
 
-export type ExtractEventName<Event extends Eventable> = Event extends {
+export type ExtractEventName<Event extends IdentifiableEvent> = Event extends {
     eventName: infer X;
 }
     ? X
     : never;
 
-export type ExtractEventType<
-    Events extends Eventable[],
-    EventName extends ExtractEventName<Events[number]>
-> = Extract<Events[number], { eventName: EventName }>;
-
-export type ExtractEventTypes<Events extends Eventable[]> = {
-    [K in ExtractEventName<Events[number]>]: ExtractEventType<Events, K>;
+export type EventMapFromList<Events extends IdentifiableEvent[]> = {
+    [K in Events[number] as K["eventName"]]: K;
 };
 
-export type EventData = Record<string | number | symbol, Eventable>;
+export type EventMap = Record<string | number | symbol, IdentifiableEvent>;
 
-type Listener<Event extends Eventable> = (ev: Event, off: () => void) => void | Promise<void>;
+type Listener<Event extends IdentifiableEvent> = (ev: Event, off: () => void) => void | Promise<void>;
 
-export class EventEmitter<Events extends EventData> {
+export class EventEmitter<Events extends EventMap> {
     private readonly listeners: Map<
         string,
         Listener<any>[]

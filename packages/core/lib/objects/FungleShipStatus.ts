@@ -12,6 +12,7 @@ import {
     MushroomMixupSabotageSystem,
     Door,
     SabotageSystem,
+    ManualDoor,
 } from "../systems";
 
 /**
@@ -32,14 +33,14 @@ export class FungleShipStatus<RoomType extends StatefulRoom> extends ShipStatus<
         const doorsSystem = new DoorsSystem(this, SystemType.Doors);
         this.systems.set(SystemType.Doors, doorsSystem);
         doorsSystem.doors = [
-            new Door(doorsSystem, SystemType.Comms, 0),
-            new Door(doorsSystem, SystemType.Comms, 1),
-            new Door(doorsSystem, SystemType.Kitchen, 2),
-            new Door(doorsSystem, SystemType.Laboratory, 3),
-            new Door(doorsSystem, SystemType.Lookout, 4),
-            new Door(doorsSystem, SystemType.MiningPit, 5),
-            new Door(doorsSystem, SystemType.Reactor, 6),
-            new Door(doorsSystem, SystemType.Storage, 7),
+            new ManualDoor(doorsSystem, SystemType.Comms, 0),
+            new ManualDoor(doorsSystem, SystemType.Comms, 1),
+            new ManualDoor(doorsSystem, SystemType.Kitchen, 2),
+            new ManualDoor(doorsSystem, SystemType.Laboratory, 3),
+            new ManualDoor(doorsSystem, SystemType.Lookout, 4),
+            new ManualDoor(doorsSystem, SystemType.MiningPit, 5),
+            new ManualDoor(doorsSystem, SystemType.Reactor, 6),
+            new ManualDoor(doorsSystem, SystemType.Storage, 7),
         ];
         
         this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));

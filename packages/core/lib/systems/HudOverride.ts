@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, HudOverrideSystemDataMessage, HudOverrideSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { SabotagableSystem } from "./System";
 
@@ -10,7 +10,7 @@ import { PlayerControl } from "../objects";
 import { Player } from "../Player";
 
 
-export type HudOverrideSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type HudOverrideSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 /**
  * Represents a system responsible for handling communication sabotages on The Skeld and Polus.

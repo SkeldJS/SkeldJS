@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { AutoDoorsSystemDataMessage, AutoDoorsSystemSpawnDataMessage, BaseSystemMessage, DoorStateDataMessage, RepairSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { System } from "./System";
 
@@ -8,41 +8,132 @@ import { StatefulRoom } from "../StatefulRoom";
 import { Door, DoorEvents } from "./Doors";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
-import { SystemType } from "@skeldjs/au-constants";
+import { RootMessageTag, SystemType } from "@skeldjs/au-constants";
+import { AutoDoorsSystemCloseDoorEvent, AutoDoorsSystemOpenDoorEvent, AutoDoorsSystemDoorReadyToCloseEvent, DoorsSystemCloseDoorEvent } from "../events";
 
-/**
- * Represents an auto opening door for the {@link AutoDoorsSystem}.
- *
- * See {@link DoorEvents} for events to listen to.
- */
-export class AutoOpenDoor<RoomType extends StatefulRoom> extends Door<RoomType> {
-    cooldownTimer: number = 0;
-    closedDuration: number = 0;
+export abstract class AutoDoor<RoomType extends StatefulRoom> extends Door<RoomType> {
+    declare doorSystem: AutoDoorsSystem<RoomType>;
+    
+    duration: number = 0;
     isDirty: boolean = false;
 
     pushDataUpdate() {
         this.isDirty = true;
         this.doorSystem.pushDataUpdate();
     }
+    
+    async processFixedUpdate(deltaSeconds: number) {
+        this.duration -= deltaSeconds;
 
-    async closeWithAuth(): Promise<void> {
-        this.cooldownTimer = AutoDoorsSystem.doorTimer;
-        this.closedDuration = AutoDoorsSystem.closedDuration;
-        await super.closeWithAuth();
+        if (this.duration < 0) {
+            await this.durationEnd();
+            this.duration = 0;
+        }
     }
 
-    async processFixedUpdate(deltaSeconds: number) {
-        if (!this.isOpen) {
-            this.closedDuration -= deltaSeconds;
+    protected abstract durationEnd(): Promise<void>;
+    abstract setCloseDuration(): void;
+    abstract setOpenDuration(): void;
+}
 
-            if (this.closedDuration < 0) {
-                await this.openWithAuth();
+/**
+ * Represents an auto opening door for the {@link AutoDoorsSystem}.
+ *
+ * See {@link DoorEvents} for events to listen to.
+ */
+export class AutoOpenDoor<RoomType extends StatefulRoom> extends AutoDoor<RoomType> {
+    cooldownTimer: number = 0;
+
+    async processFixedUpdate(deltaSeconds: number) {
+        if (this.cooldownTimer > 0) {
+            this.cooldownTimer -= deltaSeconds;
+            if (this.cooldownTimer < 0) {
+                this.cooldownTimer = 0;
+                await this.doorSystem.emit(new AutoDoorsSystemDoorReadyToCloseEvent(this.doorSystem, this));
             }
+        }
+
+        if (!this.isOpen) {
+            await super.processFixedUpdate(deltaSeconds);
+        }
+    }
+
+    protected async durationEnd(): Promise<void> {
+        await this.doorSystem.openDoorWithAuth(this);
+    }
+
+    setCloseDuration(): void {
+        this.cooldownTimer = AutoDoorsSystem.doorTimer;
+        this.duration = AutoDoorsSystem.closeDuration;
+    }
+
+    setOpenDuration(): void {
+        this.duration = 0;
+    }
+    
+    async closeZoneWithAuth() {
+        await this.doorSystem.closeZoneWithAuth(this.zone);
+    }
+
+    async closeZoneRequest() {
+        await this.doorSystem.closeZoneRequest(this.zone);
+    }
+
+    async closeZone() {
+        if (this.doorSystem.room.canManageObject(this.doorSystem.shipStatus)) {
+            await this.closeZoneWithAuth();
+        } else {
+            await this.closeZoneRequest();
         }
     }
 }
 
-export type AutoDoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<RoomType> & ExtractEventTypes<[]>;
+/**
+ * Represents an auto opening door for the {@link AutoDoorsSystem}.
+ *
+ * See {@link DoorEvents} for events to listen to.
+ */
+export class AutoCloseDoor<RoomType extends StatefulRoom> extends AutoDoor<RoomType> {
+    async processFixedUpdate(deltaSeconds: number) {
+        if (this.isOpen) {
+            await super.processFixedUpdate(deltaSeconds);
+        }
+    }
+
+    protected async durationEnd(): Promise<void> {
+        await this.doorSystem.closeDoorWithAuth(this);
+    }
+
+    setCloseDuration(): void {
+        this.duration = 0;
+    }
+
+    setOpenDuration(): void {
+        this.duration = AutoDoorsSystem.openDuration;
+    }
+
+    async closeZoneWithAuth() {
+        await this.doorSystem.closeZoneWithAuth(this.zone);
+    }
+
+    async closeZoneRequest() {
+        await this.doorSystem.closeZoneRequest(this.zone);
+    }
+
+    async closeZone() {
+        if (this.doorSystem.room.canManageObject(this.doorSystem.shipStatus)) {
+            await this.closeZoneWithAuth();
+        } else {
+            await this.closeZoneRequest();
+        }
+    }
+}
+
+export type AutoDoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<RoomType> & EventMapFromList<[
+    AutoDoorsSystemOpenDoorEvent<RoomType>,
+    AutoDoorsSystemCloseDoorEvent<RoomType>,
+    AutoDoorsSystemDoorReadyToCloseEvent<RoomType>,
+]>;
 
 /**
  * Represents a system for doors that open after a period of time.
@@ -51,12 +142,13 @@ export type AutoDoorsSystemEvents<RoomType extends StatefulRoom> = DoorEvents<Ro
  */
 export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomType, AutoDoorsSystemEvents<RoomType>> {
     static doorTimer = 30;
-    static closedDuration = 10;
+    static openDuration = 10;
+    static closeDuration = 10;
 
     /**
      * The doors in the map.
      */
-    doors: AutoOpenDoor<RoomType>[] = [];
+    doors: AutoDoor<RoomType>[] = [];
 
     parseData(dataState: DataState, reader: HazelReader): BaseSystemMessage | undefined {
         switch (dataState) {
@@ -70,8 +162,14 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomT
         // the parsing is different, but both are handled the same
         if (data instanceof AutoDoorsSystemSpawnDataMessage || data instanceof AutoDoorsSystemDataMessage) {
             for (const doorState of data.doorStates) {
-                if (this.doors[doorState.index]) {
-                    this.doors[doorState.index].isOpen = doorState.isOpen;
+                const door = this.doors.find(door => door.doorId === doorState.doorId);
+                if (door) {
+                    const previouslyOpened = door.isOpen;
+                    if (!previouslyOpened && doorState.isOpen) {
+                        await this._openDoorWithAuth(door, data);
+                    } else if (previouslyOpened && !doorState.isOpen) {
+                        await this._closeDoorWithAuth(door, data);
+                    }
                 }
             }
         }
@@ -89,7 +187,6 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomT
                     door.isDirty = false;
                 }
             }
-            console.log(message);
             return message;
         }
         return undefined;
@@ -97,9 +194,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomT
 
     async processFixedUpdate(delta: number) {
         for (const door of this.doors) {
-            if (!door.isOpen) {
-                await door.processFixedUpdate(delta);
-            }
+            await door.processFixedUpdate(delta);
         }
     }
     
@@ -110,12 +205,73 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomT
     async handleUpdate(player: Player<RoomType>, message: BaseSystemMessage): Promise<void> {
         void player, message;
     }
-    
-    async closeDoorsWithAuth(systemType: SystemType) {
-        for (const door of this.doors) {
-            if (door.associatedZone === systemType) {
-                await door.closeWithAuth();
+
+    protected async _closeDoorWithAuth(door: AutoDoor<RoomType>, originMessage: AutoDoorsSystemSpawnDataMessage|AutoDoorsSystemDataMessage|null) {
+        door.isOpen = false;
+        door.setCloseDuration();
+        if (door instanceof AutoOpenDoor) {
+            door.cooldownTimer = AutoDoorsSystem.doorTimer;
+            door.duration = AutoDoorsSystem.closeDuration;
+        }
+        const ev = await this.emit(new AutoDoorsSystemCloseDoorEvent(this, originMessage, door));
+        if (ev.reverted) {
+            // get rid of the cooldown manually, since this isn't networked
+            if (door instanceof AutoOpenDoor) {
+                door.cooldownTimer = 0;
+                door.duration = 0;
+            }
+            if (originMessage === null) {
+                door.isOpen = true;
+            } else {
+                await this.openDoorWithAuth(door);
             }
         }
+        door.pushDataUpdate();
+    }
+
+    async closeDoorWithAuth(door: AutoDoor<RoomType>) {
+        await this._closeDoorWithAuth(door, null);
+    }
+
+    protected async _openDoorWithAuth(door: AutoDoor<RoomType>, originMessage: AutoDoorsSystemSpawnDataMessage|AutoDoorsSystemDataMessage|null) {
+        door.isOpen = true;
+        door.setOpenDuration();
+        const ev = await this.emit(new AutoDoorsSystemOpenDoorEvent(this, originMessage, door));
+        if (ev.reverted) {
+            if (originMessage === null) {
+                door.isOpen = false;
+            } else {
+                await this.closeDoorWithAuth(door);
+            }
+        }
+        door.pushDataUpdate();
+    }
+
+    async openDoorWithAuth(door: AutoDoor<RoomType>) {
+        await this._openDoorWithAuth(door, null);
+    }
+    
+    async closeZoneWithAuth(systemType: SystemType) {
+        for (const door of this.doors) {
+            if (door.zone === systemType) {
+                await this.closeDoorWithAuth(door);
+            }
+        }
+    }
+
+    async closeZoneRequest(zone: SystemType) {
+        await this.shipStatus.closeDoorsInZoneRequest(zone);
+    }
+
+    async closeZone(zone: SystemType) {
+        if (this.room.canManageObject(this.shipStatus)) {
+            await this.closeZoneWithAuth(zone);
+        } else {
+            await this.closeZoneRequest(zone);
+        }
+    }
+
+    getDoorById(doorId: number) {
+        return this.doors.find(door => door.doorId === doorId);
     }
 }

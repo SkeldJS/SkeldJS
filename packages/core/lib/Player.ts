@@ -1,5 +1,5 @@
 import { BaseGameDataMessage, PlatformSpecificData, ReadyMessage } from "@skeldjs/au-protocol";
-import { BasicEvent, EventEmitter, ExtractEventTypes } from "@skeldjs/events";
+import { BasicEvent, EventEmitter, EventMapFromList } from "@skeldjs/events";
 import { Platform } from "@skeldjs/au-constants";
 
 import {
@@ -28,7 +28,7 @@ export type PlayerEvents<RoomType extends StatefulRoom> = NetworkedObjectEvents<
     PlayerControlEvents<RoomType> &
     PlayerPhysicsEvents<RoomType> &
     CustomNetworkTransformEvents<RoomType> &
-    ExtractEventTypes<
+    EventMapFromList<
         [
             PlayerReadyEvent<RoomType>,
             PlayerJoinEvent<RoomType>,

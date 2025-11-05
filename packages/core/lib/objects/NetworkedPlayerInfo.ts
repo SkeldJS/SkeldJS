@@ -9,7 +9,7 @@ import {
 } from "@skeldjs/au-constants";
 
 import { BaseSystemMessage, BaseRpcMessage, NetworkedPlayerInfoDataMessage, OutfitDataMessage, RpcMessage, SetTasksMessage, TaskStateDataMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
@@ -151,7 +151,7 @@ export class PlayerOutfit {
 
 export type PlayerOutfits = Partial<Record<PlayerOutfitType, PlayerOutfit>>;
 
-export type NetworkedPlayerInfoEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type NetworkedPlayerInfoEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, NetworkedPlayerInfoEvents<RoomType>> {
     currentOutfitType: PlayerOutfitType;

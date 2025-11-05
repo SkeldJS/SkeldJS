@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, CompletedConsoleDataMessage, LifeSuppConsoleUpdate, LifeSuppSystemDataMessage, LifeSuppSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { GameOverReason } from "@skeldjs/au-constants";
 
 import { SabotagableSystem } from "./System";
@@ -10,7 +10,7 @@ import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 import { ImpostorBySabotageEndGameIntent } from "../EndGameIntent";
 
-export type LifeSuppSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type LifeSuppSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 /**
  * Represents a system responsible for handling communication consoles on Mira HQ.

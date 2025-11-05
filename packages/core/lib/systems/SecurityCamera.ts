@@ -1,6 +1,6 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { BaseSystemMessage, RepairSystemMessage, SecurityCameraSystemDataMessage, SecurityCameraSystemMessage, SecurityCameraUpdate } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { System } from "./System";
 import { Player } from "../Player";
@@ -9,7 +9,7 @@ import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { PlayerControl } from "../objects";
 
-export type SecurityCameraSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type SecurityCameraSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 /**
  * Represents a system responsible for handling players entering and leaving security cameras.

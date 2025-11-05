@@ -11,7 +11,7 @@ import {
 } from "@skeldjs/au-protocol";
 
 import { RpcMessageTag, SpawnType } from "@skeldjs/au-constants";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
 import { Player } from "../Player";
@@ -24,7 +24,7 @@ import {
 
 import { sequenceIdGreaterThan, SequenceIdType } from "../utils/sequenceIds";
 
-export type CustomNetworkTransformEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[
+export type CustomNetworkTransformEvents<RoomType extends StatefulRoom> = EventMapFromList<[
     PlayerMoveEvent<RoomType>,
     PlayerSnapToEvent<RoomType>
 ]>;

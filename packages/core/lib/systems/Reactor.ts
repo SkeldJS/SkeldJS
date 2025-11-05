@@ -1,7 +1,7 @@
 import { HazelReader } from "@skeldjs/hazel";
 import { GameOverReason, SystemType } from "@skeldjs/au-constants";
 import { ActiveConsoleDataMessage, BaseSystemMessage, ReactorConsoleUpdate, ReactorSystemDataMessage, ReactorSystemMessage } from "@skeldjs/au-protocol";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import { ShipStatus } from "../objects";
 import { SabotagableSystem } from "./System";
@@ -11,7 +11,7 @@ import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
 import { ImpostorBySabotageEndGameIntent } from "../EndGameIntent";
 
-export type ReactorSystemEvents<RoomType extends StatefulRoom> = ExtractEventTypes<[]>;
+export type ReactorSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
 export type ReactorUserConsolePair<RoomType extends StatefulRoom> = {
     player: Player<RoomType>;

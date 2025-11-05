@@ -24,16 +24,6 @@ import { StatefulRoom } from "../StatefulRoom";
  * See {@link ShipStatusEvents} for events to listen to.
  */
 export class SkeldShipStatus<RoomType extends StatefulRoom> extends ShipStatus<RoomType> {
-    static roomDoors: Partial<Record<SystemType, number[]>> = {
-        [SystemType.Storage]: [1, 7, 12],
-        [SystemType.Cafeteria]: [0, 3, 8],
-        [SystemType.UpperEngine]: [2, 5],
-        [SystemType.Electrical]: [9],
-        [SystemType.MedBay]: [10],
-        [SystemType.Security]: [6],
-        [SystemType.LowerEngine]: [4, 11]
-    };
-
     initialSpawnCenter = new Vector2(-0.72, 0.62);
     meetingSpawnCenter = new Vector2(-0.72, 0.62);
 

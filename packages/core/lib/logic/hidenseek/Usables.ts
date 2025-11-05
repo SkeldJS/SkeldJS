@@ -1,11 +1,11 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/au-protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 
-export type HideNSeekUsablesLogicComponentEvents = ExtractEventTypes<[]>;
+export type HideNSeekUsablesLogicComponentEvents = EventMapFromList<[]>;
 
 export class HideNSeekUsablesLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<HideNSeekUsablesLogicComponentEvents, RoomType> {
     // TODO: Implement (LogicUsablesHnS.cs)

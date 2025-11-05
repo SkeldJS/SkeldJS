@@ -1,10 +1,10 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { StatefulRoom } from "../../StatefulRoom";
 import { GameLogicComponent } from "../GameLogicComponent";
 import { BaseSystemMessage, BaseRpcMessage } from "@skeldjs/au-protocol";
 import { HazelWriter, HazelReader } from "@skeldjs/hazel";
 
-export type NormalUsablesLogicComponentEvents = ExtractEventTypes<[]>;
+export type NormalUsablesLogicComponentEvents = EventMapFromList<[]>;
 
 export class NormalUsablesLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalUsablesLogicComponentEvents, RoomType> {
     // No headless impl. required (LogicUsablesBasic.cs)

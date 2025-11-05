@@ -1,5 +1,5 @@
 import { HazelReader, HazelWriter, Vector2 } from "@skeldjs/hazel";
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 
 import {
     RpcMessageTag,
@@ -40,12 +40,15 @@ import {
     AutoDoorsSystem,
     SystemEvents,
     SabotagableSystemEvents,
+    Door,
+    ManualDoor,
 } from "../systems";
 
-import { DataState, NetworkedObject, NetworkedObjectEvents } from "../NetworkedObject";
+import { DataState, NetworkedObject } from "../NetworkedObject";
 import { StatefulRoom } from "../StatefulRoom";
 import { Player } from "../Player";;
 import { CustomNetworkTransform } from "./CustomNetworkTransform";
+import { ShipStatusCloseDoorsInZoneRequestEvent } from "../events/shipstatus";
 
 function shuffleArray(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -56,9 +59,9 @@ function shuffleArray(array: any[]) {
     }
 }
 
-export type SystemConstructor<T> = {
+export type SystemConstructor<T, RoomType extends StatefulRoom> = {
     new(
-        shipStatus: ShipStatus<StatefulRoom>,
+        shipStatus: ShipStatus<RoomType>,
         systemType: SystemType,
     ): T;
 };
@@ -80,11 +83,11 @@ export type ShipStatusEvents<RoomType extends StatefulRoom> = SystemEvents<RoomT
     SabotageSystemEvents<RoomType> &
     SecurityCameraSystemEvents<RoomType> &
     SwitchSystemEvents<RoomType> &
-    ExtractEventTypes<[]>;
+    EventMapFromList<[
+        ShipStatusCloseDoorsInZoneRequestEvent<RoomType>,
+    ]>;
 
 export abstract class ShipStatus<RoomType extends StatefulRoom> extends NetworkedObject<RoomType, ShipStatusEvents<RoomType>> {
-    static roomDoors: Partial<Record<SystemType, number[]>>;
-
     systems: AllSystems<RoomType> = new Map;
     spawnRadius: number = 1.55;
     initialSpawnCenter: Vector2 = Vector2.null;
@@ -161,21 +164,61 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
     }
 
     protected async _handleCloseDoorsOfType(rpc: CloseDoorsOfTypeMessage) {
-        await this.closeDoorsOfTypeWithAuth(rpc.systemType);
+        const ev = await this.emit(
+            new ShipStatusCloseDoorsInZoneRequestEvent(
+                this,
+                rpc,
+                rpc.systemType,
+            )
+        );
+
+        if (!ev.canceled) {
+            await this.closeDoorsInZoneWithAuth(rpc.systemType);
+        }
     }
 
-    async closeDoorsOfTypeWithAuth(systemType: SystemType) {
+    getDoorById(doorId: number): Door<RoomType>|undefined {
         const doorSystem = this.systems.get(SystemType.Doors) as DoorsSystem<RoomType> | AutoDoorsSystem<RoomType>;
         if (!doorSystem) return; // TODO: throw exception
-        await doorSystem.closeDoorsWithAuth(systemType);
+        return doorSystem.getDoorById(doorId);
     }
 
-    async closeDoorsOfTypeRequest(systemType: SystemType) {
+    async closeDoorsInZoneWithAuth(zone: SystemType) {
+        const doorSystem = this.systems.get(SystemType.Doors) as DoorsSystem<RoomType> | AutoDoorsSystem<RoomType>;
+        if (!doorSystem) return; // TODO: throw exception
+        await doorSystem.closeZoneWithAuth(zone);
+    }
+
+    async openDoorWithAuth(door: Door<RoomType>) {
+        if (door instanceof ManualDoor) {
+            const doorSystem = this.getSystemSafe(SystemType.Doors, DoorsSystem);
+            if (!doorSystem) return; // TODO: throw exception
+            await doorSystem.openDoorWithAuth(door);
+        }
+    }
+
+    async openDoorRequest(door: Door<RoomType>) {
+        if (door instanceof ManualDoor) {
+            const doorSystem = this.getSystemSafe(SystemType.Doors, DoorsSystem);
+            if (!doorSystem) return; // TODO: throw exception
+            await doorSystem.openDoorRequest(door);
+        }
+    }
+
+    async openDoor(door: Door<RoomType>) {
+        if (this.room.canManageObject(this)) {
+            await this.openDoorWithAuth(door);
+        } else {
+            await this.openDoorRequest(door);
+        }
+    }
+
+    async closeDoorsInZoneRequest(zone: SystemType) {
         await this.room.broadcastImmediate(
             [
                 new RpcMessage(
                     this.netId,
-                    new CloseDoorsOfTypeMessage(systemType)
+                    new CloseDoorsOfTypeMessage(zone)
                 ),
             ],
             undefined,
@@ -183,11 +226,11 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
         );
     }
 
-    async closeDoorsOfType(systemType: SystemType) {
+    async closeDoorsInZone(zone: SystemType) {
         if (this.room.canManageObject(this)) {
-            await this.closeDoorsOfTypeWithAuth(systemType);
+            await this.closeDoorsInZoneWithAuth(zone);
         } else {
-            await this.closeDoorsOfTypeRequest(systemType);
+            await this.closeDoorsInZoneRequest(zone);
         }
     }
 
@@ -344,7 +387,7 @@ export abstract class ShipStatus<RoomType extends StatefulRoom> extends Networke
         return false;
     }
 
-    getSystemSafe<T>(systemType: SystemType, SystemClass: SystemConstructor<T>): T|undefined {
+    getSystemSafe<T>(systemType: SystemType, SystemClass: SystemConstructor<T, RoomType>): T|undefined {
         const system = this.systems.get(systemType);
         if (system instanceof SystemClass) return system;
         return undefined;

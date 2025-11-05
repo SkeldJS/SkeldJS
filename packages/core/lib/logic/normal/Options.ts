@@ -1,4 +1,4 @@
-import { ExtractEventTypes } from "@skeldjs/events";
+import { EventMapFromList } from "@skeldjs/events";
 import { HazelReader } from "@skeldjs/hazel";
 
 import { StatefulRoom } from "../../StatefulRoom";
@@ -7,7 +7,7 @@ import { GameLogicComponent } from "../GameLogicComponent";
 import { BaseSystemMessage, OptionsLogicComponentDataMessage } from "@skeldjs/au-protocol";
 import { KillDistance } from "@skeldjs/au-constants";
 
-export type NormalOptionsLogicComponentEvents = ExtractEventTypes<[]>;
+export type NormalOptionsLogicComponentEvents = EventMapFromList<[]>;
 
 export class NormalOptionsLogicComponent<RoomType extends StatefulRoom> extends GameLogicComponent<NormalOptionsLogicComponentEvents, RoomType> {
     parseData(reader: HazelReader): BaseSystemMessage | undefined {

@@ -1,5 +1,6 @@
 export * from "./BaseSystemMessage";
 export * from "./Decon";
+export * from "./Doors";
 export * from "./HeliSabotage";
 export * from "./HqHud";
 export * from "./HudOverride";

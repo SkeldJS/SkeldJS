@@ -1,6 +1,6 @@
 import { HazelReader, Vector2 } from "@skeldjs/hazel";
 import { GameMap, mapTasksData, RpcMessageTag, SystemType } from "@skeldjs/au-constants";
-import { BaseRpcMessage, RepairSystemMessage } from "@skeldjs/au-protocol";
+import { BaseRpcMessage, DoorsSystemMessage, DoorUpdate, RepairSystemMessage } from "@skeldjs/au-protocol";
 
 import { ShipStatus } from "./ShipStatus";
 
@@ -20,6 +20,10 @@ import {
     HeliSabotageSystem,
     Door,
     AutoOpenDoor,
+    ManualDoor,
+    ElectricalDoor,
+    AutoCloseDoor,
+    AutoDoor,
 } from "../systems";
 
 export enum ElectricalDoorsAirship {
@@ -92,23 +96,23 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends ShipStatus<Roo
         this.systems.set(SystemType.Doors, doorsSystem);
         // TODO: figure out actual door systems
         doorsSystem.doors = [
-            new Door(doorsSystem, SystemType.Comms, 0),
-            new Door(doorsSystem, SystemType.Comms, 1),
-            new Door(doorsSystem, SystemType.Comms, 2),
-            new Door(doorsSystem, SystemType.Comms, 3),
-            new Door(doorsSystem, SystemType.Brig, 4),
-            new Door(doorsSystem, SystemType.Brig, 5),
-            new Door(doorsSystem, SystemType.Brig, 6),
-            new Door(doorsSystem, SystemType.Kitchen, 7),
-            new Door(doorsSystem, SystemType.Kitchen, 8),
-            new Door(doorsSystem, SystemType.Kitchen, 9),
-            new Door(doorsSystem, SystemType.MainHall, 10),
-            new Door(doorsSystem, SystemType.MainHall, 11),
-            new Door(doorsSystem, SystemType.Records, 12),
-            new Door(doorsSystem, SystemType.Records, 13),
-            new Door(doorsSystem, SystemType.Records, 14),
-            new Door(doorsSystem, SystemType.Medical, 19),
-            new Door(doorsSystem, SystemType.Medical, 20),
+            new ManualDoor(doorsSystem, SystemType.Comms, 0),
+            new ManualDoor(doorsSystem, SystemType.Comms, 1),
+            new ManualDoor(doorsSystem, SystemType.Comms, 2),
+            new ManualDoor(doorsSystem, SystemType.Comms, 3),
+            new ManualDoor(doorsSystem, SystemType.Brig, 4),
+            new ManualDoor(doorsSystem, SystemType.Brig, 5),
+            new ManualDoor(doorsSystem, SystemType.Brig, 6),
+            new ManualDoor(doorsSystem, SystemType.Kitchen, 7),
+            new ManualDoor(doorsSystem, SystemType.Kitchen, 8),
+            new ManualDoor(doorsSystem, SystemType.Kitchen, 9),
+            new ManualDoor(doorsSystem, SystemType.MainHall, 10),
+            new ManualDoor(doorsSystem, SystemType.MainHall, 11),
+            new ManualDoor(doorsSystem, SystemType.Records, 12),
+            new ManualDoor(doorsSystem, SystemType.Records, 13),
+            new ManualDoor(doorsSystem, SystemType.Records, 14),
+            new ManualDoor(doorsSystem, SystemType.Medical, 19),
+            new ManualDoor(doorsSystem, SystemType.Medical, 20),
         ];
 
         this.systems.set(SystemType.Comms, new HudOverrideSystem(this, SystemType.Comms));
@@ -124,28 +128,32 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends ShipStatus<Roo
         const electricalDoors = new ElectricalDoorsSystem(this, SystemType.Decontamination);
         this.systems.set(SystemType.Decontamination, electricalDoors);
         electricalDoors.doors = [
-            new Door(electricalDoors, SystemType.Hallway, 0),
-            new Door(electricalDoors, SystemType.Hallway, 1),
-            new Door(electricalDoors, SystemType.Hallway, 2),
-            new Door(electricalDoors, SystemType.Hallway, 3),
-            new Door(electricalDoors, SystemType.Hallway, 4),
-            new Door(electricalDoors, SystemType.Hallway, 5),
-            new Door(electricalDoors, SystemType.Hallway, 6),
-            new Door(electricalDoors, SystemType.Hallway, 7),
-            new Door(electricalDoors, SystemType.Hallway, 8),
-            new Door(electricalDoors, SystemType.Hallway, 9),
-            new Door(electricalDoors, SystemType.Hallway, 10),
-            new Door(electricalDoors, SystemType.Hallway, 11)
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 0),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 1),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 2),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 3),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 4),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 5),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 6),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 7),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 8),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 9),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 10),
+            new ElectricalDoor(electricalDoors, SystemType.Hallway, 11)
         ];
 
         const autoDoors = new AutoDoorsSystem(this, SystemType.Decontamination2);
         this.systems.set(SystemType.Decontamination2, autoDoors);
         autoDoors.doors = [
-            new AutoOpenDoor(autoDoors, SystemType.Lounge, 15),
-            new AutoOpenDoor(autoDoors, SystemType.Lounge, 16),
-            new AutoOpenDoor(autoDoors, SystemType.Lounge, 17),
-            new AutoOpenDoor(autoDoors, SystemType.Lounge, 18)
+            new AutoCloseDoor(autoDoors, SystemType.Lounge, 15),
+            new AutoCloseDoor(autoDoors, SystemType.Lounge, 16),
+            new AutoCloseDoor(autoDoors, SystemType.Lounge, 17),
+            new AutoCloseDoor(autoDoors, SystemType.Lounge, 18),
         ];
+
+        for (const door of autoDoors.doors) {
+            door.isOpen = false; // these are the toilet doors, so they're closed to begin with
+        }
 
         this.systems.set(SystemType.Sabotage, new SabotageSystem(this, SystemType.Sabotage));
 
@@ -153,11 +161,46 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends ShipStatus<Roo
         await electricalDoors.randomizeDoorMaze(AirshipStatus.electricalRooms, [ ElectricalDoorsAirship.TopLeftWest, ElectricalDoorsAirship.CenterLeftWest ]);
     }
 
-    parseRemoteCall(rpcTag: RpcMessageTag, reader: HazelReader): BaseRpcMessage | undefined {
-        switch (rpcTag) {
-            case RpcMessageTag.RepairSystem: return RepairSystemMessage.deserializeFromReader(reader);
+    async openDoorWithAuth(door: Door<RoomType>) {
+        if (door instanceof ManualDoor) {
+            const doorSystem = this.getSystemSafe(SystemType.Doors, DoorsSystem);
+            if (doorSystem) {
+                await doorSystem.openDoorWithAuth(door);
+            }
         }
-        return super.parseRemoteCall(rpcTag, reader);
+        if (door instanceof AutoDoor) {
+            const autoDoorsSystem = this.getSystemSafe(SystemType.Decontamination2, AutoDoorsSystem);
+            if (autoDoorsSystem) {
+                await autoDoorsSystem.openDoorWithAuth(door);
+            }
+        }
+    }
+
+    async openDoorRequest(door: Door<RoomType>) {
+        // THIS SUCKS!!!! THIS SUCKS!!!!!!
+        const doorSystem = this.getSystemSafe(SystemType.Doors, DoorsSystem);
+        if (!doorSystem) return;
+
+        if (door instanceof ManualDoor) {
+            await doorSystem.openDoorRequest(door);
+        }
+        if (door instanceof AutoDoor) {
+            const autoDoorsSystem = this.getSystemSafe(SystemType.Decontamination2, AutoDoorsSystem);
+            if (autoDoorsSystem) {
+                await doorSystem.sendUpdateSystem(new DoorsSystemMessage(DoorUpdate.Open, door.doorId));
+            }
+        }
+    }
+
+    async closeDoorsInZoneWithAuth(zone: SystemType) {
+        const doorSystem = this.getSystemSafe(SystemType.Doors, DoorsSystem);
+        if (doorSystem) {
+            await doorSystem.closeZoneWithAuth(zone);
+        }
+        const autoDoorSystem = this.getSystemSafe(SystemType.Decontamination2, AutoDoorsSystem);
+        if (autoDoorSystem) {
+            await autoDoorSystem.closeZoneWithAuth(zone);
+        }
     }
 
     getTasks() {
@@ -166,5 +209,19 @@ export class AirshipStatus<RoomType extends StatefulRoom> extends ShipStatus<Roo
     
     getStartWaitSeconds(): number {
         return 15;
+    }
+
+    getDoorById(doorId: number): Door<RoomType>|undefined {
+        const doorSystem = this.getSystemSafe(SystemType.Doors, DoorsSystem);
+        if (doorSystem) {
+            const door = doorSystem.getDoorById(doorId);
+            if (door) return door;
+        }
+        const autoDoorSystem = this.getSystemSafe(SystemType.Decontamination2, AutoDoorsSystem);
+        if (autoDoorSystem) {
+            const door = autoDoorSystem.getDoorById(doorId);
+            if (door) return door;
+        }
+        return undefined;
     }
 }
