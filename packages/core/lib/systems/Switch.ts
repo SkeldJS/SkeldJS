@@ -7,10 +7,13 @@ import { SabotagableSystem } from "./System";
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
+import { SwitchSystemFlipEvent } from "../events";
 
 type SwitchSetup = [boolean, boolean, boolean, boolean, boolean];
 
-export type SwitchSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
+export type SwitchSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[
+    SwitchSystemFlipEvent<RoomType>,
+]>;
 
 
 /**
@@ -99,7 +102,13 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
     async _handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof SwitchSystemDataMessage) {
             this.expected = parseSwitchBitfield(data.expectedBitfield);
-            this.actual = parseSwitchBitfield(data.actualBitfield);
+            const previous = this.actual;
+            const actual = parseSwitchBitfield(data.actualBitfield);
+            for (let i = 0; i < previous.length; i++) {
+                if (actual[i] !== previous[i]) {
+                    await this._flipSwitch(i, null, data);
+                }
+            }
             this.brightness = data.brightness;
         }
     }
@@ -126,7 +135,7 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
             if (message.isBitfield) {
                 this.actual = parseSwitchBitfield(message.flipSwitches);
             } else {
-                this.actual[message.flipSwitches] = !this.actual[message.flipSwitches];
+                await this._flipSwitch(message.flipSwitches, player, message);
             }
             this.pushDataUpdate();
         }
@@ -171,13 +180,64 @@ export class SwitchSystem<RoomType extends StatefulRoom> extends SabotagableSyst
         this.pushDataUpdate();
     }
     
-    
     async _fullyRepairWithAuth(): Promise<void> {
         this.actual = [...this.expected];
         this.pushDataUpdate();
     }
 
     async fullyRepairRequest(): Promise<void> {
-        // TODO: implement
+        for (let i = 0; i < this.actual.length; i++) {
+            if (this.actual[i] === this.expected[i]) {
+                await this.flipSwitchRequest(i);
+            }
+        }
+    }
+
+    async _flipSwitch(i: number, player: Player<RoomType>|null, message: SwitchSystemDataMessage|SwitchSystemMessage|null) {
+        const before = this.actual[i];
+        if (before === undefined) throw new Error(`Invalid switch: ${i}`);
+        this.actual[i] = !this.actual[i];
+        const ev = await this.emit(
+            new SwitchSystemFlipEvent(
+                this,
+                message,
+                player,
+                i,
+                this.actual[i],
+                this.actual[i] === this.expected[i],
+            )
+        );
+        if (ev.pendingRevert) {
+            if (message instanceof SwitchSystemDataMessage) {
+                await this.flipSwitchRequest(i);
+            } else {
+                this.actual[i] = before;
+            }
+        }
+    }
+
+    async flipSwitchWithAuth(i: number) {
+        if (this.actual[i] === undefined) throw new Error(`Invalid switch: ${i}`);
+        this.actual[i] = !this.actual[i];
+        this.pushDataUpdate();
+    }
+
+    async flipSwitchRequest(i: number) {
+        if (this.actual[i] === undefined) throw new Error(`Invalid switch: ${i}`);
+        await this.sendUpdateSystem(new SwitchSystemMessage(false, i));
+    }
+
+    async flipSwitch(i: number) {
+        if (this.room.canManageObject(this.shipStatus)) {
+            await this.flipSwitchWithAuth(i);
+        } else {
+            await this.flipSwitchRequest(i);
+        }
+    }
+
+    async setSwitchActiveWithAuth(i: number, active: boolean) {
+        if (this.actual[i] === undefined) throw new Error(`Invalid switch: ${i}`);
+        this.actual[i] = active;
+        this.pushDataUpdate();
     }
 }

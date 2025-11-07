@@ -102,10 +102,10 @@ export class DeconSystem<RoomType extends StatefulRoom> extends System<RoomType,
             )
         );
         if (ev.alteredState !== this.state) {
-            if (originMessage === null) {
-                this.state = ev.alteredState;
-            } else {
+            if (originMessage instanceof DeconSystemDataMessage) {
                 await this.setState(ev.alteredState);
+            } else {
+                this.state = ev.alteredState;
             }
         } else {
             this.pushDataUpdate();
@@ -133,7 +133,7 @@ export class DeconSystem<RoomType extends StatefulRoom> extends System<RoomType,
         this.timer = timer;
         if (this.timer > previousTimer) {
             const ev = await this.emit(new DeconSystemResetTimerEvent(this, originMessage, this.timer));
-            if (ev.reverted) {
+            if (ev.pendingRevert) {
                 if (originMessage === null) {
                     this.timer = previousTimer;
                 } else {

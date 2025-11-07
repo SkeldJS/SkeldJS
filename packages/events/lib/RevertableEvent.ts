@@ -1,15 +1,15 @@
 import { BasicEvent } from "./BasicEvent";
 
 export class RevertableEvent extends BasicEvent {
-    reverted: boolean;
+    pendingRevert: boolean;
 
     constructor() {
         super();
 
-        this.reverted = false;
+        this.pendingRevert = false;
     }
 
-    revert() {
-        this.reverted = true;
+    requestRevert() {
+        this.pendingRevert = true;
     }
 }

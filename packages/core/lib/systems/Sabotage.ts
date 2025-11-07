@@ -1,12 +1,13 @@
 import { HazelReader } from "@skeldjs/hazel";
-import { BaseSystemMessage, SabotageSystemDataMessage, SabotageSystemMessage } from "@skeldjs/au-protocol";
+import { BaseSystemMessage, SabotageSystemDataMessage, SabotageSystemMessage, UpdateSystemMessage } from "@skeldjs/au-protocol";
 import { EventMapFromList } from "@skeldjs/events";
 
-import { System } from "./System";
+import { SabotagableSystem, System } from "./System";
 
 import { StatefulRoom } from "../StatefulRoom";
 import { DataState } from "../NetworkedObject";
 import { Player } from "../Player";
+import { SystemSabotageEvent } from "../events";
 
 export type SabotageSystemEvents<RoomType extends StatefulRoom> = EventMapFromList<[]>;
 
@@ -60,9 +61,7 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends System<RoomTy
         if (message instanceof SabotageSystemMessage) {
             const system = this.shipStatus.systems.get(message.systemType);
             if (system && system.canBeSabotaged()) {
-                await system.sabotageWithAuth();
-                this.cooldown = SabotageSystem.activateDuration;
-                this.pushDataUpdate();
+                await this._sabotageSystem(system, player, message);
             }
         }
     }
@@ -90,5 +89,41 @@ export class SabotageSystem<RoomType extends StatefulRoom> extends System<RoomTy
 
     isSabotageAvailable() {
         return this.getCooldown() <= 0;
+    }
+
+    async _sabotageSystem(system: SabotagableSystem<RoomType>, player: Player<RoomType>|null, message: SabotageSystemMessage|null) {
+        const beforeSabotaged = system.isSabotaged();
+    
+        await system["_sabotageWithAuth"]();
+        this.cooldown = SabotageSystem.activateDuration;
+    
+        if (!beforeSabotaged && system.isSabotaged()) {
+            const ev = await system.emit(
+                new SystemSabotageEvent(
+                    system,
+                    message,
+                    player,
+                )
+            );
+
+            if (ev.pendingRevert) await system.fullyRepair();
+        }
+        this.pushDataUpdate();
+    }
+
+    async sabotageSystemWithAuth(system: SabotagableSystem<RoomType>) {
+        await this._sabotageSystem(system, null, null);
+    }
+
+    async sabotageSystemRequest(system: SabotagableSystem<RoomType>) {
+        await this.sendUpdateSystem(new SabotageSystemMessage(system.systemType));
+    }
+
+    async sabotageSystem(system: SabotagableSystem<RoomType>) {
+        if (this.room.canManageObject(this.shipStatus)) {
+            await this.sabotageSystemWithAuth(system);
+        } else {
+            await this.sabotageSystemRequest(system);
+        }
     }
 }

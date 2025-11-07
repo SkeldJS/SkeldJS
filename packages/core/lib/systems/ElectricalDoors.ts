@@ -84,10 +84,12 @@ export class ElectricalDoorsSystem<RoomType extends StatefulRoom> extends System
 
     async closeDoorWithAuth(door: ElectricalDoor<RoomType>) {
         door.isOpen = false;
+        door.pushDataUpdate();
     }
 
     async openDoorWithAuth(door: ElectricalDoor<RoomType>) {
         door.isOpen = true;
+        door.pushDataUpdate();
     }
 
     async randomizeDoorMaze(roomsDoors: number[][], exitDoorIds: number[]): Promise<void> {

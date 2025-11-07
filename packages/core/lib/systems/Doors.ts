@@ -88,10 +88,16 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends System<RoomType,
                 }
             }
             for (let i = 0; i < data.doorStates.length; i++) {
-                const isOpen = data.doorStates[i];
+                const doOpen = data.doorStates[i];
                 const door = this.doors[i];
                 if (!door) continue; // TODO: throw exception?
-                door.isOpen = isOpen;
+                if (door.isOpen !== doOpen) {
+                    if (doOpen) {
+                        await this._openDoor(door, data);
+                    } else {
+                        await this._closeDoor(door, data);
+                    }
+                }
             }
         }
     }
@@ -130,6 +136,7 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends System<RoomType,
                 }
                 break;
             }
+            this.pushDataUpdate();
         }
     }
 
@@ -146,38 +153,38 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends System<RoomType,
         }
     }
     
-    protected async _closeDoorWithAuth(door: ManualDoor<RoomType>, originMessage: DoorsSystemDataMessage|null) {
+    protected async _closeDoor(door: ManualDoor<RoomType>, originMessage: DoorsSystemDataMessage|null) {
         door.isOpen = false;
         const ev = await this.emit(new DoorsSystemCloseDoorEvent(this, originMessage, door));
-        if (ev.reverted) {
+        if (ev.pendingRevert) {
             if (originMessage === null) {
                 door.isOpen = true;
             } else {
                 await this.openDoor(door);
             }
         }
-        this.pushDataUpdate();
     }
 
     async closeDoorWithAuth(door: ManualDoor<RoomType>) {
-        await this._closeDoorWithAuth(door, null);
+        await this._closeDoor(door, null);
+        this.pushDataUpdate();
     }
 
-    protected async _openDoorWithAuth(door: ManualDoor<RoomType>, originMessage: DoorsSystemDataMessage|null) {
+    protected async _openDoor(door: ManualDoor<RoomType>, originMessage: DoorsSystemDataMessage|null) {
         door.isOpen = true;
         const ev = await this.emit(new DoorsSystemOpenDoorEvent(this, originMessage, door));
-        if (ev.reverted) {
+        if (ev.pendingRevert) {
             if (originMessage === null) {
                 door.isOpen = false;
             } else {
                 await this.closeDoorWithAuth(door);
             }
         }
-        this.pushDataUpdate();
     }
     
     async openDoorWithAuth(door: ManualDoor<RoomType>) {
-        await this._openDoorWithAuth(door, null);
+        await this._openDoor(door, null);
+        this.pushDataUpdate();
     }
 
     async openDoorRequest(door: ManualDoor<RoomType>) {
@@ -201,7 +208,7 @@ export class DoorsSystem<RoomType extends StatefulRoom> extends System<RoomType,
             )
         );
 
-        if (ev.reverted) {
+        if (ev.pendingRevert) {
             this.zoneCooldowns.set(zone, DoorsSystem.maxZoneCooldown);
             this.pushDataUpdate();
         }

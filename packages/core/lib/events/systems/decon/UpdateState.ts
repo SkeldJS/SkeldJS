@@ -35,7 +35,7 @@ export class DeconSystemUpdateStateEvent<RoomType extends StatefulRoom> extends 
         return this._alteredState;
     }
 
-    revert() {
+    requestRevert() {
         this.setState(this.oldState);
     }
 

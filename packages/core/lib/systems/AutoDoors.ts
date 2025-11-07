@@ -166,9 +166,9 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomT
                 if (door) {
                     const previouslyOpened = door.isOpen;
                     if (!previouslyOpened && doorState.isOpen) {
-                        await this._openDoorWithAuth(door, data);
+                        await this._openDoor(door, data);
                     } else if (previouslyOpened && !doorState.isOpen) {
-                        await this._closeDoorWithAuth(door, data);
+                        await this._closeDoor(door, data);
                     }
                 }
             }
@@ -206,7 +206,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomT
         void player, message;
     }
 
-    protected async _closeDoorWithAuth(door: AutoDoor<RoomType>, originMessage: AutoDoorsSystemSpawnDataMessage|AutoDoorsSystemDataMessage|null) {
+    protected async _closeDoor(door: AutoDoor<RoomType>, originMessage: AutoDoorsSystemSpawnDataMessage|AutoDoorsSystemDataMessage|null) {
         door.isOpen = false;
         door.setCloseDuration();
         if (door instanceof AutoOpenDoor) {
@@ -214,7 +214,7 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomT
             door.duration = AutoDoorsSystem.closeDuration;
         }
         const ev = await this.emit(new AutoDoorsSystemCloseDoorEvent(this, originMessage, door));
-        if (ev.reverted) {
+        if (ev.pendingRevert) {
             // get rid of the cooldown manually, since this isn't networked
             if (door instanceof AutoOpenDoor) {
                 door.cooldownTimer = 0;
@@ -226,29 +226,29 @@ export class AutoDoorsSystem<RoomType extends StatefulRoom> extends System<RoomT
                 await this.openDoorWithAuth(door);
             }
         }
-        door.pushDataUpdate();
     }
 
     async closeDoorWithAuth(door: AutoDoor<RoomType>) {
-        await this._closeDoorWithAuth(door, null);
-    }
-
-    protected async _openDoorWithAuth(door: AutoDoor<RoomType>, originMessage: AutoDoorsSystemSpawnDataMessage|AutoDoorsSystemDataMessage|null) {
-        door.isOpen = true;
-        door.setOpenDuration();
-        const ev = await this.emit(new AutoDoorsSystemOpenDoorEvent(this, originMessage, door));
-        if (ev.reverted) {
-            if (originMessage === null) {
-                door.isOpen = false;
-            } else {
-                await this.closeDoorWithAuth(door);
-            }
-        }
+        await this._closeDoor(door, null);
         door.pushDataUpdate();
     }
 
+    protected async _openDoor(door: AutoDoor<RoomType>, originMessage: AutoDoorsSystemSpawnDataMessage|AutoDoorsSystemDataMessage|null) {
+        door.isOpen = true;
+        door.setOpenDuration();
+        const ev = await this.emit(new AutoDoorsSystemOpenDoorEvent(this, originMessage, door));
+        if (ev.pendingRevert) {
+            if (originMessage === null) {
+                door.isOpen = false;
+            } else {
+                await this.closeZoneRequest(door.zone);
+            }
+        }
+    }
+
     async openDoorWithAuth(door: AutoDoor<RoomType>) {
-        await this._openDoorWithAuth(door, null);
+        await this._openDoor(door, null);
+        door.pushDataUpdate();
     }
     
     async closeZoneWithAuth(systemType: SystemType) {

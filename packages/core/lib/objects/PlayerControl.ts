@@ -915,7 +915,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
             )
         );
 
-        if (ev.reverted) {
+        if (ev.pendingRevert) {
             playerInfo?.setDead(false);
         }
     }
@@ -1733,7 +1733,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 reason,
             )
         );
-        if (ev.reverted) {
+        if (ev.pendingRevert) {
             this.protectedByGuardian = true;
             this.guardianProtector = oldGuardian;
             // In case this event was emitted when the timer ran out & it was reverted,
@@ -1882,7 +1882,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 )
             );
 
-            if (ev.reverted) {
+            if (ev.pendingRevert) {
                 this._shapeshift(oldTarget);
                 this._rpcShapeshift(oldTarget, ev.alteredDoAnimation);
                 return;
@@ -1901,7 +1901,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 )
             );
 
-            if (ev.reverted) {
+            if (ev.pendingRevert) {
                 this._shapeshift(this.player);
                 this._rpcShapeshift(target, ev.alteredDoAnimation);
                 return;
@@ -1967,7 +1967,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 )
             );
 
-            if (ev.reverted) {
+            if (ev.pendingRevert) {
                 this._shapeshift(oldTarget);
                 return;
             }
@@ -1987,7 +1987,7 @@ export class PlayerControl<RoomType extends StatefulRoom> extends NetworkedObjec
                 )
             );
 
-            if (ev.reverted) {
+            if (ev.pendingRevert) {
                 this._shapeshift(this.player);
                 return;
             }

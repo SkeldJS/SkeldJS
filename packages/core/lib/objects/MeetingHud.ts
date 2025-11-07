@@ -400,7 +400,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                 )
             );
 
-            if (ev.reverted) {
+            if (ev.pendingRevert) {
                 if (player) {
                     await this.clearVoteWithAuth(player);
                 }
@@ -481,7 +481,7 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
                         )
                     );
 
-                    if (ev.reverted) {
+                    if (ev.pendingRevert) {
                         this._clearVote(votingState);
                     } else {
                         this.room.playerAuthority?.characterControl?.sendChatNote(
