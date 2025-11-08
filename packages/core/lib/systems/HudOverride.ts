@@ -32,13 +32,6 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
         if (data instanceof HudOverrideSystemDataMessage) {
             const beforeSabotaged = this.hudOverridden;
             this.hudOverridden = data.hudOverridden;
-            if (beforeSabotaged !== this.hudOverridden) {
-                if (this.hudOverridden) {
-                    // TODO: event: sabotaged
-                } else {
-                    // TODO: event: not sabotaged
-                }
-            }
         }
     }
 
@@ -88,6 +81,6 @@ export class HudOverrideSystem<RoomType extends StatefulRoom> extends Sabotagabl
     }
 
     async fullyRepairRequest(): Promise<void> {
-        // TODO: implement
+        await this.sendUpdateSystem(new HudOverrideSystemMessage(false));
     }
 }
