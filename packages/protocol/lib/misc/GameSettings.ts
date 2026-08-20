@@ -91,7 +91,7 @@ export class RoleSettings implements AllRoleSettings {
                 return false;
             }
         }
-        if (settings.shapeshifterCooldown < 5 || settings.shapeshifterCooldown > 0) {
+        if (settings.shapeshifterCooldown < 5 || settings.shapeshifterCooldown > 60) {
             return false;
         }
         if (settings.shapeshiftDuration < 0 || settings.shapeshiftDuration > 30) {
@@ -113,6 +113,31 @@ export class RoleSettings implements AllRoleSettings {
             return false;
         }
         if (settings.guardianAngelPotectionDuration < 5 || settings.guardianAngelPotectionDuration > 30) {
+            return false;
+        }
+        // New role validations (Noisemaker, Phantom, Tracker, Detective, Viper)
+        if (settings.noisemakerAlertDuration < 1 || settings.noisemakerAlertDuration > 30) {
+            return false;
+        }
+        if (settings.phantomCooldown < 5 || settings.phantomCooldown > 60) {
+            return false;
+        }
+        if (settings.phantomDuration < 5 || settings.phantomDuration > 60) {
+            return false;
+        }
+        if (settings.trackerCooldown < 5 || settings.trackerCooldown > 60) {
+            return false;
+        }
+        if (settings.trackerDuration < 5 || settings.trackerDuration > 60) {
+            return false;
+        }
+        if (settings.trackerDelay < 1 || settings.trackerDelay > 10) {
+            return false;
+        }
+        if (settings.detectiveSuspectLimit < 1 || settings.detectiveSuspectLimit > 10) {
+            return false;
+        }
+        if (settings.viperDissolveTime < 5 || settings.viperDissolveTime > 60) {
             return false;
         }
         return true;
@@ -753,5 +778,79 @@ export class GameSettings {
 
     clone() {
         return new GameSettings(this);
+    }
+
+    /**
+     * Validate all game settings and return an array of error messages.
+     * An empty array means the settings are valid.
+     */
+    static validate(settings: Partial<AllGameSettings>): string[] {
+        const errors: string[] = [];
+
+        // Numeric range validations
+        const ranges: [string, number, number, number][] = [
+            ["maxPlayers",          settings.maxPlayers ?? 10,          4,   15],
+            ["playerSpeed",         settings.playerSpeed ?? 1,          0.5, 3.0],
+            ["crewmateVision",      settings.crewmateVision ?? 1,       0.0, 5.0],
+            ["impostorVision",      settings.impostorVision ?? 1.5,     0.0, 5.0],
+            ["commonTasks",         settings.commonTasks ?? 1,          0,   4],
+            ["longTasks",           settings.longTasks ?? 1,            0,   15],
+            ["shortTasks",          settings.shortTasks ?? 2,           0,   23],
+            ["numEmergencies",      settings.numEmergencies ?? 1,       0,   10],
+        ];
+
+        for (const [name, value, min, max] of ranges) {
+            if (value < min || value > max) {
+                errors.push(`${name} (${value}) must be between ${min} and ${max}`);
+            }
+        }
+
+        // numEmergencies ≤ maxPlayers
+        if ((settings.numEmergencies ?? 1) > (settings.maxPlayers ?? 10)) {
+            errors.push(`numEmergencies (${settings.numEmergencies}) cannot exceed maxPlayers (${settings.maxPlayers})`);
+        }
+
+        // Mode-specific validations
+        const gameMode = (settings as any).gameMode ?? GameMode.Normal;
+
+        if (gameMode === GameMode.Normal || gameMode === GameMode.NormalFools) {
+            const normalRanges: [string, number, number, number][] = [
+                ["killCooldown",        settings.killCooldown ?? 45,      2.5,  60.0],
+                ["numImpostors",        settings.numImpostors ?? 1,       1,    3],
+                ["discussionTime",      settings.discussionTime ?? 15,    0,    300],
+                ["votingTime",          settings.votingTime ?? 120,       0,    300],
+                ["emergencyCooldown",   settings.emergencyCooldown ?? 15, 0,    60],
+            ];
+            for (const [name, value, min, max] of normalRanges) {
+                if (value < min || value > max) {
+                    errors.push(`${name} (${value}) must be between ${min} and ${max}`);
+                }
+            }
+        }
+
+        if (gameMode === GameMode.HideNSeek || gameMode === GameMode.HideNSeekFools) {
+            const hnSRanges: [string, number, number, number][] = [
+                ["hidingTime",              settings.hidingTime ?? 200,              10,   600],
+                ["crewmateFlashlightSize",  settings.crewmateFlashlightSize ?? 0.35, 0.0,  5.0],
+                ["impostorFlashlightSize",  settings.impostorFlashlightSize ?? 0.25, 0.0,  5.0],
+                ["finalHideTime",           settings.finalHideTime ?? 50,            0,    300],
+                ["finalSeekerSpeed",        settings.finalSeekerSpeed ?? 1.2,        0.5,  3.0],
+                ["maxPingTime",             settings.maxPingTime ?? 6,               0,    30],
+                ["crewmateTimeInVent",      settings.crewmateTimeInVent ?? 3,        0,    60],
+                ["crewmateVentUses",        settings.crewmateVentUses ?? 1,          0,    30],
+            ];
+            for (const [name, value, min, max] of hnSRanges) {
+                if (value < min || value > max) {
+                    errors.push(`${name} (${value}) must be between ${min} and ${max}`);
+                }
+            }
+        }
+
+        // Role settings validation
+        if (settings.roleSettings && !RoleSettings.isValid(settings.roleSettings as RoleSettings)) {
+            errors.push("roleSettings are invalid (check individual role cooldowns and durations)");
+        }
+
+        return errors;
     }
 }

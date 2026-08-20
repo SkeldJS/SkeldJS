@@ -15,7 +15,8 @@ export class GameListing {
         public readonly map: GameMap,
         public readonly numImpostors: number,
         public readonly maxPlayers: number,
-        public readonly platform: PlatformSpecificData
+        public readonly platform: PlatformSpecificData,
+        public readonly language: number = 0,
     ) {
         this.gameId = gameId;
     }
@@ -31,6 +32,7 @@ export class GameListing {
         const numImpostors = reader.uint8();
         const maxPlayers = reader.uint8();
         const platform = reader.read(PlatformSpecificData);
+        const language = reader.uint32();
 
         return new GameListing(
             gameId,
@@ -42,7 +44,8 @@ export class GameListing {
             map,
             numImpostors,
             maxPlayers,
-            platform
+            platform,
+            language
         );
     }
 
@@ -61,6 +64,7 @@ export class GameListing {
         writer.uint8(this.maxPlayers);
         writer.uint8(this.platform.platformTag);
         writer.string(this.platform.platformName);
+        writer.uint32(this.language);
     }
 
     clone() {
@@ -78,7 +82,8 @@ export class GameListing {
                 this.platform.platformTag,
                 this.platform.platformName,
                 this.platform.platformId
-            )
+            ),
+            this.language
         );
     }
 }

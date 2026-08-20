@@ -593,14 +593,18 @@ export class MeetingHud<RoomType extends StatefulRoom> extends NetworkedObject<R
         this.closeTimer = -1;
 
         if (this.room.canManageObject(this)) {
-            await setTimeoutPromise(5000);
+            // Wait for the voting result display animation to play on clients.
+            // Among Us client animation sequence: reveal votes (~2s) + exile cutscene (~3s) = ~5s total.
+            await setTimeoutPromise(3000);
             await this.close();
-            await setTimeoutPromise(5000);
-            await exiled?.characterControl?.causeToDie("exiled");
+            await setTimeoutPromise(2000);
+            if (exiled && !exiled.getPlayerInfo()?.isDead) {
+                await exiled.characterControl?.causeToDie("exiled");
+            }
 
             if (exiled) {
                 const counts = this.room.countPlayersRemaining();
-                
+
                 if (counts) {
                     const { aliveCrewmates, aliveImpostors } = counts;
 

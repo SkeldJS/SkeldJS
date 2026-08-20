@@ -391,26 +391,28 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
     }
 
     async flushEndGameIntents() {
+        // Skip if game has already ended (prevents double-processing when
+        // both server-side detection and host-client EndGameMessage fire).
+        if (this.gameState !== GameState.Started) return;
+
         if (this.endGameIntents.length > 0) {
             const endGameIntents = this.endGameIntents;
             this.endGameIntents = [];
-            if (this.isAuthoritative) {
-                for (let i = 0; i < endGameIntents.length; i++) {
-                    const intent = endGameIntents[i];
-                    const ev = await this.emit(new RoomEndGameIntentEvent(
-                        this,
-                        intent,
-                    ));
+            for (let i = 0; i < endGameIntents.length; i++) {
+                const intent = endGameIntents[i];
+                const ev = await this.emit(new RoomEndGameIntentEvent(
+                    this,
+                    intent,
+                ));
 
-                    if (ev.canceled) {
-                        endGameIntents.splice(i, 1);
-                        i--;
-                    }
+                if (ev.canceled) {
+                    endGameIntents.splice(i, 1);
+                    i--;
                 }
+            }
 
-                if (endGameIntents[0]) {
-                    await this.endGame(endGameIntents[0].reason, endGameIntents[0]);
-                }
+            if (endGameIntents[0]) {
+                await this.endGame(endGameIntents[0].reason, endGameIntents[0]);
             }
         }
     }
@@ -652,6 +654,11 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
 
         if (playerId !== undefined) {
             if (this.gameState === GameState.Started) {
+                // Mid-game disconnect: the real client (GameData.HandleDisconnect)
+                // does NOT destroy the NetworkedPlayerInfo object here - it only
+                // flags it Disconnected so that GameData.Instance.AllPlayers stays
+                // populated for meeting/end-game UI. We must NOT despawn it below
+                // either; see the unconditional despawn removal further down.
                 const gamedataEntry = this.playerInfo.get(playerId);
                 if (gamedataEntry) {
                     gamedataEntry.setDisconnected(true);
@@ -668,6 +675,15 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                     }
                 }
             } else {
+                // Lobby disconnect: the real client destroys the NetworkedPlayerInfo
+                // gameObject immediately (GameData.HandleDisconnect / RemovePlayer), so
+                // we must broadcast a proper despawn here - not just drop our own
+                // bookkeeping - or every other client is left with a phantom player
+                // entry that never gets cleaned up (wrong player counts on rejoin).
+                const gamedataEntry = this.playerInfo.get(playerId);
+                if (gamedataEntry) {
+                    this.despawnComponent(gamedataEntry);
+                }
                 this.playerInfo.delete(playerId);
             }
 
@@ -694,11 +710,15 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             }
         }
 
-        const playerInfo = player.getPlayerInfo();
-        if (playerInfo) {
-            this.despawnComponent(playerInfo);
-            this.playerInfo.delete(playerInfo.playerId);
-        }
+        // NOTE: playerInfo cleanup is handled entirely in the branch above
+        // (immediate despawn while in the lobby, deferred despawn on next game
+        // start while mid-game - see handleStartGame). Do NOT unconditionally
+        // despawn it here: doing so mid-game sends a Despawn message the real
+        // client never expects (GameData keeps disconnected PlayerInfo entries
+        // alive), which desyncs GameData.Instance.AllPlayers on every other
+        // client and can free the netId for reuse while stale references to it
+        // are still floating around (symptoms: player data bleeding between
+        // objects, players stuck in a finished game, wrong player counts).
 
         this.players.delete(player.clientId);
 
@@ -715,6 +735,28 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      * Start the game. If the client's player is not the host, the server may ban the client.
      */
     async handleStartGame() {
+        // Clean up anything left over from a previous game in this room before
+        // starting a new one. Mid-game disconnects intentionally leave their
+        // NetworkedPlayerInfo spawned (see handleLeave) so GameData.AllPlayers
+        // stays populated for that game's meeting/end-game UI - but that means
+        // they must be despawned now, otherwise their player IDs are never
+        // freed (getAvailablePlayerID() skips them forever) and every
+        // subsequent game/rejoin in the room accumulates phantom player
+        // entries and shows the wrong player count.
+        for (const [playerId, playerInfo] of [...this.playerInfo]) {
+            if (playerInfo.isDisconnected) {
+                this.despawnComponent(playerInfo);
+                this.playerInfo.delete(playerId);
+            }
+        }
+
+        // Defensive: a previous game's ShipStatus/MeetingHud should already be
+        // gone by the time we get here, but if anything left them dangling,
+        // clear them out now rather than letting a new game start on top of
+        // stale networked objects (a common cause of desynced RPCs/positions).
+        if (this.shipStatus) this.despawnComponent(this.shipStatus);
+        if (this.meetingHud) this.despawnComponent(this.meetingHud);
+
         this.gameState = GameState.Started;
 
         for (const [, playerInfo] of this.playerInfo) {
@@ -777,16 +819,12 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      */
     async handleEndGame(reason: GameOverReason) {
         this.gameState = GameState.Ended;
-        this.players.clear();
-        for (const [objId] of this.players) {
-            this.players.delete(objId);
-        }
-        if (this.isAuthoritative) {
-            for (const [, component] of this.networkedObjects) {
-                this.despawnComponent(component);
-            }
-            this.playerInfo.clear();
-        }
+        // Do NOT despawn components here. The Among Us client needs
+        // GameData.Instance.AllPlayers (the live PlayerInfo array) to be
+        // populated when it processes the EndGameMessage — it reads each
+        // player's role to build the end game winner list.
+        // Cleanup of anyone who disconnected during this game happens at the
+        // start of the *next* game, in handleStartGame().
         await this.emit(new RoomGameEndedEvent(this, reason));
     }
 
@@ -953,13 +991,20 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         if (componentPrefab.length === 0) throw new Error("Invalid spawn prefab, 0 components");
         if (netIds.length !== componentPrefab.length) throw new Error("Expected " + componentPrefab.length + " net ids, got " + netIds.length);
 
+        // Check for duplicate NetIDs before creating any components.
+        // If any NetID in the prefab already exists, skip the entire spawn.
+        // The host client may re-send spawns when syncing lobby state to a
+        // new player — silently ignoring duplicates is safe.
+        for (let i = 0; i < netIds.length; i++) {
+            if (this.networkedObjects.get(netIds[i])) {
+                return null as any; // Entire prefab already spawned, skip
+            }
+        }
+
         let object!: NetworkedObject<this>;
 
         for (let i = 0; i < componentPrefab.length; i++) {
             const netId = netIds[i];
-
-            if (this.networkedObjects.get(netId))
-                throw new Error("Duplicate NetID: " + netId);
 
             const component = new componentPrefab[i](
                 this,

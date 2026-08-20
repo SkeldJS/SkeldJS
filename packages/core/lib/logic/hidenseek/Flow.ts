@@ -12,6 +12,16 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
     currentHideTime: number;
     currentFinalHideTime: number;
 
+    /**
+     * Whether the final hide phase has started in this game.
+     */
+    finalHideStarted: boolean = false;
+
+    /**
+     * Whether the hiding timer has expired and seeking has begun.
+     */
+    seekingStarted: boolean = false;
+
     constructor(manager: GameManager<RoomType>) {
         super(manager);
 
@@ -29,9 +39,17 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
 
     async handleData(data: BaseSystemMessage): Promise<void> {
         if (data instanceof FlowLogicComponentDataMessage) {
+            const wasHiding = this.currentHideTime > 0;
             this.currentHideTime = data.hideTime;
             this.currentFinalHideTime = data.finalHideTime;
-            // TODO: emit event that final hide time has started
+
+            // Detect phase transitions
+            if (wasHiding && this.currentHideTime <= 0) {
+                this.seekingStarted = true;
+            }
+            if (this.isInFinalCountdown && !this.finalHideStarted) {
+                this.finalHideStarted = true;
+            }
         }
     }
 
@@ -40,24 +58,46 @@ export class HideNSeekFlowLogicComponent<RoomType extends StatefulRoom> extends 
     }
 
     async processFixedUpdate(deltaTime: number): Promise<void> {
-        // TODO: process countdown
+        // Process hide time countdown
+        if (this.currentHideTime > 0) {
+            const wasHiding = this.currentHideTime > 0;
+            this.currentHideTime = Math.max(0, this.currentHideTime - deltaTime);
+            if (wasHiding && this.currentHideTime <= 0) {
+                this.seekingStarted = true;
+            }
+            this.isDirty = true;
+        }
+
+        // Process final hide time countdown
+        if (this.isInFinalCountdown && this.currentFinalHideTime > 0) {
+            const wasFinal = this.finalHideStarted;
+            this.currentFinalHideTime = Math.max(0, this.currentFinalHideTime - deltaTime);
+            if (!wasFinal) {
+                this.finalHideStarted = true;
+            }
+            this.isDirty = true;
+        }
     }
 
     async onGameStart(): Promise<void> {
         this.currentHideTime = this.manager.room.settings.hidingTime;
         this.currentFinalHideTime = this.manager.room.settings.finalHideTime;
+        this.seekingStarted = false;
+        this.finalHideStarted = false;
         this.isDirty = true;
     }
 
     async onGameEnd(): Promise<void> {
-        void 0;
+        this.seekingStarted = false;
+        this.finalHideStarted = false;
     }
 
     async onDestroy(): Promise<void> {
-        void 0;
+        this.seekingStarted = false;
+        this.finalHideStarted = false;
     }
 
     async onPlayerDisconnect(): Promise<void> {
-        void 0;
+        this.isDirty = true;
     }
 }

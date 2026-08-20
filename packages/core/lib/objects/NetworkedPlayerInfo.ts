@@ -201,6 +201,11 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
      * The player's global player UUID.
      */
     puid: string;
+    /**
+     * Unix timestamp (ms) of the player's last murder attempt.
+     * Used for kill cooldown enforcement in server-authoritative mode.
+     */
+    lastMurderTime: number;
 
     constructor(
         room: RoomType,
@@ -222,6 +227,7 @@ export class NetworkedPlayerInfo<RoomType extends StatefulRoom> extends Networke
         this.roleType ??= CrewmateRole;
         this.roleTypeWhenAlive ??= null;
         this.taskStates ??= [];
+        this.lastMurderTime ??= 0;
         this.friendCode ??= "";
         this.puid ??= "";
     }
