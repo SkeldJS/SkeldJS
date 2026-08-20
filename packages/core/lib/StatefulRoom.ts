@@ -654,6 +654,11 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
 
         if (playerId !== undefined) {
             if (this.gameState === GameState.Started) {
+                // Mid-game disconnect: the real client (GameData.HandleDisconnect)
+                // does NOT destroy the NetworkedPlayerInfo object here - it only
+                // flags it Disconnected so that GameData.Instance.AllPlayers stays
+                // populated for meeting/end-game UI. We must NOT despawn it below
+                // either; see the unconditional despawn removal further down.
                 const gamedataEntry = this.playerInfo.get(playerId);
                 if (gamedataEntry) {
                     gamedataEntry.setDisconnected(true);
@@ -670,6 +675,15 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                     }
                 }
             } else {
+                // Lobby disconnect: the real client destroys the NetworkedPlayerInfo
+                // gameObject immediately (GameData.HandleDisconnect / RemovePlayer), so
+                // we must broadcast a proper despawn here - not just drop our own
+                // bookkeeping - or every other client is left with a phantom player
+                // entry that never gets cleaned up (wrong player counts on rejoin).
+                const gamedataEntry = this.playerInfo.get(playerId);
+                if (gamedataEntry) {
+                    this.despawnComponent(gamedataEntry);
+                }
                 this.playerInfo.delete(playerId);
             }
 
@@ -696,11 +710,15 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
             }
         }
 
-        const playerInfo = player.getPlayerInfo();
-        if (playerInfo) {
-            this.despawnComponent(playerInfo);
-            this.playerInfo.delete(playerInfo.playerId);
-        }
+        // NOTE: playerInfo cleanup is handled entirely in the branch above
+        // (immediate despawn while in the lobby, deferred despawn on next game
+        // start while mid-game - see handleStartGame). Do NOT unconditionally
+        // despawn it here: doing so mid-game sends a Despawn message the real
+        // client never expects (GameData keeps disconnected PlayerInfo entries
+        // alive), which desyncs GameData.Instance.AllPlayers on every other
+        // client and can free the netId for reuse while stale references to it
+        // are still floating around (symptoms: player data bleeding between
+        // objects, players stuck in a finished game, wrong player counts).
 
         this.players.delete(player.clientId);
 
@@ -717,6 +735,28 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
      * Start the game. If the client's player is not the host, the server may ban the client.
      */
     async handleStartGame() {
+        // Clean up anything left over from a previous game in this room before
+        // starting a new one. Mid-game disconnects intentionally leave their
+        // NetworkedPlayerInfo spawned (see handleLeave) so GameData.AllPlayers
+        // stays populated for that game's meeting/end-game UI - but that means
+        // they must be despawned now, otherwise their player IDs are never
+        // freed (getAvailablePlayerID() skips them forever) and every
+        // subsequent game/rejoin in the room accumulates phantom player
+        // entries and shows the wrong player count.
+        for (const [playerId, playerInfo] of [...this.playerInfo]) {
+            if (playerInfo.isDisconnected) {
+                this.despawnComponent(playerInfo);
+                this.playerInfo.delete(playerId);
+            }
+        }
+
+        // Defensive: a previous game's ShipStatus/MeetingHud should already be
+        // gone by the time we get here, but if anything left them dangling,
+        // clear them out now rather than letting a new game start on top of
+        // stale networked objects (a common cause of desynced RPCs/positions).
+        if (this.shipStatus) this.despawnComponent(this.shipStatus);
+        if (this.meetingHud) this.despawnComponent(this.meetingHud);
+
         this.gameState = GameState.Started;
 
         for (const [, playerInfo] of this.playerInfo) {
@@ -783,7 +823,8 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         // GameData.Instance.AllPlayers (the live PlayerInfo array) to be
         // populated when it processes the EndGameMessage — it reads each
         // player's role to build the end game winner list.
-        // Cleanup happens in _reset() when the next game starts.
+        // Cleanup of anyone who disconnected during this game happens at the
+        // start of the *next* game, in handleStartGame().
         await this.emit(new RoomGameEndedEvent(this, reason));
     }
 

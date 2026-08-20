@@ -1,36 +1,26 @@
 {
   "name": "skeldjs",
-  "description": "A JavaScript implementation of the Among Us protocol, featuring several different projects, written in TypeScript.",
+  "description": "SkeldJS - A JavaScript implementation of the Among Us protocol and the Waterway server, written in TypeScript.",
   "keywords": [
     "amongus",
-    "among us"
+    "among us",
+    "server",
+    "waterway"
   ],
-  "homepage": "https://skeld.js.org",
-  "bugs": "https://github.com/SkeldJS/SkeldJS/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/SkeldJS/SkeldJS.git"
-  },
   "license": "GPL-3.0-only",
-  "author": {
-    "name": "Edward Smale",
-    "email": "self@esma.rocks",
-    "url": "https://self@esma.rocks"
-  },
   "private": true,
   "scripts": {
-    "build-all": "yarn workspaces foreach -Aptv run build",
-    "update:patch": "yarn workspaces foreach -Av version patch",
-    "update:minor": "yarn workspaces foreach -Av version minor",
-    "update:major": "yarn workspaces foreach -Av version major"
+    "build": "yarn workspaces foreach -Aptv run build",
+    "build:packages": "yarn workspaces foreach -Aptv --include 'packages/*' run build",
+    "build:waterway": "yarn workspace @skeldjs/waterway build",
+    "start": "yarn workspace @skeldjs/waterway start",
+    "dev": "yarn workspace @skeldjs/waterway dev",
+    "setup": "yarn workspace @skeldjs/waterway setup"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "waterway"
   ],
-  "version": "3.0.2",
-  "packageManager": "yarn@4.10.3",
-  "devDependencies": {
-    "typedoc": "^0.28.13",
-    "typedoc-plugin-external-module-map": "^2.2.0"
-  }
+  "version": "3.0.3",
+  "packageManager": "yarn@4.10.3"
 }
