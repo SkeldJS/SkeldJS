@@ -21,7 +21,7 @@ export class C2SHostGameMessage extends BaseRootMessage {
     }
 
     serializeToWriter(writer: HazelWriter) {
-        writer.write(this.gameSettings, true, 10);
+        writer.write(this.gameSettings, true, this.gameSettings.version);
         writer.int32(2 ** 31 - 1);//2 ** 31 - 1); // cross play flags, max int for any crossplay
         writer.upacked(this.filters.length);
         for (const filter of this.filters) {

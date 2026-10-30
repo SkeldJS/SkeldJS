@@ -529,6 +529,7 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
                 SpawnType.PolusShipStatus,
                 SpawnType.AprilShipStatus,
                 SpawnType.AirshipShipStatus,
+                SpawnType.FungleShipStatus,
             ];
 
             await this.spawnObjectOfType(shipPrefabs[this.settings?.map] || 0, SpecialOwnerId.Global, SpawnFlag.None);
@@ -539,9 +540,9 @@ export abstract class StatefulRoom<RoomType extends StatefulRoom = StatefulRoom<
         }
 
         if (!this.gameManager) {
-            if (this.settings.gameMode === GameMode.Normal) {
+            if (this.settings.gameMode === GameMode.Normal || this.settings.gameMode === GameMode.NormalFools) {
                 await this.spawnObjectOfType(SpawnType.NormalGameManager, SpecialOwnerId.Global, SpawnFlag.None);
-            } else if (this.settings.gameMode === GameMode.HideNSeek) {
+            } else if (this.settings.gameMode === GameMode.HideNSeek || this.settings.gameMode === GameMode.HideNSeekFools) {
                 await this.spawnObjectOfType(SpawnType.HideAndSeekManager, SpecialOwnerId.Global, SpawnFlag.None);
             }
         }

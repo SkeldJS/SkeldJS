@@ -12,4 +12,6 @@ export enum RoleType {
     Tracker,
     Detective = 12,
     Viper = 18,
+    Judge = 19,
+    SpiritGuide = 21,
 }

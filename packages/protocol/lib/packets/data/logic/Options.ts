@@ -13,7 +13,7 @@ export class OptionsLogicComponentDataMessage extends BaseDataMessage {
     }
     
     serializeToWriter(writer: HazelWriter): void {
-        writer.write(this.settings, true, 10);
+        writer.write(this.settings, true, this.settings.version);
     }
 
     clone(): OptionsLogicComponentDataMessage {

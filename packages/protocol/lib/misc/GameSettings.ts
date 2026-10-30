@@ -37,6 +37,8 @@ export type AllRoleSettings = {
     trackerDelay: number;
     detectiveSuspectLimit: number;
     viperDissolveTime: number;
+    judgeTaskRequirementPercentage: number;
+    spiritGuideCooldownSeconds: number;
 }
 
 export type AllGameSettings = {
@@ -148,6 +150,10 @@ export class RoleSettings implements AllRoleSettings {
 
     viperDissolveTime: number;
 
+    judgeTaskRequirementPercentage: number;
+
+    spiritGuideCooldownSeconds: number;
+
     constructor(roleSettings: Partial<AllRoleSettings>) {
         this.roleChances = {
             [RoleType.Scientist]: { maxPlayers: 0, chance: 0 },
@@ -159,6 +165,8 @@ export class RoleSettings implements AllRoleSettings {
             [RoleType.Tracker]: { maxPlayers: 0, chance: 0 },
             [RoleType.Detective]: { maxPlayers: 0, chance: 0 },
             [RoleType.Viper]: { maxPlayers: 0, chance: 0 },
+            [RoleType.Judge]: { maxPlayers: 0, chance: 0 },
+            [RoleType.SpiritGuide]: { maxPlayers: 0, chance: 0 },
         };
 
         if (roleSettings.roleChances) {
@@ -195,6 +203,10 @@ export class RoleSettings implements AllRoleSettings {
         this.detectiveSuspectLimit = roleSettings.detectiveSuspectLimit ?? 3;
 
         this.viperDissolveTime = roleSettings.viperDissolveTime ?? 15;
+
+        this.judgeTaskRequirementPercentage = roleSettings.judgeTaskRequirementPercentage ?? 50;
+
+        this.spiritGuideCooldownSeconds = roleSettings.spiritGuideCooldownSeconds ?? 20;
     }
 
     patch(roleSettings: Partial<AllRoleSettings>) {
@@ -226,6 +238,10 @@ export class RoleSettings implements AllRoleSettings {
         this.detectiveSuspectLimit = roleSettings.detectiveSuspectLimit ?? this.detectiveSuspectLimit;
 
         this.viperDissolveTime = roleSettings.viperDissolveTime ?? this.viperDissolveTime;
+
+        this.judgeTaskRequirementPercentage = roleSettings.judgeTaskRequirementPercentage ?? this.judgeTaskRequirementPercentage;
+
+        this.spiritGuideCooldownSeconds = roleSettings.spiritGuideCooldownSeconds ?? this.spiritGuideCooldownSeconds;
     }
 
     static deserializeFromReader(reader: HazelReader, version: number) {
@@ -286,6 +302,12 @@ export class RoleSettings implements AllRoleSettings {
                         break;
                     case RoleType.Viper:
                         this.viperDissolveTime = mreader.uint8();
+                        break;
+                    case RoleType.Judge:
+                        this.judgeTaskRequirementPercentage = mreader.uint8();
+                        break;
+                    case RoleType.SpiritGuide:
+                        this.spiritGuideCooldownSeconds = mreader.uint8();
                         break;
                 }
             }
@@ -368,6 +390,12 @@ export class RoleSettings implements AllRoleSettings {
                     case RoleType.Viper:
                         writer.uint8(this.viperDissolveTime);
                         break;
+                    case RoleType.Judge:
+                        writer.uint8(this.judgeTaskRequirementPercentage);
+                        break;
+                    case RoleType.SpiritGuide:
+                        writer.uint8(this.spiritGuideCooldownSeconds);
+                        break;
                 }
 
                 writer.end();
@@ -396,6 +424,7 @@ export class RoleSettings implements AllRoleSettings {
 }
 
 export class GameSettings {
+    version: number;
     gameMode: GameMode;
     specialMode: SpecialGameModes;
     rulesPreset: RulesPreset;
@@ -441,6 +470,7 @@ export class GameSettings {
     tag: number; // don't know what this does right now
 
     constructor(settings: Partial<AllGameSettings> = {}) {
+        this.version = settings.version ?? 12;
         this.gameMode = GameMode.Normal;
         this.specialMode = SpecialGameModes.None;
         this.rulesPreset = RulesPreset.Custom;
@@ -543,6 +573,7 @@ export class GameSettings {
         const length = readLength ? reader.upacked() : null;
         const sreader = reader.bytes(length ?? reader.left);
         const version = sreader.uint8();
+        this.version = version;
 
         if (version >= 7) {
             const [, mreader] = sreader.message();
