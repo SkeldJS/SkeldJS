@@ -29,7 +29,7 @@ export class C2SGetGameListMessage extends BaseRootMessage {
 
     serializeToWriter(writer: HazelWriter) {
         writer.upacked(0x02);
-        writer.write(this.options, true, 10);
+        writer.write(this.options, true, this.options.version);
         writer.uint8(this.quickchat);
     }
 
